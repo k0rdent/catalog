@@ -1,0 +1,14 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: global-nginx-ingress-f5
+spec:
+  clusterSelector:
+    matchLabels:
+      k0rdent: demo
+  serviceSpec:
+    priority: 1000
+    services:
+      - template: nginx-ingress-f5-2-0-0
+        name: managed-nginx-ingress-f5
+        namespace: nginx-ingress-f5

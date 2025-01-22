@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: k0rdent-catalog
+  namespace: k0rdent
+  labels:
+    k0rdent.mirantis.com/managed: "true"
+spec:
+  interval: 10m0s
+  url: https://k0rdent.github.io/catalog/charts/

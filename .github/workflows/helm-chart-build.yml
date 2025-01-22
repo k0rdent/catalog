@@ -1,0 +1,46 @@
+name: Build and Publish Helm Charts
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: v3.12.3  # nebo nejnovější stabilní verzi
+
+    - name: Package Helm Charts
+      run: |
+        cd charts
+        for chart in ./*; do
+          if [ -f "$chart/Chart.yaml" ]; then
+            helm dependency update "$chart"
+            helm package "$chart"
+          fi
+        done
+
+    - name: Update Helm Repository Index
+      run: |
+        helm repo index charts --url https://k0rdent.github.io/catalog/charts
+
+    - name: Remove .gitignore to include generated files to gh-pages
+      run: |
+        rm -f .gitignore
+
+    - name: Publish to "gh-pages" branch
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: charts
+        destination_dir: charts

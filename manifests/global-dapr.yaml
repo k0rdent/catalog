@@ -1,0 +1,14 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: global-dapr
+spec:
+  clusterSelector:
+    matchLabels:
+      k0rdent: demo
+  serviceSpec:
+    priority: 1000
+    services:
+      - template: dapr-1-14-4
+        name: managed-dapr
+        namespace: dapr-system

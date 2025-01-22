@@ -1,0 +1,6 @@
+dependencies:
+- name: nginx-ingress
+  repository: oci://ghcr.io/nginxinc/charts
+  version: 2.0.0
+digest: sha256:f6c441acfa9034cf96d3c773003b97fba5215063139430ce8c57118beedd3e4f
+generated: "2025-01-21T12:52:18.512065+01:00"
