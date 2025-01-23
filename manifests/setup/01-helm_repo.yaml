@@ -6,5 +6,5 @@ metadata:
   labels:
     k0rdent.mirantis.com/managed: "true"
 spec:
-  interval: 10m0s
-  url: https://k0rdent.github.io/catalog/charts/
+  type: oci
+  url: oci://ghcr.io/k0rdent/catalog/charts
