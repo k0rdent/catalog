@@ -1,3 +1,1 @@
-charts/*/charts/*.tgz
-charts/*.tgz
-charts/index.yaml
+*.tgz
