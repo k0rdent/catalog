@@ -3,35 +3,18 @@
 
 For testing you can use [k0rdent demo setup](https://github.com/k0rdent/demos?tab=readme-ov-file#demo-cluster-setup).
 
-## Setup k0rdent-catalog helm repository
-Setup extra helm repository and service templates using prepared manifests:
+## Setup k0rdent-core helm repository
+This is done automatically during k0rdent installation:
 ~~~bash
-kubectl apply -f manifests/setup # Configure a new k0rdent helm repository and service templates
+helm install k0rdent-core ./charts/k0rdent-core/k0rdent-core-1.0.0 -n k0rdent
 kubectl get helmrepositories -A # Check repository was successfully added
 kubectl get servicetemplate -A # Check service templates
 ~~~
 
-## Use it in managed cluster(s)
-
-### Using MultiClusterService
+## Setup k0rdent-catalog helm repository
+Setup additional k0rdent supported service templates:
 ~~~bash
-kubectl apply -f manifests/global-nginx-ingress-f5.yaml
-kubectl apply -f manifests/global-dapr.yaml
-kubectl get multiclusterservices
-# NAME             AGE
-# global-dapr      9m27s
-~~~
-
-### Using ClusterDeployment
-Update your managed cluster manifest `spec.services` section, e.g.:
-~~~yaml
-apiVersion: k0rdent.mirantis.com/v1alpha1
-kind: ClusterDeployment
-# ...
-spec:
-  services:
-    - template: dapr-1-14-4
-      name: managed-dapr
-      namespace: dapr-system
-# ...
+helm install k0rdent-catalog ./charts/k0rdent-catalog/k0rdent-catalog-1.0.0 -n k0rdent
+kubectl get helmrepositories -A # Check repository was successfully added
+kubectl get servicetemplate -A # Check service templates
 ~~~
