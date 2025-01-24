@@ -31,6 +31,7 @@ jobs:
         GHCR_PATH="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
         for chart in $(find ./charts -mindepth 2 -maxdepth 2 -type d); do
           VERSION=$(awk '/^version:/ {print $2}' "$chart/Chart.yaml")
+          NAME=$(awk '/^name:/ {print $2}' "$chart/Chart.yaml")
           if [ "${GITHUB_REF_NAME}" != "${{ github.event.repository.default_branch }}" ]; then
             VERSION="$VERSION-${GITHUB_REF_NAME//\//-}"
           fi
@@ -38,7 +39,7 @@ jobs:
           # Update Helm chart dependencies, then package
           helm dependency update "$chart"
           helm package "$chart" --version "$VERSION"
-          PACKAGE_FILE="$chart-$VERSION.tgz"
+          PACKAGE_FILE="$NAME-$VERSION.tgz"
 
           echo "Pushing $PACKAGE_FILE to oci://$GHCR_PATH (version: $VERSION)"
           helm push "$PACKAGE_FILE" "oci://$GHCR_PATH"
