@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '*'
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   packages: write
@@ -23,6 +25,7 @@ jobs:
         version: v3.12.3
 
     - name: Log in to GitHub Container Registry
+      if: github.event_name == 'push'
       run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
 
     - name: Build and Push Helm Charts
@@ -39,8 +42,11 @@ jobs:
           # Update Helm chart dependencies, then package
           helm dependency update "$chart"
           helm package "$chart" --version "$VERSION"
-          PACKAGE_FILE="$NAME-$VERSION.tgz"
-
-          echo "Pushing $PACKAGE_FILE to oci://$GHCR_PATH (version: $VERSION)"
-          helm push "$PACKAGE_FILE" "oci://$GHCR_PATH"
+          if [ "${{ github.event_name }}" == "push" ]; then
+            PACKAGE_FILE="$NAME-$VERSION.tgz"
+            echo "Pushing $PACKAGE_FILE to oci://$GHCR_PATH (version: $VERSION)"
+            helm push "$PACKAGE_FILE" "oci://$GHCR_PATH"
+          else
+            echo "Skipping push because this is a pull request."
+          fi
         done
