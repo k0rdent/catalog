@@ -1,0 +1,16 @@
+#Ensure that your virtual machines meet the necessary resource requirements before using this template, as insufficient resources may lead to deployment failure. For detailed requirements, refer to the Offical Milvis Docs.
+apiVersion: hmc.mirantis.com/v1alpha1
+kind: ServiceTemplate
+metadata:
+  name: milvus-helm-4.2.34
+  namespace: hmc-system
+spec:
+  helm:
+    chartSpec:
+      chart: milvus 
+      interval: 1m0s
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: custom-helm-repo 
+      version: 4.2.34
