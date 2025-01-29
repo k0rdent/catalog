@@ -1,0 +1,10 @@
+apiVersion: v2
+name: dapr-service-template
+description: K0rdent service template for "dapr"
+type: application
+version: 1.14.4
+appVersion: "1.14.4"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
