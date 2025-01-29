@@ -1,0 +1,10 @@
+apiVersion: v2
+name: dex-service-template
+description: K0rdent service template for "dex"
+type: application
+version: 0.19.1
+appVersion: "2.41.1"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
