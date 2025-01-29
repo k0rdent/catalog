@@ -1,0 +1,10 @@
+apiVersion: v2
+name: cert-manager-service-template
+description: K0rdent service template for "cert-manager"
+type: application
+version: 1.16.2
+appVersion: "1.16.2"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
