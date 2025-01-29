@@ -1,0 +1,10 @@
+apiVersion: v2
+name: nginx-ingress-service-template
+description: K0rdent service template for "nginx-ingress"
+type: application
+version: 2.0.0
+appVersion: "2.0.0"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
