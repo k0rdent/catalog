@@ -1,5 +1,5 @@
 apiVersion: v2
-name: nginx-ingress-f5
+name: nginx-ingress
 description: A Helm chart to refer the official F5 nginx-ingress helm chart
 type: application
 version: 2.0.0
