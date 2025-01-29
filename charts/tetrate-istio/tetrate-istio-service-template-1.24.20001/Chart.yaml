@@ -1,0 +1,10 @@
+apiVersion: v2
+name: tetrate-istio-service-template
+description: K0rdent service template for "tetrate-istio"
+type: application
+version: 1.24.20001
+appVersion: "1.24.2-tetrate1"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
