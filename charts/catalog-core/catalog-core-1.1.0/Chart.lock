@@ -1,0 +1,24 @@
+dependencies:
+- name: cert-manager-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 1.16.2
+- name: dex-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 0.19.1
+- name: external-secrets-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 0.11.0
+- name: ingress-nginx-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 4.11.0
+- name: ingress-nginx-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 4.11.3
+- name: kyverno-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 3.2.6
+- name: velero-service-template
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 8.1.0
+digest: sha256:7722038f439eacd88a5ff932b5dcd82caf1a3ca9803b584a990057ab0d899374
+generated: "2025-01-30T15:05:18.759904+01:00"
