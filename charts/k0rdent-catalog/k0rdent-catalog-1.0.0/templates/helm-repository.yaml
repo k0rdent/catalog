@@ -4,6 +4,9 @@ metadata:
   name: k0rdent-catalog
   labels:
     k0rdent.mirantis.com/managed: "true"
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/resource-policy: keep
 spec:
   type: oci
   url: oci://ghcr.io/k0rdent/catalog/charts
