@@ -1,0 +1,30 @@
+apiVersion: v2
+name: catalog-core
+description: Pre-installed ServiceTemplates for k0rdent
+type: application
+version: 1.1.0
+appVersion: "1.1.0"
+dependencies:
+  - name: cert-manager-service-template
+    version: 1.16.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: dex-service-template
+    version: 0.19.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: external-secrets-service-template
+    version: 0.11.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: ingress-nginx-service-template 
+    version: 4.11.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    alias: ingress-nginx-service-template-4-11-0
+  - name: ingress-nginx-service-template
+    version: 4.11.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    alias: ingress-nginx-service-template-4-11-3
+  - name: kyverno-service-template
+    version: 3.2.6
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: velero-service-template
+    version: 8.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
