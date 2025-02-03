@@ -1,14 +1,14 @@
 ## Istio by Tetrate
 Install Service template
 ~~~bash
-helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template
+helm install tetrate-istio oci://ghcr.io/k0rdent/catalog/charts/tetrate-istio-service-template
 ~~~
 
 Check the template is available:
 ~~~bash
 kubectl get servicetemplates -A
 # NAMESPACE    NAME                      VALID
-# kcm-system   nginx-ingress-2-0-0       true
+# kcm-system   tetrate-istio-1-24-20001  true
 ~~~
 
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
