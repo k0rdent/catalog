@@ -1,6 +1,0 @@
-dependencies:
-- name: pure-csi
-  repository: https://purestorage.github.io/helm-charts
-  version: 1.2.0
-digest: sha256:c1f443dbb61e8a9fc8324e4fcad03af9bbcd4ac59fd84a2d5e3a84ee852f7652
-generated: "2025-02-03T17:20:39.097013+01:00"
