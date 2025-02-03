@@ -1,0 +1,6 @@
+dependencies:
+- name: pure-k8s-plugin
+  repository: https://purestorage.github.io/helm-charts
+  version: 2.7.1
+digest: sha256:bcabcfddf58b50102a9aa586ff0e04bcf57472eb230d1d2e66a1b6c67e273681
+generated: "2025-02-03T18:21:32.790209+01:00"
