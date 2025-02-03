@@ -15,6 +15,7 @@ kubectl config set-context --current --namespace=kcm-system
 
 ## Service Templates
 - [dapr](./charts/dapr/dapr.md)
+- [netapp](./charts/netapp/netapp.md)
 - [nginx-ingress](./charts/nginx-ingress/nginx-ingress.md)
 - [pure](./charts/pure/pure.md)
 - [tetrate-istio](./charts/tetrate-istio/tetrate-istio.md)
