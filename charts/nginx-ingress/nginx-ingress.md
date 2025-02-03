@@ -6,7 +6,7 @@ helm install nginx-ingress oci://ghcr.io/k0rdent/catalog/charts/nginx-ingress-se
 
 Check the template is available:
 ~~~bash
-kubectl get servicetemplates
+kubectl get servicetemplates -A
 # NAMESPACE    NAME                      VALID
 # kcm-system   nginx-ingress-2-0-0       true
 ~~~

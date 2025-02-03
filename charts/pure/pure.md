@@ -1,14 +1,16 @@
-## Istio by Tetrate
+## Pure Storage
 Install Service template
 ~~~bash
 helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template
+helm install pure-csi oci://ghcr.io/k0rdent/catalog/charts/pure-csi-service-template
 ~~~
 
 Check the template is available:
 ~~~bash
 kubectl get servicetemplates -A
 # NAMESPACE    NAME                      VALID
-# kcm-system   nginx-ingress-2-0-0       true
+# kcm-system   pure-csi-1-2-0            true
+# kcm-system   pure-k8s-plugin-2-7-1     true
 ~~~
 
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
@@ -19,9 +21,13 @@ kind: ClusterDeployment
 ...
   serviceSpec:
     services:
-      - template: tetrate-istio-1-24-20001
-        name: tetrate-istio
-        namespace: tetrate-istio
+      - template: pure-k8s-plugin-2-7-1
+        name: pure-k8s-plugin
+        namespace: pure-k8s-plugin
+    services:
+      - template: pure-csi-1-2-0
+        name: pure-csi
+        namespace: pure-csi
 ~~~
 
-[Official docs](https://docs.tetrate.io/istio-distro/)
+[Official docs](https://github.com/purestorage/helm-charts)

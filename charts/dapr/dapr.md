@@ -6,7 +6,7 @@ helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template
 
 Check the template is available:
 ~~~bash
-kubectl get servicetemplates
+kubectl get servicetemplates -A
 # NAMESPACE    NAME                       VALID
 # kcm-system   dapr-1-14-4                true
 ~~~
