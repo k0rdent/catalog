@@ -14,6 +14,7 @@ kubectl config set-context --current --namespace=kcm-system
 ~~~
 
 ## Service Templates
+- [argo](./charts/argo/argo.md)
 - [dapr](./charts/dapr/dapr.md)
 - [netapp](./charts/netapp/netapp.md)
 - [nginx-ingress](./charts/nginx-ingress/nginx-ingress.md)
