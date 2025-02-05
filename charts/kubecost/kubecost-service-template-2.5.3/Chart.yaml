@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kubecost-service-template
+description: K0rdent service template for Netapp "kubecost"
+type: application
+version: 2.5.3
+appVersion: "2.5.3"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
