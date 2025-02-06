@@ -14,6 +14,8 @@ kubectl config set-context --current --namespace=kcm-system
 ~~~
 
 ## Service Templates
+- [ingress-nginx](./charts/ingress-nginx/ingress-nginx.md)
+- [kubecost](./charts/kubecost/kubecost.md)
 - [argo](./charts/argo/argo.md)
 - [dapr](./charts/dapr/dapr.md)
 - [netapp](./charts/netapp/netapp.md)
