@@ -25,10 +25,20 @@ kind: ClusterDeployment
         values: |
           cost-analyzer:
             kubecostToken: <kubecost-token>
+            global:
+              grafana:
+                enabled: true
+            prometheus:
+              server:
+                persistentVolume:
+                  size: 1Gi
+            persistentVolume:
+              enabled: true
+              size: 1Gi
             ingress:
               enabled: true
               className: nginx
-              hosts: []
+              hosts: ['kubecost.example.com']
 ~~~
 
 [Official docs](https://docs.kubecost.io/)
