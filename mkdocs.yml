@@ -24,6 +24,7 @@ nav:
   - Dex: charts/dex/dex.md
   - Kubecost: charts/kubecost/kubecost.md
   - ArgoCD: charts/argo/argo.md
+  - External-secrets: charts/external-secrets/external-secrets.md
 
 theme:
   name: "material"

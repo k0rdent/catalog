@@ -32,7 +32,9 @@ This catalog contains verified and tested service templates supported by [k0rden
 
 - ![logo](https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png){ align="right", width="50" }[Dex](./charts/dex/dex.md) – OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors.
 
-- ![logo](https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png){ align="right", width="50" }[Kubecost](./charts/kubecost/kubecost.md) – monitor your cloud costs!
+- ![logo](https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png){ align="right", width="50" }[Kubecost](./charts/kubecost/kubecost.md) – Monitor your cloud costs!
 
-- ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="80" }[ArgoCD](./charts/argo/argo.md) – a declarative, GitOps continuous delivery tool for Kubernetes.
+- ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="80" }[ArgoCD](./charts/argo/argo.md) – Declarative, GitOps continuous delivery tool for Kubernetes.
+
+- ![logo](https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png){ align="right", width="80" }[External-secrets](./charts/external-secrets/external-secrets.md) – External secret management.
 </div>
