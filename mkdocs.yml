@@ -1,5 +1,50 @@
 site_name: K0rdent Catalog
+site_description: Documentation for k0rdent.
+repo_name: GitHub
+site_author: Mirantis, Inc.
+repo_url: https://github.com/k0rdent/catalog
+
+copyright:
+  Copyright &copy; 2025 The k0rdent authors | Documentation distributed under <a href="https://creativecommons.org/licenses/by/4.0/legalcode.txt">CC-BY-4.0</a>.
+
 docs_dir: mkdocs
 
 nav:
 - Home: index.md
+
+theme:
+  name: "material"
+  highlightjs: true
+  language: "en"
+  # custom_dir: docs/custom_theme
+
+  # favicon: img/favicon-32x32.png
+  # logo: img/k0rdent-logo-horizontal-inverted.svg
+  
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+  features:
+    - toc.autohide
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+extra_css:
+  - extra.css
+
+plugins:
+  - search
+  - ezglossary:
+      section_config:
+        - name: demo
+          inline_refs: short
+  - macros:
+      j2_variable_start_string: "{{{"
+      j2_variable_end_string: "}}}"

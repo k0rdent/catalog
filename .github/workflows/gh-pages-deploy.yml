@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install mkdocs mkdocs-material
+          pip install -r mkdocs/requirements.txt
 
       - name: Build and Deploy
         run: |
