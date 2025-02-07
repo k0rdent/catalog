@@ -5,7 +5,7 @@
 This service template is typically pre-installed in k0rdent. If not
 install it:
 ~~~bash
-helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kyverno-service-template
+helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kyverno-service-template -n kcm-system
 ~~~
 
 Check the template is available:

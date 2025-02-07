@@ -4,7 +4,7 @@
 ## Installation
 Install Service template
 ~~~bash
-helm install trident-operator oci://ghcr.io/k0rdent/catalog/charts/trident-operator-service-template
+helm install trident-operator oci://ghcr.io/k0rdent/catalog/charts/trident-operator-service-template -n kcm-system
 ~~~
 
 Check the template is available:

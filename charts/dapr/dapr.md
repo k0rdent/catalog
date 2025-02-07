@@ -4,7 +4,7 @@
 ## Installation
 Install Service template
 ~~~bash
-helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template
+helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template -n kcm-system
 ~~~
 
 Check the template is available:

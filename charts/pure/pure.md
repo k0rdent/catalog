@@ -4,8 +4,8 @@
 ## Installation
 Install Service template
 ~~~bash
-helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template
-helm install pure-csi oci://ghcr.io/k0rdent/catalog/charts/pure-csi-service-template
+helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template -n kcm-system
+helm install pure-csi oci://ghcr.io/k0rdent/catalog/charts/pure-csi-service-template -n kcm-system
 ~~~
 
 Check the template is available:

@@ -4,7 +4,7 @@
 ## Installation
 Install Service template
 ~~~bash
-helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template
+helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template -n kcm-system
 ~~~
 
 Check the template is available:
