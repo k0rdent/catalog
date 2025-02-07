@@ -1,3 +1,4 @@
+![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="100" }
 # ArgoCD
 
 ## Installation

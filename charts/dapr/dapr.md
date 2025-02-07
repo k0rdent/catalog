@@ -1,3 +1,4 @@
+![dapr](./dapr-logo.svg){ align="right", width="100" }
 # Dapr
 
 ## Installation

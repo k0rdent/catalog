@@ -1,3 +1,4 @@
+![logo](https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png){ align="right", width="100" }
 # NetApp
 
 ## Installation

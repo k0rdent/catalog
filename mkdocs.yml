@@ -11,13 +11,13 @@ docs_dir: mkdocs
 
 nav:
 - Home: index.md
+- Ingress:
+  - Ingress-nginx: charts/ingress-nginx/ingress-nginx.md
+- Microservices:
+  - Dapr: charts/dapr/dapr.md
 - Storage:
   - NetApp: charts/netapp/netapp.md
   - Pure: charts/pure/pure.md
-- Microservices:
-  - Dapr: charts/dapr/dapr.md
-- Ingress:
-  - Ingress-nginx: charts/ingress-nginx/ingress-nginx.md
 - Others:
   - Kubecost: charts/kubecost/kubecost.md
   - ArgoCD: charts/argo/argo.md
@@ -76,3 +76,17 @@ plugins:
   - macros:
       j2_variable_start_string: "{{{"
       j2_variable_end_string: "}}}"
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

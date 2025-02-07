@@ -1,3 +1,4 @@
+![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="200" }
 # Ingress Nginx
 
 ## Installation
