@@ -25,6 +25,7 @@ nav:
   - Kubecost: charts/kubecost/kubecost.md
   - ArgoCD: charts/argo/argo.md
   - External-secrets: charts/external-secrets/external-secrets.md
+  - Velero: charts/velero/velero.md
 
 theme:
   name: "material"

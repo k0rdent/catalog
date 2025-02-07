@@ -37,4 +37,6 @@ This catalog contains verified and tested service templates supported by [k0rden
 - ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="80" }[ArgoCD](./charts/argo/argo.md) – Declarative, GitOps continuous delivery tool for Kubernetes.
 
 - ![logo](https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png){ align="right", width="80" }[External-secrets](./charts/external-secrets/external-secrets.md) – External secret management.
+
+- ![logo](https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png){ align="right", width="80" }[Velero](./charts/velero/velero.md) – Open source tool to safely backup and restore.
 </div>
