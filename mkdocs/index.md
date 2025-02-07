@@ -21,6 +21,12 @@ This catalog contains verified and tested service templates supported by [k0rden
 - ![logo](https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png){ align="right", width="50" } [Pure](./charts/pure/pure.md) – Storage service
 </div>
 
+## Policy
+<div class="grid cards" markdown>
+
+- ![logo](https://github.com/kyverno/kyverno/raw/main/img/logo.png){ align="right", width="50" }[Kyverno](./charts/kyverno/kyverno.md) – Kubernetes Native Policy Management.
+</div>
+
 ## Others
 <div class="grid cards" markdown>
 

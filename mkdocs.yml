@@ -18,6 +18,8 @@ nav:
 - Storage:
   - NetApp: charts/netapp/netapp.md
   - Pure: charts/pure/pure.md
+- Policy:
+  - Kyverno: charts/kyverno/kyverno.md
 - Others:
   - Kubecost: charts/kubecost/kubecost.md
   - ArgoCD: charts/argo/argo.md
