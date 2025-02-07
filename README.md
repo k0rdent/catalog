@@ -1,4 +1,4 @@
-# K0rdent Service Templates Catalog
+# K0rdent Catalog
 This catalog repository contains verified and tested service templates supported by [k0rdent](https://k0rdent.github.io/docs/), allowing you to easily install and manage services across multiple Kubernetes clusters simultaneously.
 
 ## Requirements
@@ -13,10 +13,10 @@ The easiest way to install and use a *k0rdent* service template is to keep it in
 kubectl config set-context --current --namespace=kcm-system
 ~~~
 
-## Service Templates
-- [ingress-nginx](./charts/ingress-nginx/ingress-nginx.md)
-- [kubecost](./charts/kubecost/kubecost.md)
-- [argo](./charts/argo/argo.md)
-- [dapr](./charts/dapr/dapr.md)
-- [netapp](./charts/netapp/netapp.md)
-- [pure](./charts/pure/pure.md)
+# Service Templates
+- ## [ingress-nginx](./charts/ingress-nginx/ingress-nginx.md)
+- ## [kubecost](./charts/kubecost/kubecost.md)
+- ## [argo](./charts/argo/argo.md)
+- ## [dapr](./charts/dapr/dapr.md)
+- ## [netapp](./charts/netapp/netapp.md)
+- ## [pure](./charts/pure/pure.md)
