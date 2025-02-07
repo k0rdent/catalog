@@ -1,7 +1,8 @@
-# K0rdent Catalog
-This catalog contains verified and tested service templates supported by [k0rdent](https://k0rdent.github.io/docs/), allowing you to easily install and manage services across multiple Kubernetes clusters simultaneously.
+# k0rdent Application Catalog
+Unlock the full potential of your k0rdent platform with our catalog of complementary services. Our catalog features a selection of best-in-class solutions designed to enhance every aspect of your k0rdent managed clusters. These services have been validated 
+on k0rdents clusters and have existing templates for easy deployment. Please check back often as the list is continuously growing.
 
-## Services
+## Applications
 <div class="grid cards" markdown>
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="100" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
