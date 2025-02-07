@@ -31,7 +31,7 @@ kind: ClusterDeployment
             ingress:
               enabled: true
               className: nginx
-              host: 'dapr.local'
+              host: 'dapr.example.com'
 ~~~
 
 ## References

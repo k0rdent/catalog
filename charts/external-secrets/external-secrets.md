@@ -27,11 +27,6 @@ kind: ClusterDeployment
       - template: external-secrets-0-11-0
         name: external-secrets
         namespace: external-secrets
-        values: |
-          external-secrets:
-            controller:
-              hostPort:
-                enable: true
 ~~~
 
 ## References
