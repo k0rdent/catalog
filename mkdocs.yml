@@ -11,16 +11,12 @@ docs_dir: mkdocs
 
 nav:
 - Home: index.md
-- Ingress:
+- Services:
   - Ingress-nginx: charts/ingress-nginx/ingress-nginx.md
-- Microservices:
   - Dapr: charts/dapr/dapr.md
-- Storage:
   - NetApp: charts/netapp/netapp.md
   - Pure: charts/pure/pure.md
-- Policy:
   - Kyverno: charts/kyverno/kyverno.md
-- Others:
   - Dex: charts/dex/dex.md
   - Kubecost: charts/kubecost/kubecost.md
   - ArgoCD: charts/argo/argo.md
