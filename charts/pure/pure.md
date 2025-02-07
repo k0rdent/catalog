@@ -1,4 +1,6 @@
-## Pure Storage
+# Pure Storage
+
+## Installation
 Install Service template
 ~~~bash
 helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template
@@ -13,6 +15,7 @@ kubectl get servicetemplates -A
 # kcm-system   pure-k8s-plugin-2-7-1     true
 ~~~
 
+## Usage
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -30,4 +33,5 @@ kind: ClusterDeployment
         namespace: pure-csi
 ~~~
 
-[Official docs](https://github.com/purestorage/helm-charts)
+## References
+- [Official docs](https://github.com/purestorage/helm-charts)

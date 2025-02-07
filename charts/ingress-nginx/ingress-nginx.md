@@ -1,4 +1,6 @@
-## Ingress Nginx
+# Ingress Nginx
+
+## Installation
 This service template is typically pre-installed in k0rdent. If not
 install it:
 ~~~bash
@@ -12,6 +14,7 @@ kubectl get servicetemplates -A
 # kcm-system   ingress-nginx-4-11-3       true
 ~~~
 
+## Usage
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -30,4 +33,5 @@ kind: ClusterDeployment
                 enable: true
 ~~~
 
-[Official docs](https://kubernetes.github.io/ingress-nginx/)
+## References
+- [Official docs](https://kubernetes.github.io/ingress-nginx/)

@@ -1,4 +1,6 @@
-## Dapr
+# Dapr
+
+## Installation
 Install Service template
 ~~~bash
 helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template
@@ -11,6 +13,7 @@ kubectl get servicetemplates -A
 # kcm-system   dapr-1-14-4                true
 ~~~
 
+## Usage
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -30,4 +33,5 @@ kind: ClusterDeployment
               host: 'dapr.local'
 ~~~
 
-[Official docs](https://docs.dapr.io/)
+## References
+- [Official docs](https://docs.dapr.io/)

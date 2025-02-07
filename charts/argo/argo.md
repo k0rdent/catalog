@@ -1,4 +1,6 @@
-## Dapr
+# ArgoCD
+
+## Installation
 Install Service template
 ~~~bash
 helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template
@@ -11,6 +13,7 @@ kubectl get servicetemplates -A
 # kcm-system   argo-cd-7-8-0              true
 ~~~
 
+## Usage
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -24,4 +27,5 @@ kind: ClusterDeployment
         namespace: argocd
 ~~~
 
-[Official docs](https://argo-cd.readthedocs.io/en/stable/)
+## References
+- [Official docs](https://argo-cd.readthedocs.io/en/stable/)

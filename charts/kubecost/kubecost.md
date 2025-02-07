@@ -1,4 +1,6 @@
-## Kubecost
+# Kubecost
+
+## Installation
 Install Service template
 ~~~bash
 helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template
@@ -11,6 +13,7 @@ kubectl get servicetemplates -A
 # kcm-system   kubecost-2-5-3            true
 ~~~
 
+## Usage
 Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -41,4 +44,5 @@ kind: ClusterDeployment
               hosts: ['kubecost.example.com']
 ~~~
 
-[Official docs](https://docs.kubecost.io/)
+## References
+- [Official docs](https://docs.kubecost.io/)

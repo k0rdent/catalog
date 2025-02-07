@@ -1,3 +1,5 @@
 site_name: K0rdent Catalog
+docs_dir: mkdocs
+
 nav:
- - Home: index.md
+- Home: index.md
