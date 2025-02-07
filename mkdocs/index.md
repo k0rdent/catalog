@@ -18,7 +18,7 @@ This catalog contains verified and tested service templates supported by [k0rden
 
 - ![logo](https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png){ align="right", width="50" }[NetApp](./charts/netapp/netapp.md) – NetApp's Trident CSI storage provisioner using the Trident Operator.
 
-- ![logo](https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png){ align="right", width="50" } [Pure](./charts/pure/pure.md) – Storage service
+- ![logo](https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png){ align="right", width="50" } [Pure](./charts/pure/pure.md) – Storage service.
 </div>
 
 ## Policy
@@ -29,6 +29,8 @@ This catalog contains verified and tested service templates supported by [k0rden
 
 ## Others
 <div class="grid cards" markdown>
+
+- ![logo](https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png){ align="right", width="50" }[Dex](./charts/dex/dex.md) – OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors.
 
 - ![logo](https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png){ align="right", width="50" }[Kubecost](./charts/kubecost/kubecost.md) – monitor your cloud costs!
 

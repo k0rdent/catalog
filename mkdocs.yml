@@ -21,6 +21,7 @@ nav:
 - Policy:
   - Kyverno: charts/kyverno/kyverno.md
 - Others:
+  - Dex: charts/dex/dex.md
   - Kubecost: charts/kubecost/kubecost.md
   - ArgoCD: charts/argo/argo.md
 
