@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - mkdocs/**
+      - mkdocs.yml
+      - .github/workflows/gh-pages-deploy.yml
 
 permissions:
   contents: write
