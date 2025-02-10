@@ -26,6 +26,22 @@ kind: ClusterDeployment
       - template: external-dns-1-15-1
         name: external-dns
         namespace: external-dns
+        values: |
+          external-dns:
+            provider:
+              name: cloudflare
+            env:
+              - name: CF_API_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudflare-api-key
+                    key: apiKey
+~~~
+
+You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:
+~~~bash
+CF_API_TOKEN=<your-cloudflare-api-token>
+kubectl create secret generic cloudflare-api-key --from-literal=apiKey=${CF_API_TOKEN} -n external-dns
 ~~~
 
 ## References
