@@ -4,8 +4,7 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 ## Infrastructure
 <div class="grid cards" markdown>
 
-- ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" }
-   Amazon Web Services - [v1 (tabs)](./infra/aws/tabbed.md), [v2 (button)](./infra/aws/aws.md).
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" }[Amazon Web Services](./infra/aws/aws.md)
 
 </div>
 
