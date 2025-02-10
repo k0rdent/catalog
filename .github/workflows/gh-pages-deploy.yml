@@ -3,11 +3,13 @@ name: Deploy MkDocs to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - '*'
     paths:
       - mkdocs/**
       - mkdocs.yml
       - .github/workflows/gh-pages-deploy.yml
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
@@ -30,6 +32,12 @@ jobs:
           pip install --upgrade pip
           pip install -r mkdocs/requirements.txt
 
-      - name: Build and Deploy
+      - name: Build and Deploy pages - fork
+        if: github.event_name == 'push' && github.event.repository.fork == true
+        run: |
+          mkdocs gh-deploy --force
+
+      - name: Build and Deploy pages - k0rdent/catalog
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           mkdocs gh-deploy --force
