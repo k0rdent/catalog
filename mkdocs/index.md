@@ -26,4 +26,6 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true){ align="right", width="80" }[Cert-manager](./charts/cert-manager/cert-manager.md) – Management and issuance of TLS certificates.
 
+- ![logo](https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png){ align="right", width="80" }[ExternalDNS](./charts/external-dns/external-dns.md) – Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
+
 </div>

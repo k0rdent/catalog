@@ -23,6 +23,7 @@ nav:
   - External-secrets: charts/external-secrets/external-secrets.md
   - Velero: charts/velero/velero.md
   - Cert-manager: charts/cert-manager/cert-manager.md
+  - ExternalDNS: charts/external-dns/external-dns.md
 
 theme:
   name: "material"
