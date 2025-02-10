@@ -11,7 +11,7 @@ docs_dir: mkdocs
 
 nav:
 - Home: index.md
-- Services:
+- Applications:
   - Ingress-nginx: charts/ingress-nginx/ingress-nginx.md
   - Dapr: charts/dapr/dapr.md
   - NetApp: charts/netapp/netapp.md
