@@ -9,6 +9,9 @@ on:
       - .github/workflows/helm-chart-build.yml
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - charts/**
+      - .github/workflows/helm-chart-build.yml
 
 permissions:
   packages: write

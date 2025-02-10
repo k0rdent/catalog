@@ -10,6 +10,10 @@ on:
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - mkdocs/**
+      - mkdocs.yml
+      - .github/workflows/gh-pages-deploy.yml
 
 permissions:
   contents: write
