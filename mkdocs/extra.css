@@ -91,3 +91,7 @@ ul.video-list .thumb {
   position: relative;
   float:left
 }
+
+.md-sidebar--primary {
+  display: none;
+}
