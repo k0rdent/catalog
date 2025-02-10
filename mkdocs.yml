@@ -10,22 +10,7 @@ copyright:
 docs_dir: mkdocs
 
 nav:
-- Home: index.md
-- Infrastructure:
-  - Amazon Web Services: infra/aws/aws.md
-- Applications:
-  - Ingress-nginx: charts/ingress-nginx/ingress-nginx.md
-  - Dapr: charts/dapr/dapr.md
-  - NetApp: charts/netapp/netapp.md
-  - Pure: charts/pure/pure.md
-  - Kyverno: charts/kyverno/kyverno.md
-  - Dex: charts/dex/dex.md
-  - Kubecost: charts/kubecost/kubecost.md
-  - ArgoCD: charts/argo/argo.md
-  - External-secrets: charts/external-secrets/external-secrets.md
-  - Velero: charts/velero/velero.md
-  - Cert-manager: charts/cert-manager/cert-manager.md
-  - ExternalDNS: charts/external-dns/external-dns.md
+- K0rdent Catalog: index.md
 
 theme:
   name: "material"
