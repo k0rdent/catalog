@@ -1,6 +1,13 @@
 # k0rdent Application Catalog
 Unlock the full potential of the k0rdent Distributed Container Managemnet Environment with a catalog of complementary services. The catalog features a selection of best-in-class solutions designed to enhance k0rdent managed clusters. These services have been validated on k0rdents clusters and have existing templates for easy deployment. Please check back often as the list is continuously growing.
 
+## Infrastructure
+<div class="grid cards" markdown>
+
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" } [Amazon Web Services](./infra/aws/aws.md).
+
+</div>
+
 ## Applications
 <div class="grid cards" markdown>
 

@@ -11,6 +11,8 @@ docs_dir: mkdocs
 
 nav:
 - Home: index.md
+- Infrastructure:
+  - Amazon Web Services: infra/aws/aws.md
 - Applications:
   - Ingress-nginx: charts/ingress-nginx/ingress-nginx.md
   - Dapr: charts/dapr/dapr.md
