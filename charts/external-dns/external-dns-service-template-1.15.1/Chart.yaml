@@ -1,0 +1,10 @@
+apiVersion: v2
+name: external-dns-service-template
+description: K0rdent service template for "external-dns"
+type: application
+version: 1.15.1
+appVersion: "0.15.1"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
