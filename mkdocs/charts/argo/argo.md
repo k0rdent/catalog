@@ -1,32 +1,44 @@
 ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="100" }
 # ArgoCD
 
-## Installation
-Install Service template
-~~~bash
-helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
-~~~
+=== "Description"
 
-Check the template is available:
-~~~bash
-kubectl get servicetemplates -A
-# NAMESPACE    NAME                       VALID
-# kcm-system   argo-cd-7-8-0              true
-~~~
+    Argo CD is an open-source tool for implementing GitOps in Kubernetes. It automates the deployment and lifecycle management of applications by continuously synchronizing the desired state declared in a Git repository with the live state in the cluster.
+    k0rdent integration:
+    Centralized Management: Manage Argo CD instances and application deployments across multiple clusters from the K0rdent control plane. 
 
-## Usage
-Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
-~~~yaml
-apiVersion: k0rdent.mirantis.com/v1alpha1
-kind: ClusterDeployment
-# kind: MultiClusterService
-...
-  serviceSpec:
-    services:
-      - template: argo-cd-7-8-0
-        name: argocd
-        namespace: argocd
-~~~
+    Simplified Deployment: K0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
 
-## References
-- [Official docs](https://argo-cd.readthedocs.io/en/stable/)
+    Policy-Driven Deployments: Leverage K0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
+
+    ## References
+    - [Official docs](https://argo-cd.readthedocs.io/en/stable/)
+    - [Commercial support](https://akuity.io/security-hardened-argo-cd)
+
+=== "Install"
+
+    Install Service template
+    ~~~bash
+    helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
+    ~~~
+
+    Check the template is available:
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                       VALID
+    # kcm-system   argo-cd-7-8-0              true
+    ~~~
+
+    ## Usage
+    Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: argo-cd-7-8-0
+            name: argocd
+            namespace: argocd
+    ~~~
