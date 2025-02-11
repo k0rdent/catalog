@@ -3,9 +3,9 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 <div class="grid cards" markdown>
 
-- ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" }[Amazon Web Services](./infra/aws/aws.md)
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="50" }[Amazon Web Services](./infra/aws/aws.md) - Deploy kubernetes clusters with k0rdent on AWS infrastructure.
 
-- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="100" }[Microsoft Azure](./infra/azure/azure.md)
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="50" }[Microsoft Azure](./infra/azure/azure.md) - Deploy kubernetes clusters with k0rdent on Azure infrastructure.
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="100" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
