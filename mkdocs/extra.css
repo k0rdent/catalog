@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
   --md-primary-fg-color:        #000;
   --md-accent-fg-color:         #000;
@@ -8,8 +11,17 @@
   --md-footer-bg-color:         #000;
 }
 
+body{
+  font-family: "Overpass", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 .md-header {
   background-color: #000;
+}
+.md-typeset h2{
+  font-weight: 800;
+  font-size: 24px;
 }
 
 .md-version__list {
@@ -220,13 +232,17 @@ ul.video-list .thumb {
 }
 
 .md-typeset .grid{
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit,minmax(min(100%,12rem),1fr));
 }
 .md-typeset .grid>.card {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: row-reverse;
+  color: #000;
+}
+.md-typeset .grid>.card:hover{
+  text-decoration: none;
 }
 .md-typeset .grid>.card>p{
   margin-top: 0;
@@ -236,6 +252,24 @@ ul.video-list .thumb {
   align-self: center;
   margin: 1em 0px 1em 1em;
 }
+/* SHOW MORE STYLES - BEGIN */
+/* .md-typeset .grid + button{
+  display: none;
+}
+.md-typeset .grid:has(.card:nth-child(9)) + button{
+  display: block;
+}
+.md-typeset .grid>.card:nth-child(9) ~.card{
+  display:none;
+}
+.md-typeset .grid.show-more:has(.card:nth-child(9)) + button{
+  display: none;
+}
+.md-typeset .grid.show-more>.card:nth-child(9) ~.card{
+  display:block;
+} */
+/* SHOW MORE STYLES - END */
+
 .md-typeset:has(.tabbed-alternate) p>img{
   height: auto;
   max-width: 100%;
@@ -244,6 +278,13 @@ ul.video-list .thumb {
 }
 .md-typeset .tabbed-alternate{
   margin-top: 40px;
+}
+.md-typeset a {
+  color: var(--md-primary-fg-color--dark)
+}
+.md-typeset a:hover{
+  text-decoration: underline;
+  color: var(--md-primary-fg-color--dark)
 }
 .md-typeset h1{
   margin-bottom: 16px;
@@ -255,10 +296,11 @@ ul.video-list .thumb {
 .back-to-catalog .md-content__inner{
   margin-left: 1.2rem;
 }
-.back-to-catalog .md-content__inner a{
+.back-to-catalog .md-content__inner a:hover{
   text-decoration: underline;
 }
-body:has(.k0rdent-hero-section) .back-to-catalog{
+body:has(.k0rdent-hero-section) .back-to-catalog,
+body:has(.homepage) .back-to-catalog{
   display: none;
 }
 
@@ -318,10 +360,10 @@ body:has(.k0rdent-hero-section) .back-to-catalog{
 }
 
 .tabbed-block a{
-  text-decoration: underline;
+  
 }
 .tabbed-block a:hover{
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* button styles below */
@@ -363,6 +405,115 @@ a.blue-green-button-dark-background:hover {
   --l:100%;
   color: white !important;
   border: 2px solid white;
+}
+
+.maintabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.maintabs input[type="radio"] {
+  display: none;
+}
+.maintabs>label {
+  padding: 12px 25px;
+  background-color: #EAEDF5;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+.maintabs>label:hover{
+  cursor: pointer;
+}
+.maintabs>label img{
+  margin-right: 10px;
+}
+
+.maintabs .tab {
+  width: 100%;
+  padding: 20px;
+  /* background-color: #fff; */
+  order: 1;
+  display: none;
+}
+/* .maintabs .tab h2 {
+  font-size: 3em;
+} */
+
+.maintabs input[type='radio']:checked + label + .tab {
+  display: block;
+  margin-top: -1px;
+  border-top: 1px solid #B3B6C3;
+}
+
+.maintabs input[type="radio"]:checked + label {
+  background: #fff;
+  border: 1px solid #B3B6C3;
+  border-bottom: 1px solid #fff;
+  z-index: 1;
+}
+
+.tab_apps-top{
+  display: flex;
+  align-items: flex-end;
+}
+.tab_apps-top .left-side{
+  width: 80%;
+}
+.tab_apps-top .right-side{
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+}
+.tab_apps-top .right-side .filters-section{
+  padding-bottom: 16px;
+}
+.tab_apps-bottom{
+  display: flex;
+}
+.tab_apps-sidebar{
+  width: 20%;
+  padding-right: 16px;
+}
+.tab_apps-main-content{
+  width: 80%;
+  padding-left: 16px;
+}
+.categories-title svg{
+  display: none;
+}
+
+@media(max-width: 768px){
+  .maintabs input[type="radio"] + label{
+    font-size: 14px;
+  }
+  .tab_apps-bottom, .tab_apps-top{
+    flex-wrap: wrap;
+  }
+  .tab_apps-sidebar, .tab_apps-main-content, .tab_apps-top .left-side, .tab_apps-top .right-side{
+    width: 100%;
+  }
+  .categories-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .categories-title svg{
+    display: block;
+    height: 18px;
+    margin-top: -5px;
+  }
+  #filterTagsApps{
+    height: 0px;
+    overflow: hidden;
+    transition: all .3s;
+  }
+  .tab_apps-sidebar.expanded #filterTagsApps{
+    height: 100%; 
+    transition: all .3s;
+  }
+  .tab_apps-sidebar.expanded .categories-title svg{
+    transform: rotate(180deg);
+  }
 }
 
 /* CUSTOM CSS END */

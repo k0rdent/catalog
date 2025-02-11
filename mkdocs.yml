@@ -19,8 +19,6 @@ theme:
   favicon: img/favicon.ico
   logo: img/k0rdent-catalog-logo-title.svg
   custom_dir: overrides
-  font:
-    text: Overpass
   
   features:
     # - announce.dismiss

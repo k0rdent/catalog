@@ -6,6 +6,7 @@ tags:
 title: {{ title }}
 description: {{ summary }}
 logo: "{{ logo }}"
+type: "{{ type }}"
 ---
 ![logo]({{ logo }}){ align="right", width="100" }
 # {{ title }}

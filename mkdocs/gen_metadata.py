@@ -28,6 +28,7 @@ for file_path in paths:
     metadata_list.append({
         "link": file_path.replace("./mkdocs", ".").removesuffix(".md") + "/",
         "title": metadata.get("title", "No Title"),
+        "type": metadata.get("type", " "),
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
         "description": metadata.get("description", "No Description")
