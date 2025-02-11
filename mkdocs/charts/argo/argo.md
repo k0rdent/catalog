@@ -6,8 +6,8 @@
     Argo CD is an open-source tool for implementing GitOps in Kubernetes. It automates the deployment and lifecycle management of applications by continuously synchronizing the desired state declared in a Git repository with the live state in the cluster. k0rdent integration:
 
     - Centralized Management: Manage Argo CD instances and application deployments across multiple clusters from the K0rdent control plane. 
-    - Simplified Deployment: K0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
-    - Policy-Driven Deployments: Leverage K0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
+    - Simplified Deployment: k0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
+    - Policy-Driven Deployments: Leverage k0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
 
     ## References
     - [Commercial support](https://akuity.io/security-hardened-argo-cd)
