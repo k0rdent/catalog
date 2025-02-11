@@ -1,17 +1,11 @@
 # k0rdent Application Catalog
 Unlock the full potential of the k0rdent Distributed Container Managemnet Environment with a catalog of complementary services. The catalog features a selection of best-in-class solutions designed to enhance k0rdent managed clusters. These services have been validated on k0rdents clusters and have existing templates for easy deployment. Please check back often as the list is continuously growing.
 
-## Infrastructure
 <div class="grid cards" markdown>
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" }[Amazon Web Services](./infra/aws/aws.md)
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="100" }[Microsoft Azure](./infra/azure/azure.md)
-
-</div>
-
-## Applications
-<div class="grid cards" markdown>
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="100" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
