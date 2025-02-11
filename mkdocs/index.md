@@ -7,7 +7,7 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="50" }[Microsoft Azure](./infra/azure/azure.md) - Deploy kubernetes clusters with k0rdent on Azure infrastructure.
 
-- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="100" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="50" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
 - ![logo](charts/dapr/dapr-logo.svg){ align="right", width="50" } [Dapr](./charts/dapr/dapr.md) – Portable, event-driven runtime.
 
@@ -21,14 +21,14 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png){ align="right", width="50" }[Kubecost](./charts/kubecost/kubecost.md) – Monitor your cloud costs.
 
-- ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="80" }[ArgoCD](./charts/argo/argo.md) – Declarative, GitOps continuous delivery tool for Kubernetes.
+- ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="50" }[ArgoCD](./charts/argo/argo.md) – Declarative, GitOps continuous delivery tool for Kubernetes.
 
 - ![logo](https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png){ align="right", width="80" }[External-secrets](./charts/external-secrets/external-secrets.md) – External secret management.
 
-- ![logo](https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png){ align="right", width="80" }[Velero](./charts/velero/velero.md) – Open source tool to safely backup and restore.
+- ![logo](https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png){ align="right", width="50" }[Velero](./charts/velero/velero.md) – Open source tool to safely backup and restore.
 
-- ![logo](https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true){ align="right", width="80" }[Cert-manager](./charts/cert-manager/cert-manager.md) – Management and issuance of TLS certificates.
+- ![logo](https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true){ align="right", width="50" }[Cert-manager](./charts/cert-manager/cert-manager.md) – Management and issuance of TLS certificates.
 
-- ![logo](https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png){ align="right", width="80" }[ExternalDNS](./charts/external-dns/external-dns.md) – Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
+- ![logo](https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png){ align="right", width="50" }[ExternalDNS](./charts/external-dns/external-dns.md) – Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
 
 </div>
