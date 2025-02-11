@@ -1,5 +1,5 @@
 ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="100" }
-# ArgoCD
+# Argo CD
 
 === "Description"
 
@@ -15,7 +15,7 @@
 
 === "Install"
 
-    Install cluster template to k0rdent
+    Install service template to k0rdent
     ~~~bash
     helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
     ~~~
