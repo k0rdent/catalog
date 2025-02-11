@@ -226,6 +226,7 @@ ul.video-list .thumb {
   margin-top: 24px;
 }
 
+/* button styles below */
 @property --c {
   syntax: '<color>';
   inherits: false;
