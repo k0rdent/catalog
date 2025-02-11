@@ -17,17 +17,11 @@ theme:
   highlightjs: true
   language: "en"
   favicon: img/favicon.ico
-  logo: img/k0rdent-logo-mark-inverted.svg
+  logo: img/k0rdent-logo-horizontal-inverted.svg
+  custom_dir: overrides
+  font:
+    text: Overpass
   
-  palette:
-    - scheme: default
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode
-    - scheme: slate
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
   features:
     # - announce.dismiss
     # - content.code.annotate

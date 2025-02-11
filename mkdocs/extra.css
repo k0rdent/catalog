@@ -5,7 +5,7 @@
 
 :root > * {
   /* Footer */
-  --md-footer-bg-color:         #3d90ce;
+  --md-footer-bg-color:         #000;
 }
 
 .md-header {
@@ -95,3 +95,175 @@ ul.video-list .thumb {
 .md-sidebar--primary {
   display: none;
 }
+
+/* CUSTOM CSS BEGIN */
+.md-header{
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.md-header .md-search__form{
+  background-color: #fff;
+}
+.md-header .md-search__form .md-search__icon svg{
+  fill: #000;
+}
+.md-header .md-search__form .md-search__input::placeholder{
+  color: #000;
+}
+.md-header .md-header__title{
+  position: relative;
+}
+.md-header .md-header__title:before{
+  content: '';
+  position: absolute;
+  top: 2px;
+  bottom:2px;
+  left: -.8rem;
+  border-left: 1px solid #B3B6C3;
+}
+.md-header .md-header__title .md-ellipsis{
+  font-weight: 400;
+  letter-spacing: 2.38px;
+}
+
+.md-footer{
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.md-footer-meta__inner{
+  justify-content: center;
+}
+
+.md-footer-meta__inner .footer-logo{
+  display: flex;
+  align-items: center;
+}
+.md-footer-meta__inner .footer-logo .text{
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27px; /* 158.824% */
+  letter-spacing: 2.38px;
+  color: #fff;
+  margin-left: 1.6rem;
+  position: relative;
+}
+.md-footer-meta__inner .footer-logo .text:before{
+  content: '';
+  position: absolute;
+  top: -6px;
+  bottom:-6px;
+  left: -.8rem;
+  border-left: 1px solid #B3B6C3;
+}
+.md-footer .social-links{
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.md-footer .social-links .link{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: #1AAAFF;
+  margin: 0 8px;
+}
+.md-footer .social-links .social-icon{
+  display: flex;
+  width:55%;
+}
+.md-footer .social-links .link svg{
+  fill: #000;
+}
+.md-footer .terms-of-use{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+}
+.md-footer .md-footer-meta.md-typeset .terms-of-use a,
+.md-footer .md-footer-meta.md-typeset .terms-of-use .divider{
+  color: #fff;
+}
+.md-footer .md-footer-meta.md-typeset .terms-of-use .divider{
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.k0rdent-hero-section{
+  background-image: url(./img/k0rdent-bg-hero.jpg);
+  background-size: cover;
+  background-position: center;
+  padding-top: 120px;
+  padding-bottom: 120px;
+  color: #fff;
+}
+.k0rdent-hero-section .md-grid{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.k0rdent-hero-section h1{
+  font-size: 54px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 56.4px; /* 104.444% */
+  text-transform: uppercase;
+  text-align: center;
+}
+.k0rdent-hero-section p{
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27px
+}
+.k0rdent-hero-section p+a{
+  margin-top: 24px;
+}
+
+@property --c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #00FFF7;
+}
+@property --p {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 10%;
+}
+@property --l {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 10px;
+}
+a.blue-green-button-dark-background {
+  --c:#00FFF7;
+  --p:10%;
+  --l:10px;
+  --a:10deg;
+  cursor:pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 36px 16px 36px;
+  border-radius: 36px;
+  font-weight: 900;
+  font-size: 16px;
+  color: black !important;
+  border: 2px solid transparent;
+  transition:--c 0.7s,--p 0.5s,--l 0.3s;
+  background:linear-gradient(90deg, var(--c) var(--p),#00FFA0);
+}
+a.blue-green-button-dark-background:hover {
+  --c:black;
+  --p:100%;
+  --l:100%;
+  color: white !important;
+  border: 2px solid white;
+}
+
+/* CUSTOM CSS END */
