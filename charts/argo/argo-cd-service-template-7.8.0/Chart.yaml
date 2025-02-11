@@ -1,6 +1,6 @@
 apiVersion: v2
 name: argo-cd-service-template
-description: K0rdent service template for "argo-cd"
+description: k0rdent service template for "argo-cd"
 type: application
 version: 7.8.0
 appVersion: "v2.12.5"

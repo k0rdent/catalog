@@ -1,4 +1,4 @@
-site_name: K0rdent Catalog
+site_name: k0rdent Catalog
 site_description: Documentation for k0rdent.
 repo_name: GitHub
 site_author: Mirantis, Inc.
@@ -10,7 +10,7 @@ copyright:
 docs_dir: mkdocs
 
 nav:
-- K0rdent Catalog: index.md
+- k0rdent Catalog: index.md
 
 theme:
   name: "material"

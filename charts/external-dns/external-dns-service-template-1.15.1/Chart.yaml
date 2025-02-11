@@ -1,6 +1,6 @@
 apiVersion: v2
 name: external-dns-service-template
-description: K0rdent service template for "external-dns"
+description: k0rdent service template for "external-dns"
 type: application
 version: 1.15.1
 appVersion: "0.15.1"

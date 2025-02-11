@@ -1,6 +1,6 @@
 apiVersion: v2
 name: kyverno-service-template
-description: K0rdent service template for "kyverno"
+description: k0rdent service template for "kyverno"
 type: application
 version: 3.2.6
 appVersion: "v1.12.5"

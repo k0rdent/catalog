@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cert-manager-service-template
-description: K0rdent service template for "cert-manager"
+description: k0rdent service template for "cert-manager"
 type: application
 version: 1.16.2
 appVersion: "1.16.2"

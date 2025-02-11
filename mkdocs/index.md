@@ -1,4 +1,4 @@
-# K0rdent Application Catalog
+# k0rdent Application Catalog
 Unlock the full potential of the k0rdent Distributed Container Managemnet Environment with a catalog of complementary services. The catalog features a selection of best-in-class solutions designed to enhance k0rdent managed clusters. These services have been validated on k0rdents clusters and have existing templates for easy deployment. Please check back often as the list is continuously growing.
 
 ## Infrastructure

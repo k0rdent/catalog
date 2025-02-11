@@ -1,6 +1,6 @@
 apiVersion: v2
 name: dex-service-template
-description: K0rdent service template for "dex"
+description: k0rdent service template for "dex"
 type: application
 version: 0.19.1
 appVersion: "2.41.1"
