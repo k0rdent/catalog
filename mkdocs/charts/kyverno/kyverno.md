@@ -3,17 +3,25 @@
 
 === "Description"
 
-    Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.
+    Kyverno is a powerful open-source policy engine designed specifically for Kubernetes. It allows you to define and enforce policies that govern the configuration and behavior of your Kubernetes resources, ensuring security, compliance, and operational best practices. 
+    Here's a breakdown of its key features:
+
+    - Kubernetes Native: Kyverno is built for Kubernetes, using the same YAML format and API objects as Kubernetes itself, making it easy to learn and use.
+    - Policy-as-Code: Define policies as code, enabling version control, collaboration, and automation. 
+    - Validation and Mutation: Kyverno can validate resources against policies before they are created or modified, and it can also mutate resources to enforce compliance. 
+    - Image Verification: Verify the integrity and provenance of container images, ensuring that only trusted images are deployed. 
+    - Resource Validation: Validate resource configurations against security and compliance standards, preventing misconfigurations. 
+    - RBAC Integration: Integrates with Kubernetes RBAC to control who can create, modify, and apply policies.
 
     ## References
-    - [Official docs](https://kyverno.github.io/kyverno/)
     - [Commercial support](https://nirmata.com/nirmata-enterprise-for-kyverno/)
+    - [Official docs](https://kyverno.github.io/kyverno/)
 
 === "Install"
 
     Install Service template
     ~~~bash
-    helm install kyverno oci://ghcr.io/k0rdent/catalog/charts/kyverno-service-template -n kcm-system
+    # k0rdent includes the template for Kyverno out of the box
     ~~~
 
     Verify service template
@@ -23,7 +31,6 @@
     # kcm-system   kyverno-3-2-6       true
     ~~~
 
-    ## Usage
     Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

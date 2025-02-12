@@ -6,8 +6,8 @@
     Kubecost is a powerful tool designed to help teams running Kubernetes manage and optimize their cloud infrastructure spending. It provides real-time visibility into the costs associated with your Kubernetes deployments, enabling you to understand where your money is going and identify opportunities for savings.
 
     ## References
-    - [Official docs](https://docs.kubecost.com/)
     - [Commercial support](https://www.kubecost.com/)
+    - [Official docs](https://docs.kubecost.com/)
 
 === "Install"
 
@@ -23,7 +23,6 @@
     # kcm-system   kubecost-2-5-3            true
     ~~~
 
-    ## Usage
     Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

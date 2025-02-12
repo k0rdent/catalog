@@ -17,8 +17,8 @@
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
 
     ## References
-    - [Official docs](https://docs.dapr.io/)
     - [Commercial support](https://www.diagrid.io/conductor)
+    - [Official docs](https://docs.dapr.io/)
 
 === "Install"
 
@@ -34,7 +34,6 @@
     # kcm-system   dapr-1-14-4                true
     ~~~
 
-    ## Usage
     Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

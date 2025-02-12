@@ -1,48 +1,54 @@
 ![logo](https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png){ align="right", width="200" }
 # ExternalDNS
 
-## Installation
-Install Service template
-~~~bash
-helm install external-dns oci://ghcr.io/k0rdent/catalog/charts/external-dns-service-template -n kcm-system
-~~~
+=== "Description"
 
-Verify service template
-~~~bash
-kubectl get servicetemplates -A
-# NAMESPACE    NAME                       VALID
-# kcm-system   external-dns-1-15-1        true
-~~~
+    ExternalDNS makes Kubernetes resources discoverable via public DNS servers. Like KubeDNS, it retrieves a list of resources (Services, Ingresses, etc.) from the Kubernetes API to determine a desired list of DNS records. Unlike KubeDNS, however, it’s not a DNS server itself, but merely configures other DNS providers accordingly—e.g. AWS Route 53 or Google Cloud DNS.
 
-## Usage
-Deploy service template
-~~~yaml
-apiVersion: k0rdent.mirantis.com/v1alpha1
-kind: ClusterDeployment
-# kind: MultiClusterService
-...
-  serviceSpec:
-    services:
-      - template: external-dns-1-15-1
-        name: external-dns
-        namespace: external-dns
-        values: |
-          external-dns:
-            provider:
-              name: cloudflare
-            env:
-              - name: CF_API_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: cloudflare-api-key
-                    key: apiKey
-~~~
+    In a broader sense, ExternalDNS allows you to control DNS records dynamically via Kubernetes resources in a DNS provider-agnostic way.
 
-You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:
-~~~bash
-CF_API_TOKEN=<your-cloudflare-api-token>
-kubectl create secret generic cloudflare-api-key --from-literal=apiKey=${CF_API_TOKEN} -n external-dns
-~~~
+    ## References
+    - [Official docs](https://kubernetes-sigs.github.io/external-dns/latest/)
 
-## References
-- [Official docs](https://kubernetes-sigs.github.io/external-dns/latest/)
+=== "Installation"
+
+    Install Service template
+    ~~~bash
+    helm install external-dns oci://ghcr.io/k0rdent/catalog/charts/external-dns-service-template -n kcm-system
+    ~~~
+
+    Verify service template
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                       VALID
+    # kcm-system   external-dns-1-15-1        true
+    ~~~
+
+    Deploy service template
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+    serviceSpec:
+        services:
+        - template: external-dns-1-15-1
+            name: external-dns
+            namespace: external-dns
+            values: |
+            external-dns:
+                provider:
+                name: cloudflare
+                env:
+                - name: CF_API_TOKEN
+                    valueFrom:
+                    secretKeyRef:
+                        name: cloudflare-api-key
+                        key: apiKey
+    ~~~
+
+    You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:
+    ~~~bash
+    CF_API_TOKEN=<your-cloudflare-api-token>
+    kubectl create secret generic cloudflare-api-key --from-literal=apiKey=${CF_API_TOKEN} -n external-dns
+    ~~~
