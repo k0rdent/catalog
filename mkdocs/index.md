@@ -26,7 +26,7 @@ Unlock the full potential of the k0rdent Distributed Container Management Enviro
         </p>
     </a>
     <a href="/charts/dapr/dapr/" class="card">
-        <img src="/charts/dapr/dapr-logo.svg" alt="logo"/>
+        <img src="./charts/dapr/dapr-logo.svg" alt="logo"/>
         <p>
             <b>Dapr</b><span>-</span> Portable, event-driven runtime.
         </p>
