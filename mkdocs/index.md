@@ -40,4 +40,6 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://docs.tigera.io/img/calico-logo.png){ align="right", width="50" }[Calico](./charts/calico/calico.md) – Networking and security solution specifically designed for Kubernetes clusters.
 
+- ![logo](https://assets.nvidiagrid.net/ngc/logos/GPUoperator.png){ align="right", width="120" }[Nvidia GPU Operator](./charts/nvidia/nvidia.md) – NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes.
+
 </div>
