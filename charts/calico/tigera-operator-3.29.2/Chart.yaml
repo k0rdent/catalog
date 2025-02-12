@@ -1,0 +1,10 @@
+apiVersion: v2
+name: tigera-operator
+description: A Helm chart to refer the official tigera-operator helm chart
+type: application
+version: 3.29.2
+appVersion: "3.29.2"
+dependencies:
+  - name: tigera-operator
+    version: 3.29.2
+    repository: https://docs.tigera.io/calico/charts
