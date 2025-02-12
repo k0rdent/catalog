@@ -38,4 +38,6 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://istio.io/latest/favicons/android-192x192.png){ align="right", width="50" }[Istio](./charts/istio/istio.md) – Open source service mesh that layers transparently onto existing distributed applications.
 
+- ![logo](https://docs.tigera.io/img/calico-logo.png){ align="right", width="50" }[Calico](./charts/calico/calico.md) – Networking and security solution specifically designed for Kubernetes clusters.
+
 </div>
