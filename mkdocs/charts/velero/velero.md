@@ -6,7 +6,7 @@
     Velero is an open source tool to safely backup and restore, perform disaster recovery, and migrate Kubernetes cluster resources and persistent volumes.
 
     ## References
-    - [Commercial support](https://docs.netapp.com/us-en/trident/get-help.html)
+    - [Official docs](https://vmware-tanzu.github.io/helm-charts/)
 
 === "Installation"
 
