@@ -225,6 +225,21 @@ ul.video-list .thumb {
 .k0rdent-hero-section p+a{
   margin-top: 24px;
 }
+
+.md-typeset .grid>.card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+.md-typeset .grid>.card>p{
+  margin-top: 0;
+}
+.md-typeset .grid>.card>img{
+  max-width:50px;
+  align-self: center;
+  margin: 1em 0px 1em 1em;
+}
 @media screen and (max-width: 76.2344em) {
   .md-header__button.md-logo {
       display: block;
