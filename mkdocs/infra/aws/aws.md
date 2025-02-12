@@ -15,9 +15,9 @@
 
 === "Install"
 
-    Install cluster template to k0rdent
+    Install template to k0rdent
     ~~~yaml
-    # k0rdent includes the cluster template for AWS out of the box
+    # k0rdent includes the template for AWS out of the box
     ~~~
     
     Verify cluster template

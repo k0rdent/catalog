@@ -16,16 +16,19 @@
     - [Commercial support](https://azure.microsoft.com/en-us/support/)
 
 === "Install"
-    Install cluster template to k0rdent
+
+    Install template to k0rdent
     ~~~yaml
-    # k0rdent includes the cluster template for AWS out of the box
+    # k0rdent includes the template for Azure out of the box
     ~~~
+
     Verify cluster template
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
     # azure-hosted-cp-0-1-0           true 
-    ~~~   
+    ~~~
+
     Create a cluster on Microsoft Azure 
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -11,13 +11,12 @@
 
 === "Install"
 
-    This service template is typically pre-installed in k0rdent. If not
-    install it:
+    Install Service template
     ~~~bash
-    helm install dex oci://ghcr.io/k0rdent/catalog/charts/dex-service-template -n kcm-system
+    # k0rdent includes the template for Dex out of the box
     ~~~
 
-    Check the template is available:
+    Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME             VALID
@@ -25,7 +24,7 @@
     ~~~
 
     ## Usage
-    Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+    Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment

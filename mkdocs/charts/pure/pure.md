@@ -8,7 +8,7 @@ helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugi
 helm install pure-csi oci://ghcr.io/k0rdent/catalog/charts/pure-csi-service-template -n kcm-system
 ~~~
 
-Check the template is available:
+Verify service template
 ~~~bash
 kubectl get servicetemplates -A
 # NAMESPACE    NAME                      VALID
@@ -17,7 +17,7 @@ kubectl get servicetemplates -A
 ~~~
 
 ## Usage
-Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+Deploy service template
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ClusterDeployment

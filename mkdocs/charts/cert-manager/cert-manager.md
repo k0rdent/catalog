@@ -2,13 +2,12 @@
 # Cert manager
 
 ## Installation
-This service template is typically pre-installed in k0rdent. If not
-install it:
+Install template to k0rdent
 ~~~bash
-helm install cert-manager oci://ghcr.io/k0rdent/catalog/charts/cert-manager-service-template -n kcm-system
+# k0rdent includes the template for Cert-manager out of the box
 ~~~
 
-Check the template is available:
+Verify service template
 ~~~bash
 kubectl get servicetemplates -A
 # NAMESPACE    NAME                       VALID
@@ -16,7 +15,7 @@ kubectl get servicetemplates -A
 ~~~
 
 ## Usage
-Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+Deploy service template
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ClusterDeployment

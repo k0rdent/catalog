@@ -15,7 +15,7 @@
 
 === "Install"
 
-    Install service template to k0rdent
+    Install template to k0rdent
     ~~~bash
     helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
     ~~~

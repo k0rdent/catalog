@@ -16,7 +16,7 @@
     helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template -n kcm-system
     ~~~
 
-    Check the template is available:
+    Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                      VALID
@@ -24,7 +24,7 @@
     ~~~
 
     ## Usage
-    Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+    Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
