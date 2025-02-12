@@ -10,7 +10,7 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="50" }[Amazon Web Services](./infra/aws/aws.md) - Deploy kubernetes clusters with k0rdent on AWS infrastructure.
 
-- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="50" }[Microsoft Azure](./infra/azure/azure.md) - Deploy kubernetes clusters with k0rdent on Azure infrastructure.
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="50" }[Microsoft Azure](./infra/azure/azure.md) – Deploy kubernetes clusters with k0rdent on Azure infrastructure.
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="50" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
@@ -35,5 +35,7 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 - ![logo](https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true){ align="right", width="50" }[Cert-manager](./charts/cert-manager/cert-manager.md) – Management and issuance of TLS certificates.
 
 - ![logo](https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png){ align="right", width="50" }[ExternalDNS](./charts/external-dns/external-dns.md) – Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
+
+- ![logo](https://istio.io/latest/favicons/android-192x192.png){ align="right", width="50" }[Istio](./charts/istio/istio.md) – Open source service mesh that layers transparently onto existing distributed applications.
 
 </div>
