@@ -225,6 +225,24 @@ ul.video-list .thumb {
 .k0rdent-hero-section p+a{
   margin-top: 24px;
 }
+@media screen and (max-width: 76.2344em) {
+  .md-header__button.md-logo {
+      display: block;
+  }
+}
+@media screen and (max-width: 768px){
+  .md-header__button.md-logo img{
+    max-width: 80px;
+  }
+  .md-header .md-header__title .md-ellipsis {
+    letter-spacing: 1.4;
+    font-size: 10px;
+  }
+  .md-header .md-header__title:before{
+    top: 8px;
+    bottom: 8px;
+  }
+}
 
 /* button styles below */
 @property --c {
