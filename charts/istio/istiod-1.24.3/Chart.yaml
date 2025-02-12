@@ -1,0 +1,10 @@
+apiVersion: v2
+name: istio-base
+description: A Helm chart to refer the official istio/istiod chart
+type: application
+version: 1.24.3
+appVersion: "1.24.3"
+dependencies:
+  - name: istiod
+    version: 1.24.3
+    repository: https://istio-release.storage.googleapis.com/charts
