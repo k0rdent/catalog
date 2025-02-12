@@ -1,5 +1,5 @@
 apiVersion: v2
-name: istio-base
+name: istiod
 description: A Helm chart to refer the official istio/istiod chart
 type: application
 version: 1.24.3
