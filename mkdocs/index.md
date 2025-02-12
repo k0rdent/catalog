@@ -7,13 +7,13 @@ template: home.html
 Unlock the full potential of the k0rdent Distributed Container Management Environment with a catalog of complementary services. The catalog features a selection of best-in-class solutions designed to enhance k0rdent managed clusters. These services have been validated on k0rdents clusters and have existing templates for easy deployment. Please check back often as the list is continuously growing.
 
 <div class="grid cards">
-    <a href="/infra/aws/aws/" class="card">
+    <a href="./infra/aws/aws/" class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="logo"/>
         <p>
             <b>Amazon Web Services</b><span>-</span> Deploy kubernetes clusters with k0rdent on AWS infrastructure.
         </p>
     </a>
-    <a href="/infra/azure/azure/" class="card">
+    <a href="./infra/azure/azure/" class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png" alt="logo"/>
         <p>
             <b>Microsoft Azure</b><span>-</span> Deploy kubernetes clusters with k0rdent on Azure infrastructure.
