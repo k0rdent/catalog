@@ -14,6 +14,8 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://avatars.githubusercontent.com/u/324574?s=200&v=4){ align="right", width="50" }[OpenStack](./infra/openstack/openstack.md) – Deploy kubernetes clusters with k0rdent on OpenStack infrastructure.
 
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg){ align="right", width="80" }[VMware vSphere](./infra/vsphere/vsphere.md) – Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure.
+
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="50" } [Ingress-nginx](./charts/ingress-nginx/ingress-nginx.md) – Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
 - ![logo](charts/dapr/dapr-logo.svg){ align="right", width="50" } [Dapr](./charts/dapr/dapr.md) – Portable, event-driven runtime.
