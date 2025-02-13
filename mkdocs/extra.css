@@ -264,6 +264,19 @@ ul.video-list .thumb {
   margin-top: 0;
   margin-bottom: 40px;
 }
+.back-to-catalog .md-content__inner{
+  margin-left: 1.2rem;
+}
+.back-to-catalog .md-content__inner a{
+  text-decoration: underline;
+}
+body:has(.k0rdent-hero-section) .back-to-catalog{
+  display: none;
+}
+
+.bold{
+  font-weight: 700;
+}
 
 @media screen and (max-width: 76.2344em) {
   .md-header__button.md-logo {
