@@ -14,6 +14,7 @@
 
     ## References
     - [Commercial support](https://azure.microsoft.com/en-us/support/)
+    - [Official docs](https://docs.k0rdent.io/latest/template-azure/)
 
 === "Install"
 

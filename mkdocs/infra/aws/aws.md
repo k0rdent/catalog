@@ -12,6 +12,7 @@
 
     ## References
     - [Commercial support](https://aws.amazon.com/contact-us/)
+    - [Official docs](https://docs.k0rdent.io/latest/template-aws/)
 
 === "Install"
 
