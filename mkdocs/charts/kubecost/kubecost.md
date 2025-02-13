@@ -10,9 +10,8 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
 
     Kubecost is a powerful tool designed to help teams running Kubernetes manage and optimize their cloud infrastructure spending. It provides real-time visibility into the costs associated with your Kubernetes deployments, enabling you to understand where your money is going and identify opportunities for savings.
 
-    ## References
-    - [Commercial support](https://www.kubecost.com/)
-    - [Official docs](https://docs.kubecost.com/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.kubecost.com/){ target="_blank" .bold }
 
 === "Install"
 
@@ -57,3 +56,6 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
                   className: nginx
                   hosts: ['kubecost.example.com']
     ~~~
+
+    <br>
+    - [Official docs](https://docs.kubecost.com/){ target="_blank" }

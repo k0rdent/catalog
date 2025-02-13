@@ -21,9 +21,9 @@ logo: "./charts/dapr/dapr-logo.svg"
 
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
 
-    ## References
-    - [Commercial support](https://www.diagrid.io/conductor)
-    - [Official docs](https://docs.dapr.io/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.diagrid.io/conductor){ target="_blank" .bold }
+    
 
 === "Install"
 
@@ -57,3 +57,6 @@ logo: "./charts/dapr/dapr-logo.svg"
                   className: nginx
                   host: 'dapr.example.com'
     ~~~
+
+    <br>
+    - [Official docs](https://docs.dapr.io/){ target="_blank" }

@@ -1,3 +1,8 @@
+---
+title: "VMware vSphere"
+description: "Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure."
+logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
+---
 ![logo](https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg){ align="right", width="150" }
 # VMware vSphere
 
@@ -5,9 +10,9 @@
 
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on VMware vSphere, simplifying container orchestration in the cloud.
 
-    ## References
-    - [Commercial support](https://www.vmware.com/products/cloud-infrastructure/vsphere)
-    - [Official docs](https://docs.k0rdent.io/latest/template-vsphere/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.vmware.com/products/cloud-infrastructure/vsphere){ target="_blank" .bold }
+    
 
 === "Install"
 
@@ -56,3 +61,6 @@
             annotations:
               kube-vip.io/loadbalancerIPs: "<VSPHERE_LOADBALANCER_IP>"
     ~~~
+
+    <br>
+    - [Official docs](https://docs.k0rdent.io/latest/template-vsphere/){ target="_blank" }

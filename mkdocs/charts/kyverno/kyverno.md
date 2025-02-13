@@ -18,9 +18,9 @@ logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
     - Resource Validation: Validate resource configurations against security and compliance standards, preventing misconfigurations. 
     - RBAC Integration: Integrates with Kubernetes RBAC to control who can create, modify, and apply policies.
 
-    ## References
-    - [Commercial support](https://nirmata.com/nirmata-enterprise-for-kyverno/)
-    - [Official docs](https://kyverno.github.io/kyverno/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://nirmata.com/nirmata-enterprise-for-kyverno/){ target="_blank" .bold }
+    
 
 === "Install"
 
@@ -48,3 +48,6 @@ logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
             name: kyverno
             namespace: kyverno
     ~~~
+
+    <br>
+    - [Official docs](https://kyverno.github.io/kyverno/){ target="_blank" }

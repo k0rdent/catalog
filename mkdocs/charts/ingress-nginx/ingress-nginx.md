@@ -17,9 +17,8 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/
     - Policy-Driven Ingress: Leverage K0rdent's policy engine to enforce security and compliance policies for your Ingress configurations, ensuring consistency and best practices.
     - Monitoring and Observability: K0rdent integrates with monitoring tools to provide insights into the performance and health of your NGINX Ingress Controllers and the applications they expose
 
-    ## References
-    - [Commercial support](https://www.f5.com/products/nginx/nginx-ingress-controller)
-    - [Official docs](https://kubernetes.github.io/ingress-nginx/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.f5.com/products/nginx/nginx-ingress-controller){ target="_blank" .bold }
 
 === "Installation"
 
@@ -52,3 +51,6 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/
                   hostPort:
                     enable: true
     ~~~
+
+    <br>
+    - [Official docs](https://kubernetes.github.io/ingress-nginx/){ target="_blank" }

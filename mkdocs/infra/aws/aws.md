@@ -18,9 +18,9 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_L
     - Cost Optimization: k0rdent can provide insights into your AWS spending and help you optimize resource allocation for your Kubernetes deployments.
     - Security and Compliance: k0rdent integrates with AWS security services to ensure your Kubernetes clusters and applications are secure and compliant with industry standards.
 
-    ## References
-    - [Commercial support](https://aws.amazon.com/contact-us/)
-    - [Official docs](https://docs.k0rdent.io/latest/template-aws/)
+
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://aws.amazon.com/contact-us/){ target="_blank" .bold }
 
 === "Install"
 
@@ -54,3 +54,6 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_L
         worker:
           instanceType: t3.small
     ~~~
+
+    <br>
+    - [Official docs](https://docs.k0rdent.io/latest/template-aws/){ target="_blank" }

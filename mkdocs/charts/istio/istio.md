@@ -1,3 +1,8 @@
+---
+title: "Istio"
+description: "Networking and security solution specifically designed for Kubernetes clusters."
+logo: "https://istio.io/latest/favicons/android-192x192.png"
+---
 ![logo](https://istio.io/latest/favicons/android-192x192.png){ align="right", width="100" }
 # Istio
 
@@ -5,9 +10,8 @@
 
     Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing, service-to-service authentication, and monitoring – with few or no service code changes.
 
-    ## References
-    - [Commercial support](https://tetrate.io/)
-    - [Official docs](https://istio.io/latest/docs/ambient/install/helm/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://tetrate.io/){ target="_blank" .bold }
 
 === "Install"
 
@@ -40,3 +44,6 @@
             name: istiod
             namespace: istio-system
     ~~~
+
+    <br>
+    - [Official docs](https://istio.io/latest/docs/ambient/install/helm/){ target="_blank" }

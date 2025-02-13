@@ -1,5 +1,20 @@
 [
     {
+        "path": "./mkdocs/charts/nvidia/nvidia.md"
+    },
+    {
+        "path": "./mkdocs/charts/istio/istio.md"
+    },
+    {
+        "path": "./mkdocs/charts/calico/calico.md"
+    },
+    {
+        "path": "./mkdocs/infra/vsphere/vsphere.md"
+    },
+    {
+        "path": "./mkdocs/infra/openstack/openstack.md"
+    },
+    {
         "path": "./mkdocs/infra/aws/aws.md"
     },
     {

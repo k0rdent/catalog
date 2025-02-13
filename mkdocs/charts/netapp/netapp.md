@@ -10,9 +10,8 @@ logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
 
     NetApp Trident is a Container Storage Interface (CSI) that integrates with Kubernetes to manage and consume storage resources. It's an open-source project that helps containerized applications meet their storage needs.
 
-    ## References
-    - [Commercial support](https://docs.netapp.com/us-en/trident/get-help.html)
-    - [Official docs](https://docs.netapp.com/us-en/trident/index.html)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://docs.netapp.com/us-en/trident/get-help.html){ target="_blank" .bold }
 
 === "Installation"
 
@@ -40,3 +39,6 @@ logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
             name: trident-operator
             namespace: trident-operator
     ~~~
+
+    <br>
+    - [Official docs](https://docs.netapp.com/us-en/trident/index.html){ target="_blank" }

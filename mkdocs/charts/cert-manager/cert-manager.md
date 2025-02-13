@@ -10,9 +10,8 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
 
     Cert-manager is a Kubernetes add-on that automates the management of TLS certificates. It can issue, renew, and validate certificates from various sources, including public and private issuers.
 
-    ## References
-    - [Commercial support](https://cert-manager.io/support/)
-    - [Official docs](https://kubernetes.github.io/cert-manager/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://cert-manager.io/support/){ target="_blank" .bold }
 
 === "Install"
 
@@ -40,3 +39,6 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
             name: cert-manager
             namespace: cert-manager
     ~~~
+
+    <br>
+    - [Official docs](https://kubernetes.github.io/cert-manager/){ target="_blank" }

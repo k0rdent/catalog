@@ -10,9 +10,9 @@ logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/
 
     The External Secrets Operator extends Kubernetes with Custom Resources, which define where secrets live and how to synchronize them. The controller fetches secrets from an external API and creates Kubernetes secrets. If the secret from the external API changes, the controller will reconcile the state in the cluster and update the secrets accordingly.
 
-    ## References
-    - [Commercial support](https://external-secrets.io/latest/introduction/stability-support/)
-    - [Official docs](https://external-secrets.io/v0.11.0/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://external-secrets.io/latest/introduction/stability-support/){ target="_blank" .bold }
+    
 
 === "Installation"
 
@@ -40,3 +40,6 @@ logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/
             name: external-secrets
             namespace: external-secrets
     ~~~
+
+    <br>
+    - [Official docs](https://external-secrets.io/v0.11.0/){ target="_blank" }

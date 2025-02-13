@@ -1,3 +1,8 @@
+---
+title: "Nvidia GPU Operator"
+description: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
+logo: "https://assets.nvidiagrid.net/ngc/logos/GPUoperator.png"
+---
 ![logo](https://assets.nvidiagrid.net/ngc/logos/GPUoperator.png){ align="right", width="200" }
 # Nvidia GPU Operator
 
@@ -5,8 +10,8 @@
 
     The NVIDIA GPU Operator for Kubernetes is a powerful tool that simplifies the management of GPUs in your Kubernetes clusters. It automates the deployment and configuration of all the necessary software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML training and high-performance computing.
 
-    ## References
-    - [Commercial support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html){ target="_blank" .bold }
 
 === "Installation"
 

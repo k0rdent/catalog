@@ -1,12 +1,17 @@
+---
+title: "OpenStack"
+description: "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure."
+logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
+---
 ![logo](https://avatars.githubusercontent.com/u/324574?s=200&v=4){ align="right", width="100" }
 # OpenStack
 === "Description"
 
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on OpenStack,simplifying container orchestration in the cloud.
 
-    ## References
-    - [Commercial support](https://www.mirantis.com/software/mirantis-openstack-for-kubernetes/)
-    - [Official docs](https://docs.k0rdent.io/latest/template-openstack/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.mirantis.com/software/mirantis-openstack-for-kubernetes/){ target="_blank" .bold }
+    
 
 === "Install"
 
@@ -56,3 +61,6 @@
           cloudName: openstack
           region: RegionOne
     ~~~
+
+    <br>
+    - [Official docs](https://docs.k0rdent.io/latest/template-openstack/){ target="_blank" }

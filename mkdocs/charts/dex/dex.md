@@ -10,9 +10,8 @@ logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9e
 
     Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.
 
-    ## References
-    - [Commercial support](https://dexidp.io/docs/guides/kubernetes/)
-    - [Official docs](https://dexidp.io/docs/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://dexidp.io/docs/guides/kubernetes/){ target="_blank" .bold }
 
 === "Install"
 
@@ -40,3 +39,6 @@ logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9e
             name: dex
             namespace: dex
     ~~~
+
+    <br>
+    - [Official docs](https://dexidp.io/docs/){ target="_blank" }
