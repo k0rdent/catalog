@@ -9,9 +9,7 @@ logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
 === "Description"
 
     Velero is an open source tool to safely backup and restore, perform disaster recovery, and migrate Kubernetes cluster resources and persistent volumes.
-
-    ## References
-    - [Official docs](https://vmware-tanzu.github.io/helm-charts/)
+    
 
 === "Installation"
 
@@ -39,3 +37,6 @@ logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
             name: velero
             namespace: velero
     ~~~
+
+    <br>
+    - [Official docs](https://vmware-tanzu.github.io/helm-charts/){ target="_blank" }
