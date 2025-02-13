@@ -55,6 +55,9 @@ extra_css:
 plugins:
   - search
   - tags
+  - gen-files:
+      scripts:
+        - mkdocs/gen_metadata.py
   - ezglossary:
       section_config:
         - name: demo

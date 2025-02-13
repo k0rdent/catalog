@@ -236,6 +236,15 @@ ul.video-list .thumb {
   align-self: center;
   margin: 1em 0px 1em 1em;
 }
+.md-typeset:has(.tabbed-alternate) p>img{
+  height: auto;
+  max-width: 100%;
+  max-height: 60px;
+  width: auto;
+}
+.md-typeset .tabbed-alternate{
+  margin-top: 40px;
+}
 .md-typeset h1{
   margin-bottom: 16px;
 }
@@ -276,15 +285,6 @@ ul.video-list .thumb {
   .md-header .md-header__title:before{
     top: 8px;
     bottom: 8px;
-  }
-  .md-typeset:has(.tabbed-alternate) p>img{
-    height: auto;
-    max-width: 100%;
-    max-height: 60px;
-    width: auto;
-  }
-  .md-typeset .tabbed-alternate{
-    margin-top: 40px;
   }
   .filters-section .select-wrapper{
     margin-bottom: 16px;

@@ -1,3 +1,8 @@
+---
+title: "Kubecost"
+description: "Monitor your cloud costs."
+logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png"
+---
 ![logo](https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png){ align="right", width="100" }
 # Kubecost
 

@@ -1,3 +1,8 @@
+---
+title: "ExternalDNS"
+description: "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers."
+logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png"
+---
 ![logo](https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png){ align="right", width="200" }
 # ExternalDNS
 

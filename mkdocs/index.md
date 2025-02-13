@@ -25,7 +25,7 @@ Unlock the full potential of the k0rdent Distributed Container Management Enviro
 <div id="cards" class="grid"></div>
 
 <script>
-fetch("data.json")
+fetch("fetched_metadata.json")
   .then(response => response.json())
   .then(data => {
     // console.log(data)
@@ -95,4 +95,6 @@ fetch("data.json")
       }
     });
   });
+
+  
 </script>

@@ -1,0 +1,9 @@
+{% if page.meta %}
+<meta name="tags" content="{{ page.meta.tags | join(', ') }}">
+<meta name="md_description" content="{{ page.meta.description }}">
+<meta name="md_title" content="{{ page.meta.title }}">
+<meta name="md_link" content="{{ page.meta.link }}">
+<meta name="md_logo" content="{{ page.meta.logo }}">
+{% endif %}
+
+{% extends "base.html" %}

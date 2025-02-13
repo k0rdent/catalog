@@ -2,6 +2,9 @@
 tags:
   - AWS
   - Kubernetes
+title: "Amazon Web Services"
+description: "Deploy kubernetes clusters with k0rdent on AWS infrastructure."
+logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
 ---
 ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" }
 # Amazon Web Services

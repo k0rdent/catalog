@@ -1,3 +1,8 @@
+---
+title: "External-secrets"
+description: "External secret management."
+logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png"
+---
 ![logo](https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png){ align="right", width="200" }
 # External secrets
 
