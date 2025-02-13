@@ -17,7 +17,7 @@ theme:
   highlightjs: true
   language: "en"
   favicon: img/favicon.ico
-  logo: img/k0rdent-logo-horizontal-inverted.svg
+  logo: img/k0rdent-catalog-logo-title.svg
   custom_dir: overrides
   font:
     text: Overpass
@@ -54,6 +54,7 @@ extra_css:
 
 plugins:
   - search
+  - tags
   - ezglossary:
       section_config:
         - name: demo
