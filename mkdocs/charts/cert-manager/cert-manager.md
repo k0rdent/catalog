@@ -6,33 +6,39 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
 ![logo](https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true){ align="right", width="200" }
 # Cert manager
 
-## Installation
-This service template is typically pre-installed in k0rdent. If not
-install it:
-~~~bash
-helm install cert-manager oci://ghcr.io/k0rdent/catalog/charts/cert-manager-service-template -n kcm-system
-~~~
+=== "Description"
 
-Check the template is available:
-~~~bash
-kubectl get servicetemplates -A
-# NAMESPACE    NAME                       VALID
-# kcm-system   cert-manager-1-16-2        true
-~~~
+    Cert-manager is a Kubernetes add-on that automates the management of TLS certificates. It can issue, renew, and validate certificates from various sources, including public and private issuers.
 
-## Usage
-Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
-~~~yaml
-apiVersion: k0rdent.mirantis.com/v1alpha1
-kind: ClusterDeployment
-# kind: MultiClusterService
-...
-  serviceSpec:
-    services:
-      - template: cert-manager-1-16-2
-        name: cert-manager
-        namespace: cert-manager
-~~~
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://cert-manager.io/support/){ target="_blank" .bold }
 
-## References
-- [Official docs](https://kubernetes.github.io/cert-manager/)
+=== "Install"
+
+    Install template to k0rdent
+    ~~~bash
+    # k0rdent includes the template for Cert-manager out of the box
+    ~~~
+
+    Verify service template
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                       VALID
+    # kcm-system   cert-manager-1-16-2        true
+    ~~~
+
+    Deploy service template
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: cert-manager-1-16-2
+            name: cert-manager
+            namespace: cert-manager
+    ~~~
+
+    <br>
+    - [Official docs](https://kubernetes.github.io/cert-manager/){ target="_blank" }

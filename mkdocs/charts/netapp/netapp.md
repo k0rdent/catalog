@@ -6,32 +6,39 @@ logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
 ![logo](https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png){ align="right", width="100" }
 # NetApp
 
-## Installation
-Install Service template
-~~~bash
-helm install trident-operator oci://ghcr.io/k0rdent/catalog/charts/trident-operator-service-template -n kcm-system
-~~~
+=== "Description"
 
-Check the template is available:
-~~~bash
-kubectl get servicetemplates -A
-# NAMESPACE    NAME                          VALID
-# kcm-system   trident-operator-100-2410-0   true
-~~~
+    NetApp Trident is a Container Storage Interface (CSI) that integrates with Kubernetes to manage and consume storage resources. It's an open-source project that helps containerized applications meet their storage needs.
 
-## Usage
-Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
-~~~yaml
-apiVersion: k0rdent.mirantis.com/v1alpha1
-kind: ClusterDeployment
-# kind: MultiClusterService
-...
-  serviceSpec:
-    services:
-      - template: trident-operator-100-2410-0
-        name: trident-operator
-        namespace: trident-operator
-~~~
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://docs.netapp.com/us-en/trident/get-help.html){ target="_blank" .bold }
 
-## References
-- [Official docs](https://docs.netapp.com/us-en/trident/index.html)
+=== "Installation"
+
+    Install Service template
+    ~~~bash
+    helm install trident-operator oci://ghcr.io/k0rdent/catalog/charts/trident-operator-service-template -n kcm-system
+    ~~~
+
+    Verify service template
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                          VALID
+    # kcm-system   trident-operator-100-2410-0   true
+    ~~~
+
+    Deploy service template
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: trident-operator-100-2410-0
+            name: trident-operator
+            namespace: trident-operator
+    ~~~
+
+    <br>
+    - [Official docs](https://docs.netapp.com/us-en/trident/index.html){ target="_blank" }

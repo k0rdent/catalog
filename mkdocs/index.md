@@ -8,7 +8,7 @@ Unlock the full potential of the k0rdent Distributed Container Management Enviro
 
 <div class="filters-section">
     <div class="select-wrapper">
-        <label for="filterTags">Filter By Tags: </label>  
+        <label for="filterTags">Filter By Categories: </label>  
         <select id="filterTags">
             <option value="all">All</option>
         </select>
@@ -16,8 +16,8 @@ Unlock the full potential of the k0rdent Distributed Container Management Enviro
     <div class="select-wrapper">
         <label for="ordering">Order By Title: </label>
         <select id="ordering">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
         </select>
     </div>
 </div>
@@ -95,6 +95,5 @@ fetch("fetched_metadata.json")
       }
     });
   });
-
   
 </script>

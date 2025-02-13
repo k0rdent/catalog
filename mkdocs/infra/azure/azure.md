@@ -20,20 +20,24 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure
     - Infrastructure as Code: Leverage infrastructure-as-code capabilities to define and manage your Azure infrastructure and Kubernetes deployments in a declarative manner.
     - Simplified Configuration: K0rdent handles the complexities of configuring network settings, security policies, and storage integration for your Azure hosted Kubernetes clusters.
 
-    ## References
-    - [Commercial support](https://azure.microsoft.com/en-us/support/)
+
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://azure.microsoft.com/en-us/support/){ target="_blank" .bold }
 
 === "Install"
-    Install cluster template to k0rdent
+
+    Install template to k0rdent
     ~~~yaml
-    # k0rdent includes the cluster template for AWS out of the box
+    # k0rdent includes the template for Azure out of the box
     ~~~
+
     Verify cluster template
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
     # azure-hosted-cp-0-1-0           true 
-    ~~~   
+    ~~~
+
     Create a cluster on Microsoft Azure 
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -53,3 +57,6 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure
         worker:
           vmSize: Standard_A4_v2
     ~~~
+
+    <br>
+    - [Official docs](https://docs.k0rdent.io/latest/template-azure/){ target="_blank" }

@@ -10,9 +10,8 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
 
     Kubecost is a powerful tool designed to help teams running Kubernetes manage and optimize their cloud infrastructure spending. It provides real-time visibility into the costs associated with your Kubernetes deployments, enabling you to understand where your money is going and identify opportunities for savings.
 
-    ## References
-    - [Official docs](https://docs.kubecost.com/)
-    - [Commercial support](https://www.kubecost.com/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.kubecost.com/){ target="_blank" .bold }
 
 === "Install"
 
@@ -21,15 +20,14 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
     helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template -n kcm-system
     ~~~
 
-    Check the template is available:
+    Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                      VALID
     # kcm-system   kubecost-2-5-3            true
     ~~~
 
-    ## Usage
-    Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+    Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -58,3 +56,6 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
                   className: nginx
                   hosts: ['kubecost.example.com']
     ~~~
+
+    <br>
+    - [Official docs](https://docs.kubecost.com/){ target="_blank" }

@@ -14,13 +14,13 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
     - Simplified Deployment: k0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
     - Policy-Driven Deployments: Leverage k0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
 
-    ## References
-    - [Commercial support](https://akuity.io/security-hardened-argo-cd)
-    - [Official docs](https://argo-cd.readthedocs.io/en/stable/)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://akuity.io/security-hardened-argo-cd){ target="_blank" .bold }
+    
 
 === "Install"
 
-    Install service template to k0rdent
+    Install template to k0rdent
     ~~~bash
     helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
     ~~~
@@ -44,3 +44,6 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
             name: argocd
             namespace: argocd
     ~~~
+
+    <br>
+    - [Official docs](https://argo-cd.readthedocs.io/en/stable/){ target="_blank" }

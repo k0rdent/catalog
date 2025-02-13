@@ -21,9 +21,9 @@ logo: "./charts/dapr/dapr-logo.svg"
 
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
 
-    ## References
-    - [Official docs](https://docs.dapr.io/)
-    - [Commercial support](https://www.diagrid.io/conductor)
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.diagrid.io/conductor){ target="_blank" .bold }
+    
 
 === "Install"
 
@@ -32,15 +32,14 @@ logo: "./charts/dapr/dapr-logo.svg"
     helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template -n kcm-system
     ~~~
 
-    Check the template is available:
+    Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   dapr-1-14-4                true
     ~~~
 
-    ## Usage
-    Use the template in k0rdent manifests `ClusterDeployment` or `MultiClusterService`:
+    Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -58,3 +57,6 @@ logo: "./charts/dapr/dapr-logo.svg"
                   className: nginx
                   host: 'dapr.example.com'
     ~~~
+
+    <br>
+    - [Official docs](https://docs.dapr.io/){ target="_blank" }
