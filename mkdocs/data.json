@@ -1,0 +1,100 @@
+[
+    {
+        "title": "Amazon Web Services", 
+        "link": "./infra/aws/aws/", 
+        "tags": ["Kubernetes", "AWS"],
+        "description": "Deploy kubernetes clusters with k0rdent on AWS infrastructure.",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+    },
+    {
+        "title": "Microsoft Azure", 
+        "link": "./infra/azure/azure/", 
+        "tags": ["Kubernetes", "Azure"],
+        "description": "Deploy kubernetes clusters with k0rdent on AWS infrastructure.",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png"
+    },
+    {
+        "title": "Ingress-nginx", 
+        "link": "./charts/ingress-nginx/ingress-nginx/", 
+        "tags": [],
+        "description": "Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png"
+    },
+    {
+        "title": "Dapr", 
+        "link": "./charts/dapr/dapr/", 
+        "tags": [],
+        "description": "Portable, event-driven runtime.",
+        "logo": "./charts/dapr/dapr-logo.svg"
+    },
+    {
+        "title": "NetApp", 
+        "link": "./charts/netapp/netapp/", 
+        "tags": [],
+        "description": "NetApp's Trident CSI storage provisioner using the Trident Operator.",
+        "logo": "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
+    },
+    {
+        "title": "Pure", 
+        "link": "./charts/pure/pure/", 
+        "tags": [],
+        "description": "Storage service.",
+        "logo": "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
+    },
+    {
+        "title": "Kyverno", 
+        "link": "./charts/kyverno/kyverno/", 
+        "tags": [],
+        "description": "Kubernetes Native Policy Management.",
+        "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
+    },
+    {
+        "title": "Dex", 
+        "link": "./charts/dex/dex/", 
+        "tags": [],
+        "description": "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors.",
+        "logo": "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png"
+    },
+    {
+        "title": "Kubecost", 
+        "link": "./charts/kubecost/kubecost/", 
+        "tags": [],
+        "description": "Monitor your cloud costs.",
+        "logo": "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png"
+    },
+    {
+        "title": "ArgoCD", 
+        "link": "./charts/argo/argo/", 
+        "tags": [],
+        "description": "Declarative, GitOps continuous delivery tool for Kubernetes.",
+        "logo": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
+    },
+    {
+        "title": "External-secrets", 
+        "link": "./charts/external-secrets/external-secrets/", 
+        "tags": [],
+        "description": "External secret management.",
+        "logo": "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png"
+    },
+    {
+        "title": "Velero", 
+        "link": "./charts/velero/velero/", 
+        "tags": [],
+        "description": "Open source tool to safely backup and restore.",
+        "logo": "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
+    },
+    {
+        "title": "Cert-manager", 
+        "link": "./charts/cert-manager/cert-manager/", 
+        "tags": [],
+        "description": "Management and issuance of TLS certificates.",
+        "logo": "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true"
+    },
+    {
+        "title": "ExternalDNS", 
+        "link": "./charts/external-dns/external-dns/", 
+        "tags": [],
+        "description": "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.",
+        "logo": "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png"
+    }
+  ]

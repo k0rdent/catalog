@@ -1,3 +1,8 @@
+---
+tags:
+  - AWS
+  - Kubernetes
+---
 ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="100" }
 # Amazon Web Services
 === "Description"
