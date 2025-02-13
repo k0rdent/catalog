@@ -1,3 +1,8 @@
+---
+title: "Ingress-nginx"
+description: "Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer."
+logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png"
+---
 ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png){ align="right", width="200" }
 # Ingress Nginx
 

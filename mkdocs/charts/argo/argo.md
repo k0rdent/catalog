@@ -1,3 +1,8 @@
+---
+title: "ArgoCD"
+description: "Declarative, GitOps continuous delivery tool for Kubernetes."
+logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
+---
 ![logo](https://argo-cd.readthedocs.io/en/stable/assets/logo.png){ align="right", width="100" }
 # Argo CD
 

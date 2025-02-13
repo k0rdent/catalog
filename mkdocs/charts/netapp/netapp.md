@@ -1,3 +1,8 @@
+---
+title: "NetApp"
+description: "NetApp's Trident CSI storage provisioner using the Trident Operator."
+logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
+---
 ![logo](https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png){ align="right", width="100" }
 # NetApp
 

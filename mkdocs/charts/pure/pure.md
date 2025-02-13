@@ -1,3 +1,8 @@
+---
+title: "Pure"
+description: "Storage service."
+logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
+---
 ![logo](https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png){ align="right", width="100" }
 # Pure Storage
 

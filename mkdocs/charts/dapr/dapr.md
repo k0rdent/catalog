@@ -1,3 +1,8 @@
+---
+title: "Dapr"
+description: "Portable, event-driven runtime."
+logo: "./charts/dapr/dapr-logo.svg"
+---
 ![dapr](./dapr-logo.svg){ align="right", width="100" }
 # Dapr
 

@@ -1,3 +1,8 @@
+---
+title: "Kyverno"
+description: "Kubernetes Native Policy Management."
+logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
+---
 ![logo](https://github.com/kyverno/kyverno/raw/main/img/logo.png){ align="right", width="150" }
 # Kyverno
 

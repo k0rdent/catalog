@@ -1,0 +1,44 @@
+[
+    {
+        "path": "./mkdocs/infra/aws/aws.md"
+    },
+    {
+        "path": "./mkdocs/infra/azure/azure.md"
+    },
+    {
+        "path": "./mkdocs/charts/ingress-nginx/ingress-nginx.md"
+    },
+    {
+        "path": "./mkdocs/charts/dapr/dapr.md"
+    },
+    {
+        "path": "./mkdocs/charts/netapp/netapp.md"
+    },
+    {
+        "path": "./mkdocs/charts/pure/pure.md" 
+    },
+    {
+        "path": "./mkdocs/charts/kyverno/kyverno.md" 
+    },
+    {
+        "path": "./mkdocs/charts/dex/dex.md" 
+    },
+    {
+        "path": "./mkdocs/charts/kubecost/kubecost.md" 
+    },
+    {
+        "path": "./mkdocs/charts/argo/argo.md" 
+    },
+    {
+        "path": "./mkdocs/charts/external-secrets/external-secrets.md" 
+    },
+    {
+        "path": "./mkdocs/charts/velero/velero.md" 
+    },
+    {
+        "path": "./mkdocs/charts/cert-manager/cert-manager.md" 
+    },
+    {
+        "path": "./mkdocs/charts/external-dns/external-dns.md" 
+    }
+  ]

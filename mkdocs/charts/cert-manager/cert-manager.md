@@ -1,3 +1,8 @@
+---
+title: "Cert-manager"
+description: "Management and issuance of TLS certificates."
+logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true"
+---
 ![logo](https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true){ align="right", width="200" }
 # Cert manager
 
