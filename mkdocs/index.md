@@ -14,7 +14,7 @@ Unlock the full potential of the k0rdent Distributed Container Management Enviro
         </select>
     </div>
     <div class="select-wrapper">
-        <label for="ordering">Order By Title: </label>
+        <label for="ordering">Sort By: </label>
         <select id="ordering">
             <option value="asc">A-Z</option>
             <option value="desc">Z-A</option>
