@@ -10,7 +10,7 @@ Unlock the full potential of the k0rdent Distributed Container Managemnet Enviro
 
 - ![logo](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg){ align="right", width="50" }[Amazon Web Services](./infra/aws/aws.md) - Deploy kubernetes clusters with k0rdent on AWS infrastructure.
 
-- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="50" }[Microsoft Azure](./infra/azure/azure.md) – Deploy kubernetes clusters with k0rdent on Azure infrastructure.
+- ![logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png){ align="right", width="50" }[Microsoft Azure](./infra/azure/azure.md) – Deploy kubernetes clusters with k0rdent on Microsoft Azure infrastructure.
 
 - ![logo](https://avatars.githubusercontent.com/u/324574?s=200&v=4){ align="right", width="50" }[OpenStack](./infra/openstack/openstack.md) – Deploy kubernetes clusters with k0rdent on OpenStack infrastructure.
 
