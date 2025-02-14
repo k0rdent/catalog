@@ -52,7 +52,7 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/
               ingress-nginx:
                 controller:
                   hostPort:
-                    enable: true
+                    enabled: true
     ~~~
 
     <br>
