@@ -1,4 +1,6 @@
 ---
+tags:
+    - Infrastructure
 title: "VMware vSphere"
 description: "Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure."
 logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"

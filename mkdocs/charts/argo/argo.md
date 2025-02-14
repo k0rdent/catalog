@@ -1,4 +1,6 @@
 ---
+tags:
+  - CI/CD
 title: "ArgoCD"
 description: "Declarative, GitOps continuous delivery tool for Kubernetes."
 logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"

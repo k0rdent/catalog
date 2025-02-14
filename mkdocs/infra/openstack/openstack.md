@@ -1,4 +1,6 @@
 ---
+tags:
+    - Infrastructure
 title: "OpenStack"
 description: "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure."
 logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"

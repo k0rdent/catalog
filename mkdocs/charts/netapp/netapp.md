@@ -1,4 +1,7 @@
 ---
+tags:
+  - Storage
+  - CSI
 title: "NetApp"
 description: "NetApp's Trident CSI storage provisioner using the Trident Operator."
 logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
