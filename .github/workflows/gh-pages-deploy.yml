@@ -36,6 +36,10 @@ jobs:
           pip install --upgrade pip
           pip install -r mkdocs/requirements.txt
 
+      - name: Test web pages build
+        run: |
+          mkdocs build
+
       - name: Build and Deploy pages - fork
         if: github.event_name == 'push' && github.event.repository.fork == true
         run: |
