@@ -25,7 +25,6 @@ logo: "./charts/dapr/dapr-logo.svg"
 
     <br>
     Looking for Commercial Support? [LEARN MORE](https://www.diagrid.io/conductor){ target="_blank" .bold }
-    
 
 === "Install"
 

@@ -19,7 +19,6 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure
     - Infrastructure as Code: Leverage infrastructure-as-code capabilities to define and manage your Azure infrastructure and Kubernetes deployments in a declarative manner.
     - Simplified Configuration: K0rdent handles the complexities of configuring network settings, security policies, and storage integration for your Azure hosted Kubernetes clusters.
 
-
     <br>
     Looking for Commercial Support? [LEARN MORE](https://azure.microsoft.com/en-us/support/){ target="_blank" .bold }
 
