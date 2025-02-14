@@ -55,5 +55,8 @@
     },
     {
         "path": "./mkdocs/charts/external-dns/external-dns.md" 
+    },
+    {
+        "path": "./mkdocs/charts/kdash/kdash.md"
     }
   ]
