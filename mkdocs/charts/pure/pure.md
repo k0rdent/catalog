@@ -1,4 +1,7 @@
 ---
+tags:
+  - Storage 
+  - CSI
 title: "Pure"
 description: "Storage service."
 logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"

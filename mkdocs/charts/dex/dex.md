@@ -1,4 +1,8 @@
 ---
+tags:
+    - Authentication 
+    - Security 
+    - Authorization
 title: "Dex"
 description: "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors."
 logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png"

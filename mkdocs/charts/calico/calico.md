@@ -1,4 +1,8 @@
 ---
+tags:
+    - Networking 
+    - CNI 
+    - Security
 title: "Calico"
 description: "Networking and security solution specifically designed for Kubernetes clusters."
 logo: "https://docs.tigera.io/img/calico-logo.png"

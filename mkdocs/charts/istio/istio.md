@@ -1,6 +1,9 @@
 ---
+tags:
+    - Service mesh 
+    - Networking
 title: "Istio"
-description: "Networking and security solution specifically designed for Kubernetes clusters."
+description: "Open source service mesh that layers transparently onto existing distributed applications."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
 ---
 ![logo](https://istio.io/latest/favicons/android-192x192.png){ align="right", width="100" }

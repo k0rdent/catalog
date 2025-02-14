@@ -1,4 +1,7 @@
 ---
+tags:
+  - Backup 
+  - Recovery
 title: "Velero"
 description: "Open source tool to safely backup and restore."
 logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
