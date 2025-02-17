@@ -239,6 +239,7 @@ ul.video-list .thumb {
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: row-reverse;
+  color: #000;
 }
 .md-typeset .grid>.card>p{
   margin-top: 0;
@@ -257,6 +258,12 @@ ul.video-list .thumb {
 .md-typeset .tabbed-alternate{
   margin-top: 40px;
 }
+.md-typeset a {
+  color: var(--md-primary-fg-color--dark)
+}
+.md-typeset a:hover{
+  color: var(--md-primary-fg-color--dark)
+}
 .md-typeset h1{
   margin-bottom: 16px;
 }
@@ -267,7 +274,7 @@ ul.video-list .thumb {
 .back-to-catalog .md-content__inner{
   margin-left: 1.2rem;
 }
-.back-to-catalog .md-content__inner a{
+.back-to-catalog .md-content__inner a:hover{
   text-decoration: underline;
 }
 body:has(.k0rdent-hero-section) .back-to-catalog{
@@ -428,10 +435,10 @@ body:has(.k0rdent-hero-section) .back-to-catalog{
 }
 
 .tabbed-block a{
-  text-decoration: underline;
+  
 }
 .tabbed-block a:hover{
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* button styles below */
