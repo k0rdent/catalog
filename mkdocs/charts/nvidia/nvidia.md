@@ -4,7 +4,7 @@ tags:
     - AI
 title: "Nvidia GPU Operator"
 description: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
-logo: "./charts/nvidia/GPUoperator-cropped.png"
+logo: "https://assets.nvidiagrid.net/ngc/logos/GPUoperator.png"
 ---
 ![logo](./GPUoperator-cropped.png){ align="right", width="200" }
 # Nvidia GPU Operator
@@ -15,7 +15,6 @@ logo: "./charts/nvidia/GPUoperator-cropped.png"
 
     <br>
     Looking for Commercial Support? [LEARN MORE](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html){ target="_blank" .bold }
-
 
 === "Installation"
 

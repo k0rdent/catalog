@@ -52,9 +52,8 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/
               ingress-nginx:
                 controller:
                   hostPort:
-                    enable: true
+                    enabled: true
     ~~~
 
     <br>
     - [Official docs](https://kubernetes.github.io/ingress-nginx/){ target="_blank" }
-

@@ -45,4 +45,3 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
 
     <br>
     - [Official docs](https://kubernetes.github.io/cert-manager/){ target="_blank" }
-

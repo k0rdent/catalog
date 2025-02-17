@@ -52,4 +52,3 @@ logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi
 
     <br>
     - [Official docs](https://github.com/purestorage/helm-charts){ target="_blank" }
-
