@@ -58,5 +58,8 @@
     },
     {
         "path": "./mkdocs/charts/kdash/kdash.md"
+    },
+    {
+        "path": "./mkdocs/charts/open-webui/open-webui.md"
     }
   ]
