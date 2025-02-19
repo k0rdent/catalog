@@ -16,14 +16,17 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
 
     Install Service template
     ~~~bash
-    helm install kubernetes-dashboard oci://ghcr.io/k0rdent/catalog/charts/kubernetes-dashboard-service-template -n kcm-system
+    helm upgrade --install kubernetes-dashboard oci://ghcr.io/k0rdent/catalog/charts/kgst \
+      --set "helm.repository.url=https://kubernetes.github.io/dashboard/" \
+      --set "helm.charts[0].name=kubernetes-dashboard" \
+      --set "helm.charts[0].version=7.10.4"
     ~~~
 
     Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                          VALID
-    # kcm-system   kubernetes-dashboard-7-10-4   true
+    # kcm-system   kubernetes-dashboard-7.10.4   true
     ~~~
 
     Deploy service template
@@ -34,17 +37,16 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
     ...
       serviceSpec:
         services:
-          - template: kubernetes-dashboard-7-10-4
+          - template: kubernetes-dashboard-7.10.4
             name: kubernetes-dashboard
             namespace: kubernetes-dashboard
             values: |
-              kubernetes-dashboard:
-                app:
-                  ingress:
-                    enabled: true
-                    ingressClassName: nginx
-                    pathType: Prefix
-                    hosts: ['k8s-dashboard.example.com']
+              app:
+                ingress:
+                  enabled: true
+                  ingressClassName: nginx
+                  pathType: Prefix
+                  hosts: ['k8s-dashboard.example.com']
     ~~~
 
     <br>
