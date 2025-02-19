@@ -1,0 +1,16 @@
+{{- range .Values.helm.charts }}
+---
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ServiceTemplate
+metadata:
+  name: {{ .name }}-{{ .version }}
+spec:
+  helm:
+    chartSpec:
+      chart: {{ .name }}
+      version: {{ .version }}
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: {{ $.Values.helm.repository.name | default $.Release.Name }}
+{{- end }}

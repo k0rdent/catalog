@@ -1,0 +1,17 @@
+helm:
+  repository:
+    # E.g. ingress-nginx-charts, it uses release name by default
+    name: ""
+    # Valid helm chart url: e.g. 'https://grafana.github.io/helm-charts'
+    url:
+    # Valid values: oci, default
+    type: default
+  
+  # List of charts from helm repository to be transformed to k0rdent service templates.
+  # Each item contains 'name' and 'version' field, e.g.:
+  # charts:
+  # - name: grafana
+  #   version: 8.10.0
+  # - name: loki
+  #   version: 6.27.0
+  charts: []

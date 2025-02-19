@@ -1,0 +1,5 @@
+apiVersion: v2
+name: kgst
+description: k0rdent Generic Serivce Template
+type: application
+version: 0.1.0
