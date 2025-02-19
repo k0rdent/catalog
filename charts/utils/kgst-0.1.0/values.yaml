@@ -15,3 +15,8 @@ helm:
   # - name: loki
   #   version: 6.27.0
   charts: []
+
+# Service template prefix (optional)
+# E.g. istio-base, instead of just base, use:
+# prefix: "istio-"
+prefix: ""

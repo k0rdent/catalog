@@ -3,12 +3,12 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ServiceTemplate
 metadata:
-  name: {{ .name }}-{{ .version }}
+  name: {{ $.Values.prefix }}{{ .name }}-{{ .version }}
 spec:
   helm:
     chartSpec:
-      chart: {{ .name }}
-      version: {{ .version }}
+      chart: {{ required "chart 'name' field required" .name }}
+      version: {{ required "chart 'version' field required" .version }}
       interval: 10m0s
       sourceRef:
         kind: HelmRepository
