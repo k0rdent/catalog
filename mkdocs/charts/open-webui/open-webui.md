@@ -16,14 +16,17 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
 
     Install template to k0rdent
     ~~~bash
-    helm install open-webui oci://ghcr.io/k0rdent/catalog/charts/open-webui-service-template -n kcm-system
+    helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \
+      --set "helm.repository.url=https://helm.openwebui.com" \
+      --set "helm.charts[0].name=open-webui" \
+      --set "helm.charts[0].version=5.14.0"
     ~~~
 
     Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   open-webui-5-13-0          true
+    # kcm-system   open-webui-5.14.0          true
     ~~~
 
     Deploy service template
@@ -34,15 +37,14 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
     ...
       serviceSpec:
         services:
-          - template: open-webui-5-13-0
+          - template: open-webui-5.14.0
             name: open-webui
             namespace: open-webui
             values: |
-              open-webui:
-                ingress:
-                  enabled: true
-                  class: "nginx"
-                  host: "open-webui.example.com"
+              ingress:
+                enabled: true
+                class: "nginx"
+                host: "open-webui.example.com"
     ~~~
 
     <br>
