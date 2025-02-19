@@ -20,14 +20,18 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
 
     Install Service template
     ~~~bash
-    helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template -n kcm-system
+    helm upgrade --install kubecost oci://ghcr.io/k0rdent/catalog/charts/kgst \
+      --set "helm.repository.url=https://kubecost.github.io/cost-analyzer/" \
+      --set "prefix=kubecost-" \
+      --set "helm.charts[0].name=cost-analyzer" \
+      --set "helm.charts[0].version=2.5.3"
     ~~~
 
     Verify service template
     ~~~bash
     kubectl get servicetemplates -A
-    # NAMESPACE    NAME                      VALID
-    # kcm-system   kubecost-2-5-3            true
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   kubecost-cost-analyzer-2.5.3   true
     ~~~
 
     Deploy service template
@@ -38,26 +42,25 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
     ...
       serviceSpec:
         services:
-          - template: kubecost-2-5-3
+          - template: kubecost-cost-analyzer-2.5.3
             name: kubecost
             namespace: kubecost
             values: |
-              cost-analyzer:
-                kubecostToken: <kubecost-token>
-                global:
-                  grafana:
-                    enabled: true
-                prometheus:
-                  server:
-                    persistentVolume:
-                      size: 1Gi
-                persistentVolume:
+              kubecostToken: <kubecost-token>
+              global:
+                grafana:
                   enabled: true
-                  size: 1Gi
-                ingress:
-                  enabled: true
-                  className: nginx
-                  hosts: ['kubecost.example.com']
+              prometheus:
+                server:
+                  persistentVolume:
+                    size: 1Gi
+              persistentVolume:
+                enabled: true
+                size: 1Gi
+              ingress:
+                enabled: true
+                className: nginx
+                hosts: ['kubecost.example.com']
     ~~~
 
     <br>
