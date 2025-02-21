@@ -4,6 +4,8 @@ apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ServiceTemplate
 metadata:
   name: {{ $.Values.prefix }}{{ .name }}-{{ .version | replace "." "-" }}
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   helm:
     chartSpec:

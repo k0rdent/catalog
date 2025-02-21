@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.helm.repository.name | default .Release.Name }}
   labels:
     k0rdent.mirantis.com/managed: "true"
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   type: {{ .Values.helm.repository.type }}
   url: {{ required "A valid 'helm.repository.url' value is required!" .Values.helm.repository.url }}
