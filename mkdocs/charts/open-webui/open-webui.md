@@ -26,7 +26,7 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   open-webui-5.14.0          true
+    # kcm-system   open-webui-5-14-0          true
     ~~~
 
     Deploy service template
@@ -37,7 +37,7 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
     ...
       serviceSpec:
         services:
-          - template: open-webui-5.14.0
+          - template: open-webui-5-14-0
             name: open-webui
             namespace: open-webui
             values: |

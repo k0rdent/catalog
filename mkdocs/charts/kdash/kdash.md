@@ -26,7 +26,7 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                          VALID
-    # kcm-system   kubernetes-dashboard-7.10.4   true
+    # kcm-system   kubernetes-dashboard-7-10-4   true
     ~~~
 
     Deploy service template
@@ -37,7 +37,7 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
     ...
       serviceSpec:
         services:
-          - template: kubernetes-dashboard-7.10.4
+          - template: kubernetes-dashboard-7-10-4
             name: kubernetes-dashboard
             namespace: kubernetes-dashboard
             values: |

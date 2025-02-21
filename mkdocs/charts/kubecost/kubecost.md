@@ -31,7 +31,7 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                           VALID
-    # kcm-system   kubecost-cost-analyzer-2.5.3   true
+    # kcm-system   kubecost-cost-analyzer-2-5-3   true
     ~~~
 
     Deploy service template
@@ -42,7 +42,7 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
     ...
       serviceSpec:
         services:
-          - template: kubecost-cost-analyzer-2.5.3
+          - template: kubecost-cost-analyzer-2-5-3
             name: kubecost
             namespace: kubecost
             values: |
