@@ -3,7 +3,7 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ServiceTemplate
 metadata:
-  name: {{ $.Values.prefix }}{{ .name }}-{{ .version }}
+  name: {{ $.Values.prefix }}{{ .name }}-{{ .version | replace "." "-" }}
 spec:
   helm:
     chartSpec:
