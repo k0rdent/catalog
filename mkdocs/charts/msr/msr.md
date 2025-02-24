@@ -22,7 +22,7 @@ logo: "./charts/msr/msr_logo.svg"
 
     Install Service template
     ~~~bash
-    helm upgrade --install harbor oci://ghcr.io/k0rdent/catalog/charts/kgst \
+    helm upgrade --install harbor oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://registry.mirantis.com/charts/harbor/helm" \
       --set "helm.charts[0].name=harbor" \
       --set "helm.charts[0].version=4.0.1"

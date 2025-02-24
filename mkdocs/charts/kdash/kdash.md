@@ -16,7 +16,7 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
 
     Install Service template
     ~~~bash
-    helm upgrade --install kubernetes-dashboard oci://ghcr.io/k0rdent/catalog/charts/kgst \
+    helm upgrade --install kubernetes-dashboard oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://kubernetes.github.io/dashboard/" \
       --set "helm.charts[0].name=kubernetes-dashboard" \
       --set "helm.charts[0].version=7.10.4"

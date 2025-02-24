@@ -20,7 +20,7 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
 
     Install Service template
     ~~~bash
-    helm upgrade --install kubecost oci://ghcr.io/k0rdent/catalog/charts/kgst \
+    helm upgrade --install kubecost oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://kubecost.github.io/cost-analyzer/" \
       --set "prefix=kubecost-" \
       --set "helm.charts[0].name=cost-analyzer" \

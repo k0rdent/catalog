@@ -20,7 +20,7 @@ logo: "https://istio.io/latest/favicons/android-192x192.png"
 
     Install Service template
     ~~~bash
-    helm upgrade --install istio oci://ghcr.io/k0rdent/catalog/charts/kgst \
+    helm upgrade --install istio oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://istio-release.storage.googleapis.com/charts" \
       --set "prefix=istio-" \
       --set "helm.charts[0].name=base" \
