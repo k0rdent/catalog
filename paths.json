@@ -61,5 +61,8 @@
   },
   {
     "path": "./mkdocs/charts/open-webui/open-webui.md"
+  },
+  {
+    "path": "./mkdocs/charts/msr/msr.md"
   }
 ]
