@@ -20,16 +20,21 @@ logo: "https://istio.io/latest/favicons/android-192x192.png"
 
     Install Service template
     ~~~bash
-    helm install istio-base oci://ghcr.io/k0rdent/catalog/charts/istio-base-service-template -n kcm-system
-    helm install istiod oci://ghcr.io/k0rdent/catalog/charts/istiod-service-template -n kcm-system
+    helm upgrade --install istio oci://ghcr.io/k0rdent/catalog/charts/kgst \
+      --set "helm.repository.url=https://istio-release.storage.googleapis.com/charts" \
+      --set "prefix=istio-" \
+      --set "helm.charts[0].name=base" \
+      --set "helm.charts[0].version=1.24.3" \
+      --set "helm.charts[1].name=istiod" \
+      --set "helm.charts[1].version=1.24.3"
     ~~~
 
     Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                      VALID
-    # kcm-system   ingress-nginx-4-11-3      true
     # kcm-system   istio-base-1-24-3         true
+    # kcm-system   istio-istiod-1-24-3       true
     ~~~
 
     Deploy service template
@@ -43,8 +48,8 @@ logo: "https://istio.io/latest/favicons/android-192x192.png"
           - template: istio-base-1-24-3
             name: istio-base
             namespace: istio-system
-          - template: istiod-1-24-3
-            name: istiod
+          - template: istio-istiod-1-24-3
+            name: istio-istiod
             namespace: istio-system
     ~~~
 
