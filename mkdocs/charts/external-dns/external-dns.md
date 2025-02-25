@@ -56,7 +56,7 @@ logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/exter
     You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:
     ~~~bash
     CF_API_TOKEN=<your-cloudflare-api-token>
-    kubectl create secret generic cloudflare-api-key --from-literal=apiKey=${CF_API_TOKEN} -n external-dns
+    kubectl create secret generic dns-tokens --from-literal=cloudflare=${CF_API_TOKEN} -n external-dns
     ~~~
 
     <br>
