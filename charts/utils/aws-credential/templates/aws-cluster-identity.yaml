@@ -1,0 +1,11 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSClusterStaticIdentity
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    k0rdent.mirantis.com/component: "kcm"
+spec:
+  secretRef: '{{ .Release.Name }}-secret'
+  allowedNamespaces:
+    selector:
+      matchLabels: {}

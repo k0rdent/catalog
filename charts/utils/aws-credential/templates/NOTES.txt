@@ -1,0 +1,36 @@
+AWS CREDENTIAL
+==============
+
+Created resources:
+kubectl get Secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -o yaml
+kubectl get ConfigMap {{ .Release.Name }}-resource-template -n {{ .Release.Namespace }} -o yaml
+kubectl get AWSClusterStaticIdentity {{ .Release.Name }} -n {{ .Release.Namespace }} -o yaml
+kubectl get Credential {{ .Release.Name }} -n {{ .Release.Namespace }} -o yaml
+
+Set your AWS access secrets:
+AWS_ACCESS_KEY_ID=my-access-key-id
+AWS_SECRET_ACCESS_KEY=my-secret-access-key
+kubectl patch secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -p='{"stringData":{"AccessKeyID":"'$AWS_ACCESS_KEY_ID'"}}'
+kubectl patch secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -p='{"stringData":{"SecretAccessKey":"'$AWS_SECRET_ACCESS_KEY'"}}'
+{{ if .Values.secrets }}
+Set additional secrets to be propagated to AWS managed clusters:
+{{- end }}
+{{- range .Values.secrets }}
+  {{- $secretName := .name }}
+  {{- $secretNamespace := .namespace }}
+  {{- range .fields }}
+  {{- $varName := printf "%s-%s-%s" $secretNamespace $secretName . }}
+  {{- $envVarName := upper ($varName | replace "-" "_") }}
+{{ $envVarName }}={{ $varName }}
+  {{- end }}
+{{- end }}
+
+{{- range .Values.secrets }}
+  {{- $secretName := .name }}
+  {{- $secretNamespace := .namespace }}
+  {{- range .fields }}
+  {{- $varName := printf "%s-%s-%s" $secretNamespace $secretName . }}
+  {{- $envVarName := upper ($varName | replace "-" "_") }}
+kubectl patch secret {{ $.Release.Name }}-secret -n {{ $.Release.Namespace }} -p='{"stringData":{"{{ $varName }}":"'${{ $envVarName }}'"}}'
+  {{- end }}
+{{- end }}

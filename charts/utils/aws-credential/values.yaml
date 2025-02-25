@@ -1,0 +1,6 @@
+# # Optional secrets to be exported to managed aws clusters
+# secrets:
+# - name: tokens
+#   namespace: external-dns
+#   fields: [cloudflare]
+secrets:

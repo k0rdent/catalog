@@ -1,0 +1,5 @@
+apiVersion: v2
+name: aws-credential
+description: k0rdent AWS credential setup
+type: application
+version: 0.0.1
