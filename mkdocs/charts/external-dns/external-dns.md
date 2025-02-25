@@ -18,14 +18,17 @@ logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/exter
 
     Install Service template
     ~~~bash
-    helm install external-dns oci://ghcr.io/k0rdent/catalog/charts/external-dns-service-template -n kcm-system
+    helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://kubernetes-sigs.github.io/external-dns/" \
+      --set "helm.charts[0].name=external-dns" \
+      --set "helm.charts[0].version=1.15.2"
     ~~~
 
     Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   external-dns-1-15-1        true
+    # kcm-system   external-dns-1-15-2        true
     ~~~
 
     Deploy service template
@@ -34,21 +37,20 @@ logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/exter
     kind: ClusterDeployment
     # kind: MultiClusterService
     ...
-    serviceSpec:
+      serviceSpec:
         services:
-        - template: external-dns-1-15-1
+          - template: external-dns-1-15-2
             name: external-dns
             namespace: external-dns
             values: |
-            external-dns:
-                provider:
+              provider:
                 name: cloudflare
-                env:
-                - name: CF_API_TOKEN
-                    valueFrom:
-                    secretKeyRef:
-                        name: cloudflare-api-key
-                        key: apiKey
+              env:
+              - name: CF_API_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: dns-tokens
+                    key: cloudflare
     ~~~
 
     You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:
