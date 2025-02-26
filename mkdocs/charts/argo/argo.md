@@ -22,23 +22,23 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
 
 === "Install"
 
-    Prerequisites
+    #### Prerequisites
 
     Deploy k0rdent: [docs.k0rdent.io](https://docs.k0rdent.io/)
 
-    Install template to k0rdent
+    #### Install template to k0rdent
     ~~~bash
     helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   argo-cd-7-8-0              true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -51,5 +51,4 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
             namespace: argocd
     ~~~
 
-    <br>
     - [Official docs](https://argo-cd.readthedocs.io/en/stable/){ target="_blank" }
