@@ -22,6 +22,10 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
 
 === "Install"
 
+    Prerequisites
+
+    Deploy k0rdent: [docs.k0rdent.io](https://docs.k0rdent.io/)
+
     Install template to k0rdent
     ~~~bash
     helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
