@@ -18,7 +18,11 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~yaml
     # k0rdent includes the template for vSphere out of the box
     ~~~
@@ -64,5 +68,4 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
               kube-vip.io/loadbalancerIPs: "<VSPHERE_LOADBALANCER_IP>"
     ~~~
 
-    <br>
     - [Official docs](https://docs.k0rdent.io/latest/template-vsphere/){ target="_blank" }

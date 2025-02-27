@@ -29,19 +29,23 @@ logo: "./charts/dapr/dapr-logo.svg"
 
 === "Install"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template -n kcm-system
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   dapr-1-14-4                true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -60,5 +64,4 @@ logo: "./charts/dapr/dapr-logo.svg"
                   host: 'dapr.example.com'
     ~~~
 
-    <br>
     - [Official docs](https://docs.dapr.io/){ target="_blank" }

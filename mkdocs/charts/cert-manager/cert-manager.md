@@ -18,19 +18,23 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     # k0rdent includes the template for Cert-manager out of the box
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   cert-manager-1-16-2        true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -43,5 +47,4 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
             namespace: cert-manager
     ~~~
 
-    <br>
     - [Official docs](https://kubernetes.github.io/cert-manager/){ target="_blank" }

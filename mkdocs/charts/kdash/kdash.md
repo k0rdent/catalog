@@ -14,7 +14,11 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
 
 === "Install"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm upgrade --install kubernetes-dashboard oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://kubernetes.github.io/dashboard/" \
@@ -22,14 +26,14 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
       --set "helm.charts[0].version=7.10.4"
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                          VALID
     # kcm-system   kubernetes-dashboard-7-10-4   true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -49,5 +53,4 @@ logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.
                   hosts: ['k8s-dashboard.example.com']
     ~~~
 
-    <br>
     - [Official docs](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/){ target="_blank" }

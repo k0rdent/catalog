@@ -19,13 +19,17 @@ logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi
 
 === "Installation"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template -n kcm-system
     helm install pure-csi oci://ghcr.io/k0rdent/catalog/charts/pure-csi-service-template -n kcm-system
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                      VALID
@@ -33,7 +37,7 @@ logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi
     # kcm-system   pure-k8s-plugin-2-7-1     true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -50,5 +54,4 @@ logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi
             namespace: pure-csi
     ~~~
 
-    <br>
     - [Official docs](https://github.com/purestorage/helm-charts){ target="_blank" }

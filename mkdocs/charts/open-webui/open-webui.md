@@ -14,7 +14,11 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://helm.openwebui.com" \
@@ -22,14 +26,14 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
       --set "helm.charts[0].version=5.14.0"
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   open-webui-5-14-0          true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -47,5 +51,4 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
                 host: "open-webui.example.com"
     ~~~
 
-    <br>
     - [Official docs](https://docs.openwebui.com/){ target="_blank" }

@@ -18,19 +18,23 @@ logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
 
 === "Installation"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm install trident-operator oci://ghcr.io/k0rdent/catalog/charts/trident-operator-service-template -n kcm-system
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                          VALID
     # kcm-system   trident-operator-100-2410-0   true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -43,5 +47,4 @@ logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
             namespace: trident-operator
     ~~~
 
-    <br>
     - [Official docs](https://docs.netapp.com/us-en/trident/index.html){ target="_blank" }

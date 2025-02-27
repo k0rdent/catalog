@@ -17,7 +17,11 @@ logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~yaml
     # k0rdent includes the template for OpenStack out of the box
     ~~~
@@ -64,5 +68,4 @@ logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
           region: RegionOne
     ~~~
 
-    <br>
     - [Official docs](https://docs.k0rdent.io/latest/template-openstack/){ target="_blank" }

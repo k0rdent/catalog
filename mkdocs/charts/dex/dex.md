@@ -19,19 +19,23 @@ logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9e
 
 === "Install"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     # k0rdent includes the template for Dex out of the box
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME             VALID
     # kcm-system   dex-0-19-1       true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -44,5 +48,4 @@ logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9e
             namespace: dex
     ~~~
 
-    <br>
     - [Official docs](https://dexidp.io/docs/){ target="_blank" }

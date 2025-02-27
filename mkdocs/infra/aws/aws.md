@@ -23,7 +23,11 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_L
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~yaml
     # k0rdent includes the template for AWS out of the box
     ~~~
@@ -54,5 +58,4 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_L
           instanceType: t3.small
     ~~~
 
-    <br>
     - [Official docs](https://docs.k0rdent.io/latest/template-aws/){ target="_blank" }

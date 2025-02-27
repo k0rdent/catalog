@@ -25,7 +25,11 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~yaml
     # k0rdent includes the template for Azure out of the box
     ~~~
@@ -57,5 +61,4 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure
           vmSize: Standard_A4_v2
     ~~~
 
-    <br>
     - [Official docs](https://docs.k0rdent.io/latest/template-azure/){ target="_blank" }

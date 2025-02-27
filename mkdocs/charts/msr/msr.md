@@ -20,7 +20,11 @@ logo: "./charts/msr/msr_logo.svg"
 
 === "Install"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm upgrade --install harbor oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://registry.mirantis.com/charts/harbor/helm" \
@@ -28,14 +32,14 @@ logo: "./charts/msr/msr_logo.svg"
       --set "helm.charts[0].version=4.0.1"
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                          VALID
     # kcm-system   harbor-4-0-1                  true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -65,5 +69,4 @@ logo: "./charts/msr/msr_logo.svg"
               externalURL: msr4.example.url
     ~~~
 
-    <br>
     - [Official docs](https://docs.mirantis.com/msr/4.0/overview.html){ target="_blank" }

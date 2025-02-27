@@ -16,7 +16,11 @@ logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/exter
 
 === "Installation"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://kubernetes-sigs.github.io/external-dns/" \
@@ -24,14 +28,14 @@ logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/exter
       --set "helm.charts[0].version=1.15.2"
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   external-dns-1-15-2        true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -59,5 +63,4 @@ logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/exter
     kubectl create secret generic dns-tokens --from-literal=cloudflare=${CF_API_TOKEN} -n external-dns
     ~~~
 
-    <br>
     - [Official docs](https://kubernetes-sigs.github.io/external-dns/latest/){ target="_blank" }

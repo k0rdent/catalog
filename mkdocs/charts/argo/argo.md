@@ -24,7 +24,7 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
 
     #### Prerequisites
 
-    Deploy k0rdent: [docs.k0rdent.io](https://docs.k0rdent.io/)
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
 
     #### Install template to k0rdent
     ~~~bash

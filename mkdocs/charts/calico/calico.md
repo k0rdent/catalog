@@ -19,19 +19,23 @@ logo: "https://docs.tigera.io/img/calico-logo.png"
 
 === "Install"
 
-    Install template to k0rdent
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm install tigera-operator oci://ghcr.io/k0rdent/catalog/charts/tigera-operator-service-template -n kcm-system
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   tigera-operator-3-29-2     true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -44,5 +48,4 @@ logo: "https://docs.tigera.io/img/calico-logo.png"
             namespace: tigera-operator
     ~~~
 
-    <br>
     - [Official docs](https://docs.tigera.io/calico){ target="_blank" }

@@ -27,19 +27,23 @@ logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
 
 === "Install"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     # k0rdent includes the template for Kyverno out of the box
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                VALID
     # kcm-system   kyverno-3-2-6       true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -52,5 +56,4 @@ logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
             namespace: kyverno
     ~~~
 
-    <br>
     - [Official docs](https://kyverno.github.io/kyverno/){ target="_blank" }

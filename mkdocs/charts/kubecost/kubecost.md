@@ -18,7 +18,11 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
 
 === "Install"
 
-    Install Service template
+    #### Prerequisites
+
+    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
+
+    #### Install template to k0rdent
     ~~~bash
     helm upgrade --install kubecost oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://kubecost.github.io/cost-analyzer/" \
@@ -27,14 +31,14 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
       --set "helm.charts[0].version=2.5.3"
     ~~~
 
-    Verify service template
+    #### Verify service template
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                           VALID
     # kcm-system   kubecost-cost-analyzer-2-5-3   true
     ~~~
 
-    Deploy service template
+    #### Deploy service template
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
@@ -63,5 +67,4 @@ logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43
                 hosts: ['kubecost.example.com']
     ~~~
 
-    <br>
     - [Official docs](https://docs.kubecost.com/){ target="_blank" }
