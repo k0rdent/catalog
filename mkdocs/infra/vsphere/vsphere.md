@@ -27,14 +27,14 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
     # k0rdent includes the template for vSphere out of the box
     ~~~
     
-    Verify cluster template
+    #### Verify cluster template
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
     # vsphere-hosted-cp-0-1-0         true
     ~~~
 
-    Create a cluster on vSphere
+    #### Create a cluster on vSphere
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment

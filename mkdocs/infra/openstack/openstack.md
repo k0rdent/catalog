@@ -26,14 +26,14 @@ logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
     # k0rdent includes the template for OpenStack out of the box
     ~~~
     
-    Verify cluster template
+    #### Verify cluster template
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
     # openstack-standalone-cp-0-1-0   true
     ~~~
 
-    Create a cluster on OpenStack
+    #### Create a cluster on OpenStack
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment

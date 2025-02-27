@@ -34,14 +34,14 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure
     # k0rdent includes the template for Azure out of the box
     ~~~
 
-    Verify cluster template
+    #### Verify cluster template
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
     # azure-hosted-cp-0-1-0           true 
     ~~~
 
-    Create a cluster on Microsoft Azure 
+    #### Create a cluster on Microsoft Azure
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment

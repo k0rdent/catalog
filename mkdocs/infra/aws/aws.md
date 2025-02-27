@@ -32,14 +32,14 @@ logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_L
     # k0rdent includes the template for AWS out of the box
     ~~~
     
-    Verify cluster template
+    #### Verify cluster template
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
     # aws-hosted-cp-0-1-0             true
     ~~~
 
-    Create a cluster on AWS
+    #### Create a cluster on AWS
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
