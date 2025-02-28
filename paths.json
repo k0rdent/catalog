@@ -39,7 +39,7 @@
     "path": "./mkdocs/charts/dex/dex.md"
   },
   {
-    "path": "./mkdocs/charts/kubecost/kubecost.md"
+    "path": "./mkdocs/charts/opencost/opencost.md"
   },
   {
     "path": "./mkdocs/charts/argo/argo.md"
