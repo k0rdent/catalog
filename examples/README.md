@@ -37,7 +37,7 @@ kubectl patch secret aws-credential-secret -n kcm-system -p='{"stringData":{"Sec
 Universal workflow to run any example:
 ~~~bash
 # open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
-# ingress-nginx, external-secrets, cert-manager, dex, velero
+# ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno
 export EXAMPLE="open-webui"
 
 # Deploy testing AWS cluster with unique name
@@ -86,3 +86,4 @@ kubectl delete cld aws-example-$USER
 | Cert Manager         | :white_check_mark: |                    |
 | Dex                  | :white_check_mark: |                    |
 | Velero               | :white_check_mark: |                    |
+| Kyverno              | :white_check_mark: |                    |

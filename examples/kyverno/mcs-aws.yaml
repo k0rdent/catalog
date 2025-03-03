@@ -1,0 +1,13 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: kyverno
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: kyverno-3-3-7
+        name: kyverno
+        namespace: kyverno
