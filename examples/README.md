@@ -36,7 +36,7 @@ kubectl patch secret aws-credential-secret -n kcm-system -p='{"stringData":{"Sec
 ## Run example
 Universal workflow to run any example:
 ~~~bash
-# open-webui, kubecost, opencost, external-dns, argo-cd, dapr
+# open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
 export EXAMPLE="open-webui"
 
 # Deploy testing AWS cluster with unique name
@@ -72,10 +72,11 @@ kubectl delete cld aws-example-$USER
 
 ## Tested applications
 
-| Application |         AWS        |        Azure       |
-| ----------- | ------------------ | ------------------ |
-| Open-WebUI  | :white_check_mark: |                    |
-| OpenCost    | :white_check_mark: |                    |
-| ExternalDNS | :white_check_mark: |                    |
-| Argo CD     | :white_check_mark: |                    |
-| Dapr        | :white_check_mark: |                    |
+| Application          |         AWS        |        Azure       |
+| -------------------- | ------------------ | ------------------ |
+| Open-WebUI           | :white_check_mark: |                    |
+| OpenCost             | :white_check_mark: |                    |
+| ExternalDNS          | :white_check_mark: |                    |
+| Argo CD              | :white_check_mark: |                    |
+| Dapr                 | :white_check_mark: |                    |
+| Kubernetes Dashboard | :white_check_mark: |                    |

@@ -1,0 +1,28 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: kubernetes-dashboard
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: ingress-nginx-4-11-3
+        name: ingress-nginx
+        namespace: ingress-nginx
+        values: |
+          ingress-nginx:
+            controller:
+              hostPort:
+                enabled: true
+      - template: kubernetes-dashboard-7-10-4
+        name: kubernetes-dashboard
+        namespace: kubernetes-dashboard
+        values: |
+          app:
+            ingress:
+              enabled: true
+              ingressClassName: nginx
+              pathType: Prefix
+              hosts: ['k8s-dashboard.example.com']
