@@ -1,0 +1,13 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: external-secrets
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: external-secrets-0-14-3
+        name: external-secrets
+        namespace: external-secrets
