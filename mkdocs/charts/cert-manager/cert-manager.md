@@ -47,4 +47,4 @@ logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.
             namespace: cert-manager
     ~~~
 
-    - [Official docs](https://kubernetes.github.io/cert-manager/){ target="_blank" }
+    - [Official docs](https://cert-manager.io/docs/installation/helm/){ target="_blank" }
