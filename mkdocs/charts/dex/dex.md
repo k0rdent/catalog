@@ -43,7 +43,7 @@ logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9e
     ...
     serviceSpec:
         services:
-        - template: dex-0-19-1
+          - template: dex-0-19-1
             name: dex
             namespace: dex
     ~~~
