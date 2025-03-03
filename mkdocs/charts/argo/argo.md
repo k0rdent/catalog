@@ -28,7 +28,10 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
 
     #### Install template to k0rdent
     ~~~bash
-    helm install argocd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template -n kcm-system
+    helm upgrade --install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://argoproj.github.io/argo-helm" \
+      --set "helm.charts[0].name=argo-cd" \
+      --set "helm.charts[0].version=7.8.0"
     ~~~
 
     #### Verify service template
@@ -47,8 +50,8 @@ logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
       serviceSpec:
         services:
           - template: argo-cd-7-8-0
-            name: argocd
-            namespace: argocd
+            name: argo-cd
+            namespace: argo-cd
     ~~~
 
     - [Official docs](https://argo-cd.readthedocs.io/en/stable/){ target="_blank" }
