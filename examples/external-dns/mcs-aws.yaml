@@ -1,0 +1,22 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: external-dns
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: external-dns-1-15-2
+        name: external-dns
+        namespace: external-dns
+        values: |
+          provider:
+            name: cloudflare
+          env:
+          - name: CF_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tokens
+                key: cloudflare
