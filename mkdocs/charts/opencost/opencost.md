@@ -11,8 +11,11 @@ logo: "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc47
 
 === "Description"
 
-    TODO
+    OpenCost is a vendor-neutral open-source project for measuring and allocating cloud infrastructure and container costs in real-time.
+    It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how resources are being used.
 
+    <br>
+    Looking for Commercial Support? [LEARN MORE](https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/){ target="_blank" .bold }
 
 === "Install"
 
