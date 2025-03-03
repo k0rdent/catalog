@@ -69,3 +69,10 @@ KUBECONFIG=kcfg ./scripts/wait_for_deployment_removal.sh
 kubectl delete cld aws-example-$USER
 ./scripts/wait_for_cluster_removal.sh
 ~~~
+
+## Tested applications
+
+| Application |         AWS        |        Azure       |
+| ----------- | ------------------ | ------------------ |
+| Open-WebUI  | :white_check_mark: |                    |
+| OpenCost    | :white_check_mark: |                    |
