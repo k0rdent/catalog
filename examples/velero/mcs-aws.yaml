@@ -1,0 +1,13 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: velero
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: velero-8-4-0
+        name: velero
+        namespace: velero
