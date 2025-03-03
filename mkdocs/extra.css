@@ -252,6 +252,24 @@ ul.video-list .thumb {
   align-self: center;
   margin: 1em 0px 1em 1em;
 }
+/* SHOW MORE STYLES - BEGIN */
+/* .md-typeset .grid + button{
+  display: none;
+}
+.md-typeset .grid:has(.card:nth-child(9)) + button{
+  display: block;
+}
+.md-typeset .grid>.card:nth-child(9) ~.card{
+  display:none;
+}
+.md-typeset .grid.show-more:has(.card:nth-child(9)) + button{
+  display: none;
+}
+.md-typeset .grid.show-more>.card:nth-child(9) ~.card{
+  display:block;
+} */
+/* SHOW MORE STYLES - END */
+
 .md-typeset:has(.tabbed-alternate) p>img{
   height: auto;
   max-width: 100%;
