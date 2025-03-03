@@ -4,9 +4,9 @@ tags:
   - Observability
 title: "OpenCost"
 description: "Monitor your cloud costs."
-logo: "https://github.com/opencost/opencost/blob/develop/opencost-header.png?raw=true"
+logo: "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true"
 ---
-![logo](https://github.com/opencost/opencost/blob/develop/opencost-header.png?raw=true){ align="right", width="100" }
+![logo](https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true){ align="right", width="100" }
 # OpenCost
 
 === "Description"
