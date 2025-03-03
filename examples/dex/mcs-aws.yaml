@@ -1,0 +1,32 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: dex
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: dex-0-22-1
+        name: dex
+        namespace: dex
+        values: |
+          config:
+            issuer: https://dex.tunnelto.dev/dex
+            storage:
+              type: memory
+            web:
+              http: 0.0.0.0:5556
+            oauth2:
+              skipApprovalScreen: true
+            connectors:
+              - type: mockCallback
+                id: mock
+                name: Example
+            staticClients:
+              - id: first_client
+                secret: 89d6205220381728e85c4cf5
+                redirectURIs:
+                  - https://www.certification.openid.net/test/a/dex/callback
+                name: First client

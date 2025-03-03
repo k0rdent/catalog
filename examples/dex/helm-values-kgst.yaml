@@ -1,0 +1,7 @@
+helm:
+  repository:
+    url: https://charts.dexidp.io
+  charts:
+    - name: dex
+      version: 0.22.1
+
