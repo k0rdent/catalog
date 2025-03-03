@@ -35,7 +35,12 @@ logo: "./charts/dapr/dapr-logo.svg"
 
     #### Install template to k0rdent
     ~~~bash
-    helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template -n kcm-system
+    helm upgrade --install dapr oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://dapr.github.io/helm-charts/" \
+      --set "helm.charts[0].name=dapr" \
+      --set "helm.charts[0].version=1.14.4" \
+      --set "helm.charts[1].name=dapr-dashboard" \
+      --set "helm.charts[1].version=0.15.0"
     ~~~
 
     #### Verify service template
@@ -43,6 +48,7 @@ logo: "./charts/dapr/dapr-logo.svg"
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
     # kcm-system   dapr-1-14-4                true
+    # kcm-system   dapr-dashboard-0-15-0      true
     ~~~
 
     #### Deploy service template
@@ -55,13 +61,15 @@ logo: "./charts/dapr/dapr-logo.svg"
         services:
           - template: dapr-1-14-4
             name: dapr
-            namespace: dapr-system
+            namespace: dapr
+          - template: dapr-dashboard-0-15-0
+            name: dapr-dashboard
+            namespace: dapr
             values: |
-              dapr-dashboard:
-                ingress:
-                  enabled: true
-                  className: nginx
-                  host: 'dapr.example.com'
+              ingress:
+                enabled: true
+                className: nginx
+                host: 'dapr.example.com'
     ~~~
 
     - [Official docs](https://docs.dapr.io/){ target="_blank" }
