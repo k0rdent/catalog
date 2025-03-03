@@ -1,0 +1,17 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: ingress-nginx
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: ingress-nginx-4-12-0
+        name: ingress-nginx
+        namespace: ingress-nginx
+        values: |
+          controller:
+            hostPort:
+              enabled: true
