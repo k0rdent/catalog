@@ -1,2 +1,6 @@
 .lh/
 *.tgz
+
+examples/scripts/set_envs.sh
+*ign*
+kcfg

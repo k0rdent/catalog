@@ -1,0 +1,8 @@
+helm:
+  repository:
+    url: https://kubecost.github.io/cost-analyzer/
+  charts:
+    - name: cost-analyzer
+      version: 2.5.3
+
+prefix: "kubecost-"

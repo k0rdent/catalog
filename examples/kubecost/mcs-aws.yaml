@@ -1,0 +1,26 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: kubecost
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: ingress-nginx-4-11-3
+        name: ingress-nginx
+        namespace: ingress-nginx
+        values: |
+          ingress-nginx:
+            controller:
+              hostPort:
+                enabled: true
+      - template: kubecost-cost-analyzer-2-5-3
+        name: kubecost
+        namespace: kubecost
+        values: |
+          ingress:
+            enabled: true
+            className: nginx
+            hosts: ['kubecost.example.com']

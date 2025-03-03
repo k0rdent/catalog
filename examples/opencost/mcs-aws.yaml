@@ -1,0 +1,29 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: opencost
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: ingress-nginx-4-11-3
+        name: ingress-nginx
+        namespace: ingress-nginx
+        values: |
+          ingress-nginx:
+            controller:
+              hostPort:
+                enabled: true
+      - template: opencost-1-43-2
+        name: opencost
+        namespace: opencost
+        values: |
+          opencost:
+            ui:
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                hosts:
+                  - host: 'opencost.example.com'

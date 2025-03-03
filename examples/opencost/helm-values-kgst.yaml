@@ -1,0 +1,6 @@
+helm:
+  repository:
+    url: https://opencost.github.io/opencost-helm-chart
+  charts:
+    - name: opencost
+      version: 1.43.2

@@ -1,0 +1,31 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: open-webui
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: ingress-nginx-4-11-3
+        name: ingress-nginx
+        namespace: ingress-nginx
+        values: |
+          ingress-nginx:
+            controller:
+              hostPort:
+                enabled: true
+      - template: open-webui-5-20-0
+        name: open-webui
+        namespace: open-webui
+        values: |
+          ollama:
+            ollama:
+              models:
+                pull: [smollm:135m]
+                run: [smollm:135m]
+          ingress:
+            enabled: true
+            class: "nginx"
+            host: 'openwebui.example.com'

@@ -1,0 +1,6 @@
+helm:
+  repository:
+    url: https://helm.openwebui.com
+  charts:
+    - name: open-webui
+      version: 5.20.0
