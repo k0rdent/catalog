@@ -1,0 +1,6 @@
+helm:
+  repository:
+    url: https://charts.jetstack.io
+  charts:
+    - name: cert-manager
+      version: 1.17.1

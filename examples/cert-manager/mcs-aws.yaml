@@ -1,0 +1,13 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: cert-manager
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: cert-manager-1-17-1
+        name: cert-manager
+        namespace: cert-manager
