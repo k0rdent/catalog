@@ -12,6 +12,10 @@ logo: "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favic
 
     Open WebUI is an extensible, feature-rich, and user-friendly self-hosted AI platform designed to operate entirely offline. It supports various LLM runners like Ollama and OpenAI-compatible APIs, with built-in inference engine for RAG, making it a powerful AI deployment solution.
 
+    <div>
+    ![](https://docs.openwebui.com/assets/images/demo-d3952c8561c4808c1d447fc061c71174.gif){ width="700" }
+    </div>
+
 === "Install"
 
     #### Prerequisites
