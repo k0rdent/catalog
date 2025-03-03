@@ -1,0 +1,13 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: argo-cd
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: argo-cd-7-8-0
+        name: argo-cd
+        namespace: argo-cd
