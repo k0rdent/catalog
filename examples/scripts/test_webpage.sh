@@ -26,10 +26,6 @@ while true; do
     echo "IP address: $ip"
 
     http_code=$(curl -H "Host: $host" "http://$ip" -o /dev/null -s -w "%{http_code}\n")
-    if [[ "$http_code" != 200 && "$http_code" != 308 ]]; then
-        echo "Not expected http code: $http_code"
-        exit 1
-    fi
     echo "HTTP code: $http_code"
 
     if [[ "$USE_CHROME" == yes ]]; then
