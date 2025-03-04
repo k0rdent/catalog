@@ -2,16 +2,12 @@ import os
 import json
 import mkdocs_gen_files
 import yaml
+import glob
 
-# Load list of Markdown file paths from JSON
-with open("paths.json", "r") as f:
-    pages = json.load(f)
-
+paths = glob.glob("./mkdocs/apps/*/*.md")
 metadata_list = []
 
-for page in pages:
-    file_path = page["path"]
-
+for file_path in paths:
     if not os.path.exists(file_path):
         print(f"⚠️ Warning: {file_path} not found, skipping...")
         continue
