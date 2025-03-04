@@ -1,0 +1,55 @@
+tags:
+    - Infrastructure
+title: "OpenStack"
+summary: "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure."
+logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
+type: infra
+description: |
+    K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on OpenStack,
+    simplifying container orchestration in the cloud.
+support_link: https://www.mirantis.com/software/mirantis-openstack-for-kubernetes/
+install_code: |
+    ~~~yaml
+    # k0rdent includes the template for OpenStack out of the box
+    ~~~
+verify_code: |
+    ~~~yaml
+    kubectl get clustertemplate -n kcm-system
+    # NAME                            VALID
+    # openstack-standalone-cp-0-1-0   true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    metadata:
+      name: my-openstack-cluster-deployment
+      namespace: kcm-system
+    spec:
+      template: openstack-standalone-cp-0-1-0
+      credential: openstack-cluster-identity-cred
+      config:
+        clusterLabels: {}
+        clusterLabels:
+          k0rdent: demo
+        controlPlaneNumber: 1
+        workersNumber: 1
+        controlPlane:
+          sshPublicKey: my-public-key
+          flavor: m1.medium
+          image:
+            filter:
+              name: ubuntu-22.04-x86_64
+        worker:
+          sshPublicKey: my-public-key
+          flavor: m1.medium
+          image:
+            filter:
+              name: ubuntu-22.04-x86_64
+        authURL: https://my-keystone-openstack-url.com
+        identityRef:
+          name: openstack-cloud-config
+          cloudName: openstack
+          region: RegionOne
+    ~~~
+doc_link: https://docs.k0rdent.io/latest/template-openstack/

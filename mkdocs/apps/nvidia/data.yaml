@@ -1,0 +1,35 @@
+tags:
+    - GPU 
+    - AI
+title: "Nvidia GPU Operator"
+summary: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
+logo: "./apps/nvidia/GPUoperator-cropped.png"
+description: |
+    The NVIDIA GPU Operator for Kubernetes is a powerful tool that simplifies the management of GPUs
+    in your Kubernetes clusters. It automates the deployment and configuration of all the necessary
+    software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
+    training and high-performance computing.
+support_link: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html
+install_code: |
+    ~~~bash
+    helm install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/gpu-operator-service-template -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                          VALID
+    # kcm-system   gpu-operator-24-9-2           true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: gpu-operator-24-9-2
+            name: gpu-operator
+            namespace: gpu-operator
+    ~~~
+

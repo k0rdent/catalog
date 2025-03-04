@@ -1,0 +1,35 @@
+tags:
+  - Authentication 
+  - Security 
+  - Authorization
+title: "External-secrets"
+summary: "External secret management."
+logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png"
+description: |
+  The External Secrets Operator extends Kubernetes with Custom Resources, which define where secrets live and how to
+  synchronize them. The controller fetches secrets from an external API and creates Kubernetes secrets. If the secret
+  from the external API changes, the controller will reconcile the state in the cluster and update the secrets accordingly.
+support_link: https://external-secrets.io/latest/introduction/stability-support/
+install_code: |
+    ~~~bash
+    # k0rdent includes the template for External-secrets out of the box
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                      VALID
+    # kcm-system   external-secrets-0-11-0   true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: external-secrets-0-11-0
+            name: external-secrets
+            namespace: external-secrets
+    ~~~
+doc_link: https://external-secrets.io/v0.11.0/

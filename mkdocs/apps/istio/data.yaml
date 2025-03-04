@@ -1,0 +1,44 @@
+tags:
+    - Service mesh 
+    - Networking
+title: "Istio"
+summary: "Open source service mesh that layers transparently onto existing distributed applications."
+logo: "https://istio.io/latest/favicons/android-192x192.png"
+description: |
+    Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful
+    features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,
+    service-to-service authentication, and monitoring – with few or no service code changes.
+support_link: https://tetrate.io/
+install_code: |
+    ~~~bash
+    helm upgrade --install istio oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://istio-release.storage.googleapis.com/charts" \
+      --set "prefix=istio-" \
+      --set "helm.charts[0].name=base" \
+      --set "helm.charts[0].version=1.24.3" \
+      --set "helm.charts[1].name=istiod" \
+      --set "helm.charts[1].version=1.24.3"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                      VALID
+    # kcm-system   istio-base-1-24-3         true
+    # kcm-system   istio-istiod-1-24-3       true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: istio-base-1-24-3
+            name: istio-base
+            namespace: istio-system
+          - template: istio-istiod-1-24-3
+            name: istio-istiod
+            namespace: istio-system
+    ~~~
+doc_link: https://istio.io/latest/docs/ambient/install/helm/

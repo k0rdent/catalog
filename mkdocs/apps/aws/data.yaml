@@ -27,12 +27,18 @@ deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1
   kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-    serviceSpec:
-      services:
-        - template: tigera-operator-3-29-2
-          name: tigera-operator
-          namespace: tigera-operator
+  metadata:
+    name: my-azure-clusterdeployment1
+    namespace: kcm-system
+  spec:
+    template: aws-standalone-cp-0-1-0
+    credential: aws-cluster-identity-cred
+    config:
+      clusterLabels: {}
+      region: us-east-2
+      controlPlane:
+        instanceType: t3.small
+      worker:
+        instanceType: t3.small
   ~~~
 doc_link: https://docs.dapr.io/
