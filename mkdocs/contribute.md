@@ -8,5 +8,6 @@ The PR should contain following updates:
 Add `mkdocs/app/<my-app>/data.yaml` file.
 
 ## Add working example
-Add example folder for the application to catalog [examples folder](../examples/).
-The example needs to work with a [common testing workflow](../examples/README.md#run-example) so anyone is able to verify it works easily.
+Add example folder for the application to catalog [examples folder](https://github.com/k0rdent/catalog/tree/main/examples).
+
+The example needs to work with a [common testing workflow](https://github.com/k0rdent/catalog/tree/main/examples#run-example) so anyone is able to verify it works easily.
