@@ -4,7 +4,7 @@ tags:
     - {{ tag }}
 {%- endfor %}
 title: {{ title }}
-description: {{ description }}
+description: {{ summary }}
 logo: "{{ logo }}"
 ---
 ![logo]({{ logo }}){ align="right", width="100" }
@@ -12,10 +12,13 @@ logo: "{{ logo }}"
 
 === "Description"
 
-    ...
+    {{ description | replace("\n", "\n    ") }}
 
+    {% if support_link %}
     <br>
-    Looking for Commercial Support? [LEARN MORE](https://www.tigera.io/customer-success/){ target="_blank" .bold }
+    Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
+    {% endif %}
+
 
 === "Install"
 
@@ -24,28 +27,14 @@ logo: "{{ logo }}"
     Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
 
     #### Install template to k0rdent
-    ~~~bash
-    helm install tigera-operator oci://ghcr.io/k0rdent/catalog/charts/tigera-operator-service-template -n kcm-system
-    ~~~
+    {{ install_code | replace("\n", "\n    ") }}
 
     #### Verify service template
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   tigera-operator-3-29-2     true
-    ~~~
+    {{ verify_code | replace("\n", "\n    ") }}
 
     #### Deploy service template
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: tigera-operator-3-29-2
-            name: tigera-operator
-            namespace: tigera-operator
-    ~~~
+    {{ deploy_code | replace("\n", "\n    ") }}
 
-    - [Official docs](https://docs.tigera.io/calico){ target="_blank" }
+    {% if doc_link %}
+    - [Official docs]({{ doc_link }}){ target="_blank" }
+    {% endif %}
