@@ -75,15 +75,17 @@ kubectl delete cld aws-example-$USER
 
 | Application          |         AWS        |        Azure       |
 | -------------------- | ------------------ | ------------------ |
+| Argo CD              | :white_check_mark: |                    |
+| Cert Manager         | :white_check_mark: |                    |
+| Dapr                 | :white_check_mark: |                    |
+| Dex                  | :white_check_mark: |                    |
+| External DNS         | :white_check_mark: |                    |
+| External Secrets     | :white_check_mark: |                    |
+| Ingress Nginx        | :white_check_mark: |                    |
+| KubeCost             | :white_check_mark: |                    |
+| Kubernetes Dashboard | :white_check_mark: |                    |
+| Kyverno              | :white_check_mark: |                    |
 | Open-WebUI           | :white_check_mark: |                    |
 | OpenCost             | :white_check_mark: |                    |
-| ExternalDNS          | :white_check_mark: |                    |
-| Argo CD              | :white_check_mark: |                    |
-| Dapr                 | :white_check_mark: |                    |
-| Kubernetes Dashboard | :white_check_mark: |                    |
-| Ingress Nginx        | :white_check_mark: |                    |
-| External Secrets     | :white_check_mark: |                    |
-| Cert Manager         | :white_check_mark: |                    |
-| Dex                  | :white_check_mark: |                    |
+| Prometheus           | :white_check_mark: |                    |
 | Velero               | :white_check_mark: |                    |
-| Kyverno              | :white_check_mark: |                    |
