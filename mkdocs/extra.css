@@ -232,7 +232,7 @@ ul.video-list .thumb {
 }
 
 .md-typeset .grid{
-  grid-template-columns: repeat(auto-fit,minmax(min(100%,12rem),1fr));
+  grid-template-columns: repeat(3, minmax(12rem, 1fr));
 }
 .md-typeset .grid>.card {
   display: flex;
