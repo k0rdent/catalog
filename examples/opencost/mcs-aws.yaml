@@ -16,6 +16,26 @@ spec:
             controller:
               hostPort:
                 enabled: true
+      - template: prometheus-27-5-1
+        name: prometheus
+        namespace: prometheus-system
+        values: |
+          prometheus-pushgateway:
+            enabled: false
+          alertmanager:
+            enabled: false
+          extraScrapeConfigs: |
+            - job_name: opencost
+              honor_labels: true
+              scrape_interval: 1m
+              scrape_timeout: 10s
+              metrics_path: /metrics
+              scheme: http
+              dns_sd_configs:
+                - names:
+                    - opencost.opencost
+                  type: 'A'
+                  port: 9003
       - template: opencost-1-43-2
         name: opencost
         namespace: opencost
@@ -27,3 +47,4 @@ spec:
                 ingressClassName: nginx
                 hosts:
                   - host: 'opencost.example.com'
+                    paths: ['/']
