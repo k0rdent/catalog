@@ -2,8 +2,7 @@ import os
 import yaml
 from jinja2 import Template
 
-required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code', 'deploy_code',
-                   'support_link', 'doc_link']
+required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code', 'deploy_code']
 
 def changed(file, content):
     if os.path.exists(file):
