@@ -1,65 +1,11 @@
 [
   {
-    "path": "./mkdocs/charts/nvidia/nvidia.md"
+    "path": "./mkdocs/apps/kyverno/kyverno.md"
   },
   {
-    "path": "./mkdocs/charts/istio/istio.md"
+    "path": "./mkdocs/apps/dapr/dapr.md"
   },
   {
-    "path": "./mkdocs/charts/calico/calico.md"
-  },
-  {
-    "path": "./mkdocs/infra/vsphere/vsphere.md"
-  },
-  {
-    "path": "./mkdocs/infra/openstack/openstack.md"
-  },
-  {
-    "path": "./mkdocs/infra/aws/aws.md"
-  },
-  {
-    "path": "./mkdocs/infra/azure/azure.md"
-  },
-  {
-    "path": "./mkdocs/charts/ingress-nginx/ingress-nginx.md"
-  },
-  {
-    "path": "./mkdocs/charts/dapr/dapr.md"
-  },
-  {
-    "path": "./mkdocs/charts/netapp/netapp.md"
-  },
-  {
-    "path": "./mkdocs/charts/pure/pure.md"
-  },
-  {
-    "path": "./mkdocs/charts/kyverno/kyverno.md"
-  },
-  {
-    "path": "./mkdocs/charts/dex/dex.md"
-  },
-  {
-    "path": "./mkdocs/charts/opencost/opencost.md"
-  },
-  {
-    "path": "./mkdocs/charts/argo/argo.md"
-  },
-  {
-    "path": "./mkdocs/charts/external-secrets/external-secrets.md"
-  },
-  {
-    "path": "./mkdocs/charts/velero/velero.md"
-  },
-  {
-    "path": "./mkdocs/charts/cert-manager/cert-manager.md"
-  },
-  {
-    "path": "./mkdocs/charts/external-dns/external-dns.md"
-  },
-  {
-    "path": "./mkdocs/charts/kdash/kdash.md"
-  },
-  {
-    "path": "./mkdocs/charts/open-webui/open-webui.md"
+    "path": "./mkdocs/apps/velero/velero.md"
   }
 ]

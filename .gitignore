@@ -4,3 +4,4 @@
 examples/scripts/set_envs.sh
 *ign*
 kcfg
+mkdocs/apps/*/*.md

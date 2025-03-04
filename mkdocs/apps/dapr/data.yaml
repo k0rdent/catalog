@@ -1,0 +1,5 @@
+title: "Dapr"
+tags:
+  - Application Runtime
+description: "Portable, event-driven runtime."
+logo: "./apps/dapr/dapr-logo.svg"
