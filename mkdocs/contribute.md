@@ -1,13 +1,13 @@
-# How to contribute an Application
+# How to Contribute an Application
 
-To add application to k0rdent open-source applications catalog create a PR to [catalog repository](https://github.com/k0rdent/catalog).
+To add an application to the k0rdent open-source applications catalog, create a pull request (PR) in the **[catalog repository](https://github.com/k0rdent/catalog)**.
 
-The PR should contain following updates:
+The PR should include the following updates:
 
-## Add catalog application page
-Add `mkdocs/app/<my-app>/data.yaml` file.
+## Add a catalog application page
+Add a `mkdocs/app/<my-app>/data.yaml` file.
 
-## Add working example
-Add example folder for the application to catalog [examples folder](https://github.com/k0rdent/catalog/tree/main/examples).
+## Add a working example
+Create an example folder for the application in the catalog **[examples folder](https://github.com/k0rdent/catalog/tree/main/examples)**.
 
-The example needs to work with a [common testing workflow](https://github.com/k0rdent/catalog/tree/main/examples#run-example) so anyone is able to verify it works easily.
+Ensure the example works with a **[common testing workflow](https://github.com/k0rdent/catalog/tree/main/examples#run-example)** so that anyone can easily verify its functionality.
