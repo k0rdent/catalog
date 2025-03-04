@@ -299,7 +299,8 @@ ul.video-list .thumb {
 .back-to-catalog .md-content__inner a:hover{
   text-decoration: underline;
 }
-body:has(.k0rdent-hero-section) .back-to-catalog{
+body:has(.k0rdent-hero-section) .back-to-catalog,
+body:has(.homepage) .back-to-catalog{
   display: none;
 }
 
