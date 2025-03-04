@@ -1,8 +1,13 @@
 import os
 import yaml
 from jinja2 import Template
-from mkdocs.plugins import BasePlugin
-from mkdocs.config import config_options
+
+def changed(file, content):
+    if os.path.exists(file):
+        with open(file, 'r', encoding='utf-8') as f:
+            if f.read() == content:
+                return False
+    return True
 
 def generate_apps():
     apps_dir = 'mkdocs/apps'
@@ -26,9 +31,10 @@ def generate_apps():
             # Render the template with metadata
             rendered_md = template.render(**metadata)
 
-            # Write the generated markdown
-            with open(md_file, 'w', encoding='utf-8') as f:
-                print("render file")
-                f.write(rendered_md)
+            if changed(md_file, rendered_md):
+                # Write the generated markdown
+                with open(md_file, 'w', encoding='utf-8') as f:
+                    print("render file")
+                    f.write(rendered_md)
 
 generate_apps()
