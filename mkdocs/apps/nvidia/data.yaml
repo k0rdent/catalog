@@ -1,6 +1,6 @@
 tags:
     - GPU 
-    - AI
+    - Artificial Intelligence
 title: "Nvidia GPU Operator"
 summary: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
 logo: "./apps/nvidia/GPUoperator-cropped.png"
