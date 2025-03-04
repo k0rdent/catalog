@@ -74,8 +74,7 @@ fetch("fetched_metadata.json")
     data.forEach(item=>{
       if(item.type === 'infra'){
         data_infra.push(item)
-      } 
-      if(item.link.includes('./charts')){
+      } else {
         data_apps.push(item)
       }
     })
