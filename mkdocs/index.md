@@ -146,6 +146,31 @@ fetch("fetched_metadata.json")
       }
     }
 
+    // Function to update URL based on selected filters
+    function updateURL() {
+      let checkboxes = document.querySelectorAll('#filterTagsApps input[type="checkbox"]')
+      let selected = Array.from(checkboxes)
+          .filter(checkbox => checkbox.checked)
+          .map(checkbox => checkbox.value);
+
+      let queryString = selected.length ? `?category=${selected.join(",")}` : "";
+      history.replaceState(null, "", window.location.pathname + queryString);
+    }
+
+    // Function to update checkboxes based on URL
+    function updateCheckboxesFromURL() {
+      let checkboxes = document.querySelectorAll('#filterTagsApps input[type="checkbox"]')
+      let params = new URLSearchParams(window.location.search);
+      let selectedCategories = params.get("category");
+      if (selectedCategories) {
+        let selectedArray = selectedCategories.split(","); // Convert back to array
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectedArray.includes(checkbox.value);
+        });
+        getSelectedCheckboxes()
+      }
+    }
+
     //initially render by ascending order
     renderList(data_apps.sort((a, b) => a.title.localeCompare(b.title)), data_infra.sort((a, b) => a.title.localeCompare(b.title)));
 
@@ -156,6 +181,8 @@ fetch("fetched_metadata.json")
     function getSelectedCheckboxes() {
       const selectedValues = Array.from(document.querySelectorAll('#filterTagsApps input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
 
+      updateURL();
+
       if(selectedValues.length>0){
         filtered_apps = data_apps.filter(item=>{
           return item.tags.some( elem => selectedValues.includes(elem) )
@@ -165,6 +192,8 @@ fetch("fetched_metadata.json")
         filtered_apps = []
         renderList(data_apps, null);
       }
+
+
     }
 
     document.querySelector('.categories-title').addEventListener('click', ()=>{
@@ -210,6 +239,9 @@ fetch("fetched_metadata.json")
         }
       }
     });
+
+    // Initialize checkboxes from URL on page load
+    updateCheckboxesFromURL();
 
     //show-more buttons
     // document.querySelector('.btn-show-more-apps').addEventListener('click', function(){
