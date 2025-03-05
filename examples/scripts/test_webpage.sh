@@ -18,10 +18,14 @@ while true; do
     fi
     echo "Ingress host: $host"
 
-    ip=$(dig +short "$address" | head -n 1)
-    if [[ -z "$ip" ]]; then
-        echo "No ip address found"
-        continue
+    if [[ "$EXAMPLE_MODE" == local ]]; then
+        ip="127.0.0.1:50080"
+    else
+        ip=$(dig +short "$address" | head -n 1)
+        if [[ -z "$ip" ]]; then
+            echo "No ip address found"
+            continue
+        fi
     fi
     echo "IP address: $ip"
 
