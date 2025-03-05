@@ -50,4 +50,3 @@ deploy_code: |
             annotations:
               kube-vip.io/loadbalancerIPs: "<VSPHERE_LOADBALANCER_IP>"
     ~~~
-doc_link: https://docs.k0rdent.io/latest/template-vsphere/

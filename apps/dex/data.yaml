@@ -29,4 +29,3 @@ deploy_code: |
             name: dex
             namespace: dex
     ~~~
-doc_link: https://dexidp.io/docs/

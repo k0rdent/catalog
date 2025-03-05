@@ -32,4 +32,3 @@ deploy_code: |
           name: prometheus
           namespace: prometheus
   ~~~
-doc_link: https://prometheus.io/docs/introduction/overview/

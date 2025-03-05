@@ -30,4 +30,3 @@ deploy_code: |
             name: external-secrets
             namespace: external-secrets
     ~~~
-doc_link: https://external-secrets.io/v0.11.0/

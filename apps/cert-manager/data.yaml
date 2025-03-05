@@ -29,4 +29,3 @@ deploy_code: |
             name: cert-manager
             namespace: cert-manager
     ~~~
-doc_link: https://cert-manager.io/docs/installation/helm/

@@ -35,4 +35,3 @@ deploy_code: |
           name: argo-cd
           namespace: argo-cd
   ~~~
-doc_link: https://argo-cd.readthedocs.io/en/stable/

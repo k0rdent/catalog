@@ -40,4 +40,3 @@ deploy_code: |
       worker:
         instanceType: t3.small
   ~~~
-doc_link: https://docs.dapr.io/

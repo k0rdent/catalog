@@ -51,4 +51,3 @@ deploy_code: |
           cloudName: openstack
           region: RegionOne
     ~~~
-doc_link: https://docs.k0rdent.io/latest/template-openstack/

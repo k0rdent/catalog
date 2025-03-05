@@ -28,4 +28,3 @@ deploy_code: |
             name: velero
             namespace: velero
     ~~~
-doc_link: https://vmware-tanzu.github.io/helm-charts/

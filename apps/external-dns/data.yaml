@@ -49,4 +49,3 @@ deploy_code: |
     CF_API_TOKEN=<your-cloudflare-api-token>
     kubectl create secret generic dns-tokens --from-literal=cloudflare=${CF_API_TOKEN} -n external-dns
     ~~~
-doc_link: https://kubernetes-sigs.github.io/external-dns/latest/

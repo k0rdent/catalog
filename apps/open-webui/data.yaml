@@ -41,5 +41,4 @@ deploy_code: |
                 class: "nginx"
                 host: "open-webui.example.com"
     ~~~
-doc_link: https://docs.openwebui.com/
 

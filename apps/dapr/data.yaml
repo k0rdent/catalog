@@ -45,4 +45,3 @@ deploy_code: |
           namespace: tigera-operator
   ~~~
 support_link: https://www.diagrid.io/conductor
-doc_link: https://docs.dapr.io/

@@ -30,4 +30,3 @@ deploy_code: |
             name: trident-operator
             namespace: trident-operator
     ~~~
-doc_link: https://docs.netapp.com/us-en/trident/index.html

@@ -40,4 +40,3 @@ deploy_code: |
                   hostPort:
                     enabled: true
     ~~~
-doc_link: https://kubernetes.github.io/ingress-nginx/

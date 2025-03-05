@@ -36,4 +36,3 @@ deploy_code: |
             name: kyverno
             namespace: kyverno
     ~~~
-doc_link: https://kyverno.github.io/kyverno/
