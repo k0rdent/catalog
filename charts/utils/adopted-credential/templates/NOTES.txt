@@ -1,0 +1,33 @@
+ADOPTED CREDENTIAL
+==================
+
+Created resources:
+kubectl get Secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -o yaml
+kubectl get ConfigMap {{ .Release.Name }}-resource-template -n {{ .Release.Namespace }} -o yaml
+kubectl get Credential {{ .Release.Name }} -n {{ .Release.Namespace }} -o yaml
+
+Set your Adopted cluster secret:
+ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n cluster1 | base64)
+kubectl patch secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -p='{"stringData":{"value":"'$ADOPTED_KUBECONFIG'"}}'
+{{ if .Values.secrets }}
+Set additional secrets to be propagated to AWS managed clusters:
+{{- end }}
+{{- range .Values.secrets }}
+  {{- $secretName := .name }}
+  {{- $secretNamespace := .namespace }}
+  {{- range .fields }}
+  {{- $varName := printf "%s-%s-%s" $secretNamespace $secretName . }}
+  {{- $envVarName := upper ($varName | replace "-" "_") }}
+{{ $envVarName }}={{ $varName }}
+  {{- end }}
+{{- end }}
+
+{{- range .Values.secrets }}
+  {{- $secretName := .name }}
+  {{- $secretNamespace := .namespace }}
+  {{- range .fields }}
+  {{- $varName := printf "%s-%s-%s" $secretNamespace $secretName . }}
+  {{- $envVarName := upper ($varName | replace "-" "_") }}
+kubectl patch secret {{ $.Release.Name }}-secret -n {{ $.Release.Namespace }} -p='{"stringData":{"{{ $varName }}":"'${{ $envVarName }}'"}}'
+  {{- end }}
+{{- end }}
