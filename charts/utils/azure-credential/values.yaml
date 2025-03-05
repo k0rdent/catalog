@@ -1,0 +1,7 @@
+# Azure Service Principal values:
+
+# App ID
+spAppID: "FILL-sp-app-id"
+
+# Tenant ID
+spTenantID: "FILL-sp-tenant-id"

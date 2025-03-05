@@ -1,0 +1,6 @@
+helm:
+  repository:
+    url: https://prometheus-community.github.io/helm-charts
+  charts:
+    - name: prometheus
+      version: 27.5.1

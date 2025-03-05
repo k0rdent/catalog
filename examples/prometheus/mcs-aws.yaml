@@ -1,0 +1,29 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: prometheus
+spec:
+  clusterSelector:
+    matchLabels:
+      type: aws
+  serviceSpec:
+    services:
+      - template: ingress-nginx-4-11-3
+        name: ingress-nginx
+        namespace: ingress-nginx
+        values: |
+          ingress-nginx:
+            controller:
+              hostPort:
+                enabled: true
+      - template: prometheus-27-5-1
+        name: prometheus
+        namespace: prometheus
+        values: |
+          server:
+            ingress:
+              enabled: true
+              annotations:
+                kubernetes.io/ingress.class: nginx
+              hosts:
+                - prometheus.example.com
