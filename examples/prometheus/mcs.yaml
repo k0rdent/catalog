@@ -1,11 +1,11 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: MultiClusterService
 metadata:
-  name: dapr
+  name: prometheus
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
       - template: ingress-nginx-4-11-3
@@ -16,14 +16,14 @@ spec:
             controller:
               hostPort:
                 enabled: true
-      - template: dapr-1-14-4
-        name: dapr
-        namespace: dapr
-      - template: dapr-dashboard-0-15-0
-        name: dapr-dashboard
-        namespace: dapr
+      - template: prometheus-27-5-1
+        name: prometheus
+        namespace: prometheus
         values: |
-          ingress:
-            enabled: true
-            className: nginx
-            host: 'dapr.example.com'
+          server:
+            ingress:
+              enabled: true
+              annotations:
+                kubernetes.io/ingress.class: nginx
+              hosts:
+                - prometheus.example.com

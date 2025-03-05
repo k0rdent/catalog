@@ -5,7 +5,7 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
       - template: ingress-nginx-4-11-3

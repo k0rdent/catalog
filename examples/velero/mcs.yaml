@@ -1,13 +1,13 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: MultiClusterService
 metadata:
-  name: kyverno
+  name: velero
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
-      - template: kyverno-3-3-7
-        name: kyverno
-        namespace: kyverno
+      - template: velero-8-4-0
+        name: velero
+        namespace: velero

@@ -1,11 +1,11 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: MultiClusterService
 metadata:
-  name: prometheus
+  name: open-webui
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
       - template: ingress-nginx-4-11-3
@@ -16,14 +16,16 @@ spec:
             controller:
               hostPort:
                 enabled: true
-      - template: prometheus-27-5-1
-        name: prometheus
-        namespace: prometheus
+      - template: open-webui-5-20-0
+        name: open-webui
+        namespace: open-webui
         values: |
-          server:
-            ingress:
-              enabled: true
-              annotations:
-                kubernetes.io/ingress.class: nginx
-              hosts:
-                - prometheus.example.com
+          ollama:
+            ollama:
+              models:
+                pull: [smollm:135m]
+                run: [smollm:135m]
+          ingress:
+            enabled: true
+            class: "nginx"
+            host: 'openwebui.example.com'

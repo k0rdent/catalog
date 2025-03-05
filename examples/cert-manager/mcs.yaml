@@ -1,13 +1,13 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: MultiClusterService
 metadata:
-  name: argo-cd
+  name: cert-manager
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
-      - template: argo-cd-7-8-0
-        name: argo-cd
-        namespace: argo-cd
+      - template: cert-manager-1-17-1
+        name: cert-manager
+        namespace: cert-manager

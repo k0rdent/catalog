@@ -54,7 +54,7 @@ kubectl get secret aws-example-$USER-kubeconfig -o=jsonpath={.data.value} | base
 
 # Deploy service using multiclusterservice
 # Note: there is complete configurable values list in $EXAMPLE/values-orig.yaml folder.
-kubectl apply -f $EXAMPLE/mcs-aws.yaml
+kubectl apply -f $EXAMPLE/mcs.yaml
 KUBECONFIG=kcfg ./scripts/wait_for_deployment.sh
 
 # Test webpage if exposed

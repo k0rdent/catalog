@@ -1,11 +1,11 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: MultiClusterService
 metadata:
-  name: kubecost
+  name: dapr
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
       - template: ingress-nginx-4-11-3
@@ -16,11 +16,14 @@ spec:
             controller:
               hostPort:
                 enabled: true
-      - template: kubecost-cost-analyzer-2-5-3
-        name: kubecost
-        namespace: kubecost
+      - template: dapr-1-14-4
+        name: dapr
+        namespace: dapr
+      - template: dapr-dashboard-0-15-0
+        name: dapr-dashboard
+        namespace: dapr
         values: |
           ingress:
             enabled: true
             className: nginx
-            hosts: ['kubecost.example.com']
+            host: 'dapr.example.com'

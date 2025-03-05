@@ -1,13 +1,13 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: MultiClusterService
 metadata:
-  name: cert-manager
+  name: kyverno
 spec:
   clusterSelector:
     matchLabels:
-      type: aws
+      group: demo
   serviceSpec:
     services:
-      - template: cert-manager-1-17-1
-        name: cert-manager
-        namespace: cert-manager
+      - template: kyverno-3-3-7
+        name: kyverno
+        namespace: kyverno
