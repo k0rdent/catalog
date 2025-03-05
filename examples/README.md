@@ -5,6 +5,7 @@
 - AWS account configured for k0rdent ([guide](https://docs.k0rdent.io/v0.1.0/admin-prepare/#aws), steps 1-8)
 - `helm` - The Kubernetes package manager (`brew install helm`)
 - Google Chrome or Chromium browser for web pages testing (Optionally)
+- `kind` - [Local Kubernetes cluster tool](https://kind.sigs.k8s.io/) (for local testing only)
 
 ## Environment
 Prepare setup script with your env vars (credentials, secrets, passwords)
