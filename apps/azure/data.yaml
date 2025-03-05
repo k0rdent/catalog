@@ -43,4 +43,3 @@ deploy_code: |
         worker:
           vmSize: Standard_A4_v2
     ~~~
-doc_link: https://docs.k0rdent.io/latest/template-azure/
