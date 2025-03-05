@@ -3,7 +3,10 @@ AZURE CREDENTIAL
 
 Created resources:
 
-kubectl get Secret {{ .Release.Name }}-secret
-kubectl get ConfigMap {{ .Release.Name }}-resource-template
-kubectl get AzureClusterIdentity {{ .Release.Name }}
-kubectl get Credential {{ .Release.Name }}
+kubectl get Secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -o yaml
+kubectl get ConfigMap {{ .Release.Name }}-resource-template -n {{ .Release.Namespace }} -o yaml
+kubectl get AzureClusterIdentity {{ .Release.Name }} -n {{ .Release.Namespace }} -o yaml
+kubectl get Credential {{ .Release.Name }} -n {{ .Release.Namespace }} -o yaml
+
+AZURE_SP_PASSWORD=my-secret
+kubectl patch secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -p='{"stringData":{"clientSecret":"'$AZURE_SP_PASSWORD'"}}'

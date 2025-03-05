@@ -1,6 +1,4 @@
 # Azure Service Principal values:
-# password:
-spPassword: "FILL-sp-password"
 
 # App ID
 spAppID: "FILL-sp-app-id"
