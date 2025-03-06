@@ -18,6 +18,6 @@ while true; do
 done
 
 if [[ "$EXAMPLE_MODE" == local ]]; then
-    helm uninstall adopted-credential
+    helm uninstall adopted-credential -n kcm-system
     kind delete cluster -n adopted
 fi

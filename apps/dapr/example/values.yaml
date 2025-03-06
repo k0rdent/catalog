@@ -1,0 +1,10 @@
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+
+dapr-dashboard:
+  ingress:
+    enabled: true
+    className: nginx
+    host: 'dapr.example.com'

@@ -1,0 +1,14 @@
+apiVersion: v2
+name: dapr
+type: application
+version: 7.8.0
+dependencies:
+  - name: ingress-nginx
+    version: 4.12.0
+    repository: https://kubernetes.github.io/ingress-nginx
+  - name: dapr
+    version: 1.14.4
+    repository: https://dapr.github.io/helm-charts/
+  - name: dapr-dashboard
+    version: 0.15.0
+    repository: https://dapr.github.io/helm-charts/

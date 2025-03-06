@@ -8,7 +8,9 @@ else
     if kind get clusters | grep "$cldname"; then
         echo "Adopted kind cluster already exists"
     else
+        k0rdent_ctx=$(kubectl config current-context)
         kind create cluster --config providers/kind-adopted-cluster.yaml
+        kubectl config use-context "$k0rdent_ctx"
     fi
 
     ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | base64)
@@ -17,7 +19,6 @@ else
 fi
 
 CLDNAME=$cldname ./scripts/wait_for_cld.sh
-
 
 if [[ "$EXAMPLE_MODE" == aws ]]; then
     # Store kubeconfig file for managed AWS cluster

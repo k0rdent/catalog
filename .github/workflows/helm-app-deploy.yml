@@ -1,0 +1,73 @@
+name: Kind Cluster with example Helm chart
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - apps/**
+      - .github/workflows/helm-app-deploy.yml
+
+jobs:
+  detect-updated-apps:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_folders: ${{ steps.get-changes.outputs.folders }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+
+      - name: Get Changed Folders
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        id: get-changes
+        run: |
+          echo "$ALL_CHANGED_FILES" | tr ' ' '\n'
+          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep '^apps/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "Detected changes in: $CHANGED_FOLDERS"
+          echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
+
+  test-updated-apps:
+    needs: detect-updated-apps
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder: ${{ fromJson(needs.detect-updated-apps.outputs.changed_folders) }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Kubernetes tools
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Set up Kind
+        uses: helm/kind-action@v1.8.0
+
+      - name: Create Kind Cluster
+        run: |
+          kind create cluster --name test-k8s
+          kubectl cluster-info --context kind-test-k8s
+          kind get kubeconfig -n test-k8s > kcfg
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Test - Install Helm chart
+        run: |
+          export EXAMPLE=${{ matrix.folder }}
+          echo $EXAMPLE
+          ./scripts/deploy_example_chart.sh
+
+      - name: Test - Uninstall Helm chart
+        run: |
+          export EXAMPLE=${{ matrix.folder }}
+          echo $EXAMPLE
+          ./scripts/uninstall_example_chart.sh

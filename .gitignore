@@ -7,3 +7,5 @@ kcfg
 mkdocs/apps/*/*.md
 
 ignore
+
+apps/*/*/Chart.lock
