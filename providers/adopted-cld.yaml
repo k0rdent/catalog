@@ -2,6 +2,7 @@ apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ClusterDeployment
 metadata:
   name: adopted
+  namespace: kcm-system
 spec:
   template: adopted-cluster-0-1-0
   credential: adopted-credential
