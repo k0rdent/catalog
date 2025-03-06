@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kube-prometheus-stack-service-template
+description: k0rdent service template for "kube-prometheus-stack"
+type: application
+version: 69.7.4
+appVersion: "0.80.1"
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

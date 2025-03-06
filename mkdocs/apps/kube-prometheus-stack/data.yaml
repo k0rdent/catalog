@@ -1,0 +1,33 @@
+tags:
+  - Observability
+title: "Kube Prometheus Stack"
+summary: "The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters."
+logo: "https://prometheus.io/assets/prometheus_logo_grey.svg"
+description: |
+  The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
+  It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
+  It provides a collection of monitoring and alerting rules for Kubernetes clusters
+support_link: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+install_code: |
+    ~~~bash
+    helm install kube-prometheus-stack oci://ghcr.io/k0rdent/catalog/charts/kube-prometheus-stack-service-template -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                               VALID
+    # kcm-system   kube-prometheus-stack-67-9.4       true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+    serviceSpec:
+        services:
+          - template: kube-prometheus-stack-67-9.4
+            name: kube-prometheus-stack
+            namespace: kube-prometheus-stack
+    ~~~
+doc_link: https://prometheus.io/community/
