@@ -355,6 +355,15 @@ body:has(.homepage) .back-to-catalog{
     margin-bottom: 16px;
   }
 }
+@media(max-width: 468px){
+  .md-header__button.md-logo img{
+    max-width: 140px;
+  }
+  .md-header .nav-link {
+    margin-left: 16px;
+    font-size: 12px;
+  }
+}
 .filters-section{
   display: flex;
   align-items: center;
