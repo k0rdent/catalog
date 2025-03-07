@@ -79,3 +79,43 @@ jobs:
           export TEST_MODE=local
           echo $APP
           ./scripts/uninstall_example_chart.sh
+
+  test-service-template:
+    needs: detect-updated-apps
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect-updated-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
+    strategy:
+      matrix:
+        folder: ${{ fromJson(needs.detect-updated-apps.outputs.changed_folders) }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check example helm chart exists
+        run: |
+          export APP=${{ matrix.folder }}
+          ./scripts/example_chart_exists.sh
+
+      - name: Set up Kubernetes tools
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Set up Kind
+        uses: helm/kind-action@v1.8.0
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Create k0rdent cluster
+        run: |
+          ./scripts/deploy_k0rdent.sh
+
+      - name: Test - Install service templates
+        run: |
+          export APP=${{ matrix.folder }}
+          echo $APP
+          ./scripts/kgst_install.sh
