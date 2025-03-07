@@ -41,6 +41,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Check example helm chart exists
+        run: |
+          export EXAMPLE=${{ matrix.folder }}
+          ./scripts/example_chart_exists.sh
+
       - name: Set up Kubernetes tools
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
