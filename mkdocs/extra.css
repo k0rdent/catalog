@@ -119,6 +119,7 @@ ul.video-list .thumb {
 }
 .md-header .md-search__form{
   background-color: #fff;
+  margin-bottom: 0;
 }
 .md-header .md-search__form .md-search__icon svg{
   fill: #000;
@@ -128,6 +129,15 @@ ul.video-list .thumb {
 }
 .md-header .md-header__title{
   position: relative;
+}
+.md-header .nav-link {
+  margin-left: 32px;
+  margin-right: 16px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+.md-header .md-header__source{
+  margin-left: 0;
 }
 
 
