@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+./scripts/setup_provider_credential.sh
+
 if [[ "$TEST_MODE" == aws ]]; then
     sed "s/SUFFIX/${USER}/g" providers/aws-cld.yaml | kubectl apply -f -
     cldname="aws-example-$USER"

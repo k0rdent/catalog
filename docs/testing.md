@@ -29,8 +29,7 @@ Universal workflow to run any example:
 ### Setup testing cluster
 ~~~bash
 export TEST_MODE="local" # Supported values: aws, local
-# Setup provider (local, aws) credential object
-./scripts/setup_provider_credential.sh
+
 # Add adopted cluster to k0rdent
 ./scripts/deploy_cld.sh
 ~~~
