@@ -25,10 +25,10 @@ jobs:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         id: get-changes
         run: |
-          changed_app_files=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep '^apps/')
-          changed_apps=$(echo "$changed_app_files" | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
-          echo "Detected changes in: $changed_apps"
-          echo "folders=$changed_apps" >> "$GITHUB_OUTPUT"
+          echo "$ALL_CHANGED_FILES" | tr ' ' '\n'
+          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep '^apps/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "Detected changes in: $CHANGED_FOLDERS"
+          echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
 
   test-updated-apps:
     needs: detect-updated-apps
