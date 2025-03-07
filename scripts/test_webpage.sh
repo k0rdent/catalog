@@ -3,7 +3,7 @@ set -euo pipefail
 
 while true; do
     sleep 3
-    ingress=$(KUBECONFIG=kcfg kubectl get ingress -n $APP --no-headers)
+    ingress=$(KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n $APP --no-headers)
     echo "$ingress"
     address=$(echo "$ingress" | awk '{print $4}')
     if [[ -z "$address" ]]; then

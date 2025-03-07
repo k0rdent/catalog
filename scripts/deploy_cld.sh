@@ -25,9 +25,9 @@ CLDNAME=$cldname ./scripts/wait_for_cld.sh
 
 if [[ "$TEST_MODE" == aws ]]; then
     # Store kubeconfig file for managed AWS cluster
-    kubectl get secret aws-example-$USER-kubeconfig -o=jsonpath={.data.value} | base64 -d > kcfg
+    kubectl get secret aws-example-$USER-kubeconfig -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
 else
     # store adopted cluster kubeconfig
-    kind get kubeconfig -n adopted > kcfg
+    kind get kubeconfig -n adopted > "kcfg_$TEST_MODE"
 fi
-chmod 0600 kcfg # set minimum attributes to kubeconfig (owner read/write)
+chmod 0600 "kcfg_$TEST_MODE" # set minimum attributes to kubeconfig (owner read/write)

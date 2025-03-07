@@ -3,7 +3,7 @@
 
 scripts/set_envs.sh
 *ign*
-kcfg
+kcfg*
 mkdocs/apps/*/*.md
 
 ignore

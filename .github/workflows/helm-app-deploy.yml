@@ -59,7 +59,7 @@ jobs:
         run: |
           kind create cluster --name test-k8s
           kubectl cluster-info --context kind-test-k8s
-          kind get kubeconfig -n test-k8s > kcfg
+          kind get kubeconfig -n test-k8s > "kcfg_local"
 
       - name: Install Helm
         run: |
@@ -68,11 +68,13 @@ jobs:
       - name: Test - Install Helm chart
         run: |
           export APP=${{ matrix.folder }}
+          export TEST_MODE=local
           echo $APP
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
         run: |
           export APP=${{ matrix.folder }}
+          export TEST_MODE=local
           echo $APP
           ./scripts/uninstall_example_chart.sh
