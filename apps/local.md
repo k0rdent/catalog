@@ -1,4 +1,4 @@
-# Run k0rdent examples locally
+# Run k0rdent apps locally
 
 ## Setup local testing cluster
 Create testing local cluster to adopt:

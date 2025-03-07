@@ -1,4 +1,4 @@
-# Run k0rdent examples in AWS
+# Run k0rdent apps in AWS
 
 ## Cloud provider credentials
 Create AWS credential resources using helm chart:

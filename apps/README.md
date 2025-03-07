@@ -1,4 +1,4 @@
-# k0rdent examples
+# k0rdent applications testing
 
 ## Requirements
 - Mothership Kubernetes cluster with [k0rdent 0.1.0 installed](https://docs.k0rdent.io/v0.1.0/admin-installation/#install-k0rdent).
