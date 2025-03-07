@@ -33,6 +33,7 @@ jobs:
   test-updated-apps:
     needs: detect-updated-apps
     runs-on: ubuntu-latest
+    if: ${{ needs.detect-updated-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
       matrix:
         folder: ${{ fromJson(needs.detect-updated-apps.outputs.changed_folders) }}
