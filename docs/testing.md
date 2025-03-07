@@ -1,11 +1,15 @@
 # k0rdent applications testing
 
 ## Requirements
-- Mothership Kubernetes cluster with [k0rdent 0.1.0 installed](https://docs.k0rdent.io/v0.1.0/admin-installation/#install-k0rdent).
-- AWS account configured for k0rdent ([guide](https://docs.k0rdent.io/v0.1.0/admin-prepare/#aws), steps 1-8)
 - `helm` - The Kubernetes package manager (`brew install helm`)
-- Google Chrome or Chromium browser for web pages testing (Optionally)
 - `kind` - [Local Kubernetes cluster tool](https://kind.sigs.k8s.io/) (for local testing only)
+- Mothership Kubernetes cluster with [k0rdent 0.1.0 installed](https://docs.k0rdent.io/v0.1.0/admin-installation/#install-k0rdent).
+    - You can install local `k0rdent` cluster using:
+    ~~~bash
+    ./scripts/deploy_k0rdent.sh
+    ~~~
+- AWS account configured for k0rdent ([guide](https://docs.k0rdent.io/v0.1.0/admin-prepare/#aws), steps 1-8)
+- Google Chrome or Chromium browser for web pages testing (Optionally)
 
 ## Environment
 Prepare setup script with your env vars (credentials, secrets, passwords)
