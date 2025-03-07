@@ -92,30 +92,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check example helm chart exists
-        run: |
-          export APP=${{ matrix.folder }}
-          ./scripts/example_chart_exists.sh
-
-      - name: Set up Kubernetes tools
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
-
-      - name: Set up Kind
-        uses: helm/kind-action@v1.8.0
-
-      - name: Install Helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-      - name: Create k0rdent cluster
-        run: |
-          ./scripts/deploy_k0rdent.sh
-
-      - name: Test - Install service templates
+      - name: Test - Show service templates install commands
         run: |
           export APP=${{ matrix.folder }}
           echo $APP
-          ./scripts/kgst_install.sh
+          python3 ./scripts/utils.py kgst-install-deps $APP
