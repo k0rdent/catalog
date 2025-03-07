@@ -21,7 +21,7 @@ source ./scripts/set_envs.sh
 
 ## Test workflows
 - [Testing in AWS](./aws.md)
-- [Testing locally](local.md)
+- [Testing locally](./local.md)
 
 ## Tested applications
 
