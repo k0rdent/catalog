@@ -19,7 +19,11 @@ while true; do
     echo "Ingress host: $host"
 
     if [[ "$EXAMPLE_MODE" == local ]]; then
-        ip="127.0.0.1:50080"
+        if echo "$ingress" | grep "443"; then
+            ip="127.0.0.1:50443"
+        else
+            ip="127.0.0.1:50080"
+        fi
     else
         ip=$(dig +short "$address" | head -n 1)
         if [[ -z "$ip" ]]; then
