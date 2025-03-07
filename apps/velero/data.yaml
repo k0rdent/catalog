@@ -1,0 +1,32 @@
+tags:
+  - Backup 
+  - Recovery
+title: "Velero"
+summary: "Open source tool to safely backup and restore."
+logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
+description: |
+    Velero is an open source tool to safely backup and restore, perform disaster recovery,
+    and migrate Kubernetes cluster resources and persistent volumes.
+install_code: |
+    ~~~bash
+    # k0rdent includes the template for Velero out of the box
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                VALID
+    # kcm-system   velero-8-1-0        true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: velero-8-1-0
+            name: velero
+            namespace: velero
+    ~~~
+doc_link: https://vmware-tanzu.github.io/helm-charts/

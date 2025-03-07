@@ -1,0 +1,45 @@
+tags:
+  - Finops
+  - Observability
+title: "OpenCost"
+summary: "Monitor your cloud costs."
+logo: "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true"
+description: |
+    OpenCost is a vendor-neutral open-source project for measuring and allocating cloud infrastructure and container costs in real-time.
+    It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how
+    resources are being used.
+support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
+install_code: |
+    ~~~bash
+    helm upgrade --install opencost oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://opencost.github.io/opencost-helm-chart" \
+      --set "helm.charts[0].name=opencost" \
+      --set "helm.charts[0].version=1.43.2"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   opencost-1-43-2                true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: opencost-1-43-2
+            name: opencost
+            namespace: opencost
+            values: |
+              opencost:
+                ui:
+                  ingress:
+                    enabled: true
+                    ingressClassName: nginx
+                    hosts:
+                      - host: 'opencost.example.com'
+    ~~~
+doc_link: https://opencost.io/

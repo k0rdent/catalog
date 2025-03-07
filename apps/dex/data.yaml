@@ -1,0 +1,34 @@
+tags:
+    - Authentication 
+    - Security 
+    - Authorization
+title: "Dex"
+summary: "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors."
+logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png"
+description: |
+    Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. 
+    Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.
+support_link: https://dexidp.io/docs/guides/kubernetes/
+install_code: |
+    ~~~bash
+    helm install tigera-operator oci://ghcr.io/k0rdent/catalog/charts/tigera-operator-service-template -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME             VALID
+    # kcm-system   dex-0-19-1       true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+    serviceSpec:
+        services:
+          - template: dex-0-19-1
+            name: dex
+            namespace: dex
+    ~~~
+doc_link: https://dexidp.io/docs/

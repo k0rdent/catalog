@@ -1,0 +1,37 @@
+tags:
+    - Networking 
+    - CNI 
+    - Security
+title: "Calico"
+summary: "Networking and security solution specifically designed for Kubernetes clusters."
+logo: "https://docs.tigera.io/img/calico-logo.png"
+description: |
+  Calico is a networking and security solution specifically designed for Kubernetes clusters,
+  allowing containers and pods to communicate securely across the network by utilizing a layer-3 based routing
+  approach, effectively managing network policies and providing robust security controls for cloud-native applications;
+  essentially, it acts as a container network interface (CNI) plugin within Kubernetes to manage network connectivity between
+  pods within a cluster.
+support_link: https://www.tigera.io/customer-success/
+install_code: |
+    ~~~bash
+    helm install tigera-operator oci://ghcr.io/k0rdent/catalog/charts/tigera-operator-service-template -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                       VALID
+    # kcm-system   tigera-operator-3-29-2     true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: tigera-operator-3-29-2
+            name: tigera-operator
+            namespace: tigera-operator
+    ~~~
+doc_link: https://docs.tigera.io/calico

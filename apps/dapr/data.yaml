@@ -1,0 +1,48 @@
+title: "Dapr"
+tags:
+  - Application Runtime
+summary: "Portable, event-driven runtime."
+logo: "./apps/dapr/dapr-logo.svg"
+description: |
+  Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
+  Service-to-service invocation: Enables reliable and secure communication between microservices. 
+
+  State management: Provides a consistent way to manage application state. 
+
+  Publish and subscribe: Allows microservices to communicate asynchronously through message brokers. 
+
+  Bindings: Connects applications to external systems and services (e.g., databases, message queues, cloud services). 
+
+  Actors: Provides a framework for building stateful, concurrent objects. 
+
+  Observability: Offers built-in observability features, including tracing, metrics, and logging.
+install_code: |
+  ~~~bash
+  helm upgrade --install dapr oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+    --set "helm.repository.url=https://dapr.github.io/helm-charts/" \
+    --set "helm.charts[0].name=dapr" \
+    --set "helm.charts[0].version=1.14.4" \
+    --set "helm.charts[1].name=dapr-dashboard" \
+    --set "helm.charts[1].version=0.15.0"
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                       VALID
+  # kcm-system   dapr-1-14-4                true
+  # kcm-system   dapr-dashboard-0-15-0      true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: ClusterDeployment
+  # kind: MultiClusterService
+  ...
+    serviceSpec:
+      services:
+        - template: tigera-operator-3-29-2
+          name: tigera-operator
+          namespace: tigera-operator
+  ~~~
+support_link: https://www.diagrid.io/conductor
+doc_link: https://docs.dapr.io/
