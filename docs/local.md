@@ -43,7 +43,7 @@ helm upgrade --install $EXAMPLE oci://ghcr.io/k0rdent/catalog/charts/kgst \
 
 # Deploy service using multiclusterservice
 # Note: there is complete configurable values list in $EXAMPLE/values-orig.yaml folder.
-kubectl apply -f $EXAMPLE/mcs.yaml
+kubectl apply -f apps/$EXAMPLE/mcs.yaml
 KUBECONFIG=kcfg ./scripts/wait_for_deployment.sh
 
 # Test webpage if exposed
@@ -59,5 +59,6 @@ Delete testing cluster:
 ~~~bash
 # Be careful, you can use existing cluster for other examples!!!
 kubectl delete cld adopted
+helm uninstall adopted-credential
 kind delete cluster -n adopted
 ~~~

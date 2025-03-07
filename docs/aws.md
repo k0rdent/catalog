@@ -23,7 +23,7 @@ Universal workflow to run any example:
 export EXAMPLE="open-webui"
 
 # Deploy testing AWS cluster with unique name
-sed "s/SUFFIX/${USER}/g" $EXAMPLE/cld.yaml | kubectl apply -f -
+sed "s/SUFFIX/${USER}/g" apps/$EXAMPLE/cld.yaml | kubectl apply -f -
 ./scripts/wait_for_cluster.sh
 
 # Install k0rdent service template
@@ -37,7 +37,7 @@ chmod 0400 kcfg # set minimum attributes to kubeconfig
 
 # Deploy service using multiclusterservice
 # Note: there is complete configurable values list in $EXAMPLE/values-orig.yaml folder.
-kubectl apply -f $EXAMPLE/mcs.yaml
+kubectl apply -f apps/$EXAMPLE/mcs.yaml
 KUBECONFIG=kcfg ./scripts/wait_for_deployment.sh
 
 # Test webpage if exposed
