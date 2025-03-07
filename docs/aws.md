@@ -29,7 +29,7 @@ sed "s/SUFFIX/${USER}/g" apps/$EXAMPLE/cld.yaml | kubectl apply -f -
 # Install k0rdent service template
 helm upgrade --install $EXAMPLE oci://ghcr.io/k0rdent/catalog/charts/kgst \
   -n kcm-system \
-  -f $EXAMPLE/helm-values-kgst.yaml
+  -f apps/$EXAMPLE/helm-values-kgst.yaml
 
 # Store kubeconfig file for managed AWS cluster
 kubectl get secret aws-example-$USER-kubeconfig -o=jsonpath={.data.value} | base64 -d > kcfg
@@ -38,15 +38,15 @@ chmod 0400 kcfg # set minimum attributes to kubeconfig
 # Deploy service using multiclusterservice
 # Note: there is complete configurable values list in $EXAMPLE/values-orig.yaml folder.
 kubectl apply -f apps/$EXAMPLE/mcs.yaml
-KUBECONFIG=kcfg ./scripts/wait_for_deployment.sh
+./scripts/wait_for_deployment.sh
 
 # Test webpage if exposed
-KUBECONFIG=kcfg ./scripts/test_webpage.sh
+./scripts/test_webpage.sh
 
 # Cleaning section
 # Remove multiclusterservice
 kubectl delete multiclusterservice $EXAMPLE
-KUBECONFIG=kcfg ./scripts/wait_for_deployment_removal.sh
+./scripts/wait_for_deployment_removal.sh
 
 # Remove cluster
 # Be careful, you can use existing cluster for other examples!!!

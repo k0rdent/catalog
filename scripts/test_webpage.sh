@@ -2,7 +2,7 @@
 
 while true; do
     sleep 3
-    ingress=$(kubectl get ingress -n $EXAMPLE --no-headers)
+    ingress=$(KUBECONFIG=kcfg kubectl get ingress -n $EXAMPLE --no-headers)
     echo "$ingress"
     address=$(echo "$ingress" | awk '{print $4}')
     if [[ -z "$address" ]]; then

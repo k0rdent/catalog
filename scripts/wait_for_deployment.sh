@@ -1,7 +1,7 @@
 #!/bin/bash
 
 while true; do
-    pods=$(kubectl get pods -n "$EXAMPLE" --no-headers 2>&1)
+    pods=$(KUBECONFIG=kcfg kubectl get pods -n "$EXAMPLE" --no-headers 2>&1)
     echo "$pods"  # Print the pod list to stdout
 
     # Extract statuses
