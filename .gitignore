@@ -1,7 +1,7 @@
 .lh/
 *.tgz
 
-examples/scripts/set_envs.sh
+scripts/set_envs.sh
 *ign*
 kcfg
 mkdocs/apps/*/*.md
