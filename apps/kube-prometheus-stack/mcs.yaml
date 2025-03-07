@@ -11,4 +11,3 @@ spec:
       - template: kube-prometheus-stack-69-7-4
         name: kube-prometheus-stack
         namespace: kube-prometheus-stack
-
