@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 chart=apps/$EXAMPLE/example
 helm dependency build $chart

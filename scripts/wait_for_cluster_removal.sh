@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 while true; do
     if ! kubectl get cld | grep aws-example-$USER; then

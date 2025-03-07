@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if [[ "$EXAMPLE_MODE" == aws ]]; then
     helm upgrade --install aws-credential oci://ghcr.io/k0rdent/catalog/charts/aws-credential \

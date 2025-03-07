@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 helm upgrade --install $EXAMPLE oci://ghcr.io/k0rdent/catalog/charts/kgst \
   -n kcm-system \

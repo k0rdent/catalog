@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 KUBECONFIG=kcfg helm uninstall $EXAMPLE -n $EXAMPLE
 

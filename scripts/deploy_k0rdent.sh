@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if kind get clusters | grep "k0rdent"; then
     echo "k0rdent kind cluster already exists"

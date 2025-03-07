@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if [[ "$EXAMPLE_MODE" == aws ]]; then
     sed "s/SUFFIX/${USER}/g" providers/aws-cld.yaml | kubectl apply -f -

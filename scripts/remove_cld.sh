@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if [[ "$EXAMPLE_MODE" == local ]]; then
     cldname="adopted"
