@@ -19,9 +19,47 @@ Fill vars in your `./scripts/set_envs.sh`. Set environment variables using prepa
 source ./scripts/set_envs.sh
 ~~~
 
-## Test workflows
-- [Testing in AWS](./aws.md)
-- [Testing locally](./local.md)
+## Run example
+Universal workflow to run any example:
+
+### Setup testing cluster
+~~~bash
+export EXAMPLE_MODE="local" # Supported values: aws, local
+# Setup provider (local, aws) credential object
+./scripts/setup_provider_credential.sh
+# Add adopted cluster to k0rdent
+./scripts/deploy_cld.sh
+~~~
+
+### Deploy application
+Create a testing application release, verify it's installed and it exposess frontend if needed.
+Then uninstall it and verify it was really removed. You can use this section over and over
+for a different applications.
+~~~bash
+# open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
+# ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno, prometheus
+export EXAMPLE="kubernetes-dashboard"
+
+# Install k0rdent service template
+./scripts/install_svc_tpl.sh
+
+# Deploy service using multiclusterservice
+# Note: there is complete configurable values list in $EXAMPLE/values-orig.yaml folder.
+./scripts/deploy_mcs.sh
+
+# Test webpage if exposed
+./scripts/test_webpage.sh
+
+# Cleaning section
+# Remove multiclusterservice
+./scripts/remove_mcs.sh
+~~~
+
+Delete testing cluster:
+~~~bash
+# Be careful, you can use existing cluster for other examples!!!
+./scripts/remove_cld.sh
+~~~
 
 ## Tested applications
 
