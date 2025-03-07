@@ -44,7 +44,7 @@ for a different applications.
 export APP="dapr"
 
 # Install k0rdent service template
-./scripts/install_svc_tpl.sh
+./scripts/kgst_install.sh
 
 # Deploy service using multiclusterservice
 # Note: there is complete configurable values list in $APP/values-orig.yaml folder.
