@@ -41,7 +41,7 @@ for a different applications.
 ~~~bash
 # open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
 # ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno, prometheus
-export APP="kubernetes-dashboard"
+export APP="dapr"
 
 # Install k0rdent service template
 ./scripts/install_svc_tpl.sh
