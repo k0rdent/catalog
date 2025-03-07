@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [[ "$EXAMPLE_MODE" == aws ]]; then
+if [[ "$TEST_MODE" == aws ]]; then
     helm upgrade --install aws-credential oci://ghcr.io/k0rdent/catalog/charts/aws-credential \
         --version 0.0.1 \
         -n kcm-system \

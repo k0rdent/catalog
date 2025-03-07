@@ -1,18 +1,18 @@
 import os
 import yaml
 
-example = os.environ.get('EXAMPLE')
-if not example:
-    raise "Set EXAMPLE env var"
+app = os.environ.get('APP')
+if not app:
+    raise "Set APP env var"
 
-helm_config_path = f"apps/{example}/helm-values-kgst.yaml"
+helm_config_path = f"apps/{app}/helm-values-kgst.yaml"
 
 helm_config = None
 with open(helm_config_path, "r", encoding='utf-8') as file:
     helm_config = yaml.safe_load(file)
 
 cmd_lines = []
-cmd_lines.append(f'helm upgrade --install {example} oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system')
+cmd_lines.append(f'helm upgrade --install {app} oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system')
 cmd_lines.append(f'    --set "helm.repository.url={helm_config['helm']['repository']['url']}"')
 
 if 'prefix' in helm_config:

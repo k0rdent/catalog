@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-chart="apps/$EXAMPLE/example/Chart.yaml"
+chart="apps/$APP/example/Chart.yaml"
 
 if [[ -e "$chart" ]]; then
     echo "Example chart $chart exist."

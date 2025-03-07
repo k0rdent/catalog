@@ -43,7 +43,7 @@ jobs:
 
       - name: Check example helm chart exists
         run: |
-          export EXAMPLE=${{ matrix.folder }}
+          export APP=${{ matrix.folder }}
           ./scripts/example_chart_exists.sh
 
       - name: Set up Kubernetes tools
@@ -67,12 +67,12 @@ jobs:
 
       - name: Test - Install Helm chart
         run: |
-          export EXAMPLE=${{ matrix.folder }}
-          echo $EXAMPLE
+          export APP=${{ matrix.folder }}
+          echo $APP
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
         run: |
-          export EXAMPLE=${{ matrix.folder }}
-          echo $EXAMPLE
+          export APP=${{ matrix.folder }}
+          echo $APP
           ./scripts/uninstall_example_chart.sh

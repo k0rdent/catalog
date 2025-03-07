@@ -28,7 +28,7 @@ Universal workflow to run any example:
 
 ### Setup testing cluster
 ~~~bash
-export EXAMPLE_MODE="local" # Supported values: aws, local
+export TEST_MODE="local" # Supported values: aws, local
 # Setup provider (local, aws) credential object
 ./scripts/setup_provider_credential.sh
 # Add adopted cluster to k0rdent
@@ -42,13 +42,13 @@ for a different applications.
 ~~~bash
 # open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
 # ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno, prometheus
-export EXAMPLE="kubernetes-dashboard"
+export APP="kubernetes-dashboard"
 
 # Install k0rdent service template
 ./scripts/install_svc_tpl.sh
 
 # Deploy service using multiclusterservice
-# Note: there is complete configurable values list in $EXAMPLE/values-orig.yaml folder.
+# Note: there is complete configurable values list in $APP/values-orig.yaml folder.
 ./scripts/deploy_mcs.sh
 
 # Test webpage if exposed

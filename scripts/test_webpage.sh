@@ -3,7 +3,7 @@ set -euo pipefail
 
 while true; do
     sleep 3
-    ingress=$(KUBECONFIG=kcfg kubectl get ingress -n $EXAMPLE --no-headers)
+    ingress=$(KUBECONFIG=kcfg kubectl get ingress -n $APP --no-headers)
     echo "$ingress"
     address=$(echo "$ingress" | awk '{print $4}')
     if [[ -z "$address" ]]; then
@@ -19,7 +19,7 @@ while true; do
     fi
     echo "Ingress host: $host"
 
-    if [[ "$EXAMPLE_MODE" == local ]]; then
+    if [[ "$TEST_MODE" == local ]]; then
         if echo "$ingress" | grep "443"; then
             ip="127.0.0.1:50443"
         else

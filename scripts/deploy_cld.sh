@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [[ "$EXAMPLE_MODE" == aws ]]; then
+if [[ "$TEST_MODE" == aws ]]; then
     sed "s/SUFFIX/${USER}/g" providers/aws-cld.yaml | kubectl apply -f -
     cldname="aws-example-$USER"
 else
@@ -21,7 +21,7 @@ fi
 
 CLDNAME=$cldname ./scripts/wait_for_cld.sh
 
-if [[ "$EXAMPLE_MODE" == aws ]]; then
+if [[ "$TEST_MODE" == aws ]]; then
     # Store kubeconfig file for managed AWS cluster
     kubectl get secret aws-example-$USER-kubeconfig -o=jsonpath={.data.value} | base64 -d > kcfg
 else

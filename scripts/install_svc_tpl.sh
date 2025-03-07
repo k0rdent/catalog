@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-helm upgrade --install $EXAMPLE oci://ghcr.io/k0rdent/catalog/charts/kgst \
+helm upgrade --install $APP oci://ghcr.io/k0rdent/catalog/charts/kgst \
   -n kcm-system \
-  -f apps/$EXAMPLE/helm-values-kgst.yaml
+  -f apps/$APP/helm-values-kgst.yaml

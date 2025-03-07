@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [[ "$EXAMPLE_MODE" == local ]]; then
+if [[ "$TEST_MODE" == local ]]; then
     cldname="adopted"
 else
     cldname="aws-example-$USER"
@@ -18,7 +18,7 @@ while true; do
     sleep 3
 done
 
-if [[ "$EXAMPLE_MODE" == local ]]; then
+if [[ "$TEST_MODE" == local ]]; then
     helm uninstall adopted-credential -n kcm-system
     kind delete cluster -n adopted
 fi

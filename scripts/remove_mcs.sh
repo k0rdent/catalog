@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-kubectl delete multiclusterservice $EXAMPLE -n kcm-system
+kubectl delete multiclusterservice $APP -n kcm-system
 
-NAMESPACE=$EXAMPLE ./scripts/wait_for_deployment_removal.sh
+NAMESPACE=$APP ./scripts/wait_for_deployment_removal.sh
