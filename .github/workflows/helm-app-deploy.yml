@@ -70,14 +70,12 @@ jobs:
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
-          echo $APP
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
-          echo $APP
           ./scripts/uninstall_example_chart.sh
 
   test-service-template:
@@ -95,5 +93,4 @@ jobs:
       - name: Test - Show service templates install commands
         run: |
           export APP=${{ matrix.folder }}
-          echo $APP
           python3 ./scripts/utils.py kgst-install-deps $APP
