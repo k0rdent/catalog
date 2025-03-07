@@ -24,9 +24,9 @@ helm upgrade --install dapr oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-sys
     --set "helm.charts[1].version=0.15.0"
 ~~~
 
-You can use `scripts/show_install_cmd.py` to generate installation command for your app from `apps/<app>/helm-values-kgst.yaml` file, e.g.:
+You can use `./scripts/utils.py` to generate installation command for your app from `apps/<app>/helm-values-kgst.yaml` file, e.g.:
 ~~~bash
-APP=dapr python3 scripts/show_install_cmd.py
+python3 ./scripts/utils.py show-install-cmd $APP
 ~~~
 
 We are going to use this automatically in app doc in near future.
