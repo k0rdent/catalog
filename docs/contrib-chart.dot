@@ -1,0 +1,96 @@
+// dot docs/contrib-chart.dot -Tsvg -o docs/contrib-chart.svg
+digraph G {
+  rankdir="LR"
+  node [fontname = "sans-serif",
+        shape = diamond,
+        style="filled",
+        fillcolor="lightyellow"];
+  edge [fontname = "sans-serif", margin=10];
+  
+  pr_created [
+    label = "New catalog app\nPR created";
+    shape = box
+  ];
+
+  manual_review [
+    label = "Catalog repo owner\naccepted the application in\nmanual review";
+    shape = diamond;
+  ];
+
+  action_script [
+    label = "GitHub action\ntest 'helm-app-deploy' \npassed";
+    shape = diamond;
+  ];
+
+  pr_updated [
+    label = "PR updated\nby contributor";
+  ];
+
+  updates_requested [
+    label = "PR updates\nrequested";
+    shape = diamond;
+  ];
+
+  pr_merged [
+    label = "PR is merged\nby catalog\nrepo owner";
+    shape = oval;
+    fillcolor = "lightgreen"
+  ];
+
+  pr_rejected [
+    label = "PR is rejected\nand closed";
+    shape = oval;
+    fillcolor = "lightpink"
+  ];
+
+  pr_created -> action_script;
+  action_script -> manual_review
+  [label = "Yes\n ";
+   fontcolor = green
+   color = green];
+  action_script:w -> pr_updated:w
+  [label = "Yes\n ";
+   dir = back ;
+   fontcolor = green
+   color = green];
+
+  {
+    rank=same;
+    action_script; pr_updated;
+  }
+
+  action_script -> pr_updated
+  [label = "No ";
+   fontcolor = red
+   color = red];
+
+  manual_review -> pr_merged
+  [label = "Yes\n ";
+   fontcolor = green
+   color = green];
+
+  manual_review -> updates_requested
+  [label = "No\n ";
+   fontcolor = red
+   color = red];
+
+  {
+    rank=same;
+    manual_review; updates_requested;
+  }
+
+  updates_requested:e -> pr_rejected
+  [label = "No\n ";
+   fontcolor = red
+   color = red];
+
+  updates_requested -> pr_updated
+  [label = "Yes\n ";
+   fontcolor = green
+   color = green];
+
+  pr_updated:s -> pr_rejected:s
+  [label = "No";
+   fontcolor = red
+   color = red];
+}
