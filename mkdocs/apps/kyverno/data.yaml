@@ -1,5 +1,4 @@
 tags:
-  - Policy
   - Security
 title: "Kyverno"
 summary: "Kubernetes Native Policy Management."

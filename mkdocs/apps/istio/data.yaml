@@ -1,5 +1,4 @@
 tags:
-    - Service mesh 
     - Networking
 title: "Istio"
 summary: "Open source service mesh that layers transparently onto existing distributed applications."

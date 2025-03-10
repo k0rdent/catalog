@@ -1,5 +1,5 @@
 tags:
-  - Observability
+  - Monitoring
 title: "Prometheus"
 summary: From metrics to insight
 logo: "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png"

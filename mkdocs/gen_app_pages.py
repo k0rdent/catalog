@@ -3,6 +3,7 @@ import yaml
 from jinja2 import Template
 
 required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code', 'deploy_code']
+allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security', 'Storage', 'CI/CD']
 
 def changed(file, content):
     if os.path.exists(file):
@@ -16,6 +17,12 @@ def validate_metadata(file: str, data: dict):
     for required_field in required_fields:
         if required_field not in data:
             raise Exception(f"Required field '{required_field}' not found in {file}")
+
+    if not isinstance(data['tags'], list):
+        raise Exception(f"Field 'tags' needs to be an array! ({file})")
+    for tag in data['tags']:
+        if tag not in allowed_tags:
+            raise Exception(f"Unsupported tag '{tag}' found in {file}. Allowed tags: {allowed_tags}")
 
 def generate_apps():
     apps_dir = 'mkdocs/apps'

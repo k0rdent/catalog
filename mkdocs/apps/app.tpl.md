@@ -1,8 +1,12 @@
 ---
+ {% if tags %}
 tags:
 {%- for tag in tags %}
     - {{ tag }}
 {%- endfor %}
+{% else %}
+tags: []
+{% endif %}
 title: {{ title }}
 description: {{ summary }}
 logo: "{{ logo }}"

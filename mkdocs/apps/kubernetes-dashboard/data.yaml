@@ -1,5 +1,5 @@
 tags:
-  - Observability
+  - Monitoring
 title: "Kubernetes Dashboard"
 summary: "General purpose, web-based UI for Kubernetes clusters."
 logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg"

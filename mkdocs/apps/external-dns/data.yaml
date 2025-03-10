@@ -1,5 +1,5 @@
 tags:
-    - Security 
+  - Security
 title: "ExternalDNS"
 summary: "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers."
 logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png"

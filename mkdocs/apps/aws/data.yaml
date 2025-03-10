@@ -1,6 +1,5 @@
+tags: []
 title: "Amazon Web Services"
-tags:
-  - Infrastructure
 summary: "Deploy kubernetes clusters with k0rdent on AWS infrastructure."
 logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
 type: infra
