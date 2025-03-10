@@ -94,3 +94,8 @@ jobs:
         run: |
           export APP=${{ matrix.folder }}
           python3 ./scripts/utils.py kgst-install-deps $APP
+
+      - name: Test - Render MultiClusterService
+        run: |
+          export APP=${{ matrix.folder }}
+          python3 ./scripts/utils.py render-mcs $APP
