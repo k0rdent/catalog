@@ -8,6 +8,7 @@
     ~~~bash
     ./scripts/deploy_k0rdent.sh
     ~~~
+- `python3` - To run helper script.
 - AWS account configured for k0rdent ([guide](https://docs.k0rdent.io/v0.1.0/admin-prepare/#aws), steps 1-8)
 - Google Chrome or Chromium browser for web pages testing (Optionally)
 
@@ -21,6 +22,11 @@ chmod 0600 ./scripts/set_envs.sh  # allow access for file owner only
 Fill vars in your `./scripts/set_envs.sh`. Set environment variables using prepared script.
 ~~~bash
 source ./scripts/set_envs.sh
+~~~
+
+Setup python for testing scripts.
+~~~bash
+source ./scripts/setup_python.sh
 ~~~
 
 ## Run example
