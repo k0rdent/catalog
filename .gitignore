@@ -9,3 +9,4 @@ mkdocs/apps/*/*.md
 ignore
 
 apps/*/*/Chart.lock
+apps/*/mcs.y*ml
