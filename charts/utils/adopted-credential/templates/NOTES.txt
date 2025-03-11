@@ -6,5 +6,5 @@ kubectl get Secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -o yam
 kubectl get Credential {{ .Release.Name }} -n {{ .Release.Namespace }} -o yaml
 
 Set your Adopted cluster secret:
-ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n cluster1 | base64 -w 0)
+ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n cluster1 | openssl base64 -A)
 kubectl patch secret {{ .Release.Name }}-secret -n {{ .Release.Namespace }} -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
