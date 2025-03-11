@@ -4,7 +4,14 @@ set -euo pipefail
 ./scripts/setup_provider_credential.sh
 
 if [[ "$TEST_MODE" == aws ]]; then
-    sed "s/SUFFIX/${USER}/g" providers/aws-cld.yaml | kubectl apply -f -
+    if [[ -e "apps/$APP/aws-cld.yaml" ]]; then
+        echo "App specific aws-cld.yaml found."
+        cld_file="apps/$APP/aws-cld.yaml"
+    else
+        echo "No app specific aws-cld.yaml found, using default config."
+        cld_file="providers/aws-cld.yaml"
+    fi
+    sed "s/SUFFIX/${USER}/g" "$cld_file" | kubectl apply -f -
     cldname="aws-example-$USER"
 else
     cldname="adopted"
