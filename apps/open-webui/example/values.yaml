@@ -1,0 +1,15 @@
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+
+open-webui:
+  ollama:
+    ollama:
+      models:
+        pull: [smollm:135m]
+        run: [smollm:135m]
+  ingress:
+    enabled: true
+    class: "nginx"
+    host: 'openwebui.example.com'
