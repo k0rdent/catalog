@@ -41,3 +41,4 @@ deploy_code: |
             namespace: istio-system
     ~~~
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
+test_namespace: istio-system
