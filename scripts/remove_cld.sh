@@ -7,10 +7,10 @@ else
     cldname="aws-example-$USER"
 fi
 
-kubectl delete cld "$cldname"
+kubectl delete cld -n kcm-system "$cldname"
 
 while true; do
-    if ! kubectl get cld | grep "$cldname"; then
+    if ! kubectl get cld -n kcm-system | grep "$cldname"; then
         echo "Cluster not found"
         break
     fi
