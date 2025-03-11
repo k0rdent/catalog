@@ -1,0 +1,21 @@
+tags:
+  - Storage
+title: "Azure Disk CSI"
+summary: "The Azure Disk Container Storage Interface (CSI) Driver."
+logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png"
+description: |
+    The Azure Disk Container Storage Interface (CSI) Driver is a crucial component for managing persistent volumes in Kubernetes clusters running on Microsoft Azure. It allows Kubernetes to dynamically provision and manage Azure Managed Disks as persistent storage for your containerized applications. 
+support_link: https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi
+install_code: |
+    ~~~bash
+    # k0rdent includes the template for Azure Disk CSI driver out of the box
+    ~~~
+verify_code: |
+    ~~~bash
+    # Built in to k0rdent
+    ~~~
+deploy_code: |
+    ~~~yaml
+    # k0rdent will automatically install the Azure Disk CSI driver when creating cluster on Azure iaas or Azure AKS
+    ~~~
+doc_link: https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi
