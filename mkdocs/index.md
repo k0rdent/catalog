@@ -67,8 +67,14 @@ template: home.html
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Reset the tab state on every page load
-    localStorage.removeItem("/.__tabs");
+    // Loop through all keys in localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        if (key && key.includes("/.__tabs")) {
+            localStorage.removeItem(key);
+            break; // Stop after finding and removing the key
+        }
+    }
 });
 
 fetch("fetched_metadata.json")
