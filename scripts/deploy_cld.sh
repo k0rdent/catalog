@@ -16,7 +16,7 @@ else
         kubectl config use-context "$k0rdent_ctx"
     fi
 
-    ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | base64)
+    ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | base64 -w 0)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
     kubectl apply -f providers/adopted-cld.yaml
 fi
