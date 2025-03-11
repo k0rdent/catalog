@@ -11,7 +11,7 @@ if [[ "$TEST_MODE" == aws ]]; then
         echo "No app specific aws-cld.yaml found, using default config."
         cld_file="providers/aws-cld.yaml"
     fi
-    sed "s/SUFFIX/${USER}/g" "$cld_file" | kubectl apply -f -
+    sed "s/SUFFIX/${USER}/g" "$cld_file" | kubectl apply -n kcm-system -f -
     cldname="aws-example-$USER"
 else
     cldname="adopted"
@@ -25,7 +25,7 @@ else
 
     ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | base64 -w 0)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
-    kubectl apply -f providers/adopted-cld.yaml
+    kubectl apply -n kcm-system -f providers/adopted-cld.yaml
 fi
 
 CLDNAME=$cldname ./scripts/wait_for_cld.sh
