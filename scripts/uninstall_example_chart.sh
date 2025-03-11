@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-KUBECONFIG="kcfg_$TEST_MODE" helm uninstall $APP -n $APP
+ns=$(./scripts/get_mcs_namespace.sh)
+KUBECONFIG="kcfg_$TEST_MODE" helm uninstall $APP -n $ns
 
-NAMESPACE=$APP ./scripts/wait_for_deployment_removal.sh
+NAMESPACE=$ns ./scripts/wait_for_deployment_removal.sh

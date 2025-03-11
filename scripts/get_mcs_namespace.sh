@@ -1,4 +1,9 @@
 #!/bin/bash
-set -euo pipefail
 
-yq '.spec.serviceSpec.services[0].namespace' apps/$APP/mcs.yaml
+mcs="apps/$APP/mcs.yaml"
+
+if [[ ! -e "$mcs" ]]; then
+    python3 ./scripts/utils.py render-mcs $APP > /dev/null
+fi
+
+yq '.spec.serviceSpec.services[0].namespace' "$mcs"
