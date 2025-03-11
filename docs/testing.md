@@ -34,6 +34,9 @@ Universal workflow to run any example:
 
 ### Setup testing cluster
 ~~~bash
+# open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
+# ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno, prometheus
+export APP="dapr"
 export TEST_MODE="local" # Supported values: aws, local
 
 # Add adopted cluster to k0rdent
@@ -45,10 +48,6 @@ Create a testing application release, verify it's installed and it exposess fron
 Then uninstall it and verify it was really removed. You can use this section over and over
 for a different applications.
 ~~~bash
-# open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
-# ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno, prometheus
-export APP="dapr"
-
 # Install k0rdent service template
 ./scripts/kgst_install.sh
 
