@@ -18,14 +18,14 @@ else
 
     ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | base64 -w 0)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
-    kubectl apply -f providers/adopted-cld.yaml
+    kubectl apply -f providers/adopted-cld.yaml -n kcm-system
 fi
 
 CLDNAME=$cldname ./scripts/wait_for_cld.sh
 
 if [[ "$TEST_MODE" == aws ]]; then
     # Store kubeconfig file for managed AWS cluster
-    kubectl get secret aws-example-$USER-kubeconfig -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
+    kubectl get secret aws-example-$USER-kubeconfig -n kcm-system -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
 else
     # store adopted cluster kubeconfig
     kind get kubeconfig -n adopted > "kcfg_$TEST_MODE"
