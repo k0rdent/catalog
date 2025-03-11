@@ -91,3 +91,4 @@ Delete testing cluster:
 | Velero               | :white_check_mark: |                    |
 | NetApp               | :white_check_mark: |                    |
 | Pure                 | :white_check_mark: |                    |
+| Nvidia GPU operator  | :white_check_mark: |                    |
