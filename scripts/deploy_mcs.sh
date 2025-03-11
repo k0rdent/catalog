@@ -7,4 +7,5 @@ fi
 
 kubectl apply -f apps/$APP/mcs.yaml
 
-NAMESPACE=$APP ./scripts/wait_for_deployment.sh
+ns=$(./scripts/get_mcs_namespace.sh)
+NAMESPACE=$ns ./scripts/wait_for_deployment.sh

@@ -36,16 +36,15 @@ def get_service_template(name: str, version: str) -> str:
     return f"{name}-{template_version}"
 
 
-def get_mcs_services(chart_data: dict, chart_values_data):
+def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
     deps = chart_data['dependencies']
     services = []
-    ns = deps[0]['name'] # use a common namespace
     for dep in deps:
         dep_name = dep['name']
         service = dict(
             template = get_service_template(dep_name, dep['version']),
             name = dep_name,
-            namespace = ns
+            namespace = namespace
         )
         if dep_name in chart_values_data:
             service['values'] = ValuesClass(chart_values_data[dep_name])
@@ -57,7 +56,9 @@ def render_mcs_template(app: str):
     template = Template(mcs_tpl)
     chart_data = get_chart_data(app)
     chart_values_data = get_chart_values_data(app)
-    mcs_services = get_mcs_services(chart_data, chart_values_data)
+    app_data = get_app_data(app)
+    namespace = app_data.get('test_namespace', app)
+    mcs_services = get_mcs_services(namespace, chart_data, chart_values_data)
     data = {"app": app, "services": mcs_services}
     rendered = template.render(data).strip() + "\n"
     return rendered
@@ -100,6 +101,13 @@ def show_install_cmd(args: str):
     print(cmd)
 
 
+def get_app_data(app: str) -> dict:
+    app_data_path = f"mkdocs/apps/{app}/data.yaml"
+    with open(app_data_path, "r", encoding='utf-8') as file:
+        app_data = yaml.safe_load(file)
+        return app_data
+
+
 def get_chart_data(app: str) -> dict:
     chart_path = f"apps/{app}/example/Chart.yaml"
     with open(chart_path, "r", encoding='utf-8') as file:
@@ -110,7 +118,9 @@ def get_chart_data(app: str) -> dict:
 def get_chart_values_data(app: str) -> dict:
     chart_values_path = f"apps/{app}/example/values.yaml"
     with open(chart_values_path, "r", encoding='utf-8') as file:
-        deps = [dep for dep in yaml.safe_load(file)]
+        deps = [dep for dep in yaml.safe_load(file) or []]
+        if not deps:
+            return dict()
         file.seek(0)
         dep = ""
         i_next = 0
