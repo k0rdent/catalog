@@ -2,6 +2,7 @@ import yaml
 from collections import defaultdict
 import argparse
 from jinja2 import Template
+import textwrap
 
 mcs_tpl = """
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -21,7 +22,7 @@ class ValuesClass:
     """Dump service values string using | notation"""
 
     def __init__(self, lines: list):
-        self.s = ("\n".join(lines)).strip() + "\n"
+        self.s = textwrap.dedent("\n".join(lines))
 
 
 def representer(dumper, data):
