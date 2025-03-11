@@ -1,0 +1,8 @@
+apiVersion: v2
+name: netapp
+type: application
+version: 100.2410.0
+dependencies:
+  - name: trident-operator
+    version: 100.2410.0
+    repository: https://netapp.github.io/trident-helm-chart
