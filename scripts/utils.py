@@ -97,7 +97,7 @@ def show_install_cmd(args: str):
     repo = helm_config['helm']['repository']['url']
     prefix = helm_config.get('prefix')
     charts = helm_config['helm']['charts']
-    cmd = get_install_cmd(repo, prefix, charts)
+    cmd = get_install_cmd(app, repo, prefix, charts)
     print(cmd)
 
 
