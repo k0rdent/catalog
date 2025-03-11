@@ -66,6 +66,11 @@ template: home.html
 
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Reset the tab state on every page load
+    localStorage.removeItem("/.__tabs");
+});
+
 fetch("fetched_metadata.json")
   .then(response => response.json())
   .then(data => {
