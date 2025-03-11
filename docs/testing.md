@@ -89,3 +89,5 @@ Delete testing cluster:
 | OpenCost             | :white_check_mark: |                    |
 | Prometheus           | :white_check_mark: |                    |
 | Velero               | :white_check_mark: |                    |
+| NetApp               | :white_check_mark: |                    |
+| Pure                 | :white_check_mark: |                    |
