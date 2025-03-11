@@ -2,6 +2,7 @@ apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ClusterDeployment
 metadata:
   name: aws-example-SUFFIX
+  namespace: kcm-system
 spec:
   template: aws-standalone-cp-0-1-0
   credential: aws-credential

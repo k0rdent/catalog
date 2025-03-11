@@ -18,7 +18,7 @@ else
 
     ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | base64 -w 0)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
-    kubectl apply -f providers/adopted-cld.yaml -n kcm-system
+    kubectl apply -f providers/adopted-cld.yaml
 fi
 
 CLDNAME=$cldname ./scripts/wait_for_cld.sh
