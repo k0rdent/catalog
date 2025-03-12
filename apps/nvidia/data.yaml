@@ -2,7 +2,7 @@ tags:
     - AI/Machine Learning
 title: "Nvidia GPU Operator"
 summary: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
-logo: "./apps/nvidia/assets/GPUoperator-cropped.png"
+logo: "./assets/GPUoperator-cropped.png"
 description: |
     The NVIDIA GPU Operator for Kubernetes is a powerful tool that simplifies the management of GPUs
     in your Kubernetes clusters. It automates the deployment and configuration of all the necessary

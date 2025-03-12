@@ -2,7 +2,7 @@ title: "Dapr"
 tags:
   - Monitoring
 summary: "Portable, event-driven runtime."
-logo: "./apps/dapr/assets/dapr-logo.svg"
+logo: "./assets/dapr-logo.svg"
 description: |
   Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
   Service-to-service invocation: Enables reliable and secure communication between microservices. 

@@ -31,7 +31,8 @@ for file_path in paths:
         "type": metadata.get("type", " "),
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
-        "description": metadata.get("description", "No Description")
+        "description": metadata.get("description", "No Description"),
+        "appDir": file_path.split("/")[-2],
     })
 
 # Save extracted metadata as JSON

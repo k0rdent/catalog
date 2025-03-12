@@ -103,18 +103,26 @@ fetch("fetched_metadata.json")
     let filtered_apps = [];
     let filtered_infra = [];
 
+    function updateRelLink(link, appName) {
+      if (link.startsWith("./")) {
+        return link.replace("./", `./apps/${appName}/`)
+      }
+      return link;
+    }
+
     //main function for rendering
     function renderList(items_apps, items_infra) {
       if(items_apps!==null){
         list_apps.innerHTML = "";
         items_apps.forEach(item => {
+          let logo = updateRelLink(item.logo, item.appDir);
           let a = document.createElement("a");
           a.href = item.link;
           a.className = "card";
           let tagString = item.tags.join(", ");
           a.setAttribute("data-tags", item.tags.join(" "));
           a.innerHTML = `
-              <img src="${item.logo}" alt="logo"/>
+              <img src="${logo}" alt="logo"/>
               <p>
               <b>${item.title}</b>
               <span>-</span> ${item.description}
@@ -128,13 +136,14 @@ fetch("fetched_metadata.json")
       if(items_infra!==null){
         list_infra.innerHTML = "";
         items_infra.forEach(item => {
+          let logo = updateRelLink(item.logo, item.appDir);
           let a = document.createElement("a");
           a.href = item.link;
           a.className = "card";
           let tagString = item.tags.join(", ");
           a.setAttribute("data-tags", item.tags.join(" "));
           a.innerHTML = `
-              <img src="${item.logo}" alt="logo"/>
+              <img src="${logo}" alt="logo"/>
               <p>
               <b>${item.title}</b>
               <span>-</span> ${item.description}
