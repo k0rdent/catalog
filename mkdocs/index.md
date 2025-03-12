@@ -119,13 +119,20 @@ fetch("fetched_metadata.json")
       if(items_apps!==null){
         list_apps.innerHTML = "";
         items_apps.forEach(item => {
+          let logo = ''
+          if(item.logo.includes('./')){
+            // switch backslashes to slashes and remove last subfolder in link
+            logo = item.link.replace(/\\/g, "/").replace(/^(.*?\/)[^/]+\/$/, '$1') + item.logo.replace("./", "");
+          } else {
+            logo = item.logo
+          }
           let a = document.createElement("a");
           a.href = item.link;
           a.className = "card";
           let tagString = item.tags.join(", ");
           a.setAttribute("data-tags", item.tags.join(" "));
           a.innerHTML = `
-              <img src="${item.logo}" alt="logo"/>
+              <img src="${logo}" alt="logo"/>
               <p>
               <b>${item.title}</b>
               <span>-</span> ${item.description}
@@ -139,13 +146,20 @@ fetch("fetched_metadata.json")
       if(items_infra!==null){
         list_infra.innerHTML = "";
         items_infra.forEach(item => {
+          let logo = ''
+          if(item.logo.includes('./')){
+            // switch backslashes to slashes and remove last subfolder in link
+            logo = item.link.replace(/\\/g, "/").replace(/^(.*?\/)[^/]+\/$/, '$1') + item.logo.replace("./", "");
+          } else {
+            logo = item.logo
+          }
           let a = document.createElement("a");
           a.href = item.link;
           a.className = "card";
           let tagString = item.tags.join(", ");
           a.setAttribute("data-tags", item.tags.join(" "));
           a.innerHTML = `
-              <img src="${item.logo}" alt="logo"/>
+              <img src="${logo}" alt="logo"/>
               <p>
               <b>${item.title}</b>
               <span>-</span> ${item.description}
