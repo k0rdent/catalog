@@ -112,47 +112,31 @@ fetch("fetched_metadata.json")
 
     //main function for rendering
     function renderList(items_apps, items_infra) {
-      if(items_apps!==null){
-        list_apps.innerHTML = "";
-        items_apps.forEach(item => {
-          let logo = updateRelLink(item.logo, item.appDir);
-          let a = document.createElement("a");
-          a.href = item.link;
-          a.className = "card";
-          let tagString = item.tags.join(", ");
-          a.setAttribute("data-tags", item.tags.join(" "));
-          a.innerHTML = `
-              <img src="${logo}" alt="logo"/>
-              <p>
-              <b>${item.title}</b>
-              <span>-</span> ${item.description}
-              </p>`;
-          list_apps.appendChild(a);
+      function renderToHtml(items, list){
+        if(items!==null){
+          list.innerHTML = "";
+          items.forEach(item => {
+            let logo = updateRelLink(item.logo, item.appDir);
+            let a = document.createElement("a");
+            a.href = item.link;
+            a.className = "card";
+            let tagString = item.tags.join(", ");
+            a.setAttribute("data-tags", item.tags.join(" "));
+            a.innerHTML = `
+                <img src="${logo}" alt="logo"/>
+                <p>
+                <b>${item.title}</b>
+                <br />
+                ${item.description}
+                </p>`;
+            list.appendChild(a);
 
-          item.tags.forEach(tag => tagsSet.add(tag));
-        });
+            item.tags.forEach(tag => tagsSet.add(tag));
+          });
+        }
       }
-      
-      if(items_infra!==null){
-        list_infra.innerHTML = "";
-        items_infra.forEach(item => {
-          let logo = updateRelLink(item.logo, item.appDir);
-          let a = document.createElement("a");
-          a.href = item.link;
-          a.className = "card";
-          let tagString = item.tags.join(", ");
-          a.setAttribute("data-tags", item.tags.join(" "));
-          a.innerHTML = `
-              <img src="${logo}" alt="logo"/>
-              <p>
-              <b>${item.title}</b>
-              <span>-</span> ${item.description}
-              </p>`;
-          list_infra.appendChild(a);
-
-          item.tags.forEach(tag => tagsSet.add(tag));
-        });
-      }
+      renderToHtml(items_apps, list_apps)
+      renderToHtml(items_infra, list_infra)
     }
 
     // Function to update URL based on selected filters
