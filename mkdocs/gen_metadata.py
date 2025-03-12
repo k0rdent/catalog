@@ -32,7 +32,7 @@ for file_path in paths:
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
         "description": metadata.get("description", "No Description"),
-        "appDir": file_path.split("/")[-2],
+        "appDir": file_path.replace("\\", "/").split("/")[-2], # ensure it works for windows (backslashes)
     })
 
 # Save extracted metadata as JSON
