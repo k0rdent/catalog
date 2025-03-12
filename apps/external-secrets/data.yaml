@@ -1,5 +1,6 @@
 tags:
   - Security
+  - Authentication
 title: "External-secrets"
 summary: "External secret management."
 logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png"

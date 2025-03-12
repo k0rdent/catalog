@@ -1,5 +1,6 @@
 tags:
   - Storage
+  - Drivers and plugins
 title: "Azure Disk CSI"
 summary: "The Azure Disk Container Storage Interface (CSI) Driver."
 logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png"

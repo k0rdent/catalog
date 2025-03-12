@@ -1,0 +1,39 @@
+tags: []
+title: "Amazon Elastic Kubernetes Service"
+summary: "Deploy kubernetes clusters with k0rdent on Amazon Elastic Kubernetes Service"
+logo: "https://cdn.prod.website-files.com/64902e94cf962d0707c23165/64f20142e6b212d8af65e59f_amazon-eks.911x1024.webp"
+type: infra
+description: |
+  Amazon Elastic Kubernetes Service (EKS) is a managed Kubernetes service offered by AWS that streamlines the deployment, management, and scaling of containerized applications. By abstracting away the complexities of the Kubernetes control plane, EKS allows users to focus on building and deploying their applications while leveraging the robust infrastructure and security of AWS. 
+support_link: https://aws.amazon.com/eks/
+install_code: |
+  ~~~yaml
+  # k0rdent includes the template for Amazon Elastic Kubernetes Service out of the box
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get clustertemplate -n kcm-system
+  # NAME                            VALID
+  # aws-eks-0-1-0                   true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: ClusterDeployment
+  metadata:
+    name: my-azure-clusterdeployment1
+    namespace: kcm-system
+  spec:
+    template: aws--cp-0-1-0
+    credential: aws-cluster-identity-cred
+    config:
+      clusterLabels: {}
+      region: us-east-2
+      controlPlane:
+        instanceType: t3.small
+        rootVolumeSize: 32
+      worker:
+        instanceType: t3.small
+        rootVolumeSize: 32
+  ~~~
+doc_link: https://aws.amazon.com/eks/

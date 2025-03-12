@@ -1,5 +1,5 @@
 tags: []
-title: "Amazon Web Services"
+title: "Amazon EC2"
 summary: "Deploy kubernetes clusters with k0rdent on AWS infrastructure."
 logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
 type: infra
@@ -14,13 +14,13 @@ description: |
 support_link: https://aws.amazon.com/contact-us/
 install_code: |
   ~~~yaml
-  # k0rdent includes the template for Azure out of the box
+  # k0rdent includes the template for Amazon IAAS out of the box
   ~~~
 verify_code: |
   ~~~bash
   kubectl get clustertemplate -n kcm-system
   # NAME                            VALID
-  # aws-hosted-cp-0-1-0             true
+  # aws-standalone-cp-0-1-0         true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -37,7 +37,9 @@ deploy_code: |
       region: us-east-2
       controlPlane:
         instanceType: t3.small
+        rootVolumeSize: 32
       worker:
         instanceType: t3.small
+        rootVolumeSize: 32
   ~~~
-doc_link: https://docs.dapr.io/
+doc_link: https://aws.amazon.com/contact-us/

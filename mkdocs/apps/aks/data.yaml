@@ -1,0 +1,38 @@
+tags: []
+title: "Azure Kubernetes Service"
+summary: "Deploy kubernetes clusters with k0rdent on Azure Kubernetes Service."
+logo: "https://azure.microsoft.com/svghandler/kubernetes-service/?width=600&height=315"
+type: infra
+description: |
+    Azure Kubernetes Service (AKS) is a managed Kubernetes service that simplifies the deployment and management of containerized applications in the Azure cloud. k0rdent can create and maage clusters with AKS.
+support_link: https://azure.microsoft.com/en-us/products/kubernetes-service
+install_code: |
+    ~~~yaml
+    # k0rdent includes the template for Azure Kubernetes Service out of the box
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get clustertemplate -n kcm-system
+    # NAME                            VALID
+    # azure-aks-0-1-0                 true 
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    metadata:
+      name: my-azure-clusterdeployment1
+      namespace: kcm-system
+    spec:
+      template: azure-aks-0-1-0  # name of the clustertemplate
+      credential: azure-cluster-identity-cred
+      config:
+        clusterLabels: {}
+        location: "AZURE_LOCATION" # Select your desired Azure Location
+        subscriptionID: SUBSCRIPTION_ID_SUBSCRIPTION_ID # Enter the Subscription ID used earlier
+        controlPlane:
+          vmSize: Standard_A4_v2
+        worker:
+          vmSize: Standard_A4_v2
+    ~~~
+doc_link: https://azure.microsoft.com/en-us/products/kubernetes-service

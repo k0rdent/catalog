@@ -1,6 +1,7 @@
 title: "Dapr"
 tags:
   - Monitoring
+  - Application Runtime
 summary: "Portable, event-driven runtime."
 logo: "./assets/dapr-logo.svg"
 description: |

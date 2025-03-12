@@ -1,7 +1,8 @@
 tags:
   - Storage
+  - Drivers and plugins
 title: "Amazon EBS CSI"
-summary: "Amazon Elastic Block Store Container Storage Interface (CSI) Driver."
+summary: "The Amazon Elastic Block Store Container Storage Interface (CSI) Driver."
 logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
 description: |
     The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes.
@@ -16,6 +17,6 @@ verify_code: |
     ~~~
 deploy_code: |
     ~~~yaml
-    # k0rdent will automatically install the Amazon EBS CSI driver when creating cluster on AWS iaas or AWS AKS
+    # k0rdent will automatically install the Amazon EBS CSI driver when creating cluster on AWS iaas or AWS EKS
     ~~~
 doc_link: https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html

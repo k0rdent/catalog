@@ -1,0 +1,29 @@
+tags:
+  - Security
+  - Commercial
+title: "Nirmata Enterprise for Kyverno"
+summary: "Policy-based Security, Compliance, and Governance"
+logo: "https://www.eigenmagic.com/wp-uploads/2017/07/nirmata-sign-color-large-01-300x232.png"
+description: |
+  Nirmata Enterprise is the enterprise-ready Kyverno distribution that provides support, and integrations for secure and scalable Kubernetes operations – all easily managed with policy-as-code.
+    - Security hardening (FIPs, RBAC)
+    - Performance enhancements (etcd offload)
+    - Curated, tested policy sets for Kubernetes, Terraform, Dockerfiles, and more
+    - Enhanced CLI for pipeline scanning and integrations
+    - Kyverno & Kubernetes 2-year LTS
+    - 0-CVE images with SLAs for critical fixes
+
+support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
+install_code: |
+    ~~~bash
+    # contact sales to purchase
+    ~~~
+verify_code: |
+    ~~~bash
+    # contact sales to purchase
+    ~~~
+deploy_code: |
+    ~~~yaml
+    # contact sales to purchase
+    ~~~
+doc_link: https://nirmata.com/nirmata-enterprise-for-kyverno/

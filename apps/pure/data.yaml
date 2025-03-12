@@ -1,5 +1,6 @@
 tags:
   - Storage
+  - Drivers and plugins
 title: "Pure"
 summary: "Storage service."
 logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
