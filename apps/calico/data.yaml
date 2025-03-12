@@ -1,7 +1,7 @@
 tags:
     - Networking
     - Security
-title: "Calico"
+title: "Calico CNI"
 summary: "Networking and security solution specifically designed for Kubernetes clusters."
 logo: "https://docs.tigera.io/img/calico-logo.png"
 description: |
@@ -13,24 +13,20 @@ description: |
 support_link: https://www.tigera.io/customer-success/
 install_code: |
     ~~~bash
-    helm install tigera-operator oci://ghcr.io/k0rdent/catalog/charts/tigera-operator-service-template -n kcm-system
+    # Configured by default in k0rdent managed clusters (AWS, AZURE, OpenStack, vSphere)
     ~~~
 verify_code: |
+    Here is how to check CNI configuration in managed AWS cluster:
     ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   tigera-operator-3-29-2     true
+    kubectl get awscluster -A -n kcm-system -o yaml | grep cni -A 3
     ~~~
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: tigera-operator-3-29-2
-            name: tigera-operator
-            namespace: tigera-operator
+    Expected output:
     ~~~
+      cni:
+        cniIngressRules:
+        - description: bgp (calico)
+          fromPort: 179
+          protocol: tcp
+    ~~~
+deploy_code:
 doc_link: https://docs.tigera.io/calico

@@ -41,12 +41,14 @@ type: "{{ type }}"
     {% endif %}
     {{ verify_code | replace("\n", "\n    ") }}
 
-    {% if type == "infra" %}
+    {% if deploy_code %}
+        {% if type == "infra" %}
     #### Create a cluster on {{ title }}
-    {% else %}
+        {% else %}
     #### Deploy service template
-    {% endif %}
+        {% endif %}
     {{ deploy_code | replace("\n", "\n    ") }}
+    {% endif %}
 
     {% if doc_link %}
     - [Official docs]({{ doc_link }}){ target="_blank" }
