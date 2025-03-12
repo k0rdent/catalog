@@ -1,0 +1,42 @@
+tags:
+  - Monitoring
+title: "Kubecost"
+summary: "Monitor your cloud costs."
+logo: "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png"
+description: |
+    Kubecost is a powerful tool designed to help teams running Kubernetes manage and optimize their cloud infrastructure
+    spending. It provides real-time visibility into the costs associated with your Kubernetes deployments, enabling you
+    to understand where your money is going and identify opportunities for savings.
+install_code: |
+    ~~~bash
+    helm upgrade --install kubecost oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://kubecost.github.io/cost-analyzer/" \
+      --set "prefix=kubecost-" \
+      --set "helm.charts[0].name=cost-analyzer" \
+      --set "helm.charts[0].version=2.5.3"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   kubecost-cost-analyzer-2-5-3   true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: kubecost-cost-analyzer-2-5-3
+            name: kubecost
+            namespace: kubecost
+            values: |
+              ingress:
+                enabled: true
+                className: nginx
+                hosts: ['kubecost.example.com']
+    ~~~
+support_link: https://www.kubecost.com/
+doc_link: https://docs.kubecost.com/

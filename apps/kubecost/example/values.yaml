@@ -1,0 +1,10 @@
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+
+cost-analyzer:
+  ingress:
+    enabled: true
+    className: nginx
+    hosts: ['kubecost.example.com']
