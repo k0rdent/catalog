@@ -5,13 +5,13 @@ on:
     branches:
       - '*'
     paths:
-      - mkdocs/**
+      - apps/**/data.yaml
       - mkdocs.yml
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - mkdocs/**
+      - apps/**/data.yaml
       - mkdocs.yml
       - .github/workflows/gh-pages-deploy.yml
 
