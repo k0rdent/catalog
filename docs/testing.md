@@ -34,8 +34,9 @@ Universal workflow to run any example:
 
 ### Setup testing cluster
 ~~~bash
-# open-webui, kubecost, opencost, external-dns, argo-cd, dapr, kubernetes-dashboard
-# ingress-nginx, external-secrets, cert-manager, dex, velero, kyverno, prometheus
+# argo-cd, cert-manager, dapr, dex, external-dns, external-secrets,
+# ingress-nginx, istio, kube-prometheus-stack, kubecost, kubernetes-dashboard, kyverno,
+# msr, netapp, nvidia, open-webui, opencost, prometheus, pure, velero
 export APP="dapr"
 export TEST_MODE="local" # Supported values: aws, local
 
@@ -74,25 +75,25 @@ Delete testing cluster:
 
 ## Tested applications
 
-| Application               |         AWS        |        Azure       |
-| ------------------------- | ------------------ | ------------------ |
-| Argo CD                   | :white_check_mark: |                    |
-| Cert Manager              | :white_check_mark: |                    |
-| Dapr                      | :white_check_mark: |                    |
-| Dex                       | :white_check_mark: |                    |
-| External DNS              | :white_check_mark: |                    |
-| External Secrets          | :white_check_mark: |                    |
-| Ingress Nginx             | :white_check_mark: |                    |
-| Istio                     | :white_check_mark: |                    |
-| KubeCost                  | :white_check_mark: |                    |
-| Kube Prometheus Stack     | :white_check_mark: |                    |
-| Kubernetes Dashboard      | :white_check_mark: |                    |
-| Kyverno                   | :white_check_mark: |                    |
-| Open-WebUI                | :white_check_mark: |                    |
-| OpenCost                  | :white_check_mark: |                    |
-| Prometheus                | :white_check_mark: |                    |
-| Velero                    | :white_check_mark: |                    |
-| NetApp                    | :white_check_mark: |                    |
-| Pure                      | :white_check_mark: |                    |
-| Nvidia GPU operator       | :white_check_mark: |                    |
-| Mirantis Secure Registry  | :white_check_mark: |                    |
+| Application               |         Local      |         AWS        |        Azure       |
+| ------------------------- | ------------------ | ------------------ | ------------------ |
+| Argo CD                   | :white_check_mark: | :white_check_mark: |                    |
+| Cert Manager              | :white_check_mark: | :white_check_mark: |                    |
+| Dapr                      | :white_check_mark: | :white_check_mark: |                    |
+| Dex                       | :white_check_mark: | :white_check_mark: |                    |
+| External DNS              | :white_check_mark: | :white_check_mark: |                    |
+| External Secrets          | :white_check_mark: | :white_check_mark: |                    |
+| Ingress Nginx             | :white_check_mark: | :white_check_mark: |                    |
+| Istio                     | :white_check_mark: | :white_check_mark: |                    |
+| Kube Prometheus Stack     | :white_check_mark: | :white_check_mark: |                    |
+| KubeCost                  | :white_check_mark: | :white_check_mark: |                    |
+| Kubernetes Dashboard      | :white_check_mark: | :white_check_mark: |                    |
+| Kyverno                   | :white_check_mark: | :white_check_mark: |                    |
+| Mirantis Secure Registry  | :white_check_mark: | :white_check_mark: |                    |
+| NetApp                    | :white_check_mark: | :white_check_mark: |                    |
+| Nvidia GPU operator       | :white_check_mark: | :white_check_mark: |                    |
+| Open-WebUI                | :white_check_mark: | :white_check_mark: |                    |
+| OpenCost                  | :white_check_mark: | :white_check_mark: |                    |
+| Prometheus                | :white_check_mark: | :white_check_mark: |                    |
+| Pure                      | :white_check_mark: | :white_check_mark: |                    |
+| Velero                    | :white_check_mark: | :white_check_mark: |                    |
