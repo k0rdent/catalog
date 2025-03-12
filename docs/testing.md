@@ -74,24 +74,25 @@ Delete testing cluster:
 
 ## Tested applications
 
-| Application          |         AWS        |        Azure       |
-| -------------------- | ------------------ | ------------------ |
-| Argo CD              | :white_check_mark: |                    |
-| Cert Manager         | :white_check_mark: |                    |
-| Dapr                 | :white_check_mark: |                    |
-| Dex                  | :white_check_mark: |                    |
-| External DNS         | :white_check_mark: |                    |
-| External Secrets     | :white_check_mark: |                    |
-| Ingress Nginx        | :white_check_mark: |                    |
-| Istio                | :white_check_mark: |                    |
-| KubeCost             | :white_check_mark: |                    |
-| Kube Prometheus Stack| :white_check_mark: |                    |
-| Kubernetes Dashboard | :white_check_mark: |                    |
-| Kyverno              | :white_check_mark: |                    |
-| Open-WebUI           | :white_check_mark: |                    |
-| OpenCost             | :white_check_mark: |                    |
-| Prometheus           | :white_check_mark: |                    |
-| Velero               | :white_check_mark: |                    |
-| NetApp               | :white_check_mark: |                    |
-| Pure                 | :white_check_mark: |                    |
-| Nvidia GPU operator  | :white_check_mark: |                    |
+| Application               |         AWS        |        Azure       |
+| ------------------------- | ------------------ | ------------------ |
+| Argo CD                   | :white_check_mark: |                    |
+| Cert Manager              | :white_check_mark: |                    |
+| Dapr                      | :white_check_mark: |                    |
+| Dex                       | :white_check_mark: |                    |
+| External DNS              | :white_check_mark: |                    |
+| External Secrets          | :white_check_mark: |                    |
+| Ingress Nginx             | :white_check_mark: |                    |
+| Istio                     | :white_check_mark: |                    |
+| KubeCost                  | :white_check_mark: |                    |
+| Kube Prometheus Stack     | :white_check_mark: |                    |
+| Kubernetes Dashboard      | :white_check_mark: |                    |
+| Kyverno                   | :white_check_mark: |                    |
+| Open-WebUI                | :white_check_mark: |                    |
+| OpenCost                  | :white_check_mark: |                    |
+| Prometheus                | :white_check_mark: |                    |
+| Velero                    | :white_check_mark: |                    |
+| NetApp                    | :white_check_mark: |                    |
+| Pure                      | :white_check_mark: |                    |
+| Nvidia GPU operator       | :white_check_mark: |                    |
+| Mirantis Secure Registry  | :white_check_mark: |                    |
