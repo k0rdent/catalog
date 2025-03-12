@@ -7,7 +7,8 @@ required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_c
                    'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace']
-allowed_tags = ['Commercial', 'Free', 'AI/Machine Learning', 'Monitoring', 'Networking', 'Security', 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery', 'Authentication']
+allowed_tags = ['Commercial', 'Free', 'AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
+                'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery', 'Authentication']
 
 def changed(file, content):
     if os.path.exists(file):
