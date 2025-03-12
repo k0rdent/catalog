@@ -57,7 +57,10 @@ for a different applications.
 
 # Test webpage if exposed
 ./scripts/test_webpage.sh
+~~~
 
+Test application uninstallation:
+~~~bash
 # Cleaning section
 # Remove multiclusterservice
 ./scripts/remove_mcs.sh

@@ -103,7 +103,7 @@ def show_install_cmd(args: str):
 
 
 def get_app_data(app: str) -> dict:
-    app_data_path = f"mkdocs/apps/{app}/data.yaml"
+    app_data_path = f"apps/{app}/data.yaml"
     with open(app_data_path, "r", encoding='utf-8') as file:
         app_data = yaml.safe_load(file)
         return app_data
