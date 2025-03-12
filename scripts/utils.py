@@ -3,6 +3,7 @@ from collections import defaultdict
 import argparse
 from jinja2 import Template
 import textwrap
+import os
 
 mcs_tpl = """
 apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -91,6 +92,13 @@ def get_install_cmd(release: str, repo: str, prefix: str | None, charts: list) -
 def show_install_cmd(args: str):
     app = args.app
     helm_config_path = f"apps/{app}/helm-values-kgst.yaml"
+    if os.path.exists(helm_config_path):
+        show_install_from_helm_config(app, helm_config_path)
+        return
+    kgst_install_deps(args)
+
+
+def show_install_from_helm_config(app: str, helm_config_path: str):
     helm_config = None
     with open(helm_config_path, "r", encoding='utf-8') as file:
         helm_config = yaml.safe_load(file)
