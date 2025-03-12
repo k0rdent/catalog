@@ -32,8 +32,8 @@ def validate_metadata(file: str, data: dict):
             raise Exception(f"Unsupported tag '{tag}' found in {file}. Allowed tags: {allowed_tags}")
 
 def generate_apps():
-    apps_dir = 'mkdocs/apps'
-    template_path = 'mkdocs/apps/app.tpl.md'
+    apps_dir = 'apps'
+    template_path = 'mkdocs/app.tpl.md'
 
     # Read template
     with open(template_path, 'r', encoding='utf-8') as f:
@@ -43,8 +43,11 @@ def generate_apps():
     # Iterate over each app directory
     for app in os.listdir(apps_dir):
         app_path = os.path.join(apps_dir, app)
+        dst_app_path = os.path.join('mkdocs', app_path)
+        if not os.path.exists(dst_app_path):
+            os.makedirs(dst_app_path)
         data_file = os.path.join(app_path, 'data.yaml')
-        md_file = os.path.join(app_path, app + '.md')
+        md_file = os.path.join(dst_app_path, app + '.md')
 
         if os.path.isdir(app_path) and os.path.exists(data_file):
             with open(data_file, 'r', encoding='utf-8') as f:
