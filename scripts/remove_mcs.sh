@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 kubectl delete multiclusterservice $APP -n kcm-system
 
