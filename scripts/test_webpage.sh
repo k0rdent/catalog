@@ -2,12 +2,13 @@
 set -euo pipefail
 
 while true; do
-    sleep 3
+    echo "$TEST_MODE/$APP"
     ingress=$(KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n $APP --no-headers)
     echo "$ingress"
     address=$(echo "$ingress" | awk '{print $4}')
     if [[ -z "$address" ]]; then
         echo "No ingress address found"
+        sleep 3
         continue
     fi
     echo "Ingress address: $address"
@@ -15,6 +16,7 @@ while true; do
     host=$(echo "$ingress" | awk '{print $3}')
     if [[ -z "$host" ]]; then
         echo "No ingress host found"
+        sleep 3
         continue
     fi
     echo "Ingress host: $host"
@@ -29,6 +31,7 @@ while true; do
         ip=$(dig +short "$address" | head -n 1)
         if [[ -z "$ip" ]]; then
             echo "No ip address found"
+            sleep 3
             continue
         fi
     fi

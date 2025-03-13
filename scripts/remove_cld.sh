@@ -4,19 +4,12 @@ set -euo pipefail
 if [[ "$TEST_MODE" == local ]]; then
     cldname="adopted"
 else
-    cldname="aws-example-$USER"
+    cldname="$TEST_MODE-example-$USER"
 fi
 
 kubectl delete cld -n kcm-system "$cldname"
 
-while true; do
-    if ! kubectl get cld -n kcm-system | grep "$cldname"; then
-        echo "Cluster not found"
-        break
-    fi
-    echo "Cluster still found"
-    sleep 3
-done
+CLDNAME="$cldname" ./scripts/wait_for_cluster_removal.sh
 
 if [[ "$TEST_MODE" == local ]]; then
     helm uninstall adopted-credential -n kcm-system
