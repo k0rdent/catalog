@@ -16,6 +16,9 @@ spec:
             controller:
               hostPort:
                 enabled: true
+              service:
+                annotations:
+                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
       - template: kubernetes-dashboard-7-10-4
         name: kubernetes-dashboard
         namespace: kubernetes-dashboard
