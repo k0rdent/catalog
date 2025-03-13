@@ -12,10 +12,10 @@ if [[ "$TEST_MODE" =~ ^(aws|azure)$ ]]; then
         cld_file="providers/$TEST_MODE-cld.yaml"
     fi
     sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" "$cld_file" | kubectl apply -n kcm-system -f -
-    cldname="$TEST_MODE-example-$USER"
+    cld_name="$TEST_MODE-example-$USER"
 else
-    cldname="adopted"
-    if kind get clusters | grep "$cldname"; then
+    cld_name="adopted"
+    if kind get clusters | grep "$cld_name"; then
         echo "Adopted kind cluster already exists"
     else
         k0rdent_ctx=$(kubectl config current-context)
@@ -28,11 +28,11 @@ else
     kubectl apply -n kcm-system -f providers/adopted-cld.yaml
 fi
 
-CLDNAME=$cldname ./scripts/wait_for_cld.sh
+CLDNAME=$cld_name ./scripts/wait_for_cld.sh
 
-if [[ "$TEST_MODE" == aws ]]; then
+if [[ "$TEST_MODE" =~ ^(aws|azure)$ ]]; then
     # Store kubeconfig file for managed AWS cluster
-    kubectl get secret aws-example-$USER-kubeconfig -n kcm-system -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
+    kubectl get secret $cld_name-kubeconfig -n kcm-system -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
 else
     # store adopted cluster kubeconfig
     kind get kubeconfig -n adopted > "kcfg_$TEST_MODE"
