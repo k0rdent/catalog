@@ -21,12 +21,15 @@ while true; do
     fi
     echo "Ingress host: $host"
 
+    ip_regex='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
     if [[ "$TEST_MODE" == local ]]; then
-        if echo "$ingress" | grep "443"; then
+        if echo "$ingress" | grep "443"; then # use port 443 if exposed
             ip="127.0.0.1:50443"
         else
             ip="127.0.0.1:50080"
         fi
+    elif [[ "$address" =~ $ip_regex ]]; then # ingress ADDRESS column can contains both ip address (azure) and hostname (aws)
+        ip="$address"
     else
         ip=$(dig +short "$address" | head -n 1)
         if [[ -z "$ip" ]]; then
