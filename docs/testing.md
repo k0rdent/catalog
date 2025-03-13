@@ -85,11 +85,11 @@ Delete testing cluster:
 | External Secrets          | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Ingress Nginx             | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Istio                     | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Kube Prometheus Stack     | :white_check_mark: | :white_check_mark: |                    |
-| KubeCost                  | :white_check_mark: | :white_check_mark: |                    |
-| Kubernetes Dashboard      | :white_check_mark: | :white_check_mark: |                    |
-| Kyverno                   | :white_check_mark: | :white_check_mark: |                    |
-| Mirantis Secure Registry  | :white_check_mark: | :white_check_mark: |                    |
+| Kube Prometheus Stack     | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| KubeCost                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Kubernetes Dashboard      | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Kyverno                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Mirantis Secure Registry  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | NetApp                    | :white_check_mark: | :white_check_mark: |                    |
 | Nvidia GPU operator       | :white_check_mark: | :white_check_mark: |                    |
 | Open-WebUI                | :white_check_mark: | :white_check_mark: |                    |
