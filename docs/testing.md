@@ -90,10 +90,10 @@ Delete testing cluster:
 | Kubernetes Dashboard      | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Kyverno                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Mirantis Secure Registry  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| NetApp                    | :white_check_mark: | :white_check_mark: |                    |
-| Nvidia GPU operator       | :white_check_mark: | :white_check_mark: |                    |
+| NetApp                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Nvidia GPU operator       | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Open-WebUI                | :white_check_mark: | :white_check_mark: |                    |
-| OpenCost                  | :white_check_mark: | :white_check_mark: |                    |
+| OpenCost                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Prometheus                | :white_check_mark: | :white_check_mark: |                    |
 | Pure                      | :white_check_mark: | :white_check_mark: |                    |
 | Velero                    | :white_check_mark: | :white_check_mark: |                    |
