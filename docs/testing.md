@@ -82,9 +82,9 @@ Delete testing cluster:
 | Dapr                      | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Dex                       | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | External DNS              | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| External Secrets          | :white_check_mark: | :white_check_mark: |                    |
-| Ingress Nginx             | :white_check_mark: | :white_check_mark: |                    |
-| Istio                     | :white_check_mark: | :white_check_mark: |                    |
+| External Secrets          | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Ingress Nginx             | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Istio                     | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Kube Prometheus Stack     | :white_check_mark: | :white_check_mark: |                    |
 | KubeCost                  | :white_check_mark: | :white_check_mark: |                    |
 | Kubernetes Dashboard      | :white_check_mark: | :white_check_mark: |                    |
