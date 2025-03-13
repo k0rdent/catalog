@@ -11,12 +11,3 @@ spec:
       - template: external-dns-1-15-2
         name: external-dns
         namespace: external-dns
-        values: |
-          provider:
-            name: cloudflare
-          env:
-          - name: CF_API_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: tokens
-                key: cloudflare
