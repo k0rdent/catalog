@@ -9,6 +9,7 @@ spec:
   config:
     clusterLabels:
       type: azure
+      group: demo
     controlPlaneNumber: 1
     workersNumber: 1
     location: "westus"
