@@ -1,0 +1,11 @@
+apiVersion: v2
+name: prometheus
+type: application
+version: 27.5.1
+dependencies:
+  - name: ingress-nginx
+    version: 4.12.0
+    repository: https://kubernetes.github.io/ingress-nginx
+  - name: prometheus
+    version: 27.5.1
+    repository: https://prometheus-community.github.io/helm-charts

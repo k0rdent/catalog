@@ -1,0 +1,13 @@
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+
+prometheus:
+  server:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      hosts:
+        - prometheus.example.com
