@@ -38,7 +38,7 @@ Universal workflow to run any example:
 # ingress-nginx, istio, kube-prometheus-stack, kubecost, kubernetes-dashboard, kyverno,
 # msr, netapp, nvidia, open-webui, opencost, prometheus, pure, velero
 export APP="dapr"
-export TEST_MODE="local" # Supported values: aws, local
+export TEST_MODE="local" # Supported values: aws, azure, local
 
 # Add adopted cluster to k0rdent
 ./scripts/deploy_cld.sh
