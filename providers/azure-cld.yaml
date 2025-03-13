@@ -1,0 +1,19 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: azure-example-USER
+  namespace: kcm-system
+spec:
+  template: azure-standalone-cp-0-1-0
+  credential: azure-credential
+  config:
+    clusterLabels:
+      type: azure
+    controlPlaneNumber: 1
+    workersNumber: 1
+    location: "westus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlane:
+      vmSize: Standard_A4_v2
+    worker:
+      vmSize: Standard_A4_v2

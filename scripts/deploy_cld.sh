@@ -3,16 +3,16 @@ set -euo pipefail
 
 ./scripts/setup_provider_credential.sh
 
-if [[ "$TEST_MODE" == aws ]]; then
-    if [[ -e "apps/$APP/aws-cld.yaml" ]]; then
-        echo "App specific aws-cld.yaml found."
-        cld_file="apps/$APP/aws-cld.yaml"
+if [[ "$TEST_MODE" =~ ^(aws|azure)$ ]]; then
+    if [[ -e "apps/$APP/$TEST_MODE-cld.yaml" ]]; then
+        echo "App specific $TEST_MODE-cld.yaml found."
+        cld_file="apps/$APP/$TEST_MODE-cld.yaml"
     else
-        echo "No app specific aws-cld.yaml found, using default config."
-        cld_file="providers/aws-cld.yaml"
+        echo "No app specific $TEST_MODE-cld.yaml found, using default config."
+        cld_file="providers/$TEST_MODE-cld.yaml"
     fi
-    sed "s/SUFFIX/${USER}/g" "$cld_file" | kubectl apply -n kcm-system -f -
-    cldname="aws-example-$USER"
+    sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" "$cld_file" | kubectl apply -n kcm-system -f -
+    cldname="$TEST_MODE-example-$USER"
 else
     cldname="adopted"
     if kind get clusters | grep "$cldname"; then
