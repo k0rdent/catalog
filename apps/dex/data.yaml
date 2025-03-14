@@ -10,7 +10,7 @@ description: |
 support_link: https://dexidp.io/docs/guides/kubernetes/
 install_code: |
     ~~~bash
-    helm install tigera-operator oci://ghcr.io/k0rdent/catalog/charts/tigera-operator-service-template -n kcm-system
+    # k0rdent includes the template for Dex out of the box
     ~~~
 verify_code: |
     ~~~bash
