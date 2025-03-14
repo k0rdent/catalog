@@ -9,7 +9,7 @@ if [[ "$TEST_MODE" =~ ^(aws|azure)$ ]]; then
         cld_file="apps/$APP/$TEST_MODE-cld.yaml"
     else
         echo "No app specific $TEST_MODE-cld.yaml found, using default config."
-        cld_file="providers/$TEST_MODE-cld.yaml"
+        cld_file="./scripts/config/$TEST_MODE-cld.yaml"
     fi
     sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" "$cld_file" | kubectl apply -n kcm-system -f -
     cld_name="$TEST_MODE-example-$USER"
@@ -19,13 +19,13 @@ else
         echo "Adopted kind cluster already exists"
     else
         k0rdent_ctx=$(kubectl config current-context)
-        kind create cluster --config providers/kind-adopted-cluster.yaml
+        kind create cluster --config ./scripts/config/kind-adopted-cluster.yaml
         kubectl config use-context "$k0rdent_ctx"
     fi
 
     ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | openssl base64 -A)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
-    kubectl apply -n kcm-system -f providers/adopted-cld.yaml
+    kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
 fi
 
 CLDNAME=$cld_name ./scripts/wait_for_cld.sh
