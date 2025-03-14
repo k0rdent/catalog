@@ -9,7 +9,12 @@ description: |
 support_link: https://cert-manager.io/support/
 install_code: |
     ~~~bash
-    # k0rdent includes the template for Cert-manager out of the box
+    # k0rdent includes the template for Cert-manager 1.16.2 out of the box
+    # It's also possible to install newer version:
+    helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://charts.jetstack.io" \
+      --set "helm.charts[0].name=cert-manager" \
+      --set "helm.charts[0].version=1.17.1"
     ~~~
 verify_code: |
     ~~~bash
