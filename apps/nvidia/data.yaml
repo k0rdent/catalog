@@ -12,7 +12,10 @@ description: |
 support_link: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html
 install_code: |
     ~~~bash
-    helm install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/gpu-operator-service-template -n kcm-system
+    helm upgrade --install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+        --set "helm.repository.url=https://helm.ngc.nvidia.com/nvidia" \
+        --set "helm.charts[0].name=gpu-operator" \
+        --set "helm.charts[0].version=24.9.2"
     ~~~
 verify_code: |
     ~~~bash
