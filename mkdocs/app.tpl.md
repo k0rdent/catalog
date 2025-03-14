@@ -1,5 +1,5 @@
 ---
- {% if tags %}
+{% if tags %}
 tags:
 {%- for tag in tags %}
     - {{ tag }}
@@ -24,7 +24,7 @@ type: "{{ type }}"
     Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
     {% endif %}
 
-
+{% if support_type != "Enterprise" %}
 === "Install"
 
     #### Prerequisites
@@ -57,3 +57,4 @@ type: "{{ type }}"
     {% if doc_link %}
     - [Official docs]({{ doc_link }}){ target="_blank" }
     {% endif %}
+{% endif %}

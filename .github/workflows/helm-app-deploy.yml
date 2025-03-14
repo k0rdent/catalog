@@ -49,17 +49,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Test - Show service templates install commands
-        run: |
-          export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py show-install-cmd $APP
-
       - name: Check example helm chart exists
         run: |
           app=${{ matrix.folder }}
           if [[ -e "apps/$app/example/Chart.yaml" ]]; then
             echo "EXAMPLE_CHART_EXISTS=true" >> $GITHUB_ENV
           fi
+          if [[ -e "apps/$app/example/helm-values-kgst.yaml" ]]; then
+            echo "KGST_CONFIG_EXISTS=true" >> $GITHUB_ENV
+          fi
+
+      - name: Test - Show service templates install commands
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          python3 ./scripts/utils.py show-install-cmd $APP
 
       - name: Test - Render MultiClusterService
         if: env.EXAMPLE_CHART_EXISTS == 'true'
@@ -112,6 +116,7 @@ jobs:
           kubectl apply -f ./scripts/config/min-kcm-management.yaml
 
       - name: Test - Install service template
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
           ./scripts/kgst_install.sh

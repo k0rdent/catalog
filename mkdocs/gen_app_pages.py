@@ -3,13 +3,14 @@ import shutil
 import yaml
 from jinja2 import Template
 
-required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
-                   'deploy_code']
+required_fields = ['title', 'tags', 'summary', 'logo', 'description']
+community_fields = ['install_code', 'verify_code', 'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
-                  'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress']
-allowed_tags = ['Commercial', 'Free', 'AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
+                  'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type']
+allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
                 'Authentication', 'Database', 'Developer Tools', 'Serverless']
+allowed_support_types = ['Enterprise', 'Community']
 
 def changed(file, content):
     if os.path.exists(file):
@@ -20,9 +21,22 @@ def changed(file, content):
 
 
 def validate_metadata(file: str, data: dict):
+    support_type = data.get('support_type', 'Community')
+    if support_type not in allowed_support_types:
+        raise Exception(f"No allowed support_type found '{support_type}' in {file}, use ({allowed_support_types})")
+
     for required_field in required_fields:
         if required_field not in data:
             raise Exception(f"Required field '{required_field}' not found in {file}")
+
+    if support_type == 'Community':
+        for community_field in community_fields:
+            if community_field not in data:
+                raise Exception(f"Community field '{community_field}' not found in {file}")
+    else:
+        for community_field in community_fields:
+            if community_field in data:
+                raise Exception(f"Community field '{community_field}' found in Enterprise app {file}")
 
     for field in data:
         if field not in allowed_fields:
