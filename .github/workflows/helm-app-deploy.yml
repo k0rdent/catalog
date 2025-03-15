@@ -27,7 +27,7 @@ jobs:
         run: |
           ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
           echo "$ALL_CHANGED_FILES"
-          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -E '^apps/[^/]+/example' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "Detected changes in: $CHANGED_FOLDERS"
           echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
 
