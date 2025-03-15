@@ -48,14 +48,18 @@ jobs:
           export APP=${{ matrix.folder }}
           ./scripts/example_chart_exists.sh
 
-      - name: Set up Kubernetes tools
+      - name: Install kubectl
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
-      - name: Set up Kind
-        uses: helm/kind-action@v1.8.0
+      - name: Install Kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind version
 
       - name: Create Kind Cluster
         run: |
