@@ -13,19 +13,20 @@ jobs:
     outputs:
       changed_folders: ${{ steps.get-changes.outputs.folders }}
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full commit history
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v45
+      - name: Ensure the main branch is available
+        run: |
+          git fetch origin main --depth=1
 
       - name: Get Changed Folders
-        env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         id: get-changes
         run: |
-          echo "$ALL_CHANGED_FILES" | tr ' ' '\n'
+          ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+          echo "$ALL_CHANGED_FILES"
           CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -E '^apps/[^/]+/example' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "Detected changes in: $CHANGED_FOLDERS"
           echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
