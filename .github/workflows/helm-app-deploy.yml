@@ -1,6 +1,12 @@
-name: Kind Cluster with example Helm chart
+name: Test changed apps
 
 on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - apps/**
+      - .github/workflows/helm-app-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -31,7 +37,7 @@ jobs:
           echo "Detected changes in: $CHANGED_FOLDERS"
           echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
 
-  test-updated-apps:
+  test-app:
     needs: detect-updated-apps
     runs-on: ubuntu-latest
     if: ${{ needs.detect-updated-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
@@ -43,18 +49,33 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check example helm chart exists
+      - name: Test - Show service templates install commands
         run: |
           export APP=${{ matrix.folder }}
-          ./scripts/example_chart_exists.sh
+          python3 ./scripts/utils.py show-install-cmd $APP
+
+      - name: Check example helm chart exists
+        run: |
+          app=${{ matrix.folder }}
+          if [[ -e "apps/$app/example/Chart.yaml" ]]; then
+            echo "EXAMPLE_CHART_EXISTS=true" >> $GITHUB_ENV
+          fi
+
+      - name: Test - Render MultiClusterService
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          python3 ./scripts/utils.py render-mcs $APP
 
       - name: Install kubectl
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
       - name: Install Kind
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
           chmod +x ./kind
@@ -62,45 +83,27 @@ jobs:
           kind version
 
       - name: Create Kind Cluster
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           kind create cluster --name test-k8s
           kubectl cluster-info --context kind-test-k8s
           kind get kubeconfig -n test-k8s > "kcfg_local"
 
       - name: Install Helm
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: Test - Install Helm chart
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
+        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
           ./scripts/uninstall_example_chart.sh
-
-  test-service-template:
-    needs: detect-updated-apps
-    runs-on: ubuntu-latest
-    if: ${{ needs.detect-updated-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
-    strategy:
-      matrix:
-        folder: ${{ fromJson(needs.detect-updated-apps.outputs.changed_folders) }}
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Test - Show service templates install commands
-        run: |
-          export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py kgst-install-deps $APP
-
-      - name: Test - Render MultiClusterService
-        run: |
-          export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py render-mcs $APP
