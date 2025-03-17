@@ -97,3 +97,4 @@ Delete testing cluster:
 | Prometheus                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Pure                      | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Velero                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| MySQL                     | :white_check_mark: | :white_check_mark: | :white_check_mark: |
