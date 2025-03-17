@@ -8,7 +8,8 @@ required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_c
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace']
 allowed_tags = ['Commercial', 'Free', 'AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
-                'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery', 'Authentication']
+                'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
+                'Authentication', 'Database']
 
 def changed(file, content):
     if os.path.exists(file):
