@@ -114,10 +114,10 @@ jobs:
           export HELM_VALUES=./scripts/config/min-kcm-values.yaml
           export KIND_CLUSTER=test-k8s
           ./scripts/deploy_k0rdent.sh
+          kubectl apply -f ./scripts/config/min-kcm-management.yaml
 
       - name: Test - Install service template
         if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
           ./scripts/kgst_install.sh
-          kubectl get servicetemplate -n kcm-system | grep $APP
