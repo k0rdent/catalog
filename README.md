@@ -14,3 +14,4 @@ The k0rdent Catalog Repo is a central repository and discovery platform designed
 ## Useful links
 - [Catalog Web](https://catalog.k0rdent.io/)
 - [Applications Testing Guide](docs/testing.md)
+- [Contribution guide](https://catalog.k0rdent.io/contribute/)
