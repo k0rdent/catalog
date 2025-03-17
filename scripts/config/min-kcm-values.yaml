@@ -1,0 +1,10 @@
+controller:
+  createManagement: false
+  createAccessManagement: false
+  createRelease: false
+  createTemplates: true
+  enableTelemetry: false
+cert-manager:
+  enabled: false
+velero:
+  enabled: false
