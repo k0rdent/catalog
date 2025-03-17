@@ -1,0 +1,44 @@
+tags:
+  - Database
+title: "MySQL"
+summary: "The world's most popular open source database."
+logo: "./assets/MySQL_logo.svg"
+description: |
+    The MySQL software delivers a very fast, multithreaded, multi-user, and robust SQL
+    (Structured Query Language) database server. MySQL Server is intended for mission-critical,
+    heavy-load production systems as well as for embedding into mass-deployed software.
+    Oracle is a registered trademark of Oracle Corporation and/or its affiliates. MySQL is
+    a trademark of Oracle Corporation and/or its affiliates, and shall not be used by Customer
+    without Oracle's express written authorization. Other names may be trademarks of their
+    respective owners. 
+support_link: https://www.mysql.com/about/contact/
+install_code: |
+    ~~~bash
+    helm upgrade --install mysql-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://mysql.github.io/mysql-operator" \
+      --set "helm.charts[0].name=mysql-operator" \
+      --set "helm.charts[0].version=2.2.3"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   mysql-operator-2-2-3           true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: mysql
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: mysql-operator-2-2-3
+          name: mysql-operator
+          namespace: mysql
+    ~~~
+doc_link: https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html
