@@ -11,3 +11,4 @@ dapr-dashboard:
     enabled: true
     className: nginx
     host: 'dapr.example.com'
+
