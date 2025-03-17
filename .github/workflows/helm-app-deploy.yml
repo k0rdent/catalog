@@ -68,14 +68,12 @@ jobs:
           python3 ./scripts/utils.py render-mcs $APP
 
       - name: Install kubectl
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
       - name: Install Kind
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
           chmod +x ./kind
@@ -83,14 +81,12 @@ jobs:
           kind version
 
       - name: Create Kind Cluster
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           kind create cluster --name test-k8s
           kubectl cluster-info --context kind-test-k8s
           kind get kubeconfig -n test-k8s > "kcfg_local"
 
       - name: Install Helm
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
@@ -109,7 +105,6 @@ jobs:
           ./scripts/uninstall_example_chart.sh
 
       - name: Test - Install kcm
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           export HELM_VALUES=./scripts/config/min-kcm-values.yaml
           export KIND_CLUSTER=test-k8s
@@ -117,7 +112,6 @@ jobs:
           kubectl apply -f ./scripts/config/min-kcm-management.yaml
 
       - name: Test - Install service template
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
           ./scripts/kgst_install.sh
