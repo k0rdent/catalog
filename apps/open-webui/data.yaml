@@ -16,30 +16,51 @@ install_code: |
     helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://helm.openwebui.com" \
       --set "helm.charts[0].name=open-webui" \
-      --set "helm.charts[0].version=5.14.0"
+      --set "helm.charts[0].version=5.20.0"
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   open-webui-5-14-0          true
+    # kcm-system   open-webui-5-20-0          true
     ~~~
 deploy_code: |
+    Tested on worker `instanceType: t3.xlarge` and `rootVolumeSize: 32`:
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ClusterDeployment
-    # kind: MultiClusterService
+    metadata:
+      name: aws-example
+    spec:
+      template: aws-standalone-cp-0-1-0
+      credential: aws-credential
+      config:
+        ...
+        worker:
+          instanceType: t3.xlarge
+          rootVolumeSize: 32
+        workersNumber: 1
+    ~~~
+
+    Tested service configuration:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
     ...
       serviceSpec:
         services:
-          - template: open-webui-5-14-0
+          - template: open-webui-5-20-0
             name: open-webui
             namespace: open-webui
             values: |
+              ollama:
+                ollama:
+                  models:
+                    pull: [smollm:135m]
+                    run: [smollm:135m]
               ingress:
                 enabled: true
                 class: "nginx"
                 host: "open-webui.example.com"
     ~~~
 doc_link: https://docs.openwebui.com/
-
