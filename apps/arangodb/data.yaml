@@ -1,0 +1,43 @@
+tags:
+  - Database
+  - Application Runtime
+title: ArangoDB
+summary: "Scalable graph database system."
+logo: "./assets/arangodb_logo.png"
+description: |
+    ArangoDB combines the analytical power of native graphs with an integrated search engine,
+    JSON support, and a variety of data access patterns via a single, composable query language.
+
+    ArangoDB is available in a community and a commercial edition. You can use it for on-premises
+    deployments, as well as a fully managed cloud service, the ArangoGraph Insights Platform.
+support_link: https://arangodb.com/contact/
+install_code: |
+    ~~~bash
+    helm upgrade --install kube-arangodb oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+        --set "helm.repository.url=https://arangodb.github.io/kube-arangodb" \
+        --set "helm.charts[0].name=kube-arangodb" \
+        --set "helm.charts[0].version=1.2.46"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   kube-arangodb-1-2-46           true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: arangodb
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: kube-arangodb-1-2-46
+          name: kube-arangodb
+          namespace: arangodb
+    ~~~
+doc_link: https://docs.arangodb.com/stable/
