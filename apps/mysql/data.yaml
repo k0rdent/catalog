@@ -4,13 +4,14 @@ title: "MySQL"
 summary: "The world's most popular open source database."
 logo: "./assets/MySQL_logo.svg"
 description: |
-    The MySQL software delivers a very fast, multithreaded, multi-user, and robust SQL
-    (Structured Query Language) database server. MySQL Server is intended for mission-critical,
-    heavy-load production systems as well as for embedding into mass-deployed software.
-    Oracle is a registered trademark of Oracle Corporation and/or its affiliates. MySQL is
-    a trademark of Oracle Corporation and/or its affiliates, and shall not be used by Customer
-    without Oracle's express written authorization. Other names may be trademarks of their
-    respective owners. 
+  k0rdent facilitates the deployment and management of MySQL within Kubernetes clusters by
+  leveraging its multi-cluster management capabilities. While not a direct integration at
+  the application level, k0rdent simplifies the orchestration of the Kubernetes environment
+  where MySQL operates. Through k0rdent, users can easily deploy MySQL service templates,
+  manage persistent storage, scale deployments, monitor pod health, and enforce security
+  policies across multiple clusters. This indirect integration streamlines the process of
+  running and maintaining MySQL databases in containerized environments, providing a
+  centralized control plane for managing the underlying Kubernetes infrastructure.
 support_link: https://www.mysql.com/about/contact/
 install_code: |
     ~~~bash
