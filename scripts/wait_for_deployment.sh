@@ -8,7 +8,7 @@ while true; do
 
     # Extract statuses
     statusList=$(echo "$pods" | awk '{print $3}')
-    pattern="!(/Running/ && (/1\/1/ || /2\/2/ || /3\/3/ || /4\/4/ || /5\/5/ || /6\/6/ || /7\/7/))"
+    pattern="!((/Running/ && (/1\/1/ || /2\/2/ || /3\/3/ || /4\/4/ || /5\/5/ || /6\/6/ || /7\/7/)) || /Completed/)"
     if ! grep -q "Running" <<< "$statusList"; then
         echo "No running pods found..."
     elif ! awk "$pattern" <<< "$pods" | grep -q .; then
