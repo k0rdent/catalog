@@ -99,3 +99,5 @@ Delete testing cluster:
 | Velero                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | MySQL                     | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Metallb                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| MongoDB                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| ArangoDB                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |

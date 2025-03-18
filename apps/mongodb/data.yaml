@@ -1,0 +1,41 @@
+tags:
+  - Database
+title: MongoDB
+summary: "General-purpose document database."
+logo: "./assets/mongo_logo.svg"
+description: |
+    MongoDB is a general-purpose document database. With the Community Edition you can
+    self-manage and host it locally or in the cloud. You can also develop with MongoDB
+    Atlas for free in your local environment, including local experiences for full-text
+    and vector search, as well as in the cloud.
+support_link: https://www.mongodb.com/services/support
+install_code: |
+    ~~~bash
+    helm upgrade --install community-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://mongodb.github.io/helm-charts" \
+      --set "helm.charts[0].name=community-operator" \
+      --set "helm.charts[0].version=0.12.0"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   community-operator-0-12-0      true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: mongodb
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: community-operator-0-12-0
+          name: community-operator
+          namespace: mongodb
+    ~~~
+doc_link: https://www.mongodb.com/docs/
