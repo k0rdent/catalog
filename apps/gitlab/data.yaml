@@ -1,0 +1,89 @@
+tags:
+  - CI/CD
+  - Developer Tools
+title: GitLab
+summary: "The most comprehensive AI-powered DevSecOps platform."
+logo: "./assets/gitlab_logo.svg"
+description: |
+    GitLab helps companies manage the growing complexities of developing, securing, and deploying
+    software. By reducing toolchain sprawl, teams on GitLab spend less time maintaining
+    tools — equaling 7x faster cycles, better developer productivity, reduced software spend,
+    and more time to focus on the features that set your business apart.
+support_link: https://about.gitlab.com/enterprise/
+install_code: |
+    ~~~bash
+    helm upgrade --install gitlab oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://charts.gitlab.io/" \
+      --set "helm.charts[0].name=gitlab" \
+      --set "helm.charts[0].version=8.9.2"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   gitlab-8-9-2                   true
+    ~~~
+deploy_code: |
+    In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    metadata:
+      name: aws-example
+    spec:
+      template: aws-standalone-cp-0-1-0
+      credential: aws-credential
+      config:
+        worker:
+          instanceType: t3.2xlarge
+          rootVolumeSize: 32
+        workersNumber: 1
+        ...
+    ~~~
+
+    In Azure tested on 3 workers `vmSize: Standard_A2_v2`:
+    ~~~yaml    
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    metadata:
+      name: azure-example
+    spec:
+      template: azure-standalone-cp-0-1-0
+      credential: azure-credential
+      config:
+        worker:
+          vmSize: Standard_A2_v2
+        workersNumber: 3
+        ...
+    ~~~
+
+    Tested service configuration:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: gitlab-8-9-2
+            name: gitlab
+            namespace: gitlab
+            values: |
+              global:
+                edition: ce
+                kas:
+                  enabled: false
+                minio:
+                  enabled: true
+              certmanager-issuer:
+                email: admin@example.com
+              gitlab-runner:
+                install: false
+              registry:
+                enabled: false
+              prometheus:
+                install: false
+              nginx-ingress:
+                controller:
+                  replicaCount: 1
+    ~~~
+doc_link: https://docs.gitlab.com/charts/

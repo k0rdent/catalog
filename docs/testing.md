@@ -101,3 +101,4 @@ Delete testing cluster:
 | Metallb                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | MongoDB                   | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | ArangoDB                  | :white_check_mark: (amd64) | :white_check_mark: | :white_check_mark: |
+| GitLab                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |

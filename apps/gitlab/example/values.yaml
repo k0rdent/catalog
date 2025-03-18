@@ -1,0 +1,18 @@
+gitlab:
+  global:
+    edition: ce
+    kas:
+      enabled: false
+    minio:
+      enabled: true
+  certmanager-issuer:
+    email: admin@example.com
+  gitlab-runner:
+    install: false
+  registry:
+    enabled: false
+  prometheus:
+    install: false
+  nginx-ingress:
+    controller:
+      replicaCount: 1

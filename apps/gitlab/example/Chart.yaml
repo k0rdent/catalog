@@ -1,0 +1,8 @@
+apiVersion: v2
+name: gitlab
+type: application
+version: 8.9.2
+dependencies:
+  - name: gitlab
+    version: 8.9.2
+    repository: https://charts.gitlab.io/
