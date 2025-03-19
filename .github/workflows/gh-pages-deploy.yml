@@ -7,11 +7,13 @@ on:
     paths:
       - apps/**/data.yaml
       - mkdocs.yml
+      - mkdocs/**
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - apps/**/data.yaml
+      - mkdocs/**
       - mkdocs.yml
       - .github/workflows/gh-pages-deploy.yml
 
