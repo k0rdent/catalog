@@ -1,0 +1,6 @@
+helm:
+  repository:
+    url: https://kubernetes.github.io/cloud-provider-aws
+  charts:
+    - name: aws-cloud-controller-manager
+      version: 0.0.8
