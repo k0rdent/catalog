@@ -1,0 +1,6 @@
+helm:
+  repository:
+    url: https://startechnica.github.io/apps
+  charts:
+    - name: multus
+      version: 0.1.2
