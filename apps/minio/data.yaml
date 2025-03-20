@@ -2,7 +2,7 @@ tags:
   - Storage
 title: "MinIO"
 summary: "MinIO is an object storage solution that provides an Amazon Web Services S3-compatible API and supports all core S3 features."
-logo: "./assets/minio-logo.svg"
+logo: "./assets/minio_logo.svg"
 description: |
   MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0.
   It is API compatible with Amazon S3 cloud storage service.
