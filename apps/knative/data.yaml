@@ -1,0 +1,55 @@
+tags:
+  - Serverless
+  - Event-Driven
+  - Application Runtime
+title: Knative
+summary: "Kubernetes-based platform to deploy and manage modern serverless workloads."
+logo: "./assets/knative.png"
+description: |
+    k0rdent facilitates the deployment and lifecycle management of Knative within Kubernetes clusters by leveraging its multi-cluster orchestration capabilities. 
+    While not a direct integration at the application level, k0rdent simplifies the installation and management of the Knative Operator, 
+    ensuring that Knative's serverless and event-driven capabilities are seamlessly deployed and maintained across multiple environments.
+
+    Through k0rdent, users can easily install and manage the Knative Operator, which serves as the foundation for enabling Knative Serving and Eventing. 
+    However, Knative itself requires additional configurations to be fully operational. Users must ensure that a supported networking layer—such as Istio, 
+    Kourier, or Contour—is deployed before enabling Knative Serving.
+
+    For users opting for Istio as the networking layer, k0rdent provides a dedicated Istio catalog item, which can be deployed separately before installing Knative. 
+    This ensures that Knative Serving can leverage Istio's ingress and traffic management capabilities without requiring manual setup.
+
+    Additionally, Knative Eventing may require extra configurations based on the chosen event sources and brokers. 
+    This indirect integration streamlines the process of running serverless workloads on Kubernetes, providing a centralized control plane to manage Knative installations, 
+    monitor health, and enforce policies across multiple clusters.
+
+    By deploying the Knative Operator alongside Istio from the catalog, k0rdent enables users to build and scale event-driven applications while leveraging Kubernetes-native infrastructure.
+support_link: https://knative.dev/community/
+install_code: |
+    ~~~bash
+    helm upgrade --install knative-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://knative.github.io/operator" \
+      --set "helm.charts[0].name=knative-operator" \
+      --set "helm.charts[0].version=1.17.0"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                     VALID
+    # kcm-system   knative-operator-1-17-0  true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: knative
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: knative-operator-1-17-0
+          name: knative-operator
+          namespace: knative
+    ~~~
+doc_link: https://knative.dev/docs/install/operator/knative-with-operators/
