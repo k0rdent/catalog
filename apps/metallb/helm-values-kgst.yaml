@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://metallb.github.io/metallb
-  charts:
-    - name: metallb
-      version: 0.14.7
