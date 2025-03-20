@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://charts.bitnami.com/bitnami
-  charts:
-    - name: minio
-      version: 14.1.2
