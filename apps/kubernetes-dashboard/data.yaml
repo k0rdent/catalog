@@ -39,3 +39,4 @@ deploy_code: |
                   hosts: ['k8s-dashboard.example.com']
     ~~~
 doc_link: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+use_ingress: true

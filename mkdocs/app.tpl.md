@@ -31,6 +31,10 @@ type: "{{ type }}"
 
     Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts)
 
+    {% if use_ingress %}
+    Deploy [Ingress-nginx](../../../apps/ingress-nginx/ingress-nginx/#__tabbed_1_2), to expose application web UI
+    {%- endif %}
+
     #### Install template to k0rdent
     {{ install_code | replace("\n", "\n    ") }}
 

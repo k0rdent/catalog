@@ -6,7 +6,7 @@ from jinja2 import Template
 required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
                    'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
-                  'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace']
+                  'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress']
 allowed_tags = ['Commercial', 'Free', 'AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
                 'Authentication', 'Database', 'Developer Tools', 'Serverless']

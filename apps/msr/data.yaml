@@ -55,3 +55,4 @@ deploy_code: |
     ~~~
 support_link: https://docs.mirantis.com/msr/4.0/get-support.html
 doc_link: https://docs.mirantis.com/msr/4.0/overview.html
+use_ingress: true

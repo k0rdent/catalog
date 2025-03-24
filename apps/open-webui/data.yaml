@@ -64,3 +64,4 @@ deploy_code: |
                 host: "open-webui.example.com"
     ~~~
 doc_link: https://docs.openwebui.com/
+use_ingress: true

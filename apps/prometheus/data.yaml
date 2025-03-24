@@ -31,5 +31,14 @@ deploy_code: |
         - template: prometheus-27-5-1
           name: prometheus
           namespace: prometheus
+          values: |
+            server:
+              ingress:
+                enabled: true
+                annotations:
+                  kubernetes.io/ingress.class: nginx
+                hosts:
+                  - prometheus.example.com
   ~~~
 doc_link: https://prometheus.io/docs/introduction/overview/
+use_ingress: true
