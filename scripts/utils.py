@@ -78,6 +78,8 @@ def get_install_cmd(release: str, repo: str, prefix: str | None, charts: list) -
     cmd_lines = []
     cmd_lines.append(f'helm upgrade --install {release} oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system')
     cmd_lines.append(f'    --set "helm.repository.url={repo}"')
+    if repo.startswith('oci'):
+        cmd_lines.append(f'    --set "helm.repository.type=oci"')
     if prefix:
         cmd_lines.append(f'    --set "prefix={prefix}"')
 

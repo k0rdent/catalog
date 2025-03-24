@@ -1,0 +1,10 @@
+dex:
+  dex:
+    config:
+      issuer: https://dex.tunnelto.dev/dex
+      storage:
+        type: memory
+      connectors:
+        - type: mockCallback
+          id: mock
+          name: Example
