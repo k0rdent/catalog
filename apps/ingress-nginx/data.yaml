@@ -2,7 +2,7 @@ tags:
   - Networking
 title: "Ingress-nginx"
 summary: "Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer."
-logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png"
+logo: "./assets/nginx_logo.svg"
 description: |
     The NGINX Ingress Controller is a solution for managing external access to applications running in a Kubernetes cluster.
     It acts as a reverse proxy and load balancer, routing traffic from outside the cluster to the appropriate services within.
