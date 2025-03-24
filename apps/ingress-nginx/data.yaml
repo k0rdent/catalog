@@ -26,18 +26,25 @@ verify_code: |
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
+    kind: MultiClusterService
+    metadata:
+      name: ingress-nginx
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
       serviceSpec:
         services:
-          - template: ingress-nginx-4-11-3
-            name: ingress-nginx
-            namespace: ingress-nginx
-            values: |
-              ingress-nginx:
-                controller:
-                  hostPort:
-                    enabled: true
+        - template: ingress-nginx-4-11-3
+          name: ingress-nginx
+          namespace: ingress-nginx
+          values: |
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
     ~~~
 doc_link: https://kubernetes.github.io/ingress-nginx/
