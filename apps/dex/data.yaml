@@ -29,5 +29,15 @@ deploy_code: |
           - template: dex-0-19-1
             name: dex
             namespace: dex
+            values: |
+              dex:
+                config:
+                  issuer: https://dex.tunnelto.dev/dex
+                  storage:
+                    type: memory
+                  connectors:
+                    - type: mockCallback
+                      id: mock
+                      name: Example
     ~~~
 doc_link: https://dexidp.io/docs/

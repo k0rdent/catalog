@@ -8,25 +8,16 @@ spec:
       group: demo
   serviceSpec:
     services:
-      - template: dex-0-22-1
+      - template: dex-0-19-1
         name: dex
         namespace: dex
         values: |
-          config:
-            issuer: https://dex.tunnelto.dev/dex
-            storage:
-              type: memory
-            web:
-              http: 0.0.0.0:5556
-            oauth2:
-              skipApprovalScreen: true
-            connectors:
-              - type: mockCallback
-                id: mock
-                name: Example
-            staticClients:
-              - id: first_client
-                secret: 89d6205220381728e85c4cf5
-                redirectURIs:
-                  - https://www.certification.openid.net/test/a/dex/callback
-                name: First client
+          dex:
+            config:
+              issuer: https://dex.tunnelto.dev/dex
+              storage:
+                type: memory
+              connectors:
+                - type: mockCallback
+                  id: mock
+                  name: Example
