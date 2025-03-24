@@ -1,8 +1,8 @@
 apiVersion: v2
 name: knative
 type: application
-version: 1.17.0
+version: 1.17.4
 dependencies:
   - name: knative-operator
-    version: 1.17.0
+    version: 1.17.4
     repository: https://knative.github.io/operator

@@ -28,13 +28,13 @@ install_code: |
     helm upgrade --install knative-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://knative.github.io/operator" \
       --set "helm.charts[0].name=knative-operator" \
-      --set "helm.charts[0].version=1.17.0"
+      --set "helm.charts[0].version=1.17.4"
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                     VALID
-    # kcm-system   knative-operator-1-17-0  true
+    # kcm-system   knative-operator-1-17-4  true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -48,7 +48,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: knative-operator-1-17-0
+        - template: knative-operator-1-17-4
           name: knative-operator
           namespace: knative
     ~~~
