@@ -1,0 +1,27 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: aws-example-USER
+spec:
+  template: aws-standalone-cp-0-1-0
+  credential: aws-credential
+  config:
+    clusterLabels:
+      type: aws
+      group: demo
+    controlPlane:
+      instanceType: t3.small
+    controlPlaneNumber: 1
+    publicIP: false
+    region: eu-central-1
+    worker:
+      # Small AWS instance with nvidia GPU
+      instanceType: g4dn.xlarge
+      # AMI Catalog - Community AMIs:
+      #  Find region specific AMI ID with title:
+      #  "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server"
+      #  eu-central-1: ami-0162f0739222cca1c, us-east-2: ami-00eb69d236edcfaf8, ap-south-1: ami-0b738b0c888af81f7
+      amiID: "ami-0162f0739222cca1c"
+      imageLookup: {org: "", format: "", baseOS: ""}
+      rootVolumeSize: 100
+    workersNumber: 1

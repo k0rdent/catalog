@@ -1,0 +1,11 @@
+gpu-operator:
+  operator:
+    defaultRuntime: containerd
+  toolkit:
+    env:
+      - name: CONTAINERD_CONFIG
+        value: /etc/k0s/containerd.d/nvidia.toml
+      - name: CONTAINERD_SOCKET
+        value: /run/k0s/containerd.sock
+      - name: CONTAINERD_RUNTIME_CLASS
+        value: nvidia

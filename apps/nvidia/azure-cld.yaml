@@ -1,0 +1,28 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: azure-example-USER
+  namespace: kcm-system
+spec:
+  template: azure-standalone-cp-0-1-0
+  credential: azure-credential
+  config:
+    clusterLabels:
+      type: azure
+      group: demo
+    controlPlaneNumber: 1
+    workersNumber: 1 
+    location: "westus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlane:
+      vmSize: Standard_A4_v2
+    worker:
+      image:
+        marketplace:
+          publisher: "Canonical"
+          offer: "0001-com-ubuntu-minimal-jammy"
+          sku: "minimal-22_04-lts"
+          version: "22.04.202502270"
+      rootVolumeSize: 32
+      # Small Azure instance with nvidia GPU
+      vmSize: Standard_NC4as_T4_v3

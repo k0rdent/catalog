@@ -1,0 +1,51 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: open-webui
+spec:
+  clusterSelector:
+    matchLabels:
+      group: demo
+  serviceSpec:
+    services:
+    - template: gpu-operator-24-9-2
+      name: gpu-operator
+      namespace: gpu-operator
+      values: |
+        operator:
+          defaultRuntime: containerd
+        toolkit:
+          env:
+            - name: CONTAINERD_CONFIG
+              value: /etc/k0s/containerd.d/nvidia.toml
+            - name: CONTAINERD_SOCKET
+              value: /run/k0s/containerd.sock
+            - name: CONTAINERD_RUNTIME_CLASS
+              value: nvidia
+    - template: ingress-nginx-4-12-1
+      name: ingress-nginx
+      namespace: open-webui
+      values: |
+        controller:
+          service:
+            annotations:
+              service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+          hostPort:
+            enabled: true
+    - template: open-webui-5-20-0
+      name: open-webui
+      namespace: open-webui
+      values: |
+        ollama:
+          ollama:
+            gpu:
+              enabled: true
+              type: 'nvidia'
+              number: 1
+            models:
+              pull: [llama3.2:3b]
+              run: [llama3.2:3b]
+        ingress:
+          enabled: true
+          class: "nginx"
+          host: 'openwebui.example.com'
