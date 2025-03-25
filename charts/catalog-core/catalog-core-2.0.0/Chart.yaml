@@ -1,0 +1,14 @@
+apiVersion: v2
+name: catalog-core
+description: Pre-installed ServiceTemplates for k0rdent
+type: application
+version: 2.0.0
+dependencies:
+  - name: kgst
+    version: 0.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    alias: ingress-nginx
+  - name: kgst
+    version: 0.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    alias: cert-manager
