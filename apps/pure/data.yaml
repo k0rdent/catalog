@@ -28,17 +28,20 @@ verify_code: |
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
+    kind: MultiClusterService
+    metadata:
+      name: pure
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
       serviceSpec:
         services:
-          - template: pure-k8s-plugin-2-7-1
-            name: pure-k8s-plugin
-            namespace: pure-k8s-plugin
-        services:
-          - template: pure-csi-1-2-0
-            name: pure-csi
-            namespace: pure-csi
+        - template: pure-k8s-plugin-2-7-1
+          name: pure-k8s-plugin
+          namespace: pure
+        - template: pure-csi-1-2-0
+          name: pure-csi
+          namespace: pure
     ~~~
 doc_link: https://github.com/purestorage/helm-charts
