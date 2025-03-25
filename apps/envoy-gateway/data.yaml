@@ -1,0 +1,40 @@
+title: "Envoy Gateway"
+tags:
+  - Networking
+summary: Manage your Application and API traffic with Envoy Gateway.
+logo: "./assets/envoy-gateway_logo.svg"
+description: |
+  Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway.
+  Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
+install_code: |
+  ~~~bash
+  helm upgrade --install gateway-helm oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+    --set "helm.repository.url=oci://docker.io/envoyproxy/" \
+    --set "helm.repository.type=oci" \
+    --set "helm.charts[0].name=gateway-helm" \
+    --set "helm.charts[0].version=1.3.2"
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                       VALID
+  # kcm-system   gateway-helm-1-3-2         true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: MultiClusterService
+  metadata:
+    name: envoy-gateway
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: gateway-helm-1-3-2
+        name: gateway-helm
+        namespace: envoy-gateway
+  ~~~
+support_link: https://github.com/envoyproxy/gateway/issues
+doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/
