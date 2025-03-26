@@ -24,5 +24,5 @@ spec:
           sku: "minimal-22_04-lts"
           version: "22.04.202502270"
       rootVolumeSize: 32
-      # Small Azure instance with nvidia GPU
+      # Small Azure instance with NVIDIA GPU
       vmSize: Standard_NC4as_T4_v3

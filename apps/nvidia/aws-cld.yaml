@@ -15,7 +15,7 @@ spec:
     publicIP: false
     region: eu-central-1
     worker:
-      # Small AWS instance with nvidia GPU
+      # Small AWS instance with NVIDIA GPU
       instanceType: g4dn.xlarge
       # AMI Catalog - Community AMIs:
       #  Find region specific AMI ID with title:
