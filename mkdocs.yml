@@ -40,12 +40,12 @@ theme:
     # - navigation.tabs
     # - navigation.tabs.sticky
     # - navigation.top
-    # - navigation.tracking
+    - navigation.tracking
     - search.highlight
     - search.share
     - search.suggest
     # - toc.follow
-    - toc.integrate
+    # - toc.integrate
 
 extra_css:
   - extra.css
@@ -80,3 +80,5 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - toc:
+      permalink: "#"

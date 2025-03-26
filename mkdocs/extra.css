@@ -358,6 +358,19 @@ body:has(.homepage) .back-to-catalog{
   margin-left: 16px;
   margin-right: 16px;
 }
+.md-typeset .headerlink,
+.md-typeset .headerlink:focus, 
+.md-typeset .headerlink:hover, 
+.md-typeset :target>.headerlink{
+  color: var(--md-primary-fg-color--dark);
+}
+.md-typeset .headerlink:hover{
+  opacity: 1;
+}
+/* hide sidebar-toc */
+.md-sidebar.md-sidebar--secondary{
+  display: none;
+}
 
 .tabbed-block a{
   
