@@ -36,5 +36,5 @@ deploy_code: |
         name: gateway-helm
         namespace: envoy-gateway
   ~~~
-support_link: https://github.com/envoyproxy/gateway/issues
 doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/
+# support_link:
