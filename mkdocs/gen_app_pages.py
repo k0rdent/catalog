@@ -9,7 +9,7 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_co
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type']
 allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
-                'Authentication', 'Database', 'Developer Tools', 'Serverless']
+                'Authentication', 'Database', 'Developer Tools', 'Serverless', 'Enterprise']
 allowed_support_types = ['Enterprise', 'Community']
 
 def changed(file, content):
@@ -34,6 +34,7 @@ def validate_metadata(file: str, data: dict):
             if community_field not in data:
                 raise Exception(f"Community field '{community_field}' not found in {file}")
     else:
+        data['tags'].append(support_type)
         for community_field in community_fields:
             if community_field in data:
                 raise Exception(f"Community field '{community_field}' found in Enterprise app {file}")
