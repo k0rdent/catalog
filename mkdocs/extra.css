@@ -373,7 +373,7 @@ body:has(.homepage) .back-to-catalog{
   transition: color .25s, opacity 125ms;
 }
 .md-typeset .headerlink:focus, .md-typeset :hover>.headerlink, .md-typeset :target>.headerlink,
-.tabbed-block .headerlink:focus, .tabbed-block h2:hover>.headerlink, .tabbed-block :target>.headerlink {
+.tabbed-block .headerlink:focus, .tabbed-block [id]:hover>.headerlink, .tabbed-block :target>.headerlink {
   opacity: 1;
   transition: color .25s, opacity 125ms;
   text-decoration: none;
