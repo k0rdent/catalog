@@ -1,0 +1,25 @@
+{{- include "managed-issuer.validateIssuerConfig" . -}}
+apiVersion: cert-manager.io/v1
+kind: {{ if .Values.issuer.namespaced }}Issuer{{ else }}ClusterIssuer{{ end }}
+metadata:
+  name: {{ .Release.Name }}
+  {{- if .Values.issuer.namespaced }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+spec:
+  {{- if .Values.issuer.acme.enabled }}
+  acme:
+    email: {{ .Values.issuer.acme.email }}
+    server: {{ .Values.issuer.acme.server }}
+    privateKeySecretRef:
+      name: {{ .Values.issuer.acme.privateKeySecretName }}
+    solvers:
+    {{- toYaml .Values.issuer.acme.solvers | nindent 6 }}
+  {{- else }}
+  {{- if .Values.issuer.existingPKI.enabled }}
+  ca:
+    secretName: {{ .Values.issuer.existingPKI.keyPairSecretName }}
+  {{- else }}
+  selfSigned: {}
+  {{- end }}
+  {{- end }}

@@ -1,0 +1,38 @@
+global: {}
+
+issuer:
+  namespaced: true
+  # If acme.enabled is true, then you can use this section to configure
+  # acme server. Otherwise, self-signed issuer will be used
+  acme:
+    enabled: false
+    server: ""
+    email: ""
+    privateKeySecretName: ""
+    # Solvers is a list of challenge solvers that will be used to solve
+    # ACME challenges for the matching domains.
+    # Solver configurations must be provided in order to obtain certificates
+    # from an ACME server.
+    # For more information, see: https://cert-manager.io/docs/configuration/acme/
+    #
+    # Example:
+    # solvers:
+    # - http01:
+    #     ingress:
+    #       class: nginx
+    # - dns01:
+    #     cloudflare:
+    #       email: user@example.com
+    #       apiKeySecretRef:
+    #         name: cloudflare-api-key
+    #         key: api-key
+    solvers: []
+
+  existingPKI:
+    # If disabled self-signed issuer will be created.
+    # For more information, see: https://cert-manager.io/docs/configuration/selfsigned/
+    enabled: true
+    # keyPairSecretRef stands for Secret containing existing issuer key-pair.
+    # It is expected Secret will contain data.tls.crt and data.tls.key fields.
+    # For more information, see: https://cert-manager.io/docs/configuration/ca/
+    keyPairSecretName: ""
