@@ -24,6 +24,7 @@ def validate_metadata(file: str, data: dict):
     support_type = data.get('support_type', 'Community')
     if support_type not in allowed_support_types:
         raise Exception(f"No allowed support_type found '{support_type}' in {file}, use ({allowed_support_types})")
+    data['support_type'] = support_type
 
     for required_field in required_fields:
         if required_field not in data:
