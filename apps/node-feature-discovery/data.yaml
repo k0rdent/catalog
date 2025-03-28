@@ -1,0 +1,35 @@
+tags: []
+title: "Node Feature Discovery"
+summary: "Enables node feature discovery for Kubernetes."
+logo: "./assets/node-feature-discovery.svg"
+description: |
+    Enables node feature discovery for Kubernetes.
+    It detects hardware features available on each node in a Kubernetes cluster, and advertises those
+    features using node labels and optionally node extended resources, annotations and node taints.
+support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=readme-ov-file
+install_code: |
+    ~~~bash
+    helm upgrade --install metallb oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://kubernetes-sigs.github.io/node-feature-discovery/charts" \
+      --set "helm.charts[0].name=node-feature-discovery" \
+      --set "helm.charts[0].version=0.16.1"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                               VALID
+    # kcm-system   node-feature-discovery-0-16-1      true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+    serviceSpec:
+        services:
+          - template: node-feature-discovery-0-16-1
+            name: node-feature-discovery
+            namespace: node-feature-discovery
+    ~~~
+doc_link: https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html

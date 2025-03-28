@@ -92,6 +92,7 @@ Delete testing cluster:
 | Minio                    | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Mirantis Secure Registry | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | NetApp                   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
+| Node Feature Discovery   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Nvidia GPU operator      | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Open-WebUI               | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | OpenCost                 | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
