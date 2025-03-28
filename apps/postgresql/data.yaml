@@ -1,0 +1,66 @@
+tags:
+  - Database
+  - Storage
+title: PostgreSQL
+summary: "Postgres Operator for deploying and managing PostgreSQL clusters on Kubernetes."
+logo: "./assets/postgres_logo.svg"
+description: |
+    The Zalando Postgres Operator delivers an easy to run highly-available PostgreSQL clusters on Kubernetes powered by Patroni. 
+    It is configured only through PostgreSQL manifests (CRDs) to ease integration into automated CI/CD pipelines with 
+    no access to Kubernetes API directly, promoting infrastructure as code vs manual operations.
+
+    k0rdent facilitates the deployment and lifecycle management of the Zalando Postgres Operator within Kubernetes clusters by leveraging 
+    its multi-cluster orchestration capabilities. Through k0rdent, users can easily deploy and manage the operator, which serves as the 
+    foundation for highly available PostgreSQL clusters within the Kubernetes environment.
+
+    ## Operator Features
+    
+    * Rolling updates on Postgres cluster changes, including quick minor version updates
+    * Live volume resize without pod restarts
+    * Database connection pooling with PGBouncer
+    * Fast in-place major version upgrades and support for global upgrade of all clusters
+    * Restore and cloning Postgres clusters on AWS, GCS, and Azure
+    * Logical backups to S3 or GCS bucket
+    * Standby cluster from S3 or GCS WAL archive
+    * Configurable for non-cloud environments
+    * Basic credential and user management on Kubernetes
+    * Support for custom TLS certificates
+    * UI to create and edit Postgres cluster manifests
+
+    ## PostgreSQL Features
+    
+    * Supports PostgreSQL 17, starting from 13+
+    * Streaming replication cluster via Patroni
+    * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
+    * Includes popular PostgreSQL extensions
+support_link: https://postgres-operator.readthedocs.io/
+install_code: |
+    ~~~bash
+    helm upgrade --install postgres-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set "helm.repository.url=https://opensource.zalando.com/postgres-operator/charts/postgres-operator" \
+      --set "helm.charts[0].name=postgres-operator" \
+      --set "helm.charts[0].version=1.14.0"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                       VALID
+    # kcm-system   postgres-operator-1-14-0   true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: postgres-operator
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: database
+      serviceSpec:
+        services:
+        - template: postgres-operator-1-14-0
+          name: postgres-operator
+          namespace: postgres-system
+    ~~~
+doc_link: https://github.com/zalando/postgres-operator
