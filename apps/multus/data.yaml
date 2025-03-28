@@ -1,0 +1,36 @@
+tags:
+  - Networking
+title: "Multus"
+summary: "Multus CNI enables attaching multiple network interfaces to pods in Kubernetes."
+logo: https://github.com/k8snetworkplumbingwg/multus-cni/raw/master/docs/images/Multus.png
+description: |
+  Multus CNI is a container network interface (CNI) plugin for Kubernetes that enables attaching multiple network interfaces to pods.
+  Typically, in Kubernetes each pod only has one network interface (apart from a loopback) -- with Multus you can create a multi-homed pod that has multiple interfaces.
+  This is accomplished by Multus acting as a "meta-plugin", a CNI plugin that can call multiple other CNI plugins.
+support_link: https://github.com/k8snetworkplumbingwg/multus-cni/issues
+install_code: |
+  ~~~bash
+  helm upgrade --install multus oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+    --set "helm.repository.url=https://startechnica.github.io/apps" \
+    --set "helm.charts[0].name=multus" \
+    --set "helm.charts[0].version=0.1.2"
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                               VALID
+  # kcm-system   multus-0-1-2                       true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: ClusterDeployment
+  # kind: MultiClusterService
+  ...
+  serviceSpec:
+      services:
+        - template: multus-0-1-2
+          name: multus
+          namespace: multus
+  ~~~
+doc_link: https://github.com/k8snetworkplumbingwg/multus-cni/tree/master/docs

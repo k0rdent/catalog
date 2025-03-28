@@ -91,6 +91,7 @@ Delete testing cluster:
 | Kyverno                  | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Minio                    | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Mirantis Secure Registry | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
+| Multus                   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | NetApp                   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Nvidia GPU operator      | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
 | Open-WebUI               | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
