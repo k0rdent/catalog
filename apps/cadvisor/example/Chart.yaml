@@ -1,0 +1,8 @@
+apiVersion: v2
+name: cadvisor
+type: application
+version: 2.3.3
+dependencies:
+  - name: cadvisor
+    version: 2.3.3
+    repository: https://ckotzbauer.github.io/helm-charts

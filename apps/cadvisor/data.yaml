@@ -1,0 +1,37 @@
+tags:
+  - Monitoring
+title: "cAdvisor"
+summary: "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers."
+logo: ./assets/cadvisor.png
+description: |
+  cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics
+  of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about
+  running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage,
+  histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.
+support_link: https://ckotzbauer.github.io/helm-charts
+install_code: |
+  ~~~bash
+  helm upgrade --install cadvisor oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+    --set "helm.repository.url=https://ckotzbauer.github.io/helm-charts" \
+    --set "helm.charts[0].name=cadvisor" \
+    --set "helm.charts[0].version=2.3.3"
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                 VALID
+  # kcm-system   cadvisor-2-3-3       true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: ClusterDeployment
+  # kind: MultiClusterService
+  ...
+  serviceSpec:
+      services:
+        - template: cadvisor-2-3-3
+          name: cadvisor
+          namespace: cadvisor
+  ~~~
+doc_link: https://github.com/google/cadvisor/blob/master/docs/storage/README.md
