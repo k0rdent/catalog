@@ -1,4 +1,6 @@
-tags: []
+tags:
+  - Monitoring
+  - Security
 title: "Node Feature Discovery"
 summary: "Enables node feature discovery for Kubernetes."
 logo: "./assets/node-feature-discovery.svg"
