@@ -72,38 +72,3 @@ Delete testing cluster:
 # Be careful, you can use existing cluster for other examples!!!
 ./scripts/remove_cld.sh
 ~~~
-
-## Tested applications
-
-| Application              | Local                      | AWS                | Azure              |
-|--------------------------|----------------------------|--------------------|--------------------|
-| Argo CD                  | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Cert Manager             | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Dapr                     | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Dex                      | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| External DNS             | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| External Secrets         | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Gatekeeper               | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Ingress Nginx            | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Istio                    | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Kube Prometheus Stack    | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| KubeCost                 | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Kubernetes Dashboard     | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Kyverno                  | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Minio                    | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Mirantis Secure Registry | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| NetApp                   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Node Feature Discovery   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Nvidia GPU operator      | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Open-WebUI               | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| OpenCost                 | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Prometheus               | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Pure                     | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Velero                   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| MySQL                    | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Metallb                  | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| MongoDB                  | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| ArangoDB                 | :white_check_mark: (amd64) | :white_check_mark: | :white_check_mark: |
-| GitLab                   | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Knative                  | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
-| Envoy Gateway            | :white_check_mark:         | :white_check_mark: | :white_check_mark: |
