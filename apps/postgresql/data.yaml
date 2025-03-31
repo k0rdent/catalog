@@ -33,7 +33,7 @@ description: |
     * Streaming replication cluster via Patroni
     * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
     * Includes popular PostgreSQL extensions
-support_link: https://postgres-operator.readthedocs.io/
+# support_link:
 install_code: |
     ~~~bash
     helm upgrade --install postgres-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
@@ -63,4 +63,4 @@ deploy_code: |
           name: postgres-operator
           namespace: postgres-system
     ~~~
-doc_link: https://github.com/zalando/postgres-operator
+doc_link: https://postgres-operator.readthedocs.io/
