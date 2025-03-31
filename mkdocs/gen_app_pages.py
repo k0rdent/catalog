@@ -49,6 +49,9 @@ def validate_metadata(file: str, data: dict):
         if tag not in allowed_tags:
             raise Exception(f"Unsupported tag '{tag}' found in {file}. Allowed tags: {allowed_tags}")
 
+    if data.get('type', 'app') != 'infra' and len(data['tags']) == 0:
+        raise Exception(f"No application tag found in {file}. Set at least one from tags: {allowed_tags}")
+
 
 def try_copy_assets(app: str, apps_dir: str, dst_dir: str):
     src_dir = os.path.join(apps_dir, app, "assets")
