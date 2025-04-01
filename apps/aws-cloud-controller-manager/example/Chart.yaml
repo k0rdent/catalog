@@ -1,0 +1,8 @@
+apiVersion: v2
+name: aws-cloud-controller-manager
+type: application
+version: 0.0.8
+dependencies:
+  - name: aws-cloud-controller-manager
+    version: 0.0.8
+    repository: https://kubernetes.github.io/cloud-provider-aws

@@ -1,0 +1,34 @@
+tags: []
+title: "AWS Cloud Controller Manager"
+summary: "The AWS cloud provider provides the interface between a Kubernetes cluster and AWS service APIs"
+logo: "./assets/aws_logo.svg"
+description: |
+  The AWS cloud provider provides the interface between a Kubernetes cluster and AWS service APIs.
+  This project allows a Kubernetes cluster to provision, monitor and remove AWS resources necessary for operation of the cluster.
+support_link: https://github.com/kubernetes/cloud-provider-aws/issues
+install_code: |
+  ~~~bash
+  helm upgrade --install aws-cloud-controller-manager oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+    --set "helm.repository.url=https://kubernetes.github.io/cloud-provider-aws" \
+    --set "helm.charts[0].name=aws-cloud-controller-manager" \
+    --set "helm.charts[0].version=0.0.8"
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                               VALID
+  # kcm-system   aws-cloud-controller-manager-0-0-8 true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: ClusterDeployment
+  # kind: MultiClusterService
+  ...
+  serviceSpec:
+      services:
+        - template: aws-cloud-controller-manager-0-0-8
+          name: aws-cloud-controller-manager
+          namespace: aws-cloud-controller-manager
+  ~~~
+doc_link: https://kubernetes.github.io/cloud-provider-aws/
