@@ -8,7 +8,7 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
 
 ## Contribution Process
 ### 1. Fork the Repository:
-- Fork the k0rdent catalog repository to your own GitHub (or equivalent) account.
+- Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account.
 ### 2. Create a New Application Metadata File:
 - Navigate to the `apps/` directory in your forked repository.
 - Create an `assets` folder and add a logo to it (e.g., `assets/app_logo.svg`). Please use the SVG format if possible.
@@ -131,6 +131,7 @@ dapr-dashboard:
       ├── Chart.yaml
       └── values.yaml
   ~~~
+- You can also check existing apps in the Catalog (e.g., [here](https://github.com/k0rdent/catalog/tree/main/apps/ingress-nginx)).
 ### 6. Commit and Push Your Changes:
 - Commit your changes to your forked repository.
 - Push your changes to your remote branch.
