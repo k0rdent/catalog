@@ -4,7 +4,7 @@ metadata:
   name: aws-example-USER
   namespace: kcm-system
 spec:
-  template: aws-standalone-cp-0-1-0
+  template: aws-standalone-cp-0-2-0
   credential: aws-credential
   config:
     clusterLabels:
