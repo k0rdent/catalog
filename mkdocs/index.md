@@ -42,7 +42,7 @@ template: home.html
           </div>
           <div class="tab_apps-main-content">
             <div id="cards-apps" class="grid">
-              <a class="card" v-for="card in data_apps_filtered">
+              <a class="card" :href="card.link" v-for="card in data_apps_filtered">
                 <img :src="updateRelLink(card.logo, card.appDir)" alt="logo" />
                 <p>
                   <b>{{ card.title }}</b>
@@ -77,7 +77,7 @@ template: home.html
       </div>
       <div class="tabs_infra-main-content">
         <div id="cards-infra" class="grid">
-          <a class="card" v-for="card in data_infra">
+          <a class="card" :href="card.link" v-for="card in data_infra">
             <img :src="updateRelLink(card.logo, card.appDir)" alt="logo" />
             <p>
               <b>{{ card.title }}</b>
