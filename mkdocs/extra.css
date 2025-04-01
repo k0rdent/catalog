@@ -107,6 +107,9 @@ ul.video-list .thumb {
 .md-sidebar--primary {
   display: none;
 }
+.md-sidebar.md-sidebar--secondary{
+  display: none;
+}
 
 /* CUSTOM CSS BEGIN */
 .md-header{
