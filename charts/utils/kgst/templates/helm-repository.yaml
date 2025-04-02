@@ -2,6 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: {{ .Values.helm.repository.name | default .Release.Name }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
     k0rdent.mirantis.com/managed: "true"
   annotations:

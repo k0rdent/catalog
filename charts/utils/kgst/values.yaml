@@ -20,3 +20,6 @@ helm:
 # E.g. istio-base, instead of just base, use:
 # prefix: "istio-"
 prefix: ""
+
+# Namespace of service template and helm repo, equals to release namespace by default.
+namespace: ""
