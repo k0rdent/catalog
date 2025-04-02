@@ -3,7 +3,7 @@ set -euo pipefail
 
 while true; do
     cld_out=$(kubectl get cld -n kcm-system | grep "$CLDNAME")
-    if echo "$cld_out" | awk '{print $2}' | grep 'True'; then
+    if echo "$cld_out" | grep 'ClusterDeployment is ready'; then
         break
     fi
     echo "$cld_out"
