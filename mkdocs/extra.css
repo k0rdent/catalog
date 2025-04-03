@@ -523,20 +523,21 @@ a.blue-green-button-dark-background:hover {
     justify-content: space-between;
   }
   .categories-title svg{
+    pointer-events: none;
     display: block;
     height: 18px;
     margin-top: -5px;
   }
-  #filterTagsApps{
+  .expandable-list{
     height: 0px;
     overflow: hidden;
     transition: all .3s;
   }
-  .tab_apps-sidebar.expanded #filterTagsApps{
+  .expanded+.expandable-list{
     height: 100%; 
     transition: all .3s;
   }
-  .tab_apps-sidebar.expanded .categories-title svg{
+  .expanded.categories-title svg{
     transform: rotate(180deg);
   }
 }
