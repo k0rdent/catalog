@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "Kube Prometheus Stack"
-summary: "The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters."
+summary: "Collection of monitoring and alerting rules for Kubernetes clusters."
 logo: "https://prometheus.io/assets/prometheus_logo_grey.svg"
 description: |
   The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.

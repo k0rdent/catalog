@@ -11,6 +11,7 @@ allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
                 'Authentication', 'Database', 'Developer Tools', 'Serverless', 'Enterprise']
 allowed_support_types = ['Enterprise', 'Community']
+summary_chars_limit = 90
 
 def changed(file, content):
     if os.path.exists(file):
@@ -19,6 +20,11 @@ def changed(file, content):
                 return False
     return True
 
+
+def validate_summary(file: str, data: dict):
+    summary_chars = len(data['summary'])
+    if summary_chars > summary_chars_limit:
+        raise Exception(f"Exceeded 'summary chars limit' ({summary_chars} > {summary_chars_limit}) in {file}")
 
 def validate_metadata(file: str, data: dict):
     support_type = data.get('support_type', 'Community')
@@ -51,6 +57,8 @@ def validate_metadata(file: str, data: dict):
 
     if data.get('type', 'app') != 'infra' and len(data['tags']) == 0:
         raise Exception(f"No application tag found in {file}. Set at least one from tags: {allowed_tags}")
+
+    validate_summary(file, data)
 
 
 def try_copy_assets(app: str, apps_dir: str, dst_dir: str):

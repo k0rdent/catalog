@@ -1,7 +1,7 @@
 tags:
   - Security
 title: "Gatekeeper"
-summary: "A customizable cloud native policy controller that helps enforce policies and strengthen governance."
+summary: "Cloud native policy controller that helps enforce policies and strengthen governance."
 logo: "./assets/gatekeeper.svg"
 description: |
   A customizable cloud native policy controller that helps enforce policies and strengthen governance.
