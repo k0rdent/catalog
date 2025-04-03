@@ -33,5 +33,9 @@ deploy_code: |
           - template: cert-manager-1-16-2
             name: cert-manager
             namespace: cert-manager
+            values: |
+              cert-manager:
+                crds:
+                  enabled: false  # default
     ~~~
 doc_link: https://cert-manager.io/docs/installation/helm/
