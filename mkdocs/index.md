@@ -167,7 +167,9 @@ template: home.html
       function updateCheckboxesFromURL() {
         let params = new URLSearchParams(window.location.search);
         let hash_param = window.location.hash;
-        document.getElementById(hash_param.replace('#', '')).checked = true;
+        if(document.getElementById(hash_param.replace('#', ''))){
+          document.getElementById(hash_param.replace('#', '')).checked = true;
+        }
         let selectedCategories = params.get("category");
         if (selectedCategories) {
           let selectedArray = selectedCategories.split(",");
