@@ -29,7 +29,7 @@ type: "{{ type }}"
 
     #### Prerequisites
 
-    Deploy k0rdent: [QuickStart](https://docs.k0rdent.io/v0.1.0/guide-to-quickstarts/#guide-to-quickstarts){ target="_blank" }
+    Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}/guide-to-quickstarts/#guide-to-quickstarts){ target="_blank" }
 
     {% if use_ingress %}
     Deploy [Ingress-nginx](../../../apps/ingress-nginx/ingress-nginx/#__tabbed_1_2){ target="_blank" } to expose application web UI

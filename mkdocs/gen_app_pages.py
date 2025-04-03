@@ -6,12 +6,16 @@ from jinja2 import Template
 required_fields = ['title', 'tags', 'summary', 'logo', 'description']
 community_fields = ['install_code', 'verify_code', 'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
-                  'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type']
+                  'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
+                  'versions']
 allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
                 'Authentication', 'Database', 'Developer Tools', 'Serverless', 'Enterprise']
 allowed_support_types = ['Enterprise', 'Community']
 summary_chars_limit = 90
+valid_versions = ['v0.1.0', 'v0.2.0']
+
+VERSION = os.environ.get('VERSION', 'v0.2.0')
 
 def changed(file, content):
     if os.path.exists(file):
@@ -25,6 +29,17 @@ def validate_summary(file: str, data: dict):
     summary_chars = len(data['summary'])
     if summary_chars > summary_chars_limit:
         raise Exception(f"Exceeded 'summary chars limit' ({summary_chars} > {summary_chars_limit}) in {file}")
+
+
+def try_validate_versions(file: str, data: dict):
+    if 'versions' not in data:
+        return
+    if not isinstance(data['versions'], list):
+        raise Exception(f"Field 'versions' needs to be an array if used! ({file})")
+    for version in data['versions']:
+        if version not in valid_versions:
+            raise Exception(f"Version '{version}' not valid ({valid_versions})")
+
 
 def validate_metadata(file: str, data: dict):
     support_type = data.get('support_type', 'Community')
@@ -87,24 +102,27 @@ def generate_apps():
     # Iterate over each app directory
     for app in os.listdir(apps_dir):
         app_path = os.path.join(apps_dir, app)
-        dst_app_path = os.path.join(dst_dir, app_path)
-        if not os.path.exists(dst_app_path):
-            os.makedirs(dst_app_path)
         data_file = os.path.join(app_path, 'data.yaml')
-        md_file = os.path.join(dst_app_path, app + '.md')
-        try_copy_assets(app, apps_dir, dst_dir)
+        metadata = dict()
         if os.path.isdir(app_path) and os.path.exists(data_file):
             with open(data_file, 'r', encoding='utf-8') as f:
                 metadata = yaml.safe_load(f)
                 validate_metadata(data_file, metadata)
                 ensure_big_logo(metadata)
-
-            # Render the template with metadata
-            rendered_md = template.render(**metadata)
-
-            if changed(md_file, rendered_md):
-                # Write the generated markdown
-                with open(md_file, 'w', encoding='utf-8') as f:
-                    f.write(rendered_md)
+                metadata['version'] = VERSION
+        if 'versions' in metadata and VERSION not in metadata['versions']:
+            print(f"Skip {app} in version {VERSION}")
+            continue
+        dst_app_path = os.path.join(dst_dir, app_path)
+        if not os.path.exists(dst_app_path):
+            os.makedirs(dst_app_path)
+        md_file = os.path.join(dst_app_path, app + '.md')
+        try_copy_assets(app, apps_dir, dst_dir)
+        # Render the template with metadata
+        rendered_md = template.render(**metadata)
+        if changed(md_file, rendered_md):
+            # Write the generated markdown
+            with open(md_file, 'w', encoding='utf-8') as f:
+                f.write(rendered_md)
 
 generate_apps()
