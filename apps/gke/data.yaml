@@ -1,0 +1,47 @@
+tags: []
+title: "Google Kubernetes Engine"
+summary: "Deploy kubernetes clusters with k0rdent on Google Kubernetes Engine."
+logo: ./assets/gke_logo.svg # https://www.svgrepo.com/svg/375441/google-kubernetes-engine
+type: infra
+description: |
+  K0rdent seamlessly integrates with Google Kubernetes Engine (GKE), enabling efficient management of GKE clusters alongside other environments through a centralized control plane. Here’s how k0rdent works with GKE:
+
+  - GKE Cluster Integration: Connect and manage existing or newly created GKE clusters using k0rdent, with support for importing clusters and applying consistent management policies.
+  - Declarative Configuration: Define GKE cluster configurations—such as regions, node pools, autoscaling, and Kubernetes versions—through infrastructure-as-code workflows.
+  - Multi-Cluster Visibility: Monitor and control GKE clusters from the k0rdent platform alongside clusters from AWS, Azure, on-prem, or other clouds.
+  - Enhanced Governance and Scaling: Apply policies, automate upgrades, and scale workloads across GKE clusters using k0rdent’s governance and automation features.
+  - Secure Access and IAM: Leverage Google Cloud IAM and GKE’s built-in security features while applying k0rdent’s role-based access control (RBAC) and policy enforcement across environments.
+support_link: https://cloud.google.com/support
+install_code: |
+  ~~~yaml
+  # k0rdent 0.2.0 includes the template for Google Kubernetes Engine out of the box
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get clustertemplate -n kcm-system
+  # NAME                VALID
+  # gcp-gke-0-2-0       true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: ClusterDeployment
+  metadata:
+    name: my-gcp-clusterdeployment1
+    namespace: kcm-system
+  spec:
+    template: gcp-gke-0-2-0
+    credential: gcp-credential
+    propagateCredentials: false
+    config:
+      clusterLabels: {}
+      # workersNumber should be divisible by the number of zones in machines.nodeLocations.
+      # If nodeLocations is not specified, must be divisible by the number of zones in this region (default: 3)
+      workersNumber: 3
+      clusterAnnotations: {}
+      project: PROJECT_NAME # Your project name
+      region: us-east4 # Select your desired GCP region (find it via `gcloud compute regions list`)
+      network:
+        name: default # Select your desired network name (select new network name to create or find it via `gcloud compute networks list --format="value(name)"`)
+  ~~~
+doc_link: https://cloud.google.com/kubernetes-engine/docs
