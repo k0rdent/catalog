@@ -11,6 +11,7 @@ title: {{ title }}
 description: {{ summary }}
 logo: "{{ logo }}"
 type: "{{ type }}"
+support_type: "{{ support_type }}"
 ---
 ![logo]({{ logo_big }}){ align="right", width="100" }
 # {{ title }}
