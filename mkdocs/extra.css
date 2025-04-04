@@ -24,8 +24,15 @@ body{
   font-size: 24px;
 }
 
+.md-version{
+	display: flex;
+}
 .md-version__list {
   overflow: auto;
+  top: 32px;
+}
+.md-version__link:hover {
+  background-color: var(--md-default-fg-color--lightest);
 }
 
 ul.video-list {
@@ -331,7 +338,7 @@ body:has(.homepage) .back-to-catalog{
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   }
   .md-header__button.md-logo img{
-    max-width: 250px;
+    max-width: 170px;
   }
   .md-header .md-header__title .md-ellipsis {
     letter-spacing: 1.4;
