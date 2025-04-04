@@ -2,7 +2,7 @@ tags:
   - Security
 title: "Nirmata Enterprise for Kyverno"
 summary: "Policy-based Security, Compliance, and Governance"
-logo: "https://www.eigenmagic.com/wp-uploads/2017/07/nirmata-sign-color-large-01-300x232.png"
+logo: ./assets/nirmata_logo.svg # https://svgmix.com/item/zQeg3J/nirmata
 description: |
   Nirmata Enterprise is the enterprise-ready Kyverno distribution that provides support, and integrations for secure and scalable Kubernetes operations – all easily managed with policy-as-code.
 
