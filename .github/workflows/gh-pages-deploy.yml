@@ -8,6 +8,7 @@ on:
       - apps/**/data.yaml
       - mkdocs.yml
       - mkdocs/**
+      - scripts/deploy_web.sh
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
@@ -15,6 +16,7 @@ on:
       - apps/**/data.yaml
       - mkdocs/**
       - mkdocs.yml
+      - scripts/deploy_web.sh
       - .github/workflows/gh-pages-deploy.yml
 
 permissions:
@@ -28,6 +30,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -39,15 +46,18 @@ jobs:
           pip install -r mkdocs/requirements.txt
 
       - name: Test web pages build
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
+          echo "REPO: $GITHUB_CONTEXT"
           mkdocs build
 
       - name: Build and Deploy pages - fork
-        if: github.event_name == 'push' && github.event.repository.fork == true
+        if: github.repository != 'k0rdent/catalog' && github.ref != 'refs/heads/main'
         run: |
-          mkdocs gh-deploy --force
+          SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh
 
       - name: Build and Deploy pages - k0rdent/catalog
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.repository == 'k0rdent/catalog' && github.ref == 'refs/heads/main'
         run: |
-          mkdocs gh-deploy --force
+          SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh

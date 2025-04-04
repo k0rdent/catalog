@@ -24,8 +24,15 @@ body{
   font-size: 24px;
 }
 
+.md-version{
+	display: flex;
+}
 .md-version__list {
   overflow: auto;
+  top: 32px;
+}
+.md-version__link:hover {
+  background-color: var(--md-default-fg-color--lightest);
 }
 
 ul.video-list {

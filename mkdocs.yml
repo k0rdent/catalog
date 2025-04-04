@@ -50,9 +50,14 @@ theme:
 extra_css:
   - extra.css
 
+extra:
+  version:
+    provider: mike
+
 plugins:
   - search
   - tags
+  - mike
   - gen-files:
       scripts:
         - mkdocs/gen_app_pages.py
