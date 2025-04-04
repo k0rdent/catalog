@@ -45,11 +45,12 @@ deploy_code: |
           name: ingress-nginx
           namespace: ingress-nginx
           values: |
-            controller:
-              service:
-                annotations:
-                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-              hostPort:
-                enabled: true
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
     ~~~
 doc_link: https://kubernetes.github.io/ingress-nginx/
