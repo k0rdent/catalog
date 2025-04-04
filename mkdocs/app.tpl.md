@@ -12,7 +12,7 @@ description: {{ summary }}
 logo: "{{ logo }}"
 type: "{{ type }}"
 ---
-![logo]({{ logo }}){ align="right", width="100" }
+![logo]({{ logo_big }}){ align="right", width="100" }
 # {{ title }}
 
 === "Description"

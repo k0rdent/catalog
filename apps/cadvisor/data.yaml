@@ -2,7 +2,8 @@ tags:
   - Monitoring
 title: "cAdvisor"
 summary: "Analyzes resource usage and performance characteristics of running containers."
-logo: ./assets/cadvisor.png
+logo: ./assets/cadvisor_logo.png
+logo_big: ./assets/cadvisor.png
 description: |
   cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics
   of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about

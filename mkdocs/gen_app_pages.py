@@ -5,7 +5,7 @@ from jinja2 import Template
 
 required_fields = ['title', 'tags', 'summary', 'logo', 'description']
 community_fields = ['install_code', 'verify_code', 'deploy_code']
-allowed_fields = ['title', 'tags', 'summary', 'logo', 'description', 'install_code', 'verify_code',
+allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type']
 allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
@@ -69,6 +69,11 @@ def try_copy_assets(app: str, apps_dir: str, dst_dir: str):
         print(f"Assets copied from {src_dir} to {dst_dir}")
 
 
+def ensure_big_logo(metadata: dict):
+    if 'logo_big' not in metadata:
+        metadata['logo_big'] = metadata['logo']
+
+
 def generate_apps():
     apps_dir = 'apps'
     dst_dir = 'mkdocs'
@@ -92,6 +97,7 @@ def generate_apps():
             with open(data_file, 'r', encoding='utf-8') as f:
                 metadata = yaml.safe_load(f)
                 validate_metadata(data_file, metadata)
+                ensure_big_logo(metadata)
 
             # Render the template with metadata
             rendered_md = template.render(**metadata)
