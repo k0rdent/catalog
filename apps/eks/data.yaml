@@ -36,4 +36,4 @@ deploy_code: |
         instanceType: t3.small
         rootVolumeSize: 32
   ~~~
-doc_link: https://aws.amazon.com/eks/
+doc_link: https://docs.k0rdent.io/{{ version }}/admin/installation/prepare-mgmt-cluster/aws/
