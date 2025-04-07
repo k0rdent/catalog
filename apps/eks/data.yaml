@@ -24,7 +24,7 @@ deploy_code: |
     name: my-azure-clusterdeployment1
     namespace: kcm-system
   spec:
-    template: aws--cp-0-1-0
+    template: aws-eks-cp-0-1-0
     credential: aws-cluster-identity-cred
     config:
       clusterLabels: {}
