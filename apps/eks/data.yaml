@@ -21,7 +21,7 @@ deploy_code: |
   apiVersion: k0rdent.mirantis.com/v1alpha1
   kind: ClusterDeployment
   metadata:
-    name: my-azure-clusterdeployment1
+    name: my-aws-clusterdeployment1
     namespace: kcm-system
   spec:
     template: aws-eks-cp-0-1-0
