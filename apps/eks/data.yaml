@@ -14,7 +14,7 @@ verify_code: |
   ~~~bash
   kubectl get clustertemplate -n kcm-system
   # NAME                            VALID
-  # aws-eks-0-1-0                   true
+  # aws-eks-{{ dash_version }}                   true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -24,7 +24,7 @@ deploy_code: |
     name: my-aws-clusterdeployment1
     namespace: kcm-system
   spec:
-    template: aws-eks-cp-0-1-0
+    template: aws-eks-cp-{{ dash_version }}
     credential: aws-cluster-identity-cred
     config:
       clusterLabels: {}

@@ -14,7 +14,7 @@ verify_code: |
     ~~~bash
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
-    # azure-aks-0-1-0                 true 
+    # azure-aks-{{ dash_version }}                 true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -24,7 +24,7 @@ deploy_code: |
       name: my-azure-clusterdeployment1
       namespace: kcm-system
     spec:
-      template: azure-aks-0-1-0  # name of the clustertemplate
+      template: azure-aks-{{ dash_version }}  # name of the clustertemplate
       credential: azure-cluster-identity-cred
       config:
         clusterLabels: {}

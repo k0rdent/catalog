@@ -1,7 +1,7 @@
 import os
 import shutil
 import yaml
-from jinja2 import Template
+import jinja2
 
 required_fields = ['title', 'tags', 'summary', 'logo', 'description']
 community_fields = ['install_code', 'verify_code', 'deploy_code']
@@ -84,6 +84,11 @@ def try_copy_assets(app: str, apps_dir: str, dst_dir: str):
         print(f"Assets copied from {src_dir} to {dst_dir}")
 
 
+def version2dash_version(version: str) -> str:
+    version_removed_v = version.replace('v', '')
+    return version_removed_v.replace('.', '-')
+
+
 def ensure_big_logo(metadata: dict):
     if 'logo_big' not in metadata:
         metadata['logo_big'] = metadata['logo']
@@ -94,10 +99,15 @@ def generate_apps():
     dst_dir = 'mkdocs'
     template_path = 'mkdocs/app.tpl.md'
 
+    base_metadata = dict(
+        version=VERSION,
+        dash_version=version2dash_version(VERSION)
+    )
+
     # Read template
     with open(template_path, 'r', encoding='utf-8') as f:
         template_content = f.read()
-    template = Template(template_content)
+    template = jinja2.Template(template_content)
 
     # Iterate over each app directory
     for app in os.listdir(apps_dir):
@@ -106,10 +116,12 @@ def generate_apps():
         metadata = dict()
         if os.path.isdir(app_path) and os.path.exists(data_file):
             with open(data_file, 'r', encoding='utf-8') as f:
-                metadata = yaml.safe_load(f)
+                metadata_tpl = jinja2.Template(f.read())
+                metadata_str = metadata_tpl.render(**base_metadata)
+                metadata = yaml.safe_load(metadata_str)
                 validate_metadata(data_file, metadata)
                 ensure_big_logo(metadata)
-                metadata['version'] = VERSION
+                metadata.update(base_metadata)
         if 'versions' in metadata and VERSION not in metadata['versions']:
             print(f"Skip {app} in version {VERSION}")
             continue

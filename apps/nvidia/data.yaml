@@ -31,7 +31,7 @@ deploy_code: |
     metadata:
       name: aws-example-cluster
     spec:
-      template: aws-standalone-cp-0-1-0
+      template: aws-standalone-cp-{{ dash_version }}
       credential: aws-credential
       config:
         clusterLabels:
