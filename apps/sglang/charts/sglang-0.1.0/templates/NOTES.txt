@@ -1,0 +1,13 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To access the SGLang service:
+
+  kubectl port-forward svc/{{ .Release.Name }}-leader {{ .Values.service.port }}:{{ .Values.service.port }}
+
+Then you can access the service at:
+  http://localhost:{{ .Values.service.port }}
+
+For more information about SGLang, please visit:
+  https://github.com/sgl-project/sglang
