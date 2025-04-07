@@ -8,7 +8,14 @@ description: |
     and migrate Kubernetes cluster resources and persistent volumes.
 install_code: |
     ~~~bash
+    {% if version == "v0.1.0" %}
     # k0rdent includes the template for Velero out of the box
+    {% else %}
+    helm upgrade --install velero oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+        --set "helm.repository.url=https://vmware-tanzu.github.io/helm-charts/" \
+        --set "helm.charts[0].name=velero" \
+        --set "helm.charts[0].version=8.1.0"
+    {% endif %}
     ~~~
 verify_code: |
     ~~~bash

@@ -11,7 +11,14 @@ description: |
 support_link: https://external-secrets.io/latest/introduction/stability-support/
 install_code: |
     ~~~bash
+    {% if version == "v0.1.0" %}
     # k0rdent includes the template for External-secrets out of the box
+    {% else %}
+    helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+        --set "helm.repository.url=https://charts.external-secrets.io" \
+        --set "helm.charts[0].name=external-secrets" \
+        --set "helm.charts[0].version=0.11.0"
+    {% endif %}
     ~~~
 verify_code: |
     ~~~bash

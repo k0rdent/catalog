@@ -17,7 +17,14 @@ description: |
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 install_code: |
     ~~~bash
+    {% if version == "v0.1.0" %}
     # k0rdent includes the template for Kyverno out of the box
+    {% else %}
+    helm upgrade --install kyverno oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+        --set "helm.repository.url=https://kyverno.github.io/kyverno/" \
+        --set "helm.charts[0].name=kyverno" \
+        --set "helm.charts[0].version=3.2.6"
+    {% endif %}
     ~~~
 verify_code: |
     ~~~bash

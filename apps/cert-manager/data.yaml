@@ -9,8 +9,10 @@ description: |
 support_link: https://cert-manager.io/support/
 install_code: |
     ~~~bash
+    {% if version == "v0.1.0" %}
     # k0rdent includes the template for Cert-manager 1.16.2 out of the box
     # It's also possible to install a newer version:
+    {% endif %}
     helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set "helm.repository.url=https://charts.jetstack.io" \
       --set "helm.charts[0].name=cert-manager" \
@@ -20,7 +22,7 @@ verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   cert-manager-1-16-2        true
+    # kcm-system   cert-manager-1-17-1        true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -30,7 +32,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: cert-manager-1-16-2
+          - template: cert-manager-1-17-1
             name: cert-manager
             namespace: cert-manager
             values: |
