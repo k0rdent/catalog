@@ -12,3 +12,4 @@ dapr-dashboard:
     className: nginx
     host: 'dapr.example.com'
 
+
