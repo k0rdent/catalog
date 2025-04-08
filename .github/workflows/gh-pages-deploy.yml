@@ -20,9 +20,17 @@ on:
       - mkdocs.yml
       - scripts/deploy_web.sh
       - .github/workflows/gh-pages-deploy.yml
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch, tag or SHA to checkout'
+        required: true
+        default: 'main'
+        type: string
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
   deploy:
@@ -31,6 +39,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref || '' }}
 
       - name: Configure Git User
         run: |
@@ -38,7 +48,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
@@ -48,18 +58,13 @@ jobs:
           pip install -r mkdocs/requirements.txt
 
       - name: Test web pages build
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo "REPO: $GITHUB_CONTEXT"
           mkdocs build
 
-      - name: Build and Deploy pages - fork
-        if: github.repository != 'k0rdent/catalog' && github.ref != 'refs/heads/main'
+      - name: Build and Deploy pages
+        if: ${{ github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' }}
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh
-
-      - name: Build and Deploy pages - k0rdent/catalog
-        if: github.repository == 'k0rdent/catalog' && github.ref == 'refs/heads/main'
-        run: |
-          SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh
+          ./scripts/deploy_web.sh
