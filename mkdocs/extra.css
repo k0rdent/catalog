@@ -513,8 +513,41 @@ a.blue-green-button-dark-background:hover {
 .categories-title svg{
   display: none;
 }
-
+.nav-item{
+  font-size: 16px;
+  margin-left: 24px;
+  margin-right: 24px;
+  text-transform: uppercase;
+}
+.nav-item:hover{
+  text-decoration: underline;
+}
+@media screen and (min-width: 76.25em) {
+  [dir=ltr] .md-header__source {
+      margin-left: 0;
+  }
+}
 @media(max-width: 768px){
+  .md-header__inner{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .md-header .md-header__title{
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .md-header__button[for="__search"]{
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .nav-item.contribute{
+    grid-column: 2;
+    grid-row: 2;
+    text-align: right;
+  }
   .maintabs input[type="radio"] + label{
     font-size: 14px;
   }
