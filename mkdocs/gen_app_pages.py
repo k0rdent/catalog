@@ -7,7 +7,7 @@ required_fields = ['title', 'tags', 'summary', 'logo', 'description']
 community_fields = ['install_code', 'verify_code', 'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
-                  'versions']
+                  'versions', 'prerequisites']
 allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
                 'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
                 'Authentication', 'Database', 'Developer Tools', 'Serverless', 'Enterprise']
