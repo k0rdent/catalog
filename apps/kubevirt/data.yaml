@@ -2,12 +2,13 @@ tags: []
 title: "KubeVirt"
 summary: "Deploy kubernetes clusters with k0rdent on KubeVirt."
 logo: "https://kubevirt.io/user-guide/assets/KubeVirt_icon.png?width=600&height=315"
+logo_big: ./assets/kubevirt-big_logo.svg # https://github.com/kubevirt/kubevirt.github.io/blob/main/assets/images/KubeVirt_logo_color.svg
 type: infra
 description: |
     KubeVirt is a managed Kubernetes service that simplifies the deployment and management of containerized applications as well as Virtual Machines in a common, shared environment. k0rdent can create and manage clusters with KubeVirt.
 support_link: https://kubevirt.io/user-guide/#getting-help
-install_code: |
-    ### Install k0rdent/kcm into Kubernetes cluster
+prerequisites: |
+    #### Install k0rdent/kcm into Kubernetes cluster
     ~~~bash
     helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm --version 0.2.0 -n kcm-system --create-namespace \
       --set controller.createManagement=false \
@@ -16,7 +17,8 @@ install_code: |
     kubectl -n kcm-system scale deployments/kcm-controller-manager --replicas=0
     ~~~
 
-    ### Add KubeVirt provider
+install_code: |
+    ##### Add KubeVirt provider
     ~~~bash
     cat << 'EOF' | jq -Rs '{data:{"kubevirt.yml":.}}' | kubectl patch configmap providers -n kcm-system --type=merge --patch-file /dev/stdin
     # SPDX-License-Identifier: Apache-2.0
@@ -30,7 +32,7 @@ install_code: |
     EOF
     ~~~
 
-    ### Create templates for KubeVirt provider charts
+    ##### Create templates for KubeVirt provider charts
     ~~~bash
     kubectl apply -f - <<EOF
     apiVersion: source.toolkit.fluxcd.io/v1
@@ -80,7 +82,7 @@ install_code: |
     EOF
     ~~~
 
-    ### Rescale KCM manager
+    ##### Rescale KCM manager
     ~~~bash
     kubectl -n kcm-system patch deployment kcm-controller-manager --type='json' -p='[
       {"op": "replace", "path": "/spec/template/spec/containers/0/args", "value": [
@@ -104,7 +106,7 @@ install_code: |
     kubectl -n kcm-system scale deployments/kcm-controller-manager --replicas=1
     ~~~
 
-    ### Add the KubeVirt chart into the Release object
+    ##### Add the KubeVirt chart into the Release object
     ~~~bash
     until kubectl patch release kcm-0-2-0 --type=json -p='[
       {"op": "add", "path": "/spec/providers/-", "value": {"name": "cluster-api-provider-kubevirt", "template": "cluster-api-provider-kubevirt-0-2-0"}}
@@ -113,7 +115,7 @@ install_code: |
     done
     ~~~
 
-    ### Wait for Management object readiness
+    ##### Wait for Management object readiness
     ~~~bash
     until kubectl get management/kcm &>/dev/null; do
       sleep 5
@@ -122,7 +124,7 @@ install_code: |
     kubectl wait --for=condition=Ready=True management/kcm --timeout=300s
     ~~~
 
-    ### Install KubeVirt charts
+    ##### Install KubeVirt charts
     ~~~bash
     export KUBEVIRT_VERSION=$(curl -s "https://api.github.com/repos/kubevirt/kubevirt/releases/latest" | jq -r ".tag_name")
 
@@ -141,7 +143,7 @@ install_code: |
     kubectl wait -n kubevirt kv kubevirt --for=condition=Available --timeout=10m
     ~~~
 
-    ### Install KubeVirt CLI
+    ##### Install KubeVirt CLI
     ~~~bash
     KUBEVIRT_VERSION=$(kubectl get kubevirt.kubevirt.io/kubevirt -n kubevirt -o=jsonpath="{.status.observedKubeVirtVersion}")
     ARCH=$(uname -s | tr A-Z a-z)-$(uname -m | sed 's/x86_64/amd64/')
@@ -214,3 +216,4 @@ deploy_code: |
     EOF
     ~~~
 doc_link: https://kubevirt.io/user-guide/
+versions: [v0.2.0]
