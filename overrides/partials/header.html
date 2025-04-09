@@ -44,7 +44,7 @@
       </label>
       {% include "partials/search.html" %}
     {% endif %}
-    <a href="./contribute" class="contribute nav-item">Contribute</a>
+    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}/contribute" class="contribute nav-item">Contribute</a>
     {% if config.repo_url %}
       <div class="md-header__source">
         {% include "partials/source.html" %}
