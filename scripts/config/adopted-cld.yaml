@@ -4,7 +4,7 @@ metadata:
   name: adopted
   namespace: kcm-system
 spec:
-  template: adopted-cluster-{{ dash_version }}
+  template: adopted-cluster-0-1-0
   credential: adopted-credential
   config:
     clusterLabels:
