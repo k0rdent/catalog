@@ -6,11 +6,13 @@ on:
       - '*'
     paths:
       - apps/**
+      - '!apps/*/charts/**'
       - .github/workflows/helm-app-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - apps/**
+      - '!apps/*/charts/**'
       - .github/workflows/helm-app-deploy.yml
 
 jobs:
