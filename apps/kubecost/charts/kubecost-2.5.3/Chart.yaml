@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kubecost
+description: A Helm chart to refer the official kubecost helm chart
+type: application
+version: 2.5.3
+appVersion: "2.5.3"
+dependencies:
+  - name: cost-analyzer
+    version: 2.5.3
+    repository: https://kubecost.github.io/cost-analyzer/
