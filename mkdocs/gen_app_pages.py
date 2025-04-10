@@ -122,6 +122,8 @@ def generate_apps():
                 validate_metadata(data_file, metadata)
                 ensure_big_logo(metadata)
                 metadata.update(base_metadata)
+        else:
+            continue
         if 'versions' in metadata and VERSION not in metadata['versions']:
             print(f"Skip {app} in version {VERSION}")
             continue
