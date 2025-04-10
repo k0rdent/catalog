@@ -1,0 +1,105 @@
+apiVersion: leaderworkerset.x-k8s.io/v1
+kind: LeaderWorkerSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  leaderWorkerTemplate:
+    size: {{ .Values.leaderWorkerSize }}
+    restartPolicy: {{ .Values.restartPolicy }}
+    leaderTemplate:
+      metadata:
+        labels:
+          role: leader
+      spec:
+        containers:
+          - name: {{ .Release.Name }}-leader
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            env:
+              {{- if .Values.huggingFaceToken }}
+              - name: HUGGING_FACE_HUB_TOKEN
+                value: {{ .Values.huggingFaceToken }}
+              {{- end }}
+              - name: LWS_WORKER_INDEX
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.labels['leaderworkerset.sigs.k8s.io/worker-index']
+            command:
+              - python3
+              - -m
+              - sglang.launch_server
+              - --model-path
+              - {{ .Values.model.path }}
+              - --tp
+              - "{{ .Values.model.tensorParallelism }}"
+              - --dist-init-addr
+              - $(LWS_LEADER_ADDRESS):20000
+              - --nnodes
+              - $(LWS_GROUP_SIZE)
+              - --node-rank
+              - $(LWS_WORKER_INDEX)
+              {{- if .Values.model.trustRemoteCode }}
+              - --trust-remote-code
+              {{- end }}
+              - --host
+              - "0.0.0.0"
+              - --port
+              - "{{ .Values.service.port }}"
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            ports:
+              - containerPort: {{ .Values.service.port }}
+            readinessProbe:
+              tcpSocket:
+                port: {{ .Values.service.port }}
+              initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            volumeMounts:
+              - mountPath: /dev/shm
+                name: dshm
+        volumes:
+          - name: dshm
+            emptyDir:
+              medium: Memory
+    workerTemplate:
+      spec:
+        containers:
+          - name: {{ .Release.Name }}-worker
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            env:
+            {{- if .Values.huggingFaceToken }}
+            - name: HUGGING_FACE_HUB_TOKEN
+              value: {{ .Values.huggingFaceToken }}
+            {{- end }}
+            - name: LWS_WORKER_INDEX
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['leaderworkerset.sigs.k8s.io/worker-index']
+            command:
+              - python3
+              - -m
+              - sglang.launch_server
+              - --model-path
+              - {{ .Values.model.path }}
+              - --tp
+              - "{{ .Values.model.tensorParallelism }}"
+              - --dist-init-addr
+              - $(LWS_LEADER_ADDRESS):20000
+              - --nnodes
+              - $(LWS_GROUP_SIZE)
+              - --node-rank
+              - $(LWS_WORKER_INDEX)
+              {{- if .Values.model.trustRemoteCode }}
+              - --trust-remote-code
+              {{- end }}
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            volumeMounts:
+              - mountPath: /dev/shm
+                name: dshm
+        volumes:
+          - name: dshm
+            emptyDir:
+              medium: Memory
