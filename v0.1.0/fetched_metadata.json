@@ -1,0 +1,479 @@
+[
+  {
+    "link": "./apps/external-secrets/external-secrets/",
+    "title": "External-secrets",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png",
+    "tags": [
+      "Security",
+      "Authentication"
+    ],
+    "description": "External secret management.",
+    "appDir": "external-secrets"
+  },
+  {
+    "link": "./apps/postgresql/postgresql/",
+    "title": "PostgreSQL",
+    "type": "",
+    "logo": "./assets/postgres_logo.svg",
+    "tags": [
+      "Database",
+      "Storage"
+    ],
+    "description": "Postgres Operator for deploying and managing PostgreSQL clusters on Kubernetes.",
+    "appDir": "postgresql"
+  },
+  {
+    "link": "./apps/mysql/mysql/",
+    "title": "MySQL",
+    "type": "",
+    "logo": "./assets/MySQL_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "description": "The world's most popular open source database.",
+    "appDir": "mysql"
+  },
+  {
+    "link": "./apps/aws/aws/",
+    "title": "Amazon EC2",
+    "type": "infra",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+    "tags": [],
+    "description": "Deploy kubernetes clusters with k0rdent on AWS infrastructure.",
+    "appDir": "aws"
+  },
+  {
+    "link": "./apps/node-feature-discovery/node-feature-discovery/",
+    "title": "Node Feature Discovery",
+    "type": "",
+    "logo": "./assets/node-feature-discovery.svg",
+    "tags": [
+      "Monitoring",
+      "Security"
+    ],
+    "description": "Enables node feature discovery for Kubernetes.",
+    "appDir": "node-feature-discovery"
+  },
+  {
+    "link": "./apps/eks/eks/",
+    "title": "Amazon Elastic Kubernetes Service",
+    "type": "infra",
+    "logo": "https://cdn.prod.website-files.com/64902e94cf962d0707c23165/64f20142e6b212d8af65e59f_amazon-eks.911x1024.webp",
+    "tags": [],
+    "description": "Deploy kubernetes clusters with k0rdent on Amazon Elastic Kubernetes Service",
+    "appDir": "eks"
+  },
+  {
+    "link": "./apps/aks/aks/",
+    "title": "Azure Kubernetes Service",
+    "type": "infra",
+    "logo": "https://azure.microsoft.com/svghandler/kubernetes-service/?width=600&height=315",
+    "tags": [],
+    "description": "Deploy kubernetes clusters with k0rdent on Azure Kubernetes Service.",
+    "appDir": "aks"
+  },
+  {
+    "link": "./apps/azure/azure/",
+    "title": "Azure Compute Services",
+    "type": "infra",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png",
+    "tags": [],
+    "description": "Deploy kubernetes clusters with k0rdent on Azure infrastructure.",
+    "appDir": "azure"
+  },
+  {
+    "link": "./apps/metallb/metallb/",
+    "title": "MetalLB",
+    "type": "",
+    "logo": "./assets/metallb_logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "description": "Load-balancer for bare metal Kubernetes clusters, using standard routing protocols.",
+    "appDir": "metallb"
+  },
+  {
+    "link": "./apps/external-dns/external-dns/",
+    "title": "ExternalDNS",
+    "type": "",
+    "logo": "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png",
+    "tags": [
+      "Security"
+    ],
+    "description": "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.",
+    "appDir": "external-dns"
+  },
+  {
+    "link": "./apps/netapp/netapp/",
+    "title": "NetApp",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "description": "NetApp's Trident CSI storage provisioner using the Trident Operator.",
+    "appDir": "netapp"
+  },
+  {
+    "link": "./apps/openstack/openstack/",
+    "title": "OpenStack",
+    "type": "infra",
+    "logo": "https://avatars.githubusercontent.com/u/324574?s=200&v=4",
+    "tags": [],
+    "description": "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure.",
+    "appDir": "openstack"
+  },
+  {
+    "link": "./apps/kube-prometheus-stack/kube-prometheus-stack/",
+    "title": "Kube Prometheus Stack",
+    "type": "",
+    "logo": "https://prometheus.io/assets/prometheus_logo_grey.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "description": "Collection of monitoring and alerting rules for Kubernetes clusters.",
+    "appDir": "kube-prometheus-stack"
+  },
+  {
+    "link": "./apps/msr/msr/",
+    "title": "Mirantis Secure Registry",
+    "type": "",
+    "logo": "./assets/msr_logo.svg",
+    "tags": [
+      "Storage"
+    ],
+    "description": "Mirantis Secure Registry (MSR) 4 is an Enterprise-grade container registry solution.",
+    "appDir": "msr"
+  },
+  {
+    "link": "./apps/aws-ebs-csi-driver/aws-ebs-csi-driver/",
+    "title": "Amazon EBS CSI",
+    "type": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "description": "The Amazon Elastic Block Store Container Storage Interface (CSI) Driver.",
+    "appDir": "aws-ebs-csi-driver"
+  },
+  {
+    "link": "./apps/clearml/clearml/",
+    "title": "ClearML",
+    "type": "",
+    "logo": "./assets/clearml_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "description": "ClearML is a ML/DL development and production suite.",
+    "appDir": "clearml"
+  },
+  {
+    "link": "./apps/prometheus/prometheus/",
+    "title": "Prometheus",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "description": "From metrics to insight",
+    "appDir": "prometheus"
+  },
+  {
+    "link": "./apps/kyverno/kyverno/",
+    "title": "Kyverno",
+    "type": "",
+    "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+    "tags": [
+      "Security"
+    ],
+    "description": "Kubernetes Native Policy Management.",
+    "appDir": "kyverno"
+  },
+  {
+    "link": "./apps/nirmata/nirmata/",
+    "title": "Nirmata Enterprise for Kyverno",
+    "type": "",
+    "logo": "./assets/nirmata_logo.svg",
+    "tags": [
+      "Security",
+      "Enterprise"
+    ],
+    "description": "Policy-based Security, Compliance, and Governance",
+    "appDir": "nirmata"
+  },
+  {
+    "link": "./apps/pure/pure/",
+    "title": "Pure",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "description": "Storage service.",
+    "appDir": "pure"
+  },
+  {
+    "link": "./apps/envoy-gateway/envoy-gateway/",
+    "title": "Envoy Gateway",
+    "type": "",
+    "logo": "./assets/envoy-gateway_logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "description": "Manage your Application and API traffic with Envoy Gateway.",
+    "appDir": "envoy-gateway"
+  },
+  {
+    "link": "./apps/arangodb/arangodb/",
+    "title": "ArangoDB",
+    "type": "",
+    "logo": "./assets/arangodb_logo.png",
+    "tags": [
+      "Database",
+      "Application Runtime"
+    ],
+    "description": "Scalable graph database system.",
+    "appDir": "arangodb"
+  },
+  {
+    "link": "./apps/dex/dex/",
+    "title": "Dex",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png",
+    "tags": [
+      "Security",
+      "Authentication"
+    ],
+    "description": "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors.",
+    "appDir": "dex"
+  },
+  {
+    "link": "./apps/azure-disk-csi/azure-disk-csi/",
+    "title": "Azure Disk CSI",
+    "type": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "description": "The Azure Disk Container Storage Interface (CSI) Driver.",
+    "appDir": "azure-disk-csi"
+  },
+  {
+    "link": "./apps/gatekeeper/gatekeeper/",
+    "title": "Gatekeeper",
+    "type": "",
+    "logo": "./assets/gatekeeper.svg",
+    "tags": [
+      "Security"
+    ],
+    "description": "Cloud native policy controller that helps enforce policies and strengthen governance.",
+    "appDir": "gatekeeper"
+  },
+  {
+    "link": "./apps/calico/calico/",
+    "title": "Calico CNI",
+    "type": "",
+    "logo": "https://docs.tigera.io/img/calico-logo.png",
+    "tags": [
+      "Networking",
+      "Security"
+    ],
+    "description": "Networking and security solution specifically designed for Kubernetes clusters.",
+    "appDir": "calico"
+  },
+  {
+    "link": "./apps/vsphere/vsphere/",
+    "title": "VMware vSphere",
+    "type": "infra",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg",
+    "tags": [],
+    "description": "Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure.",
+    "appDir": "vsphere"
+  },
+  {
+    "link": "./apps/kubernetes-dashboard/kubernetes-dashboard/",
+    "title": "Kubernetes Dashboard",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "description": "General purpose, web-based UI for Kubernetes clusters.",
+    "appDir": "kubernetes-dashboard"
+  },
+  {
+    "link": "./apps/opencost/opencost/",
+    "title": "OpenCost",
+    "type": "",
+    "logo": "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true",
+    "tags": [
+      "Monitoring"
+    ],
+    "description": "Monitor your cloud costs.",
+    "appDir": "opencost"
+  },
+  {
+    "link": "./apps/argo-cd/argo-cd/",
+    "title": "ArgoCD",
+    "type": "",
+    "logo": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+    "tags": [
+      "CI/CD"
+    ],
+    "description": "Declarative, GitOps continuous delivery tool for Kubernetes.",
+    "appDir": "argo-cd"
+  },
+  {
+    "link": "./apps/mongodb/mongodb/",
+    "title": "MongoDB",
+    "type": "",
+    "logo": "./assets/mongo_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "description": "General-purpose document database.",
+    "appDir": "mongodb"
+  },
+  {
+    "link": "./apps/ingress-nginx/ingress-nginx/",
+    "title": "Ingress-nginx",
+    "type": "",
+    "logo": "./assets/nginx_logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "description": "Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.",
+    "appDir": "ingress-nginx"
+  },
+  {
+    "link": "./apps/istio/istio/",
+    "title": "Istio",
+    "type": "",
+    "logo": "https://istio.io/latest/favicons/android-192x192.png",
+    "tags": [
+      "Networking"
+    ],
+    "description": "Open source service mesh that layers transparently onto existing distributed applications.",
+    "appDir": "istio"
+  },
+  {
+    "link": "./apps/gitlab/gitlab/",
+    "title": "GitLab",
+    "type": "",
+    "logo": "./assets/gitlab_logo.svg",
+    "tags": [
+      "CI/CD",
+      "Developer Tools"
+    ],
+    "description": "The most comprehensive AI-powered DevSecOps platform.",
+    "appDir": "gitlab"
+  },
+  {
+    "link": "./apps/kubecost/kubecost/",
+    "title": "Kubecost",
+    "type": "",
+    "logo": "./assets/kubecost_logo.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "description": "Monitor your cloud costs.",
+    "appDir": "kubecost"
+  },
+  {
+    "link": "./apps/dapr/dapr/",
+    "title": "Dapr",
+    "type": "",
+    "logo": "./assets/dapr-logo.svg",
+    "tags": [
+      "Monitoring",
+      "Application Runtime"
+    ],
+    "description": "Portable, event-driven runtime.",
+    "appDir": "dapr"
+  },
+  {
+    "link": "./apps/nvidia/nvidia/",
+    "title": "NVIDIA GPU Operator",
+    "type": "",
+    "logo": "./assets/GPUoperator-cropped.png",
+    "tags": [
+      "AI/Machine Learning",
+      "Drivers and plugins"
+    ],
+    "description": "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes.",
+    "appDir": "nvidia"
+  },
+  {
+    "link": "./apps/cadvisor/cadvisor/",
+    "title": "cAdvisor",
+    "type": "",
+    "logo": "./assets/cadvisor_logo.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "description": "Analyzes resource usage and performance characteristics of running containers.",
+    "appDir": "cadvisor"
+  },
+  {
+    "link": "./apps/open-webui/open-webui/",
+    "title": "Open WebUI",
+    "type": "",
+    "logo": "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "description": "A User-Friendly Web Interface for Chat Interactions.",
+    "appDir": "open-webui"
+  },
+  {
+    "link": "./apps/minio/minio/",
+    "title": "MinIO",
+    "type": "",
+    "logo": "./assets/minio_logo.svg",
+    "tags": [
+      "Storage"
+    ],
+    "description": "Object storage solution that provides an AWS S3-compatible API.",
+    "appDir": "minio"
+  },
+  {
+    "link": "./apps/velero/velero/",
+    "title": "Velero",
+    "type": "",
+    "logo": "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png",
+    "tags": [
+      "Backup and Recovery"
+    ],
+    "description": "Open source tool to safely backup and restore.",
+    "appDir": "velero"
+  },
+  {
+    "link": "./apps/cert-manager/cert-manager/",
+    "title": "Cert-manager",
+    "type": "",
+    "logo": "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true",
+    "tags": [
+      "Security"
+    ],
+    "description": "Management and issuance of TLS certificates.",
+    "appDir": "cert-manager"
+  },
+  {
+    "link": "./apps/knative/knative/",
+    "title": "Knative",
+    "type": "",
+    "logo": "./assets/knative_logo.svg",
+    "tags": [
+      "Serverless",
+      "Networking",
+      "Application Runtime"
+    ],
+    "description": "Kubernetes-based platform to deploy and manage modern serverless workloads.",
+    "appDir": "knative"
+  }
+]
