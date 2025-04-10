@@ -1,4 +1,4 @@
-name: Build and Publish Helm Charts to GHCR
+name: Build Helm Charts
 
 on:
   push:
@@ -18,13 +18,15 @@ permissions:
   contents: read
 
 jobs:
-  detect-updated-apps:
+  detect-updated-charts:
     runs-on: ubuntu-latest
     outputs:
       changed_folders: ${{ steps.get-changes.outputs.folders }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # fetch full history for "git diff" commands
 
       - name: Ensure the main branch is available
         run: |
@@ -33,19 +35,23 @@ jobs:
       - name: Get Changed Folders
         id: get-changes
         run: |
-          ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+            ALL_CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          else
+            ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+          fi
           echo "$ALL_CHANGED_FILES"
-          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -Eo '^apps/[^/]+/charts/[^/]+/' | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "Detected changes in: $CHANGED_FOLDERS"
           echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
 
   build-app-chart:
-    needs: detect-updated-apps
+    needs: detect-updated-charts
     runs-on: ubuntu-latest
-    if: ${{ needs.detect-updated-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
+    if: ${{ needs.detect-updated-charts.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
       matrix:
-        folder: ${{ fromJson(needs.detect-updated-apps.outputs.changed_folders) }}
+        folder: ${{ fromJson(needs.detect-updated-charts.outputs.changed_folders) }}
     
     steps:
       - name: Checkout Repository
@@ -59,19 +65,17 @@ jobs:
         if: github.event_name == 'push'
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
 
-      - name: Build Helm Charts
+      - name: Build Helm Chart
         run: |
           mkdir "$GITHUB_WORKSPACE/build"
-          app=${{ matrix.folder }}
-          for chart in $(find ./apps/$app/charts -mindepth 1 -maxdepth 1 -type d); do
-            VERSION=$(awk '/^version:/ {print $2}' "$chart/Chart.yaml")
-            NAME=$(awk '/^name:/ {print $2}' "$chart/Chart.yaml")
-            helm dependency update "$chart"
-            helm package "$chart" --version "$VERSION"
-            mv "$NAME-$VERSION.tgz" "$GITHUB_WORKSPACE/build/"
-          done
+          chart=${{ matrix.folder }}
+          VERSION=$(awk '/^version:/ {print $2}' "$chart/Chart.yaml")
+          NAME=$(awk '/^name:/ {print $2}' "$chart/Chart.yaml")
+          helm dependency update "$chart"
+          helm package "$chart" --version "$VERSION"
+          mv "$NAME-$VERSION.tgz" "$GITHUB_WORKSPACE/build/"
 
-      - name: Push Helm Charts
+      - name: Push Helm Chart
         if: github.event_name == 'push'
         run: |
           GHCR_PATH="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
