@@ -61,6 +61,17 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+      - name: Validate App Charts
+        run: |
+          app=$(echo "${{ matrix.folder }}" | cut -d'/' -f2)
+          echo "Validating chart for app: $app"
+          python3 ./scripts/chart_ctl.py generate "$app"
+          if ! git diff --quiet; then
+            echo "Invalid $app charts: Run './scripts/chart_ctl.py generate $app' and commit the changes."
+            git diff
+            exit 1
+          fi
+
       - name: Log in to GitHub Container Registry
         if: github.event_name == 'push'
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
