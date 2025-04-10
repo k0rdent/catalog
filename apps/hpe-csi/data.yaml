@@ -1,0 +1,39 @@
+tags:
+  - Storage
+  - Drivers and plugins
+title: "HPE CSI Driver"
+summary: "TODO"
+logo: https://raw.githubusercontent.com/hpe-storage/co-deployments/master/docs/assets/hpedev.png
+description: |
+    TODO
+# support_link:
+install_code: |
+    ~~~bash
+    helm upgrade --install hpe-csi-driver oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+        --set "helm.repository.url=https://hpe-storage.github.io/co-deployments/" \
+        --set "helm.charts[0].name=hpe-csi-driver" \
+        --set "helm.charts[0].version=2.5.2"
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                      VALID
+    # kcm-system   hpe-csi-driver-2-5-2      true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: hpe-csi
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: hpe-csi-driver-2-5-2
+          name: hpe-csi-driver
+          namespace: hpe-csi
+    ~~~
+doc_link: https://scod.hpedev.io/
