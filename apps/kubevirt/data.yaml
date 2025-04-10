@@ -11,10 +11,7 @@ prerequisites: |
     #### Install k0rdent/kcm into Kubernetes cluster
     ~~~bash
     helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm --version 0.2.0 -n kcm-system --create-namespace \
-      --set controller.createManagement=false \
-      --set controller.createRelease=false \
       --set controller.enableTelemetry=false
-    kubectl -n kcm-system scale deployments/kcm-controller-manager --replicas=0
     ~~~
 
 install_code: |
@@ -30,6 +27,8 @@ install_code: |
     clusterIdentityKinds:
       - Secret
     EOF
+
+    kubectl -n kcm-system rollout restart deployment/kcm-controller-manager
     ~~~
 
     ##### Create templates for KubeVirt provider charts
@@ -50,14 +49,14 @@ install_code: |
     apiVersion: k0rdent.mirantis.com/v1alpha1
     kind: ProviderTemplate
     metadata:
-      name: cluster-api-provider-kubevirt-0-2-0
+      name: cluster-api-provider-kubevirt-0-2-1
       annotations:
         helm.sh/resource-policy: keep
     spec:
       helm:
         chartSpec:
           chart: cluster-api-provider-kubevirt
-          version: 0.2.0
+          version: 0.2.1
           interval: 10m0s
           sourceRef:
             kind: HelmRepository
@@ -82,68 +81,22 @@ install_code: |
     EOF
     ~~~
 
-    ##### Rescale KCM manager
+    ##### Add the KubeVirt chart into the Management object
     ~~~bash
-    kubectl -n kcm-system patch deployment kcm-controller-manager --type='json' -p='[
-      {"op": "replace", "path": "/spec/template/spec/containers/0/args", "value": [
-        "--default-registry-url=oci://ghcr.io/k0rdent/kcm/charts",
-        "--insecure-registry=false",
-        "--create-management=true",
-        "--create-access-management=true",
-        "--create-release=true",
-        "--create-templates=true",
-        "--validate-cluster-upgrade-path=true",
-        "--enable-telemetry=false",
-        "--enable-webhook=false",
-        "--webhook-port=9443",
-        "--webhook-cert-dir=/tmp/k8s-webhook-server/serving-certs/",
-        "--zap-devel=false",
-        "--zap-time-encoding=rfc3339",
-        "--pprof-bind-address="
-      ]}
-    ]'
-
-    kubectl -n kcm-system scale deployments/kcm-controller-manager --replicas=1
-    ~~~
-
-    ##### Add the KubeVirt chart into the Release object
-    ~~~bash
-    until kubectl patch release kcm-0-2-0 --type=json -p='[
-      {"op": "add", "path": "/spec/providers/-", "value": {"name": "cluster-api-provider-kubevirt", "template": "cluster-api-provider-kubevirt-0-2-0"}}
+    until kubectl patch management kcm --type=json -p='[
+      {"op": "add", "path": "/spec/providers/-", "value": {"name": "cluster-api-provider-kubevirt", "template": "cluster-api-provider-kubevirt-0-2-1"}}
     ]'; do
       sleep 5
     done
     ~~~
 
-    ##### Wait for Management object readiness
+    ##### Wait for objects readiness
     ~~~bash
-    until kubectl get management/kcm &>/dev/null; do
-      sleep 5
-    done
-
     kubectl wait --for=condition=Ready=True management/kcm --timeout=300s
-    ~~~
-
-    ##### Install KubeVirt charts
-    ~~~bash
-    export KUBEVIRT_VERSION=$(curl -s "https://api.github.com/repos/kubevirt/kubevirt/releases/latest" | jq -r ".tag_name")
-
-    until kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEVIRT_VERSION}/kubevirt-operator.yaml" ; do
-      sleep 5
-    done
-
-    until kubectl apply -f "https://github.com/kubevirt/kubevirt/releases/download/${KUBEVIRT_VERSION}/kubevirt-cr.yaml" ; do
-      sleep 5
-    done
-
-    until kubectl -n kubevirt patch kubevirt kubevirt --type=merge --patch '{"spec":{"configuration":{"developerConfiguration":{"useEmulation":true}}}}' ; do
-      sleep 5
-    done
-
     kubectl wait -n kubevirt kv kubevirt --for=condition=Available --timeout=10m
     ~~~
 
-    ##### Install KubeVirt CLI
+    ##### [OPTIONAL] Install KubeVirt CLI
     ~~~bash
     KUBEVIRT_VERSION=$(kubectl get kubevirt.kubevirt.io/kubevirt -n kubevirt -o=jsonpath="{.status.observedKubeVirtVersion}")
     ARCH=$(uname -s | tr A-Z a-z)-$(uname -m | sed 's/x86_64/amd64/')
@@ -152,9 +105,17 @@ install_code: |
     ~~~
 verify_code: |
     ~~~bash
-    kubectl get clustertemplate -n kcm-system
+    kubectl get clustertemplate/kubevirt-standalone-cp-0-2-0 -n kcm-system
     # NAME                            VALID
     # kubevirt-standalone-cp-0-2-0    true
+
+    kubectl get providertemplate/cluster-api-provider-kubevirt-0-2-1
+    # NAME                                  VALID
+    # cluster-api-provider-kubevirt-0-2-1   true
+
+    kubectl get management/kcm
+    # NAME   READY   RELEASE     AGE
+    # kcm    True    kcm-0-2-0   4m4s
     ~~~
 deploy_code: |
     ~~~bash
