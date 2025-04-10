@@ -45,7 +45,7 @@ jobs:
           echo "Detected changes in: $CHANGED_FOLDERS"
           echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
 
-  build-app-chart:
+  build:
     needs: detect-updated-charts
     runs-on: ubuntu-latest
     if: ${{ needs.detect-updated-charts.outputs.changed_folders != '[]' }}  # Skip if no changed folders
@@ -69,6 +69,12 @@ jobs:
         run: |
           mkdir "$GITHUB_WORKSPACE/build"
           chart=${{ matrix.folder }}
+          # Conditionally replace GHCR path for forks / non-main branches
+          if [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            GHCR_PATH="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+            echo "Replacing hardcoded OCI paths with dynamic GHCR_PATH ($GHCR_PATH) for forked/non-main build"
+            find "$chart" -type f -exec sed -i "s|oci://ghcr.io/k0rdent/catalog/charts|oci://$GHCR_PATH|g" {} +
+          fi
           VERSION=$(awk '/^version:/ {print $2}' "$chart/Chart.yaml")
           NAME=$(awk '/^name:/ {print $2}' "$chart/Chart.yaml")
           helm dependency update "$chart"
