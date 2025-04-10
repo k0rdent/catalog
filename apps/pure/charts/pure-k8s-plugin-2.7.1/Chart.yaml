@@ -1,0 +1,10 @@
+apiVersion: v2
+name: pure-k8s-plugin
+description: A Helm chart to refer the official pure-k8s-plugin helm chart
+type: application
+version: 2.7.1
+appVersion: "2.7.1"
+dependencies:
+  - name: pure-k8s-plugin
+    version: 2.7.1
+    repository: https://purestorage.github.io/helm-charts
