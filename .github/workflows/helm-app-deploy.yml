@@ -1,6 +1,16 @@
 name: Test changed apps
 
 on:
+  workflow_dispatch:
+    inputs:
+      masters:
+        description: 'Number of master nodes'
+        required: false
+        default: '1'
+      workers:
+        description: 'Number of worker nodes'
+        required: false
+        default: '1'
   push:
     branches:
       - '*'
@@ -83,6 +93,12 @@ jobs:
           chmod +x ./kind
           sudo mv ./kind /usr/local/bin/kind
           kind version
+
+      - name: Create Kind Cluster config
+        run: |
+          export MASTERS=${{ github.event.inputs.masters || '1' }}
+          export WORKERS=${{ github.event.inputs.workers || '1' }}
+          ./scripts/create_kind_config.sh
 
       - name: Create Kind Cluster
         run: |
