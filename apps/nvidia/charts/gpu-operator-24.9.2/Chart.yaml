@@ -1,0 +1,10 @@
+apiVersion: v2
+name: gpu-operator
+description: A Helm chart to refer the official Nvidia gpu-operator helm chart
+type: application
+version: 24.9.2
+appVersion: "24.9.2"
+dependencies:
+  - name: gpu-operator
+    version: 24.9.2
+    repository: https://helm.ngc.nvidia.com/nvidia
