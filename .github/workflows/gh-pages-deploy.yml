@@ -8,6 +8,7 @@ on:
       - apps/**/data.yaml
       - mkdocs.yml
       - mkdocs/**
+      - overrides/**
       - scripts/deploy_web.sh
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
@@ -15,6 +16,7 @@ on:
     paths:
       - apps/**/data.yaml
       - mkdocs/**
+      - overrides/**
       - mkdocs.yml
       - scripts/deploy_web.sh
       - .github/workflows/gh-pages-deploy.yml
