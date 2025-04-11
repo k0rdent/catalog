@@ -1,9 +1,8 @@
 apiVersion: v2
 name: trident-operator
-description: A Helm chart to refer the official netapp-trident helm chart
+description: A Helm chart to refer the official "trident-operator" helm chart
 type: application
 version: 100.2410.0
-appVersion: "24.10.0"
 dependencies:
   - name: trident-operator
     version: 100.2410.0

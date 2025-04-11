@@ -3,7 +3,6 @@ name: dapr-service-template
 description: k0rdent service template for "dapr"
 type: application
 version: 1.14.4
-appVersion: "1.14.4"
 dependencies:
   - name: k0rdent-catalog
     version: 1.0.0

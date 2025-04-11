@@ -1,9 +1,8 @@
 apiVersion: v2
 name: external-dns
-description: A Helm chart to refer the official external-dns helm chart
+description: A Helm chart to refer the official "external-dns" helm chart
 type: application
 version: 1.15.1
-appVersion: "0.15.1"
 dependencies:
   - name: external-dns
     version: 1.15.1
