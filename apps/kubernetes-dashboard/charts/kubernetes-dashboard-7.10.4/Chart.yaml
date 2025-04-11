@@ -1,9 +1,8 @@
 apiVersion: v2
 name: kubernetes-dashboard
-description: A Helm chart to refer the official kubernetes-dashboard helm chart
+description: A Helm chart to refer the official "kubernetes-dashboard" helm chart
 type: application
 version: 7.10.4
-appVersion: "7.10.4"
 dependencies:
   - name: kubernetes-dashboard
     version: 7.10.4

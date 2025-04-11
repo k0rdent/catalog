@@ -1,0 +1,7 @@
+st-charts:
+  - name: open-webui
+    version: 5.13.0
+    dependencies:
+      - name: open-webui
+        version: 5.13.0
+        repository: https://helm.openwebui.com/
