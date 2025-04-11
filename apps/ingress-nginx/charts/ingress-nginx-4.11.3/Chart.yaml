@@ -1,9 +1,8 @@
 apiVersion: v2
 name: ingress-nginx
-description: A Helm chart to refer the official ingress-nginx helm chart
+description: A Helm chart to refer the official "ingress-nginx" helm chart
 type: application
 version: 4.11.3
-appVersion: "1.11.3"
 dependencies:
   - name: ingress-nginx
     version: 4.11.3

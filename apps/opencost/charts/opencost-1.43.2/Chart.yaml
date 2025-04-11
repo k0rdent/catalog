@@ -1,0 +1,9 @@
+apiVersion: v2
+name: opencost
+description: A Helm chart to refer the official "opencost" helm chart
+type: application
+version: 1.43.2
+dependencies:
+  - name: opencost
+    version: 1.43.2
+    repository: https://opencost.github.io/opencost-helm-chart

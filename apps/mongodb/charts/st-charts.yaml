@@ -1,0 +1,7 @@
+st-charts:
+  - name: mongodb-community-operator
+    version: 0.12.0
+    dependencies:
+      - name: community-operator
+        version: 0.12.0
+        repository: https://mongodb.github.io/helm-charts    

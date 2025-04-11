@@ -1,0 +1,9 @@
+apiVersion: v2
+name: mysql-operator
+description: A Helm chart to refer the official "mysql-operator" helm chart
+type: application
+version: 2.2.3
+dependencies:
+  - name: mysql-operator
+    version: 2.2.3
+    repository: https://mysql.github.io/mysql-operator

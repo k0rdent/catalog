@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kube-arangodb-service-template
+description: k0rdent service template for "kube-arangodb"
+type: application
+version: 1.2.46
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

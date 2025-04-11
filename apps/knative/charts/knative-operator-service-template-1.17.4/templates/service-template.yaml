@@ -1,0 +1,15 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ServiceTemplate
+metadata:
+  name: knative-operator-1-17-4
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: knative-operator
+      version: 1.17.4
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: k0rdent-catalog

@@ -3,7 +3,6 @@ name: external-secrets-service-template
 description: k0rdent service template for "external-secrets"
 type: application
 version: 0.11.0
-appVersion: "0.11.0"
 dependencies:
   - name: k0rdent-catalog
     version: 1.0.0

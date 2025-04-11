@@ -1,0 +1,15 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ServiceTemplate
+metadata:
+  name: metallb-0-14-7
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: metallb
+      version: 0.14.7
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: k0rdent-catalog

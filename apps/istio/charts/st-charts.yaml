@@ -1,0 +1,13 @@
+st-charts:
+  - name: istio-base
+    version: 1.24.3
+    dependencies:
+      - name: base
+        version: 1.24.3
+        repository: https://istio-release.storage.googleapis.com/charts
+  - name: istiod
+    version: 1.24.3
+    dependencies:
+      - name: istiod
+        version: 1.24.3
+        repository: https://istio-release.storage.googleapis.com/charts

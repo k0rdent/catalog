@@ -1,0 +1,7 @@
+st-charts:
+  - name: external-dns
+    version: 1.15.1
+    dependencies:
+      - name: external-dns
+        version: 1.15.1
+        repository: https://kubernetes-sigs.github.io/external-dns/

@@ -1,0 +1,7 @@
+st-charts:
+  - name: kube-prometheus-stack
+    version: 69.7.4
+    dependencies:
+      - name: kube-prometheus-stack
+        version: 69.7.4
+        repository: https://prometheus-community.github.io/helm-charts

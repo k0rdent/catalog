@@ -1,0 +1,7 @@
+st-charts:
+  - name: gatekeeper
+    version: 3.17.1
+    dependencies:
+      - name: gatekeeper
+        version: 3.17.1
+        repository: https://open-policy-agent.github.io/gatekeeper/charts/

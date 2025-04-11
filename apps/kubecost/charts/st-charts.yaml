@@ -1,0 +1,7 @@
+st-charts:
+  - name: kubecost
+    version: 2.5.3
+    dependencies:
+      - name: cost-analyzer
+        version: 2.5.3
+        repository: https://kubecost.github.io/cost-analyzer/

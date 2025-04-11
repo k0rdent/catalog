@@ -1,0 +1,7 @@
+st-charts:
+  - name: velero
+    version: 8.1.0
+    dependencies:
+      - name: velero
+        version: 8.1.0
+        repository: https://vmware-tanzu.github.io/helm-charts/
