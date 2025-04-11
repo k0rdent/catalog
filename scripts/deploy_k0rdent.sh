@@ -27,9 +27,9 @@ else
 fi
 
 if kubectl get ns | grep "kcm-system"; then
-    TEST_MODE=k0rdent NAMESPACE=kcm-system ./scripts/wait_for_deployment.sh
+    TEST_MODE=k0rdent NAMESPACE=kcm-system ./scripts/wait_for_deployment_json.sh
 fi
 
 if kubectl get ns | grep "projectsveltos"; then
-    TEST_MODE=k0rdent NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
+    TEST_MODE=k0rdent NAMESPACE=projectsveltos ./scripts/wait_for_deployment_json.sh
 fi
