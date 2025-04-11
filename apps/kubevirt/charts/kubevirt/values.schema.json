@@ -1,0 +1,42 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "properties": {
+        "kubevirt": {
+            "properties": {
+                "certificateRotateStrategy": {
+                    "properties": {},
+                    "type": "object"
+                },
+                "configuration": {
+                    "properties": {
+                        "developerConfiguration": {
+                            "properties": {
+                                "featureGates": {
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "customizeComponents": {
+                    "properties": {},
+                    "type": "object"
+                },
+                "imagePullPolicy": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "workloadUpdateStrategy": {
+                    "properties": {},
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
+}
