@@ -1,0 +1,7 @@
+st-charts:
+  - name: kube-arangodb
+    version: 1.2.46
+    dependencies:
+      - name: kube-arangodb
+        version: 1.2.46
+        repository: https://arangodb.github.io/kube-arangodb
