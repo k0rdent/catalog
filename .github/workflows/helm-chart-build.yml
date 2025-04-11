@@ -19,92 +19,15 @@ permissions:
 
 jobs:
   detect-updated-charts:
-    runs-on: ubuntu-latest
-    outputs:
-      changed_folders: ${{ steps.get-changes.outputs.folders }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # fetch full history for "git diff" commands
-
-      - name: Ensure the main branch is available
-        run: |
-          git fetch origin main --depth=1
-
-      - name: Get Changed Folders
-        id: get-changes
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            ALL_CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-          else
-            ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
-          fi
-          echo "$ALL_CHANGED_FILES"
-          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -Eo '^apps/[^/]+/charts/[^/]+/' | sort -u | jq -R -s -c 'split("\n")[:-1]')
-          echo "Detected changes in: $CHANGED_FOLDERS"
-          echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
+    uses: ./.github/workflows/reusable-detect.yml
 
   build:
     needs: detect-updated-charts
-    runs-on: ubuntu-latest
-    if: ${{ needs.detect-updated-charts.outputs.changed_folders != '[]' }}  # Skip if no changed folders
-    strategy:
-      matrix:
-        folder: ${{ fromJson(needs.detect-updated-charts.outputs.changed_folders) }}
-    
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Install Helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-      - name: Validate Helm Chart
-        run: |
-          chart=${{ matrix.folder }}
-          app=$(echo "$chart" | cut -d'/' -f2)
-          config="apps/$app/charts/st-charts.yaml"
-          if [ ! -f "$config" ]; then
-            echo "::warning :: Validation config $config not found"
-            exit 0
-          fi
-          echo "Validating chart for app: $app"
-          python3 ./scripts/chart_ctl.py generate "$app"
-          if ! git diff --quiet "$chart"; then
-            echo -e "Invalid chart $chart:\nRun 'python3 ./scripts/chart_ctl.py generate $app' and commit the changes."
-            git diff "$chart"
-            exit 1
-          fi
-
-      - name: Log in to GitHub Container Registry
-        if: github.event_name == 'push'
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
-
-      - name: Build Helm Chart
-        run: |
-          mkdir "$GITHUB_WORKSPACE/build"
-          chart=${{ matrix.folder }}
-          # Conditionally replace GHCR path for forks / non-main branches
-          if [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            GHCR_PATH="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-            echo "Replacing hardcoded OCI paths with dynamic GHCR_PATH ($GHCR_PATH) for forked/non-main build"
-            find "$chart" -type f -exec sed -i "s|oci://ghcr.io/k0rdent/catalog/charts|oci://$GHCR_PATH|g" {} +
-            helm dependency update "$chart"
-          fi
-          VERSION=$(awk '/^version:/ {print $2}' "$chart/Chart.yaml")
-          NAME=$(awk '/^name:/ {print $2}' "$chart/Chart.yaml")
-          CHART_LOCK="$chart/Chart.lock" ./scripts/add_helm_repos.sh
-          helm dependency build "$chart"
-          helm package "$chart" --version "$VERSION"
-          mv "$NAME-$VERSION.tgz" "$GITHUB_WORKSPACE/build/"
-
-      - name: Push Helm Chart
-        if: github.event_name == 'push'
-        run: |
-          GHCR_PATH="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          for PACKAGE_FILE in "$GITHUB_WORKSPACE"/build/*.tgz; do
-            echo "Pushing $PACKAGE_FILE to oci://$GHCR_PATH"
-            helm push "$PACKAGE_FILE" "oci://$GHCR_PATH"
-          done
+    if: ${{ needs.detect-updated-charts.outputs.changed_folders != '[]' }}
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      registry: ghcr.io
+      repository: ${{ github.repository_owner }}/${{ github.event.repository.name }}/charts
+    secrets:
+      ACTOR: ${{ github.actor }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
