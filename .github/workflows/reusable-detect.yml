@@ -1,0 +1,35 @@
+name: Detect Updated Charts
+
+on:
+  workflow_call:
+    outputs:
+      changed_folders:
+        description: "List of changed Helm chart folders (apps/<app>/charts/<chart>)"
+        value: ${{ jobs.detect.outputs.changed_folders }}
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_folders: ${{ steps.get-changes.outputs.folders }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure the main branch is available
+        run: git fetch origin main --depth=1
+
+      - name: Get Changed Folders
+        id: get-changes
+        run: |
+          if [[ "${{ github.ref }}" == 'refs/heads/main' ]]; then
+            ALL_CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          else
+            ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+          fi
+          echo "$ALL_CHANGED_FILES"
+          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -Eo '^apps/[^/]+/charts/[^/]+/' | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "Detected changes in: $CHANGED_FOLDERS"
+          echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"

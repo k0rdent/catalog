@@ -1,0 +1,15 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ServiceTemplate
+metadata:
+  name: gpu-operator-24-9-2
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: gpu-operator
+      version: 24.9.2
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: k0rdent-catalog

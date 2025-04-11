@@ -1,8 +1,8 @@
 apiVersion: v2
-name: dex-service-template
-description: k0rdent service template for "dex"
+name: pure-csi-service-template
+description: k0rdent service template for "pure-csi"
 type: application
-version: 0.19.1
+version: 1.2.0
 dependencies:
   - name: k0rdent-catalog
     version: 1.0.0

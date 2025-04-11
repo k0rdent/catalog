@@ -1,8 +1,8 @@
 apiVersion: v2
-name: dex-service-template
-description: k0rdent service template for "dex"
+name: dapr-dashboard-service-template
+description: k0rdent service template for "dapr-dashboard"
 type: application
-version: 0.19.1
+version: 0.15.0
 dependencies:
   - name: k0rdent-catalog
     version: 1.0.0
