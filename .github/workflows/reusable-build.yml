@@ -1,4 +1,4 @@
-name: Build Charts
+name: Reusable Build Charts
 
 on:
   workflow_call:

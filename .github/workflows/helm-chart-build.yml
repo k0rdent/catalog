@@ -1,4 +1,4 @@
-name: Build Helm Charts
+name: Build Charts
 
 on:
   push:
@@ -18,12 +18,7 @@ permissions:
   contents: read
 
 jobs:
-  detect-updated-charts:
-    uses: ./.github/workflows/reusable-detect.yml
-
-  build:
-    needs: detect-updated-charts
-    if: ${{ needs.detect-updated-charts.outputs.changed_folders != '[]' }}
+  detect-and-build:
     uses: ./.github/workflows/reusable-build.yml
     with:
       registry: ghcr.io
