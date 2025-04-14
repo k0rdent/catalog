@@ -1,18 +1,20 @@
 ingress-nginx:
-  controller:
-    service:
-      annotations:
-        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-    hostPort:
-      enabled: true
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
 
 open-webui:
-  ollama:
+  open-webui:
     ollama:
-      models:
-        pull: [smollm:135m]
-        run: [smollm:135m]
-  ingress:
-    enabled: true
-    class: "nginx"
-    host: 'openwebui.example.com'
+      ollama:
+        models:
+          pull: [smollm:135m]
+          run: [smollm:135m]
+    ingress:
+      enabled: true
+      class: "nginx"
+      host: 'openwebui.example.com'
