@@ -12,10 +12,8 @@ description: |
 support_link: https://ckotzbauer.github.io/helm-charts
 install_code: |
   ~~~bash
-  helm upgrade --install cadvisor oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://ckotzbauer.github.io/helm-charts" \
-    --set "helm.charts[0].name=cadvisor" \
-    --set "helm.charts[0].version=2.3.3"
+  helm install cadvisor oci://ghcr.io/k0rdent/catalog/charts/cadvisor-service-template \
+    --version 2.3.3 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash

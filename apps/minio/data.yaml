@@ -10,10 +10,8 @@ description: |
 # support_link:
 install_code: |
   ~~~bash
-  helm upgrade --install minio oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://charts.bitnami.com/bitnami" \
-    --set "helm.charts[0].name=minio" \
-    --set "helm.charts[0].version=14.1.2"
+  helm install minio oci://ghcr.io/k0rdent/catalog/charts/minio-service-template \
+      --version 14.1.2 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash

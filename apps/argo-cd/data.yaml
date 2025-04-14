@@ -12,10 +12,8 @@ description: |
 support_link: https://akuity.io/security-hardened-argo-cd
 install_code: |
   ~~~bash
-  helm upgrade --install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://argoproj.github.io/argo-helm" \
-    --set "helm.charts[0].name=argo-cd" \
-    --set "helm.charts[0].version=7.8.0"
+  helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template \
+    --version 7.8.0 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash

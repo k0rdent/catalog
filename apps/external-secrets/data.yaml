@@ -14,10 +14,8 @@ install_code: |
     {% if version == "v0.1.0" %}
     # k0rdent includes the template for External-secrets out of the box
     {% else %}
-    helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://charts.external-secrets.io" \
-        --set "helm.charts[0].name=external-secrets" \
-        --set "helm.charts[0].version=0.11.0"
+    helm install external-secrets oci://ghcr.io/k0rdent/catalog/charts/external-secrets-service-template \
+      --version 0.11.0 -n kcm-system
     {% endif %}
     ~~~
 verify_code: |

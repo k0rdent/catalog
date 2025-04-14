@@ -20,16 +20,14 @@ install_code: |
     # This version is out-of-date and vulnerable (CVE-2025-1974).
     # It's also possible to install a newer version:
     {% endif %}
-    helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://kubernetes.github.io/ingress-nginx" \
-      --set "helm.charts[0].name=ingress-nginx" \
-      --set "helm.charts[0].version=4.12.1"
+    helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/ingress-nginx-service-template \
+      --version 4.11.5 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   ingress-nginx-4-12-1       true
+    # kcm-system   ingress-nginx-4-11-5       true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -43,15 +41,16 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: ingress-nginx-4-12-1
+        - template: ingress-nginx-4-11-5
           name: ingress-nginx
           namespace: ingress-nginx
           values: |
-            controller:
-              service:
-                annotations:
-                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-              hostPort:
-                enabled: true
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
     ~~~
 doc_link: https://kubernetes.github.io/ingress-nginx/

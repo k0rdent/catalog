@@ -12,10 +12,8 @@ description: |
 support_link: https://about.gitlab.com/enterprise/
 install_code: |
     ~~~bash
-    helm upgrade --install gitlab oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://charts.gitlab.io/" \
-      --set "helm.charts[0].name=gitlab" \
-      --set "helm.charts[0].version=8.9.2"
+    helm install gitlab oci://ghcr.io/k0rdent/catalog/charts/gitlab-service-template \
+      --version 8.9.2 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -68,22 +66,23 @@ deploy_code: |
             name: gitlab
             namespace: gitlab
             values: |
-              global:
-                edition: ce
-                kas:
+              gitlab:
+                global:
+                  edition: ce
+                  kas:
+                    enabled: false
+                  minio:
+                    enabled: true
+                certmanager-issuer:
+                  email: admin@example.com
+                gitlab-runner:
+                  install: false
+                registry:
                   enabled: false
-                minio:
-                  enabled: true
-              certmanager-issuer:
-                email: admin@example.com
-              gitlab-runner:
-                install: false
-              registry:
-                enabled: false
-              prometheus:
-                install: false
-              nginx-ingress:
-                controller:
-                  replicaCount: 1
+                prometheus:
+                  install: false
+                nginx-ingress:
+                  controller:
+                    replicaCount: 1
     ~~~
 doc_link: https://docs.gitlab.com/charts/

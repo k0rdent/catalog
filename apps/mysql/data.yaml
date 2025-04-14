@@ -15,10 +15,8 @@ description: |
 support_link: https://www.mysql.com/about/contact/
 install_code: |
     ~~~bash
-    helm upgrade --install mysql-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://mysql.github.io/mysql-operator" \
-      --set "helm.charts[0].name=mysql-operator" \
-      --set "helm.charts[0].version=2.2.3"
+    helm install mysql-operator oci://ghcr.io/k0rdent/catalog/charts/mysql-operator-service-template \
+      --version 2.2.3 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash

@@ -19,12 +19,10 @@ description: |
   Observability: Offers built-in observability features, including tracing, metrics, and logging.
 install_code: |
   ~~~bash
-  helm upgrade --install dapr oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://dapr.github.io/helm-charts/" \
-    --set "helm.charts[0].name=dapr" \
-    --set "helm.charts[0].version=1.14.4" \
-    --set "helm.charts[1].name=dapr-dashboard" \
-    --set "helm.charts[1].version=0.15.0"
+  helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template \
+    --version 1.14.4 -n kcm-system
+  helm install dapr-dashboard oci://ghcr.io/k0rdent/catalog/charts/dapr-dashboard-service-template \
+    --version 0.15.0 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash
@@ -48,10 +46,11 @@ deploy_code: |
           name: dapr-dashboard
           namespace: dapr
           values: |
-            ingress:
-              enabled: true
-              className: nginx
-              host: 'dapr.example.com'
+            dapr-dashboard:
+              ingress:
+                enabled: true
+                className: nginx
+                host: 'dapr.example.com'
   ~~~
 support_link: https://www.diagrid.io/conductor
 doc_link: https://docs.dapr.io/

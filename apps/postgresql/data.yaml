@@ -36,10 +36,8 @@ description: |
 # support_link:
 install_code: |
     ~~~bash
-    helm upgrade --install postgres-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://opensource.zalando.com/postgres-operator/charts/postgres-operator" \
-      --set "helm.charts[0].name=postgres-operator" \
-      --set "helm.charts[0].version=1.14.0"
+    helm install postgres-operator oci://ghcr.io/k0rdent/catalog/charts/postgres-operator-service-template \
+      --version 1.14.0 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash

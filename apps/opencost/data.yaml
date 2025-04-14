@@ -11,10 +11,8 @@ description: |
 support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
 install_code: |
     ~~~bash
-    helm upgrade --install opencost oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://opencost.github.io/opencost-helm-chart" \
-      --set "helm.charts[0].name=opencost" \
-      --set "helm.charts[0].version=1.43.2"
+    helm install opencost oci://ghcr.io/k0rdent/catalog/charts/opencost-service-template \
+      --version 1.43.2 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -35,12 +33,13 @@ deploy_code: |
             namespace: opencost
             values: |
               opencost:
-                ui:
-                  ingress:
-                    enabled: true
-                    ingressClassName: nginx
-                    hosts:
-                      - host: 'opencost.example.com'
+                opencost:
+                  ui:
+                    ingress:
+                      enabled: true
+                      ingressClassName: nginx
+                      hosts:
+                        - host: 'opencost.example.com'
     ~~~
 doc_link: https://opencost.io/
 use_ingress: true

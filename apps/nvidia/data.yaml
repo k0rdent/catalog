@@ -12,10 +12,8 @@ description: |
 support_link: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html
 install_code: |
     ~~~bash
-    helm upgrade --install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://helm.ngc.nvidia.com/nvidia" \
-        --set "helm.charts[0].name=gpu-operator" \
-        --set "helm.charts[0].version=24.9.2"
+    helm install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/gpu-operator-service-template \
+      --version 24.9.2 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -71,14 +69,15 @@ deploy_code: |
           name: gpu-operator
           namespace: gpu-operator
           values: |
-            operator:
-              defaultRuntime: containerd
-            toolkit:
-              env:
-                - name: CONTAINERD_CONFIG
-                  value: /etc/k0s/containerd.d/nvidia.toml
-                - name: CONTAINERD_SOCKET
-                  value: /run/k0s/containerd.sock
-                - name: CONTAINERD_RUNTIME_CLASS
-                  value: nvidia
+            gpu-operator:
+              operator:
+                defaultRuntime: containerd
+              toolkit:
+                env:
+                  - name: CONTAINERD_CONFIG
+                    value: /etc/k0s/containerd.d/nvidia.toml
+                  - name: CONTAINERD_SOCKET
+                    value: /run/k0s/containerd.sock
+                  - name: CONTAINERD_RUNTIME_CLASS
+                    value: nvidia
     ~~~

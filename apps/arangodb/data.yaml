@@ -13,10 +13,8 @@ description: |
 support_link: https://arangodb.com/contact/
 install_code: |
     ~~~bash
-    helm upgrade --install kube-arangodb oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://arangodb.github.io/kube-arangodb" \
-        --set "helm.charts[0].name=kube-arangodb" \
-        --set "helm.charts[0].version=1.2.46"
+    helm install kube-arangodb oci://ghcr.io/k0rdent/catalog/charts/kube-arangodb-service-template \
+      --version 1.2.46 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
