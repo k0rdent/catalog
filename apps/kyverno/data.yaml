@@ -20,10 +20,8 @@ install_code: |
     {% if version == "v0.1.0" %}
     # k0rdent includes the template for Kyverno out of the box
     {% else %}
-    helm upgrade --install kyverno oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://kyverno.github.io/kyverno/" \
-        --set "helm.charts[0].name=kyverno" \
-        --set "helm.charts[0].version=3.2.6"
+    helm install kyverno oci://ghcr.io/k0rdent/catalog/charts/kyverno-service-template \
+      --version 3.2.6 -n kcm-system
     {% endif %}
     ~~~
 verify_code: |

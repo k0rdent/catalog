@@ -21,10 +21,8 @@ description: |
 support_link: https://clear.ml/contact-us
 install_code: |
     ~~~bash
-    helm upgrade --install clearml-serving oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://clearml.github.io/clearml-helm-charts" \
-        --set "helm.charts[0].name=clearml-serving" \
-        --set "helm.charts[0].version=1.5.10"
+    helm install clearml-serving oci://ghcr.io/k0rdent/catalog/charts/clearml-serving-service-template \
+      --version 1.5.10 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -48,9 +46,10 @@ deploy_code: |
           name: clearml-serving
           namespace: clearml
           values: |
-            kafka: {enabled: false}
-            prometheus: {enabled: false}
-            grafana: {enabled: false}
-            clearml_serving_triton: {enabled: false}
+            clearml-serving
+              kafka: {enabled: false}
+              prometheus: {enabled: false}
+              grafana: {enabled: false}
+              clearml_serving_triton: {enabled: false}
     ~~~
 doc_link: https://clear.ml/docs/latest/docs/

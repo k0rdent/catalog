@@ -13,11 +13,8 @@ install_code: |
     {% if version == "v0.1.0" %}
     # k0rdent includes the template for Dex out of the box
     {% else %}
-    helm upgrade --install dex oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=oci://ghcr.io/k0rdent/catalog/charts" \
-        --set "helm.repository.type=oci" \
-        --set "helm.charts[0].name=dex" \
-        --set "helm.charts[0].version=0.19.1"
+    helm install dex oci://ghcr.io/k0rdent/catalog/charts/dex-service-template \
+    --version 0.19.1 -n kcm-system
     {% endif %}
     ~~~
 verify_code: |
@@ -39,13 +36,14 @@ deploy_code: |
             namespace: dex
             values: |
               dex:
-                config:
-                  issuer: https://dex.tunnelto.dev/dex
-                  storage:
-                    type: memory
-                  connectors:
-                    - type: mockCallback
-                      id: mock
-                      name: Example
+                dex:
+                  config:
+                    issuer: https://dex.tunnelto.dev/dex
+                    storage:
+                      type: memory
+                    connectors:
+                      - type: mockCallback
+                        id: mock
+                        name: Example
     ~~~
 doc_link: https://dexidp.io/docs/

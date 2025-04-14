@@ -9,17 +9,14 @@ description: |
   Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
 install_code: |
   ~~~bash
-  helm upgrade --install gateway-helm oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=oci://docker.io/envoyproxy/" \
-    --set "helm.repository.type=oci" \
-    --set "helm.charts[0].name=gateway-helm" \
-    --set "helm.charts[0].version=1.3.2"
+  helm install envoy-gateway oci://ghcr.io/k0rdent/catalog/charts/envoy-gateway-service-template \
+    --version 1.3.2 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash
   kubectl get servicetemplates -A
   # NAMESPACE    NAME                       VALID
-  # kcm-system   gateway-helm-1-3-2         true
+  # kcm-system   envoy-gateway-1-3-2         true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -33,8 +30,8 @@ deploy_code: |
         group: demo
     serviceSpec:
       services:
-      - template: gateway-helm-1-3-2
-        name: gateway-helm
+      - template: envoy-gateway-1-3-2
+        name: envoy-gateway
         namespace: envoy-gateway
   ~~~
 doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/

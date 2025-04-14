@@ -11,16 +11,14 @@ description: |
     In a broader sense, ExternalDNS allows you to control DNS records dynamically via Kubernetes resources in a DNS provider-agnostic way.
 install_code: |
     ~~~bash
-    helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://kubernetes-sigs.github.io/external-dns/" \
-      --set "helm.charts[0].name=external-dns" \
-      --set "helm.charts[0].version=1.15.2"
+    helm install external-dns oci://ghcr.io/k0rdent/catalog/charts/external-dns-service-template \
+      --version 1.15.1 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   external-dns-1-15-2        true
+    # kcm-system   external-dns-1-15-1        true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -30,18 +28,19 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: external-dns-1-15-2
+          - template: external-dns-1-15-1
             name: external-dns
             namespace: external-dns
             values: |
-              provider:
-                name: cloudflare
-              env:
-              - name: CF_API_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: dns-tokens
-                    key: cloudflare
+              external-dns:
+                provider:
+                  name: cloudflare
+                env:
+                - name: CF_API_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: dns-tokens
+                      key: cloudflare
     ~~~
 
     You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:

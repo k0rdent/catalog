@@ -9,10 +9,8 @@ description: |
   the project has a very active developer and user community.
 install_code: |
   ~~~bash
-  helm upgrade --install prometheus oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://prometheus-community.github.io/helm-charts" \
-    --set "helm.charts[0].name=prometheus" \
-    --set "helm.charts[0].version=27.5.1"
+  helm install prometheus oci://ghcr.io/k0rdent/catalog/charts/prometheus-service-template \
+      --version 27.5.1 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash
@@ -32,13 +30,14 @@ deploy_code: |
           name: prometheus
           namespace: prometheus
           values: |
-            server:
-              ingress:
-                enabled: true
-                annotations:
-                  kubernetes.io/ingress.class: nginx
-                hosts:
-                  - prometheus.example.com
+            prometheus:
+              server:
+                ingress:
+                  enabled: true
+                  annotations:
+                    kubernetes.io/ingress.class: nginx
+                  hosts:
+                    - prometheus.example.com
   ~~~
 doc_link: https://prometheus.io/docs/introduction/overview/
 use_ingress: true

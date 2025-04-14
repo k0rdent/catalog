@@ -25,10 +25,8 @@ description: |
 support_link: https://knative.dev/community/
 install_code: |
     ~~~bash
-    helm upgrade --install knative-operator oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://knative.github.io/operator" \
-      --set "helm.charts[0].name=knative-operator" \
-      --set "helm.charts[0].version=1.17.4"
+    helm install knative-operator oci://ghcr.io/k0rdent/catalog/charts/knative-operator-service-template \
+      --version 1.17.4 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
