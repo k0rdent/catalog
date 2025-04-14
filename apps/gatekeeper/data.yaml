@@ -8,10 +8,8 @@ description: |
 support_link: https://github.com/open-policy-agent/gatekeeper
 install_code: |
   ~~~bash
-  helm upgrade --install gatekeeper oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://open-policy-agent.github.io/gatekeeper/charts/" \
-    --set "helm.charts[0].name=gatekeeper" \
-    --set "helm.charts[0].version=3.17.1"
+  helm install gatekeeper oci://ghcr.io/k0rdent/catalog/charts/gatekeeper-service-template \
+    --version 3.17.1 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash
