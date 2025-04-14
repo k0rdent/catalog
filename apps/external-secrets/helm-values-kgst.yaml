@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://charts.external-secrets.io
-  charts:
-    - name: external-secrets
-      version: 0.14.3
