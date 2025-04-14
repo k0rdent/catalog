@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://argoproj.github.io/argo-helm
-  charts:
-    - name: argo-cd
-      version: 7.8.0
