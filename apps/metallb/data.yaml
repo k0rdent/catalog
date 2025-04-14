@@ -10,10 +10,8 @@ description: |
 # support_link:
 install_code: |
   ~~~bash
-  helm upgrade --install metallb oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-    --set "helm.repository.url=https://metallb.github.io/metallb" \
-    --set "helm.charts[0].name=metallb" \
-    --set "helm.charts[0].version=0.14.7"
+  helm install metallb oci://ghcr.io/k0rdent/catalog/charts/metallb-service-template \
+      --version 0.14.7 -n kcm-system
   ~~~
 verify_code: |
   ~~~bash

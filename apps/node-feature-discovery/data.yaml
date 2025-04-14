@@ -11,10 +11,8 @@ description: |
 support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=readme-ov-file
 install_code: |
     ~~~bash
-    helm upgrade --install nfd oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://kubernetes-sigs.github.io/node-feature-discovery/charts" \
-      --set "helm.charts[0].name=node-feature-discovery" \
-      --set "helm.charts[0].version=0.16.1"
+    helm install nfd oci://ghcr.io/k0rdent/catalog/charts/node-feature-discovery-service-template \
+      --version 0.16.1 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash

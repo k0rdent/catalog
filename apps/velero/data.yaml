@@ -11,10 +11,8 @@ install_code: |
     {% if version == "v0.1.0" %}
     # k0rdent includes the template for Velero out of the box
     {% else %}
-    helm upgrade --install velero oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://vmware-tanzu.github.io/helm-charts/" \
-        --set "helm.charts[0].name=velero" \
-        --set "helm.charts[0].version=8.1.0"
+    helm install velero oci://ghcr.io/k0rdent/catalog/charts/velero-service-template \
+      --version 8.1.0 -n kcm-system
     {% endif %}
     ~~~
 verify_code: |
@@ -36,4 +34,3 @@ deploy_code: |
             namespace: velero
     ~~~
 doc_link: https://vmware-tanzu.github.io/helm-charts/
-

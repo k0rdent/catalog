@@ -13,10 +13,8 @@ description: |
     </div>
 install_code: |
     ~~~bash
-    helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://helm.openwebui.com" \
-      --set "helm.charts[0].name=open-webui" \
-      --set "helm.charts[0].version=5.20.0"
+    helm install open-webui oci://ghcr.io/k0rdent/catalog/charts/open-webui-service-template \
+      --version 5.20.0 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -59,15 +57,16 @@ deploy_code: |
           name: open-webui
           namespace: open-webui
           values: |
-            ollama:
+            open-webui:
               ollama:
-                models:
-                  pull: [smollm:135m]
-                  run: [smollm:135m]
-            ingress:
-              enabled: true
-              class: "nginx"
-              host: 'openwebui.example.com'
+                ollama:
+                  models:
+                    pull: [smollm:135m]
+                    run: [smollm:135m]
+              ingress:
+                enabled: true
+                class: "nginx"
+                host: 'openwebui.example.com'
     ~~~
     
     ##### Configuration with GPU
@@ -88,19 +87,20 @@ deploy_code: |
           name: open-webui
           namespace: open-webui
           values: |
-            ollama:
+            open-webui:
               ollama:
-                gpu:
-                  enabled: true
-                  type: 'nvidia'
-                  number: 1
-                models:
-                  pull: [llama3.2:3b]
-                  run: [llama3.2:3b]
-            ingress:
-              enabled: true
-              class: "nginx"
-              host: 'openwebui.example.com'
+                ollama:
+                  gpu:
+                    enabled: true
+                    type: 'nvidia'
+                    number: 1
+                  models:
+                    pull: [llama3.2:3b]
+                    run: [llama3.2:3b]
+              ingress:
+                enabled: true
+                class: "nginx"
+                host: 'openwebui.example.com'
     ~~~
 doc_link: https://docs.openwebui.com/
 use_ingress: true
