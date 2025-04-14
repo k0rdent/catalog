@@ -1,0 +1,13 @@
+apiVersion: v2
+name: kubevirt
+description: A Helm chart for KubeVirt - Kubernetes Virtualization API and runtime
+type: application
+version: 0.1.0
+appVersion: "1.5.0"
+keywords:
+  - kubevirt
+  - virtualization
+  - kubernetes
+home: https://kubevirt.io/
+sources:
+  - https://github.com/kubevirt/kubevirt
