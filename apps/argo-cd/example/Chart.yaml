@@ -1,8 +1,8 @@
 apiVersion: v2
 name: example
 type: application
-version: 2.3.3
+version: 7.8.0
 dependencies:
-  - name: cadvisor
-    version: 2.3.3
+  - name: argo-cd
+    version: 7.8.0
     repository: oci://ghcr.io/k0rdent/catalog/charts

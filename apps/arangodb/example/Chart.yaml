@@ -1,8 +1,8 @@
 apiVersion: v2
-name: arangodb
+name: example
 type: application
 version: 1.2.46
 dependencies:
   - name: kube-arangodb
     version: 1.2.46
-    repository: https://arangodb.github.io/kube-arangodb
+    repository: oci://ghcr.io/k0rdent/catalog/charts
