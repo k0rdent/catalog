@@ -1,8 +1,8 @@
 apiVersion: v2
-name: minio
+name: example
 type: application
 version: 14.1.2
 dependencies:
   - name: minio
     version: 14.1.2
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://ghcr.io/k0rdent/catalog/charts

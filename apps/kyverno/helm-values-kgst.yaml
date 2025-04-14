@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://kyverno.github.io/kyverno/
-  charts:
-    - name: kyverno
-      version: 3.3.7

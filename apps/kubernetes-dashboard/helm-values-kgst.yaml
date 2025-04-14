@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://kubernetes.github.io/dashboard/
-  charts:
-    - name: kubernetes-dashboard
-      version: 7.10.4

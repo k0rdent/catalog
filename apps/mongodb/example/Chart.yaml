@@ -1,8 +1,8 @@
 apiVersion: v2
-name: mongodb
+name: example
 type: application
 version: 0.12.0
 dependencies:
-  - name: community-operator
+  - name: mongodb-community-operator
     version: 0.12.0
-    repository: https://mongodb.github.io/helm-charts    
+    repository: oci://ghcr.io/k0rdent/catalog/charts

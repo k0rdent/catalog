@@ -1,8 +1,8 @@
 apiVersion: v2
 name: example
 type: application
-version: 0.14.7
+version: 7.10.4
 dependencies:
-  - name: metallb
-    version: 0.14.7
+  - name: kubernetes-dashboard
+    version: 7.10.4
     repository: oci://ghcr.io/k0rdent/catalog/charts
