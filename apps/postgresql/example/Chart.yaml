@@ -1,8 +1,8 @@
 apiVersion: v2
-name: postgres-operator
+name: example
 type: application
 version: 1.14.0
 dependencies:
   - name: postgres-operator
     version: 1.14.0
-    repository: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+    repository: oci://ghcr.io/k0rdent/catalog/charts

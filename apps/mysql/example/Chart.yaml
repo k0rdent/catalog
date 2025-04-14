@@ -1,8 +1,8 @@
 apiVersion: v2
-name: mysql
+name: example
 type: application
 version: 2.2.3
 dependencies:
   - name: mysql-operator
     version: 2.2.3
-    repository: https://mysql.github.io/mysql-operator
+    repository: oci://ghcr.io/k0rdent/catalog/charts

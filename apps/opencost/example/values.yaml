@@ -1,26 +1,29 @@
 ingress-nginx:
-  controller:
-    service:
-      annotations:
-        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-    hostPort:
-      enabled: true
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
 
 prometheus:
-  prometheus-pushgateway: { enabled: false }
-  alertmanager: { enabled: false }
-  extraScrapeConfigs: |
-    - job_name: opencost
-      honor_labels: true
-      dns_sd_configs: [{ names: [opencost.opencost], type: 'A', port: 9003 }]
+  prometheus:
+    prometheus-pushgateway: { enabled: false }
+    alertmanager: { enabled: false }
+    extraScrapeConfigs: |
+      - job_name: opencost
+        honor_labels: true
+        dns_sd_configs: [{ names: [opencost.opencost], type: 'A', port: 9003 }]
 
 opencost:
   opencost:
-    prometheus:
-      internal:
-        namespaceName: opencost
-    ui:
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts: [{ host: 'opencost.example.com', paths: ['/'] }]
+    opencost:
+      prometheus:
+        internal:
+          namespaceName: opencost
+      ui:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hosts: [{ host: 'opencost.example.com', paths: ['/'] }]
