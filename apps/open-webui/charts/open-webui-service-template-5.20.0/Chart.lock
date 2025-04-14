@@ -3,4 +3,4 @@ dependencies:
   repository: oci://ghcr.io/k0rdent/catalog/charts
   version: 1.0.0
 digest: sha256:b03f96c46cd2bbb3c26f870b93c3923d07f4eacd13799143e609b22c3e20f2a5
-generated: "2025-02-18T17:27:20.45937+01:00"
+generated: "2025-04-14T16:31:43.715782+02:00"
