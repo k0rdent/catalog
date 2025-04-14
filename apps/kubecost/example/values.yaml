@@ -1,13 +1,15 @@
 ingress-nginx:
-  controller:
-    service:
-      annotations:
-        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-    hostPort:
-      enabled: true
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
 
-cost-analyzer:
-  ingress:
-    enabled: true
-    className: nginx
-    hosts: ['kubecost.example.com']
+kubecost:
+  cost-analyzer:
+    ingress:
+      enabled: true
+      className: nginx
+      hosts: ['kubecost.example.com']
