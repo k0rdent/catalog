@@ -1,6 +1,0 @@
-helm:
-  repository:
-    url: https://prometheus-community.github.io/helm-charts
-  charts:
-    - name: kube-prometheus-stack
-      version: 69.7.4
