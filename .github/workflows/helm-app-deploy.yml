@@ -43,7 +43,7 @@ jobs:
       - name: Get Changed Folders
         id: get-changes
         run: |
-          ALL_CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+          ALL_CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRT origin/main HEAD)
           echo "$ALL_CHANGED_FILES"
           CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "Detected changes in: $CHANGED_FOLDERS"
