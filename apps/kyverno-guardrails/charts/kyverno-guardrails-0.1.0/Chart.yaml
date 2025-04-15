@@ -1,0 +1,5 @@
+apiVersion: v2
+name: kyverno-guardrails
+description: A Helm chart for Kyverno guardrails
+type: application
+version: 0.1.0

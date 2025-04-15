@@ -1,0 +1,76 @@
+disallowCriSockMount:
+  enabled: true
+
+disallowDefaultNamespace:
+  enabled: true
+
+disallowEmptyIngressHost:
+  enabled: true
+
+disallowHelmTiller:
+  enabled: true
+
+disallowLatestImageTag:
+  enabled: true
+
+disallowNodePort:
+  enabled: true
+
+requireDropAllCapabilities:
+  enabled: true
+
+requireDropCapNetRaw:
+  enabled: true
+
+requireLabels:
+  enabled: true
+  # Map of resource kinds to required labels
+  resources: {}
+  # Example:
+  #  Pod:
+  #  - "app.kubernetes.io/name"
+  #  - "app.kubernetes.io/instance"
+  #  Deployment:
+  #  - "app.kubernetes.io/name"
+  #  - "app.kubernetes.io/instance"
+  #  - "app.kubernetes.io/version"
+  #  StatefulSet:
+  #  - "app.kubernetes.io/name"
+  #  - "app.kubernetes.io/component"
+  # Add more resource kinds and labels as needed
+
+requirePodProbes:
+  enabled: true
+  livenessProbe: true
+  readinessProbe: true
+  startupProbe: true
+
+requirePodRequestsLimits:
+  enabled: true
+  requireRequests:
+    cpu: true
+    memory: true
+  requireLimits: true
+
+requireRORootFS:
+  enabled: true
+
+restrictImageRegistries:
+  enabled: true
+  # List of allowed image registries (with trailing slash)
+  # At least one registry must be specified
+  allowedRegistries: []
+  # Example:
+  # allowedRegistries:
+  # - "gcr.io/"
+  # - "docker.io/"
+  # - "quay.io/"
+
+restrictServiceExternalIPs:
+  enabled: true
+  # List of allowed external IP addresses
+  allowedIPs: []
+  # Example:
+  # allowedIPs:
+  # - "37.10.11.53"
+  # - "153.10.20.1"
