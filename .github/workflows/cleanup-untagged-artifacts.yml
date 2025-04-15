@@ -1,0 +1,43 @@
+name: Cleanup untagged artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Preview only (true) or actually delete (false)'
+        required: false
+        default: 'true'
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
+      - name: Authenticate GitHub CLI
+        run: |
+          if [ -z "${{ secrets.GH_TOKEN }}" ]; then
+            echo "GH_TOKEN is not set."
+            echo "Make sure it's created in repo 'Settings/Secrets and variables/Actions'."
+            echo "Use a token with 'repo', 'read:org', 'read:packages' and/or 'delete:packages' permissions"
+            exit 1
+          fi
+          echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: List and optionally delete untagged versions
+        env:
+          REPO_OWNER: ${{ github.repository_owner }}
+          DRY_RUN: ${{ github.event.inputs.dry-run }}
+          PKG_PREFIX: "${{ github.event.repository.name }}/"
+        run: |
+          ./scripts/cleanup_untagged_artifacts.sh
