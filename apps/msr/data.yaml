@@ -16,6 +16,7 @@ install_code: |
     helm upgrade --install harbor oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
         --set "helm.repository.url=oci://registry.mirantis.com/harbor/helm/harbor" \
         --set "helm.charts[0].name=harbor" \
+        --set "helm.repository.type=oci" \
         --set "helm.charts[0].version=4.0.2"
     ~~~
 verify_code: |
