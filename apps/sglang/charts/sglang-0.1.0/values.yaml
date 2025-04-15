@@ -1,0 +1,28 @@
+replicaCount: 1
+leaderWorkerSize: 2
+restartPolicy: "RecreateGroupOnPodRestart"
+
+image:
+  repository: lmsysorg/sglang
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Set your Hugging Face token if needed, or leave empty to not set the environment variable
+huggingFaceToken: ""
+
+model:
+  path: "mistralai/Mistral-7B-v0.3"
+  tensorParallelism: "2"
+  trustRemoteCode: true
+
+service:
+  type: ClusterIP
+  port: 40000
+
+resources:
+  limits:
+    nvidia.com/gpu: "1"
+
+readinessProbe:
+  initialDelaySeconds: 600
+  periodSeconds: 10
