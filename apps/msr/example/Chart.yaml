@@ -4,7 +4,6 @@ type: application
 version: 4.0.2
 dependencies:
   - name: harbor
-    version: 4.0.2
     repository: oci://registry.mirantis.com/harbor/helm/harbor
   - name: ingress-nginx
     version: 4.12.0
