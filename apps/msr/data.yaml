@@ -14,15 +14,15 @@ description: |
 install_code: |
     ~~~bash
     helm upgrade --install harbor oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-        --set "helm.repository.url=https://registry.mirantis.com/charts/harbor/helm" \
+        --set "helm.repository.url=oci://registry.mirantis.com/harbor/helm/harbor" \
         --set "helm.charts[0].name=harbor" \
-        --set "helm.charts[0].version=4.0.1"
+        --set "helm.charts[0].version=4.0.2"
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                           VALID
-    # kcm-system   harbor-4-0-1                   true
+    # kcm-system   harbor-4-0-2                   true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -32,7 +32,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: harbor-4-0-1
+          - template: harbor-4-0-2
             name: msr4
             namespace: msr4
             values: |
