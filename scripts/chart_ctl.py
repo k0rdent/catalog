@@ -75,6 +75,8 @@ def try_generate_lock_file(chart_dir: str) -> bool:
 
 
 def generate_app_chart(app: str, cfg: dict):
+    if cfg.get('service_template_only', False):
+        return
     folder_path = try_create_chart_folders(app, cfg['name'], cfg['version'], False)
     chart = Template(chart_app_tpl).render(**cfg)
     with open(f"{folder_path}/Chart.yaml", "w", encoding='utf-8') as f:
