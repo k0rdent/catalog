@@ -1,29 +1,132 @@
+global:
+  # Default policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  policyAction: Enforce
+  # Default behavior for Kyverno policies defines whether to
+  # scan already existing resources or apply policies to
+  # newly created resources.
+  # Valid values: true, false
+  background: true
+
+disallowBarePods:
+  enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
+
 disallowCriSockMount:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 disallowDefaultNamespace:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 disallowEmptyIngressHost:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 disallowHelmTiller:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 disallowLatestImageTag:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 disallowNodePort:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 requireDropAllCapabilities:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 requireDropCapNetRaw:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 requireLabels:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
   # Map of resource kinds to required labels
   resources: {}
   # Example:
@@ -41,12 +144,30 @@ requireLabels:
 
 requirePodProbes:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
   livenessProbe: true
   readinessProbe: true
   startupProbe: true
 
 requirePodRequestsLimits:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
   requireRequests:
     cpu: true
     memory: true
@@ -54,11 +175,30 @@ requirePodRequestsLimits:
 
 requireRORootFS:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
 
 restrictImageRegistries:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
   # List of allowed image registries (with trailing slash)
-  # At least one registry must be specified
+  #
+  # !!! At least one registry must be specified, otherwise all registries are forbidden !!!
   allowedRegistries: []
   # Example:
   # allowedRegistries:
@@ -68,6 +208,15 @@ restrictImageRegistries:
 
 restrictServiceExternalIPs:
   enabled: true
+  # Policy action to take when a rule is violated.
+  # Valid values: audit, Audit, enforce, Enforce
+  # Overrides global.policyAction
+  policyAction: ""
+  # Policy behavior whether to scan already existing resources
+  # and raise audit events or apply policies to newly created resources.
+  # Valid values: true, false
+  # Overrides global.background
+  # background: false
   # List of allowed external IP addresses
   allowedIPs: []
   # Example:

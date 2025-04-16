@@ -1,4 +1,4 @@
-{{-if .Values.requirePodRequestsLimits.enabled }}
+{{- if .Values.requirePodRequestsLimits.enabled }}
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -17,8 +17,8 @@ metadata:
       This policy validates that all containers have something specified for memory and CPU
       requests and memory limits.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "requirePodRequestsLimits" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "requirePodRequestsLimits" .) }}
   rules:
     - name: validate-resources
       match:
@@ -38,7 +38,7 @@ spec:
                 has(container.resources) &&
                 has(container.resources.requests) &&
                 has(container.resources.requests.memory))
-              message: "Memory resource requests are required for all pods."
+              message: "Memory resource requests are required for all containers."
             {{- end }}
             {{- if .Values.requirePodRequestsLimits.requireRequests.cpu }}
             - expression: >-
@@ -46,7 +46,7 @@ spec:
                 has(container.resources) &&
                 has(container.resources.requests) &&
                 has(container.resources.requests.cpu))
-              message: "CPU resource requests are required for all pods."
+              message: "CPU resource requests are required for all containers."
             {{- end }}
             {{- if .Values.requirePodRequestsLimits.requireLimits }}
             - expression: >-
@@ -54,6 +54,6 @@ spec:
                 has(container.resources) &&
                 has(container.resources.limits) &&
                 has(container.resources.limits.memory))
-              message: "Memory resource limits are required for all pods."
+              message: "Memory resource limits are required for all containers."
             {{- end }}
 {{- end }}

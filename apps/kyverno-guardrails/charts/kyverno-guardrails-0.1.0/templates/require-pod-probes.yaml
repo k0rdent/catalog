@@ -19,8 +19,8 @@ metadata:
       This policy validates that all containers have one of livenessProbe, readinessProbe,
       or startupProbe defined.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "requirePodProbes" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "requirePodProbes" .) }}
   rules:
     - name: validate-probes
       match:
@@ -35,18 +35,15 @@ spec:
         cel:
           expressions:
             {{- if .Values.requirePodProbes.livenessProbe }}
-            - expression: >-
-                object.spec.containers.all(container, has(container.livenessProbe))
+            - expression: "object.spec.containers.all(container, has(container.livenessProbe))"
               message: "Liveness probes are required for all containers."
             {{- end }}
             {{- if .Values.requirePodProbes.readinessProbe }}
-            - expression: >-
-                object.spec.containers.all(container, has(container.readinessProbe))
+            - expression: "object.spec.containers.all(container, has(container.readinessProbe))"
               message: "Readiness probes are required for all containers."
             {{- end }}
             {{- if .Values.requirePodProbes.startupProbe }}
-            - expression: >-
-                object.spec.containers.all(container, has(container.startupProbe))
+            - expression: "object.spec.containers.all(container, has(container.startupProbe))"
               message: "Startup probes are required for all containers."
             {{- end }}
 {{- end }}

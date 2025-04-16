@@ -1,4 +1,4 @@
-{{-if .Values.requireRORootFS.enabled }}
+{{- if .Values.requireRORootFS.enabled }}
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -16,8 +16,8 @@ metadata:
       host system. This policy validates that containers define a securityContext
       with `readOnlyRootFilesystem: true`.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "requireRORootFS" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "requireRORootFS" .) }}
   rules:
     - name: validate-readOnlyRootFilesystem
       match:
@@ -31,9 +31,6 @@ spec:
       validate:
         cel:
           expressions:
-            - expression: >-
-                object.spec.containers.all(container,
-                container.?securityContext.?readOnlyRootFilesystem.orValue(false) == true)
+            - expression: "object.spec.containers.all(container, container.?securityContext.?readOnlyRootFilesystem.orValue(false) == true)"
               message: "Root filesystem must be read-only."
-
 {{- end }}

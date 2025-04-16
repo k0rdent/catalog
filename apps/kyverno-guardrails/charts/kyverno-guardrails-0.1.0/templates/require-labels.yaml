@@ -16,8 +16,8 @@ metadata:
       all tools can understand. The recommended labels describe applications in a way that can be
       queried. This policy validates that the label `app.kubernetes.io/name` is specified with some value.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "requireLabels" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "requireLabels" .) }}
   rules:
     {{- range $kind, $labels := .Values.requireLabels.resources }}
     {{- if $labels }}

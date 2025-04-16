@@ -16,8 +16,8 @@ metadata:
       policy validates that container images only originate from the registry `eu.foo.io` or
       `bar.io`. Use of this policy requires customization to define your allowable registries.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "restrictImageRegistries" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "restrictImageRegistries" .) }}
   rules:
     - name: validate-registries
       match:
@@ -34,6 +34,11 @@ spec:
             - name: allContainers
               expression: "object.spec.containers + object.spec.?initContainers.orValue([]) + object.spec.?ephemeralContainers.orValue([])"
           expressions:
+            {{- if .Values.restrictImageRegistries.allowedRegistries }}
             - expression: "variables.allContainers.all(container, {{ include "kyverno-guardrails.registryPrefixCheck" (dict "registries" .Values.restrictImageRegistries.allowedRegistries) }})"
-              message: "Unknown image registry."
+              message: "Disallowed image registry."
+            {{- else }}
+            - expression: "false"
+              message: "No registries were allowed."
+            {{- end }}
 {{- end }}

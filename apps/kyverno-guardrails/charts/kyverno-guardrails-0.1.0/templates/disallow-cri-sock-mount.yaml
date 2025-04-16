@@ -17,8 +17,8 @@ metadata:
       to or replacement of this policy, preventing users from mounting the parent directories
       (/var/run and /var) may be necessary to completely prevent socket bind mounts.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "disallowCriSockMount" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "disallowCriSockMount" .) }}
   rules:
     - name: validate-socket-mounts
       match:
@@ -39,23 +39,13 @@ spec:
             - name: volumesWithHostPath
               expression: "variables.volumes.filter(volume, has(volume.hostPath))"
           expressions:
-            - expression: >-
-                variables.hasVolumes ||
-                variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/docker.sock'))
+            - expression: "variables.hasVolumes || variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/docker.sock'))"
               message: "Use of the Docker Unix socket is not allowed."
-
-            - expression: >-
-                variables.hasVolumes ||
-                variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/containerd/containerd.sock'))
+            - expression: "variables.hasVolumes || variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/containerd/containerd.sock'))"
               message: "Use of the Containerd Unix socket is not allowed."
-
-            - expression: >-
-                variables.hasVolumes ||
-                variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/crio/crio.sock'))
+            - expression: "variables.hasVolumes || variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/crio/crio.sock'))"
               message: "Use of the CRI-O Unix socket is not allowed."
-
-            - expression: >-
-                variables.hasVolumes ||
-                variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/cri-dockerd.sock'))
+            - expression: "variables.hasVolumes || variables.volumesWithHostPath.all(volume, !volume.hostPath.path.matches('/var/run/cri-dockerd.sock'))"
               message: "Use of the Docker CRI socket is not allowed."
 {{- end }}
+

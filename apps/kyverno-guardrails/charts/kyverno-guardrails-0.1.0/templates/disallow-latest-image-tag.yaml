@@ -15,8 +15,8 @@ metadata:
       a specific version of an application Pod. This policy validates that the image
       specifies a tag and that it is not called `latest`.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "disallowLatestImageTag" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "disallowLatestImageTag" .) }}
   rules:
     - name: require-and-validate-image-tag
       match:

@@ -16,8 +16,8 @@ metadata:
       See: https://github.com/kyverno/kyverno/issues/1367. This policy validates
       that the `externalIPs` field is not set on a Service.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "restrictServiceExternalIPs" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "restrictServiceExternalIPs" .) }}
   rules:
     - name: check-ips
       match:

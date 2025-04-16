@@ -14,8 +14,8 @@ metadata:
       in order to be valid. This policy ensures that there is a
       hostname for each rule defined.
 spec:
-  validationFailureAction: Audit
-  background: false
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "disallowEmptyIngressHost" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "disallowEmptyIngressHost" .) }}
   rules:
     - name: disallow-empty-ingress-host
       match:
@@ -29,7 +29,6 @@ spec:
       validate:
         cel:
           expressions:
-            - expression: >-
-                object.spec.?rules.orValue([]).all(rule, has(rule.host) && has(rule.http))
+            - expression: "object.spec.?rules.orValue([]).all(rule, has(rule.host) && has(rule.http))"
               message: "The Ingress host name must be defined, not empty."
 {{- end }}

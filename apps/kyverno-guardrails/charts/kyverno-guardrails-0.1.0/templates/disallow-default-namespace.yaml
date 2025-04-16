@@ -19,8 +19,8 @@ metadata:
       due to Pod controllers need to specify the `namespace` field under the top-level `metadata`
       object and not at the Pod template level.
 spec:
-  validationFailureAction: Audit
-  background: true
+  validationFailureAction: {{ include "kyverno-guardrails.policyAction" (list "disallowDefaultNamespace" .) }}
+  background: {{ include "kyverno-guardrails.background" (list "disallowDefaultNamespace" .) }}
   rules:
     - name: validate-namespace
       match:
@@ -54,3 +54,4 @@ spec:
             - expression: "namespaceObject.metadata.name != 'default'"
               message: "Using 'default' namespace is not allowed for pod controllers."
 {{- end }}
+
