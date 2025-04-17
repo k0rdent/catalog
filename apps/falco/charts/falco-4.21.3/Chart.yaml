@@ -1,6 +1,6 @@
 apiVersion: v2
 name: falco
-description: A Helm chart to refer the official "Falco" helm chart
+description: A Helm chart to refer the official "falco" helm chart
 type: application
 version: 4.21.3
 dependencies:
