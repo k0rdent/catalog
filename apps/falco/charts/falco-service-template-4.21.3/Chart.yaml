@@ -1,0 +1,9 @@
+apiVersion: v2
+name: falco-service-template
+description: k0rdent service template for "falco"
+type: application
+version: 4.21.3
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
