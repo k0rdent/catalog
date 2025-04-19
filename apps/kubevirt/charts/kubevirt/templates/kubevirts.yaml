@@ -1,0 +1,14 @@
+---
+apiVersion: kubevirt.io/v1
+kind: KubeVirt
+metadata:
+  name: kubevirt
+  namespace: {{ .Values.kubevirt.namespace }}
+spec:
+  certificateRotateStrategy: {{ toYaml .Values.kubevirt.certificateRotateStrategy | nindent 4 }}
+  configuration:
+    developerConfiguration:
+      featureGates: {{ toYaml .Values.kubevirt.configuration.developerConfiguration.featureGates | nindent 8 }}
+  customizeComponents: {{ toYaml .Values.kubevirt.customizeComponents | nindent 4 }}
+  imagePullPolicy: {{ .Values.kubevirt.imagePullPolicy }}
+  workloadUpdateStrategy: {{ toYaml .Values.kubevirt.workloadUpdateStrategy | nindent 4 }}
