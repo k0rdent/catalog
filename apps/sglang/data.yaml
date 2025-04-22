@@ -1,0 +1,43 @@
+tags:
+  - AI/Machine Learning
+title: SGLang
+summary: "Fast serving framework for large language models and vision language models."
+logo: https://raw.githubusercontent.com/sgl-project/sglang/main/assets/logo.png
+description: |
+    SGLang is a fast serving framework for large language models and vision language models.
+    It makes your interaction with models faster and more controllable by co-designing the backend runtime and frontend language.
+    The core features include:
+    
+    - **Fast Backend Runtime**: Provides efficient serving with RadixAttention for prefix caching, zero-overhead CPU scheduler, continuous batching, token attention (paged attention), speculative decoding, tensor parallelism, chunked prefill, structured outputs, quantization (FP8/INT4/AWQ/GPTQ), and multi-lora batching.
+    - **Flexible Frontend Language**: Offers an intuitive interface for programming LLM applications, including chained generation calls, advanced prompting, control flow, multi-modal inputs, parallelism, and external interactions.
+    - **Extensive Model Support**: Supports a wide range of generative models (Llama, Gemma, Mistral, QWen, DeepSeek, LLaVA, etc.), embedding models (e5-mistral, gte, mcdse) and reward models (Skywork), with easy extensibility for integrating new models.
+    - **Active Community**: SGLang is open-source and backed by an active community with industry adoption.
+# support_link:
+install_code: |
+    ~~~bash
+    helm install sglang oci://ghcr.io/k0rdent/catalog/charts/sglang-service-template \
+      --version 0.1.0 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                       VALID
+    # kcm-system   sglang-0-1-0               true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: sglang
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: sglang-0-1-0
+          name: sglang
+          namespace: sglang
+    ~~~
+doc_link: https://docs.sglang.ai/
