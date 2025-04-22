@@ -137,7 +137,12 @@ template: home.html
                 item.support_type = "Community"
                 supportTypeSet.add(item.support_type)
               }
-              item.tags.forEach(tag => tagsSet.add(tag));
+              item.tags.forEach(tag => {
+                //remove "Enterprise" from the "Categories"-list
+                if(tag!=="Enterprise"){
+                  tagsSet.add(tag)
+                }
+              });
             })
             data_apps_filtered.value = data_apps.value
             sortingByTitle(data_apps_filtered.value, 'asc')
