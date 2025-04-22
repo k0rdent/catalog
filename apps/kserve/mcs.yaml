@@ -1,0 +1,41 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: kserve
+spec:
+  clusterSelector:
+    matchLabels:
+      group: demo
+  serviceSpec:
+    services:
+    - template: istio-base-1-24-3
+      name: istio-base
+      namespace: istio-system
+    - template: istiod-1-24-3
+      name: istiod
+      namespace: istio-system
+    - template: istio-gateway-1-24-3
+      name: istio-gateway
+      namespace: istio-system
+    - template: cert-manager-1-17-2
+      name: cert-manager
+      namespace: istio-system
+      values: |
+        cert-manager:
+          crds:
+            enabled: true
+    - template: knative-operator-1-17-4
+      name: knative-operator
+      namespace: istio-system
+    - template: kserve-crd-v0-15-0
+      name: kserve-crd
+      namespace: istio-system
+    - template: kserve-v0-15-0
+      name: kserve
+      namespace: istio-system
+      values: |
+        kserve:
+          controller:
+            deploymentMode: Serverless
+          modelmesh:
+            enabled: false

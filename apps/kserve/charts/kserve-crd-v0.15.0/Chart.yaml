@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kserve-crd
+description: A Helm chart that references the official "kserve-crd" Helm chart.
+type: application
+version: v0.15.0
+dependencies:
+  - name: kserve-crd
+    version: v0.15.0
+    repository: oci://ghcr.io/kserve/charts

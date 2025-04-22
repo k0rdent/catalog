@@ -1,0 +1,26 @@
+apiVersion: v2
+name: example
+type: application
+version: v0.15.0
+dependencies:
+  - name: istio-base
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: istiod
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: istio-gateway
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: cert-manager
+    version: 1.17.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: knative-operator
+    version: 1.17.4
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: kserve-crd
+    version: v0.15.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: kserve
+    version: v0.15.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
