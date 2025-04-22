@@ -39,6 +39,18 @@ template: home.html
               </div>
               <br>
             </div>
+            <p class="categories-title" @click="toggleExpanded($event)">Support: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg></p>
+            <div id="filterTagsApps" class="expandable-list">
+              <div v-for="tag in [...supportTypeSet].sort((a, b) => a.localeCompare(b))">
+                <input type="checkbox" 
+                  :id="tag.replace(/[ /]/g, '-').toLowerCase()" 
+                  :name="tag.replace(/[ /]/g, '-').toLowerCase()" 
+                  :value="tag.replace(/[ /]/g, '-').toLowerCase()" 
+                  v-model="checkboxesAppsSupport">
+                <label :for="tag.replace(/[ /]/g, '-').toLowerCase()">{{ tag }}</label>
+              </div>
+              <br>
+            </div>
           </div>
           <div class="tab_apps-main-content">
             <div id="cards-apps" class="grid">
@@ -104,7 +116,9 @@ template: home.html
       const data_apps = ref([])
       const data_apps_filtered = ref([])
       const checkboxesApps = ref([])
+      const checkboxesAppsSupport = ref([])
       const tagsSet = new Set()
+      const supportTypeSet = new Set()
 
       //methods
       const readData = ()=>{
@@ -116,9 +130,15 @@ template: home.html
             data_apps.value = res.filter(item=>item.type !== 'infra')
 
             data_apps.value.forEach(item=>{
-              item.tags.forEach(tag => tagsSet.add(tag));
+              if(item.support_type !==''){
+                supportTypeSet.add(item.support_type)
+              } else {
+                // add support_type "Community" to all items that doesn't have "Enterprise"-tag
+                item.support_type = "Community"
+                supportTypeSet.add(item.support_type)
+              }
+              item.tags.forEach(tag =>tagsSet.add(tag));
             })
-
             data_apps_filtered.value = data_apps.value
             sortingByTitle(data_apps_filtered.value, 'asc')
             sortingByTitle(data_infra.value, 'asc')
@@ -160,24 +180,40 @@ template: home.html
       }
 
       const updateURL = () => {
-        let queryString = checkboxAppsNormalized.value.length ? `?category=${checkboxAppsNormalized.value.join(",")}` : "";
-        history.replaceState({}, '', window.location.pathname + queryString)
-      }
+        const params = new URLSearchParams();
 
-      function updateCheckboxesFromURL() {
+        if (checkboxAppsNormalized.value.length) {
+          params.set('category', checkboxAppsNormalized.value.join(','));
+        }
+
+        if (checkboxesAppsSupportNormalized.value.length) {
+          params.set('support_type', checkboxesAppsSupportNormalized.value.join(','));
+        }
+
+        history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+      };
+
+      const updateCheckboxesFromURL = () => {
         let params = new URLSearchParams(window.location.search);
         let hash_param = window.location.hash;
         if(document.getElementById(hash_param.replace('#', ''))){
           document.getElementById(hash_param.replace('#', '')).checked = true;
         }
         let selectedCategories = params.get("category");
-        if (selectedCategories) {
-          let selectedArray = selectedCategories.split(",");
+        let selectedSupportTypes = params.get("support_type");
+
+        parseUrlParams(selectedCategories, checkboxesApps)
+        parseUrlParams(selectedSupportTypes, checkboxesAppsSupport)
+      }
+
+      const parseUrlParams = (selected, checkboxes) => {
+        if(selected) {
+          let selectedArray = selected.split(",");
           selectedArray.forEach(item=>{
-            checkboxesApps.value.push(item)
+            checkboxes.value.push(item)
           })
         }
-      }
+      } 
 
       const switchedTabs = (event)=>{
         if(event.target.id === 'apps'){
@@ -192,11 +228,10 @@ template: home.html
         event.target.classList.toggle('expanded');
       }
 
-      const checkboxAppsNormalized = computed(()=>{
-        return checkboxesApps.value.map(item=>{
-          return item.replace(/[ /]/g, "-").toLowerCase();
-        })
-      })
+      const normalize = (str) => str.replace(/[ /]/g, "-").toLowerCase();
+
+      const checkboxAppsNormalized = computed(()=> checkboxesApps.value.map(normalize))
+      const checkboxesAppsSupportNormalized = computed(()=> checkboxesAppsSupport.value.map(normalize))
 
       onMounted(() => {
         readData()
@@ -212,16 +247,24 @@ template: home.html
         });
       })
 
-      watch(checkboxesApps, (newVal, oldVal) => {
-        if(newVal.length>0){
-          data_apps_filtered.value = data_apps.value.filter(item=>{
-            return item.tags.some( elem => checkboxesApps.value.includes(elem.replace(/[ /]/g, "-").toLowerCase()) )
-          })
-        } else {
-          data_apps_filtered.value = data_apps.value
-        }
-        updateURL()
-      }, { deep: true })
+      // watch funxtion eatches for the changes in the checkboxesApps and checkboxesAppsSupport (input boxes) and then filter data_apps items to match with the appsMAtch and supportMatch
+      watch([checkboxesApps, checkboxesAppsSupport], () => {
+
+        data_apps_filtered.value = data_apps.value.filter(item => {
+          const tags = item.tags.map(normalize);
+          const supportType = normalize(item.support_type);
+
+          const appsMatch = checkboxesApps.value.length === 0 ||
+            checkboxesApps.value.every(checkbox => tags.includes(normalize(checkbox)));
+
+          const supportMatch = checkboxesAppsSupport.value.length === 0 ||
+            checkboxesAppsSupport.value.every(checkbox => supportType === normalize(checkbox));
+
+          return appsMatch && supportMatch;
+        });
+
+        updateURL();
+      }, { deep: true });
 
       return {
         data,
@@ -230,8 +273,10 @@ template: home.html
         data_apps_filtered,
         updateRelLink,
         tagsSet,
+        supportTypeSet,
         ordering,
         checkboxesApps,
+        checkboxesAppsSupport,
         toggleExpanded,
         switchedTabs
       }

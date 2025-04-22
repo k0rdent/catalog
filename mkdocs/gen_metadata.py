@@ -31,6 +31,7 @@ for file_path in paths:
         "type": metadata.get("type", " "),
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
+        "support_type": metadata.get("support_type", "Community"),
         "description": metadata.get("description", "No Description"),
         "appDir": file_path.replace("\\", "/").split("/")[-2], # ensure it works for windows (backslashes)
     })
