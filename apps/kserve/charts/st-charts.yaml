@@ -4,4 +4,10 @@ st-charts:
     dependencies:
       - name: kserve-crd
         version: v0.14.1
+        repository: oci://ghcr.io/kserve/charts
+  - name: kserve
+    version: v0.14.1
+    dependencies:
+      - name: kserve
+        version: v0.14.1
         repository: oci://ghcr.io/kserve/charts 

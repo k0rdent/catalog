@@ -14,25 +14,41 @@ description: |
     machine learning models in production. With features like traffic management, canary deployments, and autoscaling, KServe enables 
     seamless deployment of models across various frameworks including TensorFlow, PyTorch, scikit-learn, XGBoost, and ONNX.
     
-    Through k0rdent, users can easily install and manage KServe CRDs, which serve as the foundation for enabling KServe's model serving capabilities.
-    This integration streamlines the process of deploying and managing ML models on Kubernetes, providing a centralized control plane
-    to manage KServe installations, monitor health, and enforce policies across multiple clusters.
+    KServe consists of two main components:
+    1. **KServe CRDs** - Custom Resource Definitions that provide the foundation for KServe's functionality
+    2. **KServe Controller** - The controller that implements serverless model serving capabilities
+    
+    Through k0rdent, users can easily install and manage KServe across multiple clusters, providing a centralized control plane
+    to monitor health, enforce policies, and enable enterprise-grade machine learning serving. This application allows deploying 
+    the KServe Controller in Serverless mode without ModelMesh functionality enabled, which is optimized for environments 
+    where autoscaling and scale-to-zero capabilities are prioritized.
     
     By deploying KServe from the catalog, k0rdent enables users to build and scale ML inference services while leveraging Kubernetes-native infrastructure.
 support_link: https://kserve.github.io/website/master/
 install_code: |
     ~~~bash
+    # First install KServe CRDs
     helm install kserve-crd oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
       --set helm.repository.url=oci://ghcr.io/kserve/charts \
       --set helm.repository.type=oci \
       --set helm.charts[0].name=kserve-crd \
       --set helm.charts[0].version=v0.14.1
+    
+    # Then install KServe Controller
+    helm install kserve oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
+      --set helm.repository.url=oci://ghcr.io/kserve/charts \
+      --set helm.repository.type=oci \
+      --set helm.charts[0].name=kserve \
+      --set helm.charts[0].version=v0.14.1 \
+      --set helm.charts[0].values.kserve.controller.deploymentMode=Serverless \
+      --set helm.charts[0].values.kserve.modelmesh.enabled=false
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME               VALID
     # kcm-system   kserve-crd-v0-14-1 true
+    # kcm-system   kserve-v0-14-1     true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -46,8 +62,19 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
+        # First deploy KServe CRDs
         - template: kserve-crd-v0-14-1
           name: kserve-crd
           namespace: kserve
+        # Then deploy KServe Controller  
+        - template: kserve-v0-14-1
+          name: kserve
+          namespace: kserve
+          values: |
+            kserve:
+              controller:
+                deploymentMode: Serverless
+              modelmesh:
+                enabled: false
     ~~~
 doc_link: https://kserve.github.io/website/master/get_started/ 
