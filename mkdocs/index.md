@@ -180,24 +180,40 @@ template: home.html
       }
 
       const updateURL = () => {
-        let queryString = checkboxAppsNormalized.value.length ? `?category=${checkboxAppsNormalized.value.join(",")}` : "";
-        history.replaceState({}, '', window.location.pathname + queryString)
-      }
+        const params = new URLSearchParams();
 
-      function updateCheckboxesFromURL() {
+        if (checkboxAppsNormalized.value.length) {
+          params.set('category', checkboxAppsNormalized.value.join(','));
+        }
+
+        if (checkboxesAppsSupportNormalized.value.length) {
+          params.set('support_type', checkboxesAppsSupportNormalized.value.join(','));
+        }
+
+        history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+      };
+
+      const updateCheckboxesFromURL = () => {
         let params = new URLSearchParams(window.location.search);
         let hash_param = window.location.hash;
         if(document.getElementById(hash_param.replace('#', ''))){
           document.getElementById(hash_param.replace('#', '')).checked = true;
         }
         let selectedCategories = params.get("category");
-        if (selectedCategories) {
-          let selectedArray = selectedCategories.split(",");
+        let selectedSupportTypes = params.get("support_type");
+
+        parseUrlParams(selectedCategories, checkboxesApps)
+        parseUrlParams(selectedSupportTypes, checkboxesAppsSupport)
+      }
+
+      const parseUrlParams = (selected, checkboxes) => {
+        if(selected) {
+          let selectedArray = selected.split(",");
           selectedArray.forEach(item=>{
-            checkboxesApps.value.push(item)
+            checkboxes.value.push(item)
           })
         }
-      }
+      } 
 
       const switchedTabs = (event)=>{
         if(event.target.id === 'apps'){
@@ -212,11 +228,10 @@ template: home.html
         event.target.classList.toggle('expanded');
       }
 
-      const checkboxAppsNormalized = computed(()=>{
-        return checkboxesApps.value.map(item=>{
-          return item.replace(/[ /]/g, "-").toLowerCase();
-        })
-      })
+      const normalize = (str) => str.replace(/[ /]/g, "-").toLowerCase();
+
+      const checkboxAppsNormalized = computed(()=> checkboxesApps.value.map(normalize))
+      const checkboxesAppsSupportNormalized = computed(()=> checkboxesAppsSupport.value.map(normalize))
 
       onMounted(() => {
         readData()
@@ -232,51 +247,24 @@ template: home.html
         });
       })
 
-      watch(checkboxesApps, (newVal, oldVal) => {
-        let item_tags_lowercased = []
-        if(newVal.length>0){
-          data_apps_filtered.value = data_apps.value.filter(item=>{
-            item_tags_lowercased = item.tags.map(item => item.replace(/[ /]/g, "-").toLowerCase())
-            if(checkboxesAppsSupport.value.length>0){
-              return checkboxesApps.value.every( elem => item_tags_lowercased.includes(elem.replace(/[ /]/g, "-").toLowerCase()) ) && checkboxesAppsSupport.value.every(elem => elem === item.support_type.replace(/[ /]/g, "-").toLowerCase()) 
-            } else {
-              return checkboxesApps.value.every( elem => item_tags_lowercased.includes(elem.replace(/[ /]/g, "-").toLowerCase()) )
-            } 
-          })
-        } else {
-          if(checkboxesAppsSupport.value.length>0){
-            data_apps_filtered.value = data_apps.value.filter(item=>{
-              return checkboxesAppsSupport.value.every(elem => elem === item.support_type.replace(/[ /]/g, "-").toLowerCase())
-            })
-          } else {
-            data_apps_filtered.value = data_apps.value
-          }
-        }
-        updateURL()
-      }, { deep: true })
+      // watch funxtion eatches for the changes in the checkboxesApps and checkboxesAppsSupport (input boxes) and then filter data_apps items to match with the appsMAtch and supportMatch
+      watch([checkboxesApps, checkboxesAppsSupport], () => {
 
-      watch(checkboxesAppsSupport, (newVal, oldVal) => {
-        let item_tags_lowercased = []
-        if(newVal.length>0){
-          data_apps_filtered.value = data_apps.value.filter(item=>{
-            item_tags_lowercased = item.tags.map(item => item.replace(/[ /]/g, "-").toLowerCase())
-            if(checkboxesApps.value.length>0){
-              return checkboxesAppsSupport.value.every(elem => elem === item.support_type.replace(/[ /]/g, "-").toLowerCase()) && checkboxesApps.value.every( elem => item_tags_lowercased.includes(elem.replace(/[ /]/g, "-").toLowerCase()) )
-            } else {
-              return checkboxesAppsSupport.value.every(elem => elem === item.support_type.replace(/[ /]/g, "-").toLowerCase())
-            }
-          })
-        } else {
-          if(checkboxesApps.value.length>0){
-            data_apps_filtered.value = data_apps.value.filter(item=>{
-              item_tags_lowercased = item.tags.map(item => item.replace(/[ /]/g, "-").toLowerCase())
-              return checkboxesApps.value.every( elem => item_tags_lowercased.includes(elem.replace(/[ /]/g, "-").toLowerCase()) )
-            })
-          } else {
-            data_apps_filtered.value = data_apps.value
-          }
-        }
-      }, { deep: true })
+        data_apps_filtered.value = data_apps.value.filter(item => {
+          const tags = item.tags.map(normalize);
+          const supportType = normalize(item.support_type);
+
+          const appsMatch = checkboxesApps.value.length === 0 ||
+            checkboxesApps.value.every(checkbox => tags.includes(normalize(checkbox)));
+
+          const supportMatch = checkboxesAppsSupport.value.length === 0 ||
+            checkboxesAppsSupport.value.every(checkbox => supportType === normalize(checkbox));
+
+          return appsMatch && supportMatch;
+        });
+
+        updateURL();
+      }, { deep: true });
 
       return {
         data,
