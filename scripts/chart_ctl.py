@@ -8,7 +8,7 @@ import pathlib
 
 chart_app_tpl = """apiVersion: v2
 name: {{ name }}
-description: A Helm chart to refer the official "{{ name }}" helm chart
+description: A Helm chart that references the official "{{ name }}" Helm chart.
 type: application
 version: {{ version }}
 dependencies:
