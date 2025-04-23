@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 0.14.1
+dependencies:
+  - name: kserve-crd
+    version: 0.14.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: kserve
+    version: 0.14.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts 

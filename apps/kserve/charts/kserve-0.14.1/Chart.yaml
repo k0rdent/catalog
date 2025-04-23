@@ -6,4 +6,4 @@ version: v0.14.1
 dependencies:
   - name: kserve
     version: v0.14.1
-    repository: oci://ghcr.io/kserve/charts 
+    repository: oci://ghcr.io/kserve/charts

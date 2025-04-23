@@ -23,24 +23,15 @@ description: |
     where autoscaling and scale-to-zero capabilities are prioritized.
     
     By deploying KServe from the catalog, k0rdent enables users to build and scale ML inference services while leveraging Kubernetes-native infrastructure.
-support_link: https://kserve.github.io/website/master/
 install_code: |
     ~~~bash
     # First install KServe CRDs
-    helm install kserve-crd oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set helm.repository.url=oci://ghcr.io/kserve/charts \
-      --set helm.repository.type=oci \
-      --set helm.charts[0].name=kserve-crd \
-      --set helm.charts[0].version=v0.14.1
-    
+    helm install kserve-crd oci://ghcr.io/k0rdent/catalog/charts/kserve-crd-service-template \
+      --version 0.14.1 -n kcm-system
+
     # Then install KServe Controller
-    helm install kserve oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set helm.repository.url=oci://ghcr.io/kserve/charts \
-      --set helm.repository.type=oci \
-      --set helm.charts[0].name=kserve \
-      --set helm.charts[0].version=v0.14.1 \
-      --set helm.charts[0].values.kserve.controller.deploymentMode=Serverless \
-      --set helm.charts[0].values.kserve.modelmesh.enabled=false
+    helm install kserve oci://ghcr.io/k0rdent/catalog/charts/kserve-service-template \
+      --version 0.14.1 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -76,4 +67,4 @@ deploy_code: |
               modelmesh:
                 enabled: false
     ~~~
-doc_link: https://kserve.github.io/website/master/get_started/ 
+doc_link: https://kserve.github.io/website/master/get_started/

@@ -6,4 +6,4 @@ version: v0.14.1
 dependencies:
   - name: k0rdent-catalog
     version: 1.0.0
-    repository: oci://ghcr.io/k0rdent/catalog/charts 
+    repository: oci://ghcr.io/k0rdent/catalog/charts

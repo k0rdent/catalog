@@ -1,0 +1,5 @@
+kserve:
+  controller:
+    deploymentMode: Serverless
+  modelmesh:
+    enabled: false

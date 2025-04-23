@@ -18,4 +18,4 @@ spec:
         controller:
           deploymentMode: {{ default "Serverless" .Values.kserve.controller.deploymentMode }}
         modelmesh:
-          enabled: {{ default false .Values.kserve.modelmesh.enabled }} 
+          enabled: {{ default false .Values.kserve.modelmesh.enabled }}
