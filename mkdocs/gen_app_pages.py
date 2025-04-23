@@ -31,6 +31,23 @@ def validate_summary(file: str, data: dict):
         raise Exception(f"Exceeded 'summary chars limit' ({summary_chars} > {summary_chars_limit}) in {file}")
 
 
+def validate_support_type(file: str, data: dict):
+    support_type = data.get('support_type', 'Community')
+    if support_type not in allowed_support_types:
+        raise Exception(f"No allowed support_type found '{support_type}' in {file}, use ({allowed_support_types})")
+
+    if support_type == 'Community':
+        for community_field in community_fields:
+            if community_field not in data:
+                raise Exception(f"Community field '{community_field}' not found in {file}")
+    else:
+        for community_field in community_fields:
+            if community_field in data:
+                raise Exception(f"Community field '{community_field}' found in Enterprise app {file}")
+    if 'support_type' not in data:
+        data['support_type'] = support_type
+
+
 def try_validate_versions(file: str, data: dict):
     if 'versions' not in data:
         return
@@ -42,22 +59,10 @@ def try_validate_versions(file: str, data: dict):
 
 
 def validate_metadata(file: str, data: dict):
-    support_type = data.get('support_type', 'Community')
-    if support_type not in allowed_support_types:
-        raise Exception(f"No allowed support_type found '{support_type}' in {file}, use ({allowed_support_types})")
-
+    validate_support_type(file, data)
     for required_field in required_fields:
         if required_field not in data:
             raise Exception(f"Required field '{required_field}' not found in {file}")
-
-    if support_type == 'Community':
-        for community_field in community_fields:
-            if community_field not in data:
-                raise Exception(f"Community field '{community_field}' not found in {file}")
-    else:
-        for community_field in community_fields:
-            if community_field in data:
-                raise Exception(f"Community field '{community_field}' found in Enterprise app {file}")
 
     for field in data:
         if field not in allowed_fields:
