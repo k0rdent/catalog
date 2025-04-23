@@ -9,23 +9,56 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
 ## Contribution Process
 ### 1. Fork the Repository:
 - Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account.
-### 2. Create a New Application Metadata File:
-- Navigate to the `apps/` directory in your forked repository.
-- Create an `assets` folder and add a logo to it (e.g., `assets/app_logo.svg`). Please use the SVG format if possible.
+
+### 2. Create the Application Helm Charts
+Before adding metadata, you need to provide Helm charts for your application. These charts enable deployment within k0rdent clusters and will be stored in the catalog registry as a central source of verified application charts.
+
+-	#### Create the `charts` directory
+  Inside your application folder (e.g., `apps/dapr/`), create a `charts/` directory.
+
+-	#### Include Helm Charts
+  Your directory must include:
+	  -	An **app chart** referencing the original upstream application chart.
+    - A **service-template** chart to register the app in the mothership as a service template.
+    - An `st-charts.yaml` file. It defines how charts are generated to be consistent with the rest of the catalog charts. Example:
+    ~~~yaml
+    st-charts:
+      - name: dapr
+        version: 1.14.4
+        dependencies:
+          - name: dapr
+            version: 1.14.4
+            repository: https://dapr.github.io/helm-charts/ # upstream helm repository
+      - name: dapr-dashboard
+        version: 0.15.0
+        dependencies:
+          - name: dapr-dashboard
+            version: 0.15.0
+            repository: https://dapr.github.io/helm-charts/
+    ~~~
+    -	Generate Charts Automatically. Use the `chart_ctl.py` script from the repository to generate the app and service-template charts based on `st-charts.yaml`. Example:
+    ~~~bash
+    python3 ./scripts/chart_ctl.py generate dapr
+    ~~~
+### 3. Create a New Application Metadata File:
+- Create an `assets` folder and add a logo to it (e.g., `assets/dapr_logo.svg`). Please use the SVG format if possible.
 - Create a new `data.yaml` file.
 - **Populate the YAML File**:
 - Follow the schema below to structure your application's metadata.
 - #### Required Fields:
     - `title` (string): The application's name.
-    - `tags` (array of strings): Keywords or tags related to the application. Please ensure that at least one tag is used. Allowed tags are `AI/Machine Learning`, `Monitoring`, `Networking`, `Security`, `Storage`, `CI/CD`, `Application Runtime`, `Drivers and plugins`, `Backup and Recovery`, `Authentication`, `Database`, `Developer Tools`, `Serverless`.
+    - `tags` (array of strings): Keywords or tags related to the application. Please ensure that at least one tag is used. Allowed tags are `AI/Machine Learning`, `Application Runtime`, `Authentication`, `Backup and Recovery`, `CI/CD`, `Container Registry`, `Database`, `Developer Tools`, `Drivers and plugins`, `Monitoring`, `Networking`, `Security`, `Serverless`, `Storage`.
     - `summary` (string): A brief description of the application.
-    - `logo` (string): A relative link to the app logo (`./assets/app_logo.svg`).
+    - `logo` (string): A relative link to the app logo (e.g., `./assets/dapr_logo.svg`).
     - `description` (string): Description of the application or service.
     - `install_code` (string): How to install the service template for your application to k0rdent.
     - `verify_code` (string): Command to verify the application.
     - `deploy_code` (string): Example of how the application can be deployed to a k0rdent managed cluster.
-    - `support_link` (string): Support link for the application. Omit this if commercial support is not available for the application.
+- #### Optional Fields:
+    - `support_link` (string): Support link for the application. Omit if commercial support is not available for the application.
     - `doc_link` (string): Documentation for the application.
+    - `logo_big` (string): A relative link to a larger version of the app logo (e.g., `./assets/dapr_logo_big.svg`). Displayed on the application detail page.
+    - `prerequisites` (string): Custom *Prerequisites* section of the application detail page.
 - #### Example:
   ~~~yaml
   title: "Dapr"
@@ -49,12 +82,10 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
   install_code: |
     ~~~bash
-    helm upgrade --install dapr oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system \
-      --set "helm.repository.url=https://dapr.github.io/helm-charts/" \
-      --set "helm.charts[0].name=dapr" \
-      --set "helm.charts[0].version=1.14.4" \
-      --set "helm.charts[1].name=dapr-dashboard" \
-      --set "helm.charts[1].version=0.15.0"
+    helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template \
+      --version 1.14.4 -n kcm-system
+    helm install dapr-dashboard oci://ghcr.io/k0rdent/catalog/charts/dapr-dashboard-service-template \
+      --version 0.15.0 -n kcm-system
     ~~~
   verify_code: |
     ~~~bash
@@ -81,71 +112,77 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
           name: dapr-dashboard
           namespace: dapr
           values: |
-            ingress:
-              enabled: true
-              className: nginx
-              host: 'dapr.example.com'
+            dapr-dashboard:
+              ingress:
+                enabled: true
+                className: nginx
+                host: 'dapr.example.com'
     ~~~
   support_link: https://www.diagrid.io/conductor
   doc_link: https://docs.dapr.io/
   use_ingress: true
   ~~~
 
-### 3. Validate Your YAML File:
+### 4. Validate Your YAML File:
 - Ensure your YAML file is valid by using a YAML validator. This will prevent errors during the review process.
 
-### 4. Add a Helm Chart Example:
+### 5. Add a Helm Chart Example:
 - Add an `example` folder containing an example Helm chart. It will be used for application testing in different environments (AWS, Azure, GitHub CI, and local setups). It is also used in GitHub CI to automate the initial stage of application verification.
 - Add a Helm Chart config file at `example/Chart.yaml` with dependencies, e.g.:
 ~~~yaml
 apiVersion: v2
-name: dapr
+name: example
 type: application
-version: 7.8.0
+version: 1.14.4
 dependencies:
   - name: dapr
     version: 1.14.4
-    repository: https://dapr.github.io/helm-charts/
+    repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: dapr-dashboard
     version: 0.15.0
-    repository: https://dapr.github.io/helm-charts/
+    repository: oci://ghcr.io/k0rdent/catalog/charts
 ~~~
 
-- Add a Helm chart values file at `example/values.yaml`. Include any explicit configuration parameters needed for a working deployment. If the default configuration is sufficient, leave this file empty. Example file:
+- Add a Helm chart values file at `example/values.yaml`. Include any explicit configuration parameters needed for a working deployment. If the default configuration is sufficient, leave this file empty. Ensure the file contains the correct top-level keys. Example file:
 ~~~yaml
-dapr-dashboard:
-  ingress:
-    enabled: true
-    className: nginx
-    host: 'dapr.example.com'
+dapr-dashboard: # example chart top-level key
+  dapr-dashboard: # app chart top-level key
+    ingress:
+      enabled: true
+      className: nginx
+      host: 'dapr.example.com'
 ~~~
 
-### 5. Added files overview:
+### 6. Added files overview:
 - This is how the added files for a new app `abc` should look:
   ~~~
-  apps/abc
+  apps/dapr
   ├── assets
-  │   └── abc_logo.svg
+  │   └── dapr_logo.svg
+  ├── charts
+  |   ├──dapr-1.2.3
+  |   ├──dapr-service-template-1.2.3
+  |   └──st-charts.yaml
   ├── data.yaml
   └── example
       ├── Chart.yaml
       └── values.yaml
   ~~~
 - You can also check existing apps in the Catalog (e.g., [here](https://github.com/k0rdent/catalog/tree/main/apps/ingress-nginx)).
-### 6. Commit and Push Your Changes:
+### 7. Commit and Push Your Changes:
 - Commit your changes to your forked repository.
 - Push your changes to your remote branch.
-### 7. Create a Pull Request (PR):
+### 8. Create a Pull Request (PR):
 - Go to the k0rdent catalog repository on GitHub.
 - Click "New Pull Request".
 - Select your forked repository and branch.
 - Provide a clear and concise title and description for your PR.
 - Explain the changes you've made and why you're adding the application.
-### 8. Review and Feedback:
+### 9. Review and Feedback:
 - The k0rdent maintainers will review your PR.
 - They may provide feedback or request changes.
 - Address any feedback and update your PR accordingly.
-### 9. Merge:
+### 10. Merge:
 - Once your PR is approved, it will be merged into the main k0rdent catalog.
 
 ## Important Considerations
