@@ -34,7 +34,7 @@ template: home.html
                   :id="tag.replace(/[ /]/g, '-').toLowerCase()" 
                   :name="tag.replace(/[ /]/g, '-').toLowerCase()" 
                   :value="tag.replace(/[ /]/g, '-').toLowerCase()" 
-                  v-model="checkboxesApps">
+                  v-model="checkboxesCategory">
                 <label :for="tag.replace(/[ /]/g, '-').toLowerCase()">{{ tag }}</label>
               </div>
               <br>
@@ -46,7 +46,7 @@ template: home.html
                   :id="tag.replace(/[ /]/g, '-').toLowerCase()" 
                   :name="tag.replace(/[ /]/g, '-').toLowerCase()" 
                   :value="tag.replace(/[ /]/g, '-').toLowerCase()" 
-                  v-model="checkboxesAppsSupport">
+                  v-model="checkboxesSupport">
                 <label :for="tag.replace(/[ /]/g, '-').toLowerCase()">{{ tag }}</label>
               </div>
               <br>
@@ -54,7 +54,7 @@ template: home.html
           </div>
           <div class="tab_apps-main-content">
             <div id="cards-apps" class="grid">
-              <a class="card" :href="card.link" v-for="card in data_apps_filtered">
+              <a class="card" :href="card.link" v-for="card in dataAppsFiltered">
                 <img :src="updateRelLink(card.logo, card.appDir)" alt="logo" />
                 <p>
                   <b>{{ card.title }}</b>
@@ -89,7 +89,7 @@ template: home.html
       </div>
       <div class="tabs_infra-main-content">
         <div id="cards-infra" class="grid">
-          <a class="card" :href="card.link" v-for="card in data_infra">
+          <a class="card" :href="card.link" v-for="card in dataInfra">
             <img :src="updateRelLink(card.logo, card.appDir)" alt="logo" />
             <p>
               <b>{{ card.title }}</b>
@@ -112,11 +112,11 @@ template: home.html
     setup() {
       //vars
       const data = ref([])
-      const data_infra = ref([])
-      const data_apps = ref([])
-      const data_apps_filtered = ref([])
-      const checkboxesApps = ref([])
-      const checkboxesAppsSupport = ref([])
+      const dataInfra = ref([])
+      const dataApps = ref([])
+      const dataAppsFiltered = ref([])
+      const checkboxesCategory = ref([])
+      const checkboxesSupport = ref([])
       const tagsSet = new Set()
       const supportTypeSet = new Set()
 
@@ -126,22 +126,15 @@ template: home.html
           .then(response => response.json())
           .then(res => {
             data.value = res
-            data_infra.value = res.filter(item=>item.type === 'infra')
-            data_apps.value = res.filter(item=>item.type !== 'infra')
-
-            data_apps.value.forEach(item=>{
-              if(item.support_type !==''){
-                supportTypeSet.add(item.support_type)
-              } else {
-                // add support_type "Community" to all items that doesn't have "Enterprise"-tag
-                item.support_type = "Community"
-                supportTypeSet.add(item.support_type)
-              }
+            dataInfra.value = res.filter(item=>item.type === 'infra')
+            dataApps.value = res.filter(item=>item.type !== 'infra')
+            dataApps.value.forEach(item=>{
+              supportTypeSet.add(item.support_type)
               item.tags.forEach(tag =>tagsSet.add(tag));
             })
-            data_apps_filtered.value = data_apps.value
-            sortingByTitle(data_apps_filtered.value, 'asc')
-            sortingByTitle(data_infra.value, 'asc')
+            dataAppsFiltered.value = dataApps.value
+            sortingByTitle(dataAppsFiltered.value, 'asc')
+            sortingByTitle(dataInfra.value, 'asc')
 
             updateCheckboxesFromURL()
           })
@@ -158,16 +151,16 @@ template: home.html
       const ordering = (event) => {
         if(event.target.id==='ordering-apps'){
           if(event.target.value === 'asc'){
-            sortingByTitle(data_apps_filtered.value, 'asc')
+            sortingByTitle(dataAppsFiltered.value, 'asc')
           } else {
-            sortingByTitle(data_apps_filtered.value, 'desc')
+            sortingByTitle(dataAppsFiltered.value, 'desc')
           }
         }
         if(event.target.id==='ordering-infra'){
           if(event.target.value === 'asc'){
-            sortingByTitle(data_infra.value, 'asc')
+            sortingByTitle(dataInfra.value, 'asc')
           } else {
-            sortingByTitle(data_infra.value, 'desc')
+            sortingByTitle(dataInfra.value, 'desc')
           }
         }
       }
@@ -186,8 +179,8 @@ template: home.html
           params.set('category', checkboxAppsNormalized.value.join(','));
         }
 
-        if (checkboxesAppsSupportNormalized.value.length) {
-          params.set('support_type', checkboxesAppsSupportNormalized.value.join(','));
+        if (checkboxesSupportNormalized.value.length) {
+          params.set('support_type', checkboxesSupportNormalized.value.join(','));
         }
 
         history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
@@ -202,8 +195,8 @@ template: home.html
         let selectedCategories = params.get("category");
         let selectedSupportTypes = params.get("support_type");
 
-        parseUrlParams(selectedCategories, checkboxesApps)
-        parseUrlParams(selectedSupportTypes, checkboxesAppsSupport)
+        parseUrlParams(selectedCategories, checkboxesCategory)
+        parseUrlParams(selectedSupportTypes, checkboxesSupport)
       }
 
       const parseUrlParams = (selected, checkboxes) => {
@@ -230,8 +223,8 @@ template: home.html
 
       const normalize = (str) => str.replace(/[ /]/g, "-").toLowerCase();
 
-      const checkboxAppsNormalized = computed(()=> checkboxesApps.value.map(normalize))
-      const checkboxesAppsSupportNormalized = computed(()=> checkboxesAppsSupport.value.map(normalize))
+      const checkboxAppsNormalized = computed(()=> checkboxesCategory.value.map(normalize))
+      const checkboxesSupportNormalized = computed(()=> checkboxesSupport.value.map(normalize))
 
       onMounted(() => {
         readData()
@@ -247,18 +240,18 @@ template: home.html
         });
       })
 
-      // watch funxtion eatches for the changes in the checkboxesApps and checkboxesAppsSupport (input boxes) and then filter data_apps items to match with the appsMAtch and supportMatch
-      watch([checkboxesApps, checkboxesAppsSupport], () => {
+      // watch funxtion eatches for the changes in the checkboxesCategory and checkboxesSupport (input boxes) and then filter dataApps items to match with the appsMAtch and supportMatch
+      watch([checkboxesCategory, checkboxesSupport], () => {
 
-        data_apps_filtered.value = data_apps.value.filter(item => {
+        dataAppsFiltered.value = dataApps.value.filter(item => {
           const tags = item.tags.map(normalize);
           const supportType = normalize(item.support_type);
 
-          const appsMatch = checkboxesApps.value.length === 0 ||
-            checkboxesApps.value.every(checkbox => tags.includes(normalize(checkbox)));
+          const appsMatch = checkboxesCategory.value.length === 0 ||
+            checkboxesCategory.value.every(checkbox => tags.includes(normalize(checkbox)));
 
-          const supportMatch = checkboxesAppsSupport.value.length === 0 ||
-            checkboxesAppsSupport.value.every(checkbox => supportType === normalize(checkbox));
+          const supportMatch = checkboxesSupport.value.length === 0 ||
+            checkboxesSupport.value.every(checkbox => supportType === normalize(checkbox));
 
           return appsMatch && supportMatch;
         });
@@ -268,15 +261,15 @@ template: home.html
 
       return {
         data,
-        data_infra,
-        data_apps,
-        data_apps_filtered,
+        dataInfra,
+        dataApps,
+        dataAppsFiltered,
         updateRelLink,
         tagsSet,
         supportTypeSet,
         ordering,
-        checkboxesApps,
-        checkboxesAppsSupport,
+        checkboxesCategory,
+        checkboxesSupport,
         toggleExpanded,
         switchedTabs
       }
