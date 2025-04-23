@@ -1,0 +1,7 @@
+st-charts:
+- name: hpe-csi-driver
+  version: 2.5.2
+  dependencies:
+    - name: hpe-csi-driver
+      version: 2.5.2
+      repository: https://hpe-storage.github.io/co-deployments/

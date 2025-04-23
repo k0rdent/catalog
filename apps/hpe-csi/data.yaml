@@ -1,0 +1,43 @@
+tags:
+  - Storage
+  - Drivers and plugins
+title: "HPE CSI Driver for Kubernetes"
+summary: "Multi-vendor and multi-platform Container Storage Interface driver."
+logo: https://raw.githubusercontent.com/hpe-storage/co-deployments/master/docs/assets/hpedev.png
+description: |
+  HPE CSI Driver for Kubernetes allows users to dynamically provision persistent and ephemeral storage with support for a wide
+  range of storage products from HPE, including Alletra Storage MP B10000 and Alletra 5000/6000/9000. Advanced data services are
+  provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads running
+  on Kubernetes.
+support_link: https://scod.hpedev.io/legal/support/
+install_code: |
+    ~~~bash
+    helm install hpe-csi oci://ghcr.io/k0rdent/catalog/charts/hpe-csi-driver-service-template \
+      --version 2.5.2 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                      VALID
+    # kcm-system   hpe-csi-driver-2-5-2      true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: hpe-csi-driver
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+          - template: hpe-csi-driver-2-5-2
+            name: hpe-csi-driver
+            namespace: hpe-csi-driver
+            values: |
+              hpe-csi-driver:
+                kubeletRootDir: /var/lib/k0s/kubelet
+    ~~~
+doc_link: https://scod.hpedev.io/

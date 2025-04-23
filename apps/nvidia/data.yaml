@@ -9,7 +9,7 @@ description: |
     in your Kubernetes clusters. It automates the deployment and configuration of all the necessary
     software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
     training and high-performance computing.
-support_link: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html
+support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
 install_code: |
     ~~~bash
     helm install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/gpu-operator-service-template \

@@ -4,7 +4,7 @@ metadata:
   name: azure-example-USER
   namespace: kcm-system
 spec:
-  template: azure-standalone-cp-0-1-0
+  template: azure-standalone-cp-0-2-0
   credential: azure-credential
   config:
     clusterLabels:
