@@ -8,9 +8,9 @@ community_fields = ['install_code', 'verify_code', 'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'versions', 'prerequisites']
-allowed_tags = ['AI/Machine Learning', 'Monitoring', 'Networking', 'Security',
-                'Storage', 'CI/CD', 'Application Runtime', 'Drivers and plugins', 'Backup and Recovery',
-                'Authentication', 'Database', 'Developer Tools', 'Serverless']
+allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
+                'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
+                'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
 allowed_support_types = ['Enterprise', 'Community']
 summary_chars_limit = 90
 valid_versions = ['v0.1.0', 'v0.2.0']
