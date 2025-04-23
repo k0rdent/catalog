@@ -7,10 +7,9 @@ description: |
     Mirantis Secure Registry (MSR) 4 is an Enterprise-grade container registry solution based on CNCF Harbor that can
     be integrated easily with k0rdent managed clusters.
 
-    <br>
     This chart contains Mirantis Secure Registry 4 without the high-availability for the storage
-    layer (Postgres & Redis). Please check the following link for more information on high-availability.
-    [LEARN MORE](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }
+    layer (Postgres & Redis). Please check the link for more information on
+    [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
 install_code: |
     ~~~bash
     helm install harbor oci://ghcr.io/k0rdent/catalog/charts/harbor-service-template \
