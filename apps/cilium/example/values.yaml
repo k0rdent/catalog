@@ -1,0 +1,4 @@
+cilium:
+  cilium:
+    operator:
+      replicas: 1
