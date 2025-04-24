@@ -175,7 +175,7 @@ jobs:
         if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          ./scripts/kgst_install.sh
+          ./scripts/install_servicetemplates.sh
 
       - name: Test - Install adopted cluster (k0rdent child)
         if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'

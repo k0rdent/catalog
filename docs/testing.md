@@ -50,7 +50,7 @@ Then uninstall it and verify it was really removed. You can use this section ove
 for a different applications.
 ~~~bash
 # Install k0rdent service template
-./scripts/kgst_install.sh
+./scripts/install_servicetemplates.sh
 
 # Deploy service using multiclusterservice
 # Note: there is complete configurable values list in $APP/values-orig.yaml folder.

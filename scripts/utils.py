@@ -74,7 +74,16 @@ def render_mcs(args):
         file.write(output)
 
 
-def get_install_cmd(release: str, repo: str, prefix: str | None, charts: list) -> str:
+def get_servicetemplate_install_cmd(repo: str, charts: list) -> str:
+    cmd_lines = []
+    for chart in charts:
+        cmd_lines.append(f'helm install {chart['name']} {repo}/{chart['name']}-service-template \\')
+        cmd_lines.append(f'  --version {chart['version']} -n kcm-system')
+    cmd = "\n".join(cmd_lines)
+    return cmd
+
+
+def get_kgst_install_cmd(release: str, repo: str, prefix: str | None, charts: list) -> str:
     cmd_lines = []
     cmd_lines.append(f'helm upgrade --install {release} oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system')
     cmd_lines.append(f'    --set "helm.repository.url={repo}"')
@@ -108,7 +117,7 @@ def show_install_from_helm_config(app: str, helm_config_path: str):
     repo = helm_config['helm']['repository']['url']
     prefix = helm_config.get('prefix')
     charts = helm_config['helm']['charts']
-    cmd = get_install_cmd(app, repo, prefix, charts)
+    cmd = get_kgst_install_cmd(app, repo, prefix, charts)
     print(cmd)
 
 
@@ -163,7 +172,17 @@ def kgst_install_deps(args):
     for repo in repos:
         charts = repos[repo]
         release = charts[0]['name']
-        cmd = get_install_cmd(release, repo, None, charts)
+        cmd = get_kgst_install_cmd(release, repo, None, charts)
+        print(cmd)
+
+
+def install_servicetemplates(args):
+    app = args.app
+    chart = get_chart_data(app)
+    repos = chart_2_repos(chart)
+    for repo in repos:
+        charts = repos[repo]
+        cmd = get_servicetemplate_install_cmd(repo, charts)
         print(cmd)
 
 
@@ -182,6 +201,10 @@ install.set_defaults(func=kgst_install_deps)
 install = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
 install.add_argument("app")
 install.set_defaults(func=render_mcs)
+
+install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
+install.add_argument("app")
+install.set_defaults(func=install_servicetemplates)
 
 args = parser.parse_args()
 args.func(args)
