@@ -63,13 +63,13 @@ jobs:
         with:
           fetch-depth: 0  # Ensure full commit history
 
-      - name: Check example helm chart exists
+      - name: Check example config exists
         run: |
           app=${{ matrix.folder }}
           if [[ -e "apps/$app/example/Chart.yaml" ]]; then
             echo "EXAMPLE_CHART_EXISTS=true" >> $GITHUB_ENV
           fi
-          if [[ -e "apps/$app/example/helm-values-kgst.yaml" ]]; then
+          if [[ -e "apps/$app/helm-values-kgst.yaml" ]]; then
             echo "KGST_CONFIG_EXISTS=true" >> $GITHUB_ENV
           fi
 
@@ -98,12 +98,14 @@ jobs:
           python3 ./scripts/utils.py render-mcs $APP
 
       - name: Install kubectl
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
       - name: Install Kind
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
           chmod +x ./kind
@@ -111,12 +113,14 @@ jobs:
           kind version
 
       - name: Create Kind Cluster config
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           export MASTERS=${{ github.event.inputs.masters || '1' }}
           export WORKERS=${{ github.event.inputs.workers || '1' }}
           ./scripts/create_kind_config.sh
 
       - name: Create Kind Cluster
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           kind create cluster --name test-k8s
           kubectl cluster-info --context kind-test-k8s
@@ -157,15 +161,39 @@ jobs:
           export TEST_MODE=local
           ./scripts/uninstall_example_chart.sh
 
-      - name: Test - Install kcm
+      - name: Test - Install kcm (k0rdent mothership)
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           export HELM_VALUES=./scripts/config/min-kcm-values.yaml
           export KIND_CLUSTER=test-k8s
           ./scripts/deploy_k0rdent.sh
           kubectl apply -f ./scripts/config/min-kcm-management.yaml
+          kubectl create ns projectsveltos
+          ./scripts/deploy_k0rdent.sh
 
       - name: Test - Install service template
         if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
         run: |
           export APP=${{ matrix.folder }}
           ./scripts/kgst_install.sh
+
+      - name: Test - Install adopted cluster (k0rdent child)
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          export TEST_MODE=local
+          ./scripts/deploy_cld.sh
+
+      - name: Test - Deploy MultiClusterDeployment
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          export TEST_MODE=local
+          ./scripts/deploy_mcs.sh
+
+      - name: Test - Uninstall MultiClusterDeployment
+        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          export TEST_MODE=local
+          ./scripts/remove_mcs.sh
