@@ -83,23 +83,6 @@ def get_servicetemplate_install_cmd(repo: str, charts: list) -> str:
     return cmd
 
 
-def get_kgst_install_cmd(release: str, repo: str, prefix: str | None, charts: list) -> str:
-    cmd_lines = []
-    cmd_lines.append(f'helm upgrade --install {release} oci://ghcr.io/k0rdent/catalog/charts/kgst -n kcm-system')
-    cmd_lines.append(f'    --set "helm.repository.url={repo}"')
-    if repo.startswith('oci'):
-        cmd_lines.append(f'    --set "helm.repository.type=oci"')
-    if prefix:
-        cmd_lines.append(f'    --set "prefix={prefix}"')
-
-    for i, chart in enumerate(charts):
-        cmd_lines.append(f'    --set "helm.charts[{i}].name={chart['name']}"')
-        cmd_lines.append(f'    --set "helm.charts[{i}].version={chart['version']}"')
-
-    cmd = " \\\n".join(cmd_lines)
-    return cmd
-
-
 def get_app_data(app: str) -> dict:
     app_data_path = f"apps/{app}/data.yaml"
     with open(app_data_path, "r", encoding='utf-8') as file:
@@ -144,17 +127,6 @@ def chart_2_repos(chart: dict) -> dict:
     return repos
 
 
-def kgst_install_deps(args):
-    app = args.app
-    chart = get_chart_data(app)
-    repos = chart_2_repos(chart)
-    for repo in repos:
-        charts = repos[repo]
-        release = charts[0]['name']
-        cmd = get_kgst_install_cmd(release, repo, None, charts)
-        print(cmd)
-
-
 def install_servicetemplates(args):
     app = args.app
     chart = get_chart_data(app)
@@ -179,10 +151,6 @@ def print_test_vars(args):
 parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
-
-install = subparsers.add_parser("kgst-install-deps", help="Install example chart deps using 'kgst'")
-install.add_argument("app")
-install.set_defaults(func=kgst_install_deps)
 
 install = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
 install.add_argument("app")
