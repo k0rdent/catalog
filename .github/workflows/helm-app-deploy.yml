@@ -63,15 +63,12 @@ jobs:
         with:
           fetch-depth: 0  # Ensure full commit history
 
-      - name: Check example config exists
+      - name: Get app test settings
         run: |
           app=${{ matrix.folder }}
-          if [[ -e "apps/$app/example/Chart.yaml" ]]; then
-            echo "EXAMPLE_CHART_EXISTS=true" >> $GITHUB_ENV
-          fi
-          if [[ -e "apps/$app/helm-values-kgst.yaml" ]]; then
-            echo "KGST_CONFIG_EXISTS=true" >> $GITHUB_ENV
-          fi
+          test_settings=$(python3 ./scripts/utils.py print-test-vars "$app")
+          echo "$test_settings"
+          echo "$test_settings" >> $GITHUB_ENV
 
       - name: Check app charts changed
         run: |
@@ -85,53 +82,8 @@ jobs:
             echo "APP_CHARTS_CHANGED=false" >> $GITHUB_ENV
           fi
 
-      - name: Test - Show service templates install commands
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py show-install-cmd $APP
-
-      - name: Test - Render MultiClusterService
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py render-mcs $APP
-
-      - name: Install kubectl
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
-
-      - name: Install Kind
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
-        run: |
-          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
-          chmod +x ./kind
-          sudo mv ./kind /usr/local/bin/kind
-          kind version
-
-      - name: Create Kind Cluster config
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
-        run: |
-          export MASTERS=${{ github.event.inputs.masters || '1' }}
-          export WORKERS=${{ github.event.inputs.workers || '1' }}
-          ./scripts/create_kind_config.sh
-
-      - name: Create Kind Cluster
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
-        run: |
-          kind create cluster --name test-k8s
-          kubectl cluster-info --context kind-test-k8s
-          kind get kubeconfig -n test-k8s > "kcfg_local"
-
-      - name: Install Helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
       - name: Use fork ghcr registry in example Helm chart
-        if: env.EXAMPLE_CHART_EXISTS == 'true' && env.APP_CHARTS_CHANGED == 'true'
+        if: (env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true') && env.APP_CHARTS_CHANGED == 'true'
         run: |
           export APP=${{ matrix.folder }}
           if [ "${{ github.event_name }}" == "pull_request" ]; then
@@ -147,22 +99,68 @@ jobs:
             helm dependency update "apps/$APP/example"
           fi
 
+      - name: Test - Show service templates install commands
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          python3 ./scripts/utils.py install-servicetemplates $APP
+
+      - name: Test - Render MultiClusterService
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          export APP=${{ matrix.folder }}
+          python3 ./scripts/utils.py render-mcs $APP
+
+      - name: Install kubectl
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Install Kind
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind version
+
+      - name: Create Kind Cluster config
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          export MASTERS=${{ github.event.inputs.masters || '1' }}
+          export WORKERS=${{ github.event.inputs.workers || '1' }}
+          ./scripts/create_kind_config.sh
+
+      - name: Create Kind Cluster
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          kind create cluster --name test-k8s
+          kubectl cluster-info --context kind-test-k8s
+          kind get kubeconfig -n test-k8s > "kcfg_local"
+
+      - name: Install Helm
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
       - name: Test - Install example Helm chart
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
+        if: env.DEPLOY_CHART == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
-        if: env.EXAMPLE_CHART_EXISTS == 'true'
+        if: env.DEPLOY_CHART == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
           ./scripts/uninstall_example_chart.sh
 
       - name: Test - Install kcm (k0rdent mothership)
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        if: env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           export HELM_VALUES=./scripts/config/min-kcm-values.yaml
           export KIND_CLUSTER=test-k8s
@@ -172,27 +170,27 @@ jobs:
           ./scripts/deploy_k0rdent.sh
 
       - name: Test - Install service template
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        if: env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           export APP=${{ matrix.folder }}
           ./scripts/install_servicetemplates.sh
 
       - name: Test - Install adopted cluster (k0rdent child)
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
           ./scripts/deploy_cld.sh
 
       - name: Test - Deploy MultiClusterDeployment
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local
           ./scripts/deploy_mcs.sh
 
       - name: Test - Uninstall MultiClusterDeployment
-        if: env.EXAMPLE_CHART_EXISTS == 'true' || env.KGST_CONFIG_EXISTS == 'true'
+        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=local

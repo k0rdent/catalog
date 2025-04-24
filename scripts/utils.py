@@ -186,6 +186,17 @@ def install_servicetemplates(args):
         print(cmd)
 
 
+def print_test_vars(args):
+    app = args.app
+    app_data = get_app_data(app)
+    test_install_servicetemplates = str(app_data.get('test_install_servicetemplates', True)).lower()
+    print(f"INSTALL_SERVICETEMPLATES={test_install_servicetemplates}")
+    test_deploy_chart = str(app_data.get('test_deploy_chart', True)).lower()
+    print(f"DEPLOY_CHART={test_deploy_chart}")
+    test_deploy_multiclusterservice = str(app_data.get('test_deploy_multiclusterservice', True)).lower()
+    print(f"DEPLOY_MULTICLUSTERSERVICE={test_deploy_multiclusterservice}")
+
+
 parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -205,6 +216,10 @@ install.set_defaults(func=render_mcs)
 install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
 install.add_argument("app")
 install.set_defaults(func=install_servicetemplates)
+
+install = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
+install.add_argument("app")
+install.set_defaults(func=print_test_vars)
 
 args = parser.parse_args()
 args.func(args)
