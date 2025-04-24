@@ -38,3 +38,7 @@ else
     kind get kubeconfig -n adopted > "kcfg_$TEST_MODE"
 fi
 chmod 0600 "kcfg_$TEST_MODE" # set minimum attributes to kubeconfig (owner read/write)
+
+if kubectl get ns | grep "projectsveltos"; then
+    NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
+fi

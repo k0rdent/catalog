@@ -18,7 +18,7 @@ while (( SECONDS < TIMEOUT )); do
 
     pod_count=$(jq '.items | length' <<< "$pods_json")
     if [[ "$pod_count" -eq 0 ]]; then
-        echo "No pods found in the namespace yet"
+        echo "No pods found in the namespace '$NAMESPACE' yet"
         sleep 3
         continue
     fi

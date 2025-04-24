@@ -11,10 +11,8 @@ else
     kind create cluster -n "$KIND_CLUSTER"
 fi
 
-if [[ ! -e "kcfg_k0rdent" ]]; then
-    kind get kubeconfig -n "$KIND_CLUSTER" > "kcfg_k0rdent"
-    chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
-fi
+kind get kubeconfig -n "$KIND_CLUSTER" > "kcfg_k0rdent"
+chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
 
 if helm get notes kcm -n kcm-system; then
     echo "k0rdent chart (kcm) already installed"
