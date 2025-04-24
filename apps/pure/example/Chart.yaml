@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 2.7.1
+dependencies:
+  - name: pure-k8s-plugin
+    version: 2.7.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: pure-csi
+    version: 1.2.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

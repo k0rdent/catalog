@@ -43,3 +43,6 @@ deploy_code: |
           namespace: pure
     ~~~
 doc_link: https://github.com/purestorage/helm-charts
+
+# test settings
+test_deploy_chart: false

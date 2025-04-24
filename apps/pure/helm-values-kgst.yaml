@@ -1,8 +1,0 @@
-helm:
-  repository:
-    url: https://purestorage.github.io/helm-charts
-  charts:
-    - name: pure-k8s-plugin
-      version: 2.7.1
-    - name: pure-csi
-      version: 1.2.0
