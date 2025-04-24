@@ -32,3 +32,4 @@ deploy_code: |
           namespace: minio
   ~~~
 doc_link: https://min.io/docs/minio/kubernetes/upstream/index.html
+
