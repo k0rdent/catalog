@@ -39,3 +39,6 @@ deploy_code: |
                   enabled: false  # default
     ~~~
 doc_link: https://cert-manager.io/docs/installation/helm/
+
+# test settings
+test_deploy_chart: false

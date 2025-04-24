@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.16.2
+dependencies:
+  - name: cert-manager
+    version: 1.16.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
