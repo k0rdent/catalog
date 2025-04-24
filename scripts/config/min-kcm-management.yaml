@@ -4,8 +4,6 @@ metadata:
   name: kcm
   namespace: kcm-system
 spec:
-  core:
-    capi: {}
-    kcm: {}
-  providers: []
-  release: kcm-0-1-0
+  providers:
+  - name: projectsveltos
+  release: kcm-0-2-0
