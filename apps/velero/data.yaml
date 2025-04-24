@@ -34,3 +34,6 @@ deploy_code: |
             namespace: velero
     ~~~
 doc_link: https://vmware-tanzu.github.io/helm-charts/
+
+# test settings
+test_deploy_chart: false

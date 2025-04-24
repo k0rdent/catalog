@@ -1,7 +1,0 @@
-helm:
-  repository:
-    url: https://vmware-tanzu.github.io/helm-charts/
-  charts:
-    - name: velero
-      version: 8.4.0
-
