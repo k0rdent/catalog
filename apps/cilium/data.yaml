@@ -1,0 +1,130 @@
+tags:
+    - Networking
+title: "Cilium"
+summary: "eBPF-based Networking, Observability, Security"
+logo: ./assets/icon.svg
+logo_big: ./assets/logo.svg # https://github.com/cilium/cilium.io/blob/main/src/images/logo.inline.svg
+created: "2025-30-01T00:00:00Z"
+description: |
+  Cilium is a networking, observability, and security solution with an eBPF-based
+  dataplane. It provides a simple flat Layer 3 network with the ability to span
+  multiple clusters in either a native routing or overlay mode. It is L7-protocol
+  aware and can enforce network policies on L3-L7 using an identity based security
+  model that is decoupled from network addressing.
+
+  Cilium implements distributed load balancing for traffic between pods and to
+  external services, and is able to fully replace kube-proxy, using efficient
+  hash tables in eBPF allowing for almost unlimited scale. It also supports
+  advanced functionality like integrated ingress and egress gateway, bandwidth
+  management and service mesh, and provides deep network and security visibility and monitoring.
+
+  A new Linux kernel technology called eBPF is at the foundation of Cilium. It
+  supports dynamic insertion of eBPF bytecode into the Linux kernel at various
+  integration points such as: network IO, application sockets, and tracepoints to
+  implement security, networking and visibility logic. eBPF is highly efficient
+  and flexible. To learn more about eBPF, visit [eBPF.io](https://eBPF.io){ target="_blank" }.
+support_link: https://cilium.io/enterprise/
+exclude_versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1',
+                   'v1.2.0', 'v1.3.1']
+charts:
+  - name: cilium
+    versions: ['1.18.2']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: aws-example-USER
+      namespace: kcm-system
+      labels:
+        type: aws
+        group: demo
+    spec:
+      template: {{ aws_standalone_cp }}
+      credential: aws-credential
+      config:
+        awscluster:
+          network:
+            cni:
+              cniIngressRules:
+              - description: vxlan (cilium)
+                fromPort: 8472
+                protocol: udp
+                toPort: 8472
+              - description: geneve (cilium)
+                fromPort: 6081
+                protocol: udp
+                toPort: 6081
+        controlPlane:
+          instanceType: t3.medium
+          amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+        controlPlaneNumber: 1
+        publicIP: true
+        region: us-west-1
+        worker:
+          instanceType: t3.medium
+          rootVolumeSize: 16
+          amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+        workersNumber: 1
+        k0s:
+          network:
+            calico: null
+            provider: custom
+            kubeProxy:
+              disabled: true
+      serviceSpec:
+        services:
+        - template: cilium-1-18-2
+          name: cilium
+          namespace: cilium
+          values: |
+            cilium:
+              cluster:
+                name: cilium
+              hubble:
+                tls:
+                  enabled: false
+                auto:
+                  method: helm
+                  certManagerIssuerRef: {}
+                ui:
+                  enabled: false
+                  ingress:
+                    enabled: false
+                relay:
+                  enabled: false
+              ipv4:
+                enabled: true
+              ipv6:
+                enabled: false
+              envoy:
+                enabled: false
+              egressGateway:
+                enabled: false
+              kubeProxyReplacement: "true"
+              serviceAccounts:
+                cilium:
+                  name: cilium
+                operator:
+                  name: cilium-operator
+              localRedirectPolicy: true
+              ipam:
+                mode: cluster-pool
+                operator:
+                  clusterPoolIPv4PodCIDRList:
+                  - "192.168.224.0/20"
+                  - "192.168.210.0/20"
+                  clusterPoolIPv6PodCIDRList:
+                  - "fd00::/104"
+              tunnelProtocol: geneve
+              {%- raw %}
+              k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
+              k8sServicePort: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
+              {%- endraw %}
+    ~~~
+doc_link: https://docs.cilium.io/en/stable/internals/cilium_operator/
+
+# test settings
+test_deploy_chart: false
+test_install_servicetemplates: true
+test_deploy_multiclusterservice: false
