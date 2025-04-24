@@ -100,27 +100,6 @@ def get_kgst_install_cmd(release: str, repo: str, prefix: str | None, charts: li
     return cmd
 
 
-def show_install_cmd(args: str):
-    app = args.app
-    helm_config_path = f"apps/{app}/helm-values-kgst.yaml"
-    if os.path.exists(helm_config_path):
-        show_install_from_helm_config(app, helm_config_path)
-        return
-    kgst_install_deps(args)
-
-
-def show_install_from_helm_config(app: str, helm_config_path: str):
-    helm_config = None
-    with open(helm_config_path, "r", encoding='utf-8') as file:
-        helm_config = yaml.safe_load(file)
-
-    repo = helm_config['helm']['repository']['url']
-    prefix = helm_config.get('prefix')
-    charts = helm_config['helm']['charts']
-    cmd = get_kgst_install_cmd(app, repo, prefix, charts)
-    print(cmd)
-
-
 def get_app_data(app: str) -> dict:
     app_data_path = f"apps/{app}/data.yaml"
     with open(app_data_path, "r", encoding='utf-8') as file:
@@ -200,10 +179,6 @@ def print_test_vars(args):
 parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
-
-show = subparsers.add_parser("show-install-cmd", help="Show 'kgst' install command")
-show.add_argument("app")
-show.set_defaults(func=show_install_cmd)
 
 install = subparsers.add_parser("kgst-install-deps", help="Install example chart deps using 'kgst'")
 install.add_argument("app")
