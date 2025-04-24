@@ -1,0 +1,44 @@
+tags:
+    - Networking
+    - Monitoring
+title: "Cilium"
+summary: "eBPF-based Networking, Observability, Security"
+logo: ./assets/cilium_logo.svg
+logo_big: ./assets/cilium_logo_inline.svg # https://github.com/cilium/cilium.io/blob/main/src/images/logo.inline.svg
+description: |
+  Cilium is open source software for transparently securing the network connectivity
+  between application services deployed using Linux container management platforms
+  like Docker and Kubernetes.
+support_link: https://cilium.io/enterprise/
+install_code: |
+    ~~~bash
+    helm install cilium oci://ghcr.io/k0rdent/catalog/charts/cilium-service-template \
+      --version 1.17.3 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                      VALID
+    # kcm-system   cilium-1-17-3             true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: cilium
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: cilium-1-17-3
+          name: cilium
+          namespace: cilium
+          values: |
+            cilium:
+              operator:
+                replicas: 1
+    ~~~
+doc_link: https://docs.cilium.io/en/stable/internals/cilium_operator/

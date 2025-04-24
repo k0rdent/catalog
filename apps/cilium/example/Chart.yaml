@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.17.3
+dependencies:
+  - name: cilium
+    version: 1.17.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
