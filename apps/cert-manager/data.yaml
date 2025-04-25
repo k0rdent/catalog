@@ -14,13 +14,13 @@ install_code: |
     # It's also possible to install a newer version:
     {% endif %}
     helm install cert-manager oci://ghcr.io/k0rdent/catalog/charts/cert-manager-service-template \
-      --version 1.16.2 -n kcm-system
+      --version 1.17.2 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   cert-manager-1-16-2        true
+    # kcm-system   cert-manager-1-17-2        true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -30,7 +30,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: cert-manager-1-16-2
+          - template: cert-manager-1-17-2
             name: cert-manager
             namespace: cert-manager
             values: |
