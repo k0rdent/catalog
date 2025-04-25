@@ -9,3 +9,6 @@ dependencies:
   - name: istiod
     version: 1.24.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: istio-gateway
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts

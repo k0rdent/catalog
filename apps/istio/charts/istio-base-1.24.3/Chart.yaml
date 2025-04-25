@@ -1,6 +1,6 @@
 apiVersion: v2
 name: istio-base
-description: A Helm chart to refer the official "istio-base" helm chart
+description: A Helm chart that references the official "istio-base" Helm chart.
 type: application
 version: 1.24.3
 dependencies:

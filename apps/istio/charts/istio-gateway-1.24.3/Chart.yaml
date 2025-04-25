@@ -1,9 +1,9 @@
 apiVersion: v2
-name: istiod
-description: A Helm chart that references the official "istiod" Helm chart.
+name: istio-gateway
+description: A Helm chart that references the official "istio-gateway" Helm chart.
 type: application
 version: 1.24.3
 dependencies:
-  - name: istiod
+  - name: gateway
     version: 1.24.3
     repository: https://istio-release.storage.googleapis.com/charts

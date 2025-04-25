@@ -14,6 +14,8 @@ install_code: |
       --version 1.24.3 -n kcm-system
     helm install istiod oci://ghcr.io/k0rdent/catalog/charts/istiod-service-template \
       --version 1.24.3 -n kcm-system
+    helm install istio-gateway oci://ghcr.io/k0rdent/catalog/charts/istio-gateway-service-template \
+      --version 1.24.3 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
@@ -21,13 +23,18 @@ verify_code: |
     # NAMESPACE    NAME                      VALID
     # kcm-system   istio-base-1-24-3         true
     # kcm-system   istiod-1-24-3             true
+    # kcm-system   istio-gateway-1-24-3      true
     ~~~
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
+    kind: MultiClusterService
+    metadata:
+      name: istio
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
       serviceSpec:
         services:
           - template: istio-base-1-24-3
@@ -35,6 +42,9 @@ deploy_code: |
             namespace: istio-system
           - template: istiod-1-24-3
             name: istiod
+            namespace: istio-system
+          - template: istio-gateway-1-24-3
+            name: istio-gateway
             namespace: istio-system
     ~~~
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
