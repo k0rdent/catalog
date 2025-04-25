@@ -148,6 +148,13 @@ def print_test_vars(args):
     print(f"DEPLOY_MULTICLUSTERSERVICE={test_deploy_multiclusterservice}")
 
 
+def get_wait_for_pods(args):
+    app = args.app
+    app_data = get_app_data(app)
+    if 'test_wait_for_pods' in app_data:
+        print(f"{app_data['test_wait_for_pods']}")
+
+
 parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -163,6 +170,10 @@ install.set_defaults(func=install_servicetemplates)
 install = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
 install.add_argument("app")
 install.set_defaults(func=print_test_vars)
+
+install = subparsers.add_parser("get-wait-for-pods", help="Print WAIT_FOR_PODS value")
+install.add_argument("app")
+install.set_defaults(func=get_wait_for_pods)
 
 args = parser.parse_args()
 args.func(args)

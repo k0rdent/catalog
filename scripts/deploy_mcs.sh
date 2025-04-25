@@ -7,5 +7,6 @@ fi
 
 kubectl apply -f apps/$APP/mcs.yaml
 
+wfd=$(python3 ./scripts/utils.py get-wait-for-pods $APP)
 ns=$(./scripts/get_mcs_namespace.sh)
-NAMESPACE=$ns ./scripts/wait_for_deployment.sh
+WAIT_FOR_PODS=$wfd NAMESPACE=$ns ./scripts/wait_for_deployment.sh

@@ -8,7 +8,7 @@ community_fields = ['install_code', 'verify_code', 'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
-                  'test_deploy_multiclusterservice']
+                  'test_deploy_multiclusterservice', 'test_wait_for_pods']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
@@ -59,6 +59,13 @@ def try_validate_versions(file: str, data: dict):
             raise Exception(f"Version '{version}' not valid ({valid_versions})")
 
 
+def try_validate_wait_for_pods(file: str, data: dict):
+    if 'test_wait_for_pods' not in data:
+        return
+    if not isinstance(data['test_wait_for_pods'], str):
+        raise Exception(f"Field 'test_wait_for_pods' needs to be a string, e.g. 'pod1- pod2-' if used! ({file})")
+
+
 def validate_metadata(file: str, data: dict):
     validate_support_type(file, data)
     for required_field in required_fields:
@@ -79,6 +86,8 @@ def validate_metadata(file: str, data: dict):
         raise Exception(f"No application tag found in {file}. Set at least one from tags: {allowed_tags}")
 
     validate_summary(file, data)
+    try_validate_versions(file, data)
+    try_validate_wait_for_pods(file, data)
 
 
 def try_copy_assets(app: str, apps_dir: str, dst_dir: str):

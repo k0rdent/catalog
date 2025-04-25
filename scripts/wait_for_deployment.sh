@@ -48,6 +48,14 @@ while (( SECONDS < TIMEOUT )); do
         fi
     done
 
+    for wait_for_pod in ${WAIT_FOR_PODS:-}; do
+        if ! jq -r '.items[].metadata.name' <<< "$pods_json" | grep -q $wait_for_pod; then
+           all_ready=false
+           echo "Expected pod '$wait_for_pod' not found!"
+           break
+        fi
+    done
+
     if $all_ready; then
         echo "✅ All pods are ready!"
         break
