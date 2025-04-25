@@ -105,11 +105,11 @@ jobs:
           export APP=${{ matrix.folder }}
           python3 ./scripts/utils.py install-servicetemplates $APP
 
-      - name: Test - Render MultiClusterService
+      - name: Test - Ensure MultiClusterService config
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py render-mcs $APP
+          ./scripts/ensure_mcs_config.sh
 
       - name: Install kubectl
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'

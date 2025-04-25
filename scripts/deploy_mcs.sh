@@ -1,9 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if ./scripts/example_chart_exists.sh; then
-  python3 ./scripts/utils.py render-mcs $APP
-fi
+./scripts/ensure_mcs_config.sh
 
 kubectl apply -f apps/$APP/mcs.yaml
 
