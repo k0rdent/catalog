@@ -216,4 +216,4 @@ deploy_code: |
     EOF
     ~~~
 doc_link: https://kubevirt.io/user-guide/
-versions: [v0.2.0]
+versions: [v0.2.0, v0.3.0]

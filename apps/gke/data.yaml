@@ -14,13 +14,13 @@ description: |
 support_link: https://cloud.google.com/support
 install_code: |
   ~~~yaml
-  # k0rdent 0.2.0 includes the template for Google Kubernetes Engine out of the box
+  # k0rdent {{ version }} includes the template for Google Kubernetes Engine out of the box
   ~~~
 verify_code: |
   ~~~bash
   kubectl get clustertemplate -n kcm-system
   # NAME                VALID
-  # gcp-gke-0-2-0       true
+  # gcp-gke-{{ dash_version }}       true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -30,7 +30,7 @@ deploy_code: |
     name: my-gcp-clusterdeployment1
     namespace: kcm-system
   spec:
-    template: gcp-gke-0-2-0
+    template: gcp-gke-{{ dash_version }}
     credential: gcp-credential
     propagateCredentials: false
     config:
@@ -45,4 +45,4 @@ deploy_code: |
         name: default # Select your desired network name (select new network name to create or find it via `gcloud compute networks list --format="value(name)"`)
   ~~~
 doc_link: https://cloud.google.com/kubernetes-engine/docs
-versions: [v0.2.0]
+versions: [v0.2.0, v0.3.0]

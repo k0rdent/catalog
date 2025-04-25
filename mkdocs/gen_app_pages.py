@@ -14,9 +14,9 @@ allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
 allowed_support_types = ['Enterprise', 'Community']
 summary_chars_limit = 90
-valid_versions = ['v0.1.0', 'v0.2.0']
+valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0']
 
-VERSION = os.environ.get('VERSION', 'v0.2.0')
+VERSION = os.environ.get('VERSION', 'v0.3.0')
 
 def changed(file, content):
     if os.path.exists(file):
