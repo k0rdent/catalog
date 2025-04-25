@@ -140,11 +140,14 @@ def install_servicetemplates(args):
 def print_test_vars(args):
     app = args.app
     app_data = get_app_data(app)
-    test_install_servicetemplates = str(app_data.get('test_install_servicetemplates', True)).lower()
+    default = True
+    if app_data.get('type', 'app') == 'infra':
+        default = False
+    test_install_servicetemplates = str(app_data.get('test_install_servicetemplates', default)).lower()
     print(f"INSTALL_SERVICETEMPLATES={test_install_servicetemplates}")
-    test_deploy_chart = str(app_data.get('test_deploy_chart', True)).lower()
+    test_deploy_chart = str(app_data.get('test_deploy_chart', default)).lower()
     print(f"DEPLOY_CHART={test_deploy_chart}")
-    test_deploy_multiclusterservice = str(app_data.get('test_deploy_multiclusterservice', True)).lower()
+    test_deploy_multiclusterservice = str(app_data.get('test_deploy_multiclusterservice', default)).lower()
     print(f"DEPLOY_MULTICLUSTERSERVICE={test_deploy_multiclusterservice}")
 
 
