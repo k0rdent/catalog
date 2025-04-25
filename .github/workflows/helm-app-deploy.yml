@@ -159,11 +159,10 @@ jobs:
           export TEST_MODE=local
           ./scripts/uninstall_example_chart.sh
 
-      - name: Test - Install kcm (k0rdent mothership)
+      - name: Test - Install kcm (k0rdent mothership cluster)
         if: env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           export HELM_VALUES=./scripts/config/min-kcm-values.yaml
-          export KIND_CLUSTER=test-k8s
           ./scripts/deploy_k0rdent.sh
           kubectl apply -f ./scripts/config/min-kcm-management.yaml
           kubectl create ns projectsveltos
