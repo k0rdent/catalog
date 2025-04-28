@@ -32,3 +32,6 @@ deploy_code: |
             namespace: kyverno
     ~~~
 doc_link: https://kyverno.io/policies/
+test_deploy_multiclusterservice: false
+test_deploy_chart: false
+test_install_servicetemplates: false
