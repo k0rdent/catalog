@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 0.1.0
+dependencies:
+  - name: kyverno
+    version: 3.2.6
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: kyverno-guardrails
+    version: 0.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -1,0 +1,16 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: kyverno-guardrails
+spec:
+  clusterSelector:
+    matchLabels:
+      group: demo
+  serviceSpec:
+    services:
+    - template: kyverno-3-2-6
+      name: kyverno
+      namespace: kyverno-guardrails
+    - template: kyverno-guardrails-0-1-0
+      name: kyverno-guardrails
+      namespace: kyverno-guardrails
