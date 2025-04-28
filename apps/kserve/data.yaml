@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
   - Serverless
-title: KServe
+title: Kubeflow KServe
 summary: "Serverless platform for deploying, monitoring, and managing ML models on Kubernetes."
 logo: ./assets/kserve_logo_icon.svg # https://github.com/kserve/artwork/blob/main/icon/color/k-serve-icon-color.svg
 logo_big: ./assets/kserve_logo.svg # https://github.com/kserve/artwork/blob/main/color/k-serve-color.svg
