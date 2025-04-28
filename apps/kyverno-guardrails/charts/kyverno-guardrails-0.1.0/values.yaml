@@ -43,6 +43,14 @@ disallowDefaultNamespace:
   # Valid values: true, false
   # Overrides global.background
   # background: false
+  resources: []
+  # Default resources if none provided:
+  # - Pod
+  # - Deployment
+  # - StatefulSet
+  # - DaemonSet
+  # - Job
+  # - CronJob
 
 disallowEmptyIngressHost:
   enabled: true

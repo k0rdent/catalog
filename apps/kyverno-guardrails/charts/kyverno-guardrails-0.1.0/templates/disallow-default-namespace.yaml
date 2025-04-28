@@ -1,4 +1,8 @@
 {{- if .Values.disallowDefaultNamespace.enabled }}
+{{- $resources := .Values.disallowDefaultNamespace.resources }}
+{{- if empty $resources }}
+{{- $resources = list "Pod" "Deployment" "StatefulSet" "DaemonSet" "Job" "CronJob" }}
+{{- end }}
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -27,7 +31,9 @@ spec:
         any:
           - resources:
               kinds:
-                - Pod
+              {{- range $resources }}
+                - {{ . }}
+              {{- end }}
               operations:
                 - CREATE
                 - UPDATE
@@ -36,22 +42,4 @@ spec:
           expressions:
             - expression: "namespaceObject.metadata.name != 'default'"
               message: "Using 'default' namespace is not allowed."
-    - name: validate-podcontroller-namespace
-      match:
-        any:
-          - resources:
-              kinds:
-                - DaemonSet
-                - Deployment
-                - Job
-                - StatefulSet
-              operations:
-                - CREATE
-                - UPDATE
-      validate:
-        cel:
-          expressions:
-            - expression: "namespaceObject.metadata.name != 'default'"
-              message: "Using 'default' namespace is not allowed for pod controllers."
 {{- end }}
-
