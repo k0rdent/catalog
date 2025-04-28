@@ -22,13 +22,13 @@ description: |
     2. **KServe Controller** - The controller that implements serverless model serving capabilities
     
     Through k0rdent, users can easily install and manage KServe across multiple clusters, providing a centralized control plane
-    to monitor health, enforce policies, and enable enterprise-grade machine learning serving. This application allows deploying 
+    to monitor health, enforce policies, and enable enterprise-grade machine learning serving. This application provides the ability to deploy
     the KServe Controller in Serverless mode without ModelMesh functionality enabled, which is optimized for environments 
     where autoscaling and scale-to-zero capabilities are prioritized.
     
     By deploying KServe from the catalog, k0rdent enables users to build and scale ML inference services while leveraging Kubernetes-native infrastructure.
 # support_link:
-install_code: |
+install_code: 
     ~~~bash
     helm install kserve-crd oci://ghcr.io/k0rdent/catalog/charts/kserve-crd-service-template \
       --version v0.15.0 -n kcm-system
