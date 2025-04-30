@@ -16,3 +16,37 @@ description: |
 
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 support_type: Enterprise
+install_code: |
+    ~~~bash
+    helm install nirmata-kyverno oci://registry.mirantis.com/k0rdent-enterprise/nirmata-kyverno-service-template \
+      --version 3.3.13 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                          VALID
+    # kcm-system   nirmata-kyverno-3-3-13        true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: nirmata
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: nirmata-kyverno-3-3-13
+          name: nirmata-kyverno
+          namespace: nirmata
+    ~~~
+doc_link: https://docs.nirmata.io/docs/n4k/getting-started-with-n4k/
+show_install_tab: true
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false

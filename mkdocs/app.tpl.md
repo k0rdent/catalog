@@ -25,7 +25,7 @@ support_type: "{{ support_type }}"
     Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
     {% endif %}
 
-{% if support_type != "Enterprise" %}
+{% if show_install_tab %}
 === "Install"
 
     {% if prerequisites %}

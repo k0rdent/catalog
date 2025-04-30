@@ -4,11 +4,10 @@ import yaml
 import jinja2
 
 required_fields = ['title', 'tags', 'summary', 'logo', 'description']
-community_fields = ['install_code', 'verify_code', 'deploy_code']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
-                  'test_deploy_multiclusterservice', 'test_wait_for_pods']
+                  'test_deploy_multiclusterservice', 'test_wait_for_pods', 'show_install_tab']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
@@ -37,16 +36,16 @@ def validate_support_type(file: str, data: dict):
     if support_type not in allowed_support_types:
         raise Exception(f"No allowed support_type found '{support_type}' in {file}, use ({allowed_support_types})")
 
-    if support_type == 'Community':
-        for community_field in community_fields:
-            if community_field not in data:
-                raise Exception(f"Community field '{community_field}' not found in {file}")
-    else:
-        for community_field in community_fields:
-            if community_field in data:
-                raise Exception(f"Community field '{community_field}' found in Enterprise app {file}")
     if 'support_type' not in data:
         data['support_type'] = support_type
+
+
+def validate_show_install_tab(file: str, data: dict):
+    show_install_tab = data.get('show_install_tab', True)
+    if not isinstance(show_install_tab, bool):
+        raise Exception(f"Field 'show_install_tab' needs to be a bool! ({file})")
+    if 'show_install_tab' not in data:
+        data['show_install_tab'] = show_install_tab
 
 
 def try_validate_versions(file: str, data: dict):
@@ -88,6 +87,7 @@ def validate_metadata(file: str, data: dict):
     validate_summary(file, data)
     try_validate_versions(file, data)
     try_validate_wait_for_pods(file, data)
+    validate_show_install_tab(file, data)
 
 
 def try_copy_assets(app: str, apps_dir: str, dst_dir: str):
