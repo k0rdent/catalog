@@ -1,0 +1,25 @@
+tags:
+  - AI/Machine Learning
+title: Gcore
+summary: "Cloud, Edge, and AI Solutions."
+logo: ./assets/gcore_logo.svg # https://commons.wikimedia.org/wiki/File:Gcore_logo.svg - derived
+logo_big: ./assets/gcore_logo_big.svg # https://commons.wikimedia.org/wiki/File:Gcore_logo.svg
+description: |
+  Gcore Edge AI solutions combine the power of artificial intelligence with edge computing.
+  This allows you to run high-performance computing tasks and deep learning closer to end-user
+  devices, which significantly improves response times and overall efficiency.
+
+  When deployed via k0rdent, GCore can be used to serve AI workloads across multiple Kubernetes
+  clusters, supporting scenarios such as geo-distributed inference, load-spreading across regions,
+  and failover of inference endpoints.
+
+  k0rdent Enterprise Required.
+support_link: https://gcore.com/contact-us
+support_type: Enterprise
+
+show_install_tab: false
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
