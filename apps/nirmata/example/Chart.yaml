@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 3.3.13
+dependencies:
+  - name: nirmata-kyverno
+    version: 3.3.13
+    repository: oci://registry.mirantis.com/k0rdent-enterprise

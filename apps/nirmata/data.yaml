@@ -47,6 +47,6 @@ doc_link: https://docs.nirmata.io/docs/n4k/getting-started-with-n4k/
 show_install_tab: true
 
 # test settings
-test_deploy_chart: false
-test_deploy_multiclusterservice: false
-test_install_servicetemplates: false
+test_deploy_chart: true
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
