@@ -15,7 +15,12 @@ mkdocs serve # start local dev server (automatical changes reflection)
 Check local instance of the pages: <http://127.0.0.1:8000/>
 
 ## Fork deployment
-In fork repositories pages are automatically deployed on each push, you just need to enable github pages in your fork `Settings`:
+  
+In fork repositories pages are automatically deployed on each push.
+
+- Enable github pages in `Settings`
+- Set github pages to branch `gh-pages`
+- Click Save
 
 ![](./img/fork-pages-settings.png)
 
