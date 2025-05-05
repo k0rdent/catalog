@@ -3,10 +3,13 @@ tags:
 title: "Nirmata Enterprise for Kyverno"
 summary: "Policy-based Security, Compliance, and Governance"
 logo: ./assets/nirmata_logo.svg # https://svgmix.com/item/zQeg3J/nirmata
+prerequisites: |
+  #### Prerequisitis
+  - k0rdent Enterprise
+  - Nirmata license/entitlement for Kyverno
 description: |
   Nirmata Enterprise is the enterprise-ready Kyverno distribution that provides support, and integrations for secure and scalable Kubernetes operations – all easily managed with policy-as-code.
 
-  - k0rdent Enterprise Required
   - Security hardening (FIPs, RBAC)
   - Performance enhancements (etcd offload)
   - Curated, tested policy sets for Kubernetes, Terraform, Dockerfiles, and more
