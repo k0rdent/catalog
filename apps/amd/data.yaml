@@ -1,0 +1,36 @@
+tags:
+    - AI/Machine Learning
+    - Drivers and plugins
+title: "AMD GPU Operator"
+summary: "AMD GPU Operator creates/configures/manages GPUs atop Kubernetes."
+logo: "TODO"
+description: |
+    The AMD GPU Operator for Kubernetes is a powerful tool that simplifies the management of GPUs
+    in your Kubernetes clusters. It automates the deployment and configuration of all the necessary
+    software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
+    training and high-performance computing.
+support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
+install_code: |
+    ~~~bash
+    TODO
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                          VALID
+    # kcm-system   TODO           true
+    ~~~
+deploy_code: |
+    Tested `ClusterDeployment` in AWS:
+    ~~~yaml
+    TODO
+    ~~~
+
+    Operator deployment:
+    ~~~yaml
+    TODO
+    ~~~
+
+# test settings
+test_deploy_chart: false
+test_wait_for_pods: "amd-gpu-operator-gpu-operator-charts-controller-manager-"
