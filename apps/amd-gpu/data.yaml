@@ -1,0 +1,176 @@
+tags:
+    - AI/Machine Learning
+    - Drivers and plugins
+title: "AMD GPU Operator"
+summary: "AMD GPU Operator creates/configures/manages GPUs atop Kubernetes."
+logo: ./assets/amd-logo.svg # https://github.com/file-icons/icons/blob/master/svg/AMD.svg
+logo_big: ./assets/amd-logo-big.svg # https://en.m.wikipedia.org/wiki/File:AMD_Logo.svg
+description: |
+    k0rdent operates in conjunction with the AMD GPU Operator by providing a higher-level orchestration layer for Kubernetes
+    clusters equipped with AMD GPUs.
+
+    While the AMD GPU Operator focuses on the intricacies within a single cluster—managing the GPU drivers, device plugins,
+    and necessary configurations — k0rdent extends this management across multiple clusters. It leverages tools like
+    Cluster API to simplify the creation and management of these GPU-enabled Kubernetes environments.
+
+    This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
+    and comprehensive observability for AI applications running on AMD hardware.
+support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
+install_code: |
+    ~~~bash
+    helm install amd-gpu-operator oci://ghcr.io/k0rdent/catalog/charts/amd-gpu-operator-service-template \
+      --version v1.2.2 -n kcm-system
+    helm install cert-manager oci://ghcr.io/k0rdent/catalog/charts/cert-manager-service-template \
+      --version 1.17.2 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                          VALID
+    # kcm-system   amd-gpu-operator-v1-2-2       true
+    # kcm-system   cert-manager-1-17-2           true
+    ~~~
+deploy_code: |
+    Tested `ClusterDeployment` in Azure:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    metadata:
+      name: aws-example-cluster
+      namespace: kcm-system
+    spec:
+      template: azure-standalone-cp-{{ dash_version }}
+      credential: azure-credential
+      config:
+        clusterLabels:
+          type: azure
+          group: demo
+        controlPlaneNumber: 1
+        workersNumber: 1 
+        location: "westus"
+        subscriptionID: SUBSCRIPTION_ID_SUBSCRIPTION_ID # Enter the Subscription ID
+        controlPlane:
+          vmSize: Standard_A4_v2
+        worker:
+          image:
+            marketplace:
+              publisher: "microsoft-dsvm"
+              offer: "ubuntu-hpc"
+              sku: "2204-rocm" # Ubuntu 22.04 with AMD driver pre-installed
+              version: "22.04.2025041101"
+          rootVolumeSize: 500 # Big disk needed for testing images
+          # 8x AMD Instinct MI300 GPUs (expensive!)
+          vmSize: Standard_ND96is_MI300X_v5
+    ~~~
+
+    Operator deployment:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: amd-gpu
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: cert-manager-1-17-2
+          name: cert-manager
+          namespace: cert-manager
+          values: |
+            cert-manager:
+              crds:
+                enabled: true
+        - template: amd-gpu-operator-v1-2-2
+          name: amd-gpu-operator
+          namespace: kube-amd-gpu
+    ~~~
+
+    Manually create AMD GPU `DeviceConfig` CRD in the child cluster:
+    ~~~yaml
+    apiVersion: amd.com/v1alpha1
+    kind: DeviceConfig
+    metadata:
+      # the names for the device plugin, metrics exporter and node labeler pods will be prefixed with this name
+      name: gpu-operator
+      # it is highly recommended to use the namespace where AMD GPU Operator is running
+      namespace: kube-amd-gpu
+    spec:
+      driver:
+        # set to ture for deploying out-of-tree driver with specified ROCm version 
+        # set to false to directly use inbox or pre-installed driver on worker nodes
+        enable: false
+      devicePlugin:
+        # Specify the device plugin image
+        # default value is rocm/k8s-device-plugin:latest
+        devicePluginImage: rocm/k8s-device-plugin:latest
+    
+        # Specify the node labeller image
+        # default value is rocm/k8s-device-plugin:labeller-latest
+        nodeLabellerImage: rocm/k8s-device-plugin:labeller-latest
+    
+        # Specify to enable/disable the node labeller
+        # node labeller is required for adding / removing blacklist config of amdgpu kernel module
+        # please set to true if you want to blacklist the inbox driver and use our-of-tree driver
+        enableNodeLabeller: true
+            
+      # Specify the metrics exporter config
+      metricsExporter:
+        # To enable/disable the metrics exporter, disabled by default
+        enable: false
+      # Specify the testrunner config
+      testRunner:
+        # To enable/disable the testrunner, disabled by default
+        enable: false
+    
+        # testrunner image
+        image: docker.io/rocm/test-runner:v1.2.1-beta.0
+    
+        # image pull policy for the testrunner
+        # default value is IfNotPresent for valid tags, Always for no tag or "latest" tag
+        imagePullPolicy: "Always"
+    
+        # specify the mount for test logs
+        logsLocation:
+          # mount path inside test runner container
+          mountPath: "/var/log/amd-test-runner"
+    
+          # host path to be mounted into test runner container
+          hostPath: "/var/log/amd-test-runner"
+    
+      # Specifythe node to be managed by this DeviceConfig Custom Resource
+      selector:
+        feature.node.kubernetes.io/amd-vgpu: "true"
+    ~~~
+
+    Verification: Manually create a testing pod in child cluster:
+    ~~~yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+     name: amd-smi
+    spec:
+     containers:
+     - image: docker.io/rocm/pytorch:latest # 20GB image !
+       name: amd-smi
+       command: ["/bin/bash"]
+       args: ["-c","amd-smi version && amd-smi monitor -ptum"]
+       resources:
+          limits:
+            amd.com/gpu: 1
+          requests:
+            amd.com/gpu: 1
+     restartPolicy: Never
+    ~~~
+    
+    Expected testing pod output (log):
+    ~~~
+    AMDSMI Tool: 25.3.0+ede62f2 | AMDSMI Library version: 25.3.0 | ROCm version: 6.4.0 | amdgpu version: 6.8.5 | amd_hsmp version: N/A
+    GPU  POWER   GPU_T   MEM_T   GFX_CLK   GFX%   MEM%  MEM_CLOCK
+      0  150 W   41 °C   33 °C   376 MHz    2 %    0 %   1177 MHz
+    ~~~
+
+# test settings
+test_deploy_chart: false
+test_wait_for_pods: "amd-gpu-operator-gpu-operator-charts-controller-manager-"

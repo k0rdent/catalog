@@ -1,0 +1,28 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: azure-example-USER
+  namespace: kcm-system
+spec:
+  template: azure-standalone-cp-0-2-0
+  credential: azure-credential
+  config:
+    clusterLabels:
+      type: azure
+      group: demo
+    controlPlaneNumber: 1
+    workersNumber: 1 
+    location: "westus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlane:
+      vmSize: Standard_A4_v2
+    worker:
+      image:
+        marketplace:
+          publisher: "microsoft-dsvm"
+          offer: "ubuntu-hpc"
+          sku: "2204-rocm"
+          version: "22.04.2025041101"
+      rootVolumeSize: 500
+      # 8x AMD Instinct MI300 GPUs (expensive!)
+      vmSize: Standard_ND96is_MI300X_v5

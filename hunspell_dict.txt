@@ -20,6 +20,7 @@
 192c12
 192z
 1m
+20GB
 21m
 22help
 24m
@@ -58,6 +59,7 @@
 6c12
 7x
 8252C
+8x
 90m
 91m
 92m
@@ -70,6 +72,7 @@ A2
 A4
 ADDR
 AKS
+AMDSMI
 AMI
 AMIs
 ANSICON
@@ -97,6 +100,7 @@ CAPI
 CC0
 CHANGELOG
 CLI
+CLK
 CNCF
 CNI
 CONFIG
@@ -129,6 +133,7 @@ DecoderConfig
 DeepSource
 DeleteSQL
 DevSecOps
+DeviceConfig
 Dex
 Dmitry
 Dockerfile
@@ -162,6 +167,7 @@ GCE
 GCP
 GCS
 GCore
+GFX
 GH
 GKE
 GKE’s
@@ -192,6 +198,7 @@ IAAS
 IAM
 IPNet
 IPs
+IfNotPresent
 IgnoreUntaggedFields
 InfluxDB
 Init
@@ -234,6 +241,8 @@ LoadBalancer
 M233
 MEMCACHE
 MERCHANTABILITY
+MI300
+MI300X
 MLOps
 MSR
 MVC
@@ -250,6 +259,7 @@ MultiClusterService
 NAMESPACE
 NAS
 NC4as
+ND96is
 NGINX
 NONINFRINGEMENT
 Namespace
@@ -303,6 +313,7 @@ QueryTableWithCtx
 QuickStart
 RBAC
 RESTful
+ROCm
 RawSyscall
 ReadBatch
 ReadFile
@@ -349,6 +360,7 @@ SetLogger
 Shachnev
 Smtp
 SoundCloud
+Specifythe
 Spilo
 Sprintf
 StatefulSet
@@ -409,7 +421,9 @@ addr
 aks
 allowedIPs
 allowedRegistries
+amd
 amd64
+amdgpu
 ami
 amiID
 amongs't
@@ -423,6 +437,7 @@ appsMAtch
 appsMatch
 arangodb
 argo
+args
 arm64
 asc
 asm
@@ -523,6 +538,8 @@ desc
 dev
 devel
 developerConfiguration
+devicePlugin
+devicePluginImage
 dex
 dir
 disallowDefaultNamespace
@@ -532,13 +549,16 @@ distributable
 dns
 dont
 dsn
+dsvm
 east4
 eatches
+ede62f2
 eks
 elif
 embeddable
 emoji1
 emojione
+enableNodeLabeller
 enableSetCookie
 enableTelemetry
 endfor
@@ -604,9 +624,12 @@ gtpl
 h2
 handlerfunc
 hdr
+hostPath
 hostPort
+hpc
 hpe
 href
+hsmp
 html
 http
 httplib
@@ -616,6 +639,7 @@ iaas
 idential
 identityRef
 imageLookup
+imagePullPolicy
 img
 ineffassign
 ingressClassName
@@ -653,6 +677,7 @@ kubernetes
 kubevirt
 kv
 kyverno
+labeller
 leafInfo
 len
 libyaml
@@ -666,6 +691,7 @@ llama3
 loadbalancerIPs
 localStorage
 localeCompare
+logsLocation
 lru
 lt
 lts
@@ -678,7 +704,9 @@ matchers
 md
 merchantability
 metallb
+metricsExporter
 microservices
+microsoft
 middleware
 middlewares
 minio
@@ -697,6 +725,7 @@ mockCallback
 modelmesh
 mongodb
 mothership
+mountPath
 msg
 msr
 msr4
@@ -709,6 +738,7 @@ netapp
 nfd
 nginx
 nirmata
+nodeLabellerImage
 nodeLocations
 nvidia
 observability
@@ -749,11 +779,13 @@ projectsveltos
 prometheus
 propagateCredentials
 provisioner
+ptum
 publicIP
 publicKey
 purego
 py
 python3
+pytorch
 r1
 r2
 ratelimit
@@ -774,11 +806,13 @@ requirePodProbes
 requirePodRequestsLimits
 requireRequests
 resourcePool
+restartPolicy
 restrictImageRegistries
 restrictServiceExternalIPs
 rf
 rfc3339
 rft
+rocm
 rootVolumeSize
 rsa
 sbackground
@@ -806,6 +840,7 @@ signalChan
 singleflight
 skipEmptyPrefix
 sku
+smi
 smollm
 smtp
 sortingByTitle
@@ -838,7 +873,9 @@ syscalls
 t3
 tagsSet
 tcp
+testRunner
 testdata
+testrunner
 tls
 toLowerCase
 toString
@@ -847,6 +884,7 @@ toolchain
 travis
 triton
 ttar
+ture
 txt
 ubuntu
 ui
@@ -874,6 +912,7 @@ v1alpha1
 v2
 v20250213
 v3
+v5
 vSphere
 validator
 valueFrom
@@ -882,6 +921,7 @@ vcenter
 velero
 vendored
 venv
+vgpu
 viewBox
 vip
 vmSize

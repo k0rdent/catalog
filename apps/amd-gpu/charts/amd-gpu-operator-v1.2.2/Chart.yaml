@@ -1,0 +1,9 @@
+apiVersion: v2
+name: amd-gpu-operator
+description: A Helm chart that references the official "amd-gpu-operator" Helm chart.
+type: application
+version: v1.2.2
+dependencies:
+  - name: gpu-operator-charts
+    version: v1.2.2
+    repository: https://rocm.github.io/gpu-operator

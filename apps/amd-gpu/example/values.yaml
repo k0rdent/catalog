@@ -1,0 +1,4 @@
+cert-manager:
+  cert-manager:
+    crds:
+      enabled: true
