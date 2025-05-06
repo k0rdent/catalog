@@ -53,6 +53,9 @@ extra_css:
 extra:
   version:
     provider: mike
+  analytics:
+    provider: plausible
+    domain: catalog.k0rdent.io
 
 plugins:
   - search
@@ -69,6 +72,7 @@ plugins:
   - macros:
       j2_variable_start_string: "{{{"
       j2_variable_end_string: "}}}"
+  - material-plausible
 
 markdown_extensions:
   - attr_list
