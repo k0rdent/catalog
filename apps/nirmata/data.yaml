@@ -4,7 +4,7 @@ title: "Nirmata Enterprise for Kyverno"
 summary: "Policy-based Security, Compliance, and Governance"
 logo: ./assets/nirmata_logo.svg # https://svgmix.com/item/zQeg3J/nirmata
 prerequisites: |
-  #### Prerequisitis
+  #### Prerequisites
   - k0rdent Enterprise
   - Nirmata license/entitlement for Kyverno
 description: |
