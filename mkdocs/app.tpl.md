@@ -63,3 +63,8 @@ support_type: "{{ support_type }}"
     - [Official docs]({{ doc_link }}){ target="_blank" }
     {% endif %}
 {% endif %}
+
+{% if examples %}
+=== "Examples"
+    {{ examples | replace("\n", "\n    ") }}
+{% endif %}
