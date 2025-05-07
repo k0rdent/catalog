@@ -1,0 +1,18 @@
+istio-cni:
+  istio-cni:
+    cni:
+      enabled: true
+      ambient:
+        enabled: true
+      repair:
+        enabled: true
+    excludeNamespaces: "{kube-system,istio-system}"
+
+istiod:
+  istiod:
+    meshConfig:
+      defaultConfig:
+        ambientEnabled: true
+    pilot:
+      env:
+        PILOT_ENABLE_AMBIENT: true
