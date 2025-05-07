@@ -1,0 +1,72 @@
+tags:
+    - Networking
+title: "Istio - Ambient Mode"
+summary: "Sidecar-less mesh with node-level routing and app-layer control."
+logo: "https://istio.io/latest/favicons/android-192x192.png"
+description: |
+    In ambient mode, Istio implements its features using a per-node Layer 4 (L4) proxy, and optionally a per-namespace
+    Layer 7 (L7) proxy.
+
+    This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh,
+    to a secure L4 overlay, to full L7 processing and policy — on a per-namespace basis, as needed. Furthermore, workloads
+    running in different Istio data plane modes interoperate seamlessly, allowing users to mix and match capabilities based on
+    their particular needs as they change over time.
+
+    Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, ambient mode is often
+    informally referred to as “sidecar-less mesh”.
+support_link: https://www.solo.io/istio-support
+install_code: |
+    ~~~bash
+    helm install istio-base oci://ghcr.io/k0rdent/catalog/charts/istio-base-service-template \
+      --version 1.24.3 -n kcm-system
+    helm install istio-cni oci://ghcr.io/k0rdent/catalog/charts/istio-cni-service-template \
+      --version 1.24.3 -n kcm-system
+    helm install istiod oci://ghcr.io/k0rdent/catalog/charts/istiod-service-template \
+      --version 1.24.3 -n kcm-system
+    helm install istio-ztunnel oci://ghcr.io/k0rdent/catalog/charts/istio-ztunnel-service-template \
+      --version 1.24.3 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                      VALID
+    # kcm-system   istio-base-1-24-3         true
+    # kcm-system   istio-cni-1-24-3          true
+    # kcm-system   istiod-1-24-3             true
+    # kcm-system   istio-ztunnel-1-24-3      true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: istio-ambient
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: istio-base-1-24-3
+          name: istio-base
+          namespace: istio-system
+        - template: istio-cni-1-24-3
+          name: istio-cni
+          namespace: istio-system
+          values: |
+            cni:
+              profile: ambient
+        - template: istiod-1-24-3
+          name: istiod
+          namespace: istio-system
+          values: |
+            istiod:
+              profile: ambient
+        - template: istio-ztunnel-1-24-3
+          name: istio-ztunnel
+          namespace: istio-system
+    ~~~
+doc_link: https://istio.io/latest/docs/ambient/install/helm/
+test_namespace: istio-system
+test_deploy_chart: false
+test_wait_for_pods: "ztunnel-"

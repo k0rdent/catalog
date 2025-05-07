@@ -1,0 +1,7 @@
+istio-cni:
+  cni:
+    profile: ambient
+
+istiod:
+  istiod:
+    profile: ambient

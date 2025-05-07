@@ -1,0 +1,17 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.24.3
+dependencies:
+  - name: istio-base
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: istio-cni
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: istiod
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: istio-ztunnel
+    version: 1.24.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts

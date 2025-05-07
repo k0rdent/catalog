@@ -1,0 +1,13 @@
+st-charts:
+  - name: istio-ztunnel
+    version: 1.24.3
+    dependencies:
+      - name: ztunnel
+        version: 1.24.3
+        repository: https://istio-release.storage.googleapis.com/charts
+  - name: istio-cni
+    version: 1.24.3
+    dependencies:
+      - name: cni
+        version: 1.24.3
+        repository: https://istio-release.storage.googleapis.com/charts

@@ -221,6 +221,8 @@ Kubeflow
 Kubernetes
 KubevirtCluster
 Kyverno
+L4
+L7
 LLM
 LLMOps
 LOADBALANCER
@@ -906,4 +908,5 @@ yml
 zerrors
 zsyscall
 zsysnum
+ztunnel
 ztypes
