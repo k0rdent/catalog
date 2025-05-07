@@ -12,3 +12,5 @@ apps/*/*/Chart.lock
 apps/*/mcs.y*ml
 
 .idea
+spellcheck_detected.txt
+site/

@@ -54,6 +54,12 @@ jobs:
           echo "REPO: $GITHUB_CONTEXT"
           mkdocs build
 
+      - name: Web pages spell check
+        run: |
+          sudo apt update
+          sudo apt install -y hunspell hunspell-en-us
+          ./scripts/spellcheck.sh
+
       - name: Build and Deploy pages - fork
         if: github.repository != 'k0rdent/catalog' && github.ref != 'refs/heads/main'
         run: |
