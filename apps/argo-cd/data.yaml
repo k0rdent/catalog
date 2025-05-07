@@ -34,3 +34,50 @@ deploy_code: |
           namespace: argo-cd
   ~~~
 doc_link: https://argo-cd.readthedocs.io/en/stable/
+examples: |
+  Install service templates:
+  ~~~bash
+  helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template \
+    --version 7.8.0 -n kcm-system
+  helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/ingress-nginx-service-template \
+    --version 4.11.5 -n kcm-system
+  ~~~
+
+  #### Deploy MultiClusterService with web UI
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: MultiClusterService
+  metadata:
+    name: argo-cd
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: argo-cd-7-8-0
+        name: argo-cd
+        namespace: argo-cd
+        values: |
+          argo-cd:
+            server:
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                hostname: 'argocd.example.com'
+                annotations:
+                  nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      - template: ingress-nginx-4-11-5
+        name: ingress-nginx
+        namespace: argo-cd
+        values: |
+          ingress-nginx:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+              hostPort:
+                enabled: true
+  ~~~
+
+  You can now access your ArgoCD web UI at `argocd.example.com`.
