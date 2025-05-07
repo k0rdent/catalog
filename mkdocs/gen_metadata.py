@@ -26,7 +26,7 @@ for file_path in paths:
         metadata = yaml.safe_load("\n".join(yaml_content)) or {}
 
     metadata_list.append({
-        "link": file_path.replace("./mkdocs", ".").removesuffix(".md") + "/",
+        "link": os.path.dirname(file_path).replace("./mkdocs", ".") + "/",
         "title": metadata.get("title", "No Title"),
         "type": metadata.get("type", " "),
         "logo": metadata.get("logo", " "),

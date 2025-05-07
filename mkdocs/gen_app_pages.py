@@ -144,7 +144,7 @@ def generate_apps():
         dst_app_path = os.path.join(dst_dir, app_path)
         if not os.path.exists(dst_app_path):
             os.makedirs(dst_app_path)
-        md_file = os.path.join(dst_app_path, app + '.md')
+        md_file = os.path.join(dst_app_path, 'index.md')
         try_copy_assets(app, apps_dir, dst_dir)
         # Render the template with metadata
         rendered_md = template.render(**metadata)
