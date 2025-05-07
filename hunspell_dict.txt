@@ -902,3 +902,6 @@ zerrors
 zsyscall
 zsysnum
 ztypes
+argocd
+hostname
+passthrough
