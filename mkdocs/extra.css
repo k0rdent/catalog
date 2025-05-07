@@ -557,6 +557,9 @@ a.blue-green-button-dark-background:hover {
   .tab_apps-sidebar, .tab_apps-main-content, .tab_apps-top .left-side, .tab_apps-top .right-side{
     width: 100%;
   }
+  .tab_apps-sidebar{
+    height: 100%;
+  }
   .categories-title{
     display: flex;
     align-items: center;
