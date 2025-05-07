@@ -142,6 +142,8 @@ def generate_apps():
             print(f"Skip {app} in version {VERSION}")
             continue
         dst_app_path = os.path.join(dst_dir, app_path)
+        if metadata.get("type", "app") == "infra":
+            dst_app_path = dst_app_path.replace("/apps/", "/infra/")
         if not os.path.exists(dst_app_path):
             os.makedirs(dst_app_path)
         md_file = os.path.join(dst_app_path, 'index.md')

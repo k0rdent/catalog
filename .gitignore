@@ -5,6 +5,7 @@ scripts/set_envs.sh
 *ign*
 kcfg*
 mkdocs/apps/*
+mkdocs/infra/*
 
 ignore
 

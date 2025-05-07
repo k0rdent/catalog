@@ -4,7 +4,7 @@ import mkdocs_gen_files
 import yaml
 import glob
 
-paths = glob.glob("./mkdocs/apps/*/*.md")
+paths = glob.glob("./mkdocs/apps/*/*.md") + glob.glob("./mkdocs/infra/*/*.md")
 metadata_list = []
 
 for file_path in paths:
