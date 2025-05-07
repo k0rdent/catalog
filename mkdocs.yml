@@ -86,6 +86,9 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.tabbed:
       alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences

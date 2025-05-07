@@ -70,7 +70,7 @@ deploy_code: |
     ~~~
     
     ##### Configuration with GPU
-    This setup requires corresponding cluster setup, see [NVIDIA GPU Operator](../../../apps/nvidia/nvidia/#__tabbed_1_2){ target="_blank" }
+    This setup requires corresponding cluster setup, see [NVIDIA GPU Operator](../../../apps/nvidia/nvidia/#install){ target="_blank" }
 
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
