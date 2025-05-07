@@ -63,3 +63,17 @@ support_type: "{{ support_type }}"
     - [Official docs]({{ doc_link }}){ target="_blank" }
     {% endif %}
 {% endif %}
+
+{% if examples %}
+=== "Examples"
+
+    {% if prerequisites %}
+    {{ prerequisites | replace("\n", "\n    ") }}
+    {%- else %}
+    #### Prerequisites
+
+    Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}/admin/installation/install-k0rdent/){ target="_blank" }
+    {%- endif %}
+
+    {{ examples | replace("\n", "\n    ") }}
+{% endif %}
