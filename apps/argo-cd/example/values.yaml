@@ -1,0 +1,17 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
+argo-cd:
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hostname: 'argocd.example.com'
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
