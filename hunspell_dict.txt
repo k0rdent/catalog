@@ -17,6 +17,7 @@
 10m
 10m0s
 135m
+15s
 192c12
 192z
 1m
@@ -121,6 +122,7 @@ ConfigMap
 CronJob
 CtrlXXX
 CustomAbort
+DCGM
 DCO
 DL
 DNS
@@ -344,6 +346,7 @@ SVG
 SaveToFile
 Scalable
 Serverless
+ServiceMonitor
 SessionAll
 SessionDestroy
 SessionExist
@@ -417,6 +420,7 @@ a6
 abc
 acc
 addEventListener
+additionalLabels
 addr
 aks
 allowedIPs
@@ -529,6 +533,7 @@ dataAppsFiltered
 dataInfra
 datacenter
 datastore
+dcgmExporter
 ddl
 decodePtr
 defaultRuntime
@@ -625,6 +630,7 @@ h2
 handlerfunc
 hdr
 hostPath
+honorLabels
 hostPort
 hpc
 hpe
@@ -829,6 +835,7 @@ selectedSupportTypes
 sendTos
 sendmail
 serverless
+serviceMonitor
 serviceSpec
 servicetemplates
 sess

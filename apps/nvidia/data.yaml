@@ -111,4 +111,11 @@ deploy_code: |
                     value: /run/k0s/containerd.sock
                   - name: CONTAINERD_RUNTIME_CLASS
                     value: nvidia
+              # optionally, create DCGM-Exporter ServiceMonitor
+              dcgmExporter:
+                serviceMonitor:
+                  enabled: true
+                  interval: 15s
+                  honorLabels: true
+                  additionalLabels: {}
     ~~~
