@@ -20,7 +20,7 @@ VERSION="v0.2.0" mike deploy v0.2.0
 rm -rf mkdocs/apps mkdocs/infra
 VERSION="v0.3.0" mkdocs build # generate md files
 VERSION="v0.3.0" mike deploy v0.3.0 latest stable --update-aliases
-mike set-default v0.3.0
+mike set-default latest
 
 # Ensure CNAME file in gh-pages to set custom domain
 git stash
