@@ -90,9 +90,10 @@ def validate_metadata(file: str, data: dict):
     validate_show_install_tab(file, data)
 
 
-def try_copy_assets(app: str, apps_dir: str, dst_dir: str):
+def try_copy_assets(app: str, apps_dir: str, dst_dir: str, is_infra: bool):
     src_dir = os.path.join(apps_dir, app, "assets")
-    dst_dir = os.path.join(dst_dir, "apps", app, "assets")
+    subdir = "infra" if is_infra else "apps"
+    dst_dir = os.path.join(dst_dir, subdir, app, "assets")
     if os.path.exists(src_dir) and os.path.isdir(src_dir):
         shutil.copytree(src_dir, dst_dir, dirs_exist_ok=True)
         print(f"Assets copied from {src_dir} to {dst_dir}")
@@ -142,12 +143,13 @@ def generate_apps():
             print(f"Skip {app} in version {VERSION}")
             continue
         dst_app_path = os.path.join(dst_dir, app_path)
-        if metadata.get("type", "app") == "infra":
+        is_infra = metadata.get("type", "app") == "infra"
+        if is_infra:
             dst_app_path = dst_app_path.replace("/apps/", "/infra/")
         if not os.path.exists(dst_app_path):
             os.makedirs(dst_app_path)
         md_file = os.path.join(dst_app_path, 'index.md')
-        try_copy_assets(app, apps_dir, dst_dir)
+        try_copy_assets(app, apps_dir, dst_dir, is_infra)
         # Render the template with metadata
         rendered_md = template.render(**metadata)
         if changed(md_file, rendered_md):

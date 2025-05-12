@@ -55,7 +55,7 @@ template: home.html
           <div class="tab_apps-main-content">
             <div id="cards-apps" class="grid">
               <a class="card" :href="card.link" v-for="card in dataAppsFiltered">
-                <img :src="updateRelLink(card.logo, card.appDir)" alt="logo" />
+                <img :src="updateRelLink(card.logo, card.type, card.appDir)" alt="logo" />
                 <p>
                   <b>{{ card.title }}</b>
                 <br>
@@ -90,7 +90,7 @@ template: home.html
       <div class="tabs_infra-main-content">
         <div id="cards-infra" class="grid">
           <a class="card" :href="card.link" v-for="card in dataInfra">
-            <img :src="updateRelLink(card.logo, card.appDir)" alt="logo" />
+            <img :src="updateRelLink(card.logo, card.type, card.appDir)" alt="logo" />
             <p>
               <b>{{ card.title }}</b>
             <br>
@@ -165,9 +165,13 @@ template: home.html
         }
       }
 
-      const updateRelLink = (link, appName) => {
+      const updateRelLink = (link, type, appName) => {
         if (link.startsWith("./")) {
-          return link.replace("./", `./apps/${appName}/`)
+          if (type == "infra") {
+            return link.replace("./", `./infra/${appName}/`)
+          } else {
+            return link.replace("./", `./apps/${appName}/`)
+          }
         }
         return link;
       }
