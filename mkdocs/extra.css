@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
@@ -247,6 +246,9 @@ ul.video-list .thumb {
   justify-content: space-between;
   flex-direction: row-reverse;
   color: #000;
+  position: relative;
+  min-height: 150px;
+  height: 100%;
 }
 .md-typeset .grid>.card:hover{
   text-decoration: none;
@@ -583,6 +585,27 @@ a.blue-green-button-dark-background:hover {
   .expanded.categories-title svg{
     transform: rotate(180deg);
   }
+}
+
+/* Badge styles for Enterprise and Community */
+.support-badge {
+  position: absolute;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: normal;
+}
+
+.support-badge.enterprise {
+  background-color: #1676B1;
+  color: #ffffff;
+}
+
+.support-badge.community {
+  background-color: rgb(234, 237, 245);
+  color: #454545;
 }
 
 /* CUSTOM CSS END */

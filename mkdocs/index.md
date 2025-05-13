@@ -55,6 +55,10 @@ template: home.html
           <div class="tab_apps-main-content">
             <div id="cards-apps" class="grid">
               <a class="card" :href="card.link" v-for="card in dataAppsFiltered">
+                <span 
+                  class="support-badge" 
+                  :class="card.support_type.toLowerCase()"
+                  v-if="card.support_type">{{ card.support_type }}</span>
                 <img :src="updateRelLink(card.logo, card.type, card.appDir)" alt="logo" />
                 <p>
                   <b>{{ card.title }}</b>
@@ -90,6 +94,10 @@ template: home.html
       <div class="tabs_infra-main-content">
         <div id="cards-infra" class="grid">
           <a class="card" :href="card.link" v-for="card in dataInfra">
+            <span 
+              class="support-badge" 
+              :class="card.support_type.toLowerCase()"
+              v-if="card.support_type">{{ card.support_type }}</span>
             <img :src="updateRelLink(card.logo, card.type, card.appDir)" alt="logo" />
             <p>
               <b>{{ card.title }}</b>
