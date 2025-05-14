@@ -52,7 +52,38 @@ deploy_code: |
           rootVolumeSize: 100
         workersNumber: 1
     ~~~
-    
+
+    Tested `ClusterDeployment` in Azure:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    metadata:
+      name: azure-example-cluster
+    spec:
+      template: azure-standalone-cp-{{ dash_version }}
+      credential: azure-credential
+      config:
+        clusterLabels:
+          type: azure
+          group: demo
+        controlPlaneNumber: 1
+        workersNumber: 1
+        location: "westus"
+        subscriptionID: SUBSCRIPTION_ID_SUBSCRIPTION_ID # Enter the Subscription ID used earlier
+        controlPlane:
+          vmSize: Standard_A4_v2
+        worker:
+          image:
+            marketplace:
+              publisher: "Canonical"
+              offer: "0001-com-ubuntu-minimal-jammy"
+              sku: "minimal-22_04-lts"
+              version: "22.04.202502270"
+          rootVolumeSize: 32
+          # Small Azure instance with NVIDIA GPU
+          vmSize: Standard_NC4as_T4_v3
+    ~~~
+
     Operator deployment:
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
