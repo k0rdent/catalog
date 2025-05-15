@@ -1,0 +1,38 @@
+title: "CloudCasa by Catalogic"
+tags:
+  - Backup and Recovery
+summary: "CloudCasa backup and migration service agent for Kubernetes"
+logo: "./assets/cc-icon.svg"
+logo_big: "./assets/cloudcasa-logo.svg"
+description: |
+    CloudCasa is a SaaS data protection, disaster recovery, migration, and replication solution for Kubernetes and cloud-native applications.
+    Configuration is quick and easy, and basic service is free.
+install_code: |
+    ~~~bash
+    helm install cloudcasa oci://ghcr.io/k0rdent/catalog/charts/cloudcasa-service-template \
+      --version 3.4.4 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                VALID
+    # kcm-system   cloudcasa-3-4-4     true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: cloudcasa-3-4-4
+            name: cloudcasa
+            namespace: cloudcasa-io
+    ~~~
+doc_link: https://docs.cloudcasa.io
+support_link: https://cloudcasa.io/support
+
+# test settings
+test_deploy_chart: false
+test_namespace: cloudcasa-io # hardcoded in the helmchart

@@ -109,8 +109,10 @@ CRDs
 CRI
 CSI
 CVE
+Catalogic
 CircleCI
 ClearML
+CloudCasa
 Cloudflare
 ClusterDeployment
 ClusterTemplate
@@ -341,6 +343,7 @@ SSDB
 ST1005
 ST1017
 SVG
+SaaS
 SaveToFile
 Scalable
 Serverless
@@ -488,6 +491,7 @@ className
 clearml
 closeChan
 cloudName
+cloudcasa
 cloudflare
 clusterAnnotations
 clusterGVKs

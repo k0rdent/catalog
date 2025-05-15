@@ -1,0 +1,9 @@
+apiVersion: v2
+name: cloudcasa-service-template
+description: k0rdent service template for "cloudcasa"
+type: application
+version: 3.4.4
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

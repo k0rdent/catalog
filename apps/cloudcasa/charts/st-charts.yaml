@@ -1,0 +1,7 @@
+st-charts:
+  - name: cloudcasa
+    version: 3.4.4
+    dependencies:
+      - name: cloudcasa
+        version: 3.4.4
+        repository: https://catalogicsoftware.github.io/cloudcasa-helmchart/

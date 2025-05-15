@@ -1,0 +1,15 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ServiceTemplate
+metadata:
+  name: cloudcasa-3-4-4
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: cloudcasa
+      version: 3.4.4
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: k0rdent-catalog
