@@ -48,7 +48,7 @@ deploy_code: |
         controlPlaneNumber: 1
         workersNumber: 1 
         location: "westus"
-        subscriptionID: SUBSCRIPTION_ID_SUBSCRIPTION_ID # Enter the Subscription ID
+        subscriptionID: SUBSCRIPTION_ID # Enter the Subscription ID
         controlPlane:
           vmSize: Standard_A4_v2
         worker:
@@ -92,54 +92,15 @@ deploy_code: |
     apiVersion: amd.com/v1alpha1
     kind: DeviceConfig
     metadata:
-      # the names for the device plugin, metrics exporter and node labeler pods will be prefixed with this name
-      name: gpu-operator
-      # it is highly recommended to use the namespace where AMD GPU Operator is running
+      name: amd-gpu-operator
       namespace: kube-amd-gpu
     spec:
       driver:
-        # set to ture for deploying out-of-tree driver with specified ROCm version 
-        # set to false to directly use inbox or pre-installed driver on worker nodes
         enable: false
       devicePlugin:
-        # Specify the device plugin image
-        # default value is rocm/k8s-device-plugin:latest
         devicePluginImage: rocm/k8s-device-plugin:latest
-    
-        # Specify the node labeller image
-        # default value is rocm/k8s-device-plugin:labeller-latest
         nodeLabellerImage: rocm/k8s-device-plugin:labeller-latest
-    
-        # Specify to enable/disable the node labeller
-        # node labeller is required for adding / removing blacklist config of amdgpu kernel module
-        # please set to true if you want to blacklist the inbox driver and use our-of-tree driver
         enableNodeLabeller: true
-            
-      # Specify the metrics exporter config
-      metricsExporter:
-        # To enable/disable the metrics exporter, disabled by default
-        enable: false
-      # Specify the testrunner config
-      testRunner:
-        # To enable/disable the testrunner, disabled by default
-        enable: false
-    
-        # testrunner image
-        image: docker.io/rocm/test-runner:v1.2.1-beta.0
-    
-        # image pull policy for the testrunner
-        # default value is IfNotPresent for valid tags, Always for no tag or "latest" tag
-        imagePullPolicy: "Always"
-    
-        # specify the mount for test logs
-        logsLocation:
-          # mount path inside test runner container
-          mountPath: "/var/log/amd-test-runner"
-    
-          # host path to be mounted into test runner container
-          hostPath: "/var/log/amd-test-runner"
-    
-      # Specifythe node to be managed by this DeviceConfig Custom Resource
       selector:
         feature.node.kubernetes.io/amd-vgpu: "true"
     ~~~
