@@ -104,3 +104,6 @@ deploy_code: |
     ~~~
 doc_link: https://docs.openwebui.com/
 use_ingress: true
+
+# test settings
+test_deploy_chart: false # only deploy mcs to save time and resources - big deployment
