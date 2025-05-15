@@ -37,7 +37,7 @@ support_type: "{{ support_type }}"
     {%- endif %}
 
     {% if use_ingress %}
-    Deploy [Ingress-nginx](../../../apps/ingress-nginx/#install){ target="_blank" } to expose application web UI
+    Deploy [Ingress-nginx](../../../{{ version }}/apps/ingress-nginx/#install){ target="_blank" } to expose application web UI
     {%- endif %}
 
     #### Install template to k0rdent
