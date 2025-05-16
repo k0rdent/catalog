@@ -22,7 +22,7 @@ verify_code: |
     ~~~bash
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
-    # azure-hosted-cp-{{ dash_version }}           true
+    # {{ azure_standalone_cp }}       true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -32,7 +32,7 @@ deploy_code: |
       name: my-azure-clusterdeployment1
       namespace: kcm-system
     spec:
-      template: azure-standalone-cp-{{ dash_version }} # name of the clustertemplate
+      template: {{ azure_standalone_cp }} # name of the clustertemplate
       credential: azure-cluster-identity-cred
       config:
         clusterLabels: {}

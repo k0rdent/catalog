@@ -20,7 +20,7 @@ verify_code: |
   ~~~bash
   kubectl get clustertemplate -n kcm-system
   # NAME                            VALID
-  # aws-standalone-cp-{{ dash_version }}         true
+  # {{ aws_standalone_cp }}         true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -30,7 +30,7 @@ deploy_code: |
     name: my-aws-clusterdeployment1
     namespace: kcm-system
   spec:
-    template: aws-standalone-cp-{{ dash_version }}
+    template: {{ aws_standalone_cp }}
     credential: aws-cluster-identity-cred
     config:
       clusterLabels: {}

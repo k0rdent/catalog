@@ -15,7 +15,7 @@ verify_code: |
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
-    # openstack-standalone-cp-{{ dash_version }}   true
+    # {{ openstack_standalone_cp }}   true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -25,7 +25,7 @@ deploy_code: |
       name: my-openstack-cluster-deployment
       namespace: kcm-system
     spec:
-      template: openstack-standalone-cp-{{ dash_version }}
+      template: {{ openstack_standalone_cp }}
       credential: openstack-cluster-identity-cred
       config:
         clusterLabels: {}

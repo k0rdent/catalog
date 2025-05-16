@@ -29,7 +29,7 @@ deploy_code: |
     metadata:
       name: aws-example
     spec:
-      template: aws-standalone-cp-{{ dash_version }}
+      template: {{ aws_standalone_cp }}
       credential: aws-credential
       config:
         worker:
@@ -46,7 +46,7 @@ deploy_code: |
     metadata:
       name: azure-example
     spec:
-      template: azure-standalone-cp-{{ dash_version }}
+      template: {{ azure_standalone_cp }}
       credential: azure-credential
       config:
         worker:

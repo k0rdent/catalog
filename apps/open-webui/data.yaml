@@ -31,7 +31,7 @@ deploy_code: |
     metadata:
       name: aws-example
     spec:
-      template: aws-standalone-cp-{{ dash_version }}
+      template: {{ aws_standalone_cp }}
       credential: aws-credential
       config:
         ...

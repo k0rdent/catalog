@@ -20,7 +20,7 @@ verify_code: |
   ~~~bash
   kubectl get clustertemplate -n kcm-system
   # NAME                            VALID
-  # gcp-standalone-cp-{{ dash_version }}         true
+  # {{ gcp_standalone_cp }}         true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -30,7 +30,7 @@ deploy_code: |
     name: my-gcp-clusterdeployment1
     namespace: kcm-system
   spec:
-    template: gcp-standalone-cp-{{ dash_version }}
+    template: {{ gcp_standalone_cp }}
     credential: gcp-credential
     config:
       project: PROJECT_NAME # Your project name

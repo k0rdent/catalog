@@ -20,7 +20,7 @@ verify_code: |
   ~~~bash
   kubectl get clustertemplate -n kcm-system
   # NAME                VALID
-  # gcp-gke-{{ dash_version }}       true
+  # {{ gcp_gke }}       true
   ~~~
 deploy_code: |
   ~~~yaml
@@ -30,7 +30,7 @@ deploy_code: |
     name: my-gcp-clusterdeployment1
     namespace: kcm-system
   spec:
-    template: gcp-gke-{{ dash_version }}
+    template: {{ gcp_gke }}
     credential: gcp-credential
     propagateCredentials: false
     config:

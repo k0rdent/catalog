@@ -99,9 +99,57 @@ def try_copy_assets(app: str, apps_dir: str, dst_dir: str, is_infra: bool):
         print(f"Assets copied from {src_dir} to {dst_dir}")
 
 
-def version2dash_version(version: str) -> str:
-    version_removed_v = version.replace('v', '')
-    return version_removed_v.replace('.', '-')
+def version2template_names(version: str) -> str:
+    if version == "v0.1.0":
+        return {
+            "adopted_cluster": "adopted-cluster-0-1-0",
+            "aws_eks": "aws-eks-0-1-0",
+            "aws_hosted_cp": "aws-hosted-cp-0-1-0",
+            "aws_standalone_cp": "aws-standalone-cp-0-1-0",
+            "azure_aks": "azure-aks-0-1-0",
+            "azure_hosted_cp": "azure-hosted-cp-0-1-0",
+            "azure_standalone_cp": "azure-standalone-cp-0-1-0",
+            "openstack_standalone_cp": "openstack-standalone-cp-0-1-0",
+            "vsphere_hosted_cp": "vsphere-hosted-cp-0-1-0",
+            "vsphere_standalone_cp": "vsphere-standalone-cp-0-1-0"
+        }
+    if version == "v0.2.0":
+        return {
+            "adopted_cluster": "adopted-cluster-0-2-0",
+            "aws_eks": "aws-eks-0-2-0",
+            "aws_hosted_cp": "aws-hosted-cp-0-2-0",
+            "aws_standalone_cp": "aws-standalone-cp-0-2-0",
+            "azure_aks": "azure-aks-0-2-0",
+            "azure_hosted_cp": "azure-hosted-cp-0-2-0",
+            "azure_standalone_cp": "azure-standalone-cp-0-2-0",
+            "docker_hosted_cp": "docker-hosted-cp-0-2-0",
+            "gcp_gke": "gcp-gke-0-2-0",
+            "gcp_hosted_cp": "gcp-hosted-cp-0-2-0",
+            "gcp_standalone_cp": "gcp-standalone-cp-0-2-0",
+            "openstack_standalone_cp": "openstack-standalone-cp-0-2-0",
+            "remote_cluster": "remote-cluster-0-2-0",
+            "vsphere_hosted_cp": "vsphere-hosted-cp-0-2-0",
+            "vsphere_standalone_cp": "vsphere-standalone-cp-0-2-0"
+        }
+    if version == "v0.3.0":
+        return {
+            "adopted_cluster": "adopted-cluster-0-2-0",
+            "aws_eks": "aws-eks-0-2-0",
+            "aws_hosted_cp": "aws-hosted-cp-0-2-1",
+            "aws_standalone_cp": "aws-standalone-cp-0-2-1",
+            "azure_aks": "azure-aks-0-2-0",
+            "azure_hosted_cp": "azure-hosted-cp-0-2-2",
+            "azure_standalone_cp": "azure-standalone-cp-0-2-2",
+            "docker_hosted_cp": "docker-hosted-cp-0-2-0",
+            "gcp_gke": "gcp-gke-0-2-0",
+            "gcp_hosted_cp": "gcp-hosted-cp-0-2-1",
+            "gcp_standalone_cp": "gcp-standalone-cp-0-2-1",
+            "openstack_standalone_cp": "openstack-standalone-cp-0-2-2",
+            "remote_cluster": "remote-cluster-0-2-1",
+            "vsphere_hosted_cp": "vsphere-hosted-cp-0-2-1",
+            "vsphere_standalone_cp": "vsphere-standalone-cp-0-2-1"
+        }
+    raise Exception(f"Unsupported version '{version}' found")
 
 
 def ensure_big_logo(metadata: dict):
@@ -115,9 +163,9 @@ def generate_apps():
     template_path = 'mkdocs/app.tpl.md'
 
     base_metadata = dict(
-        version=VERSION,
-        dash_version=version2dash_version(VERSION)
+        version=VERSION
     )
+    base_metadata.update(version2template_names(VERSION))
 
     # Read template
     with open(template_path, 'r', encoding='utf-8') as f:

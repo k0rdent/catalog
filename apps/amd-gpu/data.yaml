@@ -39,7 +39,7 @@ deploy_code: |
       name: aws-example-cluster
       namespace: kcm-system
     spec:
-      template: azure-standalone-cp-{{ dash_version }}
+      template: {{ azure_standalone_cp }}
       credential: azure-credential
       config:
         clusterLabels:

@@ -15,7 +15,7 @@ verify_code: |
     ~~~yaml
     kubectl get clustertemplate -n kcm-system
     # NAME                            VALID
-    # vsphere-hosted-cp-{{ dash_version }}         true
+    # {{ vsphere_hosted_cp }}         true
     ~~~
 deploy_code: |
     ~~~yaml
@@ -25,7 +25,7 @@ deploy_code: |
       name: my-vsphere-clusterdeployment1
       namespace: kcm-system
     spec:
-      template: vsphere-hosted-cp-{{ dash_version }}
+      template: {{ vsphere_hosted_cp }}
       credential: vsphere-credential
       config:
         clusterLabels: {}
