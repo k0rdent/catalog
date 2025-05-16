@@ -950,3 +950,6 @@ zsyscall
 zsysnum
 ztunnel
 ztypes
+argocd
+hostname
+passthrough
