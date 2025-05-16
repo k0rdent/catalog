@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 3.4.4
+dependencies:
+  - name: cloudcasa
+    version: 3.4.4
+    repository: oci://ghcr.io/k0rdent/catalog/charts

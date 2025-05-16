@@ -1,0 +1,9 @@
+apiVersion: v2
+name: cloudcasa
+description: A Helm chart that references the official "cloudcasa" Helm chart.
+type: application
+version: 3.4.4
+dependencies:
+  - name: cloudcasa
+    version: 3.4.4
+    repository: https://catalogicsoftware.github.io/cloudcasa-helmchart/
