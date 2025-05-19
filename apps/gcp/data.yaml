@@ -47,4 +47,4 @@ deploy_code: |
         publicIP: true
   ~~~
 doc_link: https://cloud.google.com/compute/docs
-versions: [v0.2.0, v0.3.0]
+exclude_versions: [v0.1.0]

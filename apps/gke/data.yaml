@@ -45,4 +45,4 @@ deploy_code: |
         name: default # Select your desired network name (select new network name to create or find it via `gcloud compute networks list --format="value(name)"`)
   ~~~
 doc_link: https://cloud.google.com/kubernetes-engine/docs
-versions: [v0.2.0, v0.3.0]
+exclude_versions: [v0.1.0]

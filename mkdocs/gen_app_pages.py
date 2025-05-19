@@ -6,7 +6,7 @@ import jinja2
 required_fields = ['title', 'tags', 'summary', 'logo', 'description']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
-                  'versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
+                  'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'show_install_tab', 'examples']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
@@ -49,13 +49,13 @@ def validate_show_install_tab(file: str, data: dict):
 
 
 def try_validate_versions(file: str, data: dict):
-    if 'versions' not in data:
+    if 'exclude_versions' not in data:
         return
-    if not isinstance(data['versions'], list):
-        raise Exception(f"Field 'versions' needs to be an array if used! ({file})")
-    for version in data['versions']:
-        if version not in valid_versions:
-            raise Exception(f"Version '{version}' not valid ({valid_versions})")
+    if not isinstance(data['exclude_versions'], list):
+        raise Exception(f"Field 'exclude_versions' needs to be an array if used! ({file})")
+    for exclude_version in data['exclude_versions']:
+        if exclude_version not in valid_versions:
+            raise Exception(f"Version '{exclude_version}' not valid ({valid_versions})")
 
 
 def try_validate_wait_for_pods(file: str, data: dict):
@@ -187,7 +187,7 @@ def generate_apps():
                 metadata.update(base_metadata)
         else:
             continue
-        if 'versions' in metadata and VERSION not in metadata['versions']:
+        if 'exclude_versions' in metadata and VERSION in metadata['exclude_versions']:
             print(f"Skip {app} in version {VERSION}")
             continue
         dst_app_path = os.path.join(dst_dir, app_path)
