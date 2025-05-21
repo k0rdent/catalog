@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 2.21.17
+dependencies:
+  - name: runai-control-plane
+    version: 2.21.17
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: ingress-nginx
+    version: 4.11.5
+    repository: oci://ghcr.io/k0rdent/catalog/charts

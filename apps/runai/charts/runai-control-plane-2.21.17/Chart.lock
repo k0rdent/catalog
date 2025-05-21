@@ -1,0 +1,6 @@
+dependencies:
+- name: control-plane
+  repository: https://runai.jfrog.io/artifactory/cp-charts-prod
+  version: 2.21.17
+digest: sha256:7b79fd5269530f646ee669bcbb0f5fec62c59e726f5293aa1164809982a27f99
+generated: "2025-05-21T20:59:35.910485+02:00"

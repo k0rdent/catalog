@@ -1,0 +1,13 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
+runai-control-plane:
+  control-plane:
+    global:
+      domain: runai.example.com

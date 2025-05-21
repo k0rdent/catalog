@@ -1,0 +1,9 @@
+apiVersion: v2
+name: runai-control-plane
+description: A Helm chart that references the official "runai-control-plane" Helm chart.
+type: application
+version: 2.21.17
+dependencies:
+  - name: control-plane
+    version: 2.21.17
+    repository: https://runai.jfrog.io/artifactory/cp-charts-prod
