@@ -22,7 +22,7 @@ support_type: "{{ support_type }}"
 
     {% if support_link %}
     <br>
-    <div class="clickable-logo-block">Enterprise Support Provided By: [![logo]({{ logo_big }})]({{ support_link }}){ target="_blank" }</div>
+    Looking for Enterprise Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
     {% endif %}
 
 {% if show_install_tab %}
