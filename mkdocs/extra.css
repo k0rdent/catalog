@@ -608,4 +608,14 @@ a.blue-green-button-dark-background:hover {
   color: #454545;
 }
 
+.clickable-logo-block{
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+.clickable-logo-block img{
+  height: 30px;
+  margin-left: 8px;
+  width: auto;
+}
 /* CUSTOM CSS END */
