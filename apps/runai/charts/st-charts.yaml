@@ -1,0 +1,7 @@
+st-charts:
+  - name: runai-control-plane
+    version: 2.21.17
+    dependencies:
+      - name: control-plane
+        version: 2.21.17
+        repository: https://runai.jfrog.io/artifactory/cp-charts-prod
