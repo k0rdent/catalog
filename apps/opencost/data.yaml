@@ -4,6 +4,7 @@ title: "OpenCost"
 summary: "Monitor your cloud costs."
 logo: "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true"
 logo_big: ./assets/opencost-big_logo.svg # https://svgmix.com/item/yGNjlw/opencost
+created: "2025-03-12T08:16:55Z"
 description: |
     OpenCost is a vendor-neutral open-source project for measuring and allocating cloud infrastructure and container costs in real-time.
     It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how

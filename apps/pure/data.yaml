@@ -4,6 +4,7 @@ tags:
 title: "Pure"
 summary: "Storage service."
 logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
+created: "2025-03-12T08:16:55Z"
 description: |
     Pure Storage CSI is a plugin that allows Kubernetes to access storage on Pure Storage's FlashArray
     and FlashBlade devices. CSI stands for Container Storage Interface. It's a standard that enables

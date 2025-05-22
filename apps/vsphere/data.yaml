@@ -3,6 +3,7 @@ title: "VMware vSphere"
 summary: "Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure."
 logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
 type: infra
+created: "2025-03-12T08:16:55Z"
 description: |
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on VMware vSphere,
     simplifying container orchestration in the cloud.

@@ -4,6 +4,7 @@ tags:
 title: ArangoDB
 summary: "Scalable graph database system."
 logo: "./assets/arangodb_logo.png"
+created: "2025-03-18T11:58:30Z"
 description: |
     ArangoDB combines the analytical power of native graphs with an integrated search engine,
     JSON support, and a variety of data access patterns via a single, composable query language.

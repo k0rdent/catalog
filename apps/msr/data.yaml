@@ -3,6 +3,7 @@ tags:
 title: "Mirantis Secure Registry"
 summary: "Mirantis Secure Registry (MSR) 4 is an Enterprise-grade container registry solution."
 logo: "./assets/msr_logo.svg"
+created: "2025-03-12T15:33:55Z"
 description: |
     Mirantis Secure Registry (MSR) 4 is an Enterprise-grade container registry solution based on CNCF Harbor that can
     be integrated easily with k0rdent managed clusters.

@@ -4,6 +4,7 @@ title: "Weights & Biases"
 summary: "The AI developer platform to build AI agents, applications, and models with confidence."
 logo: ./assets/wandb_logo.svg # https://github.com/wandb/assets/blob/main/wandb-dots-logo.svg
 logo_big: ./assets/wandb_logo_big.svg # https://github.com/wandb/assets/blob/main/wandb-logo-yellow-dots-black-wb.svg
+created: "2025-05-06T09:08:47Z"
 prerequisites: |
   #### Prerequisites
   - k0rdent Enterprise

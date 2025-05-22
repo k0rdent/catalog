@@ -3,6 +3,7 @@ title: "Google Kubernetes Engine"
 summary: "Deploy kubernetes clusters with k0rdent on Google Kubernetes Engine."
 logo: ./assets/gke_logo.svg # https://www.svgrepo.com/svg/375441/google-kubernetes-engine
 type: infra
+created: "2025-04-03T09:22:55Z"
 description: |
   K0rdent seamlessly integrates with Google Kubernetes Engine (GKE), enabling efficient management of GKE clusters alongside other environments through a centralized control plane. Here’s how k0rdent works with GKE:
 

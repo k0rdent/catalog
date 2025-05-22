@@ -4,6 +4,7 @@ title: "Kyverno"
 summary: "Kubernetes Native Policy Management."
 logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
 logo_big: "https://github.com/kyverno/kyverno/blob/de56010aa94524bdd36a9d609dc9640ea88a9f3f/img/Kyverno_Horizontal.png?raw=true"
+created: "2025-03-12T08:16:55Z"
 description: |
     Kyverno is a powerful open-source policy engine designed specifically for Kubernetes. It allows you to define and enforce policies that govern the configuration and behavior of your Kubernetes resources, ensuring security, compliance, and operational best practices. 
     Here's a breakdown of its key features:

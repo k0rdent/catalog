@@ -3,6 +3,7 @@ tags:
 title: "Istio"
 summary: "Open source service mesh that layers transparently onto existing distributed applications."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
+created: "2025-03-12T08:16:55Z"
 description: |
     Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful
     features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,

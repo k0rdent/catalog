@@ -3,6 +3,7 @@ title: "Azure Kubernetes Service"
 summary: "Deploy kubernetes clusters with k0rdent on Azure Kubernetes Service."
 logo: "https://azure.microsoft.com/svghandler/kubernetes-service/?width=600&height=315"
 type: infra
+created: "2025-03-12T20:16:05Z"
 description: |
     Azure Kubernetes Service (AKS) is a managed Kubernetes service that simplifies the deployment and management of containerized applications in the Azure cloud. k0rdent can create and maage clusters with AKS.
 support_link: https://azure.microsoft.com/en-us/products/kubernetes-service

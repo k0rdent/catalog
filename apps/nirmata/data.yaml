@@ -3,6 +3,7 @@ tags:
 title: "Nirmata Enterprise for Kyverno"
 summary: "Policy-based Security, Compliance, and Governance"
 logo: ./assets/nirmata_logo.svg # https://svgmix.com/item/zQeg3J/nirmata
+created: "2025-03-12T20:16:05Z"
 prerequisites: |
   #### Prerequisites
   - k0rdent Enterprise

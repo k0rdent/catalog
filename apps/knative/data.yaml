@@ -5,6 +5,7 @@ tags:
 title: Knative
 summary: "Kubernetes-based platform to deploy and manage modern serverless workloads."
 logo: "./assets/knative_logo.svg"
+created: "2025-03-20T16:26:02Z"
 description: |
     k0rdent facilitates the deployment and lifecycle management of Knative within Kubernetes clusters by leveraging its multi-cluster orchestration capabilities. 
     While not a direct integration at the application level, k0rdent simplifies the installation and management of the Knative Operator, 

@@ -4,6 +4,7 @@ summary: "Deploy kubernetes clusters with k0rdent on KubeVirt."
 logo: "https://kubevirt.io/user-guide/assets/KubeVirt_icon.png?width=600&height=315"
 logo_big: ./assets/kubevirt-big_logo.svg # https://github.com/kubevirt/kubevirt.github.io/blob/main/assets/images/KubeVirt_logo_color.svg
 type: infra
+created: "2025-04-07T16:07:25Z"
 description: |
     KubeVirt is a managed Kubernetes service that simplifies the deployment and management of containerized applications as well as Virtual Machines in a common, shared environment. k0rdent can create and manage clusters with KubeVirt.
 support_link: https://kubevirt.io/user-guide/#getting-help

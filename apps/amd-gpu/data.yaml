@@ -5,6 +5,7 @@ title: "AMD GPU Operator"
 summary: "AMD GPU Operator creates/configures/manages GPUs atop Kubernetes."
 logo: ./assets/amd-logo.svg # https://github.com/file-icons/icons/blob/master/svg/AMD.svg
 logo_big: ./assets/amd-logo-big.svg # https://en.m.wikipedia.org/wiki/File:AMD_Logo.svg
+created: "2025-05-05T11:25:39Z"
 description: |
     k0rdent operates in conjunction with the AMD GPU Operator by providing a higher-level orchestration layer for Kubernetes
     clusters equipped with AMD GPUs.

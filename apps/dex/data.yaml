@@ -4,6 +4,7 @@ tags:
 title: "Dex"
 summary: "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors."
 logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png"
+created: "2025-03-12T08:16:55Z"
 description: |
     Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. 
     Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.

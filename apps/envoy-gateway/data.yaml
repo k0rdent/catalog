@@ -4,6 +4,7 @@ tags:
 summary: Manage your Application and API traffic with Envoy Gateway.
 logo: "./assets/envoy-gateway_logo.svg" # https://github.com/cncf/artwork/blob/main/projects/opencost/horizontal/color/Opencost_Horizontal_Color.svg
 logo_big: "./assets/envoy-gateway-big_logo.svg" # https://github.com/cncf/artwork/blob/main/projects/envoy/envoy-gateway/horizontal/color/envoy-gateway-horizontal-color.svg
+created: "2025-03-25T09:17:52Z"
 description: |
   Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway.
   Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.

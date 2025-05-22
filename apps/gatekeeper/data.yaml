@@ -3,6 +3,7 @@ tags:
 title: "Gatekeeper"
 summary: "Cloud native policy controller that helps enforce policies and strengthen governance."
 logo: "./assets/gatekeeper.svg"
+created: "2025-03-28T14:40:08Z"
 description: |
   A customizable cloud native policy controller that helps enforce policies and strengthen governance.
 support_link: https://github.com/open-policy-agent/gatekeeper

@@ -3,6 +3,7 @@ tags:
 title: "Kube Prometheus Stack"
 summary: "Collection of monitoring and alerting rules for Kubernetes clusters."
 logo: "https://prometheus.io/assets/prometheus_logo_grey.svg"
+created: "2025-03-12T08:16:55Z"
 description: |
   The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
   It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.

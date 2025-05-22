@@ -4,6 +4,7 @@ tags:
 title: "External-secrets"
 summary: "External secret management."
 logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png"
+created: "2025-03-12T08:16:55Z"
 description: |
   The External Secrets Operator extends Kubernetes with Custom Resources, which define where secrets live and how to
   synchronize them. The controller fetches secrets from an external API and creates Kubernetes secrets. If the secret

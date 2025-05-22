@@ -3,6 +3,7 @@ tags:
 title: PostgreSQL
 summary: "Postgres Operator for deploying and managing PostgreSQL clusters on Kubernetes."
 logo: "./assets/postgres_logo.svg"
+created: "2025-03-27T16:43:20Z"
 description: |
     The Zalando Postgres Operator delivers an easy to run highly-available PostgreSQL clusters on Kubernetes powered by Patroni. 
     It is configured only through PostgreSQL manifests (CRDs) to ease integration into automated CI/CD pipelines with 

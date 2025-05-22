@@ -3,6 +3,7 @@ title: "Amazon Elastic Kubernetes Service"
 summary: "Deploy kubernetes clusters with k0rdent on Amazon Elastic Kubernetes Service"
 logo: "https://cdn.prod.website-files.com/64902e94cf962d0707c23165/64f20142e6b212d8af65e59f_amazon-eks.911x1024.webp"
 type: infra
+created: "2025-03-12T20:16:05Z"
 description: |
   Amazon Elastic Kubernetes Service (EKS) is a managed Kubernetes service offered by AWS that streamlines the deployment, management, and scaling of containerized applications. By abstracting away the complexities of the Kubernetes control plane, EKS allows users to focus on building and deploying their applications while leveraging the robust infrastructure and security of AWS. 
 support_link: https://aws.amazon.com/eks/

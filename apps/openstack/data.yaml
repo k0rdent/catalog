@@ -3,6 +3,7 @@ title: "OpenStack"
 summary: "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure."
 logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
 type: infra
+created: "2025-03-12T08:16:55Z"
 description: |
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on OpenStack,
     simplifying container orchestration in the cloud.

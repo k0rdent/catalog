@@ -3,6 +3,7 @@ tags:
 title: "Prometheus"
 summary: From metrics to insight
 logo: "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png"
+created: "2025-03-12T08:16:55Z"
 description: |
   Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
   Since its inception in 2012, many companies and organizations have adopted Prometheus, and

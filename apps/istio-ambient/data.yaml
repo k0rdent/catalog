@@ -3,6 +3,7 @@ tags:
 title: "Istio - Ambient Mode"
 summary: "Sidecar-less mesh with node-level routing and app-layer control."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
+created: "2025-05-07T18:27:00Z"
 description: |
     In ambient mode, Istio implements its features using a per-node Layer 4 (L4) proxy, and optionally a per-namespace
     Layer 7 (L7) proxy.

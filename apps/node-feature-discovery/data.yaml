@@ -4,6 +4,7 @@ tags:
 title: "Node Feature Discovery"
 summary: "Enables node feature discovery for Kubernetes."
 logo: "./assets/node-feature-discovery.svg"
+created: "2025-03-28T14:06:27Z"
 description: |
     Enables node feature discovery for Kubernetes.
     It detects hardware features available on each node in a Kubernetes cluster, and advertises those

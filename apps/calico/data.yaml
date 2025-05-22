@@ -4,6 +4,7 @@ tags:
 title: "Calico CNI"
 summary: "Networking and security solution specifically designed for Kubernetes clusters."
 logo: "https://docs.tigera.io/img/calico-logo.png"
+created: "2025-03-12T08:16:55Z"
 description: |
   Calico is a networking and security solution specifically designed for Kubernetes clusters,
   allowing containers and pods to communicate securely across the network by utilizing a layer-3 based routing

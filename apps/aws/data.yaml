@@ -3,6 +3,7 @@ title: "Amazon EC2"
 summary: "Deploy kubernetes clusters with k0rdent on AWS infrastructure."
 logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
 type: infra
+created: "2025-03-12T08:16:55Z"
 description: |
   k0rdent, as a multi-cluster Kubernetes management platform, integrates with AWS to provide a seamless experience for managing and deploying Kubernetes clusters and applications on the AWS cloud. Here's how this integration works:
 

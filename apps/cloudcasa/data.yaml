@@ -4,6 +4,7 @@ tags:
 summary: "CloudCasa backup and migration service agent for Kubernetes"
 logo: "./assets/cc-icon.svg"
 logo_big: "./assets/cloudcasa-logo.svg"
+created: "2025-05-15T00:54:27Z"
 description: |
     CloudCasa is a SaaS data protection, disaster recovery, migration, and replication solution for Kubernetes and cloud-native applications.
     Configuration is quick and easy, and basic service is free.

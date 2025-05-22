@@ -4,6 +4,7 @@ tags:
 title: "HPE CSI Driver for Kubernetes"
 summary: "Multi-vendor and multi-platform Container Storage Interface driver."
 logo: https://raw.githubusercontent.com/hpe-storage/co-deployments/master/docs/assets/hpedev.png
+created: "2025-03-31T15:40:47Z"
 description: |
   HPE CSI Driver for Kubernetes allows users to dynamically provision persistent and ephemeral storage with support for a wide
   range of storage products from HPE, including Alletra Storage MP B10000 and Alletra 5000/6000/9000. Advanced data services are

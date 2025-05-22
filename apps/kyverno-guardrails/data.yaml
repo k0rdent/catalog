@@ -4,6 +4,7 @@ title: "Kyverno Guardrails"
 summary: "Set of Best-Practice Kyverno Policies."
 logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
 logo_big: "https://github.com/kyverno/kyverno/blob/de56010aa94524bdd36a9d609dc9640ea88a9f3f/img/Kyverno_Horizontal.png?raw=true"
+created: "2025-04-16T10:49:16Z"
 prerequisites: |
     Kyverno must be installed in the cluster: [Kyverno Install](https://catalog.k0rdent.io/v0.2.0/apps/kyverno/kyverno/)
 description: |

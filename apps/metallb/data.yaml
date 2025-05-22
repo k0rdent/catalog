@@ -3,6 +3,7 @@ tags:
 title: "MetalLB"
 summary: "Load-balancer for bare metal Kubernetes clusters, using standard routing protocols."
 logo: "./assets/metallb_logo.svg"
+created: "2025-03-19T17:58:28Z"
 description: |
   MetalLB hooks into your Kubernetes cluster, and provides a network load-balancer implementation.
   In short, it allows you to create Kubernetes services of type LoadBalancer in clusters that don’t

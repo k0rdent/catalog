@@ -3,6 +3,7 @@ tags:
 title: "Kubernetes Dashboard"
 summary: "General purpose, web-based UI for Kubernetes clusters."
 logo: "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg"
+created: "2025-03-12T08:16:55Z"
 description: |
     Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters.
     It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself.

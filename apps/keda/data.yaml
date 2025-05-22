@@ -6,6 +6,7 @@ tags:
   - CI/CD
 summary: "KEDA is a Kubernetes-based Event Driven Autoscaler."
 logo: "./assets/keda-logo.svg"
+created: "2025-04-11T14:02:07Z"
 description: |
     KEDA is a single-purpose and lightweight component that can be added into any Kubernetes cluster. KEDA works alongside
     standard Kubernetes components like the Horizontal Pod Autoscaler and can extend functionality without overwriting or

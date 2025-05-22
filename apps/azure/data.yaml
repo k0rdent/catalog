@@ -3,6 +3,7 @@ title: "Azure Compute Services"
 summary: "Deploy kubernetes clusters with k0rdent on Azure infrastructure."
 logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png"
 type: infra
+created: "2025-03-12T08:16:55Z"
 description: |
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on Microsoft Azure, simplifying container orchestration in the cloud. Here's how it works:
 

@@ -3,6 +3,7 @@ tags:
 title: MongoDB
 summary: "General-purpose document database."
 logo: "./assets/mongo_logo.svg"
+created: "2025-03-18T10:27:25Z"
 description: |
     MongoDB is a general-purpose document database. With the Community Edition you can
     self-manage and host it locally or in the cloud. You can also develop with MongoDB

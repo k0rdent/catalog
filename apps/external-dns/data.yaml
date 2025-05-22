@@ -3,6 +3,7 @@ tags:
 title: "ExternalDNS"
 summary: "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers."
 logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png"
+created: "2025-03-12T08:16:55Z"
 description: |
     ExternalDNS makes Kubernetes resources discoverable via public DNS servers. Like KubeDNS, it retrieves a list of resources
     (Services, Ingresses, etc.) from the Kubernetes API to determine a desired list of DNS records. Unlike KubeDNS, however, it’s

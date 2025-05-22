@@ -4,6 +4,7 @@ tags:
 title: "NetApp"
 summary: "NetApp's Trident CSI storage provisioner using the Trident Operator."
 logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
+created: "2025-03-12T08:16:55Z"
 description: |
     NetApp Trident is a Container Storage Interface (CSI) that integrates with Kubernetes to manage
     and consume storage resources. It's an open-source project that helps containerized
