@@ -3,8 +3,8 @@ import shutil
 import yaml
 import jinja2
 
-required_fields = ['title', 'tags', 'summary', 'logo', 'description']
-allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'description', 'install_code', 'verify_code',
+required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'created']
+allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'show_install_tab', 'examples']

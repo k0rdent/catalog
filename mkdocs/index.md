@@ -20,6 +20,7 @@ template: home.html
                     <select id="ordering-apps" @change="ordering">
                         <option value="asc">A-Z</option>
                         <option value="desc">Z-A</option>
+                        <option value="newest">By Newest</option>
                     </select>
                   </div>
               </div>
@@ -86,6 +87,7 @@ template: home.html
                   <select id="ordering-infra" @change="ordering">
                       <option value="asc">A-Z</option>
                       <option value="desc">Z-A</option>
+                      <option value="newest">By Newest</option>
                   </select>
               </div>
             </div>
@@ -141,34 +143,47 @@ template: home.html
               item.tags.forEach(tag =>tagsSet.add(tag));
             })
             dataAppsFiltered.value = dataApps.value
-            sortingByTitle(dataAppsFiltered.value, 'asc')
-            sortingByTitle(dataInfra.value, 'asc')
+            sorting(dataAppsFiltered.value, 'asc', 'title')
+            sorting(dataInfra.value, 'asc', 'title')
 
             updateCheckboxesFromURL()
           })
       }
 
-      const sortingByTitle = (arr, order)=>{
-        if(order === 'asc'){
-          arr.sort((a, b) => a.title.localeCompare(b.title))
-        } else {
-          arr.sort((a, b) => b.title.localeCompare(a.title))
+      const sorting = (arr, order, sorting_by)=>{
+        if(sorting_by==='title'){
+          if(order === 'asc'){
+            arr.sort((a, b) => a.title.localeCompare(b.title))
+          } else {
+            arr.sort((a, b) => b.title.localeCompare(a.title))
+          }
+        }
+        if(sorting_by==='created'){
+          if(order === 'newest'){
+            arr.sort((a, b) => b.created.localeCompare(a.created))
+          } else {
+            arr.sort((a, b) => a.created.localeCompare(b.created))
+          }
         }
       }
 
       const ordering = (event) => {
         if(event.target.id==='ordering-apps'){
           if(event.target.value === 'asc'){
-            sortingByTitle(dataAppsFiltered.value, 'asc')
-          } else {
-            sortingByTitle(dataAppsFiltered.value, 'desc')
+            sorting(dataAppsFiltered.value, 'asc', 'title')
+          } else if(event.target.value === 'desc'){
+            sorting(dataAppsFiltered.value, 'desc', 'title')
+          } else if(event.target.value === 'newest') {
+            sorting(dataAppsFiltered.value, 'newest', 'created')
           }
         }
         if(event.target.id==='ordering-infra'){
           if(event.target.value === 'asc'){
-            sortingByTitle(dataInfra.value, 'asc')
-          } else {
-            sortingByTitle(dataInfra.value, 'desc')
+            sorting(dataInfra.value, 'asc', 'title')
+          } else if(event.target.value === 'desc'){
+            sorting(dataInfra.value, 'desc', 'title')
+          } else if(event.target.value === 'newest') {
+            sorting(dataInfra.value, 'newest', 'created')
           }
         }
       }
