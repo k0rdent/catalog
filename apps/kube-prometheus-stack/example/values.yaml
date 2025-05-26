@@ -1,0 +1,5 @@
+kube-prometheus-stack:
+  kube-prometheus-stack:
+    prometheus:
+      prometheusSpec:
+        maximumStartupDurationSeconds: 300
