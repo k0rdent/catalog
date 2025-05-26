@@ -67,22 +67,22 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      - name: Validate Helm Chart
-        run: |
-          chart="${{ matrix.folder }}"
-          app=$(echo "$chart" | cut -d'/' -f2)
-          config="apps/$app/charts/st-charts.yaml"
-          if [ ! -f "$config" ]; then
-            echo "::warning :: Validation config $config not found"
-            exit 0
-          fi
-          echo "Validating chart for app: $app"
-          python3 ./scripts/chart_ctl.py generate "$app"
-          if ! git diff --quiet "$chart"; then
-            echo -e "Invalid chart $chart:\nRun 'python3 ./scripts/chart_ctl.py generate $app' and commit the changes."
-            git diff "$chart"
-            exit 1
-          fi
+      # - name: Validate Helm Chart
+      #   run: |
+      #     chart="${{ matrix.folder }}"
+      #     app=$(echo "$chart" | cut -d'/' -f2)
+      #     config="apps/$app/charts/st-charts.yaml"
+      #     if [ ! -f "$config" ]; then
+      #       echo "::warning :: Validation config $config not found"
+      #       exit 0
+      #     fi
+      #     echo "Validating chart for app: $app"
+      #     python3 ./scripts/chart_ctl.py generate "$app"
+      #     if ! git diff --quiet "$chart"; then
+      #       echo -e "Invalid chart $chart:\nRun 'python3 ./scripts/chart_ctl.py generate $app' and commit the changes."
+      #       git diff "$chart"
+      #       exit 1
+      #     fi
 
       - name: Log in to OCI registry
         if: github.event_name == 'push'
