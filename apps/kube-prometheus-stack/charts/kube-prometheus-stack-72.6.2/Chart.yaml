@@ -2,8 +2,8 @@ apiVersion: v2
 name: kube-prometheus-stack
 description: A Helm chart that references the official "kube-prometheus-stack" Helm chart.
 type: application
-version: 69.7.4
+version: 72.6.2
 dependencies:
   - name: kube-prometheus-stack
-    version: 69.7.4
+    version: 72.6.2
     repository: https://prometheus-community.github.io/helm-charts

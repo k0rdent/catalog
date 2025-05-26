@@ -11,24 +11,33 @@ support_link: https://github.com/prometheus-community/helm-charts/tree/main/char
 install_code: |
     ~~~bash
     helm install kube-prometheus-stack oci://ghcr.io/k0rdent/catalog/charts/kube-prometheus-stack-service-template \
-      --version 69.7.4 -n kcm-system
+      --version 72.6.2 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                               VALID
-    # kcm-system   kube-prometheus-stack-69-7-4       true
+    # kcm-system   kube-prometheus-stack-72-6-2       true
     ~~~
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-    serviceSpec:
+    kind: MultiClusterService
+    metadata:
+      name: kube-prometheus-stack
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
         services:
-          - template: kube-prometheus-stack-69-7-4
-            name: kube-prometheus-stack
-            namespace: kube-prometheus-stack
+        - template: kube-prometheus-stack-72-6-2
+          name: kube-prometheus-stack
+          namespace: kube-prometheus-stack
+          values: |
+            kube-prometheus-stack:
+              prometheus:
+                prometheusSpec:
+                  maximumStartupDurationSeconds: 300
     ~~~
 doc_link: https://prometheus.io/community/

@@ -444,6 +444,7 @@ appsMAtch
 appsMatch
 arangodb
 argo
+argocd
 args
 arm64
 asc
@@ -633,9 +634,10 @@ gtpl
 h2
 handlerfunc
 hdr
-hostPath
 honorLabels
+hostPath
 hostPort
+hostname
 hpc
 hpe
 href
@@ -711,6 +713,7 @@ maintabs
 mapstructure
 matchLabels
 matchers
+maximumStartupDurationSeconds
 md
 merchantability
 metallb
@@ -770,6 +773,7 @@ params
 parseThing
 parseUrlParams
 parsers
+passthrough
 passwd
 pathType
 pathname
@@ -787,6 +791,7 @@ procfs
 programmatically
 projectsveltos
 prometheus
+prometheusSpec
 propagateCredentials
 provisioner
 ptum
@@ -961,6 +966,3 @@ zsyscall
 zsysnum
 ztunnel
 ztypes
-argocd
-hostname
-passthrough
