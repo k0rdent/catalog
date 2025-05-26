@@ -30,3 +30,8 @@ verify_code: |
     ~~~
 deploy_code:
 doc_link: https://docs.tigera.io/calico
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false

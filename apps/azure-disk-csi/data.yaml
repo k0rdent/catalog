@@ -20,3 +20,8 @@ deploy_code: |
     # k0rdent will automatically install the Azure Disk CSI driver when creating cluster on Azure iaas or Azure AKS
     ~~~
 doc_link: https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false

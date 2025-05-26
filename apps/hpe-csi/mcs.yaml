@@ -1,0 +1,16 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: MultiClusterService
+metadata:
+  name: hpe-csi-driver
+spec:
+  clusterSelector:
+    matchLabels:
+      group: demo
+  serviceSpec:
+    services:
+      - template: hpe-csi-driver-2-5-2
+        name: hpe-csi-driver
+        namespace: hpe-csi-driver
+        values: |
+          hpe-csi-driver:
+            kubeletRootDir: /var/lib/k0s/kubelet

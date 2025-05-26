@@ -41,3 +41,8 @@ deploy_code: |
                 kubeletRootDir: /var/lib/k0s/kubelet
     ~~~
 doc_link: https://scod.hpedev.io/
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: true

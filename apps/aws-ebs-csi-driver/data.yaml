@@ -20,3 +20,8 @@ deploy_code: |
     # k0rdent will automatically install the Amazon EBS CSI driver when creating cluster on AWS iaas or AWS EKS
     ~~~
 doc_link: https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
