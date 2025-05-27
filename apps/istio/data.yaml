@@ -49,4 +49,10 @@ deploy_code: |
             namespace: istio-system
     ~~~
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
+
+# test settings
 test_namespace: istio-system
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
+test_wait_for_pods: "istio-gateway-"
