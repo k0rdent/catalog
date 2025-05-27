@@ -20,6 +20,7 @@ template: home.html
                     <select id="ordering-apps" @change="ordering">
                         <option value="asc">A-Z</option>
                         <option value="desc">Z-A</option>
+                        <option value="newest">By Newest</option>
                     </select>
                   </div>
               </div>
@@ -86,6 +87,7 @@ template: home.html
                   <select id="ordering-infra" @change="ordering">
                       <option value="asc">A-Z</option>
                       <option value="desc">Z-A</option>
+                      <option value="newest">By Newest</option>
                   </select>
               </div>
             </div>
@@ -141,37 +143,53 @@ template: home.html
               item.tags.forEach(tag =>tagsSet.add(tag));
             })
             dataAppsFiltered.value = dataApps.value
-            sortingByTitle(dataAppsFiltered.value, 'asc')
-            sortingByTitle(dataInfra.value, 'asc')
+            sorting(dataAppsFiltered.value, 'asc', 'title')
+            sorting(dataInfra.value, 'asc', 'title')
 
             updateCheckboxesFromURL()
           })
       }
 
-      const sortingByTitle = (arr, order)=>{
-        if(order === 'asc'){
-          arr.sort((a, b) => a.title.localeCompare(b.title))
-        } else {
-          arr.sort((a, b) => b.title.localeCompare(a.title))
+      const sorting = (arr, order, sorting_by)=>{
+        if(sorting_by==='title'){
+          if(order === 'asc'){
+            arr.sort((a, b) => a.title.localeCompare(b.title))
+          } else {
+            arr.sort((a, b) => b.title.localeCompare(a.title))
+          }
+        }
+        if(sorting_by==='created'){
+          if(order === 'newest'){
+            arr.sort((a, b) => b.created.localeCompare(a.created))
+          } else {
+            arr.sort((a, b) => a.created.localeCompare(b.created))
+          }
         }
       }
 
       const ordering = (event) => {
-        if(event.target.id==='ordering-apps'){
-          if(event.target.value === 'asc'){
-            sortingByTitle(dataAppsFiltered.value, 'asc')
-          } else {
-            sortingByTitle(dataAppsFiltered.value, 'desc')
-          }
+        const { id, value } = event.target;
+
+        let data;
+        if (id === 'ordering-apps') {
+          data = dataAppsFiltered.value;
+        } else if (id === 'ordering-infra') {
+          data = dataInfra.value;
+        } else {
+          return;
         }
-        if(event.target.id==='ordering-infra'){
-          if(event.target.value === 'asc'){
-            sortingByTitle(dataInfra.value, 'asc')
-          } else {
-            sortingByTitle(dataInfra.value, 'desc')
-          }
+
+        let sorting_by;
+        if (value === 'asc' || value === 'desc') {
+          sorting_by = 'title';
+        } else if (value === 'newest') {
+          sorting_by = 'created';
+        } else {
+          return;
         }
-      }
+
+        sorting(data, value, sorting_by);
+      };
 
       const updateRelLink = (link, type, appName) => {
         if (link.startsWith("./")) {
