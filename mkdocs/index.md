@@ -17,7 +17,7 @@ template: home.html
               <div class="filters-section">
                   <div class="select-wrapper">
                     <label for="ordering-apps">Sort: </label>
-                    <select id="ordering-apps" @change="ordering">
+                    <select id="ordering-apps" v-model="orderingApps">
                         <option value="asc">A-Z</option>
                         <option value="desc">Z-A</option>
                         <option value="newest">By Newest</option>
@@ -84,7 +84,7 @@ template: home.html
             <div class="filters-section">
               <div class="select-wrapper">
                   <label for="ordering-infra">Sort: </label>
-                  <select id="ordering-infra" @change="ordering">
+                  <select id="ordering-infra" v-model="orderingInfra">
                       <option value="asc">A-Z</option>
                       <option value="desc">Z-A</option>
                       <option value="newest">By Newest</option>
@@ -129,6 +129,8 @@ template: home.html
       const checkboxesSupport = ref([])
       const tagsSet = new Set()
       const supportTypeSet = new Set()
+      const orderingApps = ref('asc')
+      const orderingInfra = ref('asc')
 
       //methods
       const readData = ()=>{
@@ -168,7 +170,7 @@ template: home.html
       }
 
       const ordering = (event) => {
-        const { id, value } = event.target;
+        const { id, value } = event;
 
         let data;
         if (id === 'ordering-apps') {
@@ -213,6 +215,10 @@ template: home.html
           params.set('support_type', checkboxesSupportNormalized.value.join(','));
         }
 
+        if(orderingApps && orderingInfra){
+          params.set('sorted_by', 'app-'+orderingApps.value+',infra-'+orderingInfra.value);
+        }
+
         history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
       };
 
@@ -224,17 +230,27 @@ template: home.html
         }
         let selectedCategories = params.get("category");
         let selectedSupportTypes = params.get("support_type");
+        let sortedBy = params.get("sorted_by");
 
-        parseUrlParams(selectedCategories, checkboxesCategory)
-        parseUrlParams(selectedSupportTypes, checkboxesSupport)
+        parseUrlParams('checkbox', selectedCategories, checkboxesCategory)
+        parseUrlParams('checkbox', selectedSupportTypes, checkboxesSupport)
+        parseUrlParams('dropdown', sortedBy, checkboxesSupport)
       }
 
-      const parseUrlParams = (selected, checkboxes) => {
-        if(selected) {
+      const parseUrlParams = (type, selected, checkboxes) => {
+        if(selected && type==='checkbox') {
           let selectedArray = selected.split(",");
           selectedArray.forEach(item=>{
             checkboxes.value.push(item)
           })
+        } else if(selected){
+          let sortedValues = selected.split(",");
+          if(sortedValues[0]==='app-newest'){
+            orderingApps.value = 'newest'
+          }
+          if(sortedValues[1]==='infra-newest'){
+            orderingInfra.value = 'newest'
+          }
         }
       } 
 
@@ -272,7 +288,6 @@ template: home.html
 
       // watch funxtion eatches for the changes in the checkboxesCategory and checkboxesSupport (input boxes) and then filter dataApps items to match with the appsMAtch and supportMatch
       watch([checkboxesCategory, checkboxesSupport], () => {
-
         dataAppsFiltered.value = dataApps.value.filter(item => {
           const tags = item.tags.map(normalize);
           const supportType = normalize(item.support_type);
@@ -282,10 +297,21 @@ template: home.html
 
           const supportMatch = checkboxesSupport.value.length === 0 ||
             checkboxesSupport.value.every(checkbox => supportType === normalize(checkbox));
-
+          
           return appsMatch && supportMatch;
         });
+        ordering({id: 'ordering-apps', value: orderingApps.value})
+        ordering({id: 'ordering-infra', value: orderingInfra.value})
 
+        updateURL();
+      }, { deep: true });
+
+      watch([orderingApps], () => {
+        ordering({id: 'ordering-apps', value: orderingApps.value})
+        updateURL();
+      }, { deep: true });
+      watch([orderingInfra], () => {
+        ordering({id: 'ordering-infra', value: orderingInfra.value})
         updateURL();
       }, { deep: true });
 
@@ -298,6 +324,8 @@ template: home.html
         tagsSet,
         supportTypeSet,
         ordering,
+        orderingApps,
+        orderingInfra,
         checkboxesCategory,
         checkboxesSupport,
         toggleExpanded,
