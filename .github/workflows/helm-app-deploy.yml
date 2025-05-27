@@ -49,7 +49,7 @@ jobs:
         run: |
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             echo "Running: find ${{ github.event.inputs.find_args }}"
-            all_detected_files=$(find ${{ github.event.inputs.find_args }})
+            all_detected_files=$(find ${{ github.event.inputs.find_args }} -type f -name data.yaml)
           else
             all_detected_files=$(git diff --name-only --diff-filter=ACMRT origin/main HEAD)
           fi
