@@ -23,7 +23,7 @@ support_link: https://wandb.ai/site/support/
 support_type: Enterprise
 install_code: |
     ~~~bash
-    helm install wandb-operator oci://registry.mirantis.com/k0rdent-enterprise/wandb-operator-service-template \
+    helm install wandb-operator oci://registry.mirantis.com/k0rdent-enterprise-catalog/wandb-operator-service-template \
       --version 1.4.1 -n kcm-system
     ~~~
 verify_code: |

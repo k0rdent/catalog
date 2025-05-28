@@ -5,4 +5,4 @@ version: 1.4.1
 dependencies:
   - name: wandb-operator
     version: 1.4.1
-    repository: oci://registry.mirantis.com/k0rdent-enterprise
+    repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog

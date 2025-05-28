@@ -22,7 +22,7 @@ support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 support_type: Enterprise
 install_code: |
     ~~~bash
-    helm install nirmata-kyverno oci://registry.mirantis.com/k0rdent-enterprise/nirmata-kyverno-service-template \
+    helm install nirmata-kyverno oci://registry.mirantis.com/k0rdent-enterprise-catalog/nirmata-kyverno-service-template \
       --version 3.3.13 -n kcm-system
     ~~~
 verify_code: |
