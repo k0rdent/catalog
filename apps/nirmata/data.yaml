@@ -18,6 +18,7 @@ description: |
   - Kyverno & Kubernetes 2-year LTS
   - 0-CVE images with SLAs for critical fixes
 
+  [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 support_type: Enterprise
 install_code: |

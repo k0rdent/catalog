@@ -14,7 +14,7 @@ description: |
   clusters, supporting scenarios such as geo-distributed inference, load-spreading across regions,
   and failover of inference endpoints.
 
-  k0rdent Enterprise Required.
+  [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://gcore.com/contact-us
 support_type: Enterprise
 
