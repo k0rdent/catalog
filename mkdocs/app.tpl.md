@@ -23,7 +23,7 @@ created: "{{ created }}"
 
     {% if support_link %}
     <br>
-    Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
+    Looking for Enterprise Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
     {% endif %}
 
 {% if show_install_tab %}
