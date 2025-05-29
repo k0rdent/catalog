@@ -56,6 +56,7 @@ Knative
 Kourier
 Kube
 KubeDNS
+KubeRay
 KubeVirt
 Kubecost
 Kubernetes
@@ -73,6 +74,7 @@ MetalLB
 MinIO
 Mirantis
 ModelMesh
+MultiClusterService
 NAS
 NGINX
 NetApp
@@ -94,6 +96,9 @@ Pluggable
 Postgres
 Prem
 RBAC
+RayCluster
+RayJob
+RayService
 S3
 SLAs
 SaaS
@@ -124,6 +129,7 @@ clearml
 composable
 customizable
 d3952c8561c4808c1d447fc061c71174
+declaratively
 discoverable
 embeddable
 etcd

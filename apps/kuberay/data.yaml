@@ -1,0 +1,165 @@
+tags:
+  - AI/Machine Learning
+title: "KubeRay"
+summary: "Deploy and scale Ray apps on Kubernetes using custom resources."
+logo: ./assets/ray_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
+logo_big: ./assets/ray_header_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
+created: "2025-05-29T12:00:00Z"
+description: |
+  KubeRay is an open-source Kubernetes operator for deploying and managing [Ray](https://www.ray.io) applications.
+  It provides Kubernetes-native custom resources to support distributed workloads efficiently and reliably.
+  
+  #### Key Resources
+  
+  - **RayCluster**  
+    Manages the full lifecycle of a Ray cluster, including autoscaling, fault tolerance, and cluster upgrades.
+  
+  - **RayJob**  
+    Creates a temporary RayCluster, submits a job, and optionally deletes the cluster after completion. Useful for batch
+    and scheduled workloads.
+  
+  - **RayService**  
+    Combines a RayCluster with a Ray Serve deployment graph. Enables zero-downtime upgrades and high availability for
+    serving APIs or models.
+  
+  #### k0rdent Integration
+
+  KubeRay is compatible with k0rdent's multi-cluster model. You can deploy it using the MultiClusterService
+  and manage Ray workloads declaratively across clusters.
+install_code: |
+    ~~~bash
+    helm install kuberay-operator oci://ghcr.io/k0rdent/catalog/charts/kuberay-operator-service-template \
+      --version 1.3.2 -n kcm-system
+    helm install ray-cluster oci://ghcr.io/k0rdent/catalog/charts/ray-cluster-service-template \
+      --version 1.3.2 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                           VALID
+    # kcm-system   kuberay-operator-1-3-2         true
+    # kcm-system   ray-cluster-1-3-2              true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: kuberay
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: kuberay-operator-1-3-2
+          name: kuberay-operator
+          namespace: kuberay
+        - template: ray-cluster-1-3-2
+          name: ray-cluster
+          namespace: kuberay
+          values: |
+            ray-cluster:
+              head:
+                service:
+                  type: ClusterIP
+                  ports:
+                    - name: dashboard
+                      port: 8265
+                      targetPort: 8265
+        - template: ingress-nginx-4-11-5
+          name: ingress-nginx
+          namespace: kuberay
+          values: |
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
+    ~~~
+
+examples: |
+  Install service templates:
+  ~~~bash
+  helm install kuberay-operator oci://ghcr.io/k0rdent/catalog/charts/kuberay-operator-service-template \
+    --version 1.3.2 -n kcm-system
+  helm install ray-cluster oci://ghcr.io/k0rdent/catalog/charts/ray-cluster-service-template \
+    --version 1.3.2 -n kcm-system
+  helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/ingress-nginx-service-template \
+    --version 4.11.5 -n kcm-system
+  ~~~
+
+  #### Deploy MultiClusterService with web UI (KubeRay Dashboard)
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: MultiClusterService
+  metadata:
+    name: kuberay
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: kuberay-operator-1-3-2
+        name: kuberay-operator
+        namespace: kuberay
+      - template: ray-cluster-1-3-2
+        name: ray-cluster
+        namespace: kuberay
+        values: |
+          ray-cluster:
+            head:
+              service:
+                type: ClusterIP
+                ports:
+                  - name: dashboard
+                    port: 8265
+                    targetPort: 8265
+      - template: ingress-nginx-4-11-5
+        name: ingress-nginx
+        namespace: kuberay
+        values: |
+          ingress-nginx:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+              hostPort:
+                enabled: true
+  ~~~
+
+  Now you need to create an Ingress rule manually in the child cluster(s):
+  ~~~yaml
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: kuberay-dashboard
+    namespace: kuberay
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: kuberay.example.com
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: ray-cluster-kuberay-head-svc
+                  port:
+                    number: 8265
+  ~~~
+
+  You can now access your KubeRay web UI at `kuberay.example.com`.
+
+# support_link:
+doc_link: https://docs.ray.io/en/latest/
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
+test_wait_for_pods: "kuberay-head-"
