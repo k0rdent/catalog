@@ -10,3 +10,4 @@ else
     echo "MultiClusterService config '$mcs' not found, generating..."
     python3 ./scripts/utils.py render-mcs $APP
 fi
+
