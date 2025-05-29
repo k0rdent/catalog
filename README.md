@@ -4,7 +4,9 @@ The k0rdent Catalog Repo is a central repository and discovery platform designed
 ## Repository structure
 - `.github/workflows` - GitHub scripts for automatical testing.
 - `apps` - Catalog Applications metadata, resource files, Helm charts, and testing config files.
-- `docs` - Additional repo documentation files (e.g. [apps testing guide](docs/testing.md)).
+- `docs` - Additional repo documentation files
+  - [Apps testing guide](docs/testing.md)
+  - [Testing methodology](docs/testing_methodology.md)
 - `mkdocs` - [MkDocs](https://www.mkdocs.org/) source files for the Catalog web site.
 - `overrides` - Catalog HTML files (MkDocs customization files).
 - `scripts` - Tools for testing and contributing services to k0rdent.
