@@ -17,9 +17,7 @@ on:
         default: '1'
   schedule:
     - cron: '0 9 * * *'   # 09:00 UTC
-    - cron: '0 12 * * *'  # 12:00 UTC
-    - cron: '0 15 * * *'  # 15:00 UTC
-    - cron: '0 18 * * *'  # 18:00 UTC
+    - cron: '0 21 * * *'  # 21:00 UTC
   push:
     branches:
       - '*'
