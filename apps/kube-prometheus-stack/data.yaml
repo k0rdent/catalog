@@ -2,7 +2,7 @@ tags:
   - Monitoring
 title: "Kube Prometheus Stack"
 summary: "Collection of monitoring and alerting rules for Kubernetes clusters."
-logo: "https://prometheus.io/assets/prometheus_logo_grey.svg"
+logo: ./assets/prometheus-operator-logo.svg # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/logos/prometheus-operator-logo.svg 
 created: "2025-03-12T08:16:55Z"
 description: |
   The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
