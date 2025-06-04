@@ -1,0 +1,62 @@
+tags:
+  - Storage
+title: "Mirantis Ceph"
+summary: "A Unified Storage Solution"
+logo: ./assets/logo-ceph.svg # https://github.com/ceph/ceph.io/blob/main/src/assets/svgs/logo-ceph-grey.svg
+logo_big: ./assets/logo-ceph-big.svg # https://github.com/ceph/ceph.io/blob/main/src/assets/svgs/logo-ceph-grey.svg
+created: "2025-06-05T20:16:05Z"
+prerequisites: |
+  #### Prerequisites
+  - k0rdent Enterprise
+description: |
+  In the context of Mirantis k0rdent Enterprise, Ceph’s benefits become even clearer.
+  Mirantis k0rdent Enterprise simplifies deploying and managing Ceph on your own
+  clusters. This means you can take advantage of dynamic persistent volume provisioning,
+  unified storage for varied workloads, and robust, fault-tolerant data distribution—all
+  without the need for complex manual setup.
+  
+  By integrating Ceph with Mirantis k0rdent Enterprise, you get a straightforward
+  way to manage stateful applications in Kubernetes while ensuring efficient,
+  high-availability storage across your environment.
+  
+  In Mirantis k0rdent Enterprise, Ceph is installed on a Kubernetes cluster by creating
+  a `ServiceTemplate` and enabling the service on a `ClusterDeployment` that represents it.
+
+  [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
+support_link: https://www.mirantis.com/software/ceph/
+support_type: Enterprise
+install_code: |
+    ~~~bash
+    helm install ceph oci://registry.mirantis.com/k0rdent-enterprise-catalog/ceph-controller-service-template \
+      --version 1.0.10 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                          VALID
+    # kcm-system   ceph-controller-1-0-10        true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: ceph
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: ceph-controller-1-0-10
+          name: ceph-controller
+          namespace: ceph-lcm-mirantis
+    ~~~
+doc_link: https://www.mirantis.com/software/ceph/
+show_install_tab: true
+
+# test settings
+test_namespace: ceph-lcm-mirantis
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true

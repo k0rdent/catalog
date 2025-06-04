@@ -15,8 +15,11 @@ CNI
 CRDs
 CSI
 CVE
+Ceph
+Ceph’s
 ClearML
 CloudCasa
+ClusterDeployment
 DL
 DNS
 Dapr
@@ -73,6 +76,7 @@ MarkDown
 MetalLB
 MinIO
 Mirantis
+Mirantis
 ModelMesh
 MultiClusterService
 NAS
@@ -104,6 +108,7 @@ SLAs
 SaaS
 Scalable
 Serverless
+ServiceTemplate
 SoundCloud
 Spilo
 TLS
