@@ -1,0 +1,81 @@
+tags:
+  - Monitoring
+title: "Mirantis StackLight"
+summary: "Operations Support System for Mirantis Container Cloud and Mirantis Cloud Platform"
+logo: ./assets/stackligh-logo.png # https://www.mirantis.com/software/mcp/stacklight/
+created: "2025-06-05T20:16:05Z"
+prerequisites: |
+  #### Prerequisites
+  - k0rdent Enterprise
+description: |
+  Mirantis StackLight LMA is a comprehensive Logging, Monitoring, and Alerting software
+  suite designed to provide a unified operational view, or "single pane of glass,"
+  for managing cloud environments. By leveraging integrated open-source tools such as
+  Prometheus for time-series metrics and monitoring, and OpenSearch for log aggregation
+  and analysis, StackLight delivers critical insights into the health and performance
+  of the cloud infrastructure and its services, supporting effective day-to-day
+  operations and maintenance activities.
+  
+  This centralized approach significantly speeds up troubleshooting and enables proactive
+  identification of potential issues before they impact end-users. Consequently, it enhances
+  overall system reliability and simplifies the complexities of cloud management.
+  
+  In Mirantis k0rdent Enterprise, StackLight is distributed as Kubernetes Operator--a
+  CustomResourceDefinition (stacklights.monitoring.mirantis.com) and corresponding
+  controller--and is installed as a Helm chart. For Mirantis k0rdent
+  Virtualzation (KubeVirt) as part of Mirantis k0rdent Enterprise, StackLight is
+  distributed as a ServiceTemplate object.
+  
+  StackLight consists of the following components:
+
+  - Prometheus: Provides a time-series database
+  - Prometheus Relay: Prometheus API High Availability proxy
+  - Grafana: For timeseries visualization
+  - AlertManager: Notifications system
+  - Alerta: Provides alerts visualization
+  - cAdvisor: Exports metrics
+  - Node Exporter: OS metrics collector
+  - Blackbox exporter: Provides endpoint probes
+  - Kube-state-metrics: K8s objects metrics collector
+  - OpenSearch: A database for system and audit logs
+  - OpenSearch Dashboards: Provides logs visualization
+  - Fluentd: A tool for logs collecting and processing
+  - Spilo: A High Availability Postgresql solution using Patroni (as a backend for Alerta and Grafana)
+
+  [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
+support_link: https://www.mirantis.com/software/mcp/stacklight/
+support_type: Enterprise
+install_code: |
+    ~~~bash
+    helm install stacklight oci://registry.mirantis.com/k0rdent-enterprise-catalog/stacklight-operator-service-template \
+      --version 0.1.0-mcp-16 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                                    VALID
+    # kcm-system   stacklight-operator-0-1-0-mcp-16        true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: stacklight
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: stacklight-operator-0-1-0-mcp-16
+          name: stacklight-operator
+          namespace: stacklight
+    ~~~
+doc_link: https://docs.mirantis.com/mosk/latest/ref-arch/stacklight.html
+show_install_tab: true
+
+# test settings
+test_deploy_chart: true
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
