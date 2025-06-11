@@ -1,0 +1,9 @@
+apiVersion: v2
+name: open-webui-service-template
+description: k0rdent service template for "open-webui"
+type: application
+version: 6.20.0
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -2,8 +2,8 @@ apiVersion: v2
 name: open-webui
 description: A Helm chart that references the official "open-webui" Helm chart.
 type: application
-version: 5.20.0
+version: 6.20.0
 dependencies:
   - name: open-webui
-    version: 5.20.0
+    version: 6.20.0
     repository: https://helm.openwebui.com/
