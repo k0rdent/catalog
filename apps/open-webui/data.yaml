@@ -15,13 +15,13 @@ description: |
 install_code: |
     ~~~bash
     helm install open-webui oci://ghcr.io/k0rdent/catalog/charts/open-webui-service-template \
-      --version 5.20.0 -n kcm-system
+      --version 6.20.0 -n kcm-system
     ~~~
 verify_code: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                       VALID
-    # kcm-system   open-webui-5-20-0          true
+    # kcm-system   open-webui-6-20-0          true
     ~~~
 deploy_code: |
     ##### Configuration without GPU
@@ -54,7 +54,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: open-webui-5-20-0
+        - template: open-webui-6-20-0
           name: open-webui
           namespace: open-webui
           values: |
@@ -84,7 +84,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: open-webui-5-20-0
+        - template: open-webui-6-20-0
           name: open-webui
           namespace: open-webui
           values: |
