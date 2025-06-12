@@ -66,6 +66,7 @@ examples: |
                 enabled: true
                 ingressClassName: nginx
                 hostname: 'argocd.example.com'
+                tls: true
                 annotations:
                   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       - template: ingress-nginx-4-11-5
