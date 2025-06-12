@@ -1,0 +1,41 @@
+title: "kAgent"
+tags:
+  - Networking
+  - Security
+summary: "Universal remote agent for secure Kubernetes automation"
+logo: "./assets/kagent_logo.svg"
+description: |
+  Universal remote agent for secure Kubernetes automation. See documentation for configuration details.
+install_code: |
+  ~~~bash
+  # Install kagent CRDs first
+  helm install kagent-crds oci://ghcr.io/k0rdent/catalog/charts/kagent-crds-service-template \
+    --version 0.3.13 -n kcm-system
+
+  # Install kagent
+  helm install kagent oci://ghcr.io/k0rdent/catalog/charts/kagent-service-template \
+    --version 0.3.13 -n kcm-system
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                VALID
+  # kcm-system   kagent-0-3-13      true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  kind: MultiClusterService
+  metadata:
+    name: kagent
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: kagent-0-3-13
+        name: kagent
+        namespace: kagent
+  ~~~
+support_link: https://kagent.dev
+doc_link: https://kagent.dev

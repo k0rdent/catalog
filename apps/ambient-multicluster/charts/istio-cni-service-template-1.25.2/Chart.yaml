@@ -1,0 +1,10 @@
+apiVersion: v2
+name: istio-cni-service-template
+description: k0rdent service template for "istio-cni"
+type: application
+version: 1.25.2
+appVersion: "1.25.2"
+dependencies:
+  - name: istio-cni
+    version: 1.25.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
