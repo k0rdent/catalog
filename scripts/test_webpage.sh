@@ -22,9 +22,11 @@ while true; do
     echo "Ingress host: $host"
 
     ip_regex='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
+    protocol="http"
     if [[ "$TEST_MODE" == local ]]; then
         if echo "$ingress" | grep "443"; then # use port 443 if exposed
             ip="127.0.0.1:50443"
+            protocol="https"
         else
             ip="127.0.0.1:50080"
         fi
@@ -44,7 +46,7 @@ while true; do
     echo "HTTP code: $http_code"
 
     if [[ "$USE_CHROME" == yes ]]; then
-        "$CHROME_CMD" --host-resolver-rules="MAP $host $ip" "http://$host"
+        "$CHROME_CMD" --host-resolver-rules="MAP $host $ip" "$protocol://$host"
     fi
     exit 0
 done
