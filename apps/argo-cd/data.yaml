@@ -82,4 +82,7 @@ examples: |
                 enabled: true
   ~~~
 
-  You can now access your ArgoCD web UI at `argocd.example.com`.
+  You can now access your ArgoCD web UI at `argocd.example.com`. Username: `admin`. Get password using:
+  ~~~bash
+  kubectl get secrets/argocd-initial-admin-secret -n argo-cd --template={{.data.password}} | base64 -d; echo
+  ~~~
