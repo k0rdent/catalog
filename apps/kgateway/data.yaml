@@ -1,0 +1,46 @@
+title: "kgateway"
+tags:
+  - Networking
+  - Security
+summary: "The most mature and widely deployed Envoy-based gateway in the market today"
+logo: "./assets/kgateway_logo.svg"
+description: |
+  kgateway is the most mature and widely deployed Envoy-based gateway in the market today. Built on open source and open standards, kgateway implements the Kubernetes Gateway API with a control plane that scales from lightweight microgateway deployments between services, to massively parallel centralized gateways handling billions of API calls, to advanced AI gateway use cases for safety, security, and governance when serving models or integrating applications with third-party LLMs. kgateway brings omni-directional API connectivity to any cloud and any environment.
+
+  kgateway was launched in 2018 as Gloo. Since then, the project has steadily evolved to become the most trusted and feature-rich API gateway for Kubernetes, processing billions of API requests for many of the world's biggest companies.
+install_code: |
+  ~~~bash
+  # Install Gateway API CRDs
+  kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+
+  # Install kgateway CRDs
+  helm install kgateway-crds oci://ghcr.io/k0rdent/catalog/charts/kgateway-crds-service-template \
+    --version 2.0.1 -n kcm-system
+
+  # Install kgateway
+  helm install kgateway oci://ghcr.io/k0rdent/catalog/charts/kgateway-service-template \
+    --version 2.0.1 -n kcm-system
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                VALID
+  # kcm-system   kgateway-2-0-1     true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  kind: MultiClusterService
+  metadata:
+    name: kgateway
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: kgateway-2-0-1
+        name: kgateway
+        namespace: kgateway-system
+  ~~~
+support_link: https://www.solo.io
+doc_link: https://kgateway.dev/docs/quickstart/
