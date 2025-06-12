@@ -5,3 +5,9 @@ st-charts:
       - name: gpu-operator
         version: 24.9.2
         repository: https://helm.ngc.nvidia.com/nvidia
+  - name: gpu-operator
+    version: 25.3.0
+    dependencies:
+      - name: gpu-operator
+        version: 25.3.0
+        repository: https://helm.ngc.nvidia.com/nvidia
