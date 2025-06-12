@@ -6,3 +6,6 @@ dependencies:
   - name: kubernetes-dashboard
     version: 7.10.4
     repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: ingress-nginx
+    version: 4.11.5
+    repository: oci://ghcr.io/k0rdent/catalog/charts

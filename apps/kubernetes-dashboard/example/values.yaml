@@ -7,9 +7,11 @@ ingress-nginx:
       hostPort:
         enabled: true
 
-kubecost:
-  cost-analyzer:
-    ingress:
-      enabled: true
-      className: nginx
-      hosts: ['kubecost.example.com']
+kubernetes-dashboard:
+  kubernetes-dashboard:
+    app:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        pathType: Prefix
+        hosts: ['k8s-dashboard.example.com']
