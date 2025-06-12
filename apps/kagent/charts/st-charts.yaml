@@ -1,0 +1,13 @@
+st-charts:
+  - name: kagent
+    version: 0.3.13
+    dependencies:
+      - name: kagent
+        version: 0.3.13
+        repository: oci://ghcr.io/kagent-dev/kagent/helm
+  - name: kagent-crds
+    version: 0.3.13
+    dependencies:
+      - name: kagent-crds
+        version: 0.3.13
+        repository: oci://ghcr.io/kagent-dev/kagent/helm
