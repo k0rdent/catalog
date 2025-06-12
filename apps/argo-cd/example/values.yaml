@@ -8,10 +8,11 @@ ingress-nginx:
         enabled: true
 
 argo-cd:
-  server:
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      hostname: 'argocd.example.com'
-      annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  argo-cd:
+    server:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hostname: 'argocd.example.com'
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
