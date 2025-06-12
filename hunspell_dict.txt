@@ -27,6 +27,7 @@ CustomResourceDefinition
 DL
 DNS
 Dapr
+DevOps
 DevSecOps
 Dex
 Dockerfiles
@@ -61,6 +62,7 @@ K0rdent
 K8s
 KEDA
 KServe
+Kagent
 Knative
 Kourier
 Kube
@@ -125,12 +127,14 @@ VM
 VMs
 VMware
 VPCs
+Valkey
 Velero
 WAL
 WebUI
 XGBoost
 YAML
 Zalando
+agentic
 ai
 autoscaling
 backend
@@ -188,7 +192,6 @@ tensorflow
 timeseries
 toolchain
 v3
-Valkey
 vSphere
 virtualzation
 webapp

@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: kagent-crds
+    version: 0.3.13
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: kagent
+    version: 0.3.13
+    repository: oci://ghcr.io/k0rdent/catalog/charts

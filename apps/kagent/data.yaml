@@ -1,0 +1,52 @@
+title: "kagent"
+tags:
+  - Networking
+  - Security
+summary: "Universal remote agent for secure Kubernetes automation"
+logo: "./assets/kagent_logo.svg"
+logo_big: "./assets/kagent_logo_big.svg"
+created: "2025-06-16T14:07:09Z"
+description: |
+  Kagent is an open-source programming framework that brings the power of agentic AI to cloud-native environments.
+  Built specifically for DevOps and platform engineers, Kagent enables AI agents to run directly in Kubernetes clusters
+  to automate operations, troubleshoot issues, and solve complex cloud-native challenges.
+install_code: |
+  ~~~bash
+  # Install kagent CRDs first
+  helm install kagent-crds oci://ghcr.io/k0rdent/catalog/charts/kagent-crds-service-template \
+    --version 0.3.13 -n kcm-system
+
+  # Install kagent
+  helm install kagent oci://ghcr.io/k0rdent/catalog/charts/kagent-service-template \
+    --version 0.3.13 -n kcm-system
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                VALID
+  # kcm-system   kagent-crds-0-3-13  true
+  # kcm-system   kagent-0-3-13       true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: MultiClusterService
+  metadata:
+    name: kagent
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: kagent-crds-0-3-13
+        name: kagent-crds
+        namespace: kagent
+      - template: kagent-0-3-13
+        name: kagent
+        namespace: kagent
+  ~~~
+support_link: https://kagent.dev
+doc_link: https://kagent.dev
+
+test_deploy_chart: false
