@@ -29,6 +29,7 @@ verify_code: |
   ~~~
 deploy_code: |
   ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
   kind: MultiClusterService
   metadata:
     name: kgateway
@@ -38,9 +39,18 @@ deploy_code: |
         group: demo
     serviceSpec:
       services:
-      - template: kgateway-2-0-1
+      - template: kgateway-crds-v2-0-1
+        name: kgateway-crds
+        namespace: kgateway-system
+      - template: kgateway-v2-0-1
         name: kgateway
         namespace: kgateway-system
+        values: |
+          kgateway:
+            placeholder: true
   ~~~
 support_link: https://www.solo.io
 doc_link: https://kgateway.dev/docs/quickstart/
+
+test_namespace: kgateway-system
+test_deploy_chart: false
