@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kgateway
+description: A Helm chart that references the official "kgateway" Helm chart.
+type: application
+version: v2.0.1
+dependencies:
+  - name: kgateway
+    version: v2.0.1
+    repository: oci://cr.kgateway.dev/kgateway-dev/charts
