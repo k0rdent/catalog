@@ -1,6 +1,11 @@
 #!/bin/bash
 set -eo pipefail
 
+# Generate catalog index and schema
+echo "Generating catalog index and schema..."
+python3 scripts/generate_index.py
+python3 scripts/generate_index.py --generate-schema
+
 # Ensure "site_url" field in mkdocs.yml (stay on the same page on version switch)
 if [[ -n "$SITE_URL" ]]; then
     echo "site url found: $SITE_URL"

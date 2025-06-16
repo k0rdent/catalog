@@ -21,6 +21,139 @@ SCHEMA_FILE = CATALOG_ROOT / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "index.json"
 BASE_URL = "https://catalog.k0rdent.io/latest"
 
+def generate_schema() -> Dict:
+    """Generate the JSON schema for the catalog index."""
+    return {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "required": ["addons", "metadata"],
+        "properties": {
+            "metadata": {
+                "type": "object",
+                "required": ["generated", "version"],
+                "properties": {
+                    "generated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "When this index was generated"
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Version of the index schema"
+                    }
+                }
+            },
+            "addons": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "description",
+                        "logo",
+                        "latestVersion",
+                        "versions",
+                        "chartUrl",
+                        "docsUrl",
+                        "supportType",
+                        "deprecated"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "The add-on name (e.g. 'prometheus')",
+                            "pattern": "^[a-z0-9-]+$"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "A short summary of the add-on",
+                            "minLength": 10
+                        },
+                        "logo": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Absolute URL to the logo image"
+                        },
+                        "latestVersion": {
+                            "type": "string",
+                            "description": "Latest version of the add-on (e.g. '27.5.1')",
+                            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+                        },
+                        "versions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+                            },
+                            "description": "List of available versions",
+                            "minItems": 1
+                        },
+                        "chartUrl": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Absolute URL to the chart's st-charts.yaml or tarball"
+                        },
+                        "docsUrl": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Absolute URL to the add-on's documentation"
+                        },
+                        "supportType": {
+                            "type": "string",
+                            "enum": ["community", "enterprise"],
+                            "description": "Type of support provided"
+                        },
+                        "deprecated": {
+                            "type": "boolean",
+                            "description": "Whether the add-on is deprecated"
+                        },
+                        "metadata": {
+                            "type": "object",
+                            "properties": {
+                                "owner": {
+                                    "type": "string",
+                                    "description": "Team or individual responsible for the add-on"
+                                },
+                                "lastUpdated": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "description": "Last update date of the add-on"
+                                },
+                                "dependencies": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "List of add-on dependencies"
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "Categories and labels for the add-on"
+                                },
+                                "quality": {
+                                    "type": "object",
+                                    "properties": {
+                                        "tested": {
+                                            "type": "boolean",
+                                            "description": "Whether the add-on has been tested"
+                                        },
+                                        "securityScanned": {
+                                            "type": "boolean",
+                                            "description": "Whether the add-on has been security scanned"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 def get_chart_versions(app_dir: Path) -> List[str]:
     """Extract available versions from chart directories."""
     versions = []
@@ -146,8 +279,7 @@ def validate_index() -> bool:
         return False
 
     try:
-        with open(SCHEMA_FILE, 'r', encoding='utf-8') as f:
-            schema = json.load(f)
+        schema = generate_schema()
         with open(INDEX_FILE, 'r', encoding='utf-8') as f:
             index = json.load(f)
         
@@ -161,12 +293,33 @@ def validate_index() -> bool:
         logger.error(f"Error during validation: {e}")
         return False
 
-if __name__ == "__main__":
+def generate_schema_file() -> None:
+    """Generate the schema file for external use."""
+    schema = generate_schema()
+    
+    # Ensure schema directory exists
+    SCHEMA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    
     try:
-        generate_index()
-        if not validate_index():
-            logger.error("Index validation failed")
-            exit(1)
+        with open(SCHEMA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(schema, f, indent=2, ensure_ascii=False)
+        logger.info(f"Schema generated successfully at {SCHEMA_FILE}")
+    except Exception as e:
+        logger.error(f"Error writing schema file: {e}")
+        raise
+
+if __name__ == "__main__":
+    import sys
+    
+    try:
+        # Check if schema generation is requested
+        if len(sys.argv) > 1 and sys.argv[1] == "--generate-schema":
+            generate_schema_file()
+        else:
+            generate_index()
+            if not validate_index():
+                logger.error("Index validation failed")
+                exit(1)
     except Exception as e:
         logger.error(f"Error generating index: {e}")
         exit(1) 
