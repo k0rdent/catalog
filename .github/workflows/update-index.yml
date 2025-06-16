@@ -1,0 +1,65 @@
+name: Update Catalog Index
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/**'
+      - 'scripts/generate_index.py'
+      - 'schema/index.json'
+      - '.github/workflows/update-index.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'apps/**'
+      - 'scripts/generate_index.py'
+      - 'schema/index.json'
+      - '.github/workflows/update-index.yml'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for proper versioning
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema requests
+          
+      - name: Generate index
+        run: python scripts/generate_index.py
+        
+      - name: Check for changes
+        id: git-check
+        run: |
+          git add index.json
+          git diff --quiet && git diff --staged --quiet || echo "changes=true" >> $GITHUB_OUTPUT
+          
+      - name: Commit and push if changed
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Update catalog index [skip ci]"
+          git push
+          
+      - name: Deploy to catalog website
+        if: github.ref == 'refs/heads/main' && steps.git-check.outputs.changes == 'true'
+        run: |
+          # Copy index.json to the docs directory
+          cp index.json mkdocs/
+          
+          # Update the website
+          VERSION="latest" mkdocs build
+          VERSION="latest" mike deploy latest --update-aliases
+          mike set-default latest

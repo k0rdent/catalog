@@ -15,3 +15,6 @@ apps/*/mcs.y*ml
 .idea
 spellcheck_detected.txt
 site/
+
+# Generated files
+schema/index.json
