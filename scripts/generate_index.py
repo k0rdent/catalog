@@ -322,4 +322,4 @@ if __name__ == "__main__":
                 exit(1)
     except Exception as e:
         logger.error(f"Error generating index: {e}")
-        exit(1) 
+        exit(1)

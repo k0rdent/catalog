@@ -62,4 +62,4 @@ jobs:
           # Update the website
           VERSION="latest" mkdocs build
           VERSION="latest" mike deploy latest --update-aliases
-          mike set-default latest 
+          mike set-default latest
