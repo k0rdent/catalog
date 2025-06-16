@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2025-05-23T08:08:27.634422",
+    "generated": "2025-06-16T10:56:17.338409",
     "version": "1.0.0"
   },
   "addons": [
@@ -18,7 +18,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Database",
@@ -44,7 +44,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-23",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "CI/CD"
@@ -69,7 +69,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring"
@@ -95,7 +95,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security"
@@ -120,7 +120,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "AI/Machine Learning"
@@ -145,7 +145,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-23",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Backup and Recovery"
@@ -171,7 +171,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring",
@@ -197,7 +197,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security",
@@ -223,7 +223,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Networking"
@@ -248,7 +248,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security"
@@ -273,7 +273,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security",
@@ -299,7 +299,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security"
@@ -324,7 +324,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security"
@@ -349,7 +349,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-23",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "CI/CD",
@@ -375,7 +375,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Storage",
@@ -403,7 +403,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Networking"
@@ -430,7 +430,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Networking"
@@ -456,7 +456,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-23",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Networking"
@@ -481,7 +481,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring",
@@ -509,7 +509,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Serverless",
@@ -525,18 +525,19 @@
     {
       "name": "kube-prometheus-stack",
       "description": "The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.",
-      "logo": "https://prometheus.io/assets/prometheus_logo_grey.svg",
-      "latestVersion": "69.7.4",
+      "logo": "https://catalog.k0rdent.io/latest/apps/kube-prometheus-stack/assets/prometheus-operator-logo.svg",
+      "latestVersion": "72.6.2",
       "versions": [
+        "72.6.2",
         "69.7.4"
       ],
-      "chartUrl": "https://catalog.k0rdent.io/latest/apps/kube-prometheus-stack/charts/kube-prometheus-stack-service-template-69.7.4/st-charts.yaml",
+      "chartUrl": "https://catalog.k0rdent.io/latest/apps/kube-prometheus-stack/charts/kube-prometheus-stack-service-template-72.6.2/st-charts.yaml",
       "docsUrl": "https://catalog.k0rdent.io/latest/apps/kube-prometheus-stack/",
       "supportType": "community",
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring"
@@ -561,10 +562,36 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring"
+        ],
+        "quality": {
+          "tested": false,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kuberay",
+      "description": "KubeRay is an open-source Kubernetes operator for deploying and managing [Ray](https://www.ray.io) applications.",
+      "logo": "https://catalog.k0rdent.io/latest/apps/kuberay/assets/ray_logo.png",
+      "latestVersion": "1.3.2",
+      "versions": [
+        "1.3.2",
+        "1.3.2"
+      ],
+      "chartUrl": "https://catalog.k0rdent.io/latest/apps/kuberay/charts/kuberay-service-template-1.3.2/st-charts.yaml",
+      "docsUrl": "https://catalog.k0rdent.io/latest/apps/kuberay/",
+      "supportType": "community",
+      "deprecated": false,
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2025-06-16",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
         ],
         "quality": {
           "tested": false,
@@ -586,7 +613,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring"
@@ -611,7 +638,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security"
@@ -636,7 +663,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Security"
@@ -661,7 +688,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Networking"
@@ -686,7 +713,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Storage"
@@ -711,7 +738,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Database"
@@ -736,7 +763,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Container Registry"
@@ -761,7 +788,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Database"
@@ -786,7 +813,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Storage",
@@ -812,7 +839,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring",
@@ -828,17 +855,18 @@
       "name": "nvidia",
       "description": "The NVIDIA GPU Operator for Kubernetes is a powerful tool that simplifies the management of GPUs",
       "logo": "https://catalog.k0rdent.io/latest/apps/nvidia/assets/GPUoperator-cropped.png",
-      "latestVersion": "24.9.2",
+      "latestVersion": "25.3.0",
       "versions": [
+        "25.3.0",
         "24.9.2"
       ],
-      "chartUrl": "https://catalog.k0rdent.io/latest/apps/nvidia/charts/nvidia-service-template-24.9.2/st-charts.yaml",
+      "chartUrl": "https://catalog.k0rdent.io/latest/apps/nvidia/charts/nvidia-service-template-25.3.0/st-charts.yaml",
       "docsUrl": "https://catalog.k0rdent.io/latest/apps/nvidia/",
       "supportType": "community",
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-23",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "AI/Machine Learning",
@@ -854,17 +882,18 @@
       "name": "open-webui",
       "description": "Open WebUI is an extensible, feature-rich, and user-friendly self-hosted AI platform designed to operate entirely offline.",
       "logo": "https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png",
-      "latestVersion": "5.20.0",
+      "latestVersion": "6.20.0",
       "versions": [
+        "6.20.0",
         "5.20.0"
       ],
-      "chartUrl": "https://catalog.k0rdent.io/latest/apps/open-webui/charts/open-webui-service-template-5.20.0/st-charts.yaml",
+      "chartUrl": "https://catalog.k0rdent.io/latest/apps/open-webui/charts/open-webui-service-template-6.20.0/st-charts.yaml",
       "docsUrl": "https://catalog.k0rdent.io/latest/apps/open-webui/",
       "supportType": "community",
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-23",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "AI/Machine Learning"
@@ -889,7 +918,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring"
@@ -914,7 +943,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Database"
@@ -939,7 +968,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Monitoring"
@@ -965,7 +994,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Storage",
@@ -991,7 +1020,7 @@
       "deprecated": false,
       "metadata": {
         "owner": "k0rdent-team",
-        "lastUpdated": "2025-05-13",
+        "lastUpdated": "2025-06-16",
         "dependencies": [],
         "tags": [
           "Backup and Recovery"
