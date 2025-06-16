@@ -17,3 +17,4 @@ mkdocs-ezglossary-plugin==1.7.1
 markdown-callouts==0.4.0
 PyYAML==6.0.2
 material-plausible-plugin==0.3.0
+jsonschema==4.24.0

@@ -6,6 +6,8 @@ scripts/set_envs.sh
 kcfg*
 mkdocs/apps/*
 mkdocs/infra/*
+mkdocs/index.json
+mkdocs/schema/index.json
 
 ignore
 
@@ -15,6 +17,3 @@ apps/*/mcs.y*ml
 .idea
 spellcheck_detected.txt
 site/
-
-# Generated files
-schema/index.json

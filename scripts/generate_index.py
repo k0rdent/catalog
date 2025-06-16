@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import json
 import yaml
 import glob
@@ -9,6 +8,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 import re
 import logging
+import jsonschema
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 # Constants
 CATALOG_ROOT = Path(__file__).parent.parent
 APPS_DIR = CATALOG_ROOT / "apps"
-SCHEMA_FILE = CATALOG_ROOT / "schema" / "index.json"
-INDEX_FILE = CATALOG_ROOT / "index.json"
+SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
+INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
 BASE_URL = "https://catalog.k0rdent.io/latest"
 
 def generate_schema() -> Dict:
@@ -77,13 +77,13 @@ def generate_schema() -> Dict:
                         "latestVersion": {
                             "type": "string",
                             "description": "Latest version of the add-on (e.g. '27.5.1')",
-                            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+                            "pattern": "^[v]?[0-9]+\\.[0-9]+\\.[0-9]+$"
                         },
                         "versions": {
                             "type": "array",
                             "items": {
                                 "type": "string",
-                                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                "pattern": "^[v]?[0-9]+\\.[0-9]+\\.[0-9]+$"
                             },
                             "description": "List of available versions",
                             "minItems": 1
@@ -165,13 +165,14 @@ def get_chart_versions(app_dir: Path) -> List[str]:
     chart_dirs = glob.glob(str(charts_dir / "*-service-template-*"))
     for chart_dir in chart_dirs:
         # Extract version from directory name
-        match = re.search(r'-service-template-([0-9]+\.[0-9]+\.[0-9]+)$', chart_dir)
+        match = re.search(r'-service-template-(.+)$', chart_dir)
         if match:
             versions.append(match.group(1))
     
     # Sort versions in descending order
-    versions.sort(key=lambda x: [int(n) for n in x.split('.')], reverse=True)
-    return versions
+    unique_versions = list(set(versions))
+    unique_versions.sort(reverse=True)
+    return unique_versions
 
 def get_chart_url(app_name: str, version: str) -> str:
     """Generate the chart URL for a specific version."""
@@ -238,7 +239,7 @@ def process_addon(app_dir: Path) -> Optional[Dict]:
 
     return addon
 
-def generate_index() -> None:
+def generate_index(schema: dict) -> None:
     """Generate the catalog index file."""
     addons = []
     
@@ -262,64 +263,32 @@ def generate_index() -> None:
     }
 
     # Write the index file
-    try:
-        with open(INDEX_FILE, 'w', encoding='utf-8') as f:
-            json.dump(index, f, indent=2, ensure_ascii=False)
-        logger.info(f"Index generated successfully at {INDEX_FILE}")
-    except Exception as e:
-        logger.error(f"Error writing index file: {e}")
-        raise
+    with open(INDEX_FILE, 'w', encoding='utf-8') as f:
+        json.dump(index, f, indent=2, ensure_ascii=False)
+    logger.info(f"Index generated successfully at {INDEX_FILE}")
+    validate_index(schema)
 
-def validate_index() -> bool:
+
+def validate_index(schema: dict) -> bool:
     """Validate the generated index against the schema."""
-    try:
-        import jsonschema
-    except ImportError:
-        logger.error("jsonschema package not found. Install it with: pip install jsonschema")
-        return False
 
-    try:
-        schema = generate_schema()
-        with open(INDEX_FILE, 'r', encoding='utf-8') as f:
-            index = json.load(f)
-        
-        jsonschema.validate(instance=index, schema=schema)
-        logger.info("Index validation successful")
-        return True
-    except jsonschema.exceptions.ValidationError as e:
-        logger.error(f"Index validation failed: {e}")
-        return False
-    except Exception as e:
-        logger.error(f"Error during validation: {e}")
-        return False
+    with open(INDEX_FILE, 'r', encoding='utf-8') as f:
+        index = json.load(f)
+    jsonschema.validate(instance=index, schema=schema)
+    logger.info("Index validation successful")
 
-def generate_schema_file() -> None:
+
+def generate_schema_file() -> dict:
     """Generate the schema file for external use."""
     schema = generate_schema()
     
     # Ensure schema directory exists
     SCHEMA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    
-    try:
-        with open(SCHEMA_FILE, 'w', encoding='utf-8') as f:
-            json.dump(schema, f, indent=2, ensure_ascii=False)
-        logger.info(f"Schema generated successfully at {SCHEMA_FILE}")
-    except Exception as e:
-        logger.error(f"Error writing schema file: {e}")
-        raise
 
-if __name__ == "__main__":
-    import sys
-    
-    try:
-        # Check if schema generation is requested
-        if len(sys.argv) > 1 and sys.argv[1] == "--generate-schema":
-            generate_schema_file()
-        else:
-            generate_index()
-            if not validate_index():
-                logger.error("Index validation failed")
-                exit(1)
-    except Exception as e:
-        logger.error(f"Error generating index: {e}")
-        exit(1)
+    with open(SCHEMA_FILE, 'w', encoding='utf-8') as f:
+        json.dump(schema, f, indent=2, ensure_ascii=False)
+    logger.info(f"Schema generated successfully at {SCHEMA_FILE}")
+    return schema
+
+schema = generate_schema_file()
+generate_index(schema)

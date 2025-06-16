@@ -10,6 +10,7 @@ on:
       - mkdocs/**
       - overrides/**
       - scripts/deploy_web.sh
+      - scripts/generate_index.py
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
@@ -19,6 +20,7 @@ on:
       - overrides/**
       - mkdocs.yml
       - scripts/deploy_web.sh
+      - scripts/generate_index.py
       - .github/workflows/gh-pages-deploy.yml
 
 permissions:
