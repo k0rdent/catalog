@@ -37,14 +37,13 @@ deploy_code: |
             namespace: dex
             values: |
               dex:
-                dex:
-                  config:
-                    issuer: https://dex.tunnelto.dev/dex
-                    storage:
-                      type: memory
-                    connectors:
-                      - type: mockCallback
-                        id: mock
-                        name: Example
+                config:
+                  issuer: https://dex.tunnelto.dev/dex
+                  storage:
+                    type: memory
+                  connectors:
+                    - type: mockCallback
+                      id: mock
+                      name: Example
     ~~~
 doc_link: https://dexidp.io/docs/
