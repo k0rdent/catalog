@@ -1,0 +1,11 @@
+apiVersion: v2
+name: valkey
+description: A Helm chart for deploying Valkey clusters using the Valkey Operator
+type: application
+version: 0.1.0
+dependencies:
+  - name: valkey-operator
+    alias: operator
+    repository: oci://ghcr.io/hyperspike
+    version: "v0.0.59-chart"
+    condition: operator.install

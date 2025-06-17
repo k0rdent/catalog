@@ -1,0 +1,40 @@
+tags:
+  - Database
+title: Valkey
+summary: "High-performance in-memory data store and cache."
+logo: "./assets/valkey_logo.svg"
+created: "2025-06-16T14:20:00Z"
+description: |
+    Valkey is a high-performance in-memory data store that supports various data structures
+    including strings, hashes, lists, sets, and sorted sets. It's a drop-in replacement for
+    Redis with enhanced features and performance optimizations. Valkey can be used as a
+    database, cache, message broker, and streaming engine.
+# support_link: https://github.com/orgs/valkey-io/discussions
+install_code: |
+    ~~~bash
+    helm install valkey oci://ghcr.io/k0rdent/catalog/charts/valkey-service-template \
+      --version 0.1.0 -n kcm-system
+    ~~~
+verify_code: |
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME           VALID
+    # kcm-system   valkey-0-1-0   true
+    ~~~
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: MultiClusterService
+    metadata:
+      name: valkey
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: valkey-0-1-0
+          name: valkey
+          namespace: valkey-system
+    ~~~
+doc_link: https://valkey.io/docs/

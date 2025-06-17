@@ -1,0 +1,27 @@
+# Valkey Operator installation settings
+operator:
+  # Set to false if valkey-operator is already installed
+  install: true
+
+# Valkey instance configuration
+valkey:
+  # Name of the Valkey instance
+  name: valkey
+
+  # Namespace to deploy Valkey
+  # namespace: ""
+
+  # Additional labels for the Valkey resource
+  labels: {}
+
+  # Additional annotations for the Valkey resource
+  annotations: {}
+
+  # Valkey CRD spec - https://github.com/hyperspike/valkey-operator/blob/main/config/crd/bases/hyperspike.io_valkeys.yaml
+  spec:
+    image: ghcr.io/valkey-io/valkey:8.0-bookworm
+    nodes: 1
+    volumePermissions: true
+    prometheus: false
+    tls: true
+    certIssuer: selfsigned

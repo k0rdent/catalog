@@ -188,6 +188,7 @@ tensorflow
 timeseries
 toolchain
 v3
+Valkey
 vSphere
 virtualzation
 webapp

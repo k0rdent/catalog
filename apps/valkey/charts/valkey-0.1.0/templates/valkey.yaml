@@ -1,0 +1,16 @@
+apiVersion: hyperspike.io/v1
+kind: Valkey
+metadata:
+  name: {{ include "valkey.instanceName" . }}
+  namespace: {{ .Values.valkey.namespace | default .Release.Namespace }}
+  labels:
+    {{- include "valkey.labels" . | nindent 4 }}
+    {{- with .Values.valkey.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.valkey.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- toYaml .Values.valkey.spec | nindent 2 }}

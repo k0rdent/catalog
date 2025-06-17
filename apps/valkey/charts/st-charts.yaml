@@ -1,0 +1,8 @@
+st-charts:
+  - name: valkey
+    version: 0.1.0
+    service_template_only: true
+    dependencies:
+      - name: valkey
+        version: 0.1.0
+        repository: oci://ghcr.io/k0rdent/catalog/charts/
