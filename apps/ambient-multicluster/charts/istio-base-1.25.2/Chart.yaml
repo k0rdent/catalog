@@ -1,0 +1,10 @@
+apiVersion: v2
+name: istio-base
+description: Helm chart for deploying Istio base components
+type: application
+version: 1.25.2
+appVersion: "1.25.2"
+dependencies:
+  - name: base
+    version: 1.25.2
+    repository: https://istio-release.storage.googleapis.com/charts 
