@@ -34,7 +34,7 @@ created: "{{ created }}"
     {%- else %}
     #### Prerequisites
 
-    Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}/admin/installation/install-k0rdent/){ target="_blank" }
+    Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version | replace("v", "") }}/admin/installation/install-k0rdent/){ target="_blank" }
     {%- endif %}
 
     {% if use_ingress %}
