@@ -66,6 +66,7 @@ examples: |
                 enabled: true
                 ingressClassName: nginx
                 hostname: 'argocd.example.com'
+                tls: true
                 annotations:
                   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       - template: ingress-nginx-4-11-5
@@ -81,4 +82,7 @@ examples: |
                 enabled: true
   ~~~
 
-  You can now access your ArgoCD web UI at `argocd.example.com`.
+  You can now access your ArgoCD web UI at `argocd.example.com`. Username: `admin`. Get password using:
+  ~~~bash
+  kubectl get secrets/argocd-initial-admin-secret -n argo-cd --template={{.data.password}} | base64 -d; echo
+  ~~~
