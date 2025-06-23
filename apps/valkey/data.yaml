@@ -3,6 +3,7 @@ tags:
 title: Valkey
 summary: "High-performance in-memory data store and cache."
 logo: "./assets/valkey_logo.svg"
+logo_big: "./assets/valkey_logo_big.svg"
 created: "2025-06-16T14:20:00Z"
 description: |
     Valkey is a high-performance in-memory data store that supports various data structures
