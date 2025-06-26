@@ -1,0 +1,13 @@
+k0rdent Generic Service Template
+================================
+Helm repository name: {{ .Values.helm.repository.name | default .Release.Name }}
+Service templates:
+{{- range .Values.helm.charts }}
+- {{ $.Values.prefix }}{{ .name }}-{{ .version | replace "." "-" }}
+{{- end }}
+
+Check resources:
+kubectl get helmrepository {{ .Values.helm.repository.name | default .Release.Name }}
+{{- range .Values.helm.charts }}
+kubectl get servicetemplate {{ $.Values.prefix }}{{ .name }}-{{ .version | replace "." "-" }}
+{{- end }}
