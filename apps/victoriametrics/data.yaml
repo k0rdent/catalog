@@ -17,6 +17,33 @@ description: |
   - Global query view
   - Long-term storage
   - Prometheus compatibility
+
+  **Storage Configuration:**
+  
+  The example deployment uses emptyDir storage for universal compatibility. Data will be lost on pod restart.
+  
+  For production use, configure persistent storage:
+  
+  ```yaml
+  victoria-metrics-single:
+    server:
+      persistentVolume:
+        enabled: true
+        size: 100Gi
+        storageClass: "your-storage-class"
+  ```
+  
+  For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
+prerequisites: |
+  **Storage Requirements:**
+  
+  - **Testing/Evaluation**: Uses emptyDir storage (data lost on restart) - works on any cluster
+  - **Production**: Requires persistent volumes with a configured StorageClass
+  
+  **Network Access:**
+  
+  - LoadBalancer service type is used for external access
+  - Port 8428 for VictoriaMetrics HTTP API and web interface
 install_code: |
   ~~~bash
   helm install victoriametrics oci://ghcr.io/k0rdent/catalog/charts/victoriametrics-service-template \
