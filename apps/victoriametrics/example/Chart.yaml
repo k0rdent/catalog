@@ -3,6 +3,6 @@ name: example
 type: application
 version: 0.22.0
 dependencies:
-  - name: victoria-metrics-single
+  - name: victoriametrics
     version: 0.22.0
-    repository: https://victoriametrics.github.io/helm-charts/
+    repository: oci://ghcr.io/k0rdent/catalog/charts

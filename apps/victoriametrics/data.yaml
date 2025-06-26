@@ -24,14 +24,15 @@ description: |
   
   For production use, configure persistent storage:
   
-  ```yaml
-  victoria-metrics-single:
-    server:
-      persistentVolume:
-        enabled: true
-        size: 100Gi
-        storageClass: "your-storage-class"
-  ```
+  ~~~yaml
+  victoriametrics:
+    victoria-metrics-single:
+      server:
+        persistentVolume:
+          enabled: true
+          size: 100Gi
+          storageClass: "your-storage-class"
+  ~~~
   
   For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
 prerequisites: |
