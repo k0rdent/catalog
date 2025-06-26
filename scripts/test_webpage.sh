@@ -1,13 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-while true; do
+# Timeout after 10 minutes (600 seconds) - ingress setup can take time
+TIMEOUT=$((10 * 60))
+SECONDS=0
+
+while (( SECONDS < TIMEOUT )); do
     echo "$TEST_MODE/$APP"
     ingress=$(KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n $APP --no-headers)
     echo "$ingress"
     address=$(echo "$ingress" | awk '{print $4}')
     if [[ -z "$address" ]]; then
-        echo "No ingress address found"
+        echo "No ingress address found (${SECONDS}s elapsed)"
         sleep 3
         continue
     fi
@@ -15,7 +19,7 @@ while true; do
 
     host=$(echo "$ingress" | awk '{print $3}')
     if [[ -z "$host" ]]; then
-        echo "No ingress host found"
+        echo "No ingress host found (${SECONDS}s elapsed)"
         sleep 3
         continue
     fi
@@ -33,7 +37,7 @@ while true; do
     else
         ip=$(dig +short "$address" | head -n 1)
         if [[ -z "$ip" ]]; then
-            echo "No ip address found"
+            echo "No ip address found (${SECONDS}s elapsed)"
             sleep 3
             continue
         fi
@@ -48,3 +52,10 @@ while true; do
     fi
     exit 0
 done
+
+if (( SECONDS >= TIMEOUT )); then
+    echo "❌ Timeout reached after ${TIMEOUT}s: Webpage test failed"
+    echo "🔍 Final ingress status:"
+    KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n $APP -o wide || true
+    exit 1
+fi
