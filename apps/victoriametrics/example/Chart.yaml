@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 0.22.0
+dependencies:
+  - name: victoriametrics
+    version: 0.22.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

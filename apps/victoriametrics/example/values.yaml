@@ -1,0 +1,28 @@
+victoriametrics:
+  victoria-metrics-single:
+    server:
+      service:
+        type: LoadBalancer
+        port: 8428
+      
+      # Disable persistent storage for universal compatibility
+      # Data will be lost on pod restart - configure persistentVolume for production
+      persistentVolume:
+        enabled: false
+      
+      # Use emptyDir by default (data is ephemeral)
+      emptyDir: {}
+      
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 200m
+          memory: 256Mi
+      
+      extraArgs:
+        retentionPeriod: "7d"
+        envflag.enable: "true"
+        envflag.prefix: VM_
+        loggerFormat: json

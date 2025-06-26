@@ -1,0 +1,81 @@
+tags:
+  - Monitoring
+title: "VictoriaMetrics"
+summary: "High-performance, cost-effective time series database"
+logo: "./assets/victoriametrics.png"
+created: "2025-06-25T18:24:00Z"
+description: |
+  VictoriaMetrics is a fast, cost-effective and scalable monitoring solution and time series database.
+  
+  It is designed to collect, store, and process real-time metrics, making it an excellent choice for monitoring applications, infrastructure, and business metrics. VictoriaMetrics can be used as a long-term remote storage for Prometheus or as a drop-in replacement for Prometheus with better performance and lower resource usage.
+  
+  Key features:
+  - High performance and resource efficiency
+  - Excellent compression for time series data
+  - Easy to operate and maintain
+  - Horizontal scalability
+  - Global query view
+  - Long-term storage
+  - Prometheus compatibility
+
+  **Storage Configuration:**
+  
+  The example deployment uses emptyDir storage for universal compatibility. Data will be lost on pod restart.
+  
+  For production use, configure persistent storage:
+  
+  ~~~yaml
+  victoriametrics:
+    victoria-metrics-single:
+      server:
+        persistentVolume:
+          enabled: true
+          size: 100Gi
+          storageClass: "your-storage-class"
+  ~~~
+  
+  For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
+prerequisites: |
+  **Storage Requirements:**
+  
+  - **Testing/Evaluation**: Uses emptyDir storage (data lost on restart) - works on any cluster
+  - **Production**: Requires persistent volumes with a configured StorageClass
+  
+  **Network Access:**
+  
+  - LoadBalancer service type is used for external access
+  - Port 8428 for VictoriaMetrics HTTP API and web interface
+install_code: |
+  ~~~bash
+  helm install victoriametrics oci://ghcr.io/k0rdent/catalog/charts/victoriametrics-service-template \
+      --version 0.22.0 -n kcm-system
+  ~~~
+verify_code: |
+  ~~~bash
+  kubectl get servicetemplates -A
+  # NAMESPACE    NAME                       VALID
+  # kcm-system   victoriametrics-0-22-0     true
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1alpha1
+  kind: MultiClusterService
+  metadata:
+    name: victoriametrics
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: victoriametrics-0-22-0
+        name: victoriametrics
+        namespace: victoriametrics
+        values: |
+          victoriametrics:
+            server:
+              service:
+                type: LoadBalancer
+  ~~~
+doc_link: https://docs.victoriametrics.com/
+support_link: https://victoriametrics.com/products/enterprise/
