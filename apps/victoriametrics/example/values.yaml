@@ -10,7 +10,7 @@ victoriametrics:
       persistentVolume:
         enabled: false
       
-      # Use emptyDir for testing (data is ephemeral)
+      # Use emptyDir by default (data is ephemeral)
       emptyDir: {}
       
       resources:
