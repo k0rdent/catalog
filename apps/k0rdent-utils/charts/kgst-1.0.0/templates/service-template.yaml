@@ -1,0 +1,31 @@
+{{- $parts := split ":" $.Values.chart }}
+{{- if not (eq (len $parts) 2) }}
+  {{ fail "Invalid 'chart' format: must be 'name:version' (e.g. 'ingress-nginx:4.11.5')" }}
+{{- end }}
+
+{{- $chartName := $parts._0 }}
+{{- if not $chartName }}
+  {{ fail "Invalid 'chart' variable format (empty chart name): must be 'name:version' (e.g. 'ingress-nginx:4.11.5')" }}
+{{- end }}
+
+{{- $chartVersion := $parts._1 }}
+{{- if not $chartVersion }}
+  {{ fail "Invalid 'chart' variable format (empty chart version): must be 'name:version' (e.g. 'ingress-nginx:4.11.5')" }}
+{{- end }}
+
+apiVersion: k0rdent.mirantis.com/{{ $.Values.k0rdentApiVersion }}
+kind: ServiceTemplate
+metadata:
+  name: {{ $.Values.prefix }}{{ $chartName }}-{{ $chartVersion | replace "." "-" }}
+  namespace: {{ $.Values.namespace | default $.Release.Namespace }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: {{ $chartName }}
+      version: {{ $chartVersion }}
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: {{ $.Values.repo.name | default $.Release.Name }}

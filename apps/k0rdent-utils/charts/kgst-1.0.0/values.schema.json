@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "required": [
+    "repo",
+    "chart"
+  ],
+  "properties": {
+    "repo": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "k0rdentApiVersion": {
+      "type": "string",
+      "enum": ["v1alpha1", "v1beta1"]
+    },
+    "prefix": {
+      "type": "string"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "chart": {
+      "type": "string",
+      "enum": [
+        "cert-manager:1.16.2",
+        "cert-manager:1.17.2",
+        "dapr:1.14.4",
+        "dapr-dashboard:0.15.0",
+        "ingress-nginx:4.11.3",
+        "ingress-nginx:4.11.5",
+        "opencost:1.43.2",
+        "open-webui:5.20.0",
+        "open-webui:6.20.0",
+        "prometheus:27.5.1",
+        "velero:8.1.0"
+      ]
+    }
+  }
+}

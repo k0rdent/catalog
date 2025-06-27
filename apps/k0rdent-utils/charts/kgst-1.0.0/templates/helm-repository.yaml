@@ -1,0 +1,30 @@
+{{- $repoType := "default" }}
+{{- if hasPrefix "oci" .Values.repo.url }}
+  {{- $repoType = "oci" }}
+{{- end }}
+
+{{- if eq .Values.repo.name "k0rdent-catalog" }}
+  {{- if not (eq "oci://ghcr.io/k0rdent/catalog/charts" .Values.repo.url) }}
+    {{ fail "Please set 'repo.name' as 'k0rdent-catalog' is reserved for 'oci://ghcr.io/k0rdent/catalog/charts'" }}
+  {{- end }}
+{{- end }}
+
+{{- if eq .Values.repo.name "k0rdent-enterprise-catalog" }}
+  {{- if not (eq "oci://registry.mirantis.com/k0rdent-enterprise-catalog" .Values.repo.url) }}
+    {{ fail "Please set 'repo.name' as 'k0rdent-enterprise-catalog' is reserved for 'oci://registry.mirantis.com/k0rdent-enterprise-catalog'" }}
+  {{- end }}
+{{- end }}
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: {{ required "A valid 'repo.name' value is required!" .Values.repo.name }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
+  labels:
+    k0rdent.mirantis.com/managed: "true"
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/resource-policy: keep
+spec:
+  type: {{ $repoType }}
+  url: {{ required "A valid 'helm.repo.url' value is required!" .Values.repo.url }}
