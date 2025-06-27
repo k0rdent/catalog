@@ -1,0 +1,25 @@
+repo:
+  # Helm repository name (HelmRepository resource)
+  name: "k0rdent-catalog"
+  
+  # Valid helm chart url: e.g. 'https://grafana.github.io/helm-charts'
+  url: oci://ghcr.io/k0rdent/catalog/charts
+
+# Service template referenced Helm chart.
+# Expected format: "name:version"
+# E.g., "ingress-nginx:4.11.5"
+chart: ""
+
+# Service template prefix (optional)
+# E.g. istio-base, instead of just base, use:
+# prefix: "istio-"
+prefix: ""
+
+# Namespace of service template and helm repo, equals to release namespace by default.
+namespace: ""
+
+# k0rdent API version used in ServiceTemplate object.
+k0rdentApiVersion: "v1beta1"
+
+# Set to true to skip the pre-install chart verification job.
+skipVerifyJob: false

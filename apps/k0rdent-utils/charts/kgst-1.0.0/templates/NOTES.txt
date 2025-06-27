@@ -1,0 +1,12 @@
+{{- $parts := split ":" $.Values.chart }}
+{{- $chartName := $parts._0 }}
+{{- $chartVersion := $parts._1 }}
+k0rdent Generic Service Template
+================================
+Helm repository name: {{ .Values.repo.name }}
+Service template:
+- {{ $.Values.prefix }}{{ $chartName }}-{{ $chartVersion | replace "." "-" }}
+
+Check resources:
+kubectl get helmrepository {{ .Values.repo.name }} -n {{ .Values.namespace | default .Release.Namespace }}
+kubectl get servicetemplate {{ $.Values.prefix }}{{ $chartName }}-{{ $chartVersion | replace "." "-" }} -n {{ .Values.namespace | default .Release.Namespace }}

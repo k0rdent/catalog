@@ -1,0 +1,52 @@
+{{- if not .Values.skipVerifyJob }}
+
+  {{- $parts := split ":" $.Values.chart }}
+  {{- $chartName := $parts._0 }}
+  {{- $chartVersion := $parts._1 }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: verify-job-{{ $chartName }}-{{ $chartVersion | replace "." "-" }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: verify-job
+          image: alpine/helm:3.14.0
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              CHART_FULL="{{ $.Values.repo.url }}/{{ $chartName }}"
+              VERSION="{{ $chartVersion }}"
+
+              echo "Checking chart: $CHART_FULL:$VERSION"
+
+              {{- if hasPrefix "oci" .Values.repo.url }}
+              # Try to pull the chart
+              helm pull $CHART_FULL --version $VERSION --untar --destination /tmp || {
+                echo "Chart $CHART_FULL:$VERSION does not exist or cannot be pulled"
+                exit 1
+              }
+              {{- else }}
+              # Add http repo
+              helm repo add "{{ $chartName }}-repo" "{{ $.Values.repo.url }}"
+              # List all repo charts
+              helm search repo "{{ $chartName }}-repo" -l | grep "{{ $chartName }}-repo/{{ $chartName }}"
+              # Try to pull the chart
+              helm pull "{{ $chartName }}-repo/{{ $chartName }}" --version $VERSION --untar --destination /tmp || {
+                echo "Chart $CHART_FULL:$VERSION does not exist or cannot be pulled"
+                exit 1
+              }
+
+              {{- end }}
+
+              echo "Chart exists."
+{{- end }}
