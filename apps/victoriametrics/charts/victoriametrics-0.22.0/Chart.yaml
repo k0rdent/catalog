@@ -1,0 +1,9 @@
+apiVersion: v2
+name: victoriametrics
+description: A Helm chart that references the official "victoriametrics" Helm chart.
+type: application
+version: 0.22.0
+dependencies:
+  - name: victoria-metrics-single
+    version: 0.22.0
+    repository: https://victoriametrics.github.io/helm-charts/
