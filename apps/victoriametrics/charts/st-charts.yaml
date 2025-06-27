@@ -1,0 +1,7 @@
+st-charts:
+  - name: victoriametrics
+    version: 0.22.0
+    dependencies:
+      - name: victoria-metrics-single
+        version: 0.22.0
+        repository: https://victoriametrics.github.io/helm-charts/
