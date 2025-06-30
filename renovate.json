@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":disableDependencyDashboard"
+  ],
+  "configMigration": true,
+  "enabledManagers": ["helmv3"],
+  "separateMinorPatch": true,
+  "separateMultipleMajor": true,
+  "draftPR": true,
+  "ignorePaths": [
+    "apps/**/charts/**/*-service-template-*/**"
+  ],
+  "packageRules": [
+    {
+      "matchFileNames": ["apps/**/charts/**"],
+      "bumpVersion": "patch",
+      "bumpVersions": [
+        {
+          "name": "Bump Helm chart versions",
+          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
+          "matchStrings": ["^version:\\s*(?<version>[^\\s]+)"],
+          "bumpType": "{{#if isMinor}}minor{{else}}patch{{/if}}"
+        }
+      ]
+    }
+  ]
+}
