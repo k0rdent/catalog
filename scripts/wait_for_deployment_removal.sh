@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Timeout after 5 minutes (300 seconds) - pod removal should be relatively quick
-TIMEOUT=$((5 * 60))
+# Timeout after 10 minutes (600 seconds) - pod removal should be relatively quick (set 10 mins due to cert-manager)
+TIMEOUT=$((10 * 60))
 SECONDS=0
 
 while (( SECONDS < TIMEOUT )); do
