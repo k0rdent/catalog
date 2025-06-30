@@ -1,0 +1,184 @@
+name: Test changed apps on GCP/AZURE/AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      aws_settings:
+        description: 'AWS settings as JSON. Example: {"master_number":"1","master_type":"t3.small","worker_number":"1","worker_type":"t3.small"}'
+        required: false
+        default: '{"master_number":"1","master_type":"t3.small","worker_number":"1","worker_type":"t3.small"}'
+      azure_settings:
+        description: 'Azure settings as JSON. Example: {"master_number":"1","master_type":"Standard_A4_v2","worker_number":"2","worker_type":"Standard_A4_v2"}'
+        required: false
+        default: '{"master_number":"1","master_type":"Standard_A4_v2","worker_number":"2","worker_type":"Standard_A4_v2"}'
+      gcp_settings:
+        description: 'GCP settings as JSON. Example: {"master_number":"1","master_type":"n2-standard-2","worker_number":"2","worker_type":"n2-standard-2"}'
+        required: false
+        default: '{"master_number":"1","master_type":"n2-standard-2","worker_number":"2","worker_type":"n2-standard-2"}'
+
+  push:
+    branches:
+      - '*'
+    paths:
+      - apps/**
+      - '!apps/*/charts/**'
+      - .github/workflows/helm-app-deploy.yml
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - apps/**
+      - '!apps/*/charts/**'
+      - .github/workflows/helm-app-deploy.yml
+
+jobs:
+  detect-updated-apps:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_folders: ${{ steps.get-changes.outputs.folders }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full commit history
+
+      - name: Ensure the main branch is available
+        run: |
+          git fetch origin main --depth=1
+
+      - name: Get Changed Folders
+        id: get-changes
+        run: |
+          ALL_CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRT origin/main HEAD)
+          echo "$ALL_CHANGED_FILES"
+          CHANGED_FOLDERS=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "Detected changes in: $CHANGED_FOLDERS"
+          echo "folders=$CHANGED_FOLDERS" >> "$GITHUB_OUTPUT"
+
+
+  
+  deployment-and-testing: 
+    runs-on: self-hosted
+    if: ${{ needs.detect-updated-apps.outputs.changed_folders != '[]' }}  
+    environment: production
+    needs: detect-updated-apps
+    strategy:
+        matrix:
+          folder: ${{ fromJson(needs.detect-updated-apps.outputs.changed_folders) }}
+    steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                fetch-depth: 0  # Ensure full commit history
+
+          - name: Get app test settings
+            run: |
+                app=${{ matrix.folder }}
+                test_settings=$(python3 ./scripts/utils.py print-test-vars "$app")
+                echo "$test_settings"
+                echo "$test_settings" >> $GITHUB_ENV
+
+          - name: Check app charts changed
+            run: |
+                app=${{ matrix.folder }}
+                git diff --name-only --diff-filter=ACMRT origin/main HEAD -- "apps/$app/charts"
+                if ! git diff --name-only --diff-filter=ACMRT --quiet origin/main HEAD -- "apps/$app/charts"; then
+                echo "App charts changed"
+                echo "APP_CHARTS_CHANGED=true" >> $GITHUB_ENV
+                else
+                echo "App charts not changed"
+                echo "APP_CHARTS_CHANGED=false" >> $GITHUB_ENV
+                fi
+
+          - name: Use fork ghcr registry in example Helm chart
+            if: (env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true') && env.APP_CHARTS_CHANGED == 'true'
+            run: |
+                export APP=${{ matrix.folder }}
+                if [ "${{ github.event_name }}" == "pull_request" ]; then
+                echo "Pull request - use fork ghcr registry"
+                repo_path="$(echo "ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+                elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+                echo "'In fork' test - use fork ghcr registry"
+                repo_path="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+                fi
+                if [ -n "$repo_path" ]; then
+                echo "Replacing 'ghcr.io/k0rdent/catalog/charts' with '$repo_path' for forked/non-main build"
+                sed -i "s|oci://ghcr.io/k0rdent/catalog/charts|oci://$repo_path|g" apps/$APP/example/Chart.yaml
+                helm dependency update "apps/$APP/example"
+                fi
+
+          - name: Test - Show service templates install commands
+            if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+            run: |
+                export APP=${{ matrix.folder }}
+                python3 ./scripts/utils.py install-servicetemplates $APP
+
+          - name: Test - Ensure MultiClusterService config
+            if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+            run: |
+                export APP=${{ matrix.folder }}
+                ./scripts/ensure_mcs_config.sh
+
+          - name: Deploy Child Clusters
+            if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+            run: |
+                aws_settings="${{ github.event.inputs.aws_settings }}"
+                azure_settings="${{ github.event.inputs.azure_settings }}"
+                gcp_settings="${{ github.event.inputs.gcp_settings }}"
+
+                export aws_settings=${aws_settings:-'{"master_number":"1","master_type":"t3.medium","worker_number":"1","worker_type":"t3.medium"}'}
+                export azure_settings=${azure_settings:-'{"master_number":"1","master_type":"Standard_A4_v2","worker_number":"2","worker_type":"Standard_A4_v2"}'}
+                export gcp_settings=${gcp_settings:-'{"master_number":"1","master_type":"n2-standard-2","worker_number":"2","worker_type":"n2-standard-2"}'}
+
+                ./scripts/deploy_child_clusters.sh
+
+
+          - name: Checking the child cluster's statuses
+            if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+            run: ./scripts/check_child_clusters.sh
+
+
+
+          - name: Test - Install example Helm chart
+            if: env.DEPLOY_CHART == 'true'
+            run: |
+                    export APP=${{ matrix.folder }}
+                    export TEST_MODE=local
+                    ./scripts/deploy_example_chart_multi.sh
+
+          - name: Test - Uninstall Helm chart
+            if: env.DEPLOY_CHART == 'true'
+            run: |
+                    export APP=${{ matrix.folder }}
+                    export TEST_MODE=local
+                    ./scripts/uninstall_example_chart_multi.sh
+
+
+
+          - name: Test - Install service template
+            if: env.INSTALL_SERVICETEMPLATES == 'true'
+            run: |
+                    export APP=${{ matrix.folder }}
+                    ./scripts/install_servicetemplates_multi.sh
+
+
+          - name: Test - Deploy MultiClusterDeployment
+            if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+            run: |
+                    export APP=${{ matrix.folder }}
+                    ./scripts/deploy_mcs_multi.sh
+
+          - name: Test - Uninstall MultiClusterDeployment
+            if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+            run: |
+                    export APP=${{ matrix.folder }}
+                    ./scripts/remove_mcs_multi.sh
+
+
+          - name: Uninstall service template
+            if: env.INSTALL_SERVICETEMPLATES == 'true'
+            run: |
+                    export APP=${{ matrix.folder }}
+                    ./scripts/uninstall_servicetemplates_multi.sh
+
+          - name:  Delete child clusters
+            run: ./scripts/delete_clds.sh
