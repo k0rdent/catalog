@@ -7,7 +7,7 @@ required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'created']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'description', 'install_code', 'verify_code',
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
-                  'test_deploy_multiclusterservice', 'test_wait_for_pods', 'show_install_tab', 'examples']
+                  'test_deploy_multiclusterservice', 'test_wait_for_pods', 'show_install_tab', 'examples', 'charts']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
@@ -16,6 +16,7 @@ summary_chars_limit = 90
 valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0']
 
 VERSION = os.environ.get('VERSION', 'v1.0.0')
+
 
 def changed(file, content):
     if os.path.exists(file):
@@ -175,6 +176,43 @@ def ensure_big_logo(metadata: dict):
         metadata['logo_big'] = metadata['logo']
 
 
+def kgst_install(chart_name: str, chart_version: str, enterprise: bool):
+    kgst = 'oci://ghcr.io/k0rdent/catalog/charts/kgst'
+    if enterprise:
+        kgst = "oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst"
+    return f"helm install {chart_name} {kgst} --set \"chart={chart_name}:{chart_version}\" -n kcm-system"
+
+
+def ensure_install_code(metadata: dict):
+    if 'install_code' in metadata:
+        return
+    if 'charts' not in metadata:
+        return
+
+    install_code_lines = ['~~~bash']
+    for chart in metadata['charts']:
+        enterprise = metadata.get('support_type') == 'Enterprise'
+        install_code_lines.append(kgst_install(chart['name'], chart['versions'][0], enterprise))
+    install_code_lines.append('~~~')
+    metadata['install_code'] = '\n'.join(install_code_lines)
+
+
+def ensure_verify_code(metadata: dict):
+    if 'verify_code' in metadata:
+        return
+    if 'charts' not in metadata:
+        return
+
+    verify_code_lines = ['~~~bash']
+    verify_code_lines.append('kubectl get servicetemplates -A')
+    verify_code_lines.append('# NAMESPACE    NAME                            VALID')
+    for chart in metadata['charts']:
+        template_name = f"{chart['name']}-{chart['versions'][0].replace('.', '-')}".ljust(32)
+        verify_code_lines.append(f"# kcm-system   {template_name}true")
+    verify_code_lines.append('~~~')
+    metadata['verify_code'] = '\n'.join(verify_code_lines)
+
+
 def generate_apps():
     apps_dir = 'apps'
     dst_dir = 'mkdocs'
@@ -202,6 +240,8 @@ def generate_apps():
                 metadata = yaml.safe_load(metadata_str)
                 validate_metadata(data_file, metadata)
                 ensure_big_logo(metadata)
+                ensure_install_code(metadata)
+                ensure_verify_code(metadata)
                 metadata.update(base_metadata)
         else:
             continue
