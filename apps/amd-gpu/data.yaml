@@ -17,20 +17,11 @@ description: |
     This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
     and comprehensive observability for AI applications running on AMD hardware.
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
-install_code: |
-    ~~~bash
-    helm install amd-gpu-operator oci://ghcr.io/k0rdent/catalog/charts/amd-gpu-operator-service-template \
-      --version v1.2.2 -n kcm-system
-    helm install cert-manager oci://ghcr.io/k0rdent/catalog/charts/cert-manager-service-template \
-      --version 1.17.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                          VALID
-    # kcm-system   amd-gpu-operator-v1-2-2       true
-    # kcm-system   cert-manager-1-17-2           true
-    ~~~
+charts:
+  - name: amd-gpu-operator
+    versions: ['v1.2.2']
+  - name: cert-manager
+    versions: ['1.17.2']
 deploy_code: |
     Tested `ClusterDeployment` in Azure:
     ~~~yaml

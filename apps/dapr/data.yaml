@@ -18,20 +18,11 @@ description: |
   Actors: Provides a framework for building stateful, concurrent objects. 
 
   Observability: Offers built-in observability features, including tracing, metrics, and logging.
-install_code: |
-  ~~~bash
-  helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template \
-    --version 1.14.4 -n kcm-system
-  helm install dapr-dashboard oci://ghcr.io/k0rdent/catalog/charts/dapr-dashboard-service-template \
-    --version 0.15.0 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                       VALID
-  # kcm-system   dapr-1-14-4                true
-  # kcm-system   dapr-dashboard-0-15-0      true
-  ~~~
+charts:
+  - name: dapr
+    versions: ['1.14.4']
+  - name: dapr-dashboard
+    versions: ['0.15.0']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

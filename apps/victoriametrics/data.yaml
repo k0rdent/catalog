@@ -45,17 +45,9 @@ prerequisites: |
   
   - LoadBalancer service type is used for external access
   - Port 8428 for VictoriaMetrics HTTP API and web interface
-install_code: |
-  ~~~bash
-  helm install victoriametrics oci://ghcr.io/k0rdent/catalog/charts/victoriametrics-service-template \
-      --version 0.22.0 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                       VALID
-  # kcm-system   victoriametrics-0-22-0     true
-  ~~~
+charts:
+  - name: victoriametrics
+    versions: ['0.22.0']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -11,17 +11,9 @@ description: |
     software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
     training and high-performance computing.
 support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
-install_code: |
-    ~~~bash
-    helm install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/gpu-operator-service-template \
-      --version 24.9.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                          VALID
-    # kcm-system   gpu-operator-24-9-2           true
-    ~~~
+charts:
+  - name: gpu-operator
+    versions: ['24.9.2']
 deploy_code: |
     Tested `ClusterDeployment` in AWS:
     ~~~yaml

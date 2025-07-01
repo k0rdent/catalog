@@ -10,17 +10,9 @@ description: |
     not a DNS server itself, but merely configures other DNS providers accordingly—e.g. AWS Route 53 or Google Cloud DNS.
 
     In a broader sense, ExternalDNS allows you to control DNS records dynamically via Kubernetes resources in a DNS provider-agnostic way.
-install_code: |
-    ~~~bash
-    helm install external-dns oci://ghcr.io/k0rdent/catalog/charts/external-dns-service-template \
-      --version 1.15.1 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   external-dns-1-15-1        true
-    ~~~
+charts:
+  - name: external-dns
+    versions: ['1.15.1']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

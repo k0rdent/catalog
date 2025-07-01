@@ -10,17 +10,9 @@ description: |
     and consume storage resources. It's an open-source project that helps containerized
     applications meet their storage needs.
 support_link: https://docs.netapp.com/us-en/trident/get-help.html
-install_code: |
-    ~~~bash
-    helm install trident-operator oci://ghcr.io/k0rdent/catalog/charts/trident-operator-service-template \
-      --version 100.2410.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                          VALID
-    # kcm-system   trident-operator-100-2410-0   true
-    ~~~
+charts:
+  - name: trident-operator
+    versions: ['100.2410.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

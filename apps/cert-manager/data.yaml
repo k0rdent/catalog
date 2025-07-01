@@ -8,21 +8,9 @@ description: |
     Cert-manager is a Kubernetes add-on that automates the management of TLS certificates.
     It can issue, renew, and validate certificates from various sources, including public and private issuers.
 support_link: https://cert-manager.io/support/
-install_code: |
-    ~~~bash
-    {% if version == "v0.1.0" %}
-    # k0rdent includes the template for Cert-manager 1.16.2 out of the box
-    # It's also possible to install a newer version:
-    {% endif %}
-    helm install cert-manager oci://ghcr.io/k0rdent/catalog/charts/cert-manager-service-template \
-      --version 1.17.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   cert-manager-1-17-2        true
-    ~~~
+charts:
+  - name: cert-manager
+    versions: ['1.17.2', '1.16.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

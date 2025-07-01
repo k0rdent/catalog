@@ -24,17 +24,9 @@ description: |
 
     By deploying the Knative Operator alongside Istio from the catalog, k0rdent enables users to build and scale event-driven applications while leveraging Kubernetes-native infrastructure.
 support_link: https://knative.dev/community/
-install_code: |
-    ~~~bash
-    helm install knative-operator oci://ghcr.io/k0rdent/catalog/charts/knative-operator-service-template \
-      --version 1.17.4 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                     VALID
-    # kcm-system   knative-operator-1-17-4  true
-    ~~~
+charts:
+  - name: knative-operator
+    versions: ['1.17.4']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

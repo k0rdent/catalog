@@ -14,17 +14,9 @@ description: |
   running and maintaining MySQL databases in containerized environments, providing a
   centralized control plane for managing the underlying Kubernetes infrastructure.
 support_link: https://www.mysql.com/about/contact/
-install_code: |
-    ~~~bash
-    helm install mysql-operator oci://ghcr.io/k0rdent/catalog/charts/mysql-operator-service-template \
-      --version 2.2.3 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   mysql-operator-2-2-3           true
-    ~~~
+charts:
+  - name: mysql-operator
+    versions: ['2.2.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -16,21 +16,9 @@ description: |
     - Resource Validation: Validate resource configurations against security and compliance standards, preventing misconfigurations. 
     - RBAC Integration: Integrates with Kubernetes RBAC to control who can create, modify, and apply policies.
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
-install_code: |
-    ~~~bash
-    {% if version == "v0.1.0" %}
-    # k0rdent includes the template for Kyverno out of the box
-    {% else %}
-    helm install kyverno oci://ghcr.io/k0rdent/catalog/charts/kyverno-service-template \
-      --version 3.2.6 -n kcm-system
-    {% endif %}
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                VALID
-    # kcm-system   kyverno-3-2-6       true
-    ~~~
+charts:
+  - name: kyverno
+    versions: ['3.2.6']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -11,17 +11,9 @@ description: |
   running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage,
   histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.
 support_link: https://ckotzbauer.github.io/helm-charts
-install_code: |
-  ~~~bash
-  helm install cadvisor oci://ghcr.io/k0rdent/catalog/charts/cadvisor-service-template \
-    --version 2.3.3 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                 VALID
-  # kcm-system   cadvisor-2-3-3       true
-  ~~~
+charts:
+  - name: cadvisor
+    versions: ['2.3.3']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

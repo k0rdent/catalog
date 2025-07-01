@@ -10,17 +10,9 @@ description: |
     Atlas for free in your local environment, including local experiences for full-text
     and vector search, as well as in the cloud.
 support_link: https://www.mongodb.com/services/support
-install_code: |
-    ~~~bash
-    helm install mongodb oci://ghcr.io/k0rdent/catalog/charts/mongodb-community-operator-service-template \
-      --version 0.12.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                                   VALID
-    # kcm-system   mongodb-community-operator-0-12-0      true
-    ~~~
+charts:
+  - name: mongodb
+    versions: ['0.12.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

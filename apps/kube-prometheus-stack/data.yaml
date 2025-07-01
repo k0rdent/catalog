@@ -9,17 +9,9 @@ description: |
   It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
   It provides a collection of monitoring and alerting rules for Kubernetes clusters
 support_link: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
-install_code: |
-    ~~~bash
-    helm install kube-prometheus-stack oci://ghcr.io/k0rdent/catalog/charts/kube-prometheus-stack-service-template \
-      --version 72.6.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                               VALID
-    # kcm-system   kube-prometheus-stack-72-6-2       true
-    ~~~
+charts:
+  - name: kube-prometheus-stack
+    versions: ['72.6.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

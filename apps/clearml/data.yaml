@@ -20,17 +20,9 @@ description: |
   - [Orchestration Dashboard](https://clear.ml/docs/latest/docs/webapp/webapp_orchestration_dash/) - Live rich dashboard for your entire compute cluster (Cloud / Kubernetes / On-Prem)
 
 support_link: https://clear.ml/contact-us
-install_code: |
-    ~~~bash
-    helm install clearml-serving oci://ghcr.io/k0rdent/catalog/charts/clearml-serving-service-template \
-      --version 1.5.10 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                      VALID
-    # kcm-system   clearml-serving-1-5-10    true
-    ~~~
+charts:
+  - name: clearml-serving
+    versions: ['1.5.10']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

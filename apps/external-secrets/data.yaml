@@ -10,21 +10,9 @@ description: |
   synchronize them. The controller fetches secrets from an external API and creates Kubernetes secrets. If the secret
   from the external API changes, the controller will reconcile the state in the cluster and update the secrets accordingly.
 support_link: https://external-secrets.io/latest/introduction/stability-support/
-install_code: |
-    ~~~bash
-    {% if version == "v0.1.0" %}
-    # k0rdent includes the template for External-secrets out of the box
-    {% else %}
-    helm install external-secrets oci://ghcr.io/k0rdent/catalog/charts/external-secrets-service-template \
-      --version 0.11.0 -n kcm-system
-    {% endif %}
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                      VALID
-    # kcm-system   external-secrets-0-11-0   true
-    ~~~
+charts:
+  - name: external-secrets
+    versions: ['0.11.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

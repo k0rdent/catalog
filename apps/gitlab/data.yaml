@@ -11,17 +11,9 @@ description: |
     tools — equaling 7x faster cycles, better developer productivity, reduced software spend,
     and more time to focus on the features that set your business apart.
 support_link: https://about.gitlab.com/enterprise/
-install_code: |
-    ~~~bash
-    helm install gitlab oci://ghcr.io/k0rdent/catalog/charts/gitlab-service-template \
-      --version 8.9.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   gitlab-8-9-2                   true
-    ~~~
+charts:
+  - name: gitlab
+    versions: ['8.9.2']
 deploy_code: |
     In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:
     ~~~yaml

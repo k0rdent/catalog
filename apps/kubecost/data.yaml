@@ -9,17 +9,9 @@ description: |
     Kubecost is a powerful tool designed to help teams running Kubernetes manage and optimize their cloud infrastructure
     spending. It provides real-time visibility into the costs associated with your Kubernetes deployments, enabling you
     to understand where your money is going and identify opportunities for savings.
-install_code: |
-    ~~~bash
-    helm install kubecost oci://ghcr.io/k0rdent/catalog/charts/kubecost-service-template \
-      --version 2.5.3 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   kubecost-2-5-3   true
-    ~~~
+charts:
+  - name: kubecost
+    versions: ['2.5.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

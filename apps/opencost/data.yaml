@@ -10,17 +10,9 @@ description: |
     It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how
     resources are being used.
 support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
-install_code: |
-    ~~~bash
-    helm install opencost oci://ghcr.io/k0rdent/catalog/charts/opencost-service-template \
-      --version 1.43.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   opencost-1-43-2                true
-    ~~~
+charts:
+  - name: opencost
+    versions: ['1.43.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

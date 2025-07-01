@@ -10,23 +10,11 @@ description: |
   Kagent is an open-source programming framework that brings the power of agentic AI to cloud-native environments.
   Built specifically for DevOps and platform engineers, Kagent enables AI agents to run directly in Kubernetes clusters
   to automate operations, troubleshoot issues, and solve complex cloud-native challenges.
-install_code: |
-  ~~~bash
-  # Install kagent CRDs first
-  helm install kagent-crds oci://ghcr.io/k0rdent/catalog/charts/kagent-crds-service-template \
-    --version 0.3.13 -n kcm-system
-
-  # Install kagent
-  helm install kagent oci://ghcr.io/k0rdent/catalog/charts/kagent-service-template \
-    --version 0.3.13 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                VALID
-  # kcm-system   kagent-crds-0-3-13  true
-  # kcm-system   kagent-0-3-13       true
-  ~~~
+charts:
+  - name: kagent-crds
+    versions: ['0.3.13']
+  - name: kagent
+    versions: ['0.3.13']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

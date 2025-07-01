@@ -11,17 +11,9 @@ description: |
   provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads running
   on Kubernetes.
 support_link: https://scod.hpedev.io/legal/support/
-install_code: |
-    ~~~bash
-    helm install hpe-csi oci://ghcr.io/k0rdent/catalog/charts/hpe-csi-driver-service-template \
-      --version 2.5.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                      VALID
-    # kcm-system   hpe-csi-driver-2-5-2      true
-    ~~~
+charts:
+  - name: hpe-csi
+    versions: ['2.5.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

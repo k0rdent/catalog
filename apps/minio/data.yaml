@@ -9,17 +9,9 @@ description: |
   It is API compatible with Amazon S3 cloud storage service.
   Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads.
 # support_link:
-install_code: |
-  ~~~bash
-  helm install minio oci://ghcr.io/k0rdent/catalog/charts/minio-service-template \
-      --version 14.1.2 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                               VALID
-  # kcm-system   minio-14-2-1                       true
-  ~~~
+charts:
+  - name: minio
+    versions: ['14.1.2']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

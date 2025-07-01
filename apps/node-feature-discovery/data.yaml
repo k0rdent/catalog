@@ -10,17 +10,9 @@ description: |
     It detects hardware features available on each node in a Kubernetes cluster, and advertises those
     features using node labels and optionally node extended resources, annotations and node taints.
 support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=readme-ov-file
-install_code: |
-    ~~~bash
-    helm install nfd oci://ghcr.io/k0rdent/catalog/charts/node-feature-discovery-service-template \
-      --version 0.16.1 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                               VALID
-    # kcm-system   node-feature-discovery-0-16-1      true
-    ~~~
+charts:
+  - name: node-feature-discovery
+    versions: ['0.16.1']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -9,23 +9,13 @@ description: |
     features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,
     service-to-service authentication, and monitoring – with few or no service code changes.
 support_link: https://tetrate.io/
-install_code: |
-    ~~~bash
-    helm install istio-base oci://ghcr.io/k0rdent/catalog/charts/istio-base-service-template \
-      --version 1.24.3 -n kcm-system
-    helm install istiod oci://ghcr.io/k0rdent/catalog/charts/istiod-service-template \
-      --version 1.24.3 -n kcm-system
-    helm install istio-gateway oci://ghcr.io/k0rdent/catalog/charts/istio-gateway-service-template \
-      --version 1.24.3 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                      VALID
-    # kcm-system   istio-base-1-24-3         true
-    # kcm-system   istiod-1-24-3             true
-    # kcm-system   istio-gateway-1-24-3      true
-    ~~~
+charts:
+  - name: istio-base
+    versions: ['1.24.3']
+  - name: istiod
+    versions: ['1.24.3']
+  - name: istio-gateway
+    versions: ['1.24.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

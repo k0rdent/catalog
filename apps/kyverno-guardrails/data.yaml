@@ -9,17 +9,9 @@ prerequisites: |
     Kyverno must be installed in the cluster: [Kyverno Install](https://catalog.k0rdent.io/v0.2.0/apps/kyverno/kyverno/)
 description: |
     Kyverno Guardrails is a set of best-practice Kyverno Cluster-wide policies that can be deployed to enforce security and compliance best practices in your Kubernetes cluster. These policies are designed to help you ensure that your cluster is secure, compliant, and well-configured.
-install_code: |
-    ~~~bash
-    helm install kyverno-guardrails oci://ghcr.io/k0rdent/catalog/charts/kyverno-guardrails-service-template \
-      --version 0.1.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   kyverno-guardrails-0-1-0       true
-    ~~~
+charts:
+  - name: kyverno-guardrails
+    versions: ['0.1.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

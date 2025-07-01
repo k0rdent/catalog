@@ -11,17 +11,9 @@ description: |
     Redis with enhanced features and performance optimizations. Valkey can be used as a
     database, cache, message broker, and streaming engine.
 # support_link: https://github.com/orgs/valkey-io/discussions
-install_code: |
-    ~~~bash
-    helm install valkey oci://ghcr.io/k0rdent/catalog/charts/valkey-service-template \
-      --version 0.1.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME           VALID
-    # kcm-system   valkey-0-1-0   true
-    ~~~
+charts:
+  - name: valkey
+    versions: ['0.1.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

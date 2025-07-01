@@ -11,17 +11,9 @@ description: |
   - Simplified Deployment: k0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
   - Policy-Driven Deployments: Leverage k0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
 support_link: https://akuity.io/security-hardened-argo-cd
-install_code: |
-  ~~~bash
-  helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template \
-    --version 7.8.0 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                       VALID
-  # kcm-system   argo-cd-7-8-0              true
-  ~~~
+charts:
+  - name: argo-cd
+    versions: ['7.8.0']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1
@@ -38,10 +30,8 @@ doc_link: https://argo-cd.readthedocs.io/en/stable/
 examples: |
   Install service templates:
   ~~~bash
-  helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/argo-cd-service-template \
-    --version 7.8.0 -n kcm-system
-  helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/ingress-nginx-service-template \
-    --version 4.11.5 -n kcm-system
+  helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=argo-cd:7.8.0" -n kcm-system
+  helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.11.5" -n kcm-system
   ~~~
 
   #### Deploy MultiClusterService with web UI

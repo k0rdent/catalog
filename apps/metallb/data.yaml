@@ -9,17 +9,9 @@ description: |
   In short, it allows you to create Kubernetes services of type LoadBalancer in clusters that don’t
   run on a cloud provider, and thus cannot simply hook into paid products to provide load balancers.
 # support_link:
-install_code: |
-  ~~~bash
-  helm install metallb oci://ghcr.io/k0rdent/catalog/charts/metallb-service-template \
-      --version 0.14.7 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                               VALID
-  # kcm-system   metallb-0-14-7                     true
-  ~~~
+charts:
+  - name: metallb
+    versions: ['0.14.7']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

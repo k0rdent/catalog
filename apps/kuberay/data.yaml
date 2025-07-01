@@ -26,20 +26,11 @@ description: |
 
   KubeRay is compatible with k0rdent's multi-cluster model. You can deploy it using the MultiClusterService
   and manage Ray workloads declaratively across clusters.
-install_code: |
-    ~~~bash
-    helm install kuberay-operator oci://ghcr.io/k0rdent/catalog/charts/kuberay-operator-service-template \
-      --version 1.3.2 -n kcm-system
-    helm install ray-cluster oci://ghcr.io/k0rdent/catalog/charts/ray-cluster-service-template \
-      --version 1.3.2 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   kuberay-operator-1-3-2         true
-    # kcm-system   ray-cluster-1-3-2              true
-    ~~~
+charts:
+  - name: kuberay-operator
+    versions: ['1.3.2']
+  - name: ray-cluster
+    versions: ['1.3.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

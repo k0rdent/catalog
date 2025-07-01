@@ -7,17 +7,9 @@ created: "2025-03-12T08:16:55Z"
 description: |
     Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters.
     It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself.
-install_code: |
-    ~~~bash
-    helm install kubernetes-dashboard oci://ghcr.io/k0rdent/catalog/charts/kubernetes-dashboard-service-template \
-      --version 7.10.4 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                          VALID
-    # kcm-system   kubernetes-dashboard-7-10-4   true
-    ~~~
+charts:
+  - name: kubernetes-dashboard
+    versions: ['7.10.4']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

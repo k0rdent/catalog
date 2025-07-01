@@ -7,21 +7,9 @@ created: "2025-03-12T08:16:55Z"
 description: |
     Velero is an open source tool to safely backup and restore, perform disaster recovery,
     and migrate Kubernetes cluster resources and persistent volumes.
-install_code: |
-    ~~~bash
-    {% if version == "v0.1.0" %}
-    # k0rdent includes the template for Velero out of the box
-    {% else %}
-    helm install velero oci://ghcr.io/k0rdent/catalog/charts/velero-service-template \
-      --version 8.1.0 -n kcm-system
-    {% endif %}
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                VALID
-    # kcm-system   velero-8-1-0        true
-    ~~~
+charts:
+  - name: velero
+    versions: ['8.1.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

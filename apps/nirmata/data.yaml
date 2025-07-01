@@ -21,17 +21,9 @@ description: |
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 support_type: Enterprise
-install_code: |
-    ~~~bash
-    helm install nirmata-kyverno oci://registry.mirantis.com/k0rdent-enterprise-catalog/nirmata-kyverno-service-template \
-      --version 3.3.13 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                          VALID
-    # kcm-system   nirmata-kyverno-3-3-13        true
-    ~~~
+charts:
+  - name: nirmata-kyverno
+    versions: ['3.3.13']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

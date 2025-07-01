@@ -8,17 +8,9 @@ description: |
   Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
   Since its inception in 2012, many companies and organizations have adopted Prometheus, and
   the project has a very active developer and user community.
-install_code: |
-  ~~~bash
-  helm install prometheus oci://ghcr.io/k0rdent/catalog/charts/prometheus-service-template \
-      --version 27.5.1 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                       VALID
-  # kcm-system   prometheus-27-5-1          true
-  ~~~
+charts:
+  - name: prometheus
+    versions: ['27.5.1']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1

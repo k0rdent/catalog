@@ -45,17 +45,9 @@ description: |
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://www.mirantis.com/software/mcp/stacklight/
 support_type: Enterprise
-install_code: |
-    ~~~bash
-    helm install stacklight oci://registry.mirantis.com/k0rdent-enterprise-catalog/stacklight-operator-service-template \
-      --version 0.1.0-mcp-16 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                                    VALID
-    # kcm-system   stacklight-operator-0-1-0-mcp-16        true
-    ~~~
+charts:
+  - name: stacklight-operator
+    versions: ['0.1.0-mcp-16']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

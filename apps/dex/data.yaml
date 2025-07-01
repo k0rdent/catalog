@@ -9,21 +9,9 @@ description: |
     Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. 
     Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.
 support_link: https://dexidp.io/docs/guides/kubernetes/
-install_code: |
-    ~~~bash
-    {% if version == "v0.1.0" %}
-    # k0rdent includes the template for Dex out of the box
-    {% else %}
-    helm install dex oci://ghcr.io/k0rdent/catalog/charts/dex-service-template \
-    --version 0.19.1 -n kcm-system
-    {% endif %}
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME             VALID
-    # kcm-system   dex-0-19-1       true
-    ~~~
+charts:
+  - name: dex
+    versions: ['0.19.1']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

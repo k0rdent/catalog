@@ -13,17 +13,9 @@ description: |
     duplication. With KEDA, you can explicitly map the apps you want to use event-driven scale, with other apps continuing to
     function. This makes KEDA a flexible and safe option to run alongside any number of any other Kubernetes applications or
     frameworks.
-install_code: |
-    ~~~bash
-    helm install keda oci://ghcr.io/k0rdent/catalog/charts/keda-service-template \
-      --version 2.17.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                VALID
-    # kcm-system   keda-2-17-0         true
-    ~~~
+charts:
+  - name: keda
+    versions: ['2.17.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

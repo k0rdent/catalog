@@ -21,17 +21,9 @@ description: |
 
 support_link: https://wandb.ai/site/support/
 support_type: Enterprise
-install_code: |
-    ~~~bash
-    helm install wandb-operator oci://registry.mirantis.com/k0rdent-enterprise-catalog/wandb-operator-service-template \
-      --version 1.4.1 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                          VALID
-    # kcm-system   wandb-operator-1-4-1          true
-    ~~~
+charts:
+  - name: wandb-operator
+    versions: ['1.4.1']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

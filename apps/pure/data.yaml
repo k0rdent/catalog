@@ -10,20 +10,11 @@ description: |
     and FlashBlade devices. CSI stands for Container Storage Interface. It's a standard that enables
     storage systems to communicate with Kubernetes.
 support_link: https://support.purestorage.com/
-install_code: |
-    ~~~bash
-    helm install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/pure-k8s-plugin-service-template \
-      --version 2.7.1 -n kcm-system
-    helm install pure-csi oci://ghcr.io/k0rdent/catalog/charts/pure-csi-service-template \
-      --version 1.2.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                      VALID
-    # kcm-system   pure-csi-1-2-0            true
-    # kcm-system   pure-k8s-plugin-2-7-1     true
-    ~~~
+charts:
+  - name: pure-k8s-plugin
+    versions: ['2.7.1']
+  - name: pure-csi
+    versions: ['1.2.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

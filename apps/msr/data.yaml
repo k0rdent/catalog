@@ -11,17 +11,9 @@ description: |
     This chart contains Mirantis Secure Registry 4 without the high-availability for the storage
     layer (Postgres & Redis). Please check the link for more information on
     [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
-install_code: |
-    ~~~bash
-    helm install harbor oci://ghcr.io/k0rdent/catalog/charts/harbor-service-template \
-      --version 4.0.1 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   harbor-4-0-1                   true
-    ~~~
+charts:
+  - name: harbor
+    versions: ['4.0.1']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -29,20 +29,11 @@ description: |
     
     By deploying KServe from the catalog, k0rdent enables users to build and scale ML inference services while leveraging Kubernetes-native infrastructure.
 # support_link:
-install_code: |
-    ~~~bash
-    helm install kserve-crd oci://ghcr.io/k0rdent/catalog/charts/kserve-crd-service-template \
-      --version v0.15.0 -n kcm-system
-    helm install kserve oci://ghcr.io/k0rdent/catalog/charts/kserve-service-template \
-      --version v0.15.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME               VALID
-    # kcm-system   kserve-crd-v0-15-0 true
-    # kcm-system   kserve-v0-15-0     true
-    ~~~
+charts:
+  - name: kserve-crd
+    versions: ['v0.15.0']
+  - name: kserve
+    versions: ['v0.15.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

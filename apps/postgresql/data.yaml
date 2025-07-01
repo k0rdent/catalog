@@ -34,17 +34,9 @@ description: |
     * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
     * Includes popular PostgreSQL extensions
 # support_link:
-install_code: |
-    ~~~bash
-    helm install postgres-operator oci://ghcr.io/k0rdent/catalog/charts/postgres-operator-service-template \
-      --version 1.14.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   postgres-operator-1-14-0   true
-    ~~~
+charts:
+  - name: postgres-operator
+    versions: ['1.14.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

@@ -12,17 +12,9 @@ description: |
     ArangoDB is available in a community and a commercial edition. You can use it for on-premises
     deployments, as well as a fully managed cloud service, the ArangoGraph Insights Platform.
 support_link: https://arangodb.com/contact/
-install_code: |
-    ~~~bash
-    helm install kube-arangodb oci://ghcr.io/k0rdent/catalog/charts/kube-arangodb-service-template \
-      --version 1.2.46 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                           VALID
-    # kcm-system   kube-arangodb-1-2-46           true
-    ~~~
+charts:
+  - name: kube-arangodb
+    versions: ['1.2.46']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1alpha1

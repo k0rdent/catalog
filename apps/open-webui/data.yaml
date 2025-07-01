@@ -12,17 +12,9 @@ description: |
     <div>
     ![](https://docs.openwebui.com/assets/images/demo-d3952c8561c4808c1d447fc061c71174.gif){ width="700" }
     </div>
-install_code: |
-    ~~~bash
-    helm install open-webui oci://ghcr.io/k0rdent/catalog/charts/open-webui-service-template \
-      --version 6.20.0 -n kcm-system
-    ~~~
-verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   open-webui-6-20-0          true
-    ~~~
+charts:
+  - name: open-webui
+    versions: ['6.20.0']
 deploy_code: |
     ##### Configuration without GPU
     Tested on worker `instanceType: t3.xlarge` and `rootVolumeSize: 32`:

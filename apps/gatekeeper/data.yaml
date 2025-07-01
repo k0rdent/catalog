@@ -7,17 +7,9 @@ created: "2025-03-28T14:40:08Z"
 description: |
   A customizable cloud native policy controller that helps enforce policies and strengthen governance.
 support_link: https://github.com/open-policy-agent/gatekeeper
-install_code: |
-  ~~~bash
-  helm install gatekeeper oci://ghcr.io/k0rdent/catalog/charts/gatekeeper-service-template \
-    --version 3.17.1 -n kcm-system
-  ~~~
-verify_code: |
-  ~~~bash
-  kubectl get servicetemplates -A
-  # NAMESPACE    NAME                               VALID
-  # kcm-system   gatekeeper-3-17-1                  true
-  ~~~
+charts:
+  - name: gatekeeper
+    versions: ['3.17.1']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1alpha1
