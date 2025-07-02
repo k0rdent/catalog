@@ -220,7 +220,7 @@ def kgst_install(chart_name: str, chart_version: str, kcm_version: str, enterpri
         kgst = "oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst"
     if kcm_version in ['v0.1.0', 'v0.2.0', 'v0.3.0']:
         k0rdentAPIFlag = '\\\n  --set "k0rdentApiVersion=v1alpha1" '
-    return f'helm install {chart_name} {kgst} --set "chart={chart_name}:{chart_version}" {k0rdentAPIFlag}-n kcm-system'
+    return f'helm upgrade --install {chart_name} {kgst} --set "chart={chart_name}:{chart_version}" {k0rdentAPIFlag}-n kcm-system'
 
 
 def ensure_install_code(metadata: dict):
