@@ -13,9 +13,9 @@ allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
 allowed_support_types = ['Enterprise', 'Community']
 summary_chars_limit = 90
-valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0']
+valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1']
 
-VERSION = os.environ.get('VERSION', 'v1.1.0')
+VERSION = os.environ.get('VERSION', 'v1.1.1')
 
 
 def changed(file, content):
@@ -101,6 +101,7 @@ def try_copy_assets(app: str, apps_dir: str, dst_dir: str, is_infra: bool):
 
 
 def version2template_names(version: str) -> str:
+    # find templates/provider/kcm-templates/files/templates/ | grep -E "//adopted|//aws|//azure|//gcp|//docker|//remote|//vsphere|//openstack" | sort
     if version == "v0.1.0":
         return {
             "adopted_cluster": "adopted-cluster-0-1-0",
@@ -169,6 +170,24 @@ def version2template_names(version: str) -> str:
             "vsphere_standalone_cp": "vsphere-standalone-cp-1-0-0"
         }
     if version == "v1.1.0":
+        return {
+            "adopted_cluster": "adopted-cluster-1-0-1",
+            "aws_eks": "aws-eks-1-0-2",
+            "aws_hosted_cp": "aws-hosted-cp-1-0-9",
+            "aws_standalone_cp": "aws-standalone-cp-1-0-10",
+            "azure_aks": "azure-aks-1-0-1",
+            "azure_hosted_cp": "azure-hosted-cp-1-0-8",
+            "azure_standalone_cp": "azure-standalone-cp-1-0-8",
+            "docker_hosted_cp": "docker-hosted-cp-1-0-2",
+            "gcp_gke": "gcp-gke-1-0-3",
+            "gcp_hosted_cp": "gcp-hosted-cp-1-0-9",
+            "gcp_standalone_cp": "gcp-standalone-cp-1-0-9",
+            "openstack_standalone_cp": "openstack-standalone-cp-1-0-9",
+            "remote_cluster": "remote-cluster-1-0-8",
+            "vsphere_hosted_cp": "vsphere-hosted-cp-1-0-8",
+            "vsphere_standalone_cp": "vsphere-standalone-cp-1-0-9"
+        }
+    if version == "v1.1.1":
         return {
             "adopted_cluster": "adopted-cluster-1-0-1",
             "aws_eks": "aws-eks-1-0-2",
