@@ -10,6 +10,7 @@ For each catalog application, we verify:
 - Deployment of a corresponding **MultiClusterDeployment** on one or more **child clusters**.
 - **Full k0rdent cluster creation**, ensuring end-to-end testing through the complete orchestration stack.
 - Proper **uninstallation and cleanup**.
+- The results of the tested apps are available in [the validation matrix](./validation_matrix.md).
 
 ## How Testing Is Performed
 
