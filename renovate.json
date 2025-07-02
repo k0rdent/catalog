@@ -14,7 +14,7 @@
   ],
   "packageRules": [
     {
-      "matchFileNames": ["apps/**/charts/**"],
+      "matchFileNames": ["apps/ingress-nginx/charts/**"],
       "bumpVersion": "patch",
       "bumpVersions": [
         {
