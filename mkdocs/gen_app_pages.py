@@ -176,11 +176,14 @@ def ensure_big_logo(metadata: dict):
         metadata['logo_big'] = metadata['logo']
 
 
-def kgst_install(chart_name: str, chart_version: str, enterprise: bool):
+def kgst_install(chart_name: str, chart_version: str, kcm_version: str, enterprise: bool):
     kgst = 'oci://ghcr.io/k0rdent/catalog/charts/kgst'
+    k0rdentAPIFlag = ''
     if enterprise:
         kgst = "oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst"
-    return f"helm install {chart_name} {kgst} --set \"chart={chart_name}:{chart_version}\" -n kcm-system"
+    if kcm_version in ['v0.1.0', 'v0.2.0', 'v0.3.0']:
+        k0rdentAPIFlag = '\\\n  --set "k0rdentApiVersion=v1alpha1" '
+    return f'helm install {chart_name} {kgst} --set "chart={chart_name}:{chart_version}" {k0rdentAPIFlag}-n kcm-system'
 
 
 def ensure_install_code(metadata: dict):
@@ -192,7 +195,7 @@ def ensure_install_code(metadata: dict):
     install_code_lines = ['~~~bash']
     for chart in metadata['charts']:
         enterprise = metadata.get('support_type') == 'Enterprise'
-        install_code_lines.append(kgst_install(chart['name'], chart['versions'][0], enterprise))
+        install_code_lines.append(kgst_install(chart['name'], chart['versions'][0], VERSION, enterprise))
     install_code_lines.append('~~~')
     metadata['install_code'] = '\n'.join(install_code_lines)
 
