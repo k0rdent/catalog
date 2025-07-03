@@ -1,0 +1,23 @@
+{
+  "extends": ["config:base"],
+  "enabledManagers": ["regex"],
+
+  "regexManagers": [
+    {
+      "fileMatch": ["apps/.+/renovate-latest.yml"],
+      "matchStrings": [
+        "name:\\s*(?<depName>\\S+)\\s*\\nrepository:\\s*(?<lookupName>\\S+)\\s*\\nversion:\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "helm",
+      "versioningTemplate": "helm"
+    }
+  ],
+
+  "packageRules": [
+    {
+      "matchDatasources": ["helm"],
+      "groupName": "Helm chart version bumps",
+      "schedule": ["at any time"]
+    }
+  ]
+}
