@@ -95,6 +95,24 @@ deploy_code: |
                 class: "nginx"
                 host: 'openwebui.example.com'
     ~~~
+
+    #### open-webui values:
+    ~~~yaml
+    open-webui:
+      ollama:
+        ollama:
+          gpu:
+            enabled: true
+            type: 'nvidia'
+            number: 1
+          models:
+            pull: [llama3.2:3b]
+            run: [llama3.2:3b]
+      ingress:
+        enabled: true
+        class: "nginx"
+        host: 'openwebui.example.com'
+    ~~~
 doc_link: https://docs.openwebui.com/
 use_ingress: true
 
