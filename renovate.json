@@ -2,10 +2,9 @@
   "extends": ["config:base"],
   "enabledManagers": ["regex"],
 
-  "customManagers": [
+  "regexManagers": [
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/(^|/)renovate-latest\\.yml$/"],
+      "fileMatch": ["apps/*/renovate-latest.yml"],
       "matchStrings": [
         "name:\\s*(?<depName>\\S+)\\s*\\nrepository:\\s*(?<lookupName>\\S+)\\s*\\nversion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
