@@ -5,7 +5,7 @@
     {
       "managerFilePatterns": ["^apps/.+/renovate-latest.yml$"],
       "matchStrings": [
-        "name:\\s*(?<depName>\\S+)"
+        "name:\\s*(?<depName>\\S+)\\s*\\nrepository:\\s*(?<lookupName>\\S+)\\s*\\nversion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
       "datasourceTemplate": "helm",
       "versioningTemplate": "helm"
