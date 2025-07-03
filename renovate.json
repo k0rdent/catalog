@@ -5,7 +5,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["^apps/.+/renovate-latest.yml$"],
+      "managerFilePatterns": ["/(^|/)renovate-latest\\.yml$/"],
       "matchStrings": [
         "name:\\s*(?<depName>\\S+)\\s*\\nrepository:\\s*(?<lookupName>\\S+)\\s*\\nversion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
