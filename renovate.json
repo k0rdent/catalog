@@ -3,9 +3,9 @@
   "enabledManagers": ["regex"],
   "customManagers": [
     {
-      "managerFilePatterns": ["renovate-latest.yml"],
+      "managerFilePatterns": ["^apps/.+/renovate-latest.yml$"],
       "matchStrings": [
-        "name:\\s*(?<depName>\\S+)\\s*\\nrepository:\\s*(?<lookupName>\\S+)\\s*\\nversion:\\s*\"(?<currentValue>[^\"]+)\""
+        "name:\\s*(?<depName>\\S+)"
       ],
       "datasourceTemplate": "helm",
       "versioningTemplate": "helm"
