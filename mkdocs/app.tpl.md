@@ -1,19 +1,3 @@
----
-{% if tags %}
-tags:
-{%- for tag in tags %}
-    - {{ tag }}
-{%- endfor %}
-{% else %}
-tags: []
-{% endif %}
-title: {{ title }}
-description: {{ summary }}
-logo: "{{ logo }}"
-type: "{{ type }}"
-support_type: "{{ support_type }}"
-created: "{{ created }}"
----
 ![logo]({{ logo_big }}){ align="right", width="100" }
 # {{ title }}
 
