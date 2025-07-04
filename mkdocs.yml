@@ -22,7 +22,7 @@ theme:
   
   features:
     # - announce.dismiss
-    # - content.code.annotate
+    - content.code.annotate
     - content.code.copy
     # - content.code.select
     # - content.footnote.tooltips
@@ -64,7 +64,6 @@ plugins:
   - gen-files:
       scripts:
         - mkdocs/gen_app_pages.py
-        - mkdocs/gen_metadata.py
   - ezglossary:
       section_config:
         - name: demo

@@ -37,13 +37,22 @@ deploy_code: |
         - template: dapr-dashboard-0-15-0
           name: dapr-dashboard
           namespace: dapr
-          values: |
+          values: |  # (1)!
             dapr-dashboard:
               ingress:
                 enabled: true
                 className: nginx
                 host: 'dapr.example.com'
   ~~~
+
+  1.  
+      ~~~yaml
+      dapr-dashboard:
+        ingress:
+          enabled: true
+          className: nginx
+          host: 'dapr.example.com'
+      ~~~
 support_link: https://www.diagrid.io/conductor
 doc_link: https://docs.dapr.io/
 use_ingress: true
