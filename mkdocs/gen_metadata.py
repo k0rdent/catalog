@@ -38,7 +38,7 @@ for file_path in paths:
     })
 
 # Save extracted metadata as JSON
-with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
+with mkdocs_gen_files.open("fetched_metadata2.json", "w") as f:
     json.dump(metadata_list, f, indent=2)
 
-print("✅ Metadata extracted and saved to fetched_metadata.json")
+print("✅ Metadata extracted and saved to fetched_metadata2.json")

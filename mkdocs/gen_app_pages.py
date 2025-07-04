@@ -2,6 +2,8 @@ import os
 import shutil
 import yaml
 import jinja2
+import json
+import mkdocs_gen_files
 
 required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'created']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'description', 'install_code', 'verify_code',
@@ -253,10 +255,26 @@ def ensure_verify_code(metadata: dict):
     metadata['verify_code'] = '\n'.join(verify_code_lines)
 
 
+def json_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
+    item = {
+        "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
+        "title": metadata.get("title", "No Title"),
+        "type": metadata.get("type", " "),
+        "logo": metadata.get("logo", " "),
+        "tags": metadata.get("tags", []),
+        "created": metadata.get("created", " "),
+        "support_type": metadata.get("support_type", "Community"),
+        "description": metadata.get("summary", "No Description"),
+        "appDir": app,
+    }
+    return item
+
+
 def generate_apps():
     apps_dir = 'apps'
     dst_dir = 'mkdocs'
     template_path = 'mkdocs/app.tpl.md'
+    json_metadata = []
 
     base_metadata = dict(
         version=VERSION
@@ -292,6 +310,7 @@ def generate_apps():
         is_infra = metadata.get("type", "app") == "infra"
         if is_infra:
             dst_app_path = dst_app_path.replace("/apps/", "/infra/")
+        json_metadata.append(json_metadata_item(metadata, app, is_infra))
         if not os.path.exists(dst_app_path):
             os.makedirs(dst_app_path)
         md_file = os.path.join(dst_app_path, 'index.md')
@@ -302,5 +321,7 @@ def generate_apps():
             # Write the generated markdown
             with open(md_file, 'w', encoding='utf-8') as f:
                 f.write(rendered_md)
+        with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
+            json.dump(json_metadata, f, indent=2)
 
 generate_apps()
