@@ -19,7 +19,7 @@ deploy_code: |
     ##### Configuration without GPU
     Tested on worker `instanceType: t3.xlarge` and `rootVolumeSize: 32`:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
       name: aws-example
@@ -36,7 +36,7 @@ deploy_code: |
 
     Tested service configuration:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: MultiClusterService
     metadata:
       name: open-webui
@@ -66,7 +66,7 @@ deploy_code: |
     This setup requires corresponding cluster setup, see [NVIDIA GPU Operator](../../../{{ version }}/apps/nvidia/#install){ target="_blank" }
 
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: MultiClusterService
     metadata:
       name: open-webui

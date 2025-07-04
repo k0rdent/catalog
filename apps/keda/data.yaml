@@ -18,7 +18,7 @@ charts:
     versions: ['2.17.0']
 deploy_code: |
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     ...
       serviceSpec:

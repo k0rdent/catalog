@@ -50,7 +50,7 @@ charts:
     versions: ['0.22.0']
 deploy_code: |
   ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1alpha1
+  apiVersion: k0rdent.mirantis.com/v1beta1
   kind: MultiClusterService
   metadata:
     name: victoriametrics

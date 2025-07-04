@@ -17,7 +17,7 @@ charts:
 deploy_code: |
     In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
       name: aws-example
@@ -34,7 +34,7 @@ deploy_code: |
 
     In Azure tested on 3 workers `vmSize: Standard_A2_v2`:
     ~~~yaml    
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
       name: azure-example
@@ -50,7 +50,7 @@ deploy_code: |
 
     Tested service configuration:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: MultiClusterService
     ...
       serviceSpec:

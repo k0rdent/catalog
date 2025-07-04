@@ -17,7 +17,7 @@ charts:
 deploy_code: |
     Tested `ClusterDeployment` in AWS:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
       name: aws-example-cluster
@@ -48,7 +48,7 @@ deploy_code: |
 
     Tested `ClusterDeployment` in Azure:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
       name: azure-example-cluster
@@ -79,7 +79,7 @@ deploy_code: |
 
     Operator deployment:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: MultiClusterService
     metadata:
       name: gpu-operator
