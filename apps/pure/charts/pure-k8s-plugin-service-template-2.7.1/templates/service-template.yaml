@@ -1,4 +1,4 @@
-apiVersion: k0rdent.mirantis.com/v1alpha1
+apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ServiceTemplate
 metadata:
   name: pure-k8s-plugin-2-7-1

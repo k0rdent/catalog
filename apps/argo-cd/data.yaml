@@ -16,7 +16,7 @@ charts:
     versions: ['7.8.0']
 deploy_code: |
   ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1alpha1
+  apiVersion: k0rdent.mirantis.com/v1beta1
   kind: ClusterDeployment
   # kind: MultiClusterService
   ...
@@ -36,7 +36,7 @@ examples: |
 
   #### Deploy MultiClusterService with web UI
   ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1alpha1
+  apiVersion: k0rdent.mirantis.com/v1beta1
   kind: MultiClusterService
   metadata:
     name: argo-cd

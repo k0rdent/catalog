@@ -1,6 +1,6 @@
 {{- range .Values.helm.charts }}
 ---
-apiVersion: k0rdent.mirantis.com/v1alpha1
+apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ServiceTemplate
 metadata:
   name: {{ $.Values.prefix }}{{ .name }}-{{ .version | replace "." "-" }}
