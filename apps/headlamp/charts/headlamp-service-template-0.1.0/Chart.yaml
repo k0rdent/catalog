@@ -1,9 +1,10 @@
 apiVersion: v2
 name: headlamp-service-template
-description: A Helm chart that references the official "headlamp-service-template" Helm chart.
+description: A Helm chart that references the official Headlamp chart.
 type: application
 version: 0.1.0
 dependencies:
   - name: noop
     version: 0.1.0
     repository: file://../noop
+
