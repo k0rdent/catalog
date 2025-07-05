@@ -3,5 +3,4 @@ name: headlamp-service-template
 description: A Helm chart that references the official "headlamp-service-template" Helm chart.
 type: application
 version: 0.1.0
-dependencies: []
 
