@@ -7,3 +7,4 @@ dependencies:
   - name: noop
     version: 0.1.0
     repository: file://../noop
+
