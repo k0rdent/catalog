@@ -1,0 +1,22 @@
+title: Headlamp
+tags: [dashboard, observability]
+summary: "A modern Kubernetes web UI to visualize and interact with your clusters"
+logo: assets/headlamp_logo.svg
+description: |
+  Headlamp is a general-purpose web UI for Kubernetes built using React and TypeScript.
+  It provides real-time visibility into cluster workloads.
+
+  This package uses the upstream Helm chart from Headlamp's GitHub repository,
+  and includes a pre-configured ServiceTemplate and GitRepository to simplify deployment.
+
+install_code: |
+  helm install headlamp oci://ghcr.io/headlamp-k8s/headlamp \
+    --version 0.32.0 \
+    -n headlamp --create-namespace
+
+verify_code: |
+  kubectl -n headlamp get svc headlamp
+
+deploy_code: |
+  kubectl apply -f https://raw.githubusercontent.com/malikkal/k0rdent-catalog/main/apps/headlamp/example/Chart.yaml
+

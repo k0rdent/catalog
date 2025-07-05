@@ -1,0 +1,29 @@
+# e.g. Values for deploying Headlamp
+
+serviceAccount:
+  create: false
+  name: headlamp-admin
+
+clusterRoleBinding:
+  create: false  # Disable if you're binding externally to an existing ClusterRole
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: headlamp.example.com
+      paths:
+        - path: /
+          type: Prefix
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+

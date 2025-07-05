@@ -1,0 +1,20 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ServiceTemplate
+metadata:
+  name: headlamp-0-32-0
+  namespace: kcm-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    k0rdent.mirantis.com/component: headlamp
+  annotations:
+    k0rdent.mirantis.com/description: |
+      Headlamp is a Kubernetes web UI that helps developers and operators manage workloads and resources visually.
+spec:
+  helm:
+    chartSource:
+      localSourceRef:
+        kind: GitRepository
+        name: headlamp-repo
+        namespace: kcm-system
+      path: charts/headlamp
+

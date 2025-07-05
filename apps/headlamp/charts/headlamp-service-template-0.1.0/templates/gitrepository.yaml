@@ -1,0 +1,13 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: headlamp-repo
+  namespace: kcm-system
+  labels:
+    k0rdent.mirantis.com/managed: "true"
+spec:
+  interval: 10m0s
+  url: https://github.com/kubernetes-sigs/headlamp
+  ref:
+    branch: main
+

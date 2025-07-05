@@ -1,0 +1,8 @@
+apiVersion: v2
+name: headlamp-example
+version: 0.1.0
+dependencies:
+  - name: headlamp-service-template
+    version: 0.1.0
+    repository: file://../charts/headlamp-service-template-0.1.0
+
