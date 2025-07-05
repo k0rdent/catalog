@@ -1,6 +1,6 @@
 apiVersion: v2
 name: headlamp-service-template
-description: Headlamp Service Template for k0rdent catalog
+description: A Helm chart that references the official "headlamp-service-template" Helm chart.
 type: application
 version: 0.1.0
-
+dependencies:

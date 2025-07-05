@@ -1,4 +1,4 @@
-charts:
+st-charts:
   - name: headlamp-service-template
     version: 0.1.0
     path: charts/headlamp-service-template-0.1.0
