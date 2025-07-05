@@ -4,3 +4,6 @@ description: A Helm chart that references the official "headlamp-service-templat
 type: application
 version: 0.1.0
 dependencies:
+  - name: noop
+    version: 0.1.0
+    repository: file://../noop

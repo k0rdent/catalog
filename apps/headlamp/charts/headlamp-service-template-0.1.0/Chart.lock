@@ -1,0 +1,6 @@
+dependencies:
+- name: noop
+  repository: file://../noop
+  version: 0.1.0
+digest: sha256:419130a1400157c3784fce1c28fbddeadc2ee8b8ba67f9ed165e1852d9c6b162
+generated: "2025-07-05T13:42:50.10271795+08:00"
