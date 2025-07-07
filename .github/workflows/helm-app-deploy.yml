@@ -117,6 +117,13 @@ jobs:
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Pull request - use fork ghcr registry"
+            export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "'In fork' test - use fork ghcr registry"
+            export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+          fi
           python3 ./scripts/utils.py install-servicetemplates $APP
 
       - name: Test - Ensure MultiClusterService config
@@ -186,6 +193,13 @@ jobs:
         if: env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           export APP=${{ matrix.folder }}
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Pull request - use fork ghcr registry"
+            export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "'In fork' test - use fork ghcr registry"
+            export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+          fi
           ./scripts/install_servicetemplates.sh
 
       - name: Test - Install adopted cluster (k0rdent child)
