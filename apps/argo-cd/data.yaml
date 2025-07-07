@@ -31,7 +31,7 @@ examples: |
   Install service templates:
   ~~~bash
   helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=argo-cd:7.8.0" -n kcm-system
-  helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.11.5" -n kcm-system
+  helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.12.3" -n kcm-system
   ~~~
 
   #### Deploy MultiClusterService with web UI
@@ -58,7 +58,7 @@ examples: |
                 hostname: 'argocd.example.com'
                 annotations:
                   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      - template: ingress-nginx-4-11-5
+      - template: ingress-nginx-4-12-3
         name: ingress-nginx
         namespace: argo-cd
         values: |

@@ -4,7 +4,7 @@ type: application
 version: 27.5.1
 dependencies:
   - name: ingress-nginx
-    version: 4.11.5
+    version: 4.12.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: prometheus
     version: 27.5.1

@@ -23,7 +23,7 @@ spec:
                 value: /run/k0s/containerd.sock
               - name: CONTAINERD_RUNTIME_CLASS
                 value: nvidia
-    - template: ingress-nginx-4-11-5
+    - template: ingress-nginx-4-12-3
       name: ingress-nginx
       namespace: open-webui
       values: |
@@ -34,7 +34,7 @@ spec:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
             hostPort:
               enabled: true
-    - template: open-webui-5-20-0
+    - template: open-webui-6-20-0
       name: open-webui
       namespace: open-webui
       values: |
