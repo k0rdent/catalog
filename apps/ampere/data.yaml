@@ -1,0 +1,55 @@
+tags: []
+title: "Ampere"
+summary: "Scalable, low-power ARM64 infrastructure for Kubernetes at the edge."
+logo: ./assets/ampere.svg # https://commons.wikimedia.org/wiki/File:Ampere_Computing_LLC_Logo.svg
+type: infra
+created: "2025-07-07T08:16:55Z"
+description: |
+  Ampere Altra-based platforms are now supported for use with k0rdent child clusters.
+  These ARM64-based systems are optimized for highly efficient, scalable computing and are
+  ideal for edge, telecom, and AI-driven workloads.
+
+  Ampere’s architectural design enables running k0rdent child clusters in environments with
+  power or thermal constraints—such as edge data centers, mobile base stations, or
+  embedded applications—without sacrificing performance or orchestration capabilities.
+
+  Whether deploying traditional Kubernetes services or advanced AI-enhanced applications,
+  Ampere’s balance of performance-per-watt and deterministic behavior makes it a solid
+  platform for production-grade, multi-cluster k0rdent workloads.
+support_link: https://amperecomputing.com/company/contact-sales
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ClusterDeployment
+  metadata:
+    name: my-azure-clusterdeployment1
+    namespace: kcm-system
+  spec:
+    template: {{ azure_standalone_cp }}
+    credential: azure-credential
+    config:
+      clusterLabels:
+        type: azure
+        group: demo
+      controlPlaneNumber: 1
+      workersNumber: 1
+      location: "eastus"
+      subscriptionID: AZURE_SUB_ID
+      controlPlane:
+        vmSize: Standard_D2ps_v5
+        image:
+          marketplace:
+            publisher: "Canonical"
+            offer: "0001-com-ubuntu-server-jammy"
+            sku: "22_04-lts-arm64"
+            version: "22.04.202505160"
+      worker:
+        vmSize: Standard_D2ps_v5
+        image:
+          marketplace:
+            publisher: "Canonical"
+            offer: "0001-com-ubuntu-server-jammy"
+            sku: "22_04-lts-arm64"
+            version: "22.04.202505160"
+  ~~~
+doc_link: https://amperecomputing.com/company/contact-sales

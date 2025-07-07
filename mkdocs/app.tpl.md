@@ -25,15 +25,19 @@
     Deploy [Ingress-nginx](../../../{{ version }}/apps/ingress-nginx/#install){ target="_blank" } to expose application web UI
     {%- endif %}
 
+    {% if verify_code %}
     #### Install template to k0rdent
     {{ install_code | replace("\n", "\n    ") }}
+    {% endif %}
 
+    {% if verify_code %}
     {% if type == "infra" %}
     #### Verify cluster template
     {% else %}
     #### Verify service template
     {% endif %}
     {{ verify_code | replace("\n", "\n    ") }}
+    {% endif %}
 
     {% if deploy_code %}
         {% if type == "infra" %}
