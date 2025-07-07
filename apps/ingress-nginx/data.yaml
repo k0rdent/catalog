@@ -16,7 +16,7 @@ description: |
 support_link: https://www.f5.com/products/nginx/nginx-ingress-controller
 charts:
   - name: ingress-nginx
-    versions: ['4.11.5']
+    versions: ['4.12.3', '4.11.5']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -29,7 +29,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: ingress-nginx-4-11-5
+        - template: ingress-nginx-4-12-3
           name: ingress-nginx
           namespace: ingress-nginx
           values: |
