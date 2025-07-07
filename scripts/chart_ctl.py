@@ -19,35 +19,6 @@ dependencies:
 {% endfor %}
 """
 
-chart_st_tpl = """apiVersion: v2
-name: {{ name }}-service-template
-description: k0rdent service template for "{{ name }}"
-type: application
-version: {{ version }}
-dependencies:
-  - name: k0rdent-catalog
-    version: 1.0.0
-    repository: oci://ghcr.io/k0rdent/catalog/charts
-
-"""
-
-st_tpl = """apiVersion: k0rdent.mirantis.com/v1alpha1
-kind: ServiceTemplate
-metadata:
-  name: {{ name }}-{{ version | replace(".", "-") }}
-  annotations:
-    helm.sh/resource-policy: keep
-spec:
-  helm:
-    chartSpec:
-      chart: {{ name }}
-      version: {{ version }}
-      interval: 10m0s
-      sourceRef:
-        kind: HelmRepository
-        name: k0rdent-catalog
-
-"""
 
 def read_charts_cfg(app: str) -> dict:
     helm_config_path = f"apps/{app}/charts/st-charts.yaml"
@@ -60,7 +31,6 @@ def read_charts_cfg(app: str) -> dict:
 
 def generate_charts(app: str, cfg: dict):
     generate_app_chart(app, cfg)
-    generate_st_chart(app, cfg)
 
 
 def try_generate_lock_file(chart_dir: str) -> bool:
@@ -81,18 +51,6 @@ def generate_app_chart(app: str, cfg: dict):
     chart = Template(chart_app_tpl).render(**cfg)
     with open(f"{folder_path}/Chart.yaml", "w", encoding='utf-8') as f:
         f.write(chart)
-    try_generate_lock_file(folder_path)
-
-
-def generate_st_chart(app: str, cfg: dict):
-    folder_path = try_create_chart_folders(app, f"{cfg['name']}-service-template",
-                                           cfg['version'], True)
-    chart = Template(chart_st_tpl).render(**cfg)
-    with open(f"{folder_path}/Chart.yaml", "w", encoding='utf-8') as f:
-        f.write(chart)
-    st = Template(st_tpl).render(**cfg)
-    with open(f"{folder_path}/templates/service-template.yaml", "w", encoding='utf-8') as f:
-        f.write(st)
     try_generate_lock_file(folder_path)
 
 

@@ -77,8 +77,7 @@ def render_mcs(args):
 def get_servicetemplate_install_cmd(repo: str, charts: list) -> str:
     cmd_lines = []
     for chart in charts:
-        cmd_lines.append(f'helm install {chart['name']} {repo}/{chart['name']}-service-template \\')
-        cmd_lines.append(f'  --version {chart['version']} -n kcm-system')
+        cmd_lines.append(f'helm install {chart['name']} {repo}/kgst  --set "chart={chart['name']}:{chart['version']}" -n kcm-system')
     cmd = "\n".join(cmd_lines)
     return cmd
 
