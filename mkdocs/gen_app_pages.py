@@ -68,6 +68,17 @@ def try_validate_wait_for_pods(file: str, data: dict):
         raise Exception(f"Field 'test_wait_for_pods' needs to be a string, e.g. 'pod1- pod2-' if used! ({file})")
 
 
+def validate_charts_info(file: str, data: dict):
+    if not data.get('show_install_tab', True):
+        return
+    if 'install_code' in data:
+        return
+    if 'charts' not in data:
+        raise Exception(f"No 'charts' array found in {file}.")
+    if not isinstance(data['charts'], list):
+        raise Exception(f"Field 'charts' must an array of objects with 'name' and 'version' fields.")
+
+
 def validate_metadata(file: str, data: dict):
     validate_support_type(file, data)
     for required_field in required_fields:
@@ -84,8 +95,10 @@ def validate_metadata(file: str, data: dict):
         if tag not in allowed_tags:
             raise Exception(f"Unsupported tag '{tag}' found in {file}. Allowed tags: {allowed_tags}")
 
-    if data.get('type', 'app') != 'infra' and len(data['tags']) == 0:
-        raise Exception(f"No application tag found in {file}. Set at least one from tags: {allowed_tags}")
+    if data.get('type', 'app') != 'infra':
+        if len(data['tags']) == 0:
+            raise Exception(f"No application tag found in {file}. Set at least one from tags: {allowed_tags}")
+        validate_charts_info(file, data)
 
     validate_summary(file, data)
     try_validate_versions(file, data)

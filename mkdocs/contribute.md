@@ -48,13 +48,15 @@ Before adding metadata, you need to provide Helm charts for your application. Th
 - #### Required Fields:
     - `title` (string): The application's name.
     - `tags` (array of strings): Keywords or tags related to the application. Please ensure that at least one tag is used. Allowed tags are `AI/Machine Learning`, `Application Runtime`, `Authentication`, `Backup and Recovery`, `CI/CD`, `Container Registry`, `Database`, `Developer Tools`, `Drivers and plugins`, `Monitoring`, `Networking`, `Security`, `Serverless`, `Storage`.
+    - `created` (string): Contribution timestamp for easily tracking when the item was added.
+    - `charts` (array of objects): List of charts used to automatically generate installation and verification commands. See the example.
     - `summary` (string): A brief description of the application.
     - `logo` (string): A relative link to the app logo (e.g., `./assets/dapr_logo.svg`).
     - `description` (string): Description of the application or service.
-    - `install_code` (string): How to install the service template for your application to k0rdent.
-    - `verify_code` (string): Command to verify the application.
     - `deploy_code` (string): Example of how the application can be deployed to a k0rdent managed cluster.
 - #### Optional Fields:
+    - `install_code` (string): How to install the service template for your application to k0rdent.
+    - `verify_code` (string): Command to verify the application.
     - `support_link` (string): Support link for the application. Omit if commercial support is not available for the application.
     - `doc_link` (string): Documentation for the application.
     - `logo_big` (string): A relative link to a larger version of the app logo (e.g., `./assets/dapr_logo_big.svg`). Displayed on the application detail page.
@@ -67,6 +69,7 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     - Application Runtime
   summary: "Portable, event-driven runtime."
   logo: "./assets/dapr-logo.svg"
+  created: "2025-03-12T08:16:55Z"
   description: |
     Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
     Service-to-service invocation: Enables reliable and secure communication between microservices. 
@@ -80,20 +83,11 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     Actors: Provides a framework for building stateful, concurrent objects. 
   
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
-  install_code: |
-    ~~~bash
-    helm install dapr oci://ghcr.io/k0rdent/catalog/charts/dapr-service-template \
-      --version 1.14.4 -n kcm-system
-    helm install dapr-dashboard oci://ghcr.io/k0rdent/catalog/charts/dapr-dashboard-service-template \
-      --version 0.15.0 -n kcm-system
-    ~~~
-  verify_code: |
-    ~~~bash
-    kubectl get servicetemplates -A
-    # NAMESPACE    NAME                       VALID
-    # kcm-system   dapr-1-14-4                true
-    # kcm-system   dapr-dashboard-0-15-0      true
-    ~~~
+  charts:
+    - name: dapr
+      versions: ['1.14.4']
+    - name: dapr-dashboard
+      versions: ['0.15.0']
   deploy_code: |
     ~~~yaml
     kind: MultiClusterService
