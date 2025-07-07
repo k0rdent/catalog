@@ -6,7 +6,7 @@ import textwrap
 import os
 
 mcs_tpl = """
-apiVersion: k0rdent.mirantis.com/v1alpha1
+apiVersion: k0rdent.mirantis.com/v1beta1
 kind: MultiClusterService
 metadata:
   name: {{ app }}

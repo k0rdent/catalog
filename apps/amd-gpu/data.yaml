@@ -25,7 +25,7 @@ charts:
 deploy_code: |
     Tested `ClusterDeployment` in Azure:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
       name: aws-example-cluster
@@ -57,7 +57,7 @@ deploy_code: |
 
     Operator deployment:
     ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1alpha1
+    apiVersion: k0rdent.mirantis.com/v1beta1
     kind: MultiClusterService
     metadata:
       name: amd-gpu
@@ -81,7 +81,7 @@ deploy_code: |
 
     Manually create AMD GPU `DeviceConfig` CRD in the child cluster:
     ~~~yaml
-    apiVersion: amd.com/v1alpha1
+    apiVersion: amd.com/v1beta1
     kind: DeviceConfig
     metadata:
       name: amd-gpu-operator
