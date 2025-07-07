@@ -22,7 +22,7 @@ theme:
   
   features:
     # - announce.dismiss
-    # - content.code.annotate
+    - content.code.annotate
     - content.code.copy
     # - content.code.select
     # - content.footnote.tooltips
