@@ -1,0 +1,34 @@
+velero:
+  backupsEnabled: true
+  snapshotsEnabled: true
+  deployNodeAgent: true
+  nodeAgent:
+    podVolumePath: /var/lib/k0s/kubelet/pods
+  initContainers:
+    - name: velero-plugin-for-aws
+      image: velero/velero-plugin-for-aws:latest
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /target
+          name: plugins
+  configuration:
+    uploaderType: kopia
+    backupStorageLocation:
+      - name: velero-backup-storage-location
+        provider: aws
+        bucket: velero-backups-xx
+        default: true
+        config:
+          region: us-east-2
+    volumeSnapshotLocation:
+      - name: velero-volume-storage-location
+        provider: aws
+        config:
+          region: us-east-2
+  credentials:
+    useSecret: true
+    secretContents:
+      cloud: |
+        [default]
+        aws_access_key_id = xx
+        aws_secret_access_key = xx
