@@ -144,7 +144,7 @@ def print_test_vars(args):
         default = False
     test_install_servicetemplates = str(app_data.get('test_install_servicetemplates', default)).lower()
     print(f"INSTALL_SERVICETEMPLATES={test_install_servicetemplates}")
-    test_deploy_chart = str(app_data.get('test_deploy_chart', default)).lower()
+    test_deploy_chart = str(app_data.get('test_deploy_chart', False)).lower()
     print(f"DEPLOY_CHART={test_deploy_chart}")
     test_deploy_multiclusterservice = str(app_data.get('test_deploy_multiclusterservice', default)).lower()
     print(f"DEPLOY_MULTICLUSTERSERVICE={test_deploy_multiclusterservice}")
