@@ -1,6 +1,6 @@
 apiVersion: v2
 name: postgres-operator
-description: A Helm chart to refer the official "postgres-operator" helm chart
+description: A Helm chart that references the official "postgres-operator" Helm chart.
 type: application
 version: 1.14.0
 dependencies:
