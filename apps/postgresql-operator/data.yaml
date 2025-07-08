@@ -1,6 +1,6 @@
 tags:
   - Database
-title: PostgreSQL
+title: PostgreSQL Operator
 summary: "Postgres Operator for deploying and managing PostgreSQL clusters on Kubernetes."
 logo: "./assets/postgres_logo.svg"
 created: "2025-03-27T16:43:20Z"
