@@ -58,4 +58,73 @@ deploy_code: |
     ~~~bash
     PGPASSWORD=passwd psql -h af6cc412262a24d4b8c7ef2a868f8d79-235624655.eu-central-1.elb.amazonaws.com -p 5432 -U user -d pgdb
     ~~~
+
+examples: |
+    #### Install template to k0rdent
+    ~~~bash
+    helm upgrade --install postgresql oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=postgresql:16.7.15" -n kcm-system
+    helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.12.3" -n kcm-system
+    ~~~
+
+    #### Verify service template
+
+    ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                            VALID
+    # kcm-system   postgresql-16-7-15              true
+    # kcm-system   ingress-nginx-4-12-3            true
+    ~~~
+
+    #### Deploy PostgreSQL in replication mode
+
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: postgresql
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: postgresql-16-7-15
+          name: postgresql
+          namespace: postgresql
+          values: |
+            postgresql:
+              architecture: replication
+              auth:
+                postgresPassword: admin
+                username: user
+                password: pass
+                database: db
+              readReplicas:
+                replicaCount: 2
+        - template: ingress-nginx-4-12-3
+          name: ingress-nginx
+          namespace: postgresql
+          values: |
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
+              tcp:
+                5432: "postgresql/postgresql-primary:5432"
+                5433: "postgresql/postgresql-read:5432"
+    ~~~
+
+    Access "primary" replica using `5432` port to read/write operations.
+    ~~~bash
+    PGPASSWORD=passwd psql -h <ip-or-address> -p 5432 -U user -d pgdb
+    ~~~
+
+    Access "read" replica using `5433` port to read operations only.
+    ~~~bash
+    PGPASSWORD=passwd psql -h <ip-or-address> -p 5433 -U user -d pgdb
+    ~~~
+
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
