@@ -26,3 +26,4 @@ doc_link: https://vmware-tanzu.github.io/helm-charts/
 
 # test settings
 test_deploy_chart: false
+test_wait_for_pods: "node-agent-"
