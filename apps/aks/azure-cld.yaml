@@ -1,0 +1,25 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: azure-aks-example-USER
+  namespace: kcm-system
+spec:
+  template: azure-aks-1-0-0
+  credential: azure-credential
+  config:
+    clusterLabels:
+      type: azure
+      group: demo
+    location: "westus"
+    machinePools:
+      system:
+        count: 1
+        enableNodePublicIP: false
+        osDiskSizeGB: 128
+        type: VirtualMachineScaleSets
+        vmSize: "Standard_A4_v2"
+      user:
+        count: 1
+        osDiskSizeGB: 128
+        type: VirtualMachineScaleSets
+        vmSize: "Standard_A4_v2"
