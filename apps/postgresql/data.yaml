@@ -15,6 +15,8 @@ description: |
 charts:
   - name: postgresql
     versions: ['16.7.15']
+  - name: ingress-nginx
+    versions: ['4.12.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -30,5 +32,30 @@ deploy_code: |
         - template: postgresql-16-7-15
           name: postgresql
           namespace: postgresql
+          values: |
+            postgresql:
+              auth:
+                postgresPassword: pgpasswd
+                username: user
+                password: passwd
+                database: pgdb
+        - template: ingress-nginx-4-12-3
+          name: ingress-nginx
+          namespace: postgresql
+          values: |
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
+              tcp:
+                5432: "postgresql/postgresql:5432"
+    ~~~
+
+    Use `ingress-nginx-controller` service address to connect to the database:
+    ~~~bash
+    PGPASSWORD=passwd psql -h af6cc412262a24d4b8c7ef2a868f8d79-235624655.eu-central-1.elb.amazonaws.com -p 5432 -U user -d pgdb
     ~~~
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql

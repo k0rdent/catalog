@@ -1,0 +1,18 @@
+postgresql:
+  postgresql:
+    auth:
+      postgresPassword: pgpasswd
+      username: user
+      password: passwd
+      database: pgdb
+
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+    tcp:
+      5432: "postgresql/postgresql:5432"

@@ -10,3 +10,6 @@ nodes:
       - containerPort: 443
         hostPort: 50443
         protocol: TCP
+      - containerPort: 5432
+        hostPort: 55432
+        protocol: TCP

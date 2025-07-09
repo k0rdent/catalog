@@ -6,3 +6,6 @@ dependencies:
   - name: postgresql
     version: 16.7.15
     repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: ingress-nginx
+    version: 4.12.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
