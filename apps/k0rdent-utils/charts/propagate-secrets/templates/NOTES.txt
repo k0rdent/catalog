@@ -1,0 +1,30 @@
+Release {{ .Release.Name }} successfully installed.
+
+A MultiClusterService named {{ include "propagate-secrets.fullname" . }}-mcs has been installed. 
+It references the provided secrets in .Values.propagate.secrets in its .spec.servicesSpec.services.templateResourceRefs field.
+
+Usage Example:
+
+Let's say we have a secret named `secret-dockercfg` in the k0rdent management cluster.
+We need to propagate it to "myns" namespace on a target cluster with the following labels:
+  k0rdent.mirantis.com/component=kcm
+  helm.toolkit.fluxcd.io/name=wali-dev-1
+  helm.toolkit.fluxcd.io/namespace=kcm-system
+
+
+To do we can install the propagate-secrets chart with:
+  $ helm install myrelease oci://ghcr.io/k0rdent/catalog/charts/propagate-secrets --version 1.0.0 -f values.yaml
+
+Where the `values.yaml` file has the following contents:
+  propagate:
+    secrets:
+      - name: secret-dockercfg
+        namespace: kcm-system
+        targetNamespace: myns
+  clusterSelector:
+    matchLabels:
+      k0rdent.mirantis.com/component: kcm
+      helm.toolkit.fluxcd.io/name: wali-dev-1
+      helm.toolkit.fluxcd.io/namespace: kcm-system
+
+The secret `myns/secret-dockercfg` should appear on the target cluster eventually after the MultiClusterService created by the release has been successfully reconciled.
