@@ -26,6 +26,12 @@ deploy_code: |
         - template: spegel-0-3-0
           name: spegel
           namespace: spegel
+          values: |
+            spegel:
+              spegel:
+                containerdSock: "/run/k0s/containerd.sock"
+                containerdRegistryConfigPath: "/etc/k0s/containerd/certs.d" # ???
+                containerdContentPath: "/var/lib/k0s/containerd/io.containerd.content.v1.content"
     ~~~
 support_link: https://spegel.dev/support/ 
 doc_link: https://spegel.dev/docs/
