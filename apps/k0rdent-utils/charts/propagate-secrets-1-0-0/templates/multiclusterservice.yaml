@@ -1,0 +1,35 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: MultiClusterService
+metadata:
+  name: {{ include "propagate-secrets.fullname" . }}-mcs
+  labels:
+    {{- include "propagate-secrets.labels" . | nindent 4 }}
+spec:
+  clusterSelector:
+    matchLabels:
+      {{- with .Values.clusterSelector.matchLabels }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+  serviceSpec:
+    priority: {{ default 100 .Values.priority }}
+    {{- if .Values.propagate.secrets }}
+    templateResourceRefs:
+      {{- range $value := .Values.propagate.secrets }}
+      - resource:
+          apiVersion: v1
+          kind: Secret
+          name: {{ $value.name }}
+          {{- if $value.namespace }}
+          namespace: {{ $value.namespace }}
+          {{- end }}
+        identifier: {{ $.Release.Name }}-{{ $value.name }}-id
+      {{- end }}
+    policyRefs:
+      {{- range $value := .Values.propagate.secrets }}
+      - kind: Secret
+        name: {{ $.Release.Name }}-{{ $value.name }}-policy
+        {{- if $value.namespace }}
+        namespace: {{ $value.namespace }}
+        {{- end }}
+      {{- end }}
+    {{- end }}

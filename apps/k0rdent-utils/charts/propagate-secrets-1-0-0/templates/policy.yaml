@@ -1,0 +1,24 @@
+{{ $start :=  printf "{{" }}
+{{ $end :=  printf "}}" }}
+
+{{- range $value := .Values.propagate.secrets }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $.Release.Name }}-{{ $value.name }}-policy
+  {{- if $value.namespace }}
+  namespace: {{ $value.namespace }}
+  {{- end }}
+  labels:
+    {{- include "propagate-secrets.labels" $ | nindent 4 }}
+  annotations:
+    projectsveltos.io/template: ok
+type: addons.projectsveltos.io/cluster-profile
+stringData:
+  secret.yaml: |
+    {{$start}} $secret := (getResource "{{$.Release.Name}}-{{$value.name}}-id") {{$end}}
+    {{$start}} $secret := (chainSetField $secret "metadata.ownerReferences" list) {{$end}}
+    {{$start}} $secret := (chainSetField $secret "metadata.namespace" "{{$value.targetNamespace}}") {{$end}}
+    {{$start}} toYaml $secret {{$end}}
+---
+{{- end }}
