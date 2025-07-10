@@ -1,0 +1,9 @@
+apiVersion: v2
+name: headlamp
+description: A Helm chart that references the official "headlamp" Helm chart.
+type: application
+version: 0.32.1
+dependencies:
+  - name: headlamp
+    version: 0.32.1
+    repository: https://kubernetes-sigs.github.io/headlamp/

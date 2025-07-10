@@ -1,0 +1,7 @@
+st-charts:
+  - name: headlamp
+    version: 0.32.1
+    dependencies:
+      - name: headlamp
+        version: 0.32.1
+        repository: https://kubernetes-sigs.github.io/headlamp/

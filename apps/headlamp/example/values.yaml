@@ -1,0 +1,19 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
+headlamp:
+  headlamp:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - host: headlamp.example.com
+          paths:
+            - path: "/"
+              type: Prefix

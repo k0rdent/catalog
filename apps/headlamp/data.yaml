@@ -1,0 +1,78 @@
+tags:
+  - Monitoring
+title: Headlamp
+summary: "User-friendly Kubernetes UI focused on extensibility."
+logo: "./assets/headlamp.svg" # https://github.com/kubernetes-sigs/headlamp/blob/main/docs/images/icon.svg
+logo_big: "./assets/headlamp-big.svg" # https://headlamp.dev/img/logo.svg
+created: "2025-07-10T16:26:02Z"
+description: |
+  Headlamp is an easy-to-use and extensible Kubernetes web UI.
+
+  Headlamp was created to blend the traditional feature set of other web UIs/dashboards
+  (i.e., to list and view resources) with added functionality.
+
+  Headlamp can be used in-cluster, where it's accessed through a web browser, or as a desktop
+  application (using the information defined in the user's kubeconfig).
+# support_link:
+charts:
+  - name: headlamp
+    versions: ['0.32.1']
+  - name: ingress-nginx
+    versions: ['4.12.3']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: headlamp
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: headlamp-0-32-1
+          name: headlamp
+          namespace: headlamp
+          values: |
+            headlamp:
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                hosts:
+                - host: headlamp.example.com
+                  paths:
+                    - path: "/"
+                      type: Prefix
+        - template: ingress-nginx-4-12-3
+          name: ingress-nginx
+          namespace: headlamp
+          values: |
+            ingress-nginx:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                hostPort:
+                  enabled: true
+    ~~~
+
+    Create access token in the child cluster:
+    ~~~yaml
+    apiVersion: v1
+    kind: Secret
+    type: kubernetes.io/service-account-token
+    metadata:
+      name: headlamp-token
+      namespace: headlamp
+      annotations:
+        kubernetes.io/service-account.name: headlamp
+        kubernetes.io/service-account.namespace: headlamp
+    ~~~
+
+    Get the token and use it to authenticate:
+    ~~~bash
+    kubectl get secrets headlamp-token -n headlamp -o jsonpath='{.data.token}' | base64 -d; echo
+    ~~~
+
+doc_link: https://headlamp.dev/docs/latest/
