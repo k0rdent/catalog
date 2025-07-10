@@ -5,3 +5,6 @@ spAppID: "FILL-sp-app-id"
 
 # Tenant ID
 spTenantID: "FILL-sp-tenant-id"
+
+# Subscription ID
+subID: "FILL-subscription-id"
