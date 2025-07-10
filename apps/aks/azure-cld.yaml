@@ -1,11 +1,11 @@
 apiVersion: k0rdent.mirantis.com/v1alpha1
 kind: ClusterDeployment
 metadata:
-  name: azure-aks-example-USER
+  name: azure-example-USER
   namespace: kcm-system
 spec:
   template: azure-aks-1-0-0
-  credential: azure-credential
+  credential: azure-credential-aks
   config:
     clusterLabels:
       type: azure

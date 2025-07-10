@@ -26,7 +26,7 @@ deploy_code: |
       namespace: kcm-system
     spec:
       template: {{ azure_aks }}  # name of the clustertemplate
-      credential: azure-cluster-identity-cred
+      credential: azure-credential-aks
       config:
         clusterLabels: {}
         clusterAnnotations: {}
