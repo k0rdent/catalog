@@ -22,18 +22,21 @@ deploy_code: |
     apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
     metadata:
-      name: my-azure-clusterdeployment1
+      name: my-azure-aks-clusterdeployment1
       namespace: kcm-system
     spec:
       template: {{ azure_aks }}  # name of the clustertemplate
       credential: azure-cluster-identity-cred
       config:
         clusterLabels: {}
-        location: "AZURE_LOCATION" # Select your desired Azure Location
-        subscriptionID: SUBSCRIPTION_ID_SUBSCRIPTION_ID # Enter the Subscription ID used earlier
-        controlPlane:
-          vmSize: Standard_A4_v2
-        worker:
-          vmSize: Standard_A4_v2
+        clusterAnnotations: {}
+        location: "westus"
+        machinePools:
+          system:
+            count: 1
+            vmSize: Standard_A4_v2
+          user:
+            count: 1
+            vmSize: Standard_A4_v2
     ~~~
 doc_link: https://docs.k0rdent.io/{{ version }}/admin/installation/prepare-mgmt-cluster/azure/
