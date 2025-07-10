@@ -126,6 +126,7 @@ StackLight
 TLS
 Terraform
 UI
+UIs
 VM
 VMs
 VMware
@@ -168,6 +169,7 @@ io
 k0rdent
 k0rdent’s
 kserve
+kubeconfig
 kubernetes
 lifecycle
 maage
@@ -209,5 +211,4 @@ webapp
 webui
 www
 xgboost
-yaml
 yaml
