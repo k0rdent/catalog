@@ -21,7 +21,7 @@ elif [[ "$TEST_MODE" == azure ]]; then
         --set "subID=${AZURE_SUB_ID}"
 
     kubectl patch secret azure-${CRED_NAME}-secret -n kcm-system -p='{"stringData":{"clientSecret":"'$AZURE_SP_PASSWORD'"}}'
-    kubectl patch secret azure-${CRED_NAME}-secret-aks -n {{ .Release.Namespace }} -p='{"stringData":{"AZURE_CLIENT_SECRET":"'$AZURE_SP_PASSWORD'"}}'
+    kubectl patch secret azure-${CRED_NAME}-secret-aks -n kcm-system -p='{"stringData":{"AZURE_CLIENT_SECRET":"'$AZURE_SP_PASSWORD'"}}'
 else
     helm upgrade --install adopted-${CRED_NAME} oci://ghcr.io/k0rdent/catalog/charts/adopted-credential \
     --version 0.0.1 \
