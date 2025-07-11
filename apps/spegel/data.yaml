@@ -1,0 +1,27 @@
+title: "Spegel"
+tags:
+  - Container Registry
+summary: "Stateless cluster local OCI registry mirror."
+logo: "./assets/spegel-logo.svg"
+description: |
+  Spegel enables each node in a Kubernetes cluster to act as a local registry mirror, allowing nodes to share images between themselves. Any image already pulled by a node will be available for any other node in the cluster to pull. This has the benefit of reducing workload startup times and egress traffic as images will be stored locally within the cluster. On top of that it allows the scheduling of new workloads even when external registries are down.
+charts:
+  - name: spegel
+    versions: ['0.3.0']
+prerequisites: |
+  Read the [compatibility guide](https://spegel.dev/docs/getting-started/#compatibility) to determine required Kubernetes specific configuration.
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1alpha1
+    kind: ClusterDeployment
+    spec:
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: spegel-0-3-0
+            name: spegel
+            namespace: spegel
+    ~~~
+support_link: https://spegel.dev/support/ 
+doc_link: https://spegel.dev/docs/
