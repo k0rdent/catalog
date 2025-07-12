@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: ceph-controller
-    version: 1.0.10
+    version: 1.0.12
     repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
