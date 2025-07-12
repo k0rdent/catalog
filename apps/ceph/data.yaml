@@ -27,7 +27,7 @@ support_link: https://www.mirantis.com/software/ceph/
 support_type: Enterprise
 charts:
   - name: ceph-controller
-    versions: ['1.0.10']
+    versions: ['1.0.12']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -40,7 +40,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: ceph-controller-1-0-10
+        - template: ceph-controller-1-0-12
           name: ceph-controller
           namespace: ceph-lcm-mirantis
     ~~~
