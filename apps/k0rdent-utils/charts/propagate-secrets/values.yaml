@@ -1,0 +1,42 @@
+## Default values for propagate-secrets.
+## This is a YAML-formatted file.
+## Declare variables to be passed into your templates.
+
+## This is to override the chart name.
+##
+nameOverride: ""
+fullnameOverride: ""
+
+## Sets the priority for the MultiClusterService. Defaults to 100.
+##
+# priority: 1000
+
+propagate:
+  ## Kubernetes secrets to be propagated to target clusters.
+  ##
+  ## The namespace of the matching target CAPI cluster will be used
+  ## if namespace isn't provided.
+  ##
+  ## The targetNamespace is the namespace where the secret needs 
+  ## to be created in the target cluster. The namespace will be 
+  ## created if it doesn't exist. The secret will be created in 
+  ## "default" namespace if none is provided.
+  ##
+  secrets:
+    # - name: secret1
+    #   namespace: kcm-system
+    #   targetNamespace: myns1
+    # - name: secret2
+    #   namespace: kcm-system
+    #   targetNamespace: myns2
+    # - name: secret3
+    #   namespace: kcm-system
+
+
+clusterSelector:
+  ## The labels used to match to the target CAPI Cluster.
+  ##
+  matchLabels:
+    # labelA: A
+    # labelB: B
+    # labelC: C
