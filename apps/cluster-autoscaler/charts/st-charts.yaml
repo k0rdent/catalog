@@ -1,0 +1,7 @@
+st-charts:
+  - name: cluster-autoscaler
+    version: 9.45.0
+    dependencies:
+      - name: cluster-autoscaler
+        version: 9.45.0
+        repository: https://kubernetes.github.io/autoscaler
