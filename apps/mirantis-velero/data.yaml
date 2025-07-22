@@ -1,0 +1,72 @@
+tags:
+  - Backup and Recovery
+title: "Mirantis Velero"
+summary: "Open source tool to safely backup and restore."
+logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
+created: "2025-07-22T08:16:55Z"
+prerequisites: |
+  #### Prerequisites
+  - k0rdent Enterprise
+description: |
+    Velero is an open source tool to safely backup and restore, perform disaster recovery,
+    and migrate Kubernetes cluster resources and persistent volumes.
+support_type: Enterprise
+charts:
+  - name: velero
+    versions: ['8.1.0']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: velero
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: velero-8-1-0
+          name: velero
+          namespace: velero
+          values: |
+            velero:
+              backupsEnabled: true
+              snapshotsEnabled: true
+              deployNodeAgent: true
+              nodeAgent:
+                podVolumePath: /var/lib/k0s/kubelet/pods
+              initContainers:
+                - name: velero-plugin-for-aws
+                  image: velero/velero-plugin-for-aws:latest
+                  imagePullPolicy: IfNotPresent
+                  volumeMounts:
+                    - mountPath: /target
+                      name: plugins
+              configuration:
+                uploaderType: kopia
+                backupStorageLocation:
+                  - name: velero-backup-storage-location
+                    provider: aws
+                    bucket: velero-backups-xx
+                    default: true
+                    config:
+                      region: us-east-2
+                volumeSnapshotLocation:
+                  - name: velero-volume-storage-location
+                    provider: aws
+                    config:
+                      region: us-east-2
+              credentials:
+                useSecret: true
+                secretContents:
+                  cloud: |
+                    [default]
+                    aws_access_key_id = xx
+                    aws_secret_access_key = xx
+    ~~~
+doc_link: https://vmware-tanzu.github.io/helm-charts/
+
+# test settings
+test_deploy_chart: false
+test_wait_for_pods: "node-agent-"
