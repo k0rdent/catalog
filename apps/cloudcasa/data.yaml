@@ -8,6 +8,7 @@ created: "2025-05-15T00:54:27Z"
 description: |
     CloudCasa is a SaaS data protection, disaster recovery, migration, and replication solution for Kubernetes and cloud-native applications.
     Configuration is quick and easy, and basic service is free.
+support_type: Partner
 charts:
   - name: cloudcasa
     versions: ['3.4.4']
