@@ -1,0 +1,33 @@
+tags:
+  - Security
+title: "Mirantis Kyverno Guardrails"
+summary: "Set of Best-Practice Kyverno Policies."
+logo: "https://github.com/kyverno/kyverno/raw/main/img/logo.png"
+logo_big: "https://github.com/kyverno/kyverno/blob/de56010aa94524bdd36a9d609dc9640ea88a9f3f/img/Kyverno_Horizontal.png?raw=true"
+created: "2025-07-22T10:49:16Z"
+prerequisites: |
+    #### Prerequisites
+    - k0rdent Enterprise
+    - Kyverno must be installed in the cluster: [Kyverno Install](../../../{{ version }}/apps/kyverno/#install)
+description: |
+    Kyverno Guardrails is a set of best-practice Kyverno Cluster-wide policies that can be deployed to enforce security and compliance best practices in your Kubernetes cluster. These policies are designed to help you ensure that your cluster is secure, compliant, and well-configured.
+support_type: Enterprise
+charts:
+  - name: kyverno-guardrails
+    versions: ['0.1.0']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: kyverno-guardrails-0-1-0
+            name: kyverno-guardrails
+            namespace: kyverno
+    ~~~
+doc_link: https://kyverno.io/policies/
+test_deploy_multiclusterservice: false
+test_deploy_chart: false
+test_install_servicetemplates: false
