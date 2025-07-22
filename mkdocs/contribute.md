@@ -61,6 +61,7 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     - `doc_link` (string): Documentation for the application.
     - `logo_big` (string): A relative link to a larger version of the app logo (e.g., `./assets/dapr_logo_big.svg`). Displayed on the application detail page.
     - `prerequisites` (string): Custom *Prerequisites* section of the application detail page.
+    - `support_type` (string): Allowed values: `Community`, `Enterprise` or `Partner`.
 - #### Example:
   ~~~yaml
   title: "Dapr"

@@ -100,7 +100,7 @@ def generate_schema() -> Dict:
                         },
                         "supportType": {
                             "type": "string",
-                            "enum": ["community", "enterprise"],
+                            "enum": ["community", "enterprise", "partner"],
                             "description": "Type of support provided"
                         },
                         "deprecated": {

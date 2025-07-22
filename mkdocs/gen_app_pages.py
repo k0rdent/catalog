@@ -13,7 +13,7 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'de
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
-allowed_support_types = ['Enterprise', 'Community']
+allowed_support_types = ['Enterprise', 'Community', 'Partner']
 summary_chars_limit = 90
 valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1']
 
@@ -268,6 +268,13 @@ def ensure_verify_code(metadata: dict):
     metadata['verify_code'] = '\n'.join(verify_code_lines)
 
 
+def metadata_support_type(metadata: dict):
+    support_type = metadata.get("support_type", "Community")
+    if support_type == 'Partner':
+        support_type = 'Enterprise' # Temporarily map 'Partner' to 'Enterprise' in web
+    return support_type
+
+
 def json_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
     item = {
         "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
@@ -276,7 +283,7 @@ def json_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
         "created": metadata.get("created", " "),
-        "support_type": metadata.get("support_type", "Community"),
+        "support_type": metadata_support_type(metadata),
         "description": metadata.get("summary", "No Description"),
         "appDir": app,
     }
