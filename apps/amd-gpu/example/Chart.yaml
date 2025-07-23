@@ -1,11 +1,11 @@
 apiVersion: v2
 name: example
 type: application
-version: v1.2.2
+version: v1.3.0
 dependencies:
   - name: cert-manager
     version: 1.17.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: amd-gpu-operator
-    version: v1.2.2
+    version: v1.3.0
     repository: oci://ghcr.io/k0rdent/catalog/charts

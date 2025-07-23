@@ -19,7 +19,7 @@ description: |
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
 charts:
   - name: amd-gpu-operator
-    versions: ['v1.2.2']
+    versions: ['v1.3.0', 'v1.2.2']
   - name: cert-manager
     versions: ['1.17.2']
 deploy_code: |
@@ -74,7 +74,7 @@ deploy_code: |
             cert-manager:
               crds:
                 enabled: true
-        - template: amd-gpu-operator-v1-2-2
+        - template: amd-gpu-operator-v1-3-0
           name: amd-gpu-operator
           namespace: kube-amd-gpu
     ~~~
