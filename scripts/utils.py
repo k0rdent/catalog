@@ -165,21 +165,21 @@ parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
 
-install = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
-install.add_argument("app")
-install.set_defaults(func=render_mcs)
+render = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
+render.add_argument("app")
+render.set_defaults(func=render_mcs)
 
 install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
 install.add_argument("app")
 install.set_defaults(func=install_servicetemplates)
 
-install = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
-install.add_argument("app")
-install.set_defaults(func=print_test_vars)
+print_vars = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
+print_vars.add_argument("app")
+print_vars.set_defaults(func=print_test_vars)
 
-install = subparsers.add_parser("get-wait-for-pods", help="Print WAIT_FOR_PODS value")
-install.add_argument("app")
-install.set_defaults(func=get_wait_for_pods)
+get_pods = subparsers.add_parser("get-wait-for-pods", help="Print WAIT_FOR_PODS value")
+get_pods.add_argument("app")
+get_pods.set_defaults(func=get_wait_for_pods)
 
 args = parser.parse_args()
 args.func(args)
