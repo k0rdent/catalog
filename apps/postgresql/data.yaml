@@ -14,9 +14,9 @@ description: |
 # support_link:
 charts:
   - name: postgresql
-    versions: ['16.7.15']
+    versions: ['16.7.21', '16.7.15']
   - name: ingress-nginx
-    versions: ['4.12.3']
+    versions: ['4.13.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -29,7 +29,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: postgresql-16-7-15
+        - template: postgresql-16-7-21
           name: postgresql
           namespace: postgresql
           values: |
@@ -39,7 +39,7 @@ deploy_code: |
                 username: user
                 password: passwd
                 database: pgdb
-        - template: ingress-nginx-4-12-3
+        - template: ingress-nginx-4-13-0
           name: ingress-nginx
           namespace: postgresql
           values: |
@@ -71,8 +71,8 @@ examples: |
     ~~~bash
     kubectl get servicetemplates -A
     # NAMESPACE    NAME                            VALID
-    # kcm-system   postgresql-16-7-15              true
-    # kcm-system   ingress-nginx-4-12-3            true
+    # kcm-system   postgresql-16-7-21              true
+    # kcm-system   ingress-nginx-4-13-0            true
     ~~~
 
     #### Deploy PostgreSQL in replication mode
@@ -88,7 +88,7 @@ examples: |
           group: demo
       serviceSpec:
         services:
-        - template: postgresql-16-7-15
+        - template: postgresql-16-7-21
           name: postgresql
           namespace: postgresql
           values: |
@@ -101,7 +101,7 @@ examples: |
                 database: db
               readReplicas:
                 replicaCount: 2
-        - template: ingress-nginx-4-12-3
+        - template: ingress-nginx-4-13-0
           name: ingress-nginx
           namespace: postgresql
           values: |
