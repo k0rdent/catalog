@@ -20,9 +20,11 @@ dependencies:
 """
 
 
-def read_charts_cfg(app: str) -> dict:
+def read_charts_cfg(app: str, allow_return_none: False) -> dict:
     helm_config_path = f"apps/{app}/charts/st-charts.yaml"
     if not os.path.exists(helm_config_path):
+        if allow_return_none:
+            return None
         raise Exception(f"{helm_config_path} file not found")
     with open(helm_config_path, "r", encoding='utf-8') as file:
         cfg = yaml.safe_load(file)
@@ -72,6 +74,34 @@ def generate(args: str):
         generate_charts(app, chart)
 
 
+def get_last_deps(cfg: dict):
+    last_deps = dict()
+    for chart in cfg['st-charts']:
+        for dep in chart['dependencies']:
+            last_deps[dep['name']] = dep
+    return last_deps
+
+
+def check_updates(args: str):
+    app = args.app
+    cfg = read_charts_cfg(app, allow_return_none=True)
+    if cfg is None:
+        print('Charts config not found.')
+        return
+    last_deps = get_last_deps(cfg)
+    for chart, data in last_deps.items():
+        if not data['repository'].startswith("https"):
+            print(f"Unsupported repo '{data['repository']}' to automatically check updates, skipping.")
+            continue
+        subprocess.run(["helm", "repo", "add", chart, data['repository']], check=True)
+        subprocess.run(["helm", "repo", "update"], check=True)
+        result = subprocess.run(["helm", "show", "chart", f"{chart}/{chart}"], check=True, capture_output=True, text=True)
+        up_to_date_chart = yaml.safe_load(result.stdout)
+        print(f"Last version found: {up_to_date_chart['version']}")
+        if up_to_date_chart['version'] != data['version']:
+            print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
+
+
 parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -79,6 +109,10 @@ subparsers = parser.add_subparsers(dest="command", required=True)
 show = subparsers.add_parser("generate", help="Generate charts from config")
 show.add_argument("app")
 show.set_defaults(func=generate)
+
+check_upd = subparsers.add_parser("check-updates", help="Generate charts from config")
+check_upd.add_argument("app")
+check_upd.set_defaults(func=check_updates)
 
 args = parser.parse_args()
 args.func(args)
