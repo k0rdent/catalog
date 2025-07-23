@@ -5,3 +5,9 @@ st-charts:
       - name: trident-operator
         version: 100.2410.0
         repository: https://netapp.github.io/trident-helm-chart
+  - name: trident-operator
+    version: 100.2506.0
+    dependencies:
+      - name: trident-operator
+        version: 100.2506.0
+        repository: https://netapp.github.io/trident-helm-chart

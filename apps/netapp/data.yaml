@@ -12,7 +12,7 @@ description: |
 support_link: https://docs.netapp.com/us-en/trident/get-help.html
 charts:
   - name: trident-operator
-    versions: ['100.2410.0']
+    versions: ['100.2506.0', '100.2410.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -21,7 +21,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: trident-operator-100-2410-0
+          - template: trident-operator-100-2506-0
             name: trident-operator
             namespace: trident-operator
     ~~~

@@ -1,8 +1,8 @@
 apiVersion: v2
 name: example
 type: application
-version: 100.2410.0
+version: 100.2506.0
 dependencies:
   - name: trident-operator
-    version: 100.2410.0
+    version: 100.2506.0
     repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -2,8 +2,8 @@ apiVersion: v2
 name: trident-operator
 description: A Helm chart that references the official "trident-operator" Helm chart.
 type: application
-version: 100.2410.0
+version: 100.2506.0
 dependencies:
   - name: trident-operator
-    version: 100.2410.0
+    version: 100.2506.0
     repository: https://netapp.github.io/trident-helm-chart
