@@ -10,7 +10,7 @@ description: |
 support_link: https://cert-manager.io/support/
 charts:
   - name: cert-manager
-    versions: ['1.17.2', '1.16.2']
+    versions: ['1.18.2', '1.17.2', '1.16.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -19,7 +19,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: cert-manager-1-17-2
+          - template: cert-manager-1-18-2
             name: cert-manager
             namespace: cert-manager
             values: |

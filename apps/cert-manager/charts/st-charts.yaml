@@ -11,3 +11,9 @@ st-charts:
       - name: cert-manager
         version: 1.17.2
         repository: https://charts.jetstack.io
+  - name: cert-manager
+    version: 1.18.2
+    dependencies:
+      - name: cert-manager
+        version: 1.18.2
+        repository: https://charts.jetstack.io
