@@ -143,6 +143,16 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
+      - name: Install Helm
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Check updates
+        run: |
+          app=${{ matrix.folder }}
+          python3 ./scripts/chart_ctl.py check-updates "$app"
+
       - name: Install Kind
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
@@ -164,11 +174,6 @@ jobs:
           kind create cluster --name test-k8s
           kubectl cluster-info --context kind-test-k8s
           kind get kubeconfig -n test-k8s > "kcfg_local"
-
-      - name: Install Helm
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: Test - Install example Helm chart
         if: env.DEPLOY_CHART == 'true'
