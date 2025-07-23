@@ -53,7 +53,12 @@ jobs:
             echo "Running: find ${{ github.event.inputs.find_args }}"
             all_detected_files=$(find ${{ github.event.inputs.find_args }} -type f -name data.yaml)
           elif [[ ${{ github.event_name }} == 'schedule' ]]; then
-            all_detected_files=$(find apps -type f -name data.yaml)
+            if [[ "${{ vars.ENABLE_CRON }}" == "1" ]]; then
+              all_detected_files=$(find apps -type f -name data.yaml)
+            else
+              echo "Repo var ENABLE_CRON is not set or does not equal '1'."
+              all_detected_files=""
+            fi
           else
             all_detected_files=$(git diff --name-only --diff-filter=ACMRT origin/main HEAD)
           fi
