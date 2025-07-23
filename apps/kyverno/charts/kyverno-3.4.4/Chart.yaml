@@ -2,8 +2,8 @@ apiVersion: v2
 name: kyverno
 description: A Helm chart that references the official "kyverno" Helm chart.
 type: application
-version: 3.2.6
+version: 3.4.4
 dependencies:
   - name: kyverno
-    version: 3.2.6
+    version: 3.4.4
     repository: https://kyverno.github.io/kyverno/

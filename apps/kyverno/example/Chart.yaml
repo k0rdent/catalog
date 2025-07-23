@@ -1,8 +1,8 @@
 apiVersion: v2
 name: example
 type: application
-version: 3.2.6
+version: 3.4.4
 dependencies:
   - name: kyverno
-    version: 3.2.6
+    version: 3.4.4
     repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -18,7 +18,7 @@ description: |
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 charts:
   - name: kyverno
-    versions: ['3.2.6']
+    versions: ['3.4.4', '3.2.6']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -27,7 +27,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: kyverno-3-2-6
+          - template: kyverno-3-4-4
             name: kyverno
             namespace: kyverno
     ~~~

@@ -5,3 +5,9 @@ st-charts:
       - name: kyverno
         version: 3.2.6
         repository: https://kyverno.github.io/kyverno/
+  - name: kyverno
+    version: 3.4.4
+    dependencies:
+      - name: kyverno
+        version: 3.4.4
+        repository: https://kyverno.github.io/kyverno/
