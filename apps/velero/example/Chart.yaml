@@ -1,8 +1,8 @@
 apiVersion: v2
 name: example
 type: application
-version: 8.1.0
+version: 1.0.0
 dependencies:
   - name: velero
-    version: 8.1.0
+    version: 10.0.10
     repository: oci://ghcr.io/k0rdent/catalog/charts

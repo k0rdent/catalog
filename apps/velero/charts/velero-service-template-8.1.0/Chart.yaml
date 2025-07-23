@@ -1,9 +1,0 @@
-apiVersion: v2
-name: velero-service-template
-description: k0rdent service template for "velero"
-type: application
-version: 8.1.0
-dependencies:
-  - name: k0rdent-catalog
-    version: 1.0.0
-    repository: oci://ghcr.io/k0rdent/catalog/charts
