@@ -11,7 +11,7 @@ title: {{ title }}
 description: {{ summary }}
 logo: "{{ logo }}"
 type: "{{ type }}"
-support_type: "{{ support_type }}"
+support_type: "{{ support_type | replace('Partner', 'Enterprise') }}" # Temporarily represent "Partner" support type as "Enterprise"
 created: "{{ created }}"
 ---
 ![logo]({{ logo_big }}){ align="right", width="100" }
