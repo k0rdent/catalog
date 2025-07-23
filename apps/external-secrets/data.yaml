@@ -12,7 +12,7 @@ description: |
 support_link: https://external-secrets.io/latest/introduction/stability-support/
 charts:
   - name: external-secrets
-    versions: ['0.11.0']
+    versions: ['0.18.2', '0.11.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -21,8 +21,8 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: external-secrets-0-11-0
+          - template: external-secrets-0-18-2
             name: external-secrets
             namespace: external-secrets
     ~~~
-doc_link: https://external-secrets.io/v0.11.0/
+doc_link: https://external-secrets.io/v0.18.2/

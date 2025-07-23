@@ -2,8 +2,8 @@ apiVersion: v2
 name: external-secrets
 description: A Helm chart that references the official "external-secrets" Helm chart.
 type: application
-version: 0.11.0
+version: 0.18.2
 dependencies:
   - name: external-secrets
-    version: 0.11.0
+    version: 0.18.2
     repository: https://charts.external-secrets.io
