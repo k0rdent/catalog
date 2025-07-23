@@ -20,7 +20,7 @@ dependencies:
 """
 
 
-def read_charts_cfg(app: str, allow_return_none: False) -> dict:
+def read_charts_cfg(app: str, allow_return_none: bool = False) -> dict:
     helm_config_path = f"apps/{app}/charts/st-charts.yaml"
     if not os.path.exists(helm_config_path):
         if allow_return_none:
