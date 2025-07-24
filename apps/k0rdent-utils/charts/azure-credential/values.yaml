@@ -8,3 +8,6 @@ spTenantID: "FILL-sp-tenant-id"
 
 # Subscription ID
 subID: "FILL-subscription-id"
+
+# k0rdent API version used in ServiceTemplate object.
+k0rdentApiVersion: "v1beta1"
