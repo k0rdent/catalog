@@ -6,8 +6,21 @@ logo: "./assets/cc-icon.svg"
 logo_big: "./assets/cloudcasa-logo.svg"
 created: "2025-05-15T00:54:27Z"
 description: |
-    CloudCasa is a SaaS data protection, disaster recovery, migration, and replication solution for Kubernetes and cloud-native applications.
-    Configuration is quick and easy, and basic service is free.
+  CloudCasa is a comprehensive solution for data protection, disaster recovery, migration, and replication designed for
+  Kubernetes and cloud-native applications. It is available as both a SaaS offering and a self-hosted deployment,
+  with a quick and straightforward configuration process.
+
+  CloudCasa is offered in multiple editions and deployment options to meet a variety of operational needs:
+
+    - SaaS: Free, Pro, Enterprise, Velero
+    - Self-hosted: Enterprise, Velero
+
+  For detailed installation steps, refer to the instructions for deploying the CloudCasa agent for:
+
+    - SaaS: Free, Pro editions
+
+  For other deployment options or editions, please get in touch with the CloudCasa team.
+
 support_type: Partner
 charts:
   - name: cloudcasa
