@@ -3,7 +3,7 @@ kind: ClusterDeployment
 metadata:
   name: aws-example-USER
 spec:
-  template: aws-standalone-cp-1-0-0
+  template: aws-standalone-cp-1-0-10
   credential: aws-credential
   config:
     clusterLabels:

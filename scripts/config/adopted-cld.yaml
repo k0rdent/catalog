@@ -4,7 +4,7 @@ metadata:
   name: adopted
   namespace: kcm-system
 spec:
-  template: adopted-cluster-1-0-0
+  template: adopted-cluster-1-0-1
   credential: adopted-credential
   config:
     clusterLabels:
