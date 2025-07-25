@@ -1,0 +1,9 @@
+apiVersion: v2
+name: harness-delegate-ng
+description: A Helm chart that references the official "harness-delegate-ng" Helm chart.
+type: application
+version: 1.0.25
+dependencies:
+  - name: harness-delegate-ng
+    version: 1.0.25
+    repository: https://app.harness.io/storage/harness-download/delegate-helm-chart/

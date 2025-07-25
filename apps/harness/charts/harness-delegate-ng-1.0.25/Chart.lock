@@ -1,0 +1,6 @@
+dependencies:
+- name: harness-delegate-ng
+  repository: https://app.harness.io/storage/harness-download/delegate-helm-chart/
+  version: 1.0.25
+digest: sha256:8f4ddbcbbb691c6c5f73b03d049cdc5517086c774144c1eacc4a4fda659120cc
+generated: "2025-07-25T13:29:52.678697+02:00"
