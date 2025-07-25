@@ -161,6 +161,13 @@ def get_wait_for_pods(args):
         print(f"{app_data['test_wait_for_pods']}")
 
 
+def get_wait_for_running(args):
+    app = args.app
+    app_data = get_app_data(app)
+    if 'test_wait_for_running' in app_data:
+        print(f"{app_data['test_wait_for_running']}".lower())
+
+
 parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -180,6 +187,10 @@ print_vars.set_defaults(func=print_test_vars)
 get_pods = subparsers.add_parser("get-wait-for-pods", help="Print WAIT_FOR_PODS value")
 get_pods.add_argument("app")
 get_pods.set_defaults(func=get_wait_for_pods)
+
+get_running = subparsers.add_parser("get-wait-for-running", help="Print WAIT_FOR_RUNNING value")
+get_running.add_argument("app")
+get_running.set_defaults(func=get_wait_for_running)
 
 args = parser.parse_args()
 args.func(args)

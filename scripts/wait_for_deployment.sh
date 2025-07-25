@@ -16,6 +16,7 @@ while (( SECONDS < TIMEOUT )); do
     fi
 
     all_ready=true
+    all_running=true
 
     pod_count=$(jq '.items | length' <<< "$pods_json")
     if [[ "$pod_count" -eq 0 ]]; then
@@ -45,21 +46,30 @@ while (( SECONDS < TIMEOUT )); do
             fi
         else
             all_ready=false
+            all_running=false
         fi
     done
 
     for wait_for_pod in ${WAIT_FOR_PODS:-}; do
         if ! jq -r '.items[].metadata.name' <<< "$pods_json" | grep -q $wait_for_pod; then
            all_ready=false
+           all_running=false
            echo "Expected pod '$wait_for_pod' not found!"
            break
         fi
     done
 
-    if $all_ready; then
-        echo "✅ All pods are ready!"
-        break
+    if [[ "${WAIT_FOR_RUNNING:-}" == "true" ]]; then
+        if $all_running; then
+            echo "✅ All pods running!"
+            break
+        fi
+        echo "⏳ Some pods are not running yet..."
     else
+        if $all_ready; then
+            echo "✅ All pods are ready!"
+            break
+        fi
         echo "⏳ Some pods are not ready yet..."
     fi
 
