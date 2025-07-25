@@ -1,0 +1,43 @@
+tags:
+    - Developer Tools
+title: "JupyterHub"
+summary: ""
+logo: "https://istio.io/latest/favicons/android-192x192.png"
+created: "2025-07-25T08:16:55Z"
+description: |
+    Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful
+    features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,
+    service-to-service authentication, and monitoring – with few or no service code changes.
+# support_link:
+charts:
+  - name: jupyterhub
+    versions: ['4.2.0']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: jupyterhub
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: jupyterhub-4-2-0
+          name: jupyterhub
+          namespace: jupyterhub
+          values: |
+            jupyterhub:
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                hosts: ['juphub.example.com']
+    ~~~
+doc_link: https://z2jh.jupyter.org/en/stable/
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
+test_wait_for_pods: "ingress-nginx-controller-"
