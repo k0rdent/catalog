@@ -1,0 +1,53 @@
+tags:
+    - Developer Tools
+title: "JupyterHub"
+summary: "A multi-user version of the notebook designed for companies, classrooms and research labs."
+logo: ./assets/juphub-icon.svg # https://www.veryicon.com/icons/business/vscode-program-item-icon/jupyter.html
+logo_big: ./assets/juphub-big.svg # https://jupyter.org/hub
+created: "2025-07-30T08:16:55Z"
+description: |
+    JupyterHub brings the power of notebooks to groups of users. It gives users access to
+    computational environments and resources without burdening the users with installation and
+    maintenance tasks. Users - including students, researchers, and data scientists - can
+    get their work done in their own workspaces on shared resources which can be managed
+    efficiently by system administrators.
+
+    JupyterHub runs in the cloud or on your own hardware, and makes it possible to serve
+    a pre-configured data science environment to any user in the world. It is customizable
+    and scalable, and is suitable for small and large teams, academic courses, and large-scale
+    infrastructure.
+# support_link:
+charts:
+  - name: jupyterhub
+    versions: ['4.2.0']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: jupyterhub
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: jupyterhub-4-2-0
+          name: jupyterhub
+          namespace: jupyterhub
+          values: |
+            jupyterhub:
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                hosts: ['juphub.example.com']
+    ~~~
+
+    Sign in using default login `admin:admin`.
+doc_link: https://z2jh.jupyter.org/en/stable/
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
+test_wait_for_pods: "ingress-nginx-controller-"

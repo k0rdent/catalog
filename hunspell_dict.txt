@@ -61,6 +61,7 @@ IAM
 Istio
 Istio’s
 JSON
+JupyterHub
 K0rdent
 K8s
 KEDA

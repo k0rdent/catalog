@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: jupyterhub
+    version: 4.2.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: ingress-nginx
+    version: 4.13.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -1,0 +1,15 @@
+jupyterhub:
+  jupyterhub:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts: ['juphub.example.com']
+
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
