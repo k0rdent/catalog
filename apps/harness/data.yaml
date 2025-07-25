@@ -1,0 +1,52 @@
+tags:
+  - CI/CD
+title: Harness
+summary: "DevOps platform for CI/CD, feature flags, cloud cost, and reliability.."
+logo: ./assets/harness-icon.svg # https://seeklogo.com/vector-logo/448108/harness-icon
+logo_big: ./assets/harness-text.svg # https://seeklogo.com/vector-logo/448107/harness
+created: "2025-07-25T06:02:26Z"
+description: |
+  Harness Delegate is a lightweight service that runs in your Kubernetes cluster and securely connects
+  your internal infrastructure to the Harness SaaS platform. It performs all deployment and integration
+  tasks triggered by Harness pipelines, without requiring any inbound access.
+
+  This Helm chart installs the delegate with outbound-only connectivity, making it suitable for secure,
+  production-grade environments.
+
+  Key features:
+
+  - Executes CI/CD workflows inside your cluster
+  - Connects to artifacts, cloud, and verification tools
+  - Supports auto-upgrades and fault recovery
+  - Ideal for multi-cluster setups managed by k0rdent
+
+support_link: https://www.harness.io/company/contact-sales
+support_type: Partner
+charts:
+  - name: harness-delegate-ng
+    versions: ['1.0.25']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: harness
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: harness-delegate-ng-1-0-25
+          name: harness-delegate-ng
+          namespace: harness
+          values: |
+            harness-delegate-ng:
+              delegateToken: "xyz"
+    ~~~
+doc_link: https://developer.harness.io/docs/category/install-delegates
+
+# test settings
+test_deploy_chart: false
+test_wait_for_pods: "harness-delegate-ng-"
+test_wait_for_running: true
