@@ -77,20 +77,20 @@ def generate_schema() -> Dict:
                         },
                         "latestVersion": {
                             "type": "string",
-                            "description": "Latest version of the add-on (e.g. '27.5.1')",
+                            "description": "DEPRECATED, use 'charts' field - Latest version of the add-on (e.g. '27.5.1')",
                         },
                         "versions": {
                             "type": "array",
                             "items": {
                                 "type": "string",
                             },
-                            "description": "List of available versions",
+                            "description": "DEPRECATED, use 'charts' field - List of available versions",
                             "minItems": 1
                         },
                         "chartUrl": {
                             "type": "string",
                             "format": "uri",
-                            "description": "Absolute URL to the chart's st-charts.yaml or tarball"
+                            "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart's st-charts.yaml or tarball"
                         },
                         "docsUrl": {
                             "type": "string",
