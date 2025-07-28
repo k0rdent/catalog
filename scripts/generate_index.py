@@ -56,7 +56,8 @@ def generate_schema() -> Dict:
                         "chartUrl",
                         "docsUrl",
                         "supportType",
-                        "deprecated"
+                        "deprecated",
+                        "charts"
                     ],
                     "properties": {
                         "name": {
@@ -106,6 +107,26 @@ def generate_schema() -> Dict:
                         "deprecated": {
                             "type": "boolean",
                             "description": "Whether the add-on is deprecated"
+                        },
+                        "charts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Chart name"
+                                    },
+                                    "versions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of chart versions"
+                                    }
+                                },
+                                "description": "Application charts"
+                            }
                         },
                         "metadata": {
                             "type": "object",
@@ -225,6 +246,7 @@ def process_addon(app_dir: Path) -> Optional[Dict]:
         "docsUrl": get_docs_url(app_name),
         "supportType": data.get("support_type", "community").lower(),
         "deprecated": data.get("deprecated", False),
+        "charts": data.get("charts", []),
         "metadata": {
             "owner": data.get("owner", "k0rdent-team"),
             "lastUpdated": datetime.fromtimestamp(app_dir.stat().st_mtime).strftime('%Y-%m-%d'),
