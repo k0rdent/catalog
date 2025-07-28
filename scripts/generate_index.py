@@ -78,13 +78,11 @@ def generate_schema() -> Dict:
                         "latestVersion": {
                             "type": "string",
                             "description": "Latest version of the add-on (e.g. '27.5.1')",
-                            "pattern": "^[v]?[0-9]+\\.[0-9]+\\.[0-9]+$"
                         },
                         "versions": {
                             "type": "array",
                             "items": {
                                 "type": "string",
-                                "pattern": "^[v]?[0-9]+\\.[0-9]+\\.[0-9]+$"
                             },
                             "description": "List of available versions",
                             "minItems": 1
@@ -175,26 +173,6 @@ def generate_schema() -> Dict:
         }
     }
 
-def get_chart_versions(app_dir: Path) -> List[str]:
-    """Extract available versions from chart directories."""
-    versions = []
-    charts_dir = app_dir / "charts"
-    if not charts_dir.exists():
-        return versions
-
-    # Look for service template charts
-    chart_dirs = glob.glob(str(charts_dir / "*-service-template-*"))
-    for chart_dir in chart_dirs:
-        # Extract version from directory name
-        match = re.search(r'-service-template-(.+)$', chart_dir)
-        if match:
-            versions.append(match.group(1))
-    
-    # Sort versions in descending order
-    unique_versions = list(set(versions))
-    unique_versions.sort(reverse=True)
-    return unique_versions
-
 def get_chart_url(app_name: str, version: str) -> str:
     """Generate the chart URL for a specific version."""
     return f"{BASE_URL}/apps/{app_name}/charts/{app_name}-service-template-{version}/st-charts.yaml"
@@ -227,12 +205,11 @@ def process_addon(app_dir: Path) -> Optional[Dict]:
         logger.error(f"Error reading {data_yaml}: {e}")
         return None
 
-    # Get available versions
-    versions = get_chart_versions(app_dir)
-    if not versions:
-        logger.warning(f"No versions found for {app_name}")
+    if len(data.get('charts', [])) == 0:
         return None
 
+    # Get available versions
+    versions = data['charts'][0]['versions']
     latest_version = versions[0]
 
     # Extract metadata
