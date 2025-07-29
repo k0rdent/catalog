@@ -1,0 +1,12 @@
+nats:
+  nats:
+    # Number of NATS server replicas
+    replicaCount: 1
+
+    # Enable JetStream for persistence
+    jetstream:
+      enabled: true
+      fileStorage:
+        enabled: true
+        storageDirectory: /data/jetstream
+        size: 10Gi
