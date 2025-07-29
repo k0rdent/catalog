@@ -1,0 +1,46 @@
+apiVersion: k0rdent.mirantis.com/v1alpha1
+kind: ClusterDeployment
+metadata:
+  name: nats-cluster-1
+  namespace: kcm-system
+spec:
+  template: aws-standalone-cp-1-0-0
+  credential: aws-cluster-identity-cred
+  config:
+    clusterLabels: {}
+    clusterTags:
+      owner: prashant
+      environment: dev
+      project: webinar-lab
+    controlPlane:
+      rootVolumeSize: 100
+      amiID: "ami-06b6e5225d1db5f46" 
+      instanceType: t3.small 
+      imageLookup:
+        org: ""
+        format: ""
+        baseOS: ""
+    controlPlaneNumber: 1
+    region: ap-south-1
+    worker:
+      rootVolumeSize: 100
+      amiID: "ami-06b6e5225d1db5f46" 
+      instanceType: t3.medium 
+      associatePublicIpAddress: true
+      imageLookup:
+        org: ""
+        format: ""
+        baseOS: ""
+    workersNumber: 1
+  serviceSpec:
+    services:
+      - name: nats
+        namespace: nats
+        template: nats-2-11-6
+        values: |
+          replicaCount: 1
+          jetstream:
+            enabled: true
+            fileStorage:
+              enabled: true
+              size: 10Gi

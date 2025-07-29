@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nats
+description: A Helm chart that references the official "nats" Helm chart.
+type: application
+version: 1.3.9
+dependencies:
+  - name: k0rdent-catalog
+    version: 1.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -1,0 +1,14 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ServiceTemplate
+metadata:
+  name: nats-2-11-6
+  namespace: kcm-system
+spec:
+  version: "2.11.6"   # App version
+  helm:
+    chartSpec:
+      chart: nats
+      version: 1.3.9   # Helm chart version stays the same
+      sourceRef:
+        kind: HelmRepository
+        name: nats

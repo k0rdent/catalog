@@ -1,0 +1,4 @@
+apiVersion: v2
+name: nats-example
+description: Example configuration for deploying NATS via k0rdent ServiceTemplate
+version: 0.1.0
