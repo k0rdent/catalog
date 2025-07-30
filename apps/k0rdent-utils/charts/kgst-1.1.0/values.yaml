@@ -23,3 +23,4 @@ k0rdentApiVersion: "v1beta1"
 
 # Set to true to skip the pre-install chart verification job.
 skipVerifyJob: false
+verifyJobImage: "alpine/helm:3.14.0"

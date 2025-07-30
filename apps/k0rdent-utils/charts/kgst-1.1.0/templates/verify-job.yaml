@@ -18,7 +18,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: verify-job
-          image: alpine/helm:3.14.0
+          image: "{{ $.Values.verifyJobImage }}"
           command:
             - /bin/sh
             - -c
