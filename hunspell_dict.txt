@@ -125,6 +125,7 @@ SoundCloud
 StackLight
 TLS
 Terraform
+Tetrate
 UI
 UIs
 VM
