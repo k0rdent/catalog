@@ -28,3 +28,14 @@ metadata:
 spec:
   type: {{ $repoType }}
   url: {{ required "A valid 'helm.repo.url' value is required!" .Values.repo.url }}
+  {{- if eq .Values.repo.insecure true }}
+  insecure: true
+  {{- end }}
+  {{- with .Values.repo.secretRef }}
+  secretRef:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.repo.certSecretRef }}
+  certSecretRef:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

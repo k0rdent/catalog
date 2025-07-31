@@ -5,6 +5,17 @@ repo:
   # Valid helm chart url: e.g. 'https://grafana.github.io/helm-charts'
   url: oci://ghcr.io/k0rdent/catalog/charts
 
+  # Optional field to allow connecting to an insecure (HTTP) container registry server
+  insecure: false
+
+  # Optional authentication credentials for the repository "username", "password"
+  # passed to https://fluxcd.io/flux/components/source/api/v1/#source.toolkit.fluxcd.io/v1.HelmRepositorySpec
+  secretRef:
+
+  # Optional field to specify a secret containing TLS certificate data
+  # passed to https://fluxcd.io/flux/components/source/api/v1/#source.toolkit.fluxcd.io/v1.HelmRepositorySpec
+  certSecretRef:
+
 # Service template referenced Helm chart.
 # Expected format: "name:version"
 # E.g., "ingress-nginx:4.11.5"
