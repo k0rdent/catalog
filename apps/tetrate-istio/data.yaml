@@ -1,0 +1,50 @@
+tags:
+  - Networking
+title: Tetrate Istio
+summary: "Fully-supported, Enterprise-ready build of Istio."
+logo: "./assets/tetrate.svg" # https://docs.tetrate.io/
+logo_big: ./assets/tetrate-big.svg # https://docs.tetrate.io/istio-subscription/
+created: "2025-07-31T16:43:20Z"
+description: |
+  Tetrate Istio is a hardened, enterprise-ready distribution of the Istio service mesh maintained
+  by Tetrate. It provides advanced networking, security, and observability features while being
+  compatible with upstream Istio and Envoy APIs. This makes it ideal for multi-cluster Kubernetes
+  environments, especially when paired with k0rdent for federated deployment and lifecycle management.
+support_link: https://tetrate.io/contact
+support_type: Partner
+charts:
+  - name: tetrate-base
+    versions: ['1.26.20002']
+  - name: tetrate-istiod
+    versions: ['1.26.20002']
+  - name: tetrate-gateway
+    versions: ['1.26.20002']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: tetrate-istio
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+          - template: tetrate-base-1-26-20002
+            name: tetrate-base
+            namespace: istio-system
+          - template: tetrate-istiod-1-26-20002
+            name: tetrate-istiod
+            namespace: istio-system
+          - template: tetrate-gateway-1-26-20002
+            name: tetrate-gateway
+            namespace: istio-system
+    ~~~
+
+doc_link: https://docs.tetrate.io/istio-subscription/installation/install-helm
+
+test_namespace: istio-system
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true

@@ -1,0 +1,14 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: tetrate-base
+    version: 1.26.20002
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: tetrate-istiod
+    version: 1.26.20002
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: tetrate-gateway
+    version: 1.26.20002
+    repository: oci://ghcr.io/k0rdent/catalog/charts
