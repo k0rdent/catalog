@@ -25,12 +25,12 @@ if helm get notes kcm -n kcm-system; then
 elif [[ -z "${HELM_VALUES:-}" ]]; then
     echo "Installing kcm with default values"
     helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm \
-      --version 1.1.1 -n kcm-system --create-namespace \
+      --version 1.2.0 -n kcm-system --create-namespace \
       --timeout=20m $HELM_EXTRA_FLAGS
 else
     echo "Installing kcm chart with values $HELM_VALUES"
     helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm \
-      --version 1.1.1 -n kcm-system --create-namespace -f "$HELM_VALUES" \
+      --version 1.2.0 -n kcm-system --create-namespace -f "$HELM_VALUES" \
       --timeout=20m $HELM_EXTRA_FLAGS
 fi
 
