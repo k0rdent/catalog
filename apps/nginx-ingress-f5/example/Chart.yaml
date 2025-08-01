@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: nginx-ingress-f5
+    version: 2.2.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts

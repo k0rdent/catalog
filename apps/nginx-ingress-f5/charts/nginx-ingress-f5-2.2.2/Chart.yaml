@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nginx-ingress-f5
+description: A Helm chart that references the official "nginx-ingress-f5" Helm chart.
+type: application
+version: 2.2.2
+dependencies:
+  - name: nginx-ingress
+    version: 2.2.2
+    repository: oci://ghcr.io/nginx/charts

@@ -1,0 +1,53 @@
+tags:
+  - Networking
+title: "Nginx-ingress F5"
+summary: "Enterprise-grade Kubernetes ingress controller built on NGINX Plus."
+logo: "./assets/F5-logo.svg" # https://seekvectors.com/post/f5-networks-vector-logo
+created: "2025-08-26T08:16:55Z"
+description: |
+  Enterprise-grade Kubernetes Ingress Controller built on NGINX and NGINX Plus, designed for
+  advanced traffic management in dynamic cloud-native environments.
+
+  The F5 NGINX Ingress Controller integrates seamlessly with Kubernetes, allowing configuration
+  through native Kubernetes resources. It supports standard Ingress functionality including
+  content-based routing and TLS/SSL termination, with additional NGINX-specific features exposed
+  via annotations and ConfigMaps.
+
+  Key capabilities include:
+
+   -	Load balancing for WebSocket, gRPC, TCP, and UDP applications
+   -	Support for VirtualServer and VirtualServerRoute CRDs for fine-grained traffic control and traffic splitting
+   -	TransportServer resource for managing TCP/UDP and TLS Passthrough load balancing
+   -	Enhanced observability, security, and resilience when deployed with NGINX Plus
+
+  Ideal for use cases requiring sophisticated routing, protocol-level control, and enterprise support.
+support_link: https://www.f5.com/products/nginx/nginx-ingress-controller
+charts:
+  - name: nginx-ingress-f5
+    versions: ['2.2.2']
+support_type: Partner
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: nginx-ingress-f5
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: nginx-ingress-f5-2-2-2
+        name: nginx-ingress-f5
+        namespace: nginx-ingress-f5
+        values: |
+          nginx-ingress:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+              hostPort:
+                enabled: true
+  ~~~
+doc_link: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/

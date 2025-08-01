@@ -1,0 +1,7 @@
+st-charts:
+  - name: nginx-ingress-f5
+    version: 2.2.2
+    dependencies:
+      - name: nginx-ingress
+        version: 2.2.2
+        repository: oci://ghcr.io/nginx/charts
