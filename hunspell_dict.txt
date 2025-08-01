@@ -26,6 +26,7 @@ Ceph’s
 ClearML
 CloudCasa
 ClusterDeployment
+ConfigMaps
 CustomResourceDefinition
 DL
 DNS
@@ -39,6 +40,7 @@ EC2
 EKS
 Eventing
 ExternalDNS
+F5
 FIPs
 Falco
 FlashArray
@@ -108,6 +110,7 @@ OpenSearch
 OpenStack
 Orchestrators
 PGBouncer
+Passthrough
 Patroni
 Pluggable
 Prem
@@ -117,14 +120,18 @@ RayJob
 RayService
 S3
 SLAs
+SSL
 SaaS
 Scalable
 Serverless
 ServiceTemplate
 SoundCloud
 StackLight
+TCP
 TLS
 Terraform
+TransportServer
+UDP
 UI
 UIs
 VM
@@ -135,7 +142,10 @@ Valkey
 Valkey
 Velero
 VictoriaMetrics
+VirtualServer
+VirtualServerRoute
 WAL
+WebSocket
 WebUI
 XGBoost
 YAML
@@ -158,6 +168,7 @@ embeddable
 emptyDir
 etcd
 failover
+gRPC
 gcore
 geo
 gif
