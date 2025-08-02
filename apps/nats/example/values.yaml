@@ -1,0 +1,33 @@
+# Number of NATS server replicas
+replicaCount: 3
+
+# Enable JetStream for persistence
+jetstream:
+  enabled: true
+  fileStorage:
+    enabled: true
+    storageDirectory: /data/jetstream
+    size: 10Gi
+
+# Client authentication configuration
+auth:
+  enabled: false
+  users:
+    - user: test
+      password: test
+      permissions:
+        publish: ">"
+        subscribe: ">"
+
+# Resource requests and limits for NATS pods
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Enable monitoring endpoint
+metrics:
+  enabled: true
