@@ -1,16 +1,11 @@
-{{- $repoType := "default" }}
-{{- if hasPrefix "oci" .Values.repo.url }}
-  {{- $repoType = "oci" }}
-{{- end }}
-
 {{- if eq .Values.repo.name "k0rdent-catalog" }}
-  {{- if not (eq "oci://ghcr.io/k0rdent/catalog/charts" .Values.repo.url) }}
+  {{- if not (eq "oci://ghcr.io/k0rdent/catalog/charts" .Values.repo.spec.url) }}
     {{ fail "Please set 'repo.name' as 'k0rdent-catalog' is reserved for 'oci://ghcr.io/k0rdent/catalog/charts'" }}
   {{- end }}
 {{- end }}
 
 {{- if eq .Values.repo.name "k0rdent-enterprise-catalog" }}
-  {{- if not (eq "oci://registry.mirantis.com/k0rdent-enterprise-catalog" .Values.repo.url) }}
+  {{- if not (eq "oci://registry.mirantis.com/k0rdent-enterprise-catalog" .Values.repo.spec.url) }}
     {{ fail "Please set 'repo.name' as 'k0rdent-enterprise-catalog' is reserved for 'oci://registry.mirantis.com/k0rdent-enterprise-catalog'" }}
   {{- end }}
 {{- end }}
@@ -26,16 +21,4 @@ metadata:
     helm.sh/hook: pre-install
     helm.sh/resource-policy: keep
 spec:
-  type: {{ $repoType }}
-  url: {{ required "A valid 'helm.repo.url' value is required!" .Values.repo.url }}
-  {{- if eq .Values.repo.insecure true }}
-  insecure: true
-  {{- end }}
-  {{- with .Values.repo.secretRef }}
-  secretRef:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with .Values.repo.certSecretRef }}
-  certSecretRef:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+{{- .Values.repo.spec | toYaml | nindent 2 }}

@@ -24,12 +24,12 @@ spec:
             - -c
             - |
               set -e
-              CHART_FULL="{{ $.Values.repo.url }}/{{ $chartName }}"
+              CHART_FULL="{{ $.Values.repo.spec.url }}/{{ $chartName }}"
               VERSION="{{ $chartVersion }}"
 
               echo "Checking chart: $CHART_FULL:$VERSION"
 
-              {{- if hasPrefix "oci" .Values.repo.url }}
+              {{- if hasPrefix "oci" .Values.repo.spec.url }}
               # Try to pull the chart
               helm pull $CHART_FULL --version $VERSION --untar --destination /tmp || {
                 echo "Chart $CHART_FULL:$VERSION does not exist or cannot be pulled"
@@ -37,9 +37,9 @@ spec:
               }
               {{- else }}
               # Add http repo
-              helm repo add "{{ $chartName }}-repo" "{{ $.Values.repo.url }}"
+              helm repo add "{{ $chartName }}-repo" "{{ $.Values.repo.spec.url }}"
               # List all repo charts
-              helm search repo "{{ $chartName }}-repo" -l | grep "{{ $chartName }}-repo/{{ $chartName }}"
+              helm search repo "{{ $chartName }}-repo" | grep "{{ $chartName }}-repo/{{ $chartName }}"
               # Try to pull the chart
               helm pull "{{ $chartName }}-repo/{{ $chartName }}" --version $VERSION --untar --destination /tmp || {
                 echo "Chart $CHART_FULL:$VERSION does not exist or cannot be pulled"

@@ -11,23 +11,8 @@
         "name": {
           "type": "string"
         },
-        "url": {
-          "type": "string"
-        },
-        "insecure": {
-          "type": "boolean"
-        },
-        "secretRef": {
-          "oneOf": [
-            { "type": "null" },
-            { "type": "object" }
-          ]
-        },
-        "certSecretRef": {
-          "oneOf": [
-            { "type": "null" },
-            { "type": "object" }
-          ]
+        "spec": {
+          "type": "object"
         }
       },
       "type": "object"

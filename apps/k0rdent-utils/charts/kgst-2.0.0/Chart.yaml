@@ -2,4 +2,4 @@ apiVersion: v2
 name: kgst
 description: k0rdent Generic Service Template
 type: application
-version: 1.2.0
+version: 2.0.0
