@@ -1,0 +1,32 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: azure-example-USER
+  namespace: kcm-system
+spec:
+  template: azure-standalone-cp-1-0-13
+  credential: azure-credential
+  config:
+    clusterLabels:
+      type: azure
+      group: demo
+    controlPlaneNumber: 1
+    workersNumber: 1
+    location: "eastus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlane:
+      vmSize: Standard_D2ps_v5
+      image:
+        marketplace:
+          publisher: "Canonical"
+          offer: "0001-com-ubuntu-server-jammy"
+          sku: "22_04-lts-arm64"
+          version: "22.04.202505160"
+    worker:
+      vmSize: Standard_D2ps_v5
+      image:
+        marketplace:
+          publisher: "Canonical"
+          offer: "0001-com-ubuntu-server-jammy"
+          sku: "22_04-lts-arm64"
+          version: "22.04.202505160"
