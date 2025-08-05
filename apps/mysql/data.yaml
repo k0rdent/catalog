@@ -34,3 +34,5 @@ deploy_code: |
           namespace: mysql
     ~~~
 doc_link: https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html
+
+test_check_images: false

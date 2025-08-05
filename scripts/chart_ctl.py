@@ -4,6 +4,8 @@ from jinja2 import Template
 import os
 import subprocess
 import pathlib
+import re
+import json
 
 
 chart_app_tpl = """apiVersion: v2
@@ -102,6 +104,46 @@ def check_updates(args: str):
             print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
 
 
+def check_image_arch(image: str):
+    print(f"- {image} ", end="")
+    manifest = subprocess.run(["crane", "manifest", image], check=True, capture_output=True, text=True)
+    manifest_dict = json.loads(manifest.stdout)
+    if "manifests" not in manifest_dict:
+        print(f"::warning::No manifest found for '{image}'!")
+        return
+    archs = []
+    for item in manifest_dict['manifests']:
+        archs.append(item.get('platform', {}).get('architecture', ''))
+    for required_arch in ["amd64", "arm64"]:
+        if required_arch not in archs:
+            print(f"\n::warning::Required architecture '{required_arch}' not found for image '{image}'")
+    print(f"({", ".join(archs)})")
+
+
+def check_images(args: str):
+    app = args.app
+    cfg = read_charts_cfg(app, allow_return_none=True)
+    if cfg is None:
+        print('Charts config not found.')
+        return
+    last_deps = get_last_deps(cfg)
+    for chart, data in last_deps.items():
+        if not data['repository'].startswith("https"):
+            print(f"Unsupported repo '{data['repository']}' to automatically check updates, skipping.")
+            continue
+        subprocess.run(["helm", "repo", "add", chart, data['repository']], check=True)
+        subprocess.run(["helm", "repo", "update"], check=True)
+        result = subprocess.run(["helm", "template", "chart", f"{chart}/{chart}"], check=True, capture_output=True, text=True)
+        image_regex = r'(?:[a-zA-Z0-9\-_.]+(?:[.:][a-zA-Z0-9\-_.]+)?\/)?[a-zA-Z0-9\-_.]+(?:\/[a-zA-Z0-9\-_.]+)*(?::[a-zA-Z0-9\-_.]+)'
+        matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
+        images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))
+        if len(images) == 0:
+            return
+        print(f"{len(images)} images found:")
+        for image in images:
+            check_image_arch(image)
+
+
 parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -113,6 +155,10 @@ show.set_defaults(func=generate)
 check_upd = subparsers.add_parser("check-updates", help="Generate charts from config")
 check_upd.add_argument("app")
 check_upd.set_defaults(func=check_updates)
+
+check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
+check_images_parser.add_argument("app")
+check_images_parser.set_defaults(func=check_images)
 
 args = parser.parse_args()
 args.func(args)

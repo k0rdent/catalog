@@ -38,3 +38,4 @@ doc_link: https://github.com/purestorage/helm-charts
 
 # test settings
 test_deploy_chart: false
+test_check_images: false

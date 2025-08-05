@@ -153,6 +153,22 @@ jobs:
           app=${{ matrix.folder }}
           python3 ./scripts/chart_ctl.py check-updates "$app"
 
+      - name: Install crane
+        if: env.CHECK_IMAGES == 'true'
+        run: |
+          OS=Linux
+          ARCH=x86_64
+          VERSION=v0.20.6
+          curl -L "https://github.com/google/go-containerregistry/releases/download/${VERSION}/go-containerregistry_${OS}_${ARCH}.tar.gz" -o go-containerregistry.tar.gz
+          tar -zxvf go-containerregistry.tar.gz -C /usr/local/bin/ crane
+          crane version
+
+      - name: Check images
+        if: env.CHECK_IMAGES == 'true'
+        run: |
+          app=${{ matrix.folder }}
+          python3 ./scripts/chart_ctl.py check-images "$app"
+
       - name: Install Kind
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |

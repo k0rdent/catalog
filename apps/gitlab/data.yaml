@@ -79,3 +79,5 @@ deploy_code: |
                     replicaCount: 1
     ~~~
 doc_link: https://docs.gitlab.com/charts/
+
+test_check_images: false
