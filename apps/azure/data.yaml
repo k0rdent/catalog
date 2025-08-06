@@ -44,4 +44,40 @@ deploy_code: |
         worker:
           vmSize: Standard_A4_v2
     ~~~
+
+    #### ClusterDeployment based on AzureLinux Marketplace image
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: my-azure-clusterdeployment2
+      namespace: kcm-system
+    spec:
+      template: {{ azure_standalone_cp }}
+      credential: azure-cluster-identity-cred
+      config:
+        clusterLabels:
+          type: azure
+          group: demo
+        controlPlaneNumber: 1
+        workersNumber: 1
+        location: "westus"
+        subscriptionID: AZURE_SUB_ID
+        controlPlane:
+          image:
+            marketplace:
+              publisher: "MicrosoftCBLMariner"
+              offer: "azure-linux-3"
+              sku: "azure-linux-3-gen2-fips"
+              version: "3.20250702.01"
+          vmSize: Standard_D2s_v3
+        worker:
+          image:
+            marketplace:
+              publisher: "MicrosoftCBLMariner"
+              offer: "azure-linux-3"
+              sku: "azure-linux-3-gen2-fips"
+              version: "3.20250702.01"
+          vmSize: Standard_D2s_v3
+    ~~~
 doc_link: https://docs.k0rdent.io/{{ version }}/admin/installation/prepare-mgmt-cluster/azure/
