@@ -1,0 +1,7 @@
+st-charts:
+  - name: flux-operator
+    version: 0.27.0
+    dependencies:
+      - name: flux-operator
+        version: 0.27.0
+        repository: oci://ghcr.io/controlplaneio-fluxcd/charts
