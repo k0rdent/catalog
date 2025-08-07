@@ -26,6 +26,7 @@ Ceph’s
 ClearML
 CloudCasa
 ClusterDeployment
+ControlPlane
 CustomResourceDefinition
 DL
 DNS
@@ -98,6 +99,7 @@ NetApp
 Nirmata
 Nvidia
 OAuth
+OCI
 OIDC
 ONNX
 Observability
@@ -116,6 +118,7 @@ RBAC
 RayCluster
 RayJob
 RayService
+ResourceSet
 S3
 SLAs
 SaaS
@@ -144,6 +147,7 @@ YAML
 Zalando
 agentic
 ai
+auditable
 autoscaling
 backend
 balancer
@@ -152,6 +156,7 @@ basebackup
 cAdvisor
 clearml
 composable
+controlplaneio
 customizable
 d3952c8561c4808c1d447fc061c71174
 declaratively
@@ -160,6 +165,7 @@ embeddable
 emptyDir
 etcd
 failover
+fluxcd
 gcore
 geo
 gif
@@ -174,6 +180,7 @@ kserve
 kubeconfig
 kubernetes
 lifecycle
+lockdown
 maage
 md
 microservices
@@ -193,14 +200,18 @@ prem
 provisioner
 pytorch
 readthedocs
+resourcesets
+rollouts
 scalable
 scikit
 serverless
+sharding
 spilo
 stacklights
 stateful
 storageClass
 telecom
+templated
 tensorflow
 timeseries
 toolchain

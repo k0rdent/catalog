@@ -1,0 +1,62 @@
+title: "Flux Operator"
+tags:
+  - CI/CD
+  - Developer Tools
+summary: "Open and extensible continuous delivery solution for Kubernetes. Powered by GitOps Toolkit"
+logo: "./assets/flux-logo.svg"
+logo_big: "./assets/flux-logo-big.png"
+created: "2025-08-07T13:40:00Z"
+description: |
+  [Flux](https://fluxcd.io) is a leading GitOps Continuous Delivery tool
+  used to streamline and automate application deployments on Kubernetes.
+  Flux enables teams to achieve a reliable and auditable delivery process
+  while promoting collaboration and traceability across different environments.
+
+  Flux is powered by the GitOps Toolkit, a set of composable APIs and
+  specialized tools that enable a wide range of continuous delivery use-cases,
+  from simple Kubernetes deployment pipelines to multi-tenant and multi-cluster
+  progressive delivery rollouts.
+
+  For more information about the CNCF-graduated Flux project, please see
+  the [Flux architecture overview](https://fluxcd.control-plane.io/guides/flux-architecture/).
+
+  ### Operator Capabilities
+
+  The [Flux Operator](https://github.com/controlplaneio-fluxcd/flux-operator) provides a
+  declarative API for the installation, configuration and upgrade of CNCF Flux
+  and the ControlPlane [enterprise distribution](https://fluxcd.control-plane.io/).
+
+  The operator allows the configuration of Flux multi-tenancy lockdown, network policies,
+  persistent storage, sharding, vertical scaling, custom patches, and the synchronization
+  of the cluster state from Git repositories, OCI artifacts and S3-compatible storage.
+
+  The Flux Operator supervises the Flux controllers and provides a unified view
+  of all the Flux resources that define the GitOps workflows for the target cluster.
+  The operator generates reports, emits events, and exports Prometheus metrics
+  to help with monitoring and troubleshooting Flux.
+
+  ### Operator Features
+
+  The operator extends Flux with self-service capabilities, deployment windows,
+  and preview environments for GitHub, GitLab and Azure DevOps pull requests testing.
+
+  The operator ResourceSet API enables platform teams to define their own application standard
+  as a group of Flux and Kubernetes resources that can be templated, parameterized and deployed
+  as a single unit on self-service environments. For more information, please see the
+  [ResourceSet documentation](https://fluxcd.control-plane.io/operator/resourcesets/introduction/).
+charts:
+  - name: flux-operator
+    versions: ['0.27.0']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ClusterDeployment
+  ...
+    serviceSpec:
+      services:
+        - template: flux-operator-0-27-0
+          name: flux-operator
+          namespace: flux-system
+  ~~~
+support_link: https://fluxcd.control-plane.io/pricing/#support-services
+doc_link: https://fluxcd.control-plane.io/operator/
