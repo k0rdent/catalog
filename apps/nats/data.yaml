@@ -1,0 +1,46 @@
+tags:
+  - Messaging
+  - Streaming
+title: "NATS"
+summary: "High-performance messaging system for cloud-native applications."
+logo: "./assets/nats-horizontal-color.png"
+created: "2025-07-29T11:00:00Z"
+description: |
+  k0rdent facilitates the deployment and management of NATS within Kubernetes clusters
+  by leveraging its multi-cluster management capabilities. While not a direct integration
+  at the application level, k0rdent simplifies the orchestration of the Kubernetes
+  environment where NATS operates. Through k0rdent, users can easily deploy NATS service
+  templates, scale clusters, enable JetStream persistence, monitor pod health, and
+  enforce security policies across multiple clusters. This streamlined approach provides
+  a centralized control plane for managing messaging workloads in containerized
+  environments.
+
+  A full working cluster example is available in examples/workload.yaml.
+support_link: https://nats.io/community/
+charts:
+  - name: nats
+    versions: ['2.11.6']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: nats
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+          - name: nats
+            namespace: nats
+            template: nats-2-11-6
+            values: |
+              replicaCount: 1
+              jetstream:
+                enabled: true
+                fileStorage:
+                  enabled: true
+                  size: 10Gi
+    ~~~
+doc_link: https://docs.nats.io/running-a-nats-service/nats-kubernetes
