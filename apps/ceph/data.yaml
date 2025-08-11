@@ -43,6 +43,14 @@ deploy_code: |
         - template: ceph-controller-1-0-12
           name: ceph-controller
           namespace: ceph-lcm-mirantis
+          values: |
+            ceph-operator:
+              rookExtraConfig:
+                csiKubeletPath: /var/lib/k0s/kubelet
+              controllers:
+                cephMaintenance:
+                  enabled: false
+              installNamespaces: false
     ~~~
 doc_link: https://www.mirantis.com/software/ceph/
 show_install_tab: true

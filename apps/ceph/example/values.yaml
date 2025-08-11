@@ -1,0 +1,8 @@
+ceph-controller:
+  ceph-operator:
+    rookExtraConfig:
+      csiKubeletPath: /var/lib/k0s/kubelet
+    controllers:
+      cephMaintenance:
+        enabled: false
+    installNamespaces: false
