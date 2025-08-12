@@ -3,8 +3,8 @@ tags:
   - CI/CD
   - Developer Tools
 summary: "Open and extensible continuous delivery solution for Kubernetes. Powered by GitOps Toolkit"
-logo: "./assets/flux-logo.svg"
-logo_big: "./assets/flux-logo-big.png"
+logo: "./assets/flux-icon.svg"
+logo_big: "./assets/flux-icon-big.png"
 created: "2025-08-07T13:40:00Z"
 description: |
   [Flux](https://fluxcd.io) is a leading GitOps Continuous Delivery tool
