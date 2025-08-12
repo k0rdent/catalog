@@ -78,10 +78,12 @@ def get_servicetemplate_install_cmd(repo: str, charts: list) -> str:
     cmd_lines = []
     for chart in charts:
         repo_args = ""
+        kgst_repo = repo
         if repo != "oci://registry.mirantis.com/k0rdent-enterprise-catalog":
+            kgst_repo = "oci://ghcr.io/k0rdent/catalog/charts"
             if 'REPO_URL' in os.environ:
                 repo_args = f'--set "repo.url={os.environ['REPO_URL']}" --set "repo.name={chart['name']}" '
-        cmd_lines.append(f'helm install {chart['name']} {repo}/kgst {repo_args}--set "chart={chart['name']}:{chart['version']}" -n kcm-system')
+        cmd_lines.append(f'helm install {chart['name']} {kgst_repo}/kgst {repo_args}--set "chart={chart['name']}:{chart['version']}" -n kcm-system')
     cmd = "\n".join(cmd_lines)
     return cmd
 
