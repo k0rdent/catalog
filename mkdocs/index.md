@@ -54,6 +54,7 @@ template: home.html
             </div>
           </div>
           <div class="tab_apps-main-content">
+            <p><b>{{dataAppsFiltered.length}}</b> items</p>
             <div id="cards-apps" class="grid">
               <a class="card" :href="card.link" v-for="card in dataAppsFiltered">
                 <span 
