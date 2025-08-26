@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: grafana
+    version: 9.3.6
+    repository: oci://ghcr.io/k0rdent/catalog/charts
