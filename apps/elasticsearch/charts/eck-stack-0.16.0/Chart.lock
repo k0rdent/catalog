@@ -1,0 +1,6 @@
+dependencies:
+- name: eck-stack
+  repository: https://helm.elastic.co
+  version: 0.16.0
+digest: sha256:b4e500eb8eecde9b4bab2e2c4828169cdc76dd109c3d5c8aa4b7253bf859b14a
+generated: "2025-08-29T16:34:16.413062+02:00"

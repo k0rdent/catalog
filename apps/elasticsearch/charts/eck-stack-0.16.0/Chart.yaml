@@ -1,0 +1,9 @@
+apiVersion: v2
+name: eck-stack
+description: A Helm chart that references the official "eck-stack" Helm chart.
+type: application
+version: 0.16.0
+dependencies:
+  - name: eck-stack
+    version: 0.16.0
+    repository: https://helm.elastic.co

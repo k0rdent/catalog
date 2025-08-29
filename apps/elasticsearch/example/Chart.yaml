@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: eck-operator
+    version: 3.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: eck-stack
+    version: 0.16.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
