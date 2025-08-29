@@ -1,0 +1,58 @@
+tags:
+  - Storage
+title: "Jenkins"
+summary: "The leading open source automation server."
+logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Jenkins_logo.svg
+created: "2025-09-01T17:51:52Z"
+description: |
+  Jenkins is commonly deployed as a CI/CD (Continuous Integration and Continuous Delivery) tool. Use it to:
+
+  - Automate project builds  
+  - Run automated tests to catch regressions early  
+  - Perform static code analysis  
+  - Automate deployment to staging or production environments  
+
+  By executing repetitive development tasks, Jenkins helps teams reduce manual work, save time, and increase productivity across the SDLC.
+
+  #### Distribution & Installation
+
+  Jenkins offers multiple distribution formats:
+
+  - Docker images  
+  - Native packages (e.g., Debian, RPM)  
+  - WAR files  
+  - Windows installers  
+
+  For details, visit the [Downloads page](https://www.jenkins.io/download).
+
+  There are two release channels:
+
+  - [**Weekly**](https://www.jenkins.io/download/weekly/): Includes the latest features and fixes.  
+  - [**LTS (Long-Term Support)**](https://www.jenkins.io/download/lts/): Updated periodically with critical fixes for stability.
+
+  #### Source & Contribution
+
+  - Source code: [GitHub – jenkinsci/jenkins](https://github.com/jenkinsci/jenkins)  
+  - Community & contribution guide: [Participate](https://www.jenkins.io/participate/)
+
+# support_link: TODO
+charts:
+  - name: jenkins
+    versions: ['5.8.84']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: jenkins
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: jenkins-5-8-84
+        name: jenkins
+        namespace: jenkins
+  ~~~
+doc_link: https://www.jenkins.io/doc/

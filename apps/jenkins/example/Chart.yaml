@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: jenkins
+    version: 5.8.84
+    repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -1,0 +1,7 @@
+st-charts:
+  - name: jenkins
+    version: 5.8.84
+    dependencies:
+      - name: jenkins
+        version: 5.8.84
+        repository: https://charts.jenkins.io
