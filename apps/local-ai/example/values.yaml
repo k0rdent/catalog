@@ -1,0 +1,9 @@
+local-ai:
+  local-ai:
+    persistence:
+      models:
+        accessModes:
+         - ReadWriteOnce
+      output:
+        accessModes:
+         - ReadWriteOnce
