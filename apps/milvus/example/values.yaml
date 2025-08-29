@@ -1,0 +1,15 @@
+milvus:
+  milvus:
+    image:
+      all:
+        tag: v2.6.0
+    cluster:
+      enabled: false
+    pulsarv3:
+      enabled: false
+    standalone:
+      messageQueue: woodpecker
+    woodpecker:
+      enabled: true
+    streaming:
+      enabled: true

@@ -1,0 +1,7 @@
+st-charts:
+  - name: milvus
+    version: 5.0.1
+    dependencies:
+      - name: milvus
+        version: 5.0.1
+        repository: https://zilliztech.github.io/milvus-helm/

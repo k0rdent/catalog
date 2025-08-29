@@ -1,0 +1,9 @@
+apiVersion: v2
+name: milvus
+description: A Helm chart that references the official "milvus" Helm chart.
+type: application
+version: 5.0.1
+dependencies:
+  - name: milvus
+    version: 5.0.1
+    repository: https://zilliztech.github.io/milvus-helm/
