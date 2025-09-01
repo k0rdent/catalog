@@ -94,6 +94,11 @@ examples: |
           values: |
             postgresql:
               architecture: replication
+              global:
+                security:
+                  allowInsecureImages: true
+              image:
+                repository: bitnamilegacy/postgresql
               auth:
                 postgresPassword: admin
                 username: user
