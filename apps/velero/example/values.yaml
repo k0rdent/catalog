@@ -1,5 +1,8 @@
 velero:
   velero:
+    kubectl:
+      image:
+        repository: registry.k8s.io/kubectl
     backupsEnabled: true
     snapshotsEnabled: true
     deployNodeAgent: true
