@@ -87,6 +87,8 @@ jobs:
           test_settings=$(python3 ./scripts/utils.py print-test-vars "$app")
           echo "$test_settings"
           echo "$test_settings" >> $GITHUB_ENV
+          echo "DEBUG=${{ runner.debug }}"
+          echo "DEBUG=${{ runner.debug }}" >> $GITHUB_ENV
 
       - name: Check app charts changed
         run: |

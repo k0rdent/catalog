@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
+debug="${DEBUG:-}"
 TIMEOUT=$((25 * 60))
 SECONDS=0
 
@@ -45,6 +46,10 @@ while (( SECONDS < TIMEOUT )); do
                 all_ready=false
             fi
         else
+            if [[ $debug == "1" ]]; then
+                echo "Pod '$name', status: '$status'"
+                KUBECONFIG="kcfg_$TEST_MODE" kubectl describe pod "$name" -n "$NAMESPACE"
+            fi
             all_ready=false
             all_running=false
         fi
