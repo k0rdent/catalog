@@ -27,6 +27,10 @@ deploy_code: |
           namespace: velero
           values: |
             velero:
+              kubectl:
+                image:
+                  repository: registry.k8s.io/kubectl
+                  tag: v1.32.0
               backupsEnabled: true
               snapshotsEnabled: true
               deployNodeAgent: true
