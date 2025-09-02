@@ -236,11 +236,3 @@ webui
 www
 xgboost
 yaml
-OpsGenie
-PagerDuty
-VictorOps
-datasources
-drilldown
-dropdowns
-JetStream
-NATS
