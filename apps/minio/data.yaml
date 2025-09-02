@@ -15,13 +15,24 @@ charts:
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-  serviceSpec:
+  kind: MultiClusterService
+  metadata:
+    name: minio
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
       services:
-        - template: minio-14-2-1
-          name: minio
-          namespace: minio
+      - template: minio-14-1-2
+        name: minio
+        namespace: minio
+        values: |
+          minio:
+            global:
+              security:
+                allowInsecureImages: true
+            image:
+              repository: bitnamilegacy/minio
   ~~~
 doc_link: https://min.io/docs/minio/kubernetes/upstream/index.html
