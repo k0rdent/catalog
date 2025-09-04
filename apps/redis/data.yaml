@@ -1,0 +1,44 @@
+tags:
+  - Database
+title: Redis
+summary: "In-memory data store."
+logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/303460/redis-logo
+created: "2025-09-05T17:51:52Z"
+description: |
+  For developers, who are building real-time data-driven applications, Redis is the preferred,
+  fastest, and most feature-rich cache, data structure server, and document and vector query engine.
+
+  #### Key use cases
+
+  Redis excels in various applications, including:
+
+  - **Caching:** Supports multiple eviction policies, key expiration, and hash-field expiration.
+  - **Distributed Session Store:** Offers flexible session data modeling (string, JSON, hash).
+  - **Data Structure Server:** Provides low-level data structures (strings, lists, sets, hashes, sorted sets, JSON, etc.) with high-level semantics (counters, queues, leaderboards, rate limiters) and supports transactions & scripting.
+  - **NoSQL Data Store:** Key-value, document, and time series data storage.
+  - **Search and Query Engine:** Indexing for hash/JSON documents, supporting vector search, full-text search, geospatial queries, ranking, and aggregations via Redis Query Engine.
+  - **Event Store & Message Broker:** Implements queues (lists), priority queues (sorted sets), event deduplication (sets), streams, and pub/sub with probabilistic stream processing capabilities.
+  - **Vector Store for GenAI:** Integrates with AI applications (e.g. LangGraph, mem0) for short-term memory, long-term memory, LLM response caching (semantic caching), and retrieval augmented generation (RAG).
+  - **Real-Time Analytics:** Powers personalization, recommendations, fraud detection, and risk assessment.
+charts:
+  - name: redis
+    versions: ['0.2.0']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: redis
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: redis-0-2-0
+        name: redis
+        namespace: redis
+  ~~~
+doc_link: https://redis.io/docs/latest/get-started/
+
+test_wait_for_pods: "redis-"
