@@ -1,0 +1,9 @@
+apiVersion: v2
+name: promtail
+description: A Helm chart that references the official "promtail" Helm chart.
+type: application
+version: 6.17.1
+dependencies:
+  - name: promtail
+    version: 6.17.1
+    repository: https://grafana.github.io/helm-charts

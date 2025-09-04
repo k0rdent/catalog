@@ -1,0 +1,42 @@
+tags:
+  - 'Monitoring'
+title: Promtail
+summary: "Horizontally scalable, highly available, multi-tenant log aggregation system."
+logo: "./assets/icon.svg" # https://dashboardicons.com/icons/loki
+created: "2026-01-01T00:00:00Z"
+description: |
+  Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.
+  Designed for cloud-native environments, Loki provides a cost-efficient and operationally simple approach to
+  centralized logging.
+
+  Unlike traditional logging systems, Loki does not index the full contents of logs. Instead, it indexes
+  only metadata labels associated with each log stream. This architecture significantly reduces
+  storage and infrastructure costs while maintaining powerful query capabilities through LogQL.
+
+  Originally developed by Grafana Labs and announced at KubeCon Seattle in 2018, Loki is released
+  under the AGPLv3 license. It integrates natively with Grafana, enabling seamless visualization,
+  exploration, and alerting based on logs.
+
+  ### Key Features
+
+  - Horizontally scalable and highly available architecture
+  - Multi-tenant log aggregation
+  - Cost-efficient storage model (label-based indexing)
+  - Native Kubernetes integration
+  - LogQL query language for advanced filtering and metrics generation
+  - Tight integration with Grafana for dashboards and alerts
+
+  ### Why Deploy Loki with k0rdent
+
+  When deployed via k0rdent, Loki can be consistently installed and managed across multiple Kubernetes
+  clusters, enabling centralized observability in multi-cluster environments. It complements
+  Prometheus-based metrics monitoring by providing unified log visibility at scale.
+
+# support_link: TODO
+charts:
+  - name: promtail
+    versions: ['6.17.1']
+
+doc_link: https://grafana.com/docs/promtail/latest/setup/install/helm/install-microservices/
+
+test_wait_for_pods: "promtail-0"
