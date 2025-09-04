@@ -1,0 +1,9 @@
+apiVersion: v2
+name: mlflow
+description: A Helm chart that references the official "mlflow" Helm chart.
+type: application
+version: 1.7.1
+dependencies:
+  - name: mlflow
+    version: 1.7.1
+    repository: https://community-charts.github.io/helm-charts

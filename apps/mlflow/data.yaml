@@ -1,0 +1,53 @@
+tags:
+  - AI/Machine Learning
+title: "mlflow"
+summary: "A Tool for Managing the Machine Learning Lifecycle."
+logo: "./assets/icon.svg" # https://github.com/mlflow/mlflow/blob/master/assets/logo.svg
+created: "2025-10-09T00:00:00Z"
+description: |
+  ## Overview
+
+  **MLflow** is an open-source platform designed to manage the complete machine learning lifecycle
+  — from experimentation and reproducibility to deployment and monitoring. It provides a unified
+  interface and standardized tooling for teams building and maintaining ML models, making it easier
+  to collaborate and track model performance over time.
+
+  MLflow's architecture emphasizes flexibility: it integrates seamlessly with various machine
+  learning libraries and frameworks (such as TensorFlow, PyTorch, or Scikit-learn) and supports
+  deployment to multiple environments including local servers, Kubernetes, and cloud platforms.
+
+  ## Key Features
+
+  - **Experiment Tracking:** Record, compare, and visualize runs with parameters, metrics, and artifacts.
+  - **Model Registry:** Centralized hub to manage model versions, lifecycle stages, and approvals.
+  - **Project Packaging:** Standardized format for reproducible machine learning projects using conda or Docker environments.
+  - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
+  - **REST and Python APIs:** Access all MLflow components programmatically.
+# support_link: TODO
+charts:
+  - name: mlflow
+    versions: ['1.7.1']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: mlflow
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: mlflow-1-7-1
+        name: mlflow
+        namespace: mlflow
+        values: |
+          mlflow:
+            backendStore:
+              postgres:
+                enabled: false
+  ~~~
+doc_link: https://mlflow.org/docs/latest/
+
+test_wait_for_pods: "mlflow-"
