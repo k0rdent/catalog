@@ -1,0 +1,39 @@
+tags:
+  - AI/Machine Learning
+title: "Qdrant"
+summary: "High-Performance Vector Search at Scale."
+logo: "./assets/icon.svg" # https://qdrant.tech/brand-resources/
+created: "2025-09-04T17:51:52Z"
+description: |
+  **Qdrant** (read: _quadrant_) is a vector similarity search engine and vector database.
+  
+  It provides a production-ready service with a convenient API to store, search, and manage points—vectors with an additional payload
+  Qdrant is tailored to extended filtering support. It makes it useful for all sorts of neural-network or semantic-based matching, faceted search, and other applications.
+
+  Qdrant is written in Rust 🦀, which makes it fast and reliable even under high load. See [benchmarks](https://qdrant.tech/benchmarks/).
+
+  With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!
+
+  Qdrant is also available as a fully managed **[Qdrant Cloud](https://cloud.qdrant.io/)** ⛅ including a **free tier**.
+charts:
+  - name: qdrant
+    versions: ['1.15.4']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: qdrant
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: qdrant-1-15-4
+        name: qdrant
+        namespace: qdrant
+  ~~~
+doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
+
+# test_wait_for_pods: "milvus-standalone-"

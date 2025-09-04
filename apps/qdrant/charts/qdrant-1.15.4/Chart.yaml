@@ -1,0 +1,9 @@
+apiVersion: v2
+name: qdrant
+description: A Helm chart that references the official "qdrant" Helm chart.
+type: application
+version: 1.15.4
+dependencies:
+  - name: qdrant
+    version: 1.15.4
+    repository: https://qdrant.github.io/qdrant-helm
