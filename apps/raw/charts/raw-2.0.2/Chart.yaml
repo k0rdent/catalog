@@ -1,0 +1,9 @@
+apiVersion: v2
+name: raw
+description: A Helm chart that references the official "raw" Helm chart.
+type: application
+version: 2.0.2
+dependencies:
+  - name: raw
+    version: 2.0.2
+    repository: https://bedag.github.io/helm-charts/

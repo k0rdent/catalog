@@ -1,0 +1,12 @@
+raw:
+  raw:
+    resources:
+    - apiVersion: v1
+      kind: Pod
+      metadata:
+        name: alpine-sleep
+      spec:
+        containers:
+          - name: alpine
+            image: alpine:3.19
+            command: ["sleep", "3600"]
