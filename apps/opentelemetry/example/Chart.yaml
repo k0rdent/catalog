@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: opentelemetry-collector
+    version: 0.141.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: opentelemetry-operator
+    version: 0.99.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
