@@ -1,0 +1,51 @@
+tags:
+  - 'Networking'
+title: Traefik
+summary: "Kubernetes Ingress Controller."
+logo: "./assets/icon.svg" # https://techicons.dev/icons/traefikproxy
+created: "2026-03-09T00:00:00Z"
+description: |
+  Traefik is a modern cloud-native ingress controller and reverse proxy designed for dynamic environments such as
+  Kubernetes. It provides secure and flexible routing of external HTTP and HTTPS traffic to services running inside
+  Kubernetes clusters.
+
+  Traefik automatically discovers Kubernetes resources and configures routing without requiring manual proxy
+  configuration. It integrates directly with the Kubernetes API and supports both the traditional Ingress API
+  and the newer Gateway API, making it suitable for both existing workloads and future Kubernetes networking architectures.
+
+  Key features
+
+  - Kubernetes Ingress support - Compatible with standard Kubernetes Ingress resources used by many Helm charts and applications.
+  - Gateway API support - Supports the Kubernetes Gateway API for more advanced traffic management and modern networking patterns.
+  - Dynamic configuration - Automatically updates routing configuration based on changes in Kubernetes resources.
+  - TLS termination - Provides built-in support for HTTPS and certificate management.
+  - Middleware and traffic management - Supports routing rules, request rewriting, rate limiting, and other traffic controls.
+  - Observability - Includes metrics, logs, and integration with monitoring tools such as Prometheus and Grafana.
+
+  Traefik is commonly used to:
+
+  - Expose Kubernetes services to external clients.
+  - Provide a centralized entry point for HTTP and HTTPS traffic.
+  - Support applications that rely on Kubernetes Ingress resources.
+  - Enable gradual migration from the Ingress API to the Gateway API.
+
+  When installed through the k0rdent catalog, Traefik deploys a controller and proxy that watch Kubernetes resources and automatically configure routing. Applications can then expose their services using standard Kubernetes networking resources such as:
+
+  - Ingress
+  - HTTPRoute (Gateway API)
+
+  Traefik can be configured to run as the default ingress controller for the cluster, allowing applications that create
+  Ingress resources to be exposed automatically.
+# support_link: TODO
+charts:
+  - name: traefik
+    versions: ['39.0.5']
+
+examples:
+    with_config:
+        title: Advanced config
+        chart_folder: example_config
+
+doc_link: https://doc.traefik.io/traefik/getting-started/kubernetes/#install-traefik
+
+test_wait_for_pods: "traefik-"
