@@ -1,0 +1,40 @@
+tags:
+  - 'Developer Tools'
+title: PyPI Server
+summary: "Minimal PyPI server for use with pip/easy_install."
+logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Python-logo-notext.svg
+created: "2026-01-13T00:00:00Z"
+description: |
+  #### Overview
+
+  This template provides a standardized "Golden Path" for platform engineers to deploy a minimal
+  **pypiserver** instance. It is designed to serve as a central repository for proprietary
+  Python artifacts within a k0rdent-managed Internal Developer Platform (IDP).
+
+  In modern cloud-native environments, managing internal Python libraries securely is a core
+  requirement. This integration allows teams to host and distribute private packages across
+  multi-cloud and edge clusters without relying on public registries.
+
+  #### SW Description
+
+  **pypiserver** is a minimal [PyPI](https://pypi.org/) compatible server for **pip** or **easy_install**.
+  It is based on [bottle](http://bottlepy.org/) and serves packages from regular directories.
+  Wheels, bdists, eggs and accompanying PGP-signatures can be uploaded
+  either with **pip**, **setuptools**, **twine**, **pypi-uploader**, or simply copied
+  with **scp**.
+
+  **pypiserver** implements the same interfaces as [PyPI](https://pypi.org/), allowing
+  standard Python packaging tooling such as **pip** and **twine** to
+  interact with it as a package index just as they would with [PyPI](https://pypi.org/), while
+  making it much easier to get a running index server.
+
+  - Source: <https://github.com/pypiserver/pypiserver>
+  - PyPI: <https://pypi.org/project/pypiserver/>
+
+charts:
+  - name: pypiserver
+    versions: ['0.1.8']
+
+doc_link: https://community-charts.github.io/docs/category/pypiserver
+
+test_wait_for_pods: " pypiserver-"

@@ -1,5 +1,0 @@
-st-charts:
-- name: opensearch
-  dep_name: opensearch
-  version: 3.3.2
-  repository: https://opensearch-project.github.io/helm-charts

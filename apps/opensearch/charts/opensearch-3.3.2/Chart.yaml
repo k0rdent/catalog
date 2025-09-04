@@ -1,9 +1,0 @@
-apiVersion: v2
-name: opensearch
-description: A Helm chart that references the official "opensearch" Helm chart.
-type: application
-version: 3.3.2
-dependencies:
-  - name: opensearch
-    version: 3.3.2
-    repository: https://opensearch-project.github.io/helm-charts

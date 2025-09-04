@@ -1,0 +1,10 @@
+bdists
+bottlepy
+http
+IDP
+pypi
+PyPI
+scp
+setuptools
+uploader
+pypiserver
