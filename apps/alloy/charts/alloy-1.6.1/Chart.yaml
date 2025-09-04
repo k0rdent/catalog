@@ -1,0 +1,9 @@
+apiVersion: v2
+name: alloy
+description: A Helm chart that references the official "alloy" Helm chart.
+type: application
+version: 1.6.1
+dependencies:
+  - name: alloy
+    version: 1.6.1
+    repository: https://grafana.github.io/helm-charts
