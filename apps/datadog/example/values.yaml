@@ -1,0 +1,6 @@
+datadog:
+  datadog:
+    datadog:
+      apiKey: my-datadog-api-key
+      clusterName: my.datadog.cluster
+      site: datadoghq.com

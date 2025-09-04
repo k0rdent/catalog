@@ -1,0 +1,56 @@
+tags:
+  - Monitoring
+title: Datadog
+summary: "Observability and Security Platform for Cloud Applications"
+logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Datadog.png
+created: "2025-12-02T00:00:00Z"
+description: |
+  Datadog is a **unified monitoring and analytics platform** that provides end-to-end
+  observability for modern cloud environments. It aggregates metrics, logs,
+  traces, and security data from your entire technology stack into a single interface
+  for real-time analysis, alerting, and troubleshooting.
+
+  Integrating Datadog with k0rdent is essential because it closes the observability
+  gap created by managing distributed, complex container platforms:
+
+  <table data-sort="false">
+    <tr>
+      <th style="width: 50%";>Problem k0rdent Solves</th>
+      <th>How Datadog Integration Completes the Picture</th>
+    </tr>
+    <tr>
+      <td><b>Cluster Sprawl & Distribution:</b> k0rdent manages hundreds or thousands of clusters across different environments (AWS, Azure, On-Premise, Edge).</td>
+      <td><b>Unified, Cross-Cluster Observability:</b> Datadog collects and correlates data from all k0rdent-managed clusters and the applications running inside them, presenting it in a single, standardized view.</td>
+    </tr>
+    <tr>
+      <td><b>Automated Provisioning & Lifecycle:</b> k0rdent uses declarative templates to automatically spin up, manage, and upgrade clusters (a highly dynamic process).</td>
+      <td><b>Consistent Monitoring from Day One:</b> The Datadog Agent is integrated into the k0rdent provisioning templates (via Helm or Operator) ensuring that every new cluster and service is automatically monitored with the correct configurations and tags, eliminating manual setup.</td>
+    </tr>
+    <tr>
+      <td><b>Policy Enforcement & FinOps:</b> k0rdent standardizes configuration and focuses on operational efficiency and resource optimization (FinOps).</td>
+      <td><b>Data-Driven Optimization:</b> Datadog provides the granular, high-resolution metrics on resource usage, idle resources, and performance needed to validate and drive k0rdent's optimization policies, such as <b>Kubernetes Autoscaling and Active Remediation.</b></td>
+    </tr>
+    <tr>
+      <td><b>Complex Modern Workloads (AI/ML):</b> k0rdent supports diverse, resource-intensive workloads that require specialized hardware (like GPUs) and strict resource isolation.</td>
+      <td><b>Deep Workload Visibility:</b> Datadog monitors the health and performance of the specialized underlying infrastructure (nodes, GPUs) and provides <b>APM tracing</b> for the applications themselves, allowing teams to troubleshoot complex performance bottlenecks in these highly distributed systems.</td>
+    </tr>
+  </table>
+
+  In short, k0rdent makes the infrastructure repeatable and scalable, while Datadog
+  ensures that this massive, distributed infrastructure is **visible, secure, and
+  performant** through unified metrics, logs, and traces.
+
+charts:
+  - name: datadog
+    versions: ['3.149.2']
+
+doc_link: https://docs.datadoghq.com/containers/kubernetes/
+
+test_wait_for_pods: "datadog-cluster-agent-"
+test_wait_for_running: true # can not wait for ready state without valid license token
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'
