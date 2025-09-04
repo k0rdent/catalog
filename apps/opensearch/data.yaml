@@ -1,0 +1,26 @@
+tags:
+  - Storage
+title: OpenSearch
+summary: "Open Source Search and Analytics Suite."
+logo: "./assets/icon.svg" # https://opensearch.org/trademark-brand-policy/
+created: "2025-12-02T00:00:00Z"
+description: |
+  OpenSearch is an open source, enterprise-grade search and observability suite that brings order to
+  unstructured data at scale.
+
+  OpenSearch is a community-driven, Apache 2.0-licensed open source search and analytics suite that makes it easy
+  to ingest, search, visualize, and analyze data.
+
+charts:
+  - name: opensearch
+    versions: ['3.3.2']
+
+doc_link: https://docs.opensearch.org/latest/
+
+test_wait_for_pods: "opensearch-cluster-master-0"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'
