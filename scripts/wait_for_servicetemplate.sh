@@ -5,8 +5,9 @@ set -euo pipefail
 TIMEOUT=$((10 * 60))
 SECONDS=0
 
+kind_cluster="${KIND_CLUSTER:-k0rdent}"
 while (( SECONDS < TIMEOUT )); do
-    output=$(KUBECONFIG="kcfg_k0rdent" kubectl get servicetemplate -A --no-headers)
+    output=$(KUBECONFIG="kcfg_${kind_cluster}" kubectl get servicetemplate -A --no-headers)
     echo "$output"
     if grep -q -v "true" <<< "$output"; then
         echo "⏳ Some service templates not validated! (${SECONDS}s elapsed)"
@@ -20,6 +21,6 @@ done
 if (( SECONDS >= TIMEOUT )); then
     echo "❌ Timeout reached after ${TIMEOUT}s: Some service templates are still not validated"
     echo "🔍 Final service template status:"
-    KUBECONFIG="kcfg_k0rdent" kubectl get servicetemplate -A -o wide
+    KUBECONFIG="kcfg_${kind_cluster}" kubectl get servicetemplate -A -o wide
     exit 1
 fi
