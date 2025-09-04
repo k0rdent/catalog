@@ -1,0 +1,5 @@
+st-charts:
+- name: kiali-operator
+  dep_name: kiali-operator
+  version: 2.19.0
+  repository: https://kiali.org/helm-charts

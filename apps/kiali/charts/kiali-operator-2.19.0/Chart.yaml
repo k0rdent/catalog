@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kiali-operator
+description: A Helm chart that references the official "kiali-operator" Helm chart.
+type: application
+version: 2.19.0
+dependencies:
+  - name: kiali-operator
+    version: 2.19.0
+    repository: https://kiali.org/helm-charts
