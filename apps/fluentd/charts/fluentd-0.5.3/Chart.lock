@@ -1,0 +1,6 @@
+dependencies:
+- name: fluentd
+  repository: https://fluent.github.io/helm-charts
+  version: 0.5.3
+digest: sha256:c949c5627bcf8f2f21654768906e99a4ea47449da5cf1dd25cd2ab97e9a5938d
+generated: "2026-02-12T14:05:30.968486+01:00"

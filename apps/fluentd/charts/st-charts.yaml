@@ -1,0 +1,5 @@
+st-charts:
+- name: fluentd
+  dep_name: fluentd
+  version: 0.5.3
+  repository: https://fluent.github.io/helm-charts
