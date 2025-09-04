@@ -1,0 +1,62 @@
+title: "Cluster Autoscaler"
+tags:
+  - Monitoring
+  - Application Runtime
+  - Serverless
+summary: "Automatically adjusts the size of Kubernetes clusters based on demand."
+logo: "./assets/cluster-autoscaler.svg"
+created: "2025-07-18T10:00:00Z"
+description: |
+    Cluster Autoscaler is a component that automatically adjusts the size of the Kubernetes cluster when there are pods that failed to run in the cluster due to insufficient resources or when there are nodes that have been underutilized for an extended period and their pods can be placed on other existing nodes.
+
+    Key features:
+
+    - Automatically scales up clusters when there are pods that failed to run due to insufficient resources
+    - Automatically scales down clusters when some nodes are consistently unneeded for a significant period
+    - Supports multiple cloud providers including AWS, Azure, GCP, and others
+    - Integrates with Cluster API for cloud-agnostic cluster management
+    - Provides detailed metrics and monitoring capabilities
+    - Supports node groups and different instance types
+    - Handles graceful node termination and pod rescheduling
+
+    Cluster Autoscaler is particularly useful for:
+
+    - Dynamic workloads with varying resource requirements
+    - Cost optimization by removing unused nodes
+    - Ensuring application availability during traffic spikes
+    - Managing hybrid and multi-cloud environments
+charts:
+  - name: cluster-autoscaler
+    versions: ['9.45.0']
+deploy_code: |
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: cluster-autoscaler
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: production
+      serviceSpec:
+        services:
+          - template: cluster-autoscaler-9-45-0
+            name: cluster-autoscaler
+            namespace: cluster-autoscaler
+            values: |
+              cluster-autoscaler:
+                cloudProvider: aws
+                awsRegion: us-west-2
+                autoDiscovery:
+                  clusterName: my-cluster
+                rbac:
+                  serviceAccount:
+                    create: true
+                    annotations:
+                      eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/ClusterAutoscalerRole
+    ~~~
+support_link: https://github.com/kubernetes/autoscaler/issues
+doc_link: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/README.md
+
+test_wait_for_pods: "cluster-autoscaler-aws-cluster-autoscaler-"
+test_wait_for_running: true
