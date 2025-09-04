@@ -1,0 +1,9 @@
+apiVersion: v2
+name: influxdb2
+description: A Helm chart that references the official "influxdb2" Helm chart.
+type: application
+version: 2.1.2
+dependencies:
+  - name: influxdb2
+    version: 2.1.2
+    repository: https://helm.influxdata.com/

@@ -1,0 +1,5 @@
+st-charts:
+- name: influxdb2
+  dep_name: influxdb2
+  version: 2.1.2
+  repository: https://helm.influxdata.com/
