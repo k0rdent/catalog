@@ -1,0 +1,5 @@
+st-charts:
+- name: pypiserver
+  dep_name: pypiserver
+  version: 0.1.8
+  repository: https://community-charts.github.io/helm-charts

@@ -1,0 +1,6 @@
+dependencies:
+- name: pypiserver
+  repository: https://community-charts.github.io/helm-charts
+  version: 0.1.8
+digest: sha256:a4e0e52874e4a2185bffacbe88cc6186c7f902ec58787e574a6e2001cedd2d20
+generated: "2026-01-13T11:06:27.848599+01:00"
