@@ -1,0 +1,36 @@
+tags:
+  - Monitoring
+title: Tempo
+summary: "Distributed Tracing Backend."
+logo: "./assets/icon.svg" # https://raw.githubusercontent.com/cncf/landscape/refs/heads/master/hosted_logos/grafana-tempo.svg
+created: "2026-03-09T00:00:00Z"
+description: |
+  Grafana Tempo is an open-source distributed tracing backend designed for cost-efficient,
+  large-scale trace storage and querying. It integrates seamlessly with the Grafana
+  observability stack and supports multiple tracing protocols including OpenTelemetry,
+  Jaeger, and Zipkin.
+
+  Tempo stores traces in object storage and avoids indexing trace data, which significantly
+  reduces storage and operational costs compared to traditional tracing systems.
+  This design enables organizations to retain large volumes of tracing data while
+  maintaining efficient trace retrieval.
+
+  Tempo integrates tightly with Grafana for visualization and exploration of
+  traces, allowing developers and operators to analyze request flows, investigate
+  latency issues, and troubleshoot distributed systems. It also works alongside
+  other observability components such as Prometheus and Loki to provide a unified
+  monitoring and observability experience.
+
+  In a Kubernetes environment, Grafana Tempo can be deployed as a scalable distributed
+  service that collects traces from instrumented workloads across clusters, helping
+  teams gain deep insight into application performance and system behavior.
+# support_link: TODO
+charts:
+  - name: tempo
+    versions: ['1.24.4']
+
+doc_link: https://grafana.com/docs/tempo/latest/
+
+# test_wait_for_pods: "milvus-standalone-"
+# test_wait_for_running: true # (default: false) wait for Running, instead of Ready (e.g. due to proprietery API dependency etc)
+# test_wait_for_creating: true # (default: false) e.g. when pulling a huge image (finops-agent)
