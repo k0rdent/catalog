@@ -1,0 +1,9 @@
+apiVersion: v2
+name: strimzi-kafka-operator
+description: A Helm chart that references the official "strimzi-kafka-operator" Helm chart.
+type: application
+version: 0.47.0
+dependencies:
+  - name: strimzi-kafka-operator
+    version: 0.47.0
+    repository: oci://quay.io/strimzi-helm

@@ -1,0 +1,3 @@
+strimzi-kafka-operator:
+  strimzi-kafka-operator:
+    revisionHistoryLimit: 4

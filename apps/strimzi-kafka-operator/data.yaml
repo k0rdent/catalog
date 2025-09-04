@@ -1,0 +1,53 @@
+tags:
+  - Networking
+title: "Kafka Operator by Strimzi"
+summary: "Apache Kafka running on Kubernetes."
+logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/353951/kafka-icon
+created: "2025-09-30T17:51:52Z"
+description: |
+  ## Introduction
+  This chart bootstraps the Strimzi Cluster Operator Deployment, Cluster Roles, Cluster Role
+  Bindings, Service Accounts, and Custom Resource Definitions for
+  running on cluster using the Helm package manager.
+
+  ## Supported Features
+   - **Manages the Kafka Cluster** - Deploys and manages all of the components of this complex application, including dependencies like Apache ZooKeeper® that are traditionally hard to administer.
+   - **KRaft support** - Allows running Apache Kafka clusters in the KRaft mode (without ZooKeeper).
+   - **Includes Kafka Connect** - Allows for configuration of common data sources and sinks to move data into and out of the Kafka cluster.
+   - **Topic Management** - Creates and manages Kafka Topics within the cluster.
+   - **User Management** - Creates and manages Kafka Users within the cluster.
+   - **Connector Management** - Creates and manages Kafka Connect connectors.
+   - **Includes Kafka MirrorMaker** - Allows for mirroring data between different Apache Kafka® clusters.
+   - **Includes HTTP Kafka Bridge** - Allows clients to send and receive messages through an Apache Kafka® cluster via the HTTP protocol.
+   - **Includes Cruise Control** - Automates the process of balancing partitions across an Apache Kafka® cluster.
+   - **Auto-rebalancing when scaling** - Automatically rebalance the Kafka cluster after a scale-up or before a scale-down.
+   - **Tiered storage** - Offloads older, less critical data to a lower-cost, lower-performance storage tier, such as object storage.
+   - **Prometheus monitoring** - Built-in support for monitoring using Prometheus.
+   - **Grafana Dashboards** - Built-in support for loading Grafana® dashboards via the grafana_sidecar
+
+# support_link: TODO
+charts:
+  - name: strimzi-kafka-operator
+    versions: ['0.47.0']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: strimzi-kafka-operator
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: strimzi-kafka-operator-0-47-0
+        name: strimzi-kafka-operator
+        namespace: strimzi-kafka-operator
+        values: |
+          strimzi-kafka-operator:
+            revisionHistoryLimit: 4
+  ~~~
+doc_link: https://strimzi.io/documentation/
+
+test_wait_for_pods: "strimzi-cluster-operator-"
