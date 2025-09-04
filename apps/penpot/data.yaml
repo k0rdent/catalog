@@ -1,0 +1,45 @@
+tags:
+  - 'Developer Tools'
+title: "Penpot"
+summary: "Open Source design and prototyping platform."
+logo: "./assets/icon.svg" # https://github.com/penpot/penpot/blob/735032965810dd59136ec8c5e890ff8fb677ca42/frontend/resources/images/icons/penpot-logo-icon-loader.svg
+logo_big: ./assets/logo_big.svg # https://github.com/penpot/penpot/blob/735032965810dd59136ec8c5e890ff8fb677ca42/frontend/resources/images/icons/penpot-logo.svg
+created: "2025-10-16T00:00:00Z"
+description: |
+  Penpot is the first **open-source** design tool for design and code collaboration. Designers can create stunning designs, interactive
+  prototypes, design systems at scale, while developers enjoy ready-to-use code and make their workflow easy and fast.
+  And all of this with no handoff drama.
+
+  Penpot is available on browser and [self host](https://penpot.app/self-host). It's web-based and works with open standards
+  (SVG, CSS and HTML). And last but not least, it's free!
+support_link: https://penpot.app/talk-to-us
+charts:
+  - name: penpot
+    versions: ['0.28.0']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: penpot
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: penpot-0-28-0
+        name: penpot
+        namespace: penpot
+        values: |
+          penpot:
+            global:
+              postgresqlEnabled: true
+              valkeyEnabled: true
+            persistence:
+              assets:
+                enabled: true
+  ~~~
+doc_link: https://help.penpot.app/technical-guide/getting-started/kubernetes/#install-penpot-chart
+
+test_wait_for_pods: "penpot-backend-"

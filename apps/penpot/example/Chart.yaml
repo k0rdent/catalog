@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: penpot
+    version: 0.28.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
