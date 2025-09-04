@@ -3,6 +3,6 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
-  - name: opensearch
-    version: 3.3.2
+  - name: pypiserver
+    version: 0.1.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
