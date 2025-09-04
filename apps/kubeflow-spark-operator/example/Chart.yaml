@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: kubeflow-spark-operator
+    version: 2.3.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

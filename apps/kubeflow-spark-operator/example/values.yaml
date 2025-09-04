@@ -1,0 +1,6 @@
+kubeflow-spark-operator:
+  spark-operator:
+    controller:
+      uiIngress:
+        enable: true
+        ingressClassName: nginx
