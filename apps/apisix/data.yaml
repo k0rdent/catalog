@@ -1,0 +1,28 @@
+tags:
+  - Networking
+title: Apache APISIX
+summary: "API Gateway & AI Gateway for APIs and AI Agents."
+logo: "./assets/icon.svg" # https://www.apache.org/logos/originals/apisix.svg
+created: "2025-12-08T00:00:00Z"
+description: |
+  ### Open-Source, Community-Driven, Future-Ready
+  APISIX API Gateway provides rich traffic management features like load balancing, dynamic
+  upstream, canary release, circuit breaking, auth, and observability.
+
+  ### Building for large-scale, high value systems
+  Apache APISIX provides open source API Gateway to help you manage microservices, delivering
+  the ultimate performance, security, and scalable platform for all your APIs and microservices.
+
+charts:
+  - name: apisix
+    versions: ['2.12.4']
+
+doc_link: https://apisix.apache.org/docs/helm-chart/apisix/
+
+test_wait_for_pods: "apisix-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'
