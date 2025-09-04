@@ -1,0 +1,42 @@
+tags:
+  - Security
+title: "Teleport"
+summary: "An access platform for your infrastructure."
+logo: "./assets/icon.svg" # https://goteleport.com/docs/favicon.svg
+created: "2025-08-29T17:51:52Z"
+description: |
+  The `teleport-cluster` Helm chart enables you deploy and manage a self-hosted, high-availability Teleport cluster.
+  This chart launches the Teleport Auth Service, Teleport Proxy Service, and the Kubernetes infrastructure required to support
+  these services. The guides in this section show you how to use the `teleport-cluster` Helm chart in your environment.
+
+  You do not need to deploy the Auth Service and Proxy Service on Kubernetes in order to protect a Kubernetes cluster
+  with Teleport, and it is possible to enroll a Kubernetes cluster on Teleport Cloud or by running the Teleport
+  Kubernetes Service on a Linux server. For instructions on enrolling a Kubernetes cluster with Teleport, read
+  the [Kubernetes Access](https://goteleport.com/docs/enroll-resources/kubernetes-access/introduction/) documentation..
+# support_link: TODO
+charts:
+  - name: teleport-cluster
+    versions: ['18.2.0']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: teleport
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: teleport-cluster-18-2-0
+        name: teleport-cluster
+        namespace: teleport
+        values: |
+          teleport-cluster:
+            clusterName: teleport-cluster
+  ~~~
+doc_link: https://goteleport.com/docs/installation/helm/
+
+test_wait_for_pods: "teleport-cluster-proxy-"
+test_check_images_args: "--set clusterName=teleport-test"
