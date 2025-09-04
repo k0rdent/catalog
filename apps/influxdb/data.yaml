@@ -1,0 +1,49 @@
+tags:
+  - Database
+title: "InfluxDB v2"
+summary: "Scalable datastore for metrics, events, and real-time analytics."
+logo: "./assets/icon.svg" # https://influxdata.github.io/branding/img/downloads/cubo-teal.svg
+created: "2025-11-05T00:00:00Z"
+description: |
+  InfluxDB Core is a database built to collect, process, transform, and store event and time series data. It is ideal for use cases that require real-time ingest and fast query response times to build user interfaces, monitoring, and automation solutions.
+
+  Common use cases include:
+
+  - Monitoring sensor data
+  - Server monitoring
+  - Application performance monitoring
+  - Network monitoring
+  - Financial market and trading analytics
+  - Behavioral analytics
+
+  InfluxDB is optimized for scenarios where near real-time data monitoring is essential and queries 
+  need to return quickly to support user experiences such as dashboards and interactive user interfaces.
+# support_link: TODO
+charts:
+  - name: influxdb2
+    versions: ['2.1.2']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: influxdb
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: influxdb2-2-1-2
+        name: influxdb2
+        namespace: influxdb
+  ~~~
+doc_link: https://docs.influxdata.com/influxdb/v2/
+
+test_wait_for_pods: "nfluxdb2-0"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'
