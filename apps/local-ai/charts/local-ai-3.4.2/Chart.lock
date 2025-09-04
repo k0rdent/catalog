@@ -1,0 +1,6 @@
+dependencies:
+- name: local-ai
+  repository: https://go-skynet.github.io/helm-charts/
+  version: 3.4.2
+digest: sha256:b8eddfad346edce74caf2399c30bfb5135bc9b22477b8b7563c626a9c75a2ecb
+generated: "2025-09-02T12:08:28.851809+02:00"

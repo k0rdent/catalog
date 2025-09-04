@@ -1,0 +1,43 @@
+tags:
+  - AI/Machine Learning
+title: "Local AI"
+summary: "The free, Open Source alternative to OpenAI, Claude and others."
+logo: "./assets/icon.png"
+created: "2025-09-02T17:51:52Z"
+description: |
+  **LocalAI** is the free, Open Source OpenAI alternative. LocalAI act as a drop-in replacement REST API that's compatible with OpenAI
+  (Elevenlabs, Anthropic... ) API specifications for local AI inferencing. It allows you to run LLMs, generate images, audio (and not
+  only) locally or on-prem with consumer grade hardware, supporting multiple model families. Does not require GPU. It is created and
+  maintained by [Ettore Di Giacinto](https://github.com/mudler).
+# support_link: TODO
+charts:
+  - name: local-ai
+    versions: ['3.4.2']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: local-ai
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: local-ai-3-4-2
+        name: local-ai
+        namespace: local-ai
+        values: |
+          local-ai:
+            persistence:
+              models:
+                accessModes:
+                - ReadWriteOnce
+              output:
+                accessModes:
+                - ReadWriteOnce
+  ~~~
+doc_link: https://localai.io/basics/kubernetes/
+
+test_wait_for_pods: "local-ai-"
