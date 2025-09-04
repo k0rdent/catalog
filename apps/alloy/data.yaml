@@ -1,0 +1,42 @@
+tags:
+  - 'Monitoring'
+title: Alloy
+summary: "One agent for logs, metrics, and traces in Kubernetes."
+logo: "./assets/icon.svg" # https://github.com/grafana/alloy/blob/main/docs/sources/assets/alloy_icon_orange.svg
+logo_big: "./assets/logo.svg" # https://github.com/grafana/alloy/blob/main/docs/sources/assets/logo_alloy_dark.svg
+created: "2026-03-03T00:00:00Z"
+description: |
+  Grafana Alloy is a vendor-neutral telemetry collector built on the OpenTelemetry Collector and Prometheus Agent.
+  It provides a unified solution for collecting, processing, and exporting logs, metrics, and traces from Kubernetes
+  and cloud-native environments.
+
+  Designed as the successor to Promtail, Alloy offers native integration with the Grafana observability stack,
+  including Loki (logs), Prometheus (metrics), and Tempo (traces). It supports flexible pipelines, service
+  discovery, relabeling, and advanced telemetry processing while remaining lightweight and Kubernetes-friendly.
+
+  Alloy enables consistent telemetry collection across single and multi-cluster deployments, making it well suited
+  for scalable, production-grade observability architectures.
+
+  ### Key Features
+
+  - Collects logs, metrics, and traces in a single agent
+  - Built on OpenTelemetry Collector with Prometheus compatibility
+  - Native integration with Loki, Prometheus, and Tempo
+  - Kubernetes service discovery and metadata enrichment
+  - Flexible relabeling and processing pipelines
+  - Designed to replace Promtail for log collection
+
+  ### Why Deploy Loki with k0rdent
+
+  When deployed via k0rdent, Alloy provides standardized telemetry collection across multiple Kubernetes clusters.
+  It enables centralized logging and tracing while maintaining cluster-level autonomy. Alloy integrates seamlessly
+  with Loki and Tempo deployments managed through the k0rdent catalog, forming a complete, multi-cluster
+  observability stack.
+
+charts:
+  - name: alloy
+    versions: ['1.6.1']
+
+doc_link: https://grafana.com/docs/alloy/latest/
+
+test_wait_for_pods: "alloy-"
