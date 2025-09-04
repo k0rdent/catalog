@@ -1,0 +1,28 @@
+tags:
+  - 'Drivers and plugins'
+title: Raw
+summary: "Raw Kubernetes manifests managed by Helm release."
+logo: "./assets/icon.svg" # https://techicons.dev/icons/helm
+created: "2026-03-11T00:00:00Z"
+description: |
+  Raw is a helper Helm chart that allows deploying arbitrary Kubernetes manifests
+  as part of a Helm release. Instead of packaging resources inside chart
+  templates, the chart accepts raw Kubernetes YAML definitions
+  provided through values and applies them directly to the cluster.
+
+  This approach is useful when you want to manage standalone Kubernetes
+  resources with Helm without creating a dedicated chart for each workload.
+  It enables teams to bundle simple manifests, third-party resources, or small
+  utilities into a Helm-managed release while still benefiting from Helm
+  lifecycle management, upgrades, and rollbacks.
+
+  Typical use cases include deploying lightweight utilities, custom resources,
+  configuration objects, or other Kubernetes manifests that do not require
+  templating logic but should still be tracked and managed by Helm.
+charts:
+  - name: raw
+    versions: ['2.0.2']
+
+doc_link: https://github.com/bedag/helm-charts/tree/master/charts/raw
+
+test_wait_for_pods: "alpine-sleep"
