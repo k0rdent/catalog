@@ -1,0 +1,9 @@
+apiVersion: v2
+name: fluentd
+description: A Helm chart that references the official "fluentd" Helm chart.
+type: application
+version: 0.5.3
+dependencies:
+  - name: fluentd
+    version: 0.5.3
+    repository: https://fluent.github.io/helm-charts

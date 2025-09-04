@@ -1,0 +1,42 @@
+tags:
+  - 'Monitoring'
+title: Fluentd
+summary: "Open source data collector for unified logging layer."
+logo: "./assets/icon.svg" # https://github.com/fluent/fluentd-docs-gitbook/blob/53020426cdcfcb5a5f722031838ee1cb95b5a7a2/images/logo/Fluentd_icon.svg
+created: "2026-02-12T00:00:00Z"
+description: |
+  Fluentd is a highly flexible, open-source data collector designed to unify logging across distributed
+  systems. It allows you to collect, parse, transform, and forward logs and events from multiple
+  sources to a wide range of storage and analytics backends.
+
+  Fluentd supports hundreds of input and output plugins, enabling integration with popular platforms
+  such as Elasticsearch, OpenSearch, Loki, Kafka, S3, and many others. It is widely used in Kubernetes
+  environments to aggregate container logs and forward them to centralized logging systems.
+
+  #### Key Features
+
+  - Unified log collection from containers, nodes, and applications
+  - Rich plugin ecosystem (1000+ plugins)
+  - Structured log processing and transformation
+  - Reliable buffering and retry mechanisms
+  - Kubernetes-native deployment support
+  - Multi-output routing and filtering
+
+  #### Why deploy Fluentd with k0rdent?
+
+  Using the k0rdent Service Template (kgst), Fluentd can be deployed consistently across multiple Kubernetes clusters as a MultiClusterService. This enables:
+
+  - Centralized logging strategy across clusters
+  - Standardized configuration management
+  - Scalable log aggregation in multi-cluster environments
+  - Simplified lifecycle management (install, upgrade, remove)
+
+  Fluentd is an essential building block for implementing observability and log aggregation in production-grade Kubernetes platforms.
+
+charts:
+  - name: fluentd
+    versions: ['0.5.3']
+
+doc_link: https://docs.fluentd.org/
+
+test_wait_for_pods: "fluentd-"
