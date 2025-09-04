@@ -1,0 +1,5 @@
+st-charts:
+- name: apisix
+  dep_name: apisix
+  version: 2.12.4
+  repository: https://apache.github.io/apisix-helm-chart
