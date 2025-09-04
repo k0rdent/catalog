@@ -1,0 +1,5 @@
+harbor:
+  harbor:
+    expose:
+      ingress:
+        className: nginx

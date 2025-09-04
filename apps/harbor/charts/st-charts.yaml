@@ -1,0 +1,5 @@
+st-charts:
+- name: harbor
+  dep_name: harbor
+  version: 1.18.0
+  repository: https://helm.goharbor.io
