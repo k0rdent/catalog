@@ -1,0 +1,5 @@
+st-charts:
+- name: ollama
+  dep_name: ollama
+  version: 1.40.0
+  repository: https://helm.otwld.com/

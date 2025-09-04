@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ollama
+description: A Helm chart that references the official "ollama" Helm chart.
+type: application
+version: 1.40.0
+dependencies:
+  - name: ollama
+    version: 1.40.0
+    repository: https://helm.otwld.com/

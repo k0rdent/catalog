@@ -1,0 +1,29 @@
+tags:
+  - 'AI/Machine Learning'
+title: Ollama
+summary: "Easiest way to automate your work using open models, while keeping your data safe."
+logo: "./assets/icon.svg" # https://upload.wikimedia.org/wikipedia/commons/3/31/Ollama-logo.svg
+created: "2026-01-30T00:00:00Z"
+description: |
+  Ollama is a lightweight platform for running large language models (LLMs) locally. It simplifies downloading, managing,
+  and serving popular open-source models (such as LLaMA, Mistral, Gemma, and others) through a simple HTTP API.
+
+  In k0rdent, Ollama can be deployed as a Kubernetes workload and managed consistently across multiple clusters using a
+  MultiClusterService, making it suitable for development, testing, and edge or on-prem AI use cases.
+
+  #### Key Features
+  - Run LLMs locally without relying on external cloud services
+  - Simple REST API compatible with common AI tooling
+  -	Supports multiple open-source language models
+  -	Suitable for air-gapped, on-prem, and edge environments
+  -	Can be deployed and managed across clusters with k0rdent
+# support_link: TODO
+charts:
+  - name: ollama
+    versions: ['1.40.0']
+
+doc_link: https://docs.ollama.com/
+
+# test_wait_for_pods: "milvus-standalone-"
+# test_wait_for_running: true # (default: false) wait for Running, instead of Ready (e.g. due to proprietery API dependency etc)
+# test_wait_for_creating: true # (default: false) e.g. when pulling a huge image (finops-agent)
