@@ -1,0 +1,8 @@
+opensearch:
+  opensearch:
+    persistence:
+      enabled: false
+    extraEnvs:
+      - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+        value: xyIah87x!xzQ
+    singleNode: true
