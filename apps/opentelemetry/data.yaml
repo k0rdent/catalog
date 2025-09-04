@@ -1,0 +1,30 @@
+tags:
+  - Monitoring
+title: OpenTelemetry
+summary: "High-quality, ubiquitous, and portable telemetry to enable effective observability."
+logo: "./assets/icon.svg" # https://techicons.dev/icons/opentelemetry
+created: "2025-12-09T00:00:00Z"
+description: |
+  OpenTelemetry, also known as OTel, is a vendor-neutral open source Observability
+  framework for instrumenting, generating, collecting, and exporting telemetry data
+  such as traces, metrics, and logs.
+
+  As an industry-standard, OpenTelemetry is supported by more than 90 observability
+  vendors, integrated by many libraries, services, and apps, and adopted by numerous
+  end users.
+
+charts:
+  - name: opentelemetry-collector
+    versions: ['0.141.0']
+  - name: opentelemetry-operator
+    versions: ['0.99.2']
+
+doc_link: https://opentelemetry.io/docs/platforms/kubernetes/helm/
+
+test_wait_for_pods: "opentelemetry-collector-agent- opentelemetry-operator-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'
