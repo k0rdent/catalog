@@ -1,0 +1,5 @@
+st-charts:
+- name: penpot
+  dep_name: penpot
+  version: 0.28.0
+  repository: http://helm.penpot.app

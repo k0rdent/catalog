@@ -1,0 +1,9 @@
+apiVersion: v2
+name: penpot
+description: A Helm chart that references the official "penpot" Helm chart.
+type: application
+version: 0.28.0
+dependencies:
+  - name: penpot
+    version: 0.28.0
+    repository: http://helm.penpot.app
