@@ -117,7 +117,7 @@ def try_copy_assets(app: str, apps_dir: str, dst_dir: str, is_infra: bool):
 
 
 def version2template_names(version: str) -> str:
-    # find templates/provider/kcm-templates/files/templates/ | grep -E "//adopted|//aws|//azure|//gcp|//docker|//remote|//vsphere|//openstack" | sort
+    # python3 ./scripts/find_cluster_templates.py ../kcm/templates/provider/kcm-templates/files/templates
     if version == "v0.1.0":
         return {
             "adopted_cluster": "adopted-cluster-0-1-0",
