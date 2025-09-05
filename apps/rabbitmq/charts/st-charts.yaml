@@ -1,0 +1,7 @@
+st-charts:
+  - name: rabbitmq
+    version: 0.1.0
+    dependencies:
+      - name: rabbitmq
+        version: 0.1.0
+        repository: oci://registry-1.docker.io/cloudpirates

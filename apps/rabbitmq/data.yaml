@@ -1,0 +1,46 @@
+tags:
+  - Networking
+title: RabbitMQ
+summary: "One broker to queue them all."
+logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/303576/rabbitmq-logo
+created: "2025-09-05T17:51:52Z"
+description: |
+  ### Why RabbitMQ?
+  RabbitMQ is a reliable and mature messaging and streaming broker, which is easy to deploy on cloud environments,
+  on-premises, and on your local machine. It is currently used by millions worldwide.
+
+  #### Interoperable
+  RabbitMQ supports several open standard protocols, including AMQP 1.0 and MQTT 5.0. There are multiple client libraries available,
+  which can be used with your programming language of choice, just pick one. No vendor lock-in!
+
+  #### Flexible
+  RabbitMQ provides many options you can combine to define how your messages go from the publisher to one or many consumers.
+  Routing, filtering, streaming, federation, and so on, you name it.
+
+  #### Reliable
+  With the ability to acknowledge message delivery and to replicate messages across a cluster, you can
+  ensure your messages are safe with RabbitMQ.
+
+support_link: https://www.rabbitmq.com/commercial-features
+charts:
+  - name: rabbitmq
+    versions: ['0.1.0']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: rabbitmq
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: rabbitmq-0-1-0
+        name: rabbitmq
+        namespace: rabbitmq
+  ~~~
+doc_link: https://www.rabbitmq.com/docs
+
+test_wait_for_pods: "rabbitmq-"
