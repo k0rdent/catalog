@@ -1,0 +1,6 @@
+dependencies:
+- name: finops-agent
+  repository: oci://ghcr.io/mirantis/charts
+  version: 0.1.0
+digest: sha256:9f671bc73af2f8108504dac9490395e734fc33de6591a626a45d492a20c6844c
+generated: "2025-09-08T07:47:20.659826+05:30"

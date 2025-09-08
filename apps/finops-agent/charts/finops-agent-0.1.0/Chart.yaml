@@ -1,0 +1,9 @@
+apiVersion: v2
+name: finops-agent
+description: A Helm chart that references the official "finops-agent" Helm chart.
+type: application
+version: 0.1.0
+dependencies:
+  - name: finops-agent
+    version: 0.1.0
+    repository: oci://ghcr.io/mirantis/charts

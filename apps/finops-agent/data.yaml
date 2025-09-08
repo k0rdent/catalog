@@ -1,0 +1,82 @@
+title: "FinOps Agent"
+tags:
+  - "AI/Machine Learning"
+  - Monitoring
+summary: "A forecasting agent for Kubernetes cost and utilization predictions"
+logo: "./assets/finops-agent_logo.svg"
+created: "2025-07-15T11:17:44Z"
+description: |
+  FinOps Agent is a forecasting solution that ingests Kubernetes cost and utilization metrics from Prometheus and generates forecasts using TOTO zero-shot model.
+
+  **Alpha Notice**: Treat it as an alpha release; functionality and performance may change, and it may not meet production reliability requirements.
+
+  Key Features:
+
+  - **Zero-shot Forecasting**: Leverages TOTO model for predictions without training data
+  - **Multi-metric Support**: Forecasts CPU, memory, storage, network, and cost metrics
+  - **Prometheus Integration**: Seamlessly collects historical data from Prometheus
+  - **Kubernetes Native**: Designed specifically for Kubernetes environments
+  - **Quantile Predictions**: Generates confidence intervals (P10, P50, P90) for risk assessment
+  - **Cluster-aware**: Supports multi-cluster deployments with intelligent data aggregation
+
+charts:
+  - name: finops-agent
+    versions: ['0.1.0']
+deploy_code: |
+  ~~~yaml
+  kind: MultiClusterService
+  metadata:
+    name: finops-agent
+  spec:
+    clusterSelector:
+      matchLabels:
+        k0rdent.mirantis.com/management-cluster: "true"
+        sveltos-agent: present
+    serviceSpec:
+      services:
+      - template: finops-agent-0-1-0
+        name: finops-agent
+        namespace: finops
+        values: |
+          forecasting-agent:
+            agent:
+              interval: 3600
+            collector:
+              type: prometheus
+              url: http://kof-mothership-promxy.kof.svc.cluster.local:8082
+              lookback_days: 14
+              step: "1h"
+              disable_ssl: true
+              timeout: 300
+              max_retries: 3
+              chunk_days: 0.25
+            models:
+              type: toto
+              forecast_horizon: 7
+              quantiles: [0.1,0.5,0.9]
+              toto:
+                checkpoint: Datadog/Toto-Open-Base-1.0
+                device: cpu
+                context_length: 4096
+                num_samples: 256
+                compile: true
+            optimizer:
+              idle_cpu_threshold: 0.3
+              idle_mem_threshold: 0.3
+              min_node_savings: 1
+            validation:
+              enabled: True
+              interval_cycles: 2
+              train_ratio: 0.7
+              log_level: INFO
+            node_normalization:
+              enabled: True
+              kube_node_info_query: "kube_node_info"
+              fallback_to_original: True
+              log_mapping_stats: True
+            metrics:
+              forecast_api_port: 8081
+              forecast_api_host: "0.0.0.0"
+  ~~~
+doc_link: https://github.com/Mirantis/finops-agent/blob/main/README.md
+use_ingress: false
