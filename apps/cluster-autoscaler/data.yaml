@@ -5,7 +5,7 @@ tags:
   - Serverless
 summary: "Automatically adjusts the size of Kubernetes clusters based on demand."
 logo: "./assets/cluster-autoscaler.svg"
-created: "2025-07-18T10:00:00Z"
+created: "2025-09-07T10:00:00Z"
 description: |
     Cluster Autoscaler is a component that automatically adjusts the size of the Kubernetes cluster when there are pods that failed to run in the cluster due to insufficient resources or when there are nodes that have been underutilized for an extended period and their pods can be placed on other existing nodes.
 
