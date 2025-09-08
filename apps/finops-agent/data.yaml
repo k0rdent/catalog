@@ -4,7 +4,7 @@ tags:
   - Monitoring
 summary: "A forecasting agent for Kubernetes cost and utilization predictions"
 logo: "./assets/finops-agent_logo.svg"
-created: "2025-07-15T11:17:44Z"
+created: "2025-09-07T11:17:44Z"
 description: |
   FinOps Agent is a forecasting solution that ingests Kubernetes cost and utilization metrics from Prometheus and generates forecasts using TOTO zero-shot model.
 
