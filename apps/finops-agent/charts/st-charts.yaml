@@ -2,6 +2,6 @@ st-charts:
   - name: finops-agent
     version: 0.1.0
     dependencies:
-      - name: finops-agent
+      - name: finops-agent-kof
         version: 0.1.0
         repository: oci://ghcr.io/mirantis/charts

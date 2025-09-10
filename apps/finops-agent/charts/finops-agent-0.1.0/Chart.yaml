@@ -4,6 +4,6 @@ description: A Helm chart that references the official "finops-agent" Helm chart
 type: application
 version: 0.1.0
 dependencies:
-  - name: finops-agent
+  - name: finops-agent-kof
     version: 0.1.0
     repository: oci://ghcr.io/mirantis/charts

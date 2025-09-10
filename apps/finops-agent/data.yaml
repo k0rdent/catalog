@@ -23,6 +23,10 @@ charts:
   - name: finops-agent
     versions: ['0.1.0']
 deploy_code: |
+  FinOps Agent assumes that:
+  1. the user has kof installed with the k0rdent.
+  2. the Grafana instance deployed with kof has Infinity plugin(v3.4.1) installed.
+  MultiClusterService to deploy Finops Agent tested with kof v1.3.0:
   ~~~yaml
   kind: MultiClusterService
   metadata:
