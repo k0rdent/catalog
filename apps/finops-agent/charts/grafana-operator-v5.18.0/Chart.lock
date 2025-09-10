@@ -1,0 +1,6 @@
+dependencies:
+- name: grafana-operator
+  repository: oci://ghcr.io/grafana/helm-charts
+  version: v5.18.0
+digest: sha256:4799bd0cc345a717e8c7c4423292196dc251226f7dcd32b30cc7584a01a33a96
+generated: "2025-11-06T10:30:08.242447+05:30"

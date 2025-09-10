@@ -1,5 +1,9 @@
 st-charts:
-- name: finops-agent
-  dep_name: finops-agent
-  version: 0.1.0
-  repository: oci://ghcr.io/mirantis/charts
+  - name: finops-agent-kof
+    dep_name: finops-agent-kof
+    version: 0.1.3
+    repository: oci://ghcr.io/mirantis/charts
+  - name: grafana-operator
+    dep_name: grafana-operator
+    version: v5.18.0
+    repository: oci://ghcr.io/grafana/helm-charts
