@@ -1,0 +1,37 @@
+tags:
+  - AI/Machine Learning
+title: "Apache Tika"
+summary: "A Content Analysis Toolkit."
+logo: "./assets/icon.svg" # https://seeklogo.com/vector-logo/314278/apache
+created: "2025-09-10T17:51:52Z"
+description: |
+  Apache Tika(TM) is a toolkit for detecting and extracting metadata and structured text content
+  from various documents using existing parser libraries.
+
+  Tika is a project of the [Apache Software Foundation](https://www.apache.org).
+
+  Apache Tika, Tika, Apache, the Apache feather logo, and the Apache Tika project
+  logo are trademarks of The Apache Software Foundation.
+# support_link: TODO
+charts:
+  - name: tika
+    versions: ['3.2.2']
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: tika
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: tika-3-2-2
+        name: tika
+        namespace: tika
+  ~~~
+doc_link: https://tika.apache.org/
+
+test_wait_for_pods: "tika-"

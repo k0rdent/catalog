@@ -1,0 +1,9 @@
+apiVersion: v2
+name: tika
+description: A Helm chart that references the official "tika" Helm chart.
+type: application
+version: 3.2.2
+dependencies:
+  - name: tika
+    version: 3.2.2
+    repository: https://apache.jfrog.io/artifactory/tika
