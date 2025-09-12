@@ -133,7 +133,11 @@ def check_images(args: str):
             continue
         subprocess.run(["helm", "repo", "add", chart, data['repository']], check=True)
         subprocess.run(["helm", "repo", "update"], check=True)
-        result = subprocess.run(["helm", "template", "chart", f"{chart}/{chart}"], check=True, capture_output=True, text=True)
+        args = ["helm", "template", "chart", f"{chart}/{chart}"]
+        check_image_args = os.getenv("CHECK_IMAGES_ARGS", '')
+        if check_image_args != '':
+            args.extend(check_image_args.split(' '))
+        result = subprocess.run(args, check=True, capture_output=True, text=True)
         image_regex = r'(?:[a-zA-Z0-9\-_.]+(?:[.:][a-zA-Z0-9\-_.]+)?\/)?[a-zA-Z0-9\-_.]+(?:\/[a-zA-Z0-9\-_.]+)*(?::[a-zA-Z0-9\-_.]+)'
         matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
         images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))

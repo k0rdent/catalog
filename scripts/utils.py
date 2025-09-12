@@ -156,6 +156,8 @@ def print_test_vars(args):
     print(f"DEPLOY_MULTICLUSTERSERVICE={test_deploy_multiclusterservice}")
     test_check_images = str(app_data.get('test_check_images', default)).lower()
     print(f"CHECK_IMAGES={test_check_images}")
+    test_check_images_args = app_data.get('test_check_images_args', '')
+    print(f"CHECK_IMAGES_ARGS={test_check_images_args}")
 
 
 def get_wait_for_pods(args):
