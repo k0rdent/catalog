@@ -8,6 +8,9 @@ export AZURE_SP_APP_ID="FILL"
 export AZURE_SP_TENANT_ID="FILL"
 export AZURE_SUB_ID="FILL"
 
+# GCP (Google) k0rdent provider
+export GCP_B64ENCODED_CREDENTIALS="FILL"
+
 # Try run in terminal $CHROME_CMD, fix if it doesn't work
 export CHROME_CMD="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export USE_CHROME=yes # set "no" to disable

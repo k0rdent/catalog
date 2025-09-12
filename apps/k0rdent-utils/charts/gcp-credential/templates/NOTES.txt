@@ -1,0 +1,11 @@
+GCP CREDENTIAL
+==============
+
+Created resources:
+kubectl get Secret gcp-cloud-sa -n {{ .Release.Namespace }} -o yaml
+kubectl get ConfigMap gcp-cloud-sa-resource-template -n {{ .Release.Namespace }} -o yaml
+kubectl get Credential gcp-credential -n {{ .Release.Namespace }} -o yaml
+
+Set your GCP access secret:
+GCP_B64ENCODED_CREDENTIALS=my-gcp-credentials
+kubectl patch secret gcp-cloud-sa -n {{ .Release.Namespace }} -p='{"data":{"credentials":"'$GCP_B64ENCODED_CREDENTIALS'"}}'
