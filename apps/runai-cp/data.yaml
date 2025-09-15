@@ -1,0 +1,58 @@
+tags:
+  - AI/Machine Learning
+title: NVIDIA run:AI - Control Plane
+summary: "Accelerate AI Workflows With Dynamic Orchestration"
+logo: ./assets/runai_logo.svg 
+created: "2025-09-15T14:52:15Z"
+description: |
+  NVIDIA Run:ai accelerates AI and machine learning operations by addressing key infrastructure challenges through dynamic resource allocation, comprehensive AI life-cycle support, and strategic resource management. 
+  By pooling resources across environments and utilizing advanced orchestration, NVIDIA Run:ai significantly enhances GPU efficiency and workload capacity. 
+  With support for public clouds, private clouds, hybrid environments, or on-premises data centers, NVIDIA Run:ai provides unparalleled flexibility and adaptability.  
+
+  When deployed via k0rdent, run:AI control plane boots fully automatically with all necessary prerequisites. In addition it can be configured to use letsencrypt to automatically issuing certificates. 
+  You will need to configure DNS after all
+
+  [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
+support_link: https://www.nvidia.com/en-gb/software/run-ai/
+support_type: Enterprise
+
+deploy_code: |
+  ~~~yaml
+  kind: MultiClusterService
+  metadata:
+    name: run-ai-cp
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: runai-cp
+    serviceSpec:
+      services:
+      - template: runai-cp-0-1-0
+        name: runai-cp
+        namespace: runai-backend
+        values: |
+          license: <BASE64 dockerconfigjson> # provided by NVIDIA
+          clusterIssuer:
+            name: <issuer-name>
+            privateKeySecretRef:
+              name: <key-name>
+            ingressClassName: nginx
+          control-plane:
+            global:
+              domain: runai.mydomain.com
+              ingress:
+                extraAnnotations:
+                  cert-manager.io/cluster-issuer: <issuer-name>
+          knative:
+            domain:
+              runai.mydomain.com: ""
+  ~~~
+
+doc_link: https://run-ai-docs.nvidia.com/
+show_install_tab: false
+use_ingress: true
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
