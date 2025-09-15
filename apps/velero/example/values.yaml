@@ -3,7 +3,7 @@ velero:
     kubectl:
       image:
         repository: docker.io/bitnamilegacy/kubectl
-        tag: 1.16.15
+        tag: 1.31.4
     backupsEnabled: true
     snapshotsEnabled: true
     deployNodeAgent: true
