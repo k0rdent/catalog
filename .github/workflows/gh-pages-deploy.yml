@@ -65,7 +65,7 @@ jobs:
           ./scripts/spellcheck.sh
 
       - name: Build and Deploy pages - fork
-        if: github.repository != 'k0rdent/catalog' && github.ref != 'refs/heads/main'
+        if: github.repository != 'k0rdent/catalog'
         run: |
           SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh
 
