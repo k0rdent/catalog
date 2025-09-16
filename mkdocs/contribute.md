@@ -8,10 +8,14 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
 
 ## Contribution Process
 ### 1. Fork the Repository:
-- Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account.
+- Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account. [](){ #fork-repo }
 - Enable GitHub Actions in your fork:
     - Go to your fork on GitHub. Click the __"Actions"__ tab. If prompted, click the __"I understand my workflows, go ahead and enable them"__ button.
-
+- Expose _Fork static pages_ ([example](https://josca.github.io/k0rdent-catalog/latest/)):
+    - In fork repositories pages are automatically deployed on each push to any branch. This allows easy and convenient review of static pages updates. You just need to allow this in your fork repository using following steps:
+        - Enable github pages in repository `Settings` > `Pages` menu item.
+        - Set GitHub Pages "Branch" to `gh-pages`. This branch is created automatically on first push.
+        - Click "Save".
 ### 2. Create the Application Helm Charts
 Before adding metadata, you need to provide Helm charts for your application. These charts enable deployment within k0rdent clusters and will be stored in the catalog registry as a central source of verified application charts.
 
@@ -169,6 +173,7 @@ dapr-dashboard: # example chart top-level key
 ### 7. Commit and Push Your Changes:
 - Commit your changes to your forked repository.
 - Push your changes to your remote branch.
+- 
 ### 8. Create a Pull Request (PR):
 - Go to the k0rdent catalog repository on GitHub.
 - Click "New Pull Request".
