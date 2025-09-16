@@ -8,14 +8,14 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
 
 ## Contribution Process
 ### 1. Fork the Repository:
-- Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account. [](){ #fork-repo }
-- Enable GitHub Actions in your fork:
+- #### Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account. [](){ #fork-repo }
+- #### Enable GitHub Actions in your fork:
     - Go to your fork on GitHub. Click the __"Actions"__ tab. If prompted, click the __"I understand my workflows, go ahead and enable them"__ button.
-- Expose _Fork static pages_ ([example](https://josca.github.io/k0rdent-catalog/latest/)):
+- #### Expose _Fork static pages_ ([example](https://josca.github.io/k0rdent-catalog/latest/)):
     - In fork repositories pages are automatically deployed on each push to any branch. This allows easy and convenient review of static pages updates. You just need to allow this in your fork repository using following steps:
         - Enable github pages in repository `Settings` > `Pages` menu item.
         - Set GitHub Pages "Branch" to `gh-pages`. This branch is created automatically on first push.
-        - Click "Save".
+        - Click "Save". Now your fork will expose Catalog pages with your updates on every push.
 ### 2. Create the Application Helm Charts
 Before adding metadata, you need to provide Helm charts for your application. These charts enable deployment within k0rdent clusters and will be stored in the catalog registry as a central source of verified application charts.
 
@@ -73,9 +73,8 @@ Before adding metadata, you need to provide Helm charts for your application. Th
   title: "Dapr"
   tags:
     - Monitoring
-    - Application Runtime
   summary: "Portable, event-driven runtime."
-  logo: "./assets/dapr-logo.svg"
+  logo: "./assets/icon.svg"
   created: "2025-03-12T08:16:55Z"
   description: |
     Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
@@ -159,12 +158,12 @@ dapr-dashboard: # example chart top-level key
   ~~~
   apps/dapr
   ├── assets
-  │   └── dapr_logo.svg
+  │   └── icon.svg
   ├── charts
   |   ├──dapr-1.2.3
-  |   ├──dapr-service-template-1.2.3
   |   └──st-charts.yaml
   ├── data.yaml
+  ├── hunspell_dict.txt
   └── example
       ├── Chart.yaml
       └── values.yaml
@@ -173,7 +172,9 @@ dapr-dashboard: # example chart top-level key
 ### 7. Commit and Push Your Changes:
 - Commit your changes to your forked repository.
 - Push your changes to your remote branch.
-- 
+- Add special words list to `hunspell_dict.txt` file ([example](https://github.com/k0rdent/catalog/blob/main/apps/rabbitmq/hunspell_dict.txt)). They will be automatically detected in
+  [CI spell check](https://github.com/k0rdent/catalog/actions/runs/17491462434/job/49682086599),
+  so just copy it.
 ### 8. Create a Pull Request (PR):
 - Go to the k0rdent catalog repository on GitHub.
 - Click "New Pull Request".
