@@ -12,4 +12,4 @@ kubecost:
     ingress:
       enabled: true
       className: nginx
-      hosts: ['kubecost.example.com']
+      hosts: ['']
