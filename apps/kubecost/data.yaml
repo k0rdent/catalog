@@ -28,7 +28,7 @@ deploy_code: |
                 ingress:
                   enabled: true
                   className: nginx
-                  hosts: ['kubecost.example.com']
+                  hosts: ['']
     ~~~
 support_link: https://www.kubecost.com/
 doc_link: https://docs.kubecost.com/
