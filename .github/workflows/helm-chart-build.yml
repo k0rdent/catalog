@@ -3,7 +3,7 @@ name: Build Charts
 on:
   push:
     branches:
-      - '*'
+      - '**'
     paths:
       - apps/*/charts/**
       - .github/workflows/helm-chart-build.yml

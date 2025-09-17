@@ -1,0 +1,9 @@
+apiVersion: v2
+name: teleport-cluster
+description: A Helm chart that references the official "teleport-cluster" Helm chart.
+type: application
+version: 18.2.0
+dependencies:
+  - name: teleport-cluster
+    version: 18.2.0
+    repository: https://charts.releases.teleport.dev

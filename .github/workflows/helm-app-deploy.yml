@@ -19,7 +19,7 @@ on:
     - cron: '0 9 * * *'   # 09:00 UTC
   push:
     branches:
-      - '*'
+      - '**'
     paths:
       - apps/**
       - '!apps/*/charts/**'

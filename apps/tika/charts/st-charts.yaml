@@ -1,0 +1,7 @@
+st-charts:
+  - name: tika
+    version: 3.2.2
+    dependencies:
+      - name: tika
+        version: 3.2.2
+        repository: https://apache.jfrog.io/artifactory/tika

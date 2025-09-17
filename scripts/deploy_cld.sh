@@ -3,7 +3,7 @@ set -euo pipefail
 
 ./scripts/setup_provider_credential.sh
 
-if [[ "$TEST_MODE" =~ ^(aws|azure)$ ]]; then
+if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     if [[ -e "apps/$APP/$TEST_MODE-cld.yaml" ]]; then
         echo "App specific $TEST_MODE-cld.yaml found."
         cld_file="apps/$APP/$TEST_MODE-cld.yaml"
@@ -30,7 +30,7 @@ fi
 
 CLDNAME=$cld_name ./scripts/wait_for_cld.sh
 
-if [[ "$TEST_MODE" =~ ^(aws|azure)$ ]]; then
+if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     # Store kubeconfig file for managed AWS cluster
     kubectl get secret $cld_name-kubeconfig -n kcm-system -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
 else

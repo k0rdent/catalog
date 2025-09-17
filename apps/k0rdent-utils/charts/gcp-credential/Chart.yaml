@@ -1,0 +1,5 @@
+apiVersion: v2
+name: gcp-credential
+description: k0rdent GCP credential setup
+type: application
+version: 0.0.1
