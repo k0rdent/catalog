@@ -9,7 +9,8 @@ description: |
   By pooling resources across environments and utilizing advanced orchestration, NVIDIA Run:ai significantly enhances GPU efficiency and workload capacity. 
   With support for public clouds, private clouds, hybrid environments, or on-premises data centers, NVIDIA Run:ai provides unparalleled flexibility and adaptability.  
 
-  When deployed via k0rdent, run:AI control plane boots fully automatically with all necessary prerequisites. In addition it can be configured to use letsencrypt to automatically issuing certificates.
+  When deployed via k0rdent, run:AI control plane boots fully automatically with all necessary prerequisites. In addition it can be configured to use letsencrypt to automatically issuing certificates. 
+  You will need to configure DNS after all
 
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://www.nvidia.com/en-gb/software/run-ai/
