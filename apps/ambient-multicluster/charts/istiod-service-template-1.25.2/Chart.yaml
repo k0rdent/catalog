@@ -1,0 +1,10 @@
+apiVersion: v2
+name: istiod-service-template
+description: Service template for Istio control plane
+type: application
+version: 1.25.2
+appVersion: "1.25.2"
+dependencies:
+  - name: istiod
+    version: 1.25.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts 

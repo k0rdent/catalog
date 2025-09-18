@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kgateway-crds
+description: A Helm chart that references the official "kgateway-crds" Helm chart.
+type: application
+version: 2.0.1
+dependencies:
+  - name: kgateway-crds
+    version: 2.0.1
+    repository: oci://cr.kgateway.dev/kgateway-dev/charts/kgateway-crds 
