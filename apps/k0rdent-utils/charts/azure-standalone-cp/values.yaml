@@ -59,6 +59,9 @@ k0s: # @schema description: K0s parameters; type: object
   api: # @schema description: Kubernetes API server parameters; type: object
     extraArgs: {} # @schema description: Map of key-values (strings) for any extra arguments to pass down to Kubernetes api-server process; type: object; additionalProperties: true
   network: # @schema description: K0s parameters; type: object
-    provider: calico
-    calico:
-      mode: vxlan
+    provider: custom
+    kubeProxy:
+      disabled: true
+    # provider: calico
+    # calico:
+    #   mode: vxlan
