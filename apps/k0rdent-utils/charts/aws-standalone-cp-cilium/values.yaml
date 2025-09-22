@@ -1,0 +1,55 @@
+# Cluster parameters
+controlPlaneNumber: 3
+workersNumber: 2
+
+clusterNetwork:
+  pods:
+    cidrBlocks:
+      - "10.244.0.0/16"
+  services:
+    cidrBlocks:
+      - "10.96.0.0/12"
+
+# AWS cluster parameters
+region: ""
+sshKeyName: ""
+publicIP: false
+bastion:
+  enabled: false
+  disableIngressRules: false
+  allowedCIDRBlocks: []
+  instanceType: t2.micro
+  ami: ""
+clusterIdentity:
+  name: ""
+  kind: "AWSClusterStaticIdentity"
+# AWS machines parameters
+controlPlane:
+  amiID: ""
+  iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
+  instanceType: ""
+  rootVolumeSize: 8
+  imageLookup:
+    format: "amzn2-ami-hvm*-gp2"
+    org: "137112412989"
+    baseOS: ""
+
+worker:
+  amiID: ""
+  iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
+  instanceType: ""
+  rootVolumeSize: 8
+  imageLookup:
+    format: "amzn2-ami-hvm*-gp2"
+    org: "137112412989"
+    baseOS: ""
+
+# K0s parameters
+k0s:
+  version: v1.31.5+k0s.0
+
+# extensions defines custom Helm and image repositories to use for pulling
+# k0s extensions.
+extensions:
+  chartRepository: ""
+  imageRepository: ""
