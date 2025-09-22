@@ -47,9 +47,9 @@ spec:
               {{- toYaml . | nindent 12 }}
             {{- end }}
         network:
-          provider: calico
-          calico:
-            mode: vxlan
+          {{- with .Values.k0s.network }}
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
         {{- if $global.registry }}
         images:
           metricsserver:
