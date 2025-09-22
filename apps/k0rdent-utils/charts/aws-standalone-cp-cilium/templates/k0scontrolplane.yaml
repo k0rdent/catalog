@@ -1,0 +1,102 @@
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: K0sControlPlane
+metadata:
+  name: {{ include "k0scontrolplane.name" . }}
+spec:
+  replicas: {{ .Values.controlPlaneNumber }}
+  version: {{ .Values.k0s.version }}
+  k0sConfigSpec:
+    args:
+      - --enable-worker
+      - --enable-cloud-provider
+      - --kubelet-extra-args="--cloud-provider=external"
+      - --disable-components=konnectivity-server
+      - --cri-socket=remote:/var/run/crio/crio.sock
+    k0s:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s
+      spec:
+        api:
+          extraArgs:
+            anonymous-auth: "true"
+        network:
+          provider: custom
+          kubeProxy:
+            disabled: true
+        extensions:
+          helm:
+            repositories:
+              - name: aws-cloud-controller-manager
+                {{- if .Values.extensions.chartRepository }}
+                url: {{ .Values.extensions.chartRepository }}
+                {{- else }}
+                url: https://kubernetes.github.io/cloud-provider-aws
+                {{- end }}
+              - name: aws-ebs-csi-driver
+                {{- if .Values.extensions.chartRepository }}
+                url: {{ .Values.extensions.chartRepository}}
+                {{- else }}
+                url: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+                {{- end }}
+            charts:
+              - name: aws-cloud-controller-manager
+                namespace: kube-system
+                chartname: aws-cloud-controller-manager/aws-cloud-controller-manager
+                version: "0.0.8"
+                values: |
+                  nodeSelector:
+                    node-role.kubernetes.io/control-plane: "true"
+                  image:
+                    {{- if .Values.extensions.imageRepository }}
+                    repository: {{ .Values.extensions.imageRepository }}
+                    {{- end }}
+                    tag: v1.30.3
+                  args:
+                    - --v=2
+                    - --cloud-provider=aws
+                    - --cluster-cidr={{ first .Values.clusterNetwork.pods.cidrBlocks }}
+                    - --allocate-node-cidrs=true
+                    - --cluster-name={{ include "cluster.name" . }}
+              - name: aws-ebs-csi-driver
+                namespace: kube-system
+                chartname: aws-ebs-csi-driver/aws-ebs-csi-driver
+                version: 2.33.0
+                values: |
+                  {{- if .Values.extensions.imageRepository }}
+                  image:
+                    repository: {{ .Values.extensions.imageRepository }}
+                  sidecars:
+                    provisioner:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                    attacher:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                    snapshotter:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                    livenessProbe:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                    resizer:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                    nodeDriverRegistrar:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                    volumemodifier:
+                      image:
+                        repository: {{ .Values.extensions.imageRepository }}
+                  {{- end }}
+                  defaultStorageClass:
+                    enabled: true
+                  node:
+                    kubeletPath: /var/lib/k0s/kubelet
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+      kind: AWSMachineTemplate
+      name: {{ include "awsmachinetemplate.controlplane.name" . }}
+      namespace: {{ .Release.Namespace }}
