@@ -1,0 +1,41 @@
+cluster:
+  name: cilium
+hubble:
+  tls:
+    enabled: false
+  auto:
+    method: helm
+    certManagerIssuerRef: {}
+  ui:
+    enabled: false
+    ingress:
+      enabled: false
+  relay:
+    enabled: false
+ipv4:
+  enabled: true
+ipv6:
+  enabled: false
+envoy:
+  enabled: false
+egressGateway:
+  enabled: false
+kubeProxyReplacement: "true"
+serviceAccounts:
+  cilium:
+    name: cilium
+  operator:
+    name: cilium-operator
+localRedirectPolicy: true
+ipam:
+  mode: cluster-pool
+  operator:
+    clusterPoolIPv4PodCIDRList:
+    - "192.168.224.0/20"
+    - "192.168.210.0/20"
+    clusterPoolIPv6PodCIDRList:
+    - "fd00::/104"
+tunnelProtocol: geneve
+k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}" # e.g. "aws-example-apiserver-123456789.us-west-1.elb.amazonaws.com"
+k8sServicePort: "6443"
+# tested with cilium 1.16.6
