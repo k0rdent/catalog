@@ -42,3 +42,8 @@ deploy_code: |
                 replicas: 1
     ~~~
 doc_link: https://docs.cilium.io/en/stable/internals/cilium_operator/
+
+# test settings
+test_deploy_chart: false
+test_install_servicetemplates: true
+test_deploy_multiclusterservice: false
