@@ -26,6 +26,12 @@ spec:
     preStartCommands:
     - "sudo update-ca-certificates"
     {{- end }}
+    {{- if .Values.k0s.cpPreStartCommands }}
+    preStartCommands:
+    {{- end }}
+    {{- range $arg := .Values.k0s.cpPreStartCommands }}
+    - {{ toYaml $arg }}
+    {{- end }}
     args:
       - --enable-worker
       - --enable-cloud-provider
