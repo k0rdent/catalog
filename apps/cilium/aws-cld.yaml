@@ -1,0 +1,41 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: aws-example-USER
+  namespace: kcm-system
+spec:
+  template: aws-standalone-cp-1-0-14 # copied from kcm main (874c56cd2)
+  credential: aws-credential
+  config:
+    clusterLabels:
+      type: aws
+      group: demo
+    awscluster:
+      network:
+        cni:
+          cniIngressRules:
+          - description: vxlan (cilium)
+            fromPort: 8472
+            protocol: udp
+            toPort: 8472
+          - description: geneve (cilium)
+            fromPort: 6081
+            protocol: udp
+            toPort: 6081
+    controlPlane:
+      instanceType: t3.medium
+      amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+    controlPlaneNumber: 1
+    publicIP: true
+    region: us-west-1
+    worker:
+      instanceType: t3.medium
+      rootVolumeSize: 16
+      amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+    workersNumber: 1
+    k0s:
+      network:
+        calico: null
+        provider: custom
+        kubeProxy:
+          disabled: true
