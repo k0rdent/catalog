@@ -25,10 +25,10 @@ spec:
       preStartCommands:
       - "sudo update-ca-certificates"
       {{- end }}
-      {{- if .Values.k0s.workerPreStartCommands }}
+      {{- if .Values.worker.preStartCommands }}
       preStartCommands:
       {{- end }}
-      {{- range $arg := .Values.k0s.workerPreStartCommands }}
+      {{- range $arg := .Values.worker.preStartCommands }}
       - {{ toYaml $arg }}
       {{- end }}
       version: {{ .Values.k0s.version }}
