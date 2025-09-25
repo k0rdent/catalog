@@ -1,0 +1,37 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: azure-example-USER
+  namespace: kcm-system
+spec:
+  template: azure-standalone-cp-1-0-15
+  credential: azure-credential
+  config:
+    clusterLabels:
+      type: azure
+      group: demo
+    controlPlaneNumber: 1
+    workersNumber: 1
+    location: "westus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlane:
+      image:
+        marketplace:
+          publisher: "MicrosoftCBLMariner"
+          offer: "azure-linux-3"
+          sku: "azure-linux-3-gen2-fips"
+          version: "3.20250702.01"
+      vmSize: Standard_D2s_v3
+    worker:
+      image:
+        marketplace:
+          publisher: "MicrosoftCBLMariner"
+          offer: "azure-linux-3"
+          sku: "azure-linux-3-gen2-fips"
+          version: "3.20250702.01"
+      vmSize: Standard_D2s_v3
+    k0s:
+      network:
+        provider: calico
+        calico:
+          mode: ipip
