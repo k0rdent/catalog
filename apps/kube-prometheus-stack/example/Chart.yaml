@@ -3,6 +3,9 @@ name: example
 type: application
 version: 72.6.2
 dependencies:
+  - name: ingress-nginx
+    version: 4.13.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: kube-prometheus-stack
     version: 72.6.2
     repository: oci://ghcr.io/k0rdent/catalog/charts

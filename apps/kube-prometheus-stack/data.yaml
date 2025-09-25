@@ -32,5 +32,14 @@ deploy_code: |
               prometheus:
                 prometheusSpec:
                   maximumStartupDurationSeconds: 300
+                ingress:
+                  enabled: true
+                  ingressClassName: nginx
+                  hosts: ['prometheus.example.com']
+              grafana:
+                ingress:
+                  enabled: true
+                  ingressClassName: nginx
+                  hosts: ['']
     ~~~
 doc_link: https://prometheus.io/community/
