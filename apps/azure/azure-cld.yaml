@@ -22,6 +22,11 @@ spec:
           sku: "azure-linux-3-gen2-fips"
           version: "3.20250702.01"
       vmSize: Standard_D2s_v3
+      preStartCommands:
+        - "sudo iptables -P INPUT ACCEPT"
+        - "sudo iptables -P OUTPUT ACCEPT"
+        - "sudo iptables -P FORWARD ACCEPT"
+        - "sudo dnf update -y"
     worker:
       image:
         marketplace:
@@ -30,8 +35,8 @@ spec:
           sku: "azure-linux-3-gen2-fips"
           version: "3.20250702.01"
       vmSize: Standard_D2s_v3
-    k0s:
-      network:
-        provider: calico
-        calico:
-          mode: ipip
+      preStartCommands:
+        - "sudo iptables -P INPUT ACCEPT"
+        - "sudo iptables -P OUTPUT ACCEPT"
+        - "sudo iptables -P FORWARD ACCEPT"
+        - "sudo dnf update -y"
