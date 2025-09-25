@@ -56,6 +56,7 @@ k0s: # @schema description: K0s parameters; type: object
   arch: amd64 # @schema description: K0s Download URL Arch; type: string; enum: amd64, arm64, arm; default: amd64
   cpPreStartCommands: [] # @schema description: Args specifies extra preStartCommands to be passed to k0s controller. See: https://docs.k0sproject.io/stable/cli/k0s_controller/; type: array; item: string; uniqueItems: true
   cpArgs: [] # @schema description: Args specifies extra arguments to be passed to k0s controller. See: https://docs.k0sproject.io/stable/cli/k0s_controller/; type: array; item: string; uniqueItems: true
+  workerPreStartCommands: [] # @schema description: Args specifies extra workerStartCommands to be passed to k0s worker. See: https://docs.k0sproject.io/stable/worker-node-config/ See: https://docs.k0sproject.io/stable/cli/k0s_worker/; type: array; item: string; uniqueItems: true
   workerArgs: [] # @schema description: Args specifies extra arguments to be passed to k0s worker. See: https://docs.k0sproject.io/stable/worker-node-config/ See: https://docs.k0sproject.io/stable/cli/k0s_worker/; type: array; item: string; uniqueItems: true
   api: # @schema description: Kubernetes API server parameters; type: object
     extraArgs: {} # @schema description: Map of key-values (strings) for any extra arguments to pass down to Kubernetes api-server process; type: object; additionalProperties: true
