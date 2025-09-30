@@ -3,13 +3,13 @@ kind: ClusterDeployment
 metadata:
   name: azure-example-USER
   namespace: kcm-system
+  labels:
+    type: azure
+    group: demo
 spec:
   template: azure-standalone-cp-1-0-13
   credential: azure-credential
   config:
-    clusterLabels:
-      type: azure
-      group: demo
     controlPlaneNumber: 1
     workersNumber: 3
     location: "westus"

@@ -3,10 +3,9 @@ kind: ClusterDeployment
 metadata:
   name: adopted
   namespace: kcm-system
+  labels:
+    type: adopted
+    group: demo
 spec:
   template: adopted-cluster-1-0-1
   credential: adopted-credential
-  config:
-    clusterLabels:
-      type: adopted
-      group: demo
