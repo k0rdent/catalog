@@ -3,13 +3,13 @@ kind: ClusterDeployment
 metadata:
   name: aws-example-USER
   namespace: kcm-system
+  labels:
+    type: adopted
+    group: demo
 spec:
   template: aws-standalone-cp-1-0-12
   credential: aws-credential
   config:
-    clusterLabels:
-      type: aws
-      group: demo
     controlPlane:
       instanceType: t3.small
     controlPlaneNumber: 1

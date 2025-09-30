@@ -3,13 +3,13 @@ kind: ClusterDeployment
 metadata:
   name: azure-example-USER
   namespace: kcm-system
+  labels:
+    type: azure
+    group: demo
 spec:
   template: azure-aks-1-0-0
   credential: azure-credential-aks
   config:
-    clusterLabels:
-      type: azure
-      group: demo
     location: "westus"
     machinePools:
       system:
