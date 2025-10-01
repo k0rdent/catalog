@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: '{{ .Release.Name }}-resource-template'
+  name: aws-cluster-identity-resource-template
   labels:
     k0rdent.mirantis.com/component: "kcm"
   annotations:
