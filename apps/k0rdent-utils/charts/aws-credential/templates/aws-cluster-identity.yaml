@@ -6,6 +6,4 @@ metadata:
     k0rdent.mirantis.com/component: "kcm"
 spec:
   secretRef: '{{ .Release.Name }}-secret'
-  allowedNamespaces:
-    selector:
-      matchLabels: {}
+  allowedNamespaces: {}
