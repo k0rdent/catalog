@@ -58,7 +58,7 @@ examples: |
                 hostname: 'argocd.example.com'
                 annotations:
                   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      - template: ingress-nginx-4-12-3
+      - template: ingress-nginx-4-13-0
         name: ingress-nginx
         namespace: argo-cd
         values: |

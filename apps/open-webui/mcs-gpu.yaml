@@ -23,7 +23,7 @@ spec:
                 value: /run/k0s/containerd.sock
               - name: CONTAINERD_RUNTIME_CLASS
                 value: nvidia
-    - template: ingress-nginx-4-12-3
+    - template: ingress-nginx-4-13-0
       name: ingress-nginx
       namespace: open-webui
       values: |
