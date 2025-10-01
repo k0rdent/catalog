@@ -36,3 +36,5 @@ deploy_code: |
               repository: bitnamilegacy/minio
   ~~~
 doc_link: https://min.io/docs/minio/kubernetes/upstream/index.html
+
+test_check_images_args: "--set image.repository=bitnamilegacy/minio"
