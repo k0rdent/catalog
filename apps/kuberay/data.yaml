@@ -58,7 +58,7 @@ deploy_code: |
                     - name: dashboard
                       port: 8265
                       targetPort: 8265
-        - template: ingress-nginx-4-12-3
+        - template: ingress-nginx-4-13-0
           name: ingress-nginx
           namespace: kuberay
           values: |
@@ -109,7 +109,7 @@ examples: |
                   - name: dashboard
                     port: 8265
                     targetPort: 8265
-      - template: ingress-nginx-4-12-3
+      - template: ingress-nginx-4-13-0
         name: ingress-nginx
         namespace: kuberay
         values: |
