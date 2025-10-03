@@ -1,0 +1,88 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: aws-example-USER
+  namespace: kcm-system
+  labels:
+    type: aws
+    group: demo
+spec:
+  template: aws-standalone-cp-1-0-14
+  credential: aws-credential
+  config:
+    awscluster:
+      network:
+        cni:
+          cniIngressRules:
+          - description: vxlan (cilium)
+            fromPort: 8472
+            protocol: udp
+            toPort: 8472
+          - description: geneve (cilium)
+            fromPort: 6081
+            protocol: udp
+            toPort: 6081
+    controlPlane:
+      instanceType: t3.medium
+      amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+    controlPlaneNumber: 1
+    publicIP: true
+    region: us-west-1
+    worker:
+      instanceType: t3.medium
+      rootVolumeSize: 16
+      amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+    workersNumber: 1
+    k0s:
+      network:
+        calico: null
+        provider: custom
+        kubeProxy:
+          disabled: true
+  serviceSpec:
+    services:
+    - template: cilium-1-18-2
+      name: cilium
+      namespace: cilium
+      values: |
+        cilium:
+          cluster:
+            name: cilium
+          hubble:
+            tls:
+              enabled: false
+            auto:
+              method: helm
+              certManagerIssuerRef: {}
+            ui:
+              enabled: false
+              ingress:
+                enabled: false
+            relay:
+              enabled: false
+          ipv4:
+            enabled: true
+          ipv6:
+            enabled: false
+          envoy:
+            enabled: false
+          egressGateway:
+            enabled: false
+          kubeProxyReplacement: "true"
+          serviceAccounts:
+            cilium:
+              name: cilium
+            operator:
+              name: cilium-operator
+          localRedirectPolicy: true
+          ipam:
+            mode: cluster-pool
+            operator:
+              clusterPoolIPv4PodCIDRList:
+              - "192.168.224.0/20"
+              - "192.168.210.0/20"
+              clusterPoolIPv6PodCIDRList:
+              - "fd00::/104"
+          tunnelProtocol: geneve
+          k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
+          k8sServicePort: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
