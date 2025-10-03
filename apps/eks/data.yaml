@@ -22,19 +22,21 @@ deploy_code: |
   apiVersion: k0rdent.mirantis.com/v1beta1
   kind: ClusterDeployment
   metadata:
-    name: my-aws-clusterdeployment1
+    name: aws-eks-example
     namespace: kcm-system
+    labels:
+      type: aws
+      group: demo
   spec:
     template: {{ aws_eks }}
-    credential: aws-cluster-identity-cred
+    credential: aws-credential
     config:
-      clusterLabels: {}
-      region: us-east-2
+      region: eu-central-1
       controlPlane:
         instanceType: t3.small
         rootVolumeSize: 32
       worker:
-        instanceType: t3.small
+        instanceType: t3.medium
         rootVolumeSize: 32
   ~~~
 doc_link: https://docs.k0rdent.io/{{ version }}/admin/installation/prepare-mgmt-cluster/aws/
