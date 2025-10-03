@@ -1,0 +1,19 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: aws-example-USER
+  namespace: kcm-system
+  labels:
+    type: aws
+    group: demo
+spec:
+  template: aws-eks-1-0-3
+  credential: aws-credential
+  config:
+    region: eu-central-1
+    controlPlane:
+      instanceType: t3.small
+      rootVolumeSize: 32
+    worker:
+      instanceType: t3.medium
+      rootVolumeSize: 32
