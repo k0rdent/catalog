@@ -1,0 +1,28 @@
+title: N8n
+tags:
+  - AI/Machine Learning
+created: "2025-10-03T13:41:55Z"
+charts:
+  - name: n8n
+    versions: ['1.0.15']
+summary: "Flexible AI workflow automation tool"
+logo: ".assets/n8n_pink+black_logo.png"
+description: |
+  N8n is a fair-code workflow automation platform that combines a no-code visual builder with the flexibility of code (JavaScript, Python) to connect apps and APIs and build multi-step, AI-driven workflows. 
+  - Self-hosting
+  - Strong security
+  - Over 400 integrations
+  - Support for AI agents using models
+  - Large community for templates and extensions
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ClusterDeployment
+  ...
+    serviceSpec:
+      services:
+        - template: n8n-1-0-15
+          name: n8n
+          namespace: n8n
+  ~~~
+doc_link: https://docs.n8n.io/
