@@ -1,0 +1,17 @@
+n8n:
+  n8n:
+    main:
+      config:
+        n8n:
+          hide_usage_page: true
+      secret:
+        n8n:
+          encryption_key: "<your-secure-encryption-key>"
+      resources:
+        limits:
+          memory: 2048Mi
+        requests:
+          memory: 512Mi
+      service:
+        type: NodePort
+        port: 5678
