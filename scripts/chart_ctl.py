@@ -126,26 +126,22 @@ def check_images(args: str):
     if cfg is None:
         print('Charts config not found.')
         return
-    last_deps = get_last_deps(cfg)
-    for chart, data in last_deps.items():
-        if not data['repository'].startswith("https"):
-            print(f"Unsupported repo '{data['repository']}' to automatically check updates, skipping.")
-            continue
-        subprocess.run(["helm", "repo", "add", chart, data['repository']], check=True)
-        subprocess.run(["helm", "repo", "update"], check=True)
-        args = ["helm", "template", "chart", f"{chart}/{chart}", "--version", data['version']]
-        check_image_args = os.getenv("CHECK_IMAGES_ARGS", '')
-        if check_image_args != '':
-            args.extend(check_image_args.split(' '))
-        result = subprocess.run(args, check=True, capture_output=True, text=True)
-        image_regex = r'(?:[a-zA-Z0-9\-_.]+(?:[.:][a-zA-Z0-9\-_.]+)?\/)?[a-zA-Z0-9\-_.]+(?:\/[a-zA-Z0-9\-_.]+)*(?::[a-zA-Z0-9\-_.]+)'
-        matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
-        images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))
-        if len(images) == 0:
-            return
-        print(f"{len(images)} images found:")
-        for image in images:
-            check_image_arch(image)
+    chart = cfg['st-charts'][-1]
+    check_image_args = os.getenv("CHECK_IMAGES_ARGS", '')
+    repo_url = os.environ.get('REPO_URL', "oci://ghcr.io/k0rdent/catalog/charts")
+    args = ["helm", "template", "chart", f"{repo_url}/{chart['name']}", "--version", chart['version']]
+    if check_image_args != '':
+        args.extend(check_image_args.split(' '))
+    print(f"Run: {' '.join(args)}")
+    result = subprocess.run(args, check=True, capture_output=True, text=True)
+    image_regex = r'(?:[a-zA-Z0-9\-_.]+(?:[.:][a-zA-Z0-9\-_.]+)?\/)?[a-zA-Z0-9\-_.]+(?:\/[a-zA-Z0-9\-_.]+)*(?::[a-zA-Z0-9\-_.]+)'
+    matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
+    images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))
+    if len(images) == 0:
+        return
+    print(f"{len(images)} images found:")
+    for image in images:
+        check_image_arch(image)
 
 
 parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
