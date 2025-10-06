@@ -72,6 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.detect-tested-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
+      fail-fast: false
       matrix:
         folder: ${{ fromJson(needs.detect-tested-apps.outputs.changed_folders) }}
     
