@@ -1,0 +1,9 @@
+apiVersion: v2
+name: istio-base
+description: A Helm chart that references the official "istio-base" Helm chart.
+type: application
+version: 1.27.1
+dependencies:
+  - name: base
+    version: 1.27.1
+    repository: https://istio-release.storage.googleapis.com/charts
