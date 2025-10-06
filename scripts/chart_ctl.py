@@ -133,7 +133,7 @@ def check_images(args: str):
             continue
         subprocess.run(["helm", "repo", "add", chart, data['repository']], check=True)
         subprocess.run(["helm", "repo", "update"], check=True)
-        args = ["helm", "template", "chart", f"{chart}/{chart}"]
+        args = ["helm", "template", "chart", f"{chart}/{chart}", "--version", data['version']]
         check_image_args = os.getenv("CHECK_IMAGES_ARGS", '')
         if check_image_args != '':
             args.extend(check_image_args.split(' '))
