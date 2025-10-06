@@ -1,4 +1,4 @@
 dell-container-storage-modules:
   container-storage-modules:
-    csi-powerstore:
+    cert-manager:
       enabled: true
