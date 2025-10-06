@@ -22,7 +22,7 @@ description: |
 support_link: https://clear.ml/contact-us
 charts:
   - name: clearml-serving
-    versions: ['1.5.10']
+    versions: ['1.6.2', '1.5.10']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -35,7 +35,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: clearml-serving-1-5-10
+        - template: clearml-serving-1-6-2
           name: clearml-serving
           namespace: clearml
           values: |
