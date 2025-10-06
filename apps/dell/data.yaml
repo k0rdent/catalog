@@ -1,6 +1,6 @@
 tags:
   - Storage
-title: "DELL CSI"
+title: "Dell CSI Drivers & Modules"
 summary: "Dell Container Storage Modules."
 logo: "./assets/icon.svg" # https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_logo_2016.svg
 created: "2025-10-03T00:00:00Z"
@@ -18,7 +18,7 @@ description: |
   - **csi-powerstore** - CSI driver for Dell PowerStore arrays.
   - **csi-powermax** - CSI driver for Dell PowerMax storage.
   - **csi-isilon** - CSI driver for Dell PowerScale (Isilon) systems.
-  - **csi-vxflexos** - CSI driver for Dell VxFlex OS (PowerFlex).
+  - **csi-vxflexos** - CSI driver for PowerFlex (formely VxFlexOS, ScaleIO) systems.
   - **csi-unity** - CSI driver for Dell Unity XT storage.
 
   ### Data Services
@@ -27,6 +27,7 @@ description: |
 
   ### Supporting Infrastructure
   - **cert-manager** - Automates the management of TLS certificates required by certain components.
+  > Note: install of cert-manager is optional and required once per cluster.
 
   ## Key Features
   - Centralized deployment of multiple Dell storage backends.
@@ -37,7 +38,11 @@ description: |
   ## Use Cases
   - Enterprises operating mixed Dell storage platforms (PowerStore, PowerMax, PowerScale, Unity, PowerFlex).
   - Multi-cluster workloads requiring **replication** for disaster recovery.
-  - Kubernetes operators needing **end-to-end observability** into Dell storage operations..
+  - Kubernetes operators needing **end-to-end observability** into Dell storage operations.
+
+  ## Support
+  - Please refer to the [Dell CSM official documentation](https://dell.github.io/csm-docs/docs/support/) for the helm install instructions.
+  - The details of all possible values is available on the [helm-charts repository](https://github.com/dell/helm-charts/blob/main/installation-wizard/container-storage-modules/values.yaml).
 support_link: https://dell.github.io/csm-docs/docs/support/
 charts:
   - name: dell-container-storage-modules
@@ -59,7 +64,7 @@ deploy_code: |
         namespace: dell
         values: |
           container-storage-modules:
-            cert-manager:
+            csi-powerstore:
               enabled: true
   ~~~
 doc_link: https://dell.github.io/csm-docs/docs/
