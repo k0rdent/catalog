@@ -6,6 +6,7 @@ import subprocess
 import pathlib
 import re
 import json
+import sys
 
 
 chart_app_tpl = """apiVersion: v2
@@ -133,7 +134,14 @@ def check_images(args: str):
     if check_image_args != '':
         args.extend(check_image_args.split(' '))
     print(f"Run: {' '.join(args)}")
-    result = subprocess.run(args, check=True, capture_output=True, text=True)
+    try:
+        result = subprocess.run(args, check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as e:
+        print("Command failed!")
+        print("Return code:", e.returncode)
+        print("Command:", e.cmd)
+        print("STDOUT:", e.stdout)
+        print("STDERR:", e.stderr, file=sys.stderr)
     image_regex = r'(?:[a-zA-Z0-9\-_.]+(?:[.:][a-zA-Z0-9\-_.]+)?\/)?[a-zA-Z0-9\-_.]+(?:\/[a-zA-Z0-9\-_.]+)*(?::[a-zA-Z0-9\-_.]+)'
     matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
     images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))
