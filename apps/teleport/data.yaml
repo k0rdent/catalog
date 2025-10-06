@@ -39,4 +39,4 @@ deploy_code: |
 doc_link: https://goteleport.com/docs/installation/helm/
 
 test_wait_for_pods: "teleport-cluster-proxy-"
-test_check_images_args: "--set clusterName=teleport-test"
+test_check_images_args: "--set teleport-cluster.clusterName=teleport-test"

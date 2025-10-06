@@ -134,4 +134,4 @@ examples: |
 
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 
-test_check_images_args: "--set image.repository=bitnamilegacy/postgresql"
+test_check_images_args: "--set postgresql.image.repository=bitnamilegacy/postgresql --set postgresql.global.security.allowInsecureImages=true"

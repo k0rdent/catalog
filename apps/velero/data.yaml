@@ -70,4 +70,4 @@ doc_link: https://vmware-tanzu.github.io/helm-charts/
 # test settings
 test_deploy_chart: false
 test_wait_for_pods: "node-agent-"
-test_check_images_args: "--set kubectl.image.tag=1.31.4"
+test_check_images_args: "--set velero.kubectl.image.repository=docker.io/bitnamilegacy/kubectl --set velero.kubectl.image.tag=1.31.4"
