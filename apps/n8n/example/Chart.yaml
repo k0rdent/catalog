@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.15
+dependencies:
+  - name: n8n
+    version: 1.0.15
+    repository: oci://ghcr.io/k0rdent/catalog/charts
