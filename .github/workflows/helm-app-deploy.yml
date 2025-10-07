@@ -63,7 +63,7 @@ jobs:
             all_detected_files=$(git diff --name-only --diff-filter=ACMRT origin/main HEAD)
           fi
           echo "$all_detected_files"
-          tested_folders=$(echo "$all_detected_files" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          tested_folders=$(echo "$all_detected_files" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | grep -vF "k0rdent-utils" | jq -R -s -c 'split("\n")[:-1]')
           echo "Detected changes in: $tested_folders"
           echo "folders=$tested_folders" >> "$GITHUB_OUTPUT"
 
