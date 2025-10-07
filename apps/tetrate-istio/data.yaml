@@ -14,11 +14,11 @@ support_link: https://tetrate.io/contact
 support_type: Partner
 charts:
   - name: tetrate-base
-    versions: ['1.26.20002']
+    versions: ['1.27.10003', '1.26.20002']
   - name: tetrate-istiod
-    versions: ['1.26.20002']
+    versions: ['1.27.10003', '1.26.20002']
   - name: tetrate-gateway
-    versions: ['1.26.20002']
+    versions: ['1.27.10003', '1.26.20002']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -31,13 +31,13 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-          - template: tetrate-base-1-26-20002
+          - template: tetrate-base-1-27-10003
             name: tetrate-base
             namespace: istio-system
-          - template: tetrate-istiod-1-26-20002
+          - template: tetrate-istiod-1-27-10003
             name: tetrate-istiod
             namespace: istio-system
-          - template: tetrate-gateway-1-26-20002
+          - template: tetrate-gateway-1-27-10003
             name: tetrate-gateway
             namespace: istio-system
     ~~~

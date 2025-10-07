@@ -1,0 +1,6 @@
+dependencies:
+- name: base
+  repository: https://tis.tetrate.io/charts
+  version: 1.27.10003
+digest: sha256:5cd2cce86a554fbcdc515d1b6fb3abdf5e3361315757211bcfa99d18c4051154
+generated: "2025-10-07T12:45:04.895132+02:00"

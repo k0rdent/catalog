@@ -1,0 +1,9 @@
+apiVersion: v2
+name: tetrate-base
+description: A Helm chart that references the official "tetrate-base" Helm chart.
+type: application
+version: 1.27.10003
+dependencies:
+  - name: base
+    version: 1.27.10003
+    repository: https://tis.tetrate.io/charts
