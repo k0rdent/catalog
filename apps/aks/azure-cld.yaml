@@ -7,19 +7,18 @@ metadata:
     type: azure
     group: demo
 spec:
-  template: azure-aks-1-0-0
+  template: azure-aks-1-0-1
   credential: azure-credential-aks
   config:
     location: "westus"
     machinePools:
       system:
         count: 1
-        enableNodePublicIP: false
-        osDiskSizeGB: 128
+        osDiskSizeGB: 32
         type: VirtualMachineScaleSets
         vmSize: "Standard_A4_v2"
       user:
         count: 1
-        osDiskSizeGB: 128
+        osDiskSizeGB: 32
         type: VirtualMachineScaleSets
         vmSize: "Standard_A4_v2"
