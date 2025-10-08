@@ -3,14 +3,14 @@ kind: ClusterDeployment
 metadata:
   name: gcp-example-USER
   namespace: kcm-system
+  labels:
+    type: gcp
+    group: demo
 spec:
   template: gcp-standalone-cp-1-0-12
   credential: gcp-credential
   config:
-    clusterLabels:
-      type: gcp
-      group: demo
-    project: "k0rdent"
+    project: "GCP_PROJECT" # your GCP project
     region: "us-west1"
     controlPlane:
       instanceType: "e2-small"

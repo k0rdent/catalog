@@ -30,12 +30,13 @@ deploy_code: |
   metadata:
     name: my-gcp-clusterdeployment1
     namespace: kcm-system
+    labels:
+      group: demo
   spec:
     template: {{ gcp_gke }}
     credential: gcp-credential
     propagateCredentials: false
     config:
-      clusterLabels: {}
       # workersNumber should be divisible by the number of zones in machines.nodeLocations.
       # If nodeLocations is not specified, must be divisible by the number of zones in this region (default: 3)
       workersNumber: 3

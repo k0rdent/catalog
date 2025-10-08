@@ -21,13 +21,12 @@ deploy_code: |
     kind: ClusterDeployment
     metadata:
       name: aws-example-cluster
+      labels:
+        group: demo
     spec:
       template: {{ aws_standalone_cp }}
       credential: aws-credential
       config:
-        clusterLabels:
-          type: aws
-          group: demo
         controlPlane:
           instanceType: t3.small
         controlPlaneNumber: 1
@@ -52,13 +51,12 @@ deploy_code: |
     kind: ClusterDeployment
     metadata:
       name: azure-example-cluster
+      labels:
+        group: demo
     spec:
       template: {{ azure_standalone_cp }}
       credential: azure-credential
       config:
-        clusterLabels:
-          type: azure
-          group: demo
         controlPlaneNumber: 1
         workersNumber: 1
         location: "westus"
