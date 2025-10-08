@@ -22,14 +22,14 @@ on:
       - '**'
     paths:
       - apps/**
-      - '!apps/*/*-cld.yaml
+      - '!apps/*/*-cld.yaml'
       - '!apps/*/charts/**'
       - .github/workflows/helm-app-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - apps/**
-      - '!apps/*/*-cld.yaml
+      - '!apps/*/*-cld.yaml'
       - '!apps/*/charts/**'
       - .github/workflows/helm-app-deploy.yml
 
