@@ -24,12 +24,13 @@ deploy_code: |
     metadata:
       name: my-azure-aks-clusterdeployment1
       namespace: kcm-system
+      labels:
+        type: azure
+        group: demo
     spec:
       template: {{ azure_aks }}  # name of the clustertemplate
       credential: azure-credential-aks
       config:
-        clusterLabels: {}
-        clusterAnnotations: {}
         location: "westus"
         machinePools:
           system:
