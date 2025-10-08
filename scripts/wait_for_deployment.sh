@@ -7,8 +7,8 @@ SECONDS=0
 
 while (( SECONDS < TIMEOUT )); do
     echo "$TEST_MODE/$NAMESPACE"
-    KUBECONFIG="kcfg_$TEST_MODE" kubectl get pods -n "$NAMESPACE"
     pods_json=$(KUBECONFIG="kcfg_$TEST_MODE" kubectl get pods -n "$NAMESPACE" -o json 2>/dev/null || true)
+    KUBECONFIG="kcfg_$TEST_MODE" kubectl get pods -n "$NAMESPACE"
 
     if [[ -z "$pods_json" ]]; then
         echo "No pods found or error getting pods"
