@@ -30,11 +30,12 @@ deploy_code: |
   metadata:
     name: my-aws-clusterdeployment1
     namespace: kcm-system
+    labels:
+      group: demo
   spec:
     template: {{ aws_standalone_cp }}
     credential: aws-cluster-identity-cred
     config:
-      clusterLabels: {}
       region: us-east-2
       controlPlane:
         instanceType: t3.small

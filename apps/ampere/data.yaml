@@ -24,13 +24,12 @@ deploy_code: |
   metadata:
     name: my-azure-clusterdeployment1
     namespace: kcm-system
+    labels:
+      group: demo
   spec:
     template: {{ azure_standalone_cp }}
     credential: azure-credential
     config:
-      clusterLabels:
-        type: azure
-        group: demo
       controlPlaneNumber: 1
       workersNumber: 1
       location: "eastus"
