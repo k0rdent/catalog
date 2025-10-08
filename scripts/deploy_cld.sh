@@ -11,7 +11,8 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
         echo "No app specific $TEST_MODE-cld.yaml found, using default config."
         cld_file="./scripts/config/$TEST_MODE-cld.yaml"
     fi
-    sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" "$cld_file" | kubectl apply -n kcm-system -f -
+    sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" \
+        -e "s/GCP_PROJECT/${GCP_PROJECT}/g" "$cld_file" | kubectl apply -n kcm-system -f -
     cld_name="$TEST_MODE-example-$USER"
 elif [[ "$TEST_MODE" == adopted ]]; then
     cld_name="adopted"
