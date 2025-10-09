@@ -4,7 +4,7 @@ title: "Cilium"
 summary: "eBPF-based Networking, Observability, Security"
 logo: ./assets/icon.svg
 logo_big: ./assets/logo.svg # https://github.com/cilium/cilium.io/blob/main/src/images/logo.inline.svg
-created: "2025-30-01T00:00:00Z"
+created: "2025-10-07T00:00:00Z"
 description: |
   Cilium is a networking, observability, and security solution with an eBPF-based
   dataplane. It provides a simple flat Layer 3 network with the ability to span
