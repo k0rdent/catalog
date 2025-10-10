@@ -1,0 +1,6 @@
+dependencies:
+- name: finops-agent-kof
+  repository: oci://ghcr.io/mirantis/charts
+  version: 0.1.0
+digest: sha256:d2c6592575d255ea297782981ebd0c2b626014db81b43458fc654355eaa3a2b7
+generated: "2025-09-17T15:26:48.634515+05:30"

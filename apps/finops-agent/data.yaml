@@ -20,9 +20,13 @@ description: |
   - **Cluster-aware**: Supports multi-cluster deployments with intelligent data aggregation
 
 charts:
-  - name: finops-agent
+  - name: finops-agent-kof
     versions: ['0.1.0']
 deploy_code: |
+  FinOps Agent assumes that:
+  1. the user has kof installed with the k0rdent.
+  2. the Grafana instance deployed with kof has Infinity plugin(v3.4.1) installed.
+  MultiClusterService to deploy Finops Agent tested with kof v1.3.0:
   ~~~yaml
   kind: MultiClusterService
   metadata:
@@ -34,7 +38,7 @@ deploy_code: |
         sveltos-agent: present
     serviceSpec:
       services:
-      - template: finops-agent-0-1-0
+      - template: finops-agent-kof-0-1-0
         name: finops-agent
         namespace: finops
         values: |
@@ -78,5 +82,16 @@ deploy_code: |
               forecast_api_port: 8081
               forecast_api_host: "0.0.0.0"
   ~~~
+  Verify the services are deployed:
+  - Verify the FinOps Agent is deployed
+    ```bash
+    kubectl get pod -n finops
+    ```
+  - Verify that the Grafana resources are available
+    ```bash
+    kubectl get grafanadashboard -n kof
+    kubectl get grafanadatasource -n finops
+    ```
+
 doc_link: https://github.com/Mirantis/finops-agent/blob/main/README.md
 use_ingress: false
