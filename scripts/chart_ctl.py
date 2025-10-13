@@ -158,34 +158,6 @@ def check_images(args: str):
         check_image_arch(image)
 
 
-def transform_cfg(args: str):
-    app = args.app
-    cfg = read_charts_cfg(app, allow_return_none=True)
-    if cfg is None:
-        print('Charts config not found.')
-        return
-    charts2 = []
-    for chart in cfg['st-charts']:
-        if len(chart['dependencies']) != 1:
-            raise Exception(f"App {app} chart {chart['name']} unexpected deps count")
-        dep = chart['dependencies'][0]
-        if dep['version'] != chart['version']:
-            raise Exception(f"App {app} chart {chart['name']} version mismatch ({dep['version']} x {chart['version']})")
-        item = dict(
-            name = chart['name'],
-            dep_name = dep['name'],
-            version = chart['version'],
-            repository = dep['repository'],
-        )
-        charts2.append(item)
-    cfg2 = {
-        'st-charts': charts2
-    }        
-    output = yaml.dump(cfg2, sort_keys=False)
-    print(output)
-    write_charts_cfg(app, output)
-
-
 parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -201,10 +173,6 @@ check_upd.set_defaults(func=check_updates)
 check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
 check_images_parser.add_argument("app")
 check_images_parser.set_defaults(func=check_images)
-
-transform_cfg_parser = subparsers.add_parser("transform-cfg", help="Generate charts from config")
-transform_cfg_parser.add_argument("app")
-transform_cfg_parser.set_defaults(func=transform_cfg)
 
 args = parser.parse_args()
 args.func(args)
