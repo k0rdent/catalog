@@ -15,11 +15,10 @@ description: A Helm chart that references the official "{{ name }}" Helm chart.
 type: application
 version: {{ version }}
 dependencies:
-{%- for dep in dependencies %}
-  - name: {{ dep.name }}
-    version: {{ dep.version }}
-    repository: {{ dep.repository }}
-{% endfor %}
+  - name: {{ dep_name }}
+    version: {{ version }}
+    repository: {{ repository }}
+
 """
 
 
@@ -86,8 +85,7 @@ def generate(args: str):
 def get_last_deps(cfg: dict):
     last_deps = dict()
     for chart in cfg['st-charts']:
-        for dep in chart['dependencies']:
-            last_deps[dep['name']] = dep
+        last_deps[chart['dep_name']] = chart
     return last_deps
 
 
