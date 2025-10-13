@@ -1,7 +1,5 @@
 st-charts:
-  - name: finops-agent
-    version: 0.1.0
-    dependencies:
-      - name: finops-agent
-        version: 0.1.0
-        repository: oci://ghcr.io/mirantis/charts
+- name: finops-agent
+  dep_name: finops-agent
+  version: 0.1.0
+  repository: oci://ghcr.io/mirantis/charts

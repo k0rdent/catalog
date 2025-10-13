@@ -1,7 +1,5 @@
 st-charts:
-  - name: argo-cd
-    version: 7.8.0
-    dependencies:
-      - name: argo-cd
-        version: 7.8.0
-        repository: https://argoproj.github.io/argo-helm
+- name: argo-cd
+  dep_name: argo-cd
+  version: 7.8.0
+  repository: https://argoproj.github.io/argo-helm

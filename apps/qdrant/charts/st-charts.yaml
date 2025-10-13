@@ -1,7 +1,5 @@
 st-charts:
-  - name: qdrant
-    version: 1.15.4
-    dependencies:
-      - name: qdrant
-        version: 1.15.4
-        repository: https://qdrant.github.io/qdrant-helm
+- name: qdrant
+  dep_name: qdrant
+  version: 1.15.4
+  repository: https://qdrant.github.io/qdrant-helm

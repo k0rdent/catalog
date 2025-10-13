@@ -1,7 +1,5 @@
 st-charts:
-  - name: strimzi-kafka-operator
-    version: 0.47.0
-    dependencies:
-      - name: strimzi-kafka-operator
-        version: 0.47.0
-        repository: oci://quay.io/strimzi-helm
+- name: strimzi-kafka-operator
+  dep_name: strimzi-kafka-operator
+  version: 0.47.0
+  repository: oci://quay.io/strimzi-helm

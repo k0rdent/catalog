@@ -1,13 +1,9 @@
 st-charts:
-  - name: eck-operator
-    version: 3.1.0
-    dependencies:
-      - name: eck-operator
-        version: 3.1.0
-        repository: https://helm.elastic.co
-  - name: eck-stack
-    version: 0.16.0
-    dependencies:
-      - name: eck-stack
-        version: 0.16.0
-        repository: https://helm.elastic.co
+- name: eck-operator
+  dep_name: eck-operator
+  version: 3.1.0
+  repository: https://helm.elastic.co
+- name: eck-stack
+  dep_name: eck-stack
+  version: 0.16.0
+  repository: https://helm.elastic.co

@@ -1,37 +1,25 @@
 st-charts:
-  - name: istio-base
-    version: 1.24.3
-    dependencies:
-      - name: base
-        version: 1.24.3
-        repository: https://istio-release.storage.googleapis.com/charts
-  - name: istio-base
-    version: 1.27.1
-    dependencies:
-      - name: base
-        version: 1.27.1
-        repository: https://istio-release.storage.googleapis.com/charts
-  - name: istiod
-    version: 1.24.3
-    dependencies:
-      - name: istiod
-        version: 1.24.3
-        repository: https://istio-release.storage.googleapis.com/charts
-  - name: istiod
-    version: 1.27.1
-    dependencies:
-      - name: istiod
-        version: 1.27.1
-        repository: https://istio-release.storage.googleapis.com/charts
-  - name: istio-gateway
-    version: 1.24.3
-    dependencies:
-      - name: gateway
-        version: 1.24.3
-        repository: https://istio-release.storage.googleapis.com/charts
-  - name: istio-gateway
-    version: 1.27.1
-    dependencies:
-      - name: gateway
-        version: 1.27.1
-        repository: https://istio-release.storage.googleapis.com/charts
+- name: istio-base
+  dep_name: base
+  version: 1.24.3
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istio-base
+  dep_name: base
+  version: 1.27.1
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istiod
+  dep_name: istiod
+  version: 1.24.3
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istiod
+  dep_name: istiod
+  version: 1.27.1
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istio-gateway
+  dep_name: gateway
+  version: 1.24.3
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istio-gateway
+  dep_name: gateway
+  version: 1.27.1
+  repository: https://istio-release.storage.googleapis.com/charts

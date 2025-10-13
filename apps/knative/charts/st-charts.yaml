@@ -1,7 +1,5 @@
 st-charts:
-  - name: knative-operator
-    version: 1.17.4
-    dependencies:
-      - name: knative-operator
-        version: 1.17.4
-        repository: https://knative.github.io/operator
+- name: knative-operator
+  dep_name: knative-operator
+  version: 1.17.4
+  repository: https://knative.github.io/operator

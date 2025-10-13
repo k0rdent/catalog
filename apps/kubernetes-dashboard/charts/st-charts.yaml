@@ -1,7 +1,5 @@
 st-charts:
-  - name: kubernetes-dashboard
-    version: 7.10.4
-    dependencies:
-      - name: kubernetes-dashboard
-        version: 7.10.4
-        repository: https://kubernetes.github.io/dashboard/
+- name: kubernetes-dashboard
+  dep_name: kubernetes-dashboard
+  version: 7.10.4
+  repository: https://kubernetes.github.io/dashboard/
