@@ -107,6 +107,7 @@ def check_updates(args: str):
         print(f"Last version found: {up_to_date_chart['version']}")
         if up_to_date_chart['version'] != data['version']:
             print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
+        subprocess.run(["helm", "repo", "remove", chart], check=True)
 
 
 def check_image_arch(image: str):
