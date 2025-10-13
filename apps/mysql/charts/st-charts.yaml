@@ -1,7 +1,5 @@
 st-charts:
-  - name: mysql-operator
-    version: 2.2.3
-    dependencies:
-      - name: mysql-operator
-        version: 2.2.3
-        repository: https://mysql.github.io/mysql-operator
+- name: mysql-operator
+  dep_name: mysql-operator
+  version: 2.2.3
+  repository: https://mysql.github.io/mysql-operator

@@ -1,7 +1,5 @@
 st-charts:
-  - name: envoy-gateway
-    version: 1.3.2
-    dependencies:
-      - name: gateway-helm
-        version: 1.3.2
-        repository: oci://docker.io/envoyproxy
+- name: envoy-gateway
+  dep_name: gateway-helm
+  version: 1.3.2
+  repository: oci://docker.io/envoyproxy

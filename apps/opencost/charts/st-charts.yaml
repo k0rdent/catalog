@@ -1,7 +1,5 @@
 st-charts:
-  - name: opencost
-    version: 1.43.2
-    dependencies:
-      - name: opencost
-        version: 1.43.2
-        repository: https://opencost.github.io/opencost-helm-chart
+- name: opencost
+  dep_name: opencost
+  version: 1.43.2
+  repository: https://opencost.github.io/opencost-helm-chart

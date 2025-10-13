@@ -1,7 +1,5 @@
 st-charts:
-  - name: harbor
-    version: 4.0.1
-    dependencies:
-      - name: harbor
-        version: 4.0.1
-        repository: oci://registry.mirantis.com/harbor/helm
+- name: harbor
+  dep_name: harbor
+  version: 4.0.1
+  repository: oci://registry.mirantis.com/harbor/helm

@@ -1,7 +1,5 @@
 st-charts:
-  - name: mlflow
-    version: 1.7.1
-    dependencies:
-      - name: mlflow
-        version: 1.7.1
-        repository: https://community-charts.github.io/helm-charts
+- name: mlflow
+  dep_name: mlflow
+  version: 1.7.1
+  repository: https://community-charts.github.io/helm-charts

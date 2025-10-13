@@ -1,13 +1,9 @@
 st-charts:
-  - name: clearml-serving
-    version: 1.5.10
-    dependencies:
-      - name: clearml-serving
-        version: 1.5.10
-        repository: https://clearml.github.io/clearml-helm-charts
-  - name: clearml-serving
-    version: 1.6.2
-    dependencies:
-      - name: clearml-serving
-        version: 1.6.2
-        repository: https://clearml.github.io/clearml-helm-charts
+- name: clearml-serving
+  dep_name: clearml-serving
+  version: 1.5.10
+  repository: https://clearml.github.io/clearml-helm-charts
+- name: clearml-serving
+  dep_name: clearml-serving
+  version: 1.6.2
+  repository: https://clearml.github.io/clearml-helm-charts

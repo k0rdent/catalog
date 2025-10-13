@@ -1,7 +1,5 @@
 st-charts:
-  - name: gitlab
-    version: 8.9.2
-    dependencies:
-      - name: gitlab
-        version: 8.9.2
-        repository: https://charts.gitlab.io/
+- name: gitlab
+  dep_name: gitlab
+  version: 8.9.2
+  repository: https://charts.gitlab.io/

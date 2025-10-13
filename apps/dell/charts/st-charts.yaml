@@ -1,7 +1,5 @@
 st-charts:
-  - name: dell-container-storage-modules
-    version: 1.8.0
-    dependencies:
-      - name: container-storage-modules
-        version: 1.8.0
-        repository: https://dell.github.io/helm-charts
+- name: dell-container-storage-modules
+  dep_name: container-storage-modules
+  version: 1.8.0
+  repository: https://dell.github.io/helm-charts

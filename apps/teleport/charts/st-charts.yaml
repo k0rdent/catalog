@@ -1,7 +1,5 @@
 st-charts:
-  - name: teleport-cluster
-    version: 18.2.0
-    dependencies:
-      - name: teleport-cluster
-        version: 18.2.0
-        repository: https://charts.releases.teleport.dev
+- name: teleport-cluster
+  dep_name: teleport-cluster
+  version: 18.2.0
+  repository: https://charts.releases.teleport.dev
