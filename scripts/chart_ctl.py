@@ -91,11 +91,13 @@ def get_last_deps(cfg: dict):
 
 def check_updates(args: str):
     app = args.app
+    update_cfg = args.update_cfg
     cfg = read_charts_cfg(app, allow_return_none=True)
     if cfg is None:
         print('Charts config not found.')
         return
     last_deps = get_last_deps(cfg)
+    updates = []
     for chart, data in last_deps.items():
         if not data['repository'].startswith("https"):
             print(f"Unsupported repo '{data['repository']}' to automatically check updates, skipping.")
@@ -107,7 +109,15 @@ def check_updates(args: str):
         print(f"Last version found: {up_to_date_chart['version']}")
         if up_to_date_chart['version'] != data['version']:
             print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
+            item = data.copy()
+            item['version'] = up_to_date_chart['version']
+            updates.append(item)
         subprocess.run(["helm", "repo", "remove", chart], check=True)
+    if len(updates) > 0 and update_cfg:
+        cfg['st-charts'].extend(updates)
+        output = yaml.dump(cfg, sort_keys=False)
+        print(output)
+        write_charts_cfg(app, output)
 
 
 def check_image_arch(image: str):
@@ -167,6 +177,8 @@ show.set_defaults(func=generate)
 
 check_upd = subparsers.add_parser("check-updates", help="Generate charts from config")
 check_upd.add_argument("app")
+check_upd.add_argument("--update-cfg", "-u", action="store_true", default=False,
+                    help="Update app 'st-charts.yaml' config")
 check_upd.set_defaults(func=check_updates)
 
 check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
