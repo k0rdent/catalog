@@ -30,17 +30,13 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     ~~~yaml
     st-charts:
       - name: dapr
+        dep_name: dapr
         version: 1.14.4
-        dependencies:
-          - name: dapr
-            version: 1.14.4
-            repository: https://dapr.github.io/helm-charts/ # upstream helm repository
+        repository: https://dapr.github.io/helm-charts/ # upstream helm repository
       - name: dapr-dashboard
+        dep_name: dapr-dashboard
         version: 0.15.0
-        dependencies:
-          - name: dapr-dashboard
-            version: 0.15.0
-            repository: https://dapr.github.io/helm-charts/
+        repository: https://dapr.github.io/helm-charts/
     ~~~
     -	Generate Charts Automatically. Use the `chart_ctl.py` script from the repository to generate the app and service-template charts based on `st-charts.yaml`. Example:
     ~~~bash
