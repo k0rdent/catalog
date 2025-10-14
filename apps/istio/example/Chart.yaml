@@ -4,11 +4,11 @@ type: application
 version: 1.0.0
 dependencies:
   - name: istio-base
-    version: 1.27.1
+    version: 1.27.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: istiod
-    version: 1.27.1
+    version: 1.27.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: istio-gateway
-    version: 1.27.1
+    version: 1.27.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
