@@ -12,7 +12,7 @@ description: |
 support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
 charts:
   - name: opencost
-    versions: ['1.43.2']
+    versions: ['2.3.2', '1.43.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -21,7 +21,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: opencost-1-43-2
+          - template: opencost-2-3-2
             name: opencost
             namespace: opencost
             values: |
