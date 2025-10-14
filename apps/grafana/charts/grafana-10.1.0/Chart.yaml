@@ -1,0 +1,9 @@
+apiVersion: v2
+name: grafana
+description: A Helm chart that references the official "grafana" Helm chart.
+type: application
+version: 10.1.0
+dependencies:
+  - name: grafana
+    version: 10.1.0
+    repository: https://grafana.github.io/helm-charts

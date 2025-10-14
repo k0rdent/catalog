@@ -3,3 +3,7 @@ st-charts:
   dep_name: grafana
   version: 9.3.6
   repository: https://grafana.github.io/helm-charts
+- name: grafana
+  dep_name: grafana
+  version: 10.1.0
+  repository: https://grafana.github.io/helm-charts
