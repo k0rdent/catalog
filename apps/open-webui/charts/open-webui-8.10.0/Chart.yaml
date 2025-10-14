@@ -1,0 +1,9 @@
+apiVersion: v2
+name: open-webui
+description: A Helm chart that references the official "open-webui" Helm chart.
+type: application
+version: 8.10.0
+dependencies:
+  - name: open-webui
+    version: 8.10.0
+    repository: https://helm.openwebui.com/
