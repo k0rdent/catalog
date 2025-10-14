@@ -70,6 +70,19 @@ def try_validate_wait_for_pods(file: str, data: dict):
         raise Exception(f"Field 'test_wait_for_pods' needs to be a string, e.g. 'pod1- pod2-' if used! ({file})")
 
 
+def validate_chart_versions(data: dict):
+    blocked_version_chars = ["'", '"', "/", '~', '^', ' ']
+    for chart in data['charts']:
+        if not isinstance(chart['versions'], list):
+            raise Exception(f"Field 'versions' must an array of strings ({chart}).")
+        for version in chart['versions']:
+            if not isinstance(version, str):
+                raise Exception(f"Chart {chart} version ({version}) is not string.")
+            for c in blocked_version_chars:
+                if c in version:
+                    raise Exception(f"Chart {chart} version ({version}) contains unsupported char: {c}")
+
+
 def validate_charts_info(file: str, data: dict):
     if not data.get('show_install_tab', True):
         return
@@ -79,6 +92,7 @@ def validate_charts_info(file: str, data: dict):
         raise Exception(f"No 'charts' array found in {file}.")
     if not isinstance(data['charts'], list):
         raise Exception(f"Field 'charts' must an array of objects with 'name' and 'version' fields.")
+    validate_chart_versions(data)
 
 
 def validate_metadata(file: str, data: dict):
