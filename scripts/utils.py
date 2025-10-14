@@ -4,6 +4,8 @@ import argparse
 from jinja2 import Template
 import textwrap
 import os
+import ruyaml
+import sys
 
 mcs_tpl = """
 apiVersion: k0rdent.mirantis.com/v1beta1
@@ -88,11 +90,28 @@ def get_servicetemplate_install_cmd(repo: str, charts: list) -> str:
     return cmd
 
 
+def init_ruyaml():
+    yml = ruyaml.YAML()
+    yml.preserve_quotes = True
+    yml.indent(mapping=4, sequence=4, offset=2)
+    yml.width = 10000
+    return yml
+
+
 def get_app_data(app: str) -> dict:
     app_data_path = f"apps/{app}/data.yaml"
     with open(app_data_path, "r", encoding='utf-8') as file:
-        app_data = yaml.safe_load(file)
+        yml = init_ruyaml()
+        app_data = yml.load(file)
         return app_data
+
+
+def write_app_data(app: str, ruyaml_dict: dict) -> dict:
+    app_data_path = f"apps/{app}/data.yaml"
+    with open(app_data_path, "w", encoding='utf-8') as file:
+        yml = init_ruyaml()
+        yml.dump(ruyaml_dict, file)
+        yml.dump(ruyaml_dict, sys.stdout)
 
 
 def get_chart_data(app: str) -> dict:
@@ -173,30 +192,30 @@ def get_wait_for_running(args):
     if 'test_wait_for_running' in app_data:
         print(f"{app_data['test_wait_for_running']}".lower())
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Catalog dev tool.',
+                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-parser = argparse.ArgumentParser(description='Catalog dev tool.',
-                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
-subparsers = parser.add_subparsers(dest="command", required=True)
+    render = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
+    render.add_argument("app")
+    render.set_defaults(func=render_mcs)
 
-render = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
-render.add_argument("app")
-render.set_defaults(func=render_mcs)
+    install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
+    install.add_argument("app")
+    install.set_defaults(func=install_servicetemplates)
 
-install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
-install.add_argument("app")
-install.set_defaults(func=install_servicetemplates)
+    print_vars = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
+    print_vars.add_argument("app")
+    print_vars.set_defaults(func=print_test_vars)
 
-print_vars = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
-print_vars.add_argument("app")
-print_vars.set_defaults(func=print_test_vars)
+    get_pods = subparsers.add_parser("get-wait-for-pods", help="Print WAIT_FOR_PODS value")
+    get_pods.add_argument("app")
+    get_pods.set_defaults(func=get_wait_for_pods)
 
-get_pods = subparsers.add_parser("get-wait-for-pods", help="Print WAIT_FOR_PODS value")
-get_pods.add_argument("app")
-get_pods.set_defaults(func=get_wait_for_pods)
+    get_running = subparsers.add_parser("get-wait-for-running", help="Print WAIT_FOR_RUNNING value")
+    get_running.add_argument("app")
+    get_running.set_defaults(func=get_wait_for_running)
 
-get_running = subparsers.add_parser("get-wait-for-running", help="Print WAIT_FOR_RUNNING value")
-get_running.add_argument("app")
-get_running.set_defaults(func=get_wait_for_running)
-
-args = parser.parse_args()
-args.func(args)
+    args = parser.parse_args()
+    args.func(args)

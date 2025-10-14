@@ -7,6 +7,8 @@ import pathlib
 import re
 import json
 import sys
+import utils
+from ruyaml.scalarstring import SingleQuotedScalarString
 
 
 chart_app_tpl = """apiVersion: v2
@@ -89,12 +91,47 @@ def get_last_deps(cfg: dict):
     return last_deps
 
 
-def update_charts_cfg(args: str, updates: list, cfg: dict):
-    if len(updates) > 0 and args.update_cfg:
-        cfg['st-charts'].extend(updates)
+def update_charts_cfg(args: str, updates_list: list, cfg: dict):
+    if len(updates_list) > 0 and args.update_cfg:
+        cfg['st-charts'].extend(updates_list)
         output = yaml.dump(cfg, sort_keys=False)
         print(output)
         write_charts_cfg(args.app, output)
+
+
+def service_template_name(chart_name: str, version: str) -> str:
+    st_version = version.replace('.', '-')
+    return f"{chart_name}-{st_version}"
+
+
+def update_data_chart_versions(app_data: dict, updates_dict: dict) -> dict:
+    st_updates = dict()
+    for chart in app_data['charts']:
+        if chart['name'] in updates_dict:
+            if chart['versions'][0] != updates_dict[chart['name']]['version']:
+                chart['versions'].insert(0,
+                    SingleQuotedScalarString(updates_dict[chart['name']]['version']))
+                old_st = service_template_name(chart['name'], chart['versions'][1])
+                new_st = service_template_name(chart['name'], chart['versions'][0])
+                st_updates[old_st] = new_st
+    return st_updates
+
+
+def update_data_service_templates_docs(app_data: dict, st_updates: dict):
+    keys = ['deploy_code']
+    for key in keys:
+        s = app_data[key]
+        for old_st, new_st in st_updates.items():
+            s = s.replace(old_st, new_st)
+        app_data[key] = s
+
+
+def update_app_data(args, updates_dict: dict):
+    app_data = utils.get_app_data(args.app)
+    st_updates = update_data_chart_versions(app_data, updates_dict)
+    update_data_service_templates_docs(app_data, st_updates)
+    if len(st_updates) > 0:
+        utils.write_app_data(args.app, app_data)
 
 
 def check_updates(args: str):
@@ -103,7 +140,8 @@ def check_updates(args: str):
         print('Charts config not found.')
         return
     last_deps = get_last_deps(cfg)
-    updates = []
+    updates_list = []
+    updates_dict = {}
     for chart, data in last_deps.items():
         if not data['repository'].startswith("https"):
             print(f"Unsupported repo '{data['repository']}' to automatically check updates, skipping.")
@@ -117,11 +155,14 @@ def check_updates(args: str):
             print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
             item = data.copy()
             item['version'] = up_to_date_chart['version']
-            updates.append(item)
+            updates_list.append(item)
+            updates_dict[item['name']] = item
         subprocess.run(["helm", "repo", "remove", chart], check=True)
-    update_charts_cfg(args, updates, cfg)
+    update_charts_cfg(args, updates_list, cfg)
     if args.generate_charts:
         generate(args)
+    if args.update_data:
+        update_app_data(args, updates_dict)
 
 
 def check_image_arch(image: str):
@@ -170,26 +211,28 @@ def check_images(args: str):
     for image in images:
         check_image_arch(image)
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
+                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
-                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
-subparsers = parser.add_subparsers(dest="command", required=True)
+    show = subparsers.add_parser("generate", help="Generate charts from config")
+    show.add_argument("app")
+    show.set_defaults(func=generate)
 
-show = subparsers.add_parser("generate", help="Generate charts from config")
-show.add_argument("app")
-show.set_defaults(func=generate)
+    check_upd = subparsers.add_parser("check-updates", help="Generate charts from config")
+    check_upd.add_argument("app")
+    check_upd.add_argument("--update-cfg", "-u", action="store_true", default=False,
+                        help="Update app 'st-charts.yaml' config")
+    check_upd.add_argument("--generate-charts", "-g", action="store_true", default=False,
+                        help="Generate charts from updated st-charts.yaml config")
+    check_upd.add_argument("--update-data", "-d", action="store_true", default=False,
+                        help="Update app data.yaml file")
+    check_upd.set_defaults(func=check_updates)
 
-check_upd = subparsers.add_parser("check-updates", help="Generate charts from config")
-check_upd.add_argument("app")
-check_upd.add_argument("--update-cfg", "-u", action="store_true", default=False,
-                    help="Update app 'st-charts.yaml' config")
-check_upd.add_argument("--generate-charts", "-g", action="store_true", default=False,
-                    help="Generate charts from updated st-charts.yaml config")
-check_upd.set_defaults(func=check_updates)
+    check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
+    check_images_parser.add_argument("app")
+    check_images_parser.set_defaults(func=check_images)
 
-check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
-check_images_parser.add_argument("app")
-check_images_parser.set_defaults(func=check_images)
-
-args = parser.parse_args()
-args.func(args)
+    args = parser.parse_args()
+    args.func(args)
