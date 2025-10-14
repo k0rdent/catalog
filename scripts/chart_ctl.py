@@ -126,6 +126,18 @@ def update_data_service_templates_docs(app_data: dict, st_updates: dict):
         app_data[key] = s
 
 
+def update_example_chart(args, updates_dict: dict) -> bool:
+    chart_data = utils.get_example_chart(args.app)
+    changed = False
+    for dep in chart_data['dependencies']:
+        if dep['name'] in updates_dict:
+            if dep['version'] != updates_dict[dep['name']]['version']:
+                dep['version'] = updates_dict[dep['name']]['version']
+                changed = True
+    if changed:
+        utils.write_example_chart(args.app, chart_data)
+
+
 def update_app_data(args, updates_dict: dict):
     app_data = utils.get_app_data(args.app)
     st_updates = update_data_chart_versions(app_data, updates_dict)
@@ -163,6 +175,8 @@ def check_updates(args: str):
         generate(args)
     if args.update_data:
         update_app_data(args, updates_dict)
+    if args.update_example:
+        update_example_chart(args, updates_dict)
 
 
 def check_image_arch(image: str):
@@ -228,6 +242,8 @@ if __name__ == '__main__':
                         help="Generate charts from updated st-charts.yaml config")
     check_upd.add_argument("--update-data", "-d", action="store_true", default=False,
                         help="Update app data.yaml file")
+    check_upd.add_argument("--update-example", "-e", action="store_true", default=False,
+                        help="Update app example file")
     check_upd.set_defaults(func=check_updates)
 
     check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
