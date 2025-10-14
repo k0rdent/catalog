@@ -58,7 +58,7 @@ def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
 
 def render_mcs_template(app: str):
     template = Template(mcs_tpl)
-    chart_data = get_chart_data(app)
+    chart_data = get_example_chart(app)
     chart_values_data = get_chart_values_data(app)
     app_data = get_app_data(app)
     namespace = app_data.get('test_namespace', app)
@@ -114,11 +114,20 @@ def write_app_data(app: str, ruyaml_dict: dict) -> dict:
         yml.dump(ruyaml_dict, sys.stdout)
 
 
-def get_chart_data(app: str) -> dict:
+def get_example_chart(app: str) -> dict:
     chart_path = f"apps/{app}/example/Chart.yaml"
     with open(chart_path, "r", encoding='utf-8') as file:
-        chart = yaml.safe_load(file)
+        yml = init_ruyaml()
+        chart = yml.load(file)
         return chart
+
+
+def write_example_chart(app: str, ruyaml_dict: dict) -> dict:
+    chart_path = f"apps/{app}/example/Chart.yaml"
+    with open(chart_path, "w", encoding='utf-8') as file:
+        yml = init_ruyaml()
+        yml.dump(ruyaml_dict, file)
+        yml.dump(ruyaml_dict, sys.stdout)
 
 
 def get_chart_values_data(app: str) -> dict:
@@ -153,7 +162,7 @@ def chart_2_repos(chart: dict) -> dict:
 
 def install_servicetemplates(args):
     app = args.app
-    chart = get_chart_data(app)
+    chart = get_example_chart(app)
     repos = chart_2_repos(chart)
     for repo in repos:
         charts = repos[repo]
