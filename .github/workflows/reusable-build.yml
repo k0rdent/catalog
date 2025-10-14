@@ -67,6 +67,11 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
       - name: Validate Helm Chart
         run: |
           chart="${{ matrix.folder }}"
