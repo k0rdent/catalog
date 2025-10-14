@@ -11,11 +11,11 @@ description: |
 support_link: https://tetrate.io/
 charts:
   - name: istio-base
-    versions: [1.27.1', '1.24.3']
+    versions: ['1.27.1', '1.24.3']
   - name: istiod
-    versions: [1.27.1', '1.24.3']
+    versions: ['1.27.1', '1.24.3']
   - name: istio-gateway
-    versions: [1.27.1', '1.24.3']
+    versions: ['1.27.1', '1.24.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
