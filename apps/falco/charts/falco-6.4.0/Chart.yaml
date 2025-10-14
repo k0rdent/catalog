@@ -1,0 +1,9 @@
+apiVersion: v2
+name: falco
+description: A Helm chart that references the official "falco" Helm chart.
+type: application
+version: 6.4.0
+dependencies:
+  - name: falco
+    version: 6.4.0
+    repository: https://falcosecurity.github.io/charts/

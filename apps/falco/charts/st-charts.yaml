@@ -3,3 +3,7 @@ st-charts:
   dep_name: falco
   version: 4.21.3
   repository: https://falcosecurity.github.io/charts/
+- name: falco
+  dep_name: falco
+  version: 6.4.0
+  repository: https://falcosecurity.github.io/charts/
