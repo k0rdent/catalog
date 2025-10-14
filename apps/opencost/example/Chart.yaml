@@ -4,7 +4,7 @@ type: application
 version: 1.43.2
 dependencies:
   - name: opencost
-    version: 1.43.2
+    version: 2.3.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: ingress-nginx
     version: 4.13.0
