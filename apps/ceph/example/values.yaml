@@ -1,8 +1,4 @@
-ceph-controller:
-  ceph-operator:
-    rookExtraConfig:
+pelagia-ceph:
+  pelagia-ceph:
+    rookConfig:
       csiKubeletPath: /var/lib/k0s/kubelet
-    controllers:
-      cephMaintenance:
-        enabled: false
-    installNamespaces: false
