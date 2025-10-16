@@ -212,14 +212,14 @@ jobs:
         if: env.DEPLOY_CHART == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=local
+          export TEST_MODE=adopted
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
         if: env.DEPLOY_CHART == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=local
+          export TEST_MODE=adopted
           ./scripts/uninstall_example_chart.sh
 
       - name: Test - Install kcm (k0rdent mothership cluster)
@@ -248,19 +248,19 @@ jobs:
         if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=local
+          export TEST_MODE=adopted
           ./scripts/deploy_cld.sh
 
       - name: Test - Deploy MultiClusterDeployment
         if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=local
+          export TEST_MODE=adopted
           ./scripts/deploy_mcs.sh
 
       - name: Test - Uninstall MultiClusterDeployment
         if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=local
+          export TEST_MODE=adopted
           ./scripts/remove_mcs.sh

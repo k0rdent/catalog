@@ -13,7 +13,7 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     fi
     sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" "$cld_file" | kubectl apply -n kcm-system -f -
     cld_name="$TEST_MODE-example-$USER"
-else
+elif [[ "$TEST_MODE" == adopted ]]; then
     cld_name="adopted"
     if kind get clusters | grep "$cld_name"; then
         echo "Adopted kind cluster already exists"
@@ -27,6 +27,9 @@ else
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
     kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
     kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
+else
+    echo "Unsupported TEST_MODE: '$TEST_MODE'. Allowed values: aws, azure, gcp, adopted"
+    exit 1
 fi
 
 CLDNAME=$cld_name ./scripts/wait_for_cld.sh

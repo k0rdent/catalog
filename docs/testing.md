@@ -2,7 +2,7 @@
 
 ## Requirements
 - `helm` - The Kubernetes package manager (`brew install helm`)
-- `kind` - [Local Kubernetes cluster tool](https://kind.sigs.k8s.io/) (for local testing only)
+- `kind` - [Local Kubernetes cluster tool](https://kind.sigs.k8s.io/) (for local `adopted` testing only)
 - Mothership Kubernetes cluster with [k0rdent 1.1.1 installed](https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/).
     - You can install local `k0rdent` cluster using:
     ~~~bash
@@ -38,7 +38,7 @@ Universal workflow to run any example:
 # ingress-nginx, istio, kube-prometheus-stack, kubecost, kubernetes-dashboard, kyverno,
 # msr, netapp, nvidia, open-webui, opencost, prometheus, pure, velero
 export APP="dapr"
-export TEST_MODE="local" # Supported values: aws, azure, local
+export TEST_MODE="adopted" # Supported values: aws, azure, adopted
 
 # Add adopted cluster to k0rdent
 ./scripts/deploy_cld.sh

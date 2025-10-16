@@ -24,7 +24,7 @@ elif [[ "$TEST_MODE" == gcp ]]; then
         -n kcm-system
 
     kubectl patch secret gcp-cloud-sa -n kcm-system -p='{"data":{"credentials":"'$GCP_B64ENCODED_CREDENTIALS'"}}'
-elif [[ "$TEST_MODE" == local ]]; then
+elif [[ "$TEST_MODE" == adopted ]]; then
     helm upgrade --install adopted-credential oci://ghcr.io/k0rdent/catalog/charts/adopted-credential \
     --version 0.0.1 \
     -n kcm-system
