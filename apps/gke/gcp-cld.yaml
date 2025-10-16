@@ -1,0 +1,18 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: gcp-example-USER
+  namespace: kcm-system
+  labels:
+    type: gcp
+    group: demo
+spec:
+  template: gcp-gke-1-0-5
+  credential: gcp-credential
+  propagateCredentials: false
+  config:
+    version: '' # use default
+    controlPlaneNumber: 1
+    workersNumber: 3
+    project: GCP_PROJECT # Your project name
+    region: us-west1
