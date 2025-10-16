@@ -37,6 +37,7 @@ deploy_code: |
     credential: gcp-credential
     propagateCredentials: false
     config:
+      version: '' # use default
       # workersNumber should be divisible by the number of zones in machines.nodeLocations.
       # If nodeLocations is not specified, must be divisible by the number of zones in this region (default: 3)
       workersNumber: 3
@@ -46,5 +47,5 @@ deploy_code: |
       network:
         name: default # Select your desired network name (select new network name to create or find it via `gcloud compute networks list --format="value(name)"`)
   ~~~
-doc_link: https://cloud.google.com/kubernetes-engine/docs
+doc_link: https://docs.k0rdent.io/{{ version }}/reference/template/template-gcp/#gke-managed-machines-parameters
 exclude_versions: [v0.1.0]
