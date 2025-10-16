@@ -1,6 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+cred_name="$TEST_MODE-credential"
+if kubectl get credential "$cred_name" -n kcm-system &>/dev/null; then
+    echo "Credential $cred_name already exists"
+    echo "(Remove using: helm uninstall $cred_name -n kcm-system)"
+    exit 0
+fi
+
 if [[ "$TEST_MODE" == aws ]]; then
     helm upgrade --install aws-credential oci://ghcr.io/k0rdent/catalog/charts/aws-credential \
         --version 1.0.0 \
