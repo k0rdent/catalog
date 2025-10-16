@@ -1,6 +1,6 @@
 # Testing Methodology
 
-The **k0rdent Catalog** is a curated collection of applications that have been **verified to work across diverse Kubernetes environments**, including **Azure**, **AWS**, and **local testing clusters** such as **Kind**. Every listed application is validated for deployability and lifecycle compatibility with k0rdent’s orchestration capabilities, ensuring reliable operation in real-world multi-cluster scenarios.
+The **k0rdent Catalog** is a curated collection of applications that have been **verified to work across diverse Kubernetes environments**, including **Azure**, **AWS**, and **adopted testing clusters** such as **Kind**. Every listed application is validated for deployability and lifecycle compatibility with k0rdent’s orchestration capabilities, ensuring reliable operation in real-world multi-cluster scenarios.
 
 ## What We Test
 

@@ -26,7 +26,7 @@ while (( SECONDS < TIMEOUT )); do
     echo "Ingress host: $host"
 
     ip_regex='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
-    if [[ "$TEST_MODE" == local ]]; then
+    if [[ "$TEST_MODE" == adopted ]]; then
         if echo "$ingress" | grep "443"; then # use port 443 if exposed
             ip="127.0.0.1:50443"
         else
