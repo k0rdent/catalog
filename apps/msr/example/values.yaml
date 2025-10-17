@@ -1,5 +1,5 @@
-mirantis-harbor:
-  harbor:
+msr:
+  msr:
     expose:
       type: ingress
       tls:
