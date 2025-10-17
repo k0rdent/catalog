@@ -12,8 +12,6 @@ description: |
     layer (Postgres & Redis). Please check the link for more information on
     [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
 charts:
-  - name: mirantis-harbor
-    versions: ['4.0.1']
   - name: msr
     versions: ['4.13.2']
 deploy_code: |
@@ -28,7 +26,7 @@ deploy_code: |
             name: msr4
             namespace: msr4
             values: |
-              harbor:
+              msr:
                 expose:
                   type: ingress
                   tls:
