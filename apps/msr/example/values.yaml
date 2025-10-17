@@ -1,4 +1,4 @@
-harbor:
+mirantis-harbor:
   harbor:
     expose:
       type: ingress

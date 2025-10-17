@@ -12,7 +12,7 @@ description: |
     layer (Postgres & Redis). Please check the link for more information on
     [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
 charts:
-  - name: harbor
+  - name: mirantis-harbor
     versions: ['4.0.1']
 deploy_code: |
     ~~~yaml
@@ -22,7 +22,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: harbor-4-0-1
+          - template: mirantis-harbor-4-0-1
             name: msr4
             namespace: msr4
             values: |

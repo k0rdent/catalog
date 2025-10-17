@@ -1,6 +1,6 @@
 apiVersion: v2
-name: harbor
-description: A Helm chart to refer the official "harbor" helm chart
+name: mirantis-harbor
+description: A Helm chart that references the official "mirantis-harbor" Helm chart.
 type: application
 version: 4.0.1
 dependencies:
