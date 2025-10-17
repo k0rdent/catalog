@@ -1,5 +1,5 @@
 st-charts:
-- name: harbor
+- name: mirantis-harbor
   dep_name: harbor
   version: 4.0.1
   repository: oci://registry.mirantis.com/harbor/helm

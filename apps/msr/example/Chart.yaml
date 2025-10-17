@@ -3,7 +3,7 @@ name: example
 type: application
 version: 4.0.1
 dependencies:
-  - name: harbor
+  - name: mirantis-harbor
     version: 4.0.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: ingress-nginx
