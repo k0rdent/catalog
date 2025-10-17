@@ -14,6 +14,8 @@ description: |
 charts:
   - name: mirantis-harbor
     versions: ['4.0.1']
+  - name: msr
+    versions: ['4.13.2']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -22,7 +24,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: mirantis-harbor-4-0-1
+          - template: msr-4-13-2
             name: msr4
             namespace: msr4
             values: |
@@ -44,6 +46,6 @@ deploy_code: |
                       core: msr4.example.url
                 externalURL: msr4.example.url
     ~~~
-support_link: https://docs.mirantis.com/msr/4.0/get-support.html
-doc_link: https://docs.mirantis.com/msr/4.0/overview.html
+support_link: https://docs.mirantis.com/msr/4.13/get-support.html
+doc_link: https://docs.mirantis.com/msr/4.13/overview.html
 use_ingress: true
