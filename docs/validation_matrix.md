@@ -1,12 +1,11 @@
 | Application                    | Local (amd64) | AWS | Azure | ARM64 |
 |--------------------------------|---------------|-----|-------|-------|
-| Amazon EBS CSI                 |               | ✅  |      |   ✅   |
-| ArangoDB                       | ✅            | ✅  | ✅    |   ✅   |
-| Argo CD                        | ✅            | ✅  | ✅    |   ✅   |
-| Azure Disk CSI                 |               |     | ✅   |   ✅   |
-| cAdvisor                       | ✅            | ✅  | ✅    |   ✅   |
-| Calico CNI                     | ✅            | ✅  | ✅    |   ✅   |
-| Cert-manager                   | ✅            | ✅  | ✅    |   ✅   |
+| AMD GPU                        | ✅            | ✅  | ✅    |   XX  |
+| ArangoDB                       | ✅            | ✅  | ✅    |   ✅?  |
+| Argo CD                        | ✅            | ✅  | ✅    |   ✅?   |
+| cAdvisor                       | ✅            | ✅  | ✅    |   ✅?  |
+| Calico CNI                     | ✅            | ✅  | ✅    |   ✅T |
+| Cert-manager                   | ✅            | ✅  | ✅    |   ✅T |
 | ClearML                        | ✅            | ✅  | ✅    |   ✅   |
 | Dapr                           | ✅            | ✅  | ✅    |   ✅   |
 | Dex                            | ✅            | ✅  | ✅    |   ✅   |
@@ -53,3 +52,26 @@
 | Headlamp                       | ✅            | ✅  | ✅    |   ✅   |
 | Harness                        | ✅            | ✅  | ✅    |   ✅   |
 | JupyterHub                     | ✅            | ✅  | ✅    |   ✅   |
+| Tetrate Istio                  | ✅            |     |      |   ✅   |
+| Flux Operator                  | ✅            |     |      |   ✅   |
+| Nginx-ingress F5               | ✅            |     |      |   ✅   |
+| NATS                           | ✅            |     |      |   ✅   |
+| Grafana                        | ✅            |     |      |   ✅   |
+| Teleport                       | ✅            |     |      |   ✅   |
+| Milvus                         | ✅            |     |      |   ✅   |
+| Elasticsearch                  | ✅            |     |      |   ✅   |
+| Jenkins                        | ✅            |     |      |   ✅   |
+| Local AI                       | ✅            |     |      |   ✅   |
+| Qdrant                         | ✅            |     |      |   ✅   |
+| Redis                          | ✅            |     |      |   ✅   |
+| RabbitMQ                       | ✅            |     |      |   ✅   |
+| Cluster Autoscaler             | ✅            |     |      |   ✅   |
+| FinOps Agent                   | ✅            |     |      |   ✅   |
+| Apache Tika                    | ✅            |     |      |   ✅   |
+| Kubeflow Spark Operator        | ✅            |     |      |   ✅   |
+| Kafka Operator by Strimzi      | ✅            |     |      |   ✅   |
+| Dell CSI Drivers & Modules     | ✅            |     |      |   ✅   |
+| N8n                            | ✅            |     |      |   ✅   |
+| Cilium                         | ✅            |     |      |   ✅   |
+| mlflow                         | ✅            |     |      |   ✅   |
+| Penpot                         | ✅            |     |      |   ✅   |
