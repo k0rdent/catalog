@@ -44,3 +44,8 @@ deploy_code: |
 doc_link: https://www.rabbitmq.com/docs
 
 test_wait_for_pods: "rabbitmq-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'

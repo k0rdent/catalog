@@ -43,3 +43,8 @@ support_link: https://cloudcasa.io/support
 # test settings
 test_deploy_chart: false
 test_namespace: cloudcasa-io # hardcoded in the helmchart
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'n' # aws t4g.medium: exec /usr/local/bin/kubeagentmanager: exec format error

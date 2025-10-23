@@ -71,3 +71,8 @@ deploy_code: |
   ~~~
 doc_link: https://docs.victoriametrics.com/
 support_link: https://victoriametrics.com/products/enterprise/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'

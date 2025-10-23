@@ -11,11 +11,13 @@ spec:
   credential: aws-credential
   config:
     controlPlane:
-      instanceType: t3.small
+      instanceType: t3.small  # amd64
+      # instanceType: t4g.small # arm64
     controlPlaneNumber: 1
     publicIP: false
     region: eu-central-1
     worker:
-      instanceType: t3.medium
+      instanceType: t3.medium  # amd64
+      # instanceType: t4g.medium # arm64
       rootVolumeSize: 16
     workersNumber: 1

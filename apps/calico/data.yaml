@@ -36,3 +36,8 @@ doc_link: https://docs.tigera.io/calico
 test_deploy_chart: false
 test_deploy_multiclusterservice: false
 test_install_servicetemplates: false
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium

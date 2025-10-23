@@ -41,3 +41,8 @@ deploy_code: |
 doc_link: https://localai.io/basics/kubernetes/
 
 test_wait_for_pods: "local-ai-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # t4g.2xlarge
