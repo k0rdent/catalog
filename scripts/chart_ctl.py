@@ -184,14 +184,13 @@ def check_image_arch(image: str):
     manifest = subprocess.run(["crane", "manifest", image], check=True, capture_output=True, text=True)
     manifest_dict = json.loads(manifest.stdout)
     if "manifests" not in manifest_dict:
-        print(f"::warning::No manifest found for '{image}'!")
-        return
+        raise RuntimeError(f"No manifest found for '{image}'!")
     archs = []
     for item in manifest_dict['manifests']:
         archs.append(item.get('platform', {}).get('architecture', ''))
     for required_arch in ["amd64", "arm64"]:
         if required_arch not in archs:
-            print(f"\n::warning::Required architecture '{required_arch}' not found for image '{image}'")
+            raise RuntimeError(f"\nRequired architecture '{required_arch}' not found for image '{image}'")
     print(f"({", ".join(archs)})")
 
 
@@ -199,8 +198,7 @@ def check_images(args: str):
     app = args.app
     cfg = read_charts_cfg(app, allow_return_none=True)
     if cfg is None:
-        print('Charts config not found.')
-        return
+        raise RuntimeError("Charts config not found.")
     chart = cfg['st-charts'][-1]
     check_image_args = os.getenv("CHECK_IMAGES_ARGS", '')
     repo_url = os.environ.get('REPO_URL', "oci://ghcr.io/k0rdent/catalog/charts")
@@ -220,7 +218,7 @@ def check_images(args: str):
     matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
     images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))
     if len(images) == 0:
-        return
+        raise RuntimeError("No images found")
     print(f"{len(images)} images found:")
     for image in images:
         check_image_arch(image)
