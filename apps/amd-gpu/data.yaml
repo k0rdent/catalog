@@ -20,8 +20,6 @@ support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/inst
 charts:
   - name: amd-gpu-operator
     versions: ['v1.3.0', 'v1.2.2']
-  - name: cert-manager
-    versions: ['1.17.2']
 deploy_code: |
     Tested `ClusterDeployment` in Azure:
     ~~~yaml
@@ -66,7 +64,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: cert-manager-1-17-2
+        - template: cert-manager-1-18-2
           name: cert-manager
           namespace: cert-manager
           values: |
