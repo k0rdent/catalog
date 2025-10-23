@@ -36,3 +36,8 @@ deploy_code: |
 doc_link: https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html
 
 test_check_images: false
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'n' # mysql-operator - exec /usr/bin/mysqlsh: exec format error

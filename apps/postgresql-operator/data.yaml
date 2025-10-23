@@ -54,3 +54,8 @@ deploy_code: |
           namespace: postgres-system
     ~~~
 doc_link: https://postgres-operator.readthedocs.io/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'

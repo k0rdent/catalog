@@ -67,3 +67,8 @@ deploy_code: |
 doc_link: https://milvus.io/docs/install_cluster-helm.md
 
 test_wait_for_pods: "milvus-standalone-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'

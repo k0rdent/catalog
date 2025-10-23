@@ -33,3 +33,8 @@ deploy_code: |
           namespace: grafana
     ~~~
 doc_link: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'

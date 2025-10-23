@@ -39,3 +39,8 @@ doc_link: https://github.com/purestorage/helm-charts
 # test settings
 test_deploy_chart: false
 test_check_images: false
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'n' # exec /pure-flex-daemon: exec format error

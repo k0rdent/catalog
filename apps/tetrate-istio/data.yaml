@@ -48,3 +48,8 @@ test_namespace: istio-system
 test_deploy_chart: false
 test_deploy_multiclusterservice: true
 test_install_servicetemplates: true
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
