@@ -37,3 +37,8 @@ deploy_code: |
 doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
 
 # test_wait_for_pods: "milvus-standalone-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'

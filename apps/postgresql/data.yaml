@@ -135,3 +135,8 @@ examples: |
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 
 test_check_images_args: "--set postgresql.image.repository=bitnamilegacy/postgresql --set postgresql.global.security.allowInsecureImages=true"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
