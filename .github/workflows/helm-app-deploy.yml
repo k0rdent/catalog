@@ -53,10 +53,10 @@ jobs:
         run: |
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             echo "Running: find ${{ github.event.inputs.find_args }}"
-            all_detected_files=$(find ${{ github.event.inputs.find_args }} -type f -name data.yaml)
+            all_detected_files=$(find ${{ github.event.inputs.find_args }} -type d -name example)
           elif [[ ${{ github.event_name }} == 'schedule' ]]; then
             if [[ "${{ vars.ENABLE_CRON }}" == "1" ]]; then
-              all_detected_files=$(find apps -type f -name data.yaml)
+              all_detected_files=$(find apps -type d -name example)
             else
               echo "Repo var ENABLE_CRON is not set or does not equal '1'."
               all_detected_files=""
