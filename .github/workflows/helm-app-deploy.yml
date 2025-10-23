@@ -173,7 +173,7 @@ jobs:
           tar -zxvf go-containerregistry.tar.gz -C /usr/local/bin/ crane
           crane version
 
-      - name: Check images
+      - name: Check images arch (amd64, arm64)
         if: env.CHECK_IMAGES == 'true'
         run: |
           app=${{ matrix.folder }}
