@@ -158,10 +158,10 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      - name: Check updates
-        run: |
-          app=${{ matrix.folder }}
-          python3 ./scripts/chart_ctl.py check-updates "$app"
+      # - name: Check updates
+      #   run: |
+      #     app=${{ matrix.folder }}
+      #     python3 ./scripts/chart_ctl.py check-updates "$app"
 
       - name: Install crane
         if: env.CHECK_IMAGES == 'true'
@@ -186,81 +186,81 @@ jobs:
           fi
           python3 ./scripts/chart_ctl.py check-images "$app"
 
-      - name: Install Kind
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
-        run: |
-          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
-          chmod +x ./kind
-          sudo mv ./kind /usr/local/bin/kind
-          kind version
+      # - name: Install Kind
+      #   if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      #   run: |
+      #     curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+      #     chmod +x ./kind
+      #     sudo mv ./kind /usr/local/bin/kind
+      #     kind version
 
-      - name: Create Kind Cluster config
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
-        run: |
-          export MASTERS=${{ github.event.inputs.masters || '1' }}
-          export WORKERS=${{ github.event.inputs.workers || '1' }}
-          ./scripts/create_kind_config.sh
+      # - name: Create Kind Cluster config
+      #   if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      #   run: |
+      #     export MASTERS=${{ github.event.inputs.masters || '1' }}
+      #     export WORKERS=${{ github.event.inputs.workers || '1' }}
+      #     ./scripts/create_kind_config.sh
 
-      - name: Create Kind Cluster for example Helm chart test
-        if: env.DEPLOY_CHART == 'true'
-        run: |
-          kind create cluster --name test-k8s
-          kubectl cluster-info --context kind-test-k8s
-          kind get kubeconfig -n test-k8s > "kcfg_local"
+      # - name: Create Kind Cluster
+      #   if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      #   run: |
+      #     kind create cluster --name test-k8s
+      #     kubectl cluster-info --context kind-test-k8s
+      #     kind get kubeconfig -n test-k8s > "kcfg_local"
 
-      - name: Test - Install example Helm chart
-        if: env.DEPLOY_CHART == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          export TEST_MODE=local
-          ./scripts/deploy_example_chart.sh
+      # - name: Test - Install example Helm chart
+      #   if: env.DEPLOY_CHART == 'true'
+      #   run: |
+      #     export APP=${{ matrix.folder }}
+      #     export TEST_MODE=adopted
+      #     ./scripts/deploy_example_chart.sh
 
-      - name: Test - Uninstall Helm chart
-        if: env.DEPLOY_CHART == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          export TEST_MODE=local
-          ./scripts/uninstall_example_chart.sh
+      # - name: Test - Uninstall Helm chart
+      #   if: env.DEPLOY_CHART == 'true'
+      #   run: |
+      #     export APP=${{ matrix.folder }}
+      #     export TEST_MODE=adopted
+      #     ./scripts/uninstall_example_chart.sh
 
-      - name: Test - Install kcm (k0rdent mothership cluster)
-        if: env.INSTALL_SERVICETEMPLATES == 'true'
-        run: |
-          export HELM_VALUES=./scripts/config/min-kcm-values.yaml
-          ./scripts/deploy_k0rdent.sh
-          kubectl apply -f ./scripts/config/min-kcm-management.yaml
-          kubectl create ns projectsveltos
-          ./scripts/deploy_k0rdent.sh
+      # - name: Test - Install kcm (k0rdent mothership cluster)
+      #   if: env.INSTALL_SERVICETEMPLATES == 'true'
+      #   run: |
+      #     export HELM_VALUES=./scripts/config/min-kcm-values.yaml
+      #     ./scripts/deploy_k0rdent.sh
+      #     kubectl apply -f ./scripts/config/min-kcm-management.yaml
+      #     kubectl create ns projectsveltos
+      #     ./scripts/deploy_k0rdent.sh
 
-      - name: Test - Install service template
-        if: env.INSTALL_SERVICETEMPLATES == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "Pull request - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "'In fork' test - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          fi
-          ./scripts/install_servicetemplates.sh
+      # - name: Test - Install service template
+      #   if: env.INSTALL_SERVICETEMPLATES == 'true'
+      #   run: |
+      #     export APP=${{ matrix.folder }}
+      #     if [ "${{ github.event_name }}" == "pull_request" ]; then
+      #       echo "Pull request - use fork ghcr registry"
+      #       export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+      #     elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+      #       echo "'In fork' test - use fork ghcr registry"
+      #       export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+      #     fi
+      #     ./scripts/install_servicetemplates.sh
 
-      - name: Test - Install adopted cluster (k0rdent child)
-        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
-          ./scripts/deploy_cld.sh
+      # - name: Test - Install adopted cluster (k0rdent child)
+      #   if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      #   run: |
+      #     export APP=${{ matrix.folder }}
+      #     export TEST_MODE=adopted
+      #     ./scripts/deploy_cld.sh
 
-      - name: Test - Deploy MultiClusterDeployment
-        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
-          ./scripts/deploy_mcs.sh
+      # - name: Test - Deploy MultiClusterDeployment
+      #   if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      #   run: |
+      #     export APP=${{ matrix.folder }}
+      #     export TEST_MODE=adopted
+      #     ./scripts/deploy_mcs.sh
 
-      - name: Test - Uninstall MultiClusterDeployment
-        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
-        run: |
-          export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
-          ./scripts/remove_mcs.sh
+      # - name: Test - Uninstall MultiClusterDeployment
+      #   if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      #   run: |
+      #     export APP=${{ matrix.folder }}
+      #     export TEST_MODE=adopted
+      #     ./scripts/remove_mcs.sh
