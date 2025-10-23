@@ -21,16 +21,12 @@ on:
     branches:
       - '**'
     paths:
-      - apps/**
-      - '!apps/*/*-cld.yaml'
-      - '!apps/*/charts/**'
+      - apps/*/example/**
       - .github/workflows/helm-app-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - apps/**
-      - '!apps/*/*-cld.yaml'
-      - '!apps/*/charts/**'
+      - apps/*/example/**
       - .github/workflows/helm-app-deploy.yml
 
 jobs:
