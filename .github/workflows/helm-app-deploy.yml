@@ -201,8 +201,8 @@ jobs:
           export WORKERS=${{ github.event.inputs.workers || '1' }}
           ./scripts/create_kind_config.sh
 
-      - name: Create Kind Cluster
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+      - name: Create Kind Cluster for example Helm chart test
+        if: env.DEPLOY_CHART == 'true'
         run: |
           kind create cluster --name test-k8s
           kubectl cluster-info --context kind-test-k8s
@@ -212,14 +212,14 @@ jobs:
         if: env.DEPLOY_CHART == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
+          export TEST_MODE=local
           ./scripts/deploy_example_chart.sh
 
       - name: Test - Uninstall Helm chart
         if: env.DEPLOY_CHART == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
+          export TEST_MODE=local
           ./scripts/uninstall_example_chart.sh
 
       - name: Test - Install kcm (k0rdent mothership cluster)
