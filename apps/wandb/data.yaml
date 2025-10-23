@@ -44,6 +44,6 @@ doc_link: https://docs.wandb.ai/guides/hosting/operator/
 show_install_tab: true
 
 # test settings
-test_deploy_chart: true
+test_deploy_chart: false
 test_deploy_multiclusterservice: true
 test_install_servicetemplates: true

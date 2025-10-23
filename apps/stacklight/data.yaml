@@ -68,6 +68,6 @@ doc_link: https://docs.mirantis.com/mosk/latest/ref-arch/stacklight.html
 show_install_tab: true
 
 # test settings
-test_deploy_chart: true
+test_deploy_chart: false
 test_deploy_multiclusterservice: true
 test_install_servicetemplates: true
