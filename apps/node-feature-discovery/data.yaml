@@ -26,3 +26,8 @@ deploy_code: |
             namespace: node-feature-discovery
     ~~~
 doc_link: https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
