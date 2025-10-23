@@ -81,3 +81,4 @@ deploy_code: |
 doc_link: https://docs.gitlab.com/charts/
 
 test_check_images: false
+test_check_images_args: "--set gitlab.certmanager-issuer.email=admin@example.com"
