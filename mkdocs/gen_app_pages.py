@@ -10,7 +10,8 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'de
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'test_wait_for_running', 'show_install_tab',
-                  'examples', 'charts', 'test_check_images', 'test_check_images_args']
+                  'examples', 'charts', 'test_check_images', 'test_check_images_args',
+                  'validated_amd64', 'validated_aws', 'validated_azure', 'validated_arm64']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
@@ -348,7 +349,7 @@ def metadata_support_type(metadata: dict):
     return support_type
 
 
-def json_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
+def app_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
     item = {
         "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
         "title": metadata.get("title", "No Title"),
@@ -360,14 +361,46 @@ def json_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
         "description": metadata.get("summary", "No Description"),
         "appDir": app,
     }
+    for validated_key in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure']:
+        if validated_key not in metadata:
+            item[validated_key] = '-'
+        elif metadata[validated_key] == 'y':
+            item[validated_key] = '✅'
+        elif metadata[validated_key] == 'n':
+            item[validated_key] = '❌'
+        else:
+            item[validated_key] = metadata[validated_key]
     return item
+
+
+def generate_validation_matrix(all_apps_metadata: list):
+    template_path = 'mkdocs/validation_matrix.tpl.md'
+    dst_path = 'mkdocs/validation_matrix.md'
+    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure"]
+    all_apps_metadata.sort(key=lambda x: x['title'].lower())
+    table = "<table><thead><tr>" + "".join(f"<th>{h}</th>" for h in headers) + "</tr></thead><tbody>"
+    for app in all_apps_metadata:
+        if app["type"] == "infra":
+            continue
+        row = [app["title"], app["validated_amd64"], app["validated_arm64"], app["validated_aws"],
+               app["validated_azure"],]
+        table += "\n<tr>" + "".join(f"<td>{c}</td>" for c in row) + "</tr>"
+    table += "</tbody></table>"
+
+    metadata = dict(validation_matrix=table)
+    with open(template_path, 'r', encoding='utf-8') as f:
+        template = jinja2.Template(f.read())
+        rendered_str = template.render(**metadata)
+        if changed(dst_path, rendered_str):
+            with open(dst_path, 'w', encoding='utf-8') as f:
+                f.write(rendered_str)
 
 
 def generate_apps():
     apps_dir = 'apps'
     dst_dir = 'mkdocs'
     template_path = 'mkdocs/app.tpl.md'
-    json_metadata = []
+    all_apps_metadata = []
 
     base_metadata = dict(
         version=VERSION
@@ -403,7 +436,7 @@ def generate_apps():
         is_infra = metadata.get("type", "app") == "infra"
         if is_infra:
             dst_app_path = dst_app_path.replace("/apps/", "/infra/")
-        json_metadata.append(json_metadata_item(metadata, app, is_infra))
+        all_apps_metadata.append(app_metadata_item(metadata, app, is_infra))
         if not os.path.exists(dst_app_path):
             os.makedirs(dst_app_path)
         md_file = os.path.join(dst_app_path, 'index.md')
@@ -415,6 +448,7 @@ def generate_apps():
             with open(md_file, 'w', encoding='utf-8') as f:
                 f.write(rendered_md)
         with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
-            json.dump(json_metadata, f, indent=2)
+            json.dump(all_apps_metadata, f, indent=2)
+        generate_validation_matrix(all_apps_metadata)
 
 generate_apps()
