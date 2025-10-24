@@ -608,4 +608,9 @@ a.blue-green-button-dark-background:hover {
   color: #454545;
 }
 
+.validation-matrix td:first-child, .validation-matrix th:first-child,
+.validation-matrix td:nth-child(3), .validation-matrix th:nth-child(3) {
+  border-right: 1px solid #0000001f;
+}
+
 /* CUSTOM CSS END */
