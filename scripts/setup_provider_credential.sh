@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+./scripts/check_test_mode.sh
+
 cred_name="$TEST_MODE-credential"
 if kubectl get credential "$cred_name" -n kcm-system &>/dev/null; then
     echo "Credential $cred_name already exists"

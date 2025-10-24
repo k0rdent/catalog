@@ -3,7 +3,24 @@
 kubectl delete mcs $APP --wait=false
 
 ns=$(./scripts/get_mcs_namespace.sh)
-NAMESPACE=$ns ./scripts/wait_for_deployment_removal.sh
+
+check_clusters() {
+  for test_mode in ${TEST_MODE//,/ }; do
+    (
+        export NAMESPACE=$ns
+        export TEST_MODE=$test_mode
+        ./scripts/wait_for_deployment_removal.sh
+    )
+  done
+}
+
+check_clusters
+# for multi-cluster mode check it again in the end for better output readability
+if [[ "$TEST_MODE" == *,* ]]; then
+  echo -e "\nLet's check all clusters ($TEST_MODE) once again:"
+  check_clusters
+fi
+
 kubectl delete multiclusterservice $APP 2>/dev/null
 
 if kubectl get mcs "$APP" 2>/dev/null; then
