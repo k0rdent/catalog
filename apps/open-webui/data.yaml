@@ -104,4 +104,4 @@ test_deploy_chart: false # only deploy mcs to save time and resources - big depl
 validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
-validated_arm64: 'y'
+validated_arm64: '-'

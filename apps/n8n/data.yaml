@@ -37,4 +37,4 @@ doc_link: https://docs.n8n.io/
 validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
-validated_arm64: 'y'
+validated_arm64: '-'
