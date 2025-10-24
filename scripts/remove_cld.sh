@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+./scripts/check_test_mode.sh
+
 if [[ "$TEST_MODE" == adopted ]]; then
     cldname="adopted"
 else
