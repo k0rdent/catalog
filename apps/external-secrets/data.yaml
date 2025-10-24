@@ -30,4 +30,4 @@ doc_link: https://external-secrets.io/v0.18.2/
 validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
-validated_arm64: 'y'
+validated_arm64: 'y' # aws t4g.medium

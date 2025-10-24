@@ -75,4 +75,4 @@ test_check_images_args: "--set velero.kubectl.image.repository=docker.io/bitnami
 validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
-validated_arm64: 'y'
+validated_arm64: 'y' # aws t4g.medium
