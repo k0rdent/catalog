@@ -6,6 +6,13 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
+for app in "$@"; do
+  if [ ! -d "./apps/$app" ]; then
+    echo "❌ App '$app' not found!"
+    exit 1
+  fi
+done
+
 total=$#
 count=0
 for app in "$@"; do
