@@ -50,6 +50,10 @@ theme:
 extra_css:
   - extra.css
 
+extra_javascript:
+  - js/tablesort.min.js
+  - js/tablesort.js
+
 extra:
   version:
     provider: mike
