@@ -146,6 +146,13 @@ def update_app_data(args, updates_dict: dict):
         utils.write_app_data(args.app, app_data)
 
 
+def try_ignore_prefix_v(up_to_date_chart: dict, prev_version: str):
+    if prev_version.startswith('v'):
+        return
+    if up_to_date_chart['version'].startswith('v'):
+        up_to_date_chart['version'] = up_to_date_chart['version'][1:]
+
+
 def check_updates(args: str):
     cfg = read_charts_cfg(args.app, allow_return_none=True)
     if cfg is None:
@@ -163,6 +170,7 @@ def check_updates(args: str):
         result = subprocess.run(["helm", "show", "chart", f"{chart}/{chart}"], check=True, capture_output=True, text=True)
         up_to_date_chart = yaml.safe_load(result.stdout)
         print(f"Last version found: {up_to_date_chart['version']}")
+        try_ignore_prefix_v(up_to_date_chart, data['version'])
         if up_to_date_chart['version'] != data['version']:
             print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
             item = data.copy()
