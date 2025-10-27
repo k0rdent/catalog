@@ -1,6 +1,6 @@
 tags:
-    - AI/Machine Learning
-    - Drivers and plugins
+  - AI/Machine Learning
+  - Drivers and plugins
 title: "NVIDIA GPU Operator"
 summary: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
 logo: "./assets/GPUoperator-cropped.png"
@@ -13,7 +13,7 @@ description: |
 support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
 charts:
   - name: gpu-operator
-    versions: ['24.9.2']
+    versions: ['25.10.0', '25.3.0', '24.9.2']
 deploy_code: |
     Tested `ClusterDeployment` in AWS:
     ~~~yaml
@@ -87,7 +87,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: gpu-operator-24-9-2
+        - template: gpu-operator-25-10-0
           name: gpu-operator
           namespace: gpu-operator
           values: |
@@ -97,6 +97,8 @@ deploy_code: |
               toolkit:
                 env:
                   - name: CONTAINERD_CONFIG
+                    value: /run/k0s/containerd-cri.toml
+                  - name: RUNTIME_DROP_IN_CONFIG
                     value: /etc/k0s/containerd.d/nvidia.toml
                   - name: CONTAINERD_SOCKET
                     value: /run/k0s/containerd.sock
