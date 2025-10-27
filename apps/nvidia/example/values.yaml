@@ -5,6 +5,8 @@ gpu-operator:
     toolkit:
       env:
         - name: CONTAINERD_CONFIG
+          value: /run/k0s/containerd-cri.toml
+        - name: RUNTIME_DROP_IN_CONFIG
           value: /etc/k0s/containerd.d/nvidia.toml
         - name: CONTAINERD_SOCKET
           value: /run/k0s/containerd.sock
