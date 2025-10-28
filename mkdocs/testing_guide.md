@@ -3,7 +3,7 @@
 ## Requirements
 - `helm` - The Kubernetes package manager (`brew install helm`)
 - `kind` - [Local Kubernetes cluster tool](https://kind.sigs.k8s.io/) (for local `adopted` testing only)
-- Mothership Kubernetes cluster with [k0rdent 1.1.1 installed](https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/).
+- Mothership Kubernetes cluster with k0rdent installed.
     - You can install local `k0rdent` cluster using:
     ~~~bash
     ./scripts/deploy_k0rdent.sh
