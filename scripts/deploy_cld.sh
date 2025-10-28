@@ -40,7 +40,13 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     kubectl get secret $cld_name-kubeconfig -n kcm-system -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
 else
     # store adopted cluster kubeconfig
-    kind get kubeconfig -n adopted > "kcfg_$TEST_MODE"
+    kind get kubeconfig -n adopted > "kcfg_adopted"
+    helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+    helm repo update
+    KUBECONFIG=kcfg_adopted helm install metrics-server metrics-server/metrics-server \
+        -n kube-system --create-namespace \
+        --set "args={--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP,Hostname}"
+    NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
 fi
 chmod 0600 "kcfg_$TEST_MODE" # set minimum attributes to kubeconfig (owner read/write)
 
