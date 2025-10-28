@@ -11,7 +11,9 @@ template: home.html
         <div class="tab_apps-top">
             <div class="left-side">
               <h2>Find and deploy the software your business needs</h2>
-              <p>The application catalog features a selection of best-in-class solutions designed to enhance k0rdent managed clusters. These services have been validated on k0rdents clusters and have existing templates for easy deployment.</p>
+              <p>The application catalog features a selection of best-in-class solutions designed to enhance k0rdent managed clusters. These services have been
+              <a href="./testing_methodology">validated</a>
+              on k0rdents clusters and have existing templates for easy deployment.</p>
             </div>
             <div class="right-side">
               <div class="filters-section">
