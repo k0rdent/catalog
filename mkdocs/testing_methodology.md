@@ -20,7 +20,7 @@ Our testing process is designed to be **repeatable, transparent, and easy to rep
 
 After cloning the Catalog repository, local testing can be performed using the provided guide and scripts:
 
-- A [testing guide](./testing-guide.md) outlines setup steps and requirements.
+- A [testing guide](./testing_guide.md) outlines setup steps and requirements.
 - **Helper scripts** enable testing in any or all of the following environments:
   - ✅ **Azure** Kubernetes clusters
   - ✅ **AWS** EKS clusters
