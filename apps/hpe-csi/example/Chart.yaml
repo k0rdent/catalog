@@ -1,7 +1,7 @@
 apiVersion: v2
 name: example
 type: application
-version: 2.5.2
+version: 1.0.0
 dependencies:
   - name: hpe-csi-driver
     version: 3.0.1
