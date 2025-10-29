@@ -11,3 +11,5 @@ if kubectl get mcs "$APP" 2>/dev/null; then
     exit 1
 fi
 echo "✅ Multicluster service '$APP' removed!"
+
+KUBECONFIG="kcfg_$TEST_MODE" kubectl top nodes
