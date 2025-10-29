@@ -18,13 +18,13 @@ description: |
 support_link: https://www.solo.io/istio-support
 charts:
   - name: istio-base
-    versions: ['1.24.3']
+    versions: ['1.27.1', '1.24.3']
   - name: istio-cni
-    versions: ['1.24.3']
+    versions: ['1.27.1', '1.24.3']
   - name: istiod
-    versions: ['1.24.3']
+    versions: ['1.27.1', '1.24.3']
   - name: istio-ztunnel
-    versions: ['1.24.3']
+    versions: ['1.27.1', '1.24.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -37,22 +37,22 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: istio-base-1-24-3
+        - template: istio-base-1-27-1
           name: istio-base
           namespace: istio-system
-        - template: istio-cni-1-24-3
+        - template: istio-cni-1-27-1
           name: istio-cni
           namespace: istio-system
           values: |
             cni:
               profile: ambient
-        - template: istiod-1-24-3
+        - template: istiod-1-27-1
           name: istiod
           namespace: istio-system
           values: |
             istiod:
               profile: ambient
-        - template: istio-ztunnel-1-24-3
+        - template: istio-ztunnel-1-27-1
           name: istio-ztunnel
           namespace: istio-system
     ~~~
