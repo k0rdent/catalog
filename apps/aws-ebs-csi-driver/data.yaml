@@ -26,3 +26,8 @@ doc_link: https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
 test_deploy_chart: false
 test_deploy_multiclusterservice: false
 test_install_servicetemplates: false
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'n'
+validated_arm64: 'y' # aws t4g.medium

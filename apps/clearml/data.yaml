@@ -46,3 +46,8 @@ deploy_code: |
               clearml_serving_triton: {enabled: false}
     ~~~
 doc_link: https://clear.ml/docs/latest/docs/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'n' # aws t4g.medium - Errors
