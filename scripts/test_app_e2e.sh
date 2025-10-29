@@ -9,7 +9,7 @@ fi
 total=$#
 count=0
 for app in "$@"; do
-  ((count++))
+  count=$((count + 1))
   echo "Testing end 2 end '$app' in '$TEST_MODE' [$count/$total]"
   APP="$app" ./scripts/install_servicetemplates.sh
   APP="$app" ./scripts/deploy_mcs.sh
