@@ -3,6 +3,9 @@
 # Batch 1: ./scripts/test_app_e2e.sh ingress-nginx dex kyverno velero cert-manager external-secrets
 # Batch 2: ./scripts/test_app_e2e.sh tika arangodb argo-cd cadvisor ceph clearml cloudcasa cluster-autoscaler
 # Batch 3: ./scripts/test_app_e2e.sh envoy-gateway external-dns falco
+# Batch 4: ./scripts/test_app_e2e.sh finops-agent flux-operator gatekeeper grafana
+
+# Batch 10: gitlab open-webui
 
 set -euo pipefail
 
