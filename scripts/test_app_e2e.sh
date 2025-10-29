@@ -5,6 +5,7 @@
 # Batch 3: ./scripts/test_app_e2e.sh envoy-gateway external-dns falco
 # Batch 4: ./scripts/test_app_e2e.sh finops-agent flux-operator gatekeeper grafana
 # Batch 5: ./scripts/test_app_e2e.sh harbor harness headlamp hpe-csi
+# Batch 6: ./scripts/test_app_e2e.sh istio istio-ambient jenkins jupyterhub
 
 # Batch 10: gitlab open-webui
 
