@@ -46,16 +46,16 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: istio-base-1-24-3
+        - template: istio-base-1-27-1
           name: istio-base
           namespace: istio-system
-        - template: istiod-1-24-3
+        - template: istiod-1-27-1
           name: istiod
           namespace: istio-system
-        - template: istio-gateway-1-24-3
+        - template: istio-gateway-1-27-1
           name: istio-gateway
           namespace: istio-system
-        - template: cert-manager-1-17-2
+        - template: cert-manager-1-18-2
           name: cert-manager
           namespace: istio-system
           values: |
@@ -65,11 +65,9 @@ deploy_code: |
         - template: knative-operator-1-17-4
           name: knative-operator
           namespace: istio-system
-        # First deploy KServe CRDs
         - template: kserve-crd-v0-15-0
           name: kserve-crd
           namespace: istio-system
-        # Then deploy KServe Controller
         - template: kserve-v0-15-0
           name: kserve
           namespace: istio-system
