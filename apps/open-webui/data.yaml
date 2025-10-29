@@ -100,3 +100,5 @@ use_ingress: true
 
 # test settings
 test_deploy_chart: false # only deploy mcs to save time and resources - big deployment
+
+test_wait_for_pods: "open-webui-ollama-"
