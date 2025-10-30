@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: velero
-    version: 11.1.0
+    version: 11.1.1
     repository: oci://ghcr.io/k0rdent/catalog/charts

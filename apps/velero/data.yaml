@@ -9,7 +9,7 @@ description: |
     and migrate Kubernetes cluster resources and persistent volumes.
 charts:
   - name: velero
-    versions: ['11.1.0', '10.0.10', '8.1.0']
+    versions: ['11.1.1', '10.0.10', '8.1.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -22,20 +22,17 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: velero-11-1-0
+        - template: velero-11-1-1
           name: velero
           namespace: velero
           values: |
             velero:
-              kubectl:
-                image:
-                  repository: docker.io/bitnamilegacy/kubectl
-                  tag: 1.31.4
               backupsEnabled: true
               snapshotsEnabled: true
               deployNodeAgent: true
               nodeAgent:
-                podVolumePath: /var/lib/k0s/kubelet/pods
+                # podVolumePath: /var/lib/kubelet/pods # config for kind cluster used in CI
+                podVolumePath: /var/lib/k0s/kubelet/pods # for k0s
               initContainers:
                 - name: velero-plugin-for-aws
                   image: velero/velero-plugin-for-aws:latest
@@ -70,4 +67,3 @@ doc_link: https://vmware-tanzu.github.io/helm-charts/
 # test settings
 test_deploy_chart: false
 test_wait_for_pods: "node-agent-"
-test_check_images_args: "--set velero.kubectl.image.repository=docker.io/bitnamilegacy/kubectl --set velero.kubectl.image.tag=1.31.4"
