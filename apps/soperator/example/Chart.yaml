@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: helm-slurm-cluster
+    version: 1.22.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: helm-soperator
+    version: 1.22.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts

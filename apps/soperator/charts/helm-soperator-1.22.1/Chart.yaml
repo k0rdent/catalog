@@ -1,0 +1,9 @@
+apiVersion: v2
+name: helm-soperator
+description: A Helm chart that references the official "helm-soperator" Helm chart.
+type: application
+version: 1.22.1
+dependencies:
+  - name: helm-soperator
+    version: 1.22.1
+    repository: oci://cr.eu-north1.nebius.cloud/soperator
