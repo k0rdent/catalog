@@ -32,3 +32,4 @@ validated_aws: 'y'
 validated_azure: 'n'
 validated_arm64: 'y' # aws t4g.medium
 validated_local: 'n'
+validated_gcp: 'n'

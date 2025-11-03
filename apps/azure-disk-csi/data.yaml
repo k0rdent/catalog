@@ -32,3 +32,4 @@ validated_aws: 'n'
 validated_azure: 'y'
 validated_arm64: 'y' # azure Standard_D2ps_v5 (Ampere)
 validated_local: 'n'
+validated_gcp: 'n'
