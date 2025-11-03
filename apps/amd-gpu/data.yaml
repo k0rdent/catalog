@@ -129,3 +129,4 @@ validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'n' # t4g.medium - exec /usr/local/bin/manager: exec format error
+validated_local: 'y'

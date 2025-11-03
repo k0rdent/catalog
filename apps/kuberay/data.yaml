@@ -159,3 +159,4 @@ validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'n' # ray-cluster-kuberay-head- exec /bin/bash: exec format error
+validated_local: 'y'

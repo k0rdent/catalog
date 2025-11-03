@@ -37,3 +37,4 @@ validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'n' # aws t4g.medium (arango-kube-arangodb-operator - nodeAffinity:arch:amd64)
+validated_local: 'y'

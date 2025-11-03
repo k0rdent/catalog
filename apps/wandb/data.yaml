@@ -52,3 +52,4 @@ validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'n' # wandb-controller-manager-: exec /manager: exec format error
+validated_local: 'y'
