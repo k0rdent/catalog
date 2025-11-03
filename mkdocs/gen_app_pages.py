@@ -11,7 +11,7 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'de
                   'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'test_wait_for_running', 'show_install_tab',
                   'examples', 'charts', 'test_check_images', 'test_check_images_args',
-                  'validated_amd64', 'validated_aws', 'validated_azure', 'validated_arm64']
+                  'validated_amd64', 'validated_aws', 'validated_azure', 'validated_arm64', 'validated_local']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']
@@ -361,7 +361,7 @@ def app_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
         "description": metadata.get("summary", "No Description"),
         "appDir": app,
     }
-    for validated_key in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure']:
+    for validated_key in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local']:
         if validated_key not in metadata:
             item[validated_key] = '-'
         elif metadata[validated_key] == 'y':
@@ -376,14 +376,14 @@ def app_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
 def generate_validation_matrix(all_apps_metadata: list):
     template_path = 'mkdocs/validation_matrix.tpl.md'
     dst_path = 'mkdocs/validation_matrix.md'
-    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure"]
+    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure", "Local"]
     all_apps_metadata.sort(key=lambda x: x['title'].lower())
     table = "<table><thead><tr>" + "".join(f"<th>{h}</th>" for h in headers) + "</tr></thead><tbody>"
     for app in all_apps_metadata:
         if app["type"] == "infra":
             continue
         row = [app["title"], app["validated_amd64"], app["validated_arm64"], app["validated_aws"],
-               app["validated_azure"],]
+               app["validated_azure"], app["validated_local"],]
         table += "\n<tr>" + "".join(f"<td>{c}</td>" for c in row) + "</tr>"
     table += "</tbody></table>"
 
