@@ -1,0 +1,240 @@
+tags:
+  - AI/Machine Learning
+title: Nebius Soperator - Kubernetes Operator for SLURM
+summary: "Enjoy the best out of two worlds for massive HPC workloads"
+logo: ./assets/slurm_logo.svg 
+created: "2025-11-3T10:00:00Z"
+description: |
+    Both Slurm and Kubernetes can serve as workload managers for distributed model training and high-performance computing (HPC) in general.
+    Each of these systems has its strengths and weaknesses, and the trade-offs between them are significant. 
+    Slurm offers advanced and effective scheduling, granular hardware control, and accounting, but lacks universality. 
+    On the other hand, Kubernetes can be used for purposes other than training (e.g. inference) and provides good auto-scaling and self-healing capabilities.
+
+
+    The end-to-end deployment requires two Helm charts in addition to the prerequisites:
+
+    1. Slurm Operator (soperator)
+    2. Slurm Cluster 
+support_link: https://github.com/nebius/soperator
+support_type: Enterprise
+charts:
+  - name: helm-soperator
+    versions: ['1.21.1']
+  - name: helm-slurm-cluster
+    versions: ['1.21.1']
+
+prerequisites: |
+  **Soperator requires**:
+
+  * [K0rdent - 1.4.0](https://docs.k0rdent.io/v1.4.0/admin/installation/install-k0rdent/) 
+  * [Cilium](https://catalog.k0rdent.io/latest/apps/cilium/) 
+  * [NVIDIA GPU Operator](https://catalog.k0rdent.io/latest/apps/nvidia/)
+  * CSI & storageclass with ReadWriteMany capabilities (here we used for PoC purposes openEBS + NFS)
+  * More you can find [here](https://github.com/nebius/soperator?tab=readme-ov-file#-limitations)
+
+  > **Note!**
+  >
+  > Make sure Cilium is installed in kube-system otherwise you'll run in a chicken egg [issue](https://github.com/openkruise/charts/issues/155) with Kruise
+
+  **Tested on**:
+
+  * AWS
+  * K0s version 1.32
+  * NVIDIA L40s GPU type
+
+  **Labeling of nodes**:
+
+  * You need to label the nodes and configure the label in the SlurmCluster object 
+
+  >**NOTE**
+  >
+  > Starting with Kubernetes version 1.33 the use of UserNamespace are enabled by default.
+  >
+  > This leads in an issues with required procmount: unmasked. Plese refer [here](https://github.com/nebius/soperator/issues/1510)
+
+
+deploy_code: |
+  Slurm operator config (example):
+
+  ~~~yaml
+    kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: service-soperator-config
+      namespace: kcm-system
+    data:
+      soperator-values: |
+        # Soperator controller configuration
+        controllerManager:
+          # Number of replicas for the controller manager
+          replicas: 1
+
+          # Manager container configuration
+          manager:
+            image:
+              repository: cr.eu-north1.nebius.cloud/soperator/slurm-operator
+              tag: 1.22.1
+            resources:
+              limits:
+                cpu: 500m
+                memory: 256Mi
+              requests:
+                cpu: 100m
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
+          # OpenKruise operator (required dependency)
+          kruise:
+            daemon:
+              socketLocation: "/run/k0s" 
+              socketFile: "containerd.sock" 
+            installOperator: true
+            manager:
+              replicas: 1
+            webhook:
+              replicas: 1
+            featureGates: "ImagePullJobGate=true,RecreatePodWhenChangeVCTInCloneSetGate=true,StatefulSetAutoResizePVCGate=true,StatefulSetAutoDeletePVC=true,PreDownloadImageForInPlaceUpdate=true"
+  ~~~
+  Slurm Cluster config (example):
+
+  ~~~yaml
+    kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: slurm-demo-cluster-config
+      namespace: kcm-system
+    data:
+      slurm-cluster: |
+        clusterName: "demo-slurm"
+        maintenance: "none"
+        k8sNodeFilters:
+          - name: gpu
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: "node-role.kubernetes.io/gpu-worker"
+                          operator: In
+                          values:
+                            - "true"
+            tolerations:
+              - key: nvidia.com/gpu
+                operator: Exists
+                effect: NoSchedule
+          - name: no-gpu
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: "node-role.kubernetes.io/system-worker"
+                          operator: In
+                          values:
+                            - "true" 
+        volumeSources:
+        - name: controller-spool
+          createPVC: true
+          storageClassName: "nfs-csi"
+          size: "5Gi"
+          persistentVolumeClaim:
+            claimName: "controller-spool-pvc"
+            readOnly: false
+        - name: jail
+          createPVC: true
+          storageClassName: "nfs-csi"
+          size: "5Gi"
+          persistentVolumeClaim:
+            claimName: "jail-pvc"
+            readOnly: false
+        slurmConfig:
+          defMemPerNode: 1048576
+          defCpuPerGPU: 8
+          completeWait: 5
+          prolog: /opt/slurm_scripts/prolog.sh
+          epilog: /opt/slurm_scripts/epilog.sh
+          taskPluginParam: ""
+          maxJobCount: 10000
+          minJobAge: 86400
+          messageTimeout: 60
+          topologyPlugin: "topology/tree"
+          topologyParam: "SwitchAsNodeRank"
+        slurmNodes:
+          accounting:
+            enabled: false
+          controller:
+            volumes:
+              spool:
+                volumeClaimTemplateSpec:
+                  accessModes:
+                    - ReadWriteOnce
+                  resources:
+                    requests:
+                      storage: 10Gi
+                  storageClassName: "openebs-hostpath"
+          worker:
+            size: 1
+            hostUsers: false
+            slurmd:
+              imagePullPolicy: "IfNotPresent"
+              appArmorProfile: "unconfined"
+              port: 6818
+              command: []
+              args: []
+              resources:
+                cpu: "700m"
+                memory: "32Gi"
+                ephemeralStorage: "10Gi"
+                gpu: 1
+              securityLimitsConfig: ""
+            volumes:
+              spool:
+                volumeClaimTemplateSpec:
+                  storageClassName: "openebs-hostpath"
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: "5Gi"
+          [..]
+  ~~~
+
+  ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: slurm-dev
+      namespace: kcm-system
+    spec:  
+    [..]
+      serviceSpec:
+        [..]
+        - name: soperator
+          namespace: soperator-system
+          template: soperator-1-22-1
+          dependsOn: 
+            - name: nfs-server
+              namespace: nfs-server
+          valuesFrom:
+            - kind: ConfigMap
+              name: service-soperator-config  
+        - name: helm-slurm-cluster 
+          namespace: demo-slurm
+          template: slurm-cluster-1-22-1
+          dependsOn: 
+            - name: soperator
+              namespace: soperator-system
+          valuesFrom:
+            - kind: ConfigMap
+              name: slurm-demo-cluster-config
+  ~~~ 
+doc_link: https://github.com/nebius/soperator?tab=readme-ov-file#other-clouds-and-on-premises
+show_install_tab: yes
+use_ingress: false
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
