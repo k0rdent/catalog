@@ -1,0 +1,9 @@
+st-charts:
+- name: soperator
+  dep_name: helm-soperator
+  version: 1.22.1
+  repository: oci://cr.eu-north1.nebius.cloud/soperator
+- name: SlurmCluster
+  dep_name: helm-slurm-cluster
+  version: 1.22.1
+  repository: oci://cr.eu-north1.nebius.cloud/soperator
