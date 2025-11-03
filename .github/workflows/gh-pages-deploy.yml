@@ -62,6 +62,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y hunspell hunspell-en-us
+          ./scripts/validate_spellcheck_configs.sh
           ./scripts/spellcheck.sh
 
       - name: Build and Deploy pages - fork
