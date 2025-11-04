@@ -38,7 +38,10 @@ VERSION="v1.3.1" mkdocs build # generate md files
 VERSION="v1.3.1" mike deploy v1.3.1
 rm -rf mkdocs/apps mkdocs/infra
 VERSION="v1.4.0" mkdocs build # generate md files
-VERSION="v1.4.0" mike deploy v1.4.0 latest stable --update-aliases
+VERSION="v1.4.0" mike deploy v1.4.0
+rm -rf mkdocs/apps mkdocs/infra
+VERSION="v1.5.0" mkdocs build # generate md files
+VERSION="v1.5.0" mike deploy v1.5.0 latest stable --update-aliases
 mike set-default latest
 
 # Ensure CNAME file in gh-pages to set custom domain
