@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
-title: Nebius Soperator - Kubernetes Operator for SLURM
-summary: "Enjoy the best out of two worlds for massive HPC workloads"
+title: Nebius Soperator
+summary: "Kubernetes Operator for SLURM."
 logo: ./assets/slurm_logo.svg 
 created: "2025-11-3T10:00:00Z"
 description: |
@@ -16,7 +16,7 @@ description: |
     1. Slurm Operator (soperator)
     2. Slurm Cluster 
 support_link: https://github.com/nebius/soperator
-support_type: Enterprise
+support_type: Partner
 charts:
   - name: helm-soperator
     versions: ['1.21.1']
@@ -231,10 +231,9 @@ deploy_code: |
               name: slurm-demo-cluster-config
   ~~~ 
 doc_link: https://github.com/nebius/soperator?tab=readme-ov-file#other-clouds-and-on-premises
-show_install_tab: yes
 use_ingress: false
 
 # test settings
 test_deploy_chart: false
 test_deploy_multiclusterservice: false
-test_install_servicetemplates: false
+test_install_servicetemplates: true
