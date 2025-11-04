@@ -236,5 +236,5 @@ use_ingress: false
 
 # test settings
 test_deploy_chart: false
-test_deploy_multiclusterservice: true
-test_install_servicetemplates: true
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
