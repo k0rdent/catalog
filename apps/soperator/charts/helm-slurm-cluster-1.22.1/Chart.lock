@@ -1,0 +1,6 @@
+dependencies:
+- name: helm-slurm-cluster
+  repository: oci://cr.eu-north1.nebius.cloud/soperator
+  version: 1.22.1
+digest: sha256:e6d31683149d5fee4e1e2dd96cc39d1fdb65b61346e67797c49b058b4b46f683
+generated: "2025-11-04T09:00:06.930182+01:00"

@@ -1,6 +1,6 @@
 apiVersion: v2
-name: soperator
-description: A Helm chart that references the official "soperator" Helm chart.
+name: helm-soperator
+description: A Helm chart that references the official "helm-soperator" Helm chart.
 type: application
 version: 1.22.1
 dependencies:
