@@ -1,10 +1,22 @@
 #!/bin/bash
+
+# Batch 1: ./scripts/test_app_e2e.sh ingress-nginx dex kyverno velero cert-manager external-secrets
+# Batch 2: ./scripts/test_app_e2e.sh tika arangodb argo-cd cadvisor ceph clearml cloudcasa cluster-autoscaler
+
+
 set -euo pipefail
 
 if [ $# -eq 0 ]; then
   echo "Usage: $0 APP1 [APP2 ...]"
   exit 1
 fi
+
+for app in "$@"; do
+  if [ ! -d "./apps/$app" ]; then
+    echo "❌ App '$app' not found!"
+    exit 1
+  fi
+done
 
 total=$#
 count=0

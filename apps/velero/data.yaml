@@ -71,3 +71,9 @@ doc_link: https://vmware-tanzu.github.io/helm-charts/
 test_deploy_chart: false
 test_wait_for_pods: "node-agent-"
 test_check_images_args: "--set velero.kubectl.image.repository=docker.io/bitnamilegacy/kubectl --set velero.kubectl.image.tag=1.31.4"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'

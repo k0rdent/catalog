@@ -40,3 +40,9 @@ doc_link: https://goteleport.com/docs/installation/helm/
 
 test_wait_for_pods: "teleport-cluster-proxy-"
 test_check_images_args: "--set teleport-cluster.clusterName=teleport-test"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

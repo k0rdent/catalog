@@ -43,3 +43,9 @@ deploy_code: |
 doc_link: https://help.penpot.app/technical-guide/getting-started/kubernetes/#install-penpot-chart
 
 test_wait_for_pods: "penpot-backend-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'n' # penpot pods: /bin/bash: exec format error
+validated_local: 'y'

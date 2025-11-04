@@ -60,3 +60,9 @@ doc_link: https://istio.io/latest/docs/ambient/install/helm/
 test_namespace: istio-system
 test_deploy_chart: false
 test_wait_for_pods: "ztunnel-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

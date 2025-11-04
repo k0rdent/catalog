@@ -51,3 +51,9 @@ test_deploy_chart: false
 test_deploy_multiclusterservice: true
 test_install_servicetemplates: true
 test_wait_for_pods: "ingress-nginx-controller-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

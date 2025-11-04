@@ -32,3 +32,9 @@ deploy_code: |
             namespace: kyverno
     ~~~
 doc_link: https://kyverno.github.io/kyverno/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'

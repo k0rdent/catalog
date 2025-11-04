@@ -42,3 +42,9 @@ deploy_code: |
                   enabled: true
     ~~~
 doc_link: https://kubernetes.github.io/ingress-nginx/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'

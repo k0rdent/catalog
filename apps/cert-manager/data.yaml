@@ -31,3 +31,9 @@ doc_link: https://cert-manager.io/docs/installation/helm/
 
 # test settings
 test_deploy_chart: false
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'

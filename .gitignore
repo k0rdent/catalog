@@ -17,3 +17,5 @@ apps/*/mcs.y*ml
 .idea
 spellcheck_detected.txt
 site/
+
+mkdocs/validation_matrix.md

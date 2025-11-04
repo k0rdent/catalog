@@ -39,3 +39,9 @@ doc_link: https://scod.hpedev.io/
 test_deploy_chart: false
 test_deploy_multiclusterservice: false
 test_install_servicetemplates: true
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'n'

@@ -26,3 +26,9 @@ deploy_code: |
             namespace: trident-operator
     ~~~
 doc_link: https://docs.netapp.com/us-en/trident/index.html
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

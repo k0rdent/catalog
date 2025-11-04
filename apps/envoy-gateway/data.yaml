@@ -29,3 +29,9 @@ deploy_code: |
   ~~~
 doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/
 # support_link:
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

@@ -83,3 +83,9 @@ doc_link: https://kserve.github.io/website/master/get_started/
 # test settings
 test_deploy_chart: false
 test_wait_for_pods: "kserve-controller-manager-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # t4g.2xlarge
+validated_local: 'y'

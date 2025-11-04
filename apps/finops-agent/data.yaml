@@ -80,3 +80,9 @@ deploy_code: |
   ~~~
 doc_link: https://github.com/Mirantis/finops-agent/blob/main/README.md
 use_ingress: false
+
+validated_amd64: 'y'
+validated_aws: '-' # TODO
+validated_azure: '-' # TODO
+validated_arm64: '-' # TODO
+validated_local: '-'

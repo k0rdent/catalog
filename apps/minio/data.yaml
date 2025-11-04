@@ -38,3 +38,9 @@ deploy_code: |
 doc_link: https://min.io/docs/minio/kubernetes/upstream/index.html
 
 test_check_images_args: "--set minio.image.repository=bitnamilegacy/minio"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

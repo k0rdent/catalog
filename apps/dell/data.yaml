@@ -70,3 +70,9 @@ deploy_code: |
 doc_link: https://dell.github.io/csm-docs/docs/
 
 # test_wait_for_pods: "milvus-standalone-"
+
+validated_amd64: 'y'
+validated_aws: '-'
+validated_azure: '-'
+validated_arm64: '-'
+validated_local: 'y'

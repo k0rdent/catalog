@@ -25,3 +25,9 @@ deploy_code: |
           namespace: metallb
   ~~~
 doc_link: https://metallb.io/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

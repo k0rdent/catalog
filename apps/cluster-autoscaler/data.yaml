@@ -60,3 +60,9 @@ doc_link: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscale
 
 test_wait_for_pods: "cluster-autoscaler-aws-cluster-autoscaler-"
 test_wait_for_running: true
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'

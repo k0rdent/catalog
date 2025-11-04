@@ -44,3 +44,9 @@ deploy_code: |
 doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart
 
 test_wait_for_pods: "eck-stack-eck-kibana-kb-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # t4g.xlarge
+validated_local: 'y'

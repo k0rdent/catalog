@@ -47,3 +47,9 @@ deploy_code: |
 support_link: https://docs.mirantis.com/msr/4.13/get-support.html
 doc_link: https://docs.mirantis.com/msr/4.13/overview.html
 use_ingress: true
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'n' # harbor core - /home/scanner/entrypoint.sh: exec format error
+validated_local: 'y'

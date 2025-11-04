@@ -112,3 +112,9 @@ deploy_code: |
                   honorLabels: true
                   additionalLabels: {}
     ~~~
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

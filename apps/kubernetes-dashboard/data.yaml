@@ -32,3 +32,9 @@ deploy_code: |
     ~~~
 doc_link: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 use_ingress: true
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'
