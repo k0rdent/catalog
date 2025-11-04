@@ -13,9 +13,9 @@ on:
       - apps/*/charts/**
       - .github/workflows/helm-chart-build.yml
 
-permissions:
-  packages: write
-  contents: read
+#permissions:
+#  packages: write
+#  contents: read
 
 jobs:
   detect-and-build:
