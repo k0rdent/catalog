@@ -11,3 +11,7 @@ st-charts:
   dep_name: open-webui
   version: 8.10.0
   repository: https://helm.openwebui.com/
+- name: open-webui
+  dep_name: open-webui
+  version: 8.12.3
+  repository: https://helm.openwebui.com/
