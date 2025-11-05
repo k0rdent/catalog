@@ -3,3 +3,7 @@ st-charts:
   dep_name: gitlab
   version: 8.9.2
   repository: https://charts.gitlab.io/
+- name: gitlab
+  dep_name: gitlab
+  version: 9.5.1
+  repository: https://charts.gitlab.io/

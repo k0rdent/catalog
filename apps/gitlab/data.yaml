@@ -13,7 +13,7 @@ description: |
 support_link: https://about.gitlab.com/enterprise/
 charts:
   - name: gitlab
-    versions: ['8.9.2']
+    versions: ['9.5.1', '8.9.2']
 deploy_code: |
     In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:
     ~~~yaml
@@ -55,7 +55,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: gitlab-8-9-2
+          - template: gitlab-9-5-1
             name: gitlab
             namespace: gitlab
             values: |
@@ -82,6 +82,7 @@ doc_link: https://docs.gitlab.com/charts/
 
 test_check_images: false
 test_check_images_args: "--set gitlab.certmanager-issuer.email=admin@example.com"
+test_wait_for_pods: "gitlab-gitlab-shell-"
 
 validated_amd64: 'y'
 validated_aws: 'y'
