@@ -14,7 +14,7 @@ description: |
     </div>
 charts:
   - name: open-webui
-    versions: ['8.10.0', '6.20.0']
+    versions: ['8.12.3', '8.10.0', '6.20.0']
 deploy_code: |
     ##### Configuration without GPU
     Tested on worker `instanceType: t3.xlarge` and `rootVolumeSize: 32`:
@@ -46,7 +46,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: open-webui-8-10-0
+        - template: open-webui-8-12-3
           name: open-webui
           namespace: open-webui
           values: |
@@ -76,7 +76,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: open-webui-8-10-0
+        - template: open-webui-8-12-3
           name: open-webui
           namespace: open-webui
           values: |
