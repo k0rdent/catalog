@@ -15,6 +15,7 @@ check_clusters() {
     (
         export WAIT_FOR_PODS=$wfd
         export WAIT_FOR_RUNNING=$wfr
+        export WAIT_FOR_CREATING=$wfc
         export NAMESPACE=$ns
         export TEST_MODE=$test_mode
         ./scripts/wait_for_deployment.sh

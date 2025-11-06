@@ -37,7 +37,7 @@ while (( SECONDS < TIMEOUT )); do
 
         name=$(_jq '.metadata.name')
         status=$(_jq '.status.phase')
-        reason=$(_jq '.status.containerStatuses[].state.waiting.reason')
+        reason=$(_jq '.status.containerStatuses[]?.state.waiting.reason')
         ready_containers=$(_jq 'if .status.containerStatuses != null then [.status.containerStatuses[] | select(.ready == true)] | length else 0 end')
         total_containers=$(_jq 'if .status.containerStatuses != null then .status.containerStatuses | length else 0 end')
 
@@ -47,12 +47,13 @@ while (( SECONDS < TIMEOUT )); do
             if [[ "$ready_containers" -ne "$total_containers" ]]; then
                 all_ready=false
             fi
-        elif [[ "$reason" != ContainerCreating ]]; then
-            all_creating=false
         else
             if [[ $debug == "1" ]]; then
                 echo "Pod '$name', status: '$status'"
                 KUBECONFIG="kcfg_$TEST_MODE" kubectl describe pod "$name" -n "$NAMESPACE"
+            fi
+            if [[ "$reason" != ContainerCreating ]]; then
+                all_creating=false
             fi
             all_ready=false
             all_running=false
