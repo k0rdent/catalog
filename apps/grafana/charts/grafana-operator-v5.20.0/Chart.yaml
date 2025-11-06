@@ -2,8 +2,8 @@ apiVersion: v2
 name: grafana-operator
 description: A Helm chart that references the official "grafana-operator" Helm chart.
 type: application
-version: v5.18.0
+version: v5.20.0
 dependencies:
   - name: grafana-operator
-    version: v5.18.0
+    version: v5.20.0
     repository: oci://ghcr.io/grafana/helm-charts

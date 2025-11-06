@@ -7,3 +7,7 @@ st-charts:
   dep_name: grafana
   version: 10.1.0
   repository: https://grafana.github.io/helm-charts
+- name: grafana-operator
+  dep_name: grafana-operator
+  version: v5.20.0
+  repository: oci://ghcr.io/grafana/helm-charts
