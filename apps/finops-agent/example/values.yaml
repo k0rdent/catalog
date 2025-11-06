@@ -1,0 +1,41 @@
+finops-agent-kof:
+  finops-agent-kof:
+    forecasting-agent:
+      agent:
+        interval: 3600
+      collector:
+        type: prometheus
+        url: http://kof-mothership-promxy.kof.svc.cluster.local:8082
+        lookback_days: 14
+        step: "1h"
+        disable_ssl: true
+        timeout: 300
+        max_retries: 3
+        chunk_days: 0.25
+      models:
+        type: toto
+        forecast_horizon: 7
+        quantiles: [0.1,0.5,0.9]
+        toto:
+          checkpoint: Datadog/Toto-Open-Base-1.0
+          device: cpu
+          context_length: 4096
+          num_samples: 256
+          compile: true
+      optimizer:
+        idle_cpu_threshold: 0.3
+        idle_mem_threshold: 0.3
+        min_node_savings: 1
+      validation:
+        enabled: True
+        interval_cycles: 2
+        train_ratio: 0.7
+        log_level: INFO
+      node_normalization:
+        enabled: True
+        kube_node_info_query: "kube_node_info"
+        fallback_to_original: True
+        log_mapping_stats: True
+      metrics:
+        forecast_api_port: 8081
+        forecast_api_host: "0.0.0.0"
