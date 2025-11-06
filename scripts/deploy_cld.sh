@@ -5,11 +5,11 @@ set -euo pipefail
 
 if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     if [[ -e "apps/$APP/$TEST_MODE-cld.yaml" ]]; then
-        echo "App specific $TEST_MODE-cld.yaml found."
         cld_file="apps/$APP/$TEST_MODE-cld.yaml"
+        echo "App specific '$cld_file' found."
     else
-        echo "No app specific $TEST_MODE-cld.yaml found, using default config."
         cld_file="./scripts/config/$TEST_MODE-cld.yaml"
+        echo -e "apps/$APP/$TEST_MODE-cld.yaml not found, using default: $cld_file"
     fi
     cld_cfg_str=$(sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" \
         -e "s/GCP_PROJECT/${GCP_PROJECT}/g" -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY}/g" \
