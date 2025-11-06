@@ -35,12 +35,10 @@ deploy_code: |
   spec:
     clusterSelector:
       matchLabels:
-        group: demo
+        k0rdent.mirantis.com/management-cluster: "true"
+        sveltos-agent: present
     serviceSpec:
       services:
-      - template: grafana-operator-v5-20-0
-        name: grafana-operator
-        namespace: finops
       - template: finops-agent-kof-0-1-3
         name: finops-agent-kof
         namespace: finops
@@ -66,7 +64,7 @@ test_install_servicetemplates: true
 test_namespace: finops
 
 validated_amd64: 'y'
-validated_aws: '-' # TODO
+validated_aws: 'y'
 validated_azure: '-' # TODO
 validated_arm64: '-' # TODO
 validated_local: '-'
