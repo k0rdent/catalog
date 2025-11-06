@@ -7,6 +7,7 @@ kubectl apply -f apps/$APP/mcs.yaml
 
 wfd=$(python3 ./scripts/utils.py get-wait-for-pods $APP)
 wfr=$(python3 ./scripts/utils.py get-wait-for-running $APP)
+wfc=$(python3 ./scripts/utils.py get-wait-for-creating $APP)
 ns=$(./scripts/get_mcs_namespace.sh)
 
 check_clusters() {

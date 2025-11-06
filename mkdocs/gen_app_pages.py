@@ -10,7 +10,7 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'de
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'test_wait_for_running', 'show_install_tab',
-                  'examples', 'charts', 'test_check_images', 'test_check_images_args',
+                  'examples', 'charts', 'test_check_images', 'test_check_images_args', 'test_wait_for_creating',
                   'validated_amd64', 'validated_aws', 'validated_azure', 'validated_arm64', 'validated_local']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
