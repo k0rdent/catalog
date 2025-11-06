@@ -59,8 +59,10 @@ use_ingress: false
 
 # test settings
 test_deploy_chart: false
-test_deploy_multiclusterservice: false
+test_deploy_multiclusterservice: true
 test_install_servicetemplates: true
+test_wait_for_pods: "finops-agent-kof- grafana-operator-"
+test_wait_for_creating: true # don't wait for huge finops-agent-kof image pull (8GB)
 test_namespace: finops
 
 validated_amd64: 'y'
