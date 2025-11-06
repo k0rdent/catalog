@@ -18,6 +18,7 @@ while (( SECONDS < TIMEOUT )); do
 
     all_ready=true
     all_running=true
+    all_creating=true
 
     pod_count=$(jq '.items | length' <<< "$pods_json")
     if [[ "$pod_count" -eq 0 ]]; then
@@ -36,6 +37,7 @@ while (( SECONDS < TIMEOUT )); do
 
         name=$(_jq '.metadata.name')
         status=$(_jq '.status.phase')
+        reason=$(_jq '.status.containerStatuses[].state.waiting.reason')
         ready_containers=$(_jq 'if .status.containerStatuses != null then [.status.containerStatuses[] | select(.ready == true)] | length else 0 end')
         total_containers=$(_jq 'if .status.containerStatuses != null then .status.containerStatuses | length else 0 end')
 
@@ -45,6 +47,8 @@ while (( SECONDS < TIMEOUT )); do
             if [[ "$ready_containers" -ne "$total_containers" ]]; then
                 all_ready=false
             fi
+        elif [[ "$reason" != ContainerCreating ]]; then
+            all_creating=false
         else
             if [[ $debug == "1" ]]; then
                 echo "Pod '$name', status: '$status'"
@@ -59,6 +63,7 @@ while (( SECONDS < TIMEOUT )); do
         if ! jq -r '.items[].metadata.name' <<< "$pods_json" | grep -q $wait_for_pod; then
            all_ready=false
            all_running=false
+           all_creating=false
            echo "Expected pod '$wait_for_pod' not found!"
            break
         fi
@@ -70,6 +75,12 @@ while (( SECONDS < TIMEOUT )); do
             break
         fi
         echo "⏳ Some pods are not running yet..."
+    elif [[ "${WAIT_FOR_CREATING:-}" == "true" ]]; then
+        if $all_creating; then
+            echo "✅ All pods at least in ContainerCreating state!"
+            break
+        fi
+        echo "⏳ Some pods not creating yet..."
     else
         if $all_ready; then
             echo "✅ All pods are ready!"

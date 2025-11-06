@@ -201,6 +201,14 @@ def get_wait_for_running(args):
     if 'test_wait_for_running' in app_data:
         print(f"{app_data['test_wait_for_running']}".lower())
 
+
+def get_wait_for_creating(args):
+    app = args.app
+    app_data = get_app_data(app)
+    if 'test_wait_for_creating' in app_data:
+        print(f"{app_data['test_wait_for_creating']}".lower())
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
@@ -225,6 +233,10 @@ if __name__ == '__main__':
     get_running = subparsers.add_parser("get-wait-for-running", help="Print WAIT_FOR_RUNNING value")
     get_running.add_argument("app")
     get_running.set_defaults(func=get_wait_for_running)
+
+    get_creating = subparsers.add_parser("get-wait-for-creating", help="Print WAIT_FOR_RUNNING value")
+    get_creating.add_argument("app")
+    get_creating.set_defaults(func=get_wait_for_creating)
 
     args = parser.parse_args()
     args.func(args)
