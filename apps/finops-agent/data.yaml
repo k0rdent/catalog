@@ -65,6 +65,6 @@ test_namespace: finops
 
 validated_amd64: 'y'
 validated_aws: 'y'
-validated_azure: '-' # TODO
-validated_arm64: '-' # TODO
-validated_local: '-'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y' # kind on MacOS
