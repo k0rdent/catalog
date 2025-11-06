@@ -23,13 +23,13 @@ spec:
             protocol: udp
             toPort: 6081
     controlPlane:
-      instanceType: t3.medium
+      instanceType: AWS_EC2_FAMILY.medium
       amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
     controlPlaneNumber: 1
     publicIP: true
     region: us-west-1
     worker:
-      instanceType: t3.medium
+      instanceType: AWS_EC2_FAMILY.medium
       rootVolumeSize: 16
       amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
     workersNumber: 1

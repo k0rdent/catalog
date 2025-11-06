@@ -12,8 +12,8 @@ spec:
   config:
     region: eu-central-1
     controlPlane:
-      instanceType: t3.small
+      instanceType: AWS_EC2_FAMILY.small
       rootVolumeSize: 32
     worker:
-      instanceType: t3.medium
+      instanceType: AWS_EC2_FAMILY.medium
       rootVolumeSize: 32
