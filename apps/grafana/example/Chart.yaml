@@ -6,3 +6,6 @@ dependencies:
   - name: grafana
     version: 10.1.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: grafana-operator
+    version: v5.20.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
