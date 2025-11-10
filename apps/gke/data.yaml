@@ -37,7 +37,7 @@ deploy_code: |
     credential: gcp-credential
     propagateCredentials: false
     config:
-      version: '' # use default
+      version: '1.32.9-gke.1330000'
       # workersNumber should be divisible by the number of zones in machines.nodeLocations.
       # If nodeLocations is not specified, must be divisible by the number of zones in this region (default: 3)
       workersNumber: 3
