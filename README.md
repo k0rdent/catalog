@@ -13,9 +13,9 @@ The k0rdent Catalog Repo is a central repository and discovery platform designed
 - `mkdocs.yml` - MkDocs main config file to generate the Catalog web site.
 
 ## Useful links
-- [Catalog Web](https://catalog.k0rdent.io/)
-- [Applications Testing Guide](mkdocs/testing_guide.md)
-- [Previewing Docs](mkdocs/dev.md)
-- [Contribution guide](https://catalog.k0rdent.io/latest/contribute/)
-- [Catalog Index](https://catalog.k0rdent.io/latest/index.json)
-- [Catalog Index Schema](https://catalog.k0rdent.io/latest/schema/index.json)
+- [Catalog Web](https://catalog.k0rdent.io/) - Public web UI of the k0rdent catalog, listing all available applications and their metadata.
+- [Applications Testing Guide](mkdocs/testing_guide.md) - Guide describing how applications are tested and validated before being added to the catalog.
+- [Previewing Docs](mkdocs/dev.md) - Instructions for building and previewing the catalog documentation locally during development.
+- [Contribution guide](https://catalog.k0rdent.io/latest/contribute/) - How to contribute new applications or updates to the catalog, including style and review guidelines.
+- [Catalog Index](https://catalog.k0rdent.io/latest/index.json) - Machine-readable index of all catalog entries, used by k0rdent UI and related tooling.
+- [Catalog Index Schema](https://catalog.k0rdent.io/latest/schema/index.json) - JSON Schema describing the structure of the catalog index, useful for validation and automation.
