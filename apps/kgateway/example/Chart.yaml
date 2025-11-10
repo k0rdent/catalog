@@ -3,6 +3,9 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
+  - name: kgateway-crds
+    version: v2.1.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: kgateway
-    version: 1.0.0
+    version: v2.1.1
     repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -1,0 +1,9 @@
+st-charts:
+- name: kgateway-crds
+  dep_name: kgateway-crds
+  version: v2.1.1
+  repository: oci://cr.kgateway.dev/kgateway-dev/charts
+- name: kgateway
+  dep_name: kgateway
+  version: v2.1.1
+  repository: oci://cr.kgateway.dev/kgateway-dev/charts
