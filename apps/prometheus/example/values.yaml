@@ -16,3 +16,5 @@ prometheus:
           kubernetes.io/ingress.class: nginx
         hosts:
           - prometheus.example.com
+      persistentVolume:
+        enabled: false
