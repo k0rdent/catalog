@@ -131,6 +131,6 @@ test_deploy_multiclusterservice: false
 
 validated_amd64: 'y'
 validated_aws: 'y'
-validated_azure: '-'
+validated_azure: 'y'
 validated_arm64: 'y'
 validated_local: '-'
