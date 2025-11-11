@@ -1,0 +1,38 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: azure-example-USER
+  namespace: kcm-system
+  labels:
+    type: azure
+    group: demo
+spec:
+  template: azure-standalone-cp-1-0-17
+  credential: azure-credential
+  config:
+    location: "westus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlaneNumber: 1
+    controlPlane:
+      vmSize: Standard_A4_v2
+      image:
+        marketplace:
+          publisher: "Canonical"
+          offer: "0001-com-ubuntu-minimal-jammy"
+          sku: "minimal-22_04-lts"
+          version: "22.04.202502270"
+    workersNumber: 1
+    worker:
+      vmSize: Standard_A4_v2
+      image:
+        marketplace:
+          publisher: "Canonical"
+          offer: "0001-com-ubuntu-minimal-jammy"
+          sku: "minimal-22_04-lts"
+          version: "22.04.202502270"
+    k0s:
+      network:
+        calico: null
+        provider: custom
+        kubeProxy:
+          disabled: true
