@@ -30,98 +30,144 @@ charts:
   - name: cilium
     versions: ['1.18.2']
 deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    metadata:
-      name: aws-example-USER
-      namespace: kcm-system
-      labels:
-        type: aws
+  ##### MultiClusterService config
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: cilium
+  spec:
+    clusterSelector:
+      matchLabels:
         group: demo
-    spec:
-      template: {{ aws_standalone_cp }}
-      credential: aws-credential
-      config:
-        awscluster:
-          network:
-            cni:
-              cniIngressRules:
-              - description: vxlan (cilium)
-                fromPort: 8472
-                protocol: udp
-                toPort: 8472
-              - description: geneve (cilium)
-                fromPort: 6081
-                protocol: udp
-                toPort: 6081
-        controlPlane:
-          instanceType: t3.medium
-          amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
-        controlPlaneNumber: 1
-        publicIP: true
-        region: us-west-1
-        worker:
-          instanceType: t3.medium
-          rootVolumeSize: 16
-          amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
-        workersNumber: 1
-        k0s:
-          network:
-            calico: null
-            provider: custom
-            kubeProxy:
-              disabled: true
-      serviceSpec:
-        services:
-        - template: cilium-1-18-2
-          name: cilium
-          namespace: cilium
-          values: |
-            cilium:
-              cluster:
+    serviceSpec:
+      services:
+      - template: cilium-1-18-2
+        name: cilium
+        namespace: cilium
+        values: |
+          cilium:
+            cluster:
+              name: cilium
+            hubble:
+              tls:
+                enabled: false
+              auto:
+                method: helm
+                certManagerIssuerRef: {}
+              ui:
+                enabled: false
+                ingress:
+                  enabled: false
+              relay:
+                enabled: false
+            ipv4:
+              enabled: true
+            ipv6:
+              enabled: false
+            envoy:
+              enabled: false
+            egressGateway:
+              enabled: false
+            kubeProxyReplacement: "true"
+            serviceAccounts:
+              cilium:
                 name: cilium
-              hubble:
-                tls:
-                  enabled: false
-                auto:
-                  method: helm
-                  certManagerIssuerRef: {}
-                ui:
-                  enabled: false
-                  ingress:
-                    enabled: false
-                relay:
-                  enabled: false
-              ipv4:
-                enabled: true
-              ipv6:
-                enabled: false
-              envoy:
-                enabled: false
-              egressGateway:
-                enabled: false
-              kubeProxyReplacement: "true"
-              serviceAccounts:
-                cilium:
-                  name: cilium
-                operator:
-                  name: cilium-operator
-              localRedirectPolicy: true
-              ipam:
-                mode: cluster-pool
-                operator:
-                  clusterPoolIPv4PodCIDRList:
-                  - "192.168.224.0/20"
-                  - "192.168.210.0/20"
-                  clusterPoolIPv6PodCIDRList:
-                  - "fd00::/104"
-              tunnelProtocol: geneve
-              {%- raw %}
-              k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
-              k8sServicePort: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
-              {%- endraw %}
-    ~~~
+              operator:
+                name: cilium-operator
+            localRedirectPolicy: true
+            ipam:
+              mode: cluster-pool
+              operator:
+                clusterPoolIPv4PodCIDRList:
+                - "192.168.224.0/20"
+                - "192.168.210.0/20"
+                clusterPoolIPv6PodCIDRList:
+                - "fd00::/104"
+            tunnelProtocol: geneve
+            {%- raw %}
+            k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
+            k8sServicePort: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
+            {%- endraw %}
+  ~~~
+
+  ##### AWS ClusterDeployment config
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ClusterDeployment
+  metadata:
+    name: aws-example
+    namespace: kcm-system
+    labels:
+      type: aws
+      group: demo
+  spec:
+    template: aws-standalone-cp-1-0-16
+    credential: aws-credential
+    config:
+      controlPlane:
+        instanceType: AWS_EC2_FAMILY.medium
+        amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+        # amiID: ami-0767e2b43d3045650 # arm64
+      controlPlaneNumber: 1
+      publicIP: true
+      region: us-west-1
+      worker:
+        instanceType: AWS_EC2_FAMILY.medium
+        rootVolumeSize: 16
+        amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+        # amiID: ami-0767e2b43d3045650 # arm64
+      workersNumber: 1
+      k0s:
+        network:
+          calico: null
+          provider: custom
+          kubeProxy:
+            disabled: true
+  ~~~
+
+  ##### Azure ClusterDeployment config
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ClusterDeployment
+  metadata:
+    name: azure-example
+    namespace: kcm-system
+    labels:
+      type: azure
+      group: demo
+  spec:
+    template: azure-standalone-cp-1-0-17
+    credential: azure-credential
+    config:
+      location: "westus"
+      subscriptionID: AZURE_SUB_ID
+      controlPlaneNumber: 1
+      controlPlane:
+        vmSize: Standard_A4_v2
+        image:
+          marketplace:
+            publisher: "Canonical"
+            offer: "0001-com-ubuntu-minimal-jammy"
+            sku: "minimal-22_04-lts"
+            version: "22.04.202502270"
+      workersNumber: 1
+      worker:
+        vmSize: Standard_A4_v2
+        image:
+          marketplace:
+            publisher: "Canonical"
+            offer: "0001-com-ubuntu-minimal-jammy"
+            sku: "minimal-22_04-lts"
+            version: "22.04.202502270"
+      k0s:
+        network:
+          calico: null
+          provider: custom
+          kubeProxy:
+            disabled: true
+  ~~~
+
 doc_link: https://docs.cilium.io/en/stable/internals/cilium_operator/
 
 # test settings
