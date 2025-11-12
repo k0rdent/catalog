@@ -23,8 +23,133 @@ INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
 BASE_URL = "https://catalog.k0rdent.io/latest"
 VERSION = os.getenv("VERSION", "")
 
+
+def addons_items():
+    required_names = []
+    props = dict()
+    required_names.append("name")
+    props["name"] = {
+        "type": "string",
+        "description": "The add-on name (e.g. 'prometheus')",
+        "pattern": "^[a-z0-9-]+$"
+    }
+    required_names.append("description")
+    props["description"] = {
+        "type": "string",
+        "description": "A short summary of the add-on",
+        "minLength": 10
+    }
+    required_names.append("logo")
+    props["logo"] = {
+        "type": "string",
+        "format": "uri",
+        "description": "Absolute URL to the logo image"
+    }
+    required_names.append("latestVersion")
+    props["latestVersion"] = {
+        "type": "string",
+        "description": "DEPRECATED, use 'charts' field - Latest version of the add-on (e.g. '27.5.1')",
+    }
+    required_names.append("versions")
+    props["versions"] = {
+        "type": "array",
+        "items": {
+            "type": "string",
+        },
+        "description": "DEPRECATED, use 'charts' field - List of available versions",
+        "minItems": 1
+    }
+    required_names.append("chartUrl")
+    props["chartUrl"] = {
+        "type": "string",
+        "format": "uri",
+        "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart's st-charts.yaml or tarball"
+    }
+    required_names.append("docsUrl")
+    props["docsUrl"] = {
+        "type": "string",
+        "format": "uri",
+        "description": "Absolute URL to the add-on's documentation"
+    }
+    required_names.append("supportType")
+    props["supportType"] = {
+        "type": "string",
+        "enum": ["community", "enterprise", "partner"],
+        "description": "Type of support provided"
+    }
+    required_names.append("deprecated")
+    props["deprecated"] = {
+        "type": "boolean",
+        "description": "Whether the add-on is deprecated"
+    }
+    required_names.append("charts")
+    props["charts"] = {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Chart name"
+                },
+                "versions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of chart versions"
+                }
+            },
+            "description": "Application charts"
+        }
+    }
+    props["metadata"] = {
+        "type": "object",
+        "properties": {
+            "owner": {
+                "type": "string",
+                "description": "Team or individual responsible for the add-on"
+            },
+            "lastUpdated": {
+                "type": "string",
+                "format": "date",
+                "description": "Last update date of the add-on"
+            },
+            "dependencies": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "List of add-on dependencies"
+            },
+            "tags": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "Categories and labels for the add-on"
+            },
+            "quality": {
+                "type": "object",
+                "properties": {
+                    "tested": {
+                        "type": "boolean",
+                        "description": "Whether the add-on has been tested"
+                    },
+                    "securityScanned": {
+                        "type": "boolean",
+                        "description": "Whether the add-on has been security scanned"
+                    }
+                }
+            }
+        }
+    }
+    return required_names, props
+
+
 def generate_schema() -> Dict:
     """Generate the JSON schema for the catalog index."""
+    required_names, props = addons_items()
     return {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -49,127 +174,8 @@ def generate_schema() -> Dict:
                 "type": "array",
                 "items": {
                     "type": "object",
-                    "required": [
-                        "name",
-                        "description",
-                        "logo",
-                        "latestVersion",
-                        "versions",
-                        "chartUrl",
-                        "docsUrl",
-                        "supportType",
-                        "deprecated",
-                        "charts"
-                    ],
-                    "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "The add-on name (e.g. 'prometheus')",
-                            "pattern": "^[a-z0-9-]+$"
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "A short summary of the add-on",
-                            "minLength": 10
-                        },
-                        "logo": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "Absolute URL to the logo image"
-                        },
-                        "latestVersion": {
-                            "type": "string",
-                            "description": "DEPRECATED, use 'charts' field - Latest version of the add-on (e.g. '27.5.1')",
-                        },
-                        "versions": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                            },
-                            "description": "DEPRECATED, use 'charts' field - List of available versions",
-                            "minItems": 1
-                        },
-                        "chartUrl": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart's st-charts.yaml or tarball"
-                        },
-                        "docsUrl": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "Absolute URL to the add-on's documentation"
-                        },
-                        "supportType": {
-                            "type": "string",
-                            "enum": ["community", "enterprise", "partner"],
-                            "description": "Type of support provided"
-                        },
-                        "deprecated": {
-                            "type": "boolean",
-                            "description": "Whether the add-on is deprecated"
-                        },
-                        "charts": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "Chart name"
-                                    },
-                                    "versions": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "description": "List of chart versions"
-                                    }
-                                },
-                                "description": "Application charts"
-                            }
-                        },
-                        "metadata": {
-                            "type": "object",
-                            "properties": {
-                                "owner": {
-                                    "type": "string",
-                                    "description": "Team or individual responsible for the add-on"
-                                },
-                                "lastUpdated": {
-                                    "type": "string",
-                                    "format": "date",
-                                    "description": "Last update date of the add-on"
-                                },
-                                "dependencies": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "description": "List of add-on dependencies"
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "description": "Categories and labels for the add-on"
-                                },
-                                "quality": {
-                                    "type": "object",
-                                    "properties": {
-                                        "tested": {
-                                            "type": "boolean",
-                                            "description": "Whether the add-on has been tested"
-                                        },
-                                        "securityScanned": {
-                                            "type": "boolean",
-                                            "description": "Whether the add-on has been security scanned"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "required": required_names,
+                    "properties": props
                 }
             }
         }
