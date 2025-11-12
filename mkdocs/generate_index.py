@@ -9,6 +9,7 @@ from typing import Dict, List, Optional
 import re
 import logging
 import jsonschema
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -20,6 +21,7 @@ APPS_DIR = CATALOG_ROOT / "apps"
 SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
 BASE_URL = "https://catalog.k0rdent.io/latest"
+VERSION = os.getenv("VERSION", "")
 
 def generate_schema() -> Dict:
     """Generate the JSON schema for the catalog index."""
@@ -256,7 +258,7 @@ def generate_index(schema: dict) -> None:
     index = {
         "metadata": {
             "generated": datetime.utcnow().isoformat(),
-            "version": "1.0.0"
+            "version": VERSION.replace('v', '') # remove 'v' prefix to keep format
         },
         "addons": sorted(addons, key=lambda x: x["name"])
     }
