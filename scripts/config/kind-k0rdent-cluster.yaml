@@ -1,0 +1,12 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: k0rdent
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 60080
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 60443
+        protocol: TCP
