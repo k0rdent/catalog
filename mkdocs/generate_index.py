@@ -10,6 +10,7 @@ import re
 import logging
 import jsonschema
 import os
+from packaging.version import Version
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -21,10 +22,10 @@ APPS_DIR = CATALOG_ROOT / "apps"
 SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
 BASE_URL = "https://catalog.k0rdent.io/latest"
-VERSION = os.getenv("VERSION", "")
+VERSION = os.getenv("VERSION", "v1.5.0")
 
 
-def addons_items():
+def addons_items(version: str):
     required_names = []
     props = dict()
     required_names.append("name")
@@ -45,26 +46,27 @@ def addons_items():
         "format": "uri",
         "description": "Absolute URL to the logo image"
     }
-    required_names.append("latestVersion")
-    props["latestVersion"] = {
-        "type": "string",
-        "description": "DEPRECATED, use 'charts' field - Latest version of the add-on (e.g. '27.5.1')",
-    }
-    required_names.append("versions")
-    props["versions"] = {
-        "type": "array",
-        "items": {
+    if Version(version) <= Version("v1.0.0"):
+        required_names.append("latestVersion")
+        props["latestVersion"] = {
             "type": "string",
-        },
-        "description": "DEPRECATED, use 'charts' field - List of available versions",
-        "minItems": 1
-    }
-    required_names.append("chartUrl")
-    props["chartUrl"] = {
-        "type": "string",
-        "format": "uri",
-        "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart's st-charts.yaml or tarball"
-    }
+            "description": "DEPRECATED, use 'charts' field - Latest version of the add-on (e.g. '27.5.1')",
+        }
+        required_names.append("versions")
+        props["versions"] = {
+            "type": "array",
+            "items": {
+                "type": "string",
+            },
+            "description": "DEPRECATED, use 'charts' field - List of available versions",
+            "minItems": 1
+        }
+        required_names.append("chartUrl")
+        props["chartUrl"] = {
+            "type": "string",
+            "format": "uri",
+            "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart's st-charts.yaml or tarball"
+        }
     required_names.append("docsUrl")
     props["docsUrl"] = {
         "type": "string",
@@ -149,7 +151,7 @@ def addons_items():
 
 def generate_schema() -> Dict:
     """Generate the JSON schema for the catalog index."""
-    required_names, props = addons_items()
+    required_names, props = addons_items(VERSION)
     return {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -197,7 +199,7 @@ def normalize_logo_url(logo: str, app_name: str) -> str:
         return f"{BASE_URL}/apps/{app_name}/{logo[2:]}"
     return f"{BASE_URL}/apps/{app_name}/{logo}"
 
-def process_addon(app_dir: Path) -> Optional[Dict]:
+def process_addon(app_dir: Path, version: str) -> Optional[Dict]:
     """Process a single add-on directory and extract its metadata."""
     app_name = app_dir.name
     data_yaml = app_dir / "data.yaml"
@@ -221,29 +223,28 @@ def process_addon(app_dir: Path) -> Optional[Dict]:
     latest_version = versions[0]
 
     # Extract metadata
-    addon = {
-        "name": app_name,
-        "description": data.get("description", "").split('\n')[0].strip(),  # First line only
-        "logo": normalize_logo_url(data.get("logo", ""), app_name),
-        "latestVersion": latest_version,
-        "versions": versions,
-        "chartUrl": get_chart_url(app_name, latest_version),
-        "docsUrl": get_docs_url(app_name),
-        "supportType": data.get("support_type", "community").lower(),
-        "deprecated": data.get("deprecated", False),
-        "charts": data.get("charts", []),
-        "metadata": {
-            "owner": data.get("owner", "k0rdent-team"),
-            "lastUpdated": datetime.fromtimestamp(app_dir.stat().st_mtime).strftime('%Y-%m-%d'),
-            "dependencies": data.get("dependencies", []),
-            "tags": data.get("tags", []),
-            "quality": {
-                "tested": data.get("tested", False),
-                "securityScanned": data.get("security_scanned", False)
-            }
+    addon = dict()
+    addon["name"] = app_name
+    addon["description"] = data.get("description", "").split('\n')[0].strip()  # First line only
+    addon["logo"] = normalize_logo_url(data.get("logo", ""), app_name)
+    if Version(version) <= Version("v1.0.0"):
+        addon["latestVersion"] = latest_version
+        addon["versions"] = versions
+        addon["chartUrl"] = get_chart_url(app_name, latest_version)
+    addon["docsUrl"] = get_docs_url(app_name)
+    addon["supportType"] = data.get("support_type", "community").lower()
+    addon["deprecated"] = data.get("deprecated", False)
+    addon["charts"] = data.get("charts", [])
+    addon["metadata"] = {
+        "owner": data.get("owner", "k0rdent-team"),
+        "lastUpdated": datetime.fromtimestamp(app_dir.stat().st_mtime).strftime('%Y-%m-%d'),
+        "dependencies": data.get("dependencies", []),
+        "tags": data.get("tags", []),
+        "quality": {
+            "tested": data.get("tested", False),
+            "securityScanned": data.get("security_scanned", False)
         }
     }
-
     return addon
 
 def generate_index(schema: dict) -> None:
@@ -256,7 +257,7 @@ def generate_index(schema: dict) -> None:
             continue
 
         logger.info(f"Processing {app_dir.name}")
-        addon = process_addon(app_dir)
+        addon = process_addon(app_dir, VERSION)
         if addon:
             addons.append(addon)
 
