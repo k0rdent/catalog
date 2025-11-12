@@ -19,3 +19,7 @@ spellcheck_detected.txt
 site/
 
 mkdocs/validation_matrix.md
+
+/*.yaml
+.vscode
+__pycache__
