@@ -23,6 +23,11 @@ SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
 BASE_URL = "https://catalog.k0rdent.io/latest"
 VERSION = os.getenv("VERSION", "v1.5.0")
+DEFAULT_CHART_REPOS = {
+    "community": "oci://ghcr.io/k0rdent/catalog/charts",
+    "enterprise": "oci://registry.mirantis.com/k0rdent-enterprise-catalog",
+    "partner": "oci://ghcr.io/k0rdent/catalog/charts",
+}
 
 
 def addons_items(version: str):
@@ -85,23 +90,33 @@ def addons_items(version: str):
         "description": "Whether the add-on is deprecated"
     }
     required_names.append("charts")
+    chart_props = dict()
+    chart_required_props = []
+    chart_required_props.append("name")
+    chart_props["name"] = {
+        "type": "string",
+        "description": "Chart name"
+    }
+    chart_required_props.append("versions")
+    chart_props["versions"] = {
+        "type": "array",
+        "items": {
+            "type": "string"
+        },
+        "description": "List of chart versions"
+    }
+    if Version(version) > Version("v1.0.0"):
+        chart_required_props.append("repository")
+        chart_props["repository"] = {
+            "type": "string",
+            "description": "Chart repository"
+        }
     props["charts"] = {
         "type": "array",
         "items": {
             "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "Chart name"
-                },
-                "versions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "List of chart versions"
-                }
-            },
+            "required": chart_required_props,
+            "properties": chart_props,
             "description": "Application charts"
         }
     }
@@ -191,6 +206,18 @@ def get_docs_url(app_name: str) -> str:
     """Generate the documentation URL for an add-on."""
     return f"{BASE_URL}/apps/{app_name}/"
 
+def get_support_type(data: dict) -> str:
+    return data.get("support_type", "community").lower()
+
+def get_charts(data: dict, version: str) -> list:
+    charts = data["charts"]
+    if Version(version) >= Version("v1.0.0"):
+        support_type = get_support_type(data)
+        default_repo = DEFAULT_CHART_REPOS[support_type]
+        for chart in charts:
+            chart["repository"] = chart.get("repository", default_repo)
+    return charts
+
 def normalize_logo_url(logo: str, app_name: str) -> str:
     """Convert relative logo paths to absolute URLs."""
     if logo.startswith(('http://', 'https://')):
@@ -232,9 +259,9 @@ def process_addon(app_dir: Path, version: str) -> Optional[Dict]:
         addon["versions"] = versions
         addon["chartUrl"] = get_chart_url(app_name, latest_version)
     addon["docsUrl"] = get_docs_url(app_name)
-    addon["supportType"] = data.get("support_type", "community").lower()
+    addon["supportType"] = get_support_type(data)
     addon["deprecated"] = data.get("deprecated", False)
-    addon["charts"] = data.get("charts", [])
+    addon["charts"] = get_charts(data, version)
     addon["metadata"] = {
         "owner": data.get("owner", "k0rdent-team"),
         "lastUpdated": datetime.fromtimestamp(app_dir.stat().st_mtime).strftime('%Y-%m-%d'),
