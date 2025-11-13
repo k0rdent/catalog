@@ -18,3 +18,5 @@ open-webui:
       enabled: true
       class: "nginx"
       host: 'openwebui.example.com'
+    persistence:
+      enabled: false
