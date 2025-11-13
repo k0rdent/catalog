@@ -216,6 +216,19 @@ def get_charts(data: dict, version: str) -> list:
             chart["repository"] = chart.get("repository", default_repo)
     return charts
 
+def get_tested(data: dict) -> bool:
+    if data.get("validated_amd64") == 'y':
+        return True
+    if data.get("validated_arm64") == 'y':
+        return True
+    if data.get("validated_aws") == 'y':
+        return True
+    if data.get("validated_azure") == 'y':
+        return True
+    if data.get("validated_local") == 'y':
+        return True
+    return False
+
 def normalize_logo_url(logo: str, app_name: str) -> str:
     """Convert relative logo paths to absolute URLs."""
     if logo.startswith(('http://', 'https://')):
@@ -266,7 +279,7 @@ def process_addon(app_dir: Path, version: str) -> Optional[Dict]:
         "dependencies": data.get("dependencies", []),
         "tags": data.get("tags", []),
         "quality": {
-            "tested": data.get("tested", False),
+            "tested": get_tested(data),
             "securityScanned": data.get("security_scanned", False)
         }
     }
