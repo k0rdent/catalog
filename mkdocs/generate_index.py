@@ -21,8 +21,8 @@ CATALOG_ROOT = Path(__file__).parent.parent
 APPS_DIR = CATALOG_ROOT / "apps"
 SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
-BASE_URL = "https://catalog.k0rdent.io/latest"
 VERSION = os.getenv("VERSION", "v1.5.0")
+BASE_URL = f"https://catalog.k0rdent.io/{VERSION}"
 DEFAULT_CHART_REPOS = {
     "community": "oci://ghcr.io/k0rdent/catalog/charts",
     "enterprise": "oci://registry.mirantis.com/k0rdent-enterprise-catalog",
