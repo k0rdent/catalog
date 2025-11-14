@@ -1,0 +1,4 @@
+dependencies:
+- name: k0rdent-catalog
+  repository: oci://ghcr.io/k0rdent/catalog/charts
+  version: 1.0.0

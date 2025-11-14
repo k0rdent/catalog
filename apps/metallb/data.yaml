@@ -11,7 +11,7 @@ description: |
 # support_link:
 charts:
   - name: metallb
-    versions: ['0.14.7']
+    versions: ['0.14.7', '0.15.2']
 deploy_code: |
   ~~~yaml
   apiVersion: k0rdent.mirantis.com/v1beta1
@@ -20,7 +20,7 @@ deploy_code: |
   ...
   serviceSpec:
       services:
-        - template: metallb-0-14-7
+        - template: metallb-0-15-2
           name: metallb
           namespace: metallb
   ~~~
