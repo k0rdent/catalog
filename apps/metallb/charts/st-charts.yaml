@@ -3,3 +3,7 @@ st-charts:
   dep_name: metallb
   version: 0.14.7
   repository: https://metallb.github.io/metallb
+- name: metallb
+  dep_name: metallb
+  version: 0.15.2
+  repository: https://metallb.github.io/metallb
