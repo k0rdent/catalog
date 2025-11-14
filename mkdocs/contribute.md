@@ -40,6 +40,7 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     ~~~
     -	Generate Charts Automatically. Use the `chart_ctl.py` script from the repository to generate the app and service-template charts based on `st-charts.yaml`. Example:
     ~~~bash
+    source ./scripts/setup_python.sh
     python3 ./scripts/chart_ctl.py generate dapr
     ~~~
 ### 3. Create a New Application Metadata File:
@@ -193,3 +194,19 @@ dapr-dashboard: # example chart top-level key
 - **Consistency:** Try to follow the existing style and conventions in the catalog.
 
 By following these guidelines, you can help expand the k0rdent application catalog and make it more useful for everyone. Thank you for your contribution!
+
+## Useful Commands
+
+### Setup Python for testing and dev scripts.
+The command will create Python virtual environment, activate that and install packages.
+~~~bash
+source ./scripts/setup_python.sh
+~~~
+
+### Automatically update existing app
+Example for `metallb` app:
+~~~bash
+python3 ./scripts/chart_ctl.py check-updates metallb -gude
+git add ./apps/metallb
+# ...
+~~~
