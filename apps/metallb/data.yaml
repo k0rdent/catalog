@@ -5,25 +5,25 @@ summary: "Load-balancer for bare metal Kubernetes clusters, using standard routi
 logo: "./assets/metallb_logo.svg"
 created: "2025-03-19T17:58:28Z"
 description: |
-  MetalLB hooks into your Kubernetes cluster, and provides a network load-balancer implementation.
-  In short, it allows you to create Kubernetes services of type LoadBalancer in clusters that don’t
-  run on a cloud provider, and thus cannot simply hook into paid products to provide load balancers.
+    MetalLB hooks into your Kubernetes cluster, and provides a network load-balancer implementation.
+    In short, it allows you to create Kubernetes services of type LoadBalancer in clusters that don’t
+    run on a cloud provider, and thus cannot simply hook into paid products to provide load balancers.
 # support_link:
 charts:
   - name: metallb
-    versions: ['0.14.7']
+    versions: ['0.15.2', '0.14.7']
 deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-  serviceSpec:
-      services:
-        - template: metallb-0-14-7
-          name: metallb
-          namespace: metallb
-  ~~~
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+    serviceSpec:
+        services:
+          - template: metallb-0-15-2
+            name: metallb
+            namespace: metallb
+    ~~~
 doc_link: https://metallb.io/
 
 validated_amd64: 'y'
