@@ -14,7 +14,6 @@ open-webui:
       class: "nginx"
       host: 'openwebui.example.com'
     pipelines:
-      persistence:
-        enabled: false
+      enabled: false
     persistence:
       enabled: false
