@@ -9,14 +9,12 @@ ingress-nginx:
 
 open-webui:
   open-webui:
-    ollama:
-      ollama:
-        models:
-          pull: [smollm:135m]
-          run: [smollm:135m]
     ingress:
       enabled: true
       class: "nginx"
       host: 'openwebui.example.com'
+    pipelines:
+      persistence:
+        enabled: false
     persistence:
       enabled: false
