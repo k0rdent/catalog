@@ -15,8 +15,6 @@ description: |
 charts:
   - name: postgresql
     versions: ['16.7.21', '16.7.15']
-  - name: ingress-nginx
-    versions: ['4.13.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1

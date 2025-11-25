@@ -17,8 +17,6 @@ description: |
 charts:
   - name: headlamp
     versions: ['0.32.1']
-  - name: ingress-nginx
-    versions: ['4.12.3']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
