@@ -67,8 +67,8 @@ plugins:
   - mike
   - gen-files:
       scripts:
-        - mkdocs/gen_app_pages.py
-        - mkdocs/generate_index.py
+        - scripts/gen_app_pages.py
+        - scripts/generate_index.py
   - ezglossary:
       section_config:
         - name: demo
