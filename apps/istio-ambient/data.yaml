@@ -17,11 +17,7 @@ description: |
     informally referred to as “sidecar-less mesh”.
 support_link: https://www.solo.io/istio-support
 charts:
-  - name: istio-base
-    versions: ['1.27.1', '1.24.3']
   - name: istio-cni
-    versions: ['1.27.1', '1.24.3']
-  - name: istiod
     versions: ['1.27.1', '1.24.3']
   - name: istio-ztunnel
     versions: ['1.27.1', '1.24.3']
