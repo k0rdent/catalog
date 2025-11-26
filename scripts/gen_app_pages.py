@@ -436,6 +436,24 @@ def extract_examples_data(app_name: str, app_metadata: dict, app_path: str):
                 item['content'] = content_rednered
 
 
+def process_referenced_examples(apps_metadata: list):
+    examples_dict = {item['app']: item['examples']
+                     for item in apps_metadata if 'examples' in item}
+    for item in apps_metadata:
+        if 'examples' not in item:
+            continue
+        for key, example in item['examples'].items():
+            if 'ref' not in example:
+                continue
+            app_and_key = example['ref'].split('.')
+            if len(app_and_key) != 2:
+                raise Exception(f"Invalid 'ref' key {app_and_key} found in {item['app']}, use 'app.example-id' format'!")
+            ref_app, ref_key = app_and_key
+            ref_example_copy = examples_dict[ref_app][ref_key].copy()
+            ref_example_copy['title'] = example['title']
+            item['examples'][key] = ref_example_copy
+
+
 def get_apps_metadata(apps_dir: str) -> list:
     base_metadata = dict(
         version=VERSION
@@ -465,6 +483,7 @@ def get_apps_metadata(apps_dir: str) -> list:
             print(f"Skip {app} in version {VERSION}")
             continue
         apps_metadata.append(metadata)
+    process_referenced_examples(apps_metadata)
     return apps_metadata
 
 
