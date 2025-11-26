@@ -116,7 +116,12 @@ def write_app_data(app: str, ruyaml_dict: dict) -> dict:
 
 def get_example_chart(app: str) -> dict:
     chart_path = f"apps/{app}/example/Chart.yaml"
-    with open(chart_path, "r", encoding='utf-8') as file:
+    chart_dict = read_chart_file(chart_path)
+    return chart_dict
+
+
+def read_chart_file(chart_file_path: str) -> dict:
+    with open(chart_file_path, "r", encoding='utf-8') as file:
         yml = init_ruyaml()
         chart = yml.load(file)
         return chart
@@ -162,12 +167,23 @@ def chart_2_repos(chart: dict) -> dict:
 
 def install_servicetemplates(args):
     app = args.app
-    chart = get_example_chart(app)
-    repos = chart_2_repos(chart)
+    chart_dict = get_example_chart(app)
+    repos = chart_2_repos(chart_dict)
     for repo in repos:
         charts = repos[repo]
         cmd = get_servicetemplate_install_cmd(repo, charts)
         print(cmd)
+
+
+def chart_2_install_code(chart_file: str) -> str:
+    chart_dict = read_chart_file(chart_file)
+    repos = chart_2_repos(chart_dict)
+    output = ""
+    for repo in repos:
+        charts = repos[repo]
+        cmd = get_servicetemplate_install_cmd(repo, charts)
+        output += f"~~~bash\n{cmd}\n~~~\n"
+    return output
 
 
 def print_test_vars(args):

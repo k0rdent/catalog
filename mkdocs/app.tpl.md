@@ -70,15 +70,27 @@ created: "{{ created }}"
 {% endif %}
 
 {% if examples %}
-=== "Examples"
+{%- for key, example in examples.items() %}
 
+=== "Example: {{ example.title }}"
+
+    {% if example.content %}
+    {{ example.content | replace("\n", "\n    ") }}
+    {% else %}
+    
+    #### Prerequisites
     {% if prerequisites %}
     {{ prerequisites | replace("\n", "\n    ") }}
     {%- else %}
-    #### Prerequisites
-
     Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}/admin/installation/install-k0rdent/){ target="_blank" }
     {%- endif %}
 
-    {{ examples | replace("\n", "\n    ") }}
-{% endif %}
+    {% if example.install_code %}
+    #### Install template to k0rdent
+    {{ example.install_code | replace("\n", "\n    ") }}
+    {% endif %}
+
+    {%- endif %}
+
+{%- endfor %}
+{%- endif %}
