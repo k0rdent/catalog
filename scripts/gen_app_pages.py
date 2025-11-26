@@ -354,14 +354,9 @@ def ensure_verify_code(metadata: dict):
     if 'charts' not in metadata:
         return
 
-    verify_code_lines = ['~~~bash']
-    verify_code_lines.append('kubectl get servicetemplates -A')
-    verify_code_lines.append('# NAMESPACE    NAME                            VALID')
-    for chart in metadata['charts']:
-        template_name = f"{chart['name']}-{chart['versions'][0].replace('.', '-')}".ljust(32)
-        verify_code_lines.append(f"# kcm-system   {template_name}true")
-    verify_code_lines.append('~~~')
-    metadata['verify_code'] = '\n'.join(verify_code_lines)
+    charts = [{'name': chart['name'], 'version': chart['versions'][0]} for chart in metadata['charts']]
+    verify_code = utils.charts_2_verify_code(charts)
+    metadata['verify_code'] = verify_code
 
 
 def metadata_support_type(metadata: dict):
@@ -423,7 +418,9 @@ def extract_examples_data(metadata: dict, app_path: str):
         if 'chart_folder' in item:
             folder = item['chart_folder']
             chart_file = os.path.join(app_path, folder, 'Chart.yaml')
-            item['install_code'] = utils.chart_2_install_code(chart_file)
+            chart_dict = utils.read_chart_file(chart_file)
+            item['install_code'] = utils.chart_2_install_code(chart_dict)
+            item['verify_code'] = utils.charts_2_verify_code(chart_dict['dependencies'])
         if 'content_template_file' in item:
             if 'content' in item:
                 raise Exception(f"Can not use both 'content' and 'content_template_file' in {app_path}")

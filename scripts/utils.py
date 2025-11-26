@@ -85,7 +85,7 @@ def get_servicetemplate_install_cmd(repo: str, charts: list) -> str:
             kgst_repo = "oci://ghcr.io/k0rdent/catalog/charts"
             if 'REPO_URL' in os.environ:
                 repo_args = f'--set "repo.spec.url={os.environ['REPO_URL']}" --set "repo.name={chart['name']}" '
-        cmd_lines.append(f'helm install {chart['name']} {kgst_repo}/kgst {repo_args}--set "chart={chart['name']}:{chart['version']}" -n kcm-system')
+        cmd_lines.append(f'helm upgrade --install {chart['name']} {kgst_repo}/kgst {repo_args}--set "chart={chart['name']}:{chart['version']}" -n kcm-system')
     cmd = "\n".join(cmd_lines)
     return cmd
 
@@ -175,8 +175,7 @@ def install_servicetemplates(args):
         print(cmd)
 
 
-def chart_2_install_code(chart_file: str) -> str:
-    chart_dict = read_chart_file(chart_file)
+def chart_2_install_code(chart_dict: dict) -> str:
     repos = chart_2_repos(chart_dict)
     output = ""
     for repo in repos:
@@ -184,6 +183,18 @@ def chart_2_install_code(chart_file: str) -> str:
         cmd = get_servicetemplate_install_cmd(repo, charts)
         output += f"~~~bash\n{cmd}\n~~~\n"
     return output
+
+
+def charts_2_verify_code(charts: list) -> str:
+    verify_code_lines = ['~~~bash']
+    verify_code_lines.append('kubectl get servicetemplates -A')
+    verify_code_lines.append('# NAMESPACE    NAME                            VALID')
+    for chart in charts:
+        template_name = f"{chart['name']}-{chart['version'].replace('.', '-')}".ljust(32)
+        verify_code_lines.append(f"# kcm-system   {template_name}true")
+    verify_code_lines.append('~~~')
+    cmd = '\n'.join(verify_code_lines)
+    return cmd
 
 
 def print_test_vars(args):
