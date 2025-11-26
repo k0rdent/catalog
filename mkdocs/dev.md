@@ -6,7 +6,7 @@ You can easily develop and tests catalog mkdocs pages using mkdocs dev server:
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install -r mkdocs/requirements.txt
+pip install -r scripts/requirements.txt
 mkdocs serve # start local dev server (automatical changes reflection)
 # ...
 # INFO    -  [12:24:48] Browser connected: http://127.0.0.1:8000/
