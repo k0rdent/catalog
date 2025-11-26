@@ -366,6 +366,18 @@ def metadata_support_type(metadata: dict):
     return support_type
 
 
+def update_validation_data(metadata: dict):
+    for validated_key in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local']:
+        if validated_key not in metadata:
+            metadata[validated_key] = '-'
+        elif metadata[validated_key] == 'y':
+            metadata[validated_key] = '✅'
+        elif metadata[validated_key] == 'n':
+            metadata[validated_key] = '❌'
+        else:
+            metadata[validated_key] = metadata[validated_key]
+
+
 def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
     app = metadata['app']
     item = {
@@ -379,15 +391,6 @@ def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
         "description": metadata.get("summary", "No Description"),
         "appDir": app,
     }
-    for validated_key in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local']:
-        if validated_key not in metadata:
-            item[validated_key] = '-'
-        elif metadata[validated_key] == 'y':
-            item[validated_key] = '✅'
-        elif metadata[validated_key] == 'n':
-            item[validated_key] = '❌'
-        else:
-            item[validated_key] = metadata[validated_key]
     return item
 
 
@@ -398,7 +401,7 @@ def generate_validation_matrix(all_apps_metadata: list):
     all_apps_metadata.sort(key=lambda x: x['title'].lower())
     table = "<table><thead><tr>" + "".join(f"<th>{h}</th>" for h in headers) + "</tr></thead><tbody>"
     for app in all_apps_metadata:
-        if app["type"] == "infra":
+        if app.get("type", "app") == "infra":
             continue
         row = [app["title"], app["validated_amd64"], app["validated_arm64"], app["validated_aws"],
                app["validated_azure"], app["validated_local"],]
@@ -451,6 +454,7 @@ def get_apps_metadata(apps_dir: str) -> list:
                 ensure_big_logo(metadata)
                 ensure_install_code(metadata)
                 ensure_verify_code(metadata)
+                update_validation_data(metadata)
                 extract_examples_data(app, metadata, app_path)
                 metadata.update(base_metadata)
                 metadata['app_path'] = app_path
@@ -487,12 +491,13 @@ def render_app_pages(apps_dir: str, dst_dir: str, app_template_path: str, apps_m
                 f.write(rendered_md)
 
 
-def build_fetched_metadata(apps_metadata: list):
+def write_fetched_metadata(apps_metadata: list):
     fetched_metadata = []
     for metadata in apps_metadata:
         is_infra = metadata.get("type", "app") == "infra"
         fetched_metadata.append(app_metadata_item(metadata, is_infra))
-    return fetched_metadata
+    with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
+        json.dump(fetched_metadata, f, indent=2)
 
 
 def generate_apps():
@@ -501,9 +506,8 @@ def generate_apps():
     app_template_path = 'mkdocs/app.tpl.md'
     apps_metadata = get_apps_metadata(apps_dir)
     render_app_pages(apps_dir, dst_dir, app_template_path, apps_metadata)
-    fetched_metadata = build_fetched_metadata(apps_metadata)
-    with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
-        json.dump(fetched_metadata, f, indent=2)
-    generate_validation_matrix(fetched_metadata)
+    generate_validation_matrix(apps_metadata)
+    write_fetched_metadata(apps_metadata)
+
 
 generate_apps()
