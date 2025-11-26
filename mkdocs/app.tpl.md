@@ -95,6 +95,11 @@ created: "{{ created }}"
     {{ example.verify_code | replace("\n", "\n    ") }}
     {% endif %}
 
+    {% if example.deploy_code %}
+    #### Deploy service template
+    {{ example.deploy_code | replace("\n", "\n    ") }}
+    {% endif %}
+
     {%- endif %}
 
 {%- endfor %}

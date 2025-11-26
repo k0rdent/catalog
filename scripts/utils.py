@@ -56,21 +56,23 @@ def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
     return yaml.dump(services, sort_keys=False, default_flow_style=False)
 
 
-def render_mcs_template(app: str):
+def chart_2_mcs_str(chart_dict: dict, chart_folder: str, app_name: str, app_metadata: dict):
     template = Template(mcs_tpl)
-    chart_data = get_example_chart(app)
-    chart_values_data = get_chart_values_data(app)
-    app_data = get_app_data(app)
-    namespace = app_data.get('test_namespace', app)
-    mcs_services = get_mcs_services(namespace, chart_data, chart_values_data)
-    data = {"app": app, "services": mcs_services}
+    chart_values_data = get_chart_values_data(chart_folder)
+    print(f"Chart folder: {chart_folder}")
+    namespace = app_metadata.get('test_namespace', app_name)
+    mcs_services = get_mcs_services(namespace, chart_dict, chart_values_data)
+    data = {"app": app_name, "services": mcs_services}
     rendered = template.render(data).strip() + "\n"
     return rendered
 
 
 def render_mcs(args):
     app = args.app
-    output = render_mcs_template(app)
+    chart_folder = f"apps/{app}/example"
+    chart_dict = read_yaml_file(f"{chart_folder}/Chart.yaml")
+    app_metadata = get_app_data(app)
+    output = chart_2_mcs_str(chart_dict, chart_folder, app, app_metadata)
     print(output)
     with open(f"apps/{app}/mcs.yaml", "w", encoding='utf-8') as file:
         file.write(output)
@@ -100,10 +102,8 @@ def init_ruyaml():
 
 def get_app_data(app: str) -> dict:
     app_data_path = f"apps/{app}/data.yaml"
-    with open(app_data_path, "r", encoding='utf-8') as file:
-        yml = init_ruyaml()
-        app_data = yml.load(file)
-        return app_data
+    app_data = read_yaml_file(app_data_path)
+    return app_data
 
 
 def write_app_data(app: str, ruyaml_dict: dict) -> dict:
@@ -116,12 +116,12 @@ def write_app_data(app: str, ruyaml_dict: dict) -> dict:
 
 def get_example_chart(app: str) -> dict:
     chart_path = f"apps/{app}/example/Chart.yaml"
-    chart_dict = read_chart_file(chart_path)
+    chart_dict = read_yaml_file(chart_path)
     return chart_dict
 
 
-def read_chart_file(chart_file_path: str) -> dict:
-    with open(chart_file_path, "r", encoding='utf-8') as file:
+def read_yaml_file(yaml_file_path: str) -> dict:
+    with open(yaml_file_path, "r", encoding='utf-8') as file:
         yml = init_ruyaml()
         chart = yml.load(file)
         return chart
@@ -135,8 +135,10 @@ def write_example_chart(app: str, ruyaml_dict: dict) -> dict:
         yml.dump(ruyaml_dict, sys.stdout)
 
 
-def get_chart_values_data(app: str) -> dict:
-    chart_values_path = f"apps/{app}/example/values.yaml"
+def get_chart_values_data(chart_folder: str) -> dict:
+    chart_values_path = f"{chart_folder}/values.yaml"
+    if not os.path.exists(chart_values_path):
+        return dict()
     with open(chart_values_path, "r", encoding='utf-8') as file:
         deps = [dep for dep in yaml.safe_load(file) or []]
         if not deps:
@@ -182,6 +184,12 @@ def chart_2_install_code(chart_dict: dict) -> str:
         charts = repos[repo]
         cmd = get_servicetemplate_install_cmd(repo, charts)
         output += f"~~~bash\n{cmd}\n~~~\n"
+    return output
+
+
+def chart_2_deploy_code(chart_dict: dict, chart_folder: str, app_name: str, app_metadata: dict):
+    mcs = chart_2_mcs_str(chart_dict, chart_folder, app_name, app_metadata)
+    output = f"~~~yaml\n{mcs}\n~~~\n"
     return output
 
 
