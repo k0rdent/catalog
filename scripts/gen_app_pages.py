@@ -4,6 +4,9 @@ import yaml
 import jinja2
 import json
 import mkdocs_gen_files
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import utils
 
 required_fields = ['title', 'tags', 'summary', 'logo', 'description', 'created']
 allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'description', 'install_code', 'verify_code',
@@ -415,6 +418,17 @@ def generate_validation_matrix(all_apps_metadata: list):
                 f.write(rendered_str)
 
 
+def try_add_examples_data(metadata: dict, app_path: str):
+    if 'examples' in metadata:
+        metadata['example'] = [metadata['examples']]
+        return
+    chart_file = os.path.join(app_path, 'example', 'Chart.yaml')
+    if os.path.exists(chart_file):
+        item = dict()
+        install_code = utils.chart_2_install_code(chart_file)
+        item['install_code'] = install_code
+        metadata['examples'] = [item]
+
 def generate_apps():
     apps_dir = 'apps'
     dst_dir = 'mkdocs'
@@ -445,6 +459,7 @@ def generate_apps():
                 ensure_big_logo(metadata)
                 ensure_install_code(metadata)
                 ensure_verify_code(metadata)
+                # try_add_examples_data(metadata, app_path)
                 metadata.update(base_metadata)
         else:
             continue
