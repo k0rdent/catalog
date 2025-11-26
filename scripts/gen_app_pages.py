@@ -413,14 +413,15 @@ def generate_validation_matrix(all_apps_metadata: list):
                 f.write(rendered_str)
 
 
-def extract_examples_data(metadata: dict, app_path: str):
-    for _, item in metadata.get('examples', dict()).items():
+def extract_examples_data(app_name: str, app_metadata: dict, app_path: str):
+    for _, item in app_metadata.get('examples', dict()).items():
         if 'chart_folder' in item:
-            folder = item['chart_folder']
-            chart_file = os.path.join(app_path, folder, 'Chart.yaml')
-            chart_dict = utils.read_chart_file(chart_file)
+            chart_folder = os.path.join(app_path, item['chart_folder'])
+            chart_file = os.path.join(chart_folder, 'Chart.yaml')
+            chart_dict = utils.read_yaml_file(chart_file)
             item['install_code'] = utils.chart_2_install_code(chart_dict)
             item['verify_code'] = utils.charts_2_verify_code(chart_dict['dependencies'])
+            item['deploy_code'] = utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, app_metadata)
         if 'content_template_file' in item:
             if 'content' in item:
                 raise Exception(f"Can not use both 'content' and 'content_template_file' in {app_path}")
@@ -460,7 +461,7 @@ def generate_apps():
                 ensure_big_logo(metadata)
                 ensure_install_code(metadata)
                 ensure_verify_code(metadata)
-                extract_examples_data(metadata, app_path)
+                extract_examples_data(app, metadata, app_path)
                 metadata.update(base_metadata)
         else:
             continue
