@@ -366,7 +366,8 @@ def metadata_support_type(metadata: dict):
     return support_type
 
 
-def app_metadata_item(metadata: dict, app: str, is_infra: bool) -> dict:
+def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
+    app = metadata['app']
     item = {
         "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
         "title": metadata.get("title", "No Title"),
@@ -431,27 +432,16 @@ def extract_examples_data(app_name: str, app_metadata: dict, app_path: str):
                 content_rednered = tpl.render(**item)
                 item['content'] = content_rednered
 
-def generate_apps():
-    apps_dir = 'apps'
-    dst_dir = 'mkdocs'
-    template_path = 'mkdocs/app.tpl.md'
-    all_apps_metadata = []
 
+def get_apps_metadata(apps_dir: str) -> list:
     base_metadata = dict(
         version=VERSION
     )
     base_metadata.update(version2template_names(VERSION))
-
-    # Read template
-    with open(template_path, 'r', encoding='utf-8') as f:
-        template_content = f.read()
-    template = jinja2.Template(template_content)
-
-    # Iterate over each app directory
+    apps_metadata = []
     for app in os.listdir(apps_dir):
         app_path = os.path.join(apps_dir, app)
         data_file = os.path.join(app_path, 'data.yaml')
-        metadata = dict()
         if os.path.isdir(app_path) and os.path.exists(data_file):
             with open(data_file, 'r', encoding='utf-8') as f:
                 metadata_tpl = jinja2.Template(f.read())
@@ -463,28 +453,57 @@ def generate_apps():
                 ensure_verify_code(metadata)
                 extract_examples_data(app, metadata, app_path)
                 metadata.update(base_metadata)
+                metadata['app_path'] = app_path
+                metadata['app'] = app
         else:
             continue
         if 'exclude_versions' in metadata and VERSION in metadata['exclude_versions']:
             print(f"Skip {app} in version {VERSION}")
             continue
-        dst_app_path = os.path.join(dst_dir, app_path)
+        apps_metadata.append(metadata)
+    return apps_metadata
+
+
+def render_app_pages(apps_dir: str, dst_dir: str, app_template_path: str, apps_metadata: list):
+    # Read template
+    with open(app_template_path, 'r', encoding='utf-8') as f:
+        template_content = f.read()
+    app_template = jinja2.Template(template_content)
+    for metadata in apps_metadata:
+        dst_app_path = os.path.join(dst_dir, metadata['app_path'])
         is_infra = metadata.get("type", "app") == "infra"
         if is_infra:
             dst_app_path = dst_app_path.replace("/apps/", "/infra/")
-        all_apps_metadata.append(app_metadata_item(metadata, app, is_infra))
         if not os.path.exists(dst_app_path):
             os.makedirs(dst_app_path)
         md_file = os.path.join(dst_app_path, 'index.md')
+        app = metadata['app']
         try_copy_assets(app, apps_dir, dst_dir, is_infra)
         # Render the template with metadata
-        rendered_md = template.render(**metadata)
+        rendered_md = app_template.render(**metadata)
         if changed(md_file, rendered_md):
             # Write the generated markdown
             with open(md_file, 'w', encoding='utf-8') as f:
                 f.write(rendered_md)
-        with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
-            json.dump(all_apps_metadata, f, indent=2)
-        generate_validation_matrix(all_apps_metadata)
+
+
+def build_fetched_metadata(apps_metadata: list):
+    fetched_metadata = []
+    for metadata in apps_metadata:
+        is_infra = metadata.get("type", "app") == "infra"
+        fetched_metadata.append(app_metadata_item(metadata, is_infra))
+    return fetched_metadata
+
+
+def generate_apps():
+    apps_dir = 'apps'
+    dst_dir = 'mkdocs'
+    app_template_path = 'mkdocs/app.tpl.md'
+    apps_metadata = get_apps_metadata(apps_dir)
+    render_app_pages(apps_dir, dst_dir, app_template_path, apps_metadata)
+    fetched_metadata = build_fetched_metadata(apps_metadata)
+    with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
+        json.dump(fetched_metadata, f, indent=2)
+    generate_validation_matrix(fetched_metadata)
 
 generate_apps()
