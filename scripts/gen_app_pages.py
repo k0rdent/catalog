@@ -424,7 +424,14 @@ def extract_examples_data(metadata: dict, app_path: str):
             folder = item['chart_folder']
             chart_file = os.path.join(app_path, folder, 'Chart.yaml')
             item['install_code'] = utils.chart_2_install_code(chart_file)
-
+        if 'content_template_file' in item:
+            if 'content' in item:
+                raise Exception(f"Can not use both 'content' and 'content_template_file' in {app_path}")
+            file_path = os.path.join(app_path, item['content_template_file'])
+            with open(file_path, 'r', encoding='utf-8') as f:
+                tpl = jinja2.Template(f.read())
+                content_rednered = tpl.render(**item)
+                item['content'] = content_rednered
 
 def generate_apps():
     apps_dir = 'apps'

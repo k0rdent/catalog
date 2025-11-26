@@ -32,45 +32,6 @@ deploy_code: |
         - template: headlamp-0-32-1
           name: headlamp
           namespace: headlamp
-          values: |
-            headlamp:
-              ingress:
-                enabled: true
-                ingressClassName: nginx
-                hosts:
-                - host: headlamp.example.com
-                  paths:
-                    - path: "/"
-                      type: Prefix
-        - template: ingress-nginx-4-13-0
-          name: ingress-nginx
-          namespace: headlamp
-          values: |
-            ingress-nginx:
-              controller:
-                service:
-                  annotations:
-                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-                hostPort:
-                  enabled: true
-    ~~~
-
-    Create access token in the child cluster:
-    ~~~yaml
-    apiVersion: v1
-    kind: Secret
-    type: kubernetes.io/service-account-token
-    metadata:
-      name: headlamp-token
-      namespace: headlamp
-      annotations:
-        kubernetes.io/service-account.name: headlamp
-        kubernetes.io/service-account.namespace: headlamp
-    ~~~
-
-    Get the token and use it to authenticate:
-    ~~~bash
-    kubectl get secrets headlamp-token -n headlamp -o jsonpath='{.data.token}' | base64 -d; echo
     ~~~
 
 doc_link: https://headlamp.dev/docs/latest/
@@ -79,6 +40,7 @@ examples:
   with_ingress:
     title: Headlamp with Ingress-nginx
     chart_folder: example
+    content_template_file: example/content.tpl.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
