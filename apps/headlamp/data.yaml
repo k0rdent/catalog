@@ -75,6 +75,11 @@ deploy_code: |
 
 doc_link: https://headlamp.dev/docs/latest/
 
+examples:
+  with_ingress:
+    title: Headlamp with Ingress-nginx
+    chart_folder: example
+
 validated_amd64: 'y'
 validated_aws: 'y'
 validated_azure: 'y'

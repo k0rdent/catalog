@@ -418,16 +418,13 @@ def generate_validation_matrix(all_apps_metadata: list):
                 f.write(rendered_str)
 
 
-def try_add_examples_data(metadata: dict, app_path: str):
-    if 'examples' in metadata:
-        metadata['example'] = [metadata['examples']]
-        return
-    chart_file = os.path.join(app_path, 'example', 'Chart.yaml')
-    if os.path.exists(chart_file):
-        item = dict()
-        install_code = utils.chart_2_install_code(chart_file)
-        item['install_code'] = install_code
-        metadata['examples'] = [item]
+def extract_examples_data(metadata: dict, app_path: str):
+    for _, item in metadata.get('examples', dict()).items():
+        if 'chart_folder' in item:
+            folder = item['chart_folder']
+            chart_file = os.path.join(app_path, folder, 'Chart.yaml')
+            item['install_code'] = utils.chart_2_install_code(chart_file)
+
 
 def generate_apps():
     apps_dir = 'apps'
@@ -459,7 +456,7 @@ def generate_apps():
                 ensure_big_logo(metadata)
                 ensure_install_code(metadata)
                 ensure_verify_code(metadata)
-                # try_add_examples_data(metadata, app_path)
+                extract_examples_data(metadata, app_path)
                 metadata.update(base_metadata)
         else:
             continue
