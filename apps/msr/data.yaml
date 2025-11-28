@@ -14,39 +14,15 @@ description: |
 charts:
   - name: msr
     versions: ['4.13.2']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: msr-4-13-2
-            name: msr4
-            namespace: msr4
-            values: |
-              msr:
-                expose:
-                  type: ingress
-                  tls:
-                    enabled: true
-                    certSource: secret
-                    secret:
-                      secretName: "wildcard-tls"
-                  ingress:
-                    controller: default
-                    annotations:
-                      kubernetes.io/ingress.class: "nginx"
-                      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-                      nginx.ingress.kubernetes.io/proxy-body-size: "0"
-                    hosts:
-                      core: msr4.example.url
-                externalURL: msr4.example.url
-    ~~~
+
 support_link: https://docs.mirantis.com/msr/4.13/get-support.html
 doc_link: https://docs.mirantis.com/msr/4.13/overview.html
 use_ingress: true
+
+examples:
+  with_ingress:
+    title: With Ingress-nginx
+    chart_folder: example_ingress
 
 validated_amd64: 'y'
 validated_aws: 'y'
