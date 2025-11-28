@@ -17,25 +17,7 @@ description: |
 charts:
   - name: teleport-cluster
     versions: ['18.2.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: teleport
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: teleport-cluster-18-2-0
-        name: teleport-cluster
-        namespace: teleport
-        values: |
-          teleport-cluster:
-            clusterName: teleport-cluster
-  ~~~
+
 doc_link: https://goteleport.com/docs/installation/helm/
 
 test_wait_for_pods: "teleport-cluster-proxy-"
