@@ -11,18 +11,6 @@ support_link: https://falco.org/enterprise/
 charts:
   - name: falco
     versions: ['6.4.0', '4.21.3']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-    serviceSpec:
-        services:
-          - template: falco-6-4-0
-            name: falco
-            namespace: falco
-    ~~~
 doc_link: https://falco.org/docs/
 
 validated_amd64: 'y'

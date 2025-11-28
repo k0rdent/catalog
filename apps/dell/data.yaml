@@ -47,26 +47,7 @@ support_link: https://dell.github.io/csm-docs/docs/support/
 charts:
   - name: dell-container-storage-modules
     versions: ['1.8.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: dell
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: dell-container-storage-modules-1-8-0
-        name: dell-container-storage-modules
-        namespace: dell
-        values: |
-          container-storage-modules:
-            csi-powerstore:
-              enabled: true
-  ~~~
+
 doc_link: https://dell.github.io/csm-docs/docs/
 
 # test_wait_for_pods: "milvus-standalone-"

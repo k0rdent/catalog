@@ -28,26 +28,6 @@ support_type: Enterprise
 charts:
   - name: pelagia-ceph
     versions: ['1.1.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: ceph
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: pelagia-1-1-0
-          name: pelagia-ceph
-          namespace: ceph-lcm-mirantis
-          values: |
-            pelagia-ceph:
-              rookConfig:
-                csiKubeletPath: /var/lib/k0s/kubelet
-    ~~~
 doc_link: https://www.mirantis.com/software/ceph/
 show_install_tab: true
 

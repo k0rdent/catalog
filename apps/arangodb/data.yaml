@@ -15,22 +15,6 @@ support_link: https://arangodb.com/contact/
 charts:
   - name: kube-arangodb
     versions: ['1.2.46']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: arangodb
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: kube-arangodb-1-2-46
-          name: kube-arangodb
-          namespace: arangodb
-    ~~~
 doc_link: https://docs.arangodb.com/stable/
 
 validated_amd64: 'y'
