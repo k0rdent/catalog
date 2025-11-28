@@ -25,18 +25,7 @@ support_type: Partner
 charts:
   - name: cloudcasa
     versions: ['3.4.4']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: cloudcasa-3-4-4
-            name: cloudcasa
-            namespace: cloudcasa-io
-    ~~~
+
 doc_link: https://docs.cloudcasa.io
 support_link: https://cloudcasa.io/support
 

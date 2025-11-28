@@ -23,28 +23,7 @@ support_link: https://clear.ml/contact-us
 charts:
   - name: clearml-serving
     versions: ['1.6.2', '1.5.10']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: clearml
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: clearml-serving-1-6-2
-          name: clearml-serving
-          namespace: clearml
-          values: |
-            clearml-serving
-              kafka: {enabled: false}
-              prometheus: {enabled: false}
-              grafana: {enabled: false}
-              clearml_serving_triton: {enabled: false}
-    ~~~
+
 doc_link: https://clear.ml/docs/latest/docs/
 
 validated_amd64: 'y'

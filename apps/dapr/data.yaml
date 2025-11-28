@@ -23,27 +23,7 @@ charts:
     versions: ['1.14.4']
   - name: dapr-dashboard
     versions: ['0.15.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-    serviceSpec:
-      services:
-        - template: dapr-1-14-4
-          name: dapr
-          namespace: dapr
-        - template: dapr-dashboard-0-15-0
-          name: dapr-dashboard
-          namespace: dapr
-          values: |
-            dapr-dashboard:
-              ingress:
-                enabled: true
-                className: nginx
-                host: 'dapr.example.com'
-  ~~~
+
 support_link: https://www.diagrid.io/conductor
 doc_link: https://docs.dapr.io/
 use_ingress: true

@@ -14,18 +14,7 @@ support_link: https://ckotzbauer.github.io/helm-charts
 charts:
   - name: cadvisor
     versions: ['2.3.3']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-  serviceSpec:
-      services:
-        - template: cadvisor-2-3-3
-          name: cadvisor
-          namespace: cadvisor
-  ~~~
+
 doc_link: https://github.com/google/cadvisor/blob/master/docs/storage/README.md
 
 validated_amd64: 'y'

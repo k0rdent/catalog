@@ -11,22 +11,7 @@ description: |
 charts:
   - name: envoy-gateway
     versions: ['1.3.2']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: envoy-gateway
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: envoy-gateway-1-3-2
-        name: envoy-gateway
-        namespace: envoy-gateway
-  ~~~
+
 doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/
 # support_link:
 

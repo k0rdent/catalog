@@ -13,18 +13,7 @@ support_link: https://external-secrets.io/latest/introduction/stability-support/
 charts:
   - name: external-secrets
     versions: ['0.18.2', '0.11.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: external-secrets-0-18-2
-            name: external-secrets
-            namespace: external-secrets
-    ~~~
+
 doc_link: https://external-secrets.io/v0.18.2/
 
 validated_amd64: 'y'

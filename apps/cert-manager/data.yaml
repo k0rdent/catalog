@@ -11,22 +11,7 @@ support_link: https://cert-manager.io/support/
 charts:
   - name: cert-manager
     versions: ['1.18.2', '1.17.2', '1.16.2']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: cert-manager-1-18-2
-            name: cert-manager
-            namespace: cert-manager
-            values: |
-              cert-manager:
-                crds:
-                  enabled: false  # default
-    ~~~
+
 doc_link: https://cert-manager.io/docs/installation/helm/
 
 # test settings

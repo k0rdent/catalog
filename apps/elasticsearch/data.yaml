@@ -22,25 +22,7 @@ charts:
     versions: ['3.1.0']
   - name: eck-stack
     versions: ['0.16.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: elasticsearch
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: eck-operator-3-1-0
-        name: eck-operator
-        namespace: elasticsearch
-      - template: eck-stack-0-16-0
-        name: eck-stack
-        namespace: elasticsearch
-  ~~~
+
 doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart
 
 test_wait_for_pods: "eck-stack-eck-kibana-kb-"
