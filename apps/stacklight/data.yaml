@@ -48,22 +48,7 @@ support_type: Enterprise
 charts:
   - name: stacklight-operator
     versions: ['0.1.0-mcp-16']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: stacklight
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: stacklight-operator-0-1-0-mcp-16
-          name: stacklight-operator
-          namespace: stacklight
-    ~~~
+
 doc_link: https://docs.mirantis.com/mosk/latest/ref-arch/stacklight.html
 show_install_tab: true
 
