@@ -26,30 +26,7 @@ charts:
   - name: nginx-ingress-f5
     versions: ['2.2.2']
 support_type: Partner
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: nginx-ingress-f5
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: nginx-ingress-f5-2-2-2
-        name: nginx-ingress-f5
-        namespace: nginx-ingress-f5
-        values: |
-          nginx-ingress:
-            controller:
-              service:
-                annotations:
-                  service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-              hostPort:
-                enabled: true
-  ~~~
+
 doc_link: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/
 
 validated_amd64: 'y'

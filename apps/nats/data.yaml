@@ -19,30 +19,7 @@ description: |
 charts:
   - name: nats
     versions: ['1.3.13']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: nats
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-          - name: nats
-            namespace: nats
-            template: nats-1-3-13
-            values: |
-              nats:
-                replicaCount: 1
-                jetstream:
-                  enabled: true
-                  fileStorage:
-                    enabled: true
-                    size: 10Gi
-    ~~~
+
 doc_link: https://docs.nats.io/running-a-nats-service/nats-kubernetes
 
 validated_amd64: 'y'

@@ -13,18 +13,7 @@ support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=read
 charts:
   - name: node-feature-discovery
     versions: ['0.16.1']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-    serviceSpec:
-        services:
-          - template: node-feature-discovery-0-16-1
-            name: node-feature-discovery
-            namespace: node-feature-discovery
-    ~~~
+
 doc_link: https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html
 
 validated_amd64: 'y'
