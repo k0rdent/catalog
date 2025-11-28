@@ -33,28 +33,7 @@ description: |
 charts:
   - name: kubeflow-spark-operator
     versions: ['2.3.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: kubeflow-spark-operator
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: kubeflow-spark-operator-2-3-0
-        name: kubeflow-spark-operator
-        namespace: kubeflow-spark-operator
-        values: |
-          spark-operator:
-            controller:
-              uiIngress:
-                enable: true
-                ingressClassName: nginx
-  ~~~
+
 doc_link: https://github.com/kubeflow/spark-operator
 
 test_wait_for_pods: "kubeflow-spark-operator-controller-"
