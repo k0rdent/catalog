@@ -1,0 +1,11 @@
+kserve:
+  kserve:
+    controller:
+      deploymentMode: RawDeployment # Serverless
+    modelmesh:
+      enabled: false
+
+cert-manager:
+  cert-manager:
+    crds:
+      enabled: true

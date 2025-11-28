@@ -12,37 +12,13 @@ support_link: https://github.com/prometheus-community/helm-charts/tree/main/char
 charts:
   - name: kube-prometheus-stack
     versions: ['72.6.2']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: kube-prometheus-stack
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: kube-prometheus-stack-72-6-2
-          name: kube-prometheus-stack
-          namespace: kube-prometheus-stack
-          values: |
-            kube-prometheus-stack:
-              prometheus:
-                prometheusSpec:
-                  maximumStartupDurationSeconds: 300
-                ingress:
-                  enabled: true
-                  ingressClassName: nginx
-                  hosts: ['prometheus.example.com']
-              grafana:
-                ingress:
-                  enabled: true
-                  ingressClassName: nginx
-                  hosts: ['']
-    ~~~
+
 doc_link: https://prometheus.io/community/
+
+examples:
+  with_ingress:
+    title: With Ingress-nginx
+    chart_folder: example_ingress
 
 validated_amd64: 'y'
 validated_aws: 'y'

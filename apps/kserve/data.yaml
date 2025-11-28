@@ -34,55 +34,17 @@ charts:
     versions: ['v0.15.0']
   - name: kserve
     versions: ['v0.15.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: kserve
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: istio-base-1-27-1
-          name: istio-base
-          namespace: istio-system
-        - template: istiod-1-27-1
-          name: istiod
-          namespace: istio-system
-        - template: istio-gateway-1-27-1
-          name: istio-gateway
-          namespace: istio-system
-        - template: cert-manager-1-18-2
-          name: cert-manager
-          namespace: istio-system
-          values: |
-            cert-manager:
-              crds:
-                enabled: true
-        - template: knative-operator-1-17-4
-          name: knative-operator
-          namespace: istio-system
-        - template: kserve-crd-v0-15-0
-          name: kserve-crd
-          namespace: istio-system
-        - template: kserve-v0-15-0
-          name: kserve
-          namespace: istio-system
-          values: |
-            kserve:
-              controller:
-                deploymentMode: Serverless
-              modelmesh:
-                enabled: false
-    ~~~
+
 doc_link: https://kserve.github.io/website/master/get_started/
 
 # test settings
 test_deploy_chart: false
 test_wait_for_pods: "kserve-controller-manager-"
+
+examples:
+  with_istio:
+    title: With Istio
+    chart_folder: example_istio
 
 validated_amd64: 'y'
 validated_aws: 'y'

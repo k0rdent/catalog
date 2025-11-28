@@ -25,25 +25,7 @@ support_type: Community
 charts:
   - name: harness-delegate-ng
     versions: ['1.0.25']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: harness
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: harness-delegate-ng-1-0-25
-          name: harness-delegate-ng
-          namespace: harness
-          values: |
-            harness-delegate-ng:
-              delegateToken: "xyz"
-    ~~~
+
 doc_link: https://developer.harness.io/docs/category/install-delegates
 
 # test settings

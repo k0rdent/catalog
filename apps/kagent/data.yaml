@@ -15,25 +15,7 @@ charts:
     versions: ['0.3.13']
   - name: kagent
     versions: ['0.3.13']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: kagent
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: kagent-crds-0-3-13
-        name: kagent-crds
-        namespace: kagent
-      - template: kagent-0-3-13
-        name: kagent
-        namespace: kagent
-  ~~~
+
 support_link: https://kagent.dev
 doc_link: https://kagent.dev
 

@@ -17,30 +17,14 @@ description: |
 charts:
   - name: headlamp
     versions: ['0.32.1']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: headlamp
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: headlamp-0-32-1
-          name: headlamp
-          namespace: headlamp
-    ~~~
 
 doc_link: https://headlamp.dev/docs/latest/
 
 examples:
   with_ingress:
-    title: Headlamp with Ingress-nginx
-    chart_folder: example
-    content_template_file: example/content.tpl.md
+    title: With Ingress-nginx
+    chart_folder: example_ingress
+    content_template_file: example_ingress/content.tpl.md
 
 validated_amd64: 'y'
 validated_aws: 'y'

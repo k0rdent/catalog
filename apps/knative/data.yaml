@@ -27,22 +27,7 @@ support_link: https://knative.dev/community/
 charts:
   - name: knative-operator
     versions: ['1.17.4']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: knative
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: knative-operator-1-17-4
-          name: knative-operator
-          namespace: knative
-    ~~~
+
 doc_link: https://knative.dev/docs/install/operator/knative-with-operators/
 
 validated_amd64: 'y'

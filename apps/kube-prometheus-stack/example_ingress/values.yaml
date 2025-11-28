@@ -1,0 +1,23 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
+kube-prometheus-stack:
+  kube-prometheus-stack:
+    prometheus:
+      prometheusSpec:
+        maximumStartupDurationSeconds: 300
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hosts: ['prometheus.example.com']
+    grafana:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hosts: ['']
