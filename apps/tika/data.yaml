@@ -16,22 +16,7 @@ description: |
 charts:
   - name: tika
     versions: ['3.2.2']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: tika
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: tika-3-2-2
-        name: tika
-        namespace: tika
-  ~~~
+
 doc_link: https://tika.apache.org/
 
 test_wait_for_pods: "tika-"
