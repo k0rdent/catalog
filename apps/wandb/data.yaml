@@ -24,22 +24,7 @@ support_type: Enterprise
 charts:
   - name: wandb-operator
     versions: ['1.4.1']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: wandb
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: wandb-operator-1-4-1
-          name: wandb-operator
-          namespace: wandb
-    ~~~
+
 doc_link: https://docs.wandb.ai/guides/hosting/operator/
 show_install_tab: true
 
