@@ -23,22 +23,7 @@ description: |
 charts:
   - name: redis
     versions: ['0.2.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: redis
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: redis-0-2-0
-        name: redis
-        namespace: redis
-  ~~~
+
 doc_link: https://redis.io/docs/latest/get-started/
 
 test_wait_for_pods: "redis-"
