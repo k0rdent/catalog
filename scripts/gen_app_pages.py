@@ -359,6 +359,18 @@ def ensure_verify_code(metadata: dict):
     metadata['verify_code'] = verify_code
 
 
+def ensure_deploy_code(metadata: dict):
+    if 'deploy_code' in metadata:
+        return
+    chart_folder = os.path.join(metadata['app_path'], 'example')
+    if not os.path.exists(chart_folder):
+        return
+    chart_file = os.path.join(chart_folder, 'Chart.yaml')
+    chart_dict = utils.read_yaml_file(chart_file)
+    deploy_code = utils.chart_2_deploy_code(chart_dict, chart_folder, metadata['app'], metadata)
+    metadata['deploy_code'] = deploy_code
+
+
 def metadata_support_type(metadata: dict):
     support_type = metadata.get("support_type", "Community")
     if support_type == 'Partner':
@@ -469,14 +481,15 @@ def get_apps_metadata(apps_dir: str) -> list:
                 metadata_str = metadata_tpl.render(**base_metadata)
                 metadata = yaml.safe_load(metadata_str)
                 validate_metadata(data_file, metadata)
+                metadata['app_path'] = app_path
+                metadata['app'] = app
                 ensure_big_logo(metadata)
                 ensure_install_code(metadata)
                 ensure_verify_code(metadata)
+                ensure_deploy_code(metadata)
                 update_validation_data(metadata)
                 extract_examples_data(app, metadata, app_path)
                 metadata.update(base_metadata)
-                metadata['app_path'] = app_path
-                metadata['app'] = app
         else:
             continue
         if 'exclude_versions' in metadata and VERSION in metadata['exclude_versions']:
