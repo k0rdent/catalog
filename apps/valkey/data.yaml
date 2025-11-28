@@ -14,22 +14,7 @@ description: |
 charts:
   - name: valkey
     versions: ['0.1.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: valkey
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: valkey-0-1-0
-          name: valkey
-          namespace: valkey-system
-    ~~~
+
 doc_link: https://valkey.io/docs/
 
 validated_amd64: 'y'
