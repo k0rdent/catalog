@@ -27,27 +27,7 @@ description: |
 charts:
   - name: mlflow
     versions: ['1.7.1']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: mlflow
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: mlflow-1-7-1
-        name: mlflow
-        namespace: mlflow
-        values: |
-          mlflow:
-            backendStore:
-              postgres:
-                enabled: false
-  ~~~
+
 doc_link: https://mlflow.org/docs/latest/
 
 test_wait_for_pods: "mlflow-"

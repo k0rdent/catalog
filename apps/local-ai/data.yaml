@@ -13,31 +13,7 @@ description: |
 charts:
   - name: local-ai
     versions: ['3.4.2']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: local-ai
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: local-ai-3-4-2
-        name: local-ai
-        namespace: local-ai
-        values: |
-          local-ai:
-            persistence:
-              models:
-                accessModes:
-                - ReadWriteOnce
-              output:
-                accessModes:
-                - ReadWriteOnce
-  ~~~
+
 doc_link: https://localai.io/basics/kubernetes/
 
 test_wait_for_pods: "local-ai-"
