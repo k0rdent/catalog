@@ -21,17 +21,7 @@ description: |
   - Large community for templates and extensions
 
   [Official doc](https://docs.n8n.io/)
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  ...
-    serviceSpec:
-      services:
-        - template: n8n-1-0-15
-          name: n8n
-          namespace: n8n
-  ~~~
+
 doc_link: https://docs.n8n.io/
 
 validated_amd64: 'y'

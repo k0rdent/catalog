@@ -24,22 +24,7 @@ support_type: Enterprise
 charts:
   - name: nirmata-kyverno
     versions: ['3.3.13']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: nirmata
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: nirmata-kyverno-3-3-13
-          name: nirmata-kyverno
-          namespace: nirmata
-    ~~~
+
 doc_link: https://docs.nirmata.io/docs/n4k/getting-started-with-n4k/
 show_install_tab: true
 
