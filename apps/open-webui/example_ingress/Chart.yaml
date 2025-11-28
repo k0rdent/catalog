@@ -3,6 +3,9 @@ name: example
 type: application
 version: 6.20.0
 dependencies:
+  - name: ingress-nginx
+    version: 4.13.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: open-webui
     version: 8.12.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
