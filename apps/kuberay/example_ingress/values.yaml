@@ -1,0 +1,18 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
+ray-cluster:
+  ray-cluster:
+    head:
+      service:
+        type: ClusterIP
+        ports:
+          - name: dashboard
+            port: 8265
+            targetPort: 8265
