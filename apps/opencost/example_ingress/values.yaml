@@ -1,3 +1,12 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
 prometheus:
   prometheus:
     prometheus-pushgateway: { enabled: false }
@@ -13,3 +22,8 @@ opencost:
       prometheus:
         internal:
           namespaceName: opencost
+      ui:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hosts: [{ host: 'opencost.example.com', paths: ['/'] }]
