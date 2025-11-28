@@ -25,22 +25,7 @@ support_link: https://www.rabbitmq.com/commercial-features
 charts:
   - name: rabbitmq
     versions: ['0.1.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: rabbitmq
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: rabbitmq-0-1-0
-        name: rabbitmq
-        namespace: rabbitmq
-  ~~~
+
 doc_link: https://www.rabbitmq.com/docs
 
 test_wait_for_pods: "rabbitmq-"
