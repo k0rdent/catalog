@@ -15,92 +15,24 @@ description: |
 charts:
   - name: open-webui
     versions: ['8.12.3', '8.10.0', '6.20.0']
-deploy_code: |
-    ##### Configuration without GPU
-    Tested on worker `instanceType: t3.xlarge` and `rootVolumeSize: 32`:
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    metadata:
-      name: aws-example
-    spec:
-      template: {{ aws_standalone_cp }}
-      credential: aws-credential
-      config:
-        ...
-        worker:
-          instanceType: t3.xlarge
-          rootVolumeSize: 32
-        workersNumber: 1
-    ~~~
 
-    Tested service configuration:
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: open-webui
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: open-webui-8-12-3
-          name: open-webui
-          namespace: open-webui
-          values: |
-            open-webui:
-              ollama:
-                ollama:
-                  models:
-                    pull: [smollm:135m]
-                    run: [smollm:135m]
-              ingress:
-                enabled: true
-                class: "nginx"
-                host: 'openwebui.example.com'
-    ~~~
-
-    ##### Configuration with GPU
-    This setup requires corresponding cluster setup, see [NVIDIA GPU Operator](../../../{{ version }}/apps/nvidia/#install){ target="_blank" }
-
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: open-webui
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: open-webui-8-12-3
-          name: open-webui
-          namespace: open-webui
-          values: |
-            open-webui:
-              ollama:
-                ollama:
-                  gpu:
-                    enabled: true
-                    type: 'nvidia'
-                    number: 1
-                  models:
-                    pull: [llama3.2:3b]
-                    run: [llama3.2:3b]
-              ingress:
-                enabled: true
-                class: "nginx"
-                host: 'openwebui.example.com'
-    ~~~
 doc_link: https://docs.openwebui.com/
 use_ingress: true
 
 # test settings
 test_deploy_chart: false # only deploy mcs to save time and resources - big deployment
 test_wait_for_pods: "open-webui-ollama-"
+
+examples:
+  with_ingress:
+    title: With Ingress-nginx
+    chart_folder: example_ingress
+  with_gpu:
+    title: With GPU
+    content_template_file: example_ingress/with_gpu.md
+  without_gpu:
+    title: Without GPU
+    content_template_file: example_ingress/without_gpu.md
 
 validated_amd64: 'y'
 validated_aws: 'y'

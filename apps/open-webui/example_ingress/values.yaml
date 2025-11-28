@@ -1,0 +1,15 @@
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true
+
+open-webui:
+  open-webui:
+    ingress:
+      enabled: true
+      class: "nginx"
+      host: 'openwebui.example.com'
