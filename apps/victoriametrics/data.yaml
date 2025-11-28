@@ -48,27 +48,7 @@ prerequisites: |
 charts:
   - name: victoriametrics
     versions: ['0.22.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: victoriametrics
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: victoriametrics-0-22-0
-        name: victoriametrics
-        namespace: victoriametrics
-        values: |
-          victoriametrics:
-            server:
-              service:
-                type: LoadBalancer
-  ~~~
+
 doc_link: https://docs.victoriametrics.com/
 support_link: https://victoriametrics.com/products/enterprise/
 
