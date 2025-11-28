@@ -37,22 +37,7 @@ description: |
 charts:
   - name: postgres-operator
     versions: ['1.14.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: postgres-operator
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: database
-      serviceSpec:
-        services:
-        - template: postgres-operator-1-14-0
-          name: postgres-operator
-          namespace: postgres-system
-    ~~~
+
 doc_link: https://postgres-operator.readthedocs.io/
 
 validated_amd64: 'y'
