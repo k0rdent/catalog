@@ -429,7 +429,7 @@ def generate_validation_matrix(all_apps_metadata: list):
                 f.write(rendered_str)
 
 
-def extract_examples_data(app_name: str, app_metadata: dict, app_path: str):
+def extract_examples_data(app_name: str, app_metadata: dict, app_path: str, base_metadata: dict):
     for _, item in app_metadata.get('examples', dict()).items():
         if 'chart_folder' in item:
             chart_folder = os.path.join(app_path, item['chart_folder'])
@@ -444,7 +444,9 @@ def extract_examples_data(app_name: str, app_metadata: dict, app_path: str):
             file_path = os.path.join(app_path, item['content_template_file'])
             with open(file_path, 'r', encoding='utf-8') as f:
                 tpl = jinja2.Template(f.read())
-                content_rednered = tpl.render(**item)
+                render_vals = item.copy()
+                render_vals.update(base_metadata)
+                content_rednered = tpl.render(**render_vals)
                 item['content'] = content_rednered
 
 
@@ -488,7 +490,7 @@ def get_apps_metadata(apps_dir: str) -> list:
                 ensure_verify_code(metadata)
                 ensure_deploy_code(metadata)
                 update_validation_data(metadata)
-                extract_examples_data(app, metadata, app_path)
+                extract_examples_data(app, metadata, app_path, base_metadata)
                 metadata.update(base_metadata)
         else:
             continue
