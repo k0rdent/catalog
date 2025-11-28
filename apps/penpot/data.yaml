@@ -16,30 +16,7 @@ support_link: https://penpot.app/talk-to-us
 charts:
   - name: penpot
     versions: ['0.28.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: penpot
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: penpot-0-28-0
-        name: penpot
-        namespace: penpot
-        values: |
-          penpot:
-            global:
-              postgresqlEnabled: true
-              valkeyEnabled: true
-            persistence:
-              assets:
-                enabled: true
-  ~~~
+
 doc_link: https://help.penpot.app/technical-guide/getting-started/kubernetes/#install-penpot-chart
 
 test_wait_for_pods: "penpot-backend-"
