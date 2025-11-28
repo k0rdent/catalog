@@ -29,25 +29,7 @@ description: |
 charts:
   - name: strimzi-kafka-operator
     versions: ['0.47.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: strimzi-kafka-operator
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: strimzi-kafka-operator-0-47-0
-        name: strimzi-kafka-operator
-        namespace: strimzi-kafka-operator
-        values: |
-          strimzi-kafka-operator:
-            revisionHistoryLimit: 4
-  ~~~
+
 doc_link: https://strimzi.io/documentation/
 
 test_wait_for_pods: "strimzi-cluster-operator-"
