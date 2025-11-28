@@ -10,33 +10,15 @@ description: |
 charts:
   - name: kubernetes-dashboard
     versions: ['7.10.4']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: kubernetes-dashboard-7-10-4
-            name: kubernetes-dashboard
-            namespace: kubernetes-dashboard
-            values: |
-              kubernetes-dashboard:
-                app:
-                  ingress:
-                    enabled: true
-                    ingressClassName: nginx
-                    pathType: Prefix
-                    hosts: ['k8s-dashboard.example.com']
-    ~~~
+
 doc_link: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 use_ingress: true
+test_wait_for_pods: "kubernetes-dashboard-web-"
 
 examples:
   with_ingress:
     title: With Ingress-nginx
-    chart_folder: example
+    chart_folder: example_ingress
 
 validated_amd64: 'y'
 validated_aws: 'y'
