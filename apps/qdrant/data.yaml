@@ -18,22 +18,7 @@ description: |
 charts:
   - name: qdrant
     versions: ['1.15.4']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: qdrant
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: qdrant-1-15-4
-        name: qdrant
-        namespace: qdrant
-  ~~~
+
 doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
 
 # test_wait_for_pods: "milvus-standalone-"
