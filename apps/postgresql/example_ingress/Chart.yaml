@@ -3,6 +3,9 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
+  - name: ingress-nginx
+    version: 4.13.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: postgresql
     version: 16.7.21
     repository: oci://ghcr.io/k0rdent/catalog/charts
