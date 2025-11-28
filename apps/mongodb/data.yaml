@@ -13,22 +13,7 @@ support_link: https://www.mongodb.com/services/support
 charts:
   - name: mongodb-community-operator
     versions: ['0.12.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: mongodb
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: mongodb-community-operator-0-12-0
-          name: mongodb-community-operator
-          namespace: mongodb-community-operator
-    ~~~
+
 doc_link: https://www.mongodb.com/docs/
 
 validated_amd64: 'y'

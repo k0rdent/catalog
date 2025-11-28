@@ -12,22 +12,7 @@ description: |
 charts:
   - name: kyverno-guardrails
     versions: ['0.1.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: kyverno-guardrails
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: kyverno-guardrails-0-1-0
-          name: kyverno-guardrails
-          namespace: kyverno
-    ~~~
+
 doc_link: https://kyverno.io/policies/
 test_namespace: kyverno
 test_deploy_chart: false

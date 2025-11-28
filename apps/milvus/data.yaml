@@ -33,37 +33,7 @@ description: |
 charts:
   - name: milvus
     versions: ['5.0.1']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: milvus
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: milvus-5-0-1
-        name: milvus
-        namespace: milvus
-        values: |
-          milvus:
-            image:
-              all:
-                tag: v2.6.0
-            cluster:
-              enabled: false
-            pulsarv3:
-              enabled: false
-            standalone:
-              messageQueue: woodpecker
-            woodpecker:
-              enabled: true
-            streaming:
-              enabled: true
-  ~~~
+
 doc_link: https://milvus.io/docs/install_cluster-helm.md
 
 test_wait_for_pods: "milvus-standalone-"
