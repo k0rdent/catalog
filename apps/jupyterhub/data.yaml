@@ -20,30 +20,13 @@ description: |
 charts:
   - name: jupyterhub
     versions: ['4.2.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: jupyterhub
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: jupyterhub-4-2-0
-          name: jupyterhub
-          namespace: jupyterhub
-          values: |
-            jupyterhub:
-              ingress:
-                enabled: true
-                ingressClassName: nginx
-                hosts: ['juphub.example.com']
-    ~~~
 
-    Sign in using default login `admin:admin`.
+examples:
+  with_ingress:
+    title: With Ingress-nginx
+    chart_folder: example_ingress
+    content_template_file: example_ingress/content.tpl.md
+
 doc_link: https://z2jh.jupyter.org/en/stable/
 
 # test settings

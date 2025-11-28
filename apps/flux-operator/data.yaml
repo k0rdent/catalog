@@ -47,17 +47,7 @@ description: |
 charts:
   - name: flux-operator
     versions: ['0.32.0', '0.27.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  ...
-    serviceSpec:
-      services:
-        - template: flux-operator-0-32-0
-          name: flux-operator
-          namespace: flux-system
-  ~~~
+
 support_link: https://fluxcd.control-plane.io/pricing/#support-services
 doc_link: https://fluxcd.control-plane.io/operator/
 

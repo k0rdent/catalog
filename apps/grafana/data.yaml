@@ -18,25 +18,7 @@ charts:
     versions: ['10.1.0', '9.3.6']
   - name: grafana-operator
     versions: ['v5.20.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: grafana
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: grafana-10-1-0
-          name: grafana
-          namespace: grafana
-        - template: grafana-operator-v5-20-0
-          name: grafana
-          namespace: grafana
-    ~~~
+
 doc_link: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
 
 validated_amd64: 'y'

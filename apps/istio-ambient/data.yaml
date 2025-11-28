@@ -21,37 +21,7 @@ charts:
     versions: ['1.27.1', '1.24.3']
   - name: istio-ztunnel
     versions: ['1.27.1', '1.24.3']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: istio-ambient
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: istio-base-1-27-1
-          name: istio-base
-          namespace: istio-system
-        - template: istio-cni-1-27-1
-          name: istio-cni
-          namespace: istio-system
-          values: |
-            cni:
-              profile: ambient
-        - template: istiod-1-27-1
-          name: istiod
-          namespace: istio-system
-          values: |
-            istiod:
-              profile: ambient
-        - template: istio-ztunnel-1-27-1
-          name: istio-ztunnel
-          namespace: istio-system
-    ~~~
+
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
 test_namespace: istio-system
 test_deploy_chart: false

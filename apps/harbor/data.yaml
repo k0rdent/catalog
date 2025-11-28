@@ -15,27 +15,7 @@ description: |
 charts:
   - name: harbor
     versions: ['1.18.0']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: harbor
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: harbor-1-18-0
-        name: harbor
-        namespace: harbor
-        values: |
-          harbor:
-            expose:
-              ingress:
-                className: nginx
-  ~~~
+
 doc_link: https://goharbor.io/docs/latest/install-config/harbor-ha-helm/
 
 test_wait_for_pods: "harbor-registry-"

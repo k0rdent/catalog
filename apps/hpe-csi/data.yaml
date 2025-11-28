@@ -14,25 +14,7 @@ support_link: https://scod.hpedev.io/legal/support/
 charts:
   - name: hpe-csi-driver
     versions: ['3.0.1', '2.5.2']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: hpe-csi-driver
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-          - template: hpe-csi-driver-3-0-1
-            name: hpe-csi-driver
-            namespace: hpe-csi-driver
-            values: |
-              hpe-csi-driver:
-                kubeletRootDir: /var/lib/k0s/kubelet
-    ~~~
+
 doc_link: https://scod.hpedev.io/
 
 # test settings

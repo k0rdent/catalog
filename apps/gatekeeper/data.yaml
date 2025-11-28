@@ -10,18 +10,7 @@ support_link: https://github.com/open-policy-agent/gatekeeper
 charts:
   - name: gatekeeper
     versions: ['3.17.1']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-  serviceSpec:
-      services:
-        - template: gatekeeper-3-17-1
-          name: gatekeeper
-          namespace: gatekeeper
-  ~~~
+
 doc_link: https://open-policy-agent.github.io/gatekeeper/website/docs
 
 validated_amd64: 'y'
