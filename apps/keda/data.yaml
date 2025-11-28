@@ -16,17 +16,7 @@ description: |
 charts:
   - name: keda
     versions: ['2.17.0']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    ...
-      serviceSpec:
-        services:
-          - template: keda-2-17-0
-            name: keda
-            namespace: keda
-    ~~~
+
 support_link: https://keda.sh/enterprise/
 doc_link: https://keda.sh/docs/2.17/
 

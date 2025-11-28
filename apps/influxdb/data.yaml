@@ -22,22 +22,7 @@ description: |
 charts:
   - name: influxdb2
     versions: ['2.1.2']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: influxdb
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: influxdb2-2-1-2
-        name: influxdb2
-        namespace: influxdb
-  ~~~
+
 doc_link: https://docs.influxdata.com/influxdb/v2/
 
 test_wait_for_pods: "nfluxdb2-0"

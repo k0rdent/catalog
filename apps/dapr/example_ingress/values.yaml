@@ -1,0 +1,15 @@
+dapr-dashboard:
+  dapr-dashboard:
+    ingress:
+      enabled: true
+      className: nginx
+      host: 'dapr.example.com'
+
+ingress-nginx:
+  ingress-nginx:
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+      hostPort:
+        enabled: true

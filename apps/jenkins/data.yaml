@@ -39,22 +39,7 @@ description: |
 charts:
   - name: jenkins
     versions: ['5.8.84']
-deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: jenkins
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: jenkins-5-8-84
-        name: jenkins
-        namespace: jenkins
-  ~~~
+
 doc_link: https://www.jenkins.io/doc/
 
 validated_amd64: 'y'
