@@ -35,12 +35,6 @@ def read_charts_cfg(app: str, allow_return_none: bool = False) -> dict:
     return cfg
 
 
-def write_charts_cfg(app: str, s: str) -> dict:
-    helm_config_path = f"apps/{app}/charts/st-charts.yaml"
-    with open(helm_config_path, "w", encoding='utf-8') as file:
-        file.write(s)
-
-
 def generate_charts(app: str, cfg: dict):
     generate_app_chart(app, cfg)
 
@@ -57,8 +51,6 @@ def try_generate_lock_file(chart_dir: str) -> bool:
 
 
 def generate_app_chart(app: str, cfg: dict):
-    if cfg.get('service_template_only', False):
-        return
     folder_path = try_create_chart_folders(app, cfg['name'], cfg['version'], False)
     chart = Template(chart_app_tpl).render(**cfg)
     with open(f"{folder_path}/Chart.yaml", "w", encoding='utf-8') as f:
@@ -89,14 +81,6 @@ def get_last_deps(cfg: dict):
     for chart in cfg['st-charts']:
         last_deps[chart['dep_name']] = chart
     return last_deps
-
-
-def update_charts_cfg(args: str, updates_list: list, cfg: dict):
-    if len(updates_list) > 0 and args.update_cfg:
-        cfg['st-charts'].extend(updates_list)
-        output = yaml.dump(cfg, sort_keys=False)
-        print(output)
-        write_charts_cfg(args.app, output)
 
 
 def service_template_name(chart_name: str, version: str) -> str:
@@ -151,6 +135,20 @@ def try_ignore_prefix_v(up_to_date_chart: dict, prev_version: str):
         return
     if up_to_date_chart['version'].startswith('v'):
         up_to_date_chart['version'] = up_to_date_chart['version'][1:]
+
+
+def write_charts_cfg(app: str, s: str) -> dict:
+    helm_config_path = f"apps/{app}/charts/st-charts.yaml"
+    with open(helm_config_path, "w", encoding='utf-8') as file:
+        file.write(s)
+
+
+def update_charts_cfg(args: str, updates_list: list, cfg: dict):
+    if len(updates_list) > 0 and args.update_cfg:
+        cfg['st-charts'].extend(updates_list)
+        output = yaml.dump(cfg, sort_keys=False)
+        print(output)
+        write_charts_cfg(args.app, output)
 
 
 def check_updates(args: str):
