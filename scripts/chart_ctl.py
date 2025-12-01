@@ -104,6 +104,8 @@ def update_data_chart_versions(app_data: dict, updates_dict: dict) -> dict:
 def update_data_service_templates_docs(app_data: dict, st_updates: dict):
     keys = ['deploy_code']
     for key in keys:
+        if key not in app_data:
+            continue
         s = app_data[key]
         for old_st, new_st in st_updates.items():
             s = s.replace(old_st, new_st)
