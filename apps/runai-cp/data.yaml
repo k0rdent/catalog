@@ -2,7 +2,7 @@ tags:
   - AI/Machine Learning
 title: NVIDIA run:AI - Control Plane
 summary: "Accelerate AI Workflows With Dynamic Orchestration"
-logo: ./assets/runai_logo.svg 
+logo: ./assets/nvidia_logo.svg # https://commons.wikimedia.org/wiki/File:Nvidia_Logo.svg
 created: "2025-09-15T14:52:15Z"
 description: |
   NVIDIA Run:ai accelerates AI and machine learning operations by addressing key infrastructure challenges through dynamic resource allocation, comprehensive AI life-cycle support, and strategic resource management. 
