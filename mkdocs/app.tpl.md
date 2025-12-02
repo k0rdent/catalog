@@ -72,7 +72,7 @@ created: "{{ created }}"
 {% if examples %}
 {%- for key, example in examples.items() %}
 
-=== "Example: {{ example.title }}"
+=== "Solution: {{ example.title }}"
 
     {% if example.content %}
     {{ example.content | replace("\n", "\n    ") }}
