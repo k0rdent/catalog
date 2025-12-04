@@ -2,7 +2,7 @@ title: "Dapr"
 tags:
   - Monitoring
   - Application Runtime
-summary: "Portable, event-driven runtime."
+summary: "Portable, event-driven runtimee."
 logo: "./assets/dapr-logo.svg"
 created: "2025-03-12T08:16:55Z"
 description: |
@@ -10,7 +10,7 @@ description: |
   Service-to-service invocation: Enables reliable and secure communication between microservices. 
 
   State management: Provides a consistent way to manage application state. 
-
+  asfadfasdfsdXys
   Publish and subscribe: Allows microservices to communicate asynchronously through message brokers. 
 
   Bindings: Connects applications to external systems and services (e.g., databases, message queues, cloud services). 
