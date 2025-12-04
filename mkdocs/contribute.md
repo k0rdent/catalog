@@ -91,30 +91,6 @@ Before adding metadata, you need to provide Helm charts for your application. Th
       versions: ['1.14.4']
     - name: dapr-dashboard
       versions: ['0.15.0']
-  deploy_code: |
-    ~~~yaml
-    kind: MultiClusterService
-    metadata:
-      name: dapr
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: dapr-1-14-4
-          name: dapr
-          namespace: dapr
-        - template: dapr-dashboard-0-15-0
-          name: dapr-dashboard
-          namespace: dapr
-          values: |
-            dapr-dashboard:
-              ingress:
-                enabled: true
-                className: nginx
-                host: 'dapr.example.com'
-    ~~~
   support_link: https://www.diagrid.io/conductor
   doc_link: https://docs.dapr.io/
   use_ingress: true
