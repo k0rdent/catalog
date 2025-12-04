@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-input_dir=mkdocs
 echo "⏳ Running spell check for *.md files in 'mkdocs' folder"
 cat apps/*/hunspell_dict.txt hunspell_dict.txt > hunspell_dict_all.txt
-for file in apps/*/data.yaml; do
+app="${1:-*}" # allow to specify a single app, by default check all apps
+for file in apps/${app}/data.yaml; do
   echo "$file"
   spell_file="${file/data.yaml/hunspell_dict.txt}"
-  yq '.summary, .description' "$file" | tr '[:space:][:punct:]' '\n' | hunspell -d en_US -p ./hunspell_dict_all.txt -l | sort | uniq > spellcheck_detected.txt
+  yq -r '.summary, .description' "$file" | tr '[:space:][:punct:]' '\n' | hunspell -d en_US -p ./hunspell_dict_all.txt -l | sort | uniq > spellcheck_detected.txt
   if grep -rnwFf spellcheck_detected.txt $file; then
     echo "=========="
     echo "❌ Some unknown words detected in spell check ($file):"
