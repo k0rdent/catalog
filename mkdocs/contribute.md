@@ -172,6 +172,8 @@ dapr-dashboard: # example chart top-level key
 - Add special words list to `hunspell_dict.txt` file ([example](https://github.com/k0rdent/catalog/blob/main/apps/rabbitmq/hunspell_dict.txt)). They will be automatically detected in
   [CI spell check](https://github.com/k0rdent/catalog/actions/runs/17491462434/job/49682086599),
   so just copy it.
+- Test spell check locally:
+  `docker run --rm -it -v $(pwd):/catalog -w /catalog ghcr.io/josca/hunspell:latest scripts/spellcheck.sh`
 ### 8. Create a Pull Request (PR):
 - Go to the k0rdent catalog repository on GitHub.
 - Click "New Pull Request".
