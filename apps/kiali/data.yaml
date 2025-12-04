@@ -1,0 +1,20 @@
+tags:
+  - Monitoring
+title: Kiali
+summary: "The Console for Istio Service Mesh."
+logo: "./assets/icon.svg" # https://raw.githubusercontent.com/kiali/kiali.io/948cbe7a92f404f346fb62d2916d7f990cde19b0/assets/icons/logo.svg
+created: "2025-12-04T00:00:00Z"
+description: |
+  Kiali is an observability console for Istio with service mesh configuration and validation capabilities.
+
+  It helps you understand the structure and health of your service mesh by monitoring traffic flow to
+  infer the topology and report errors. Kiali provides detailed metrics and a basic Grafana integration,
+  which can be used for advanced queries. Distributed tracing is provided by integration with Jaeger.
+# support_link: TODO
+charts:
+  - name: kiali-operator
+    versions: ['2.19.0']
+
+doc_link: https://kiali.io/docs/installation/installation-guide/install-with-helm/
+
+test_wait_for_pods: "kiali-operator-"
