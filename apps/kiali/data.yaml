@@ -18,3 +18,9 @@ charts:
 doc_link: https://kiali.io/docs/installation/installation-guide/install-with-helm/
 
 test_wait_for_pods: "kiali-operator-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'
