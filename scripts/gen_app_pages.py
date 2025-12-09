@@ -407,9 +407,7 @@ def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
 
 
 def generate_validation_matrix(all_apps_metadata: list):
-    template_path = 'mkdocs/validation_matrix.tpl.md'
-    dst_path = 'mkdocs/validation_matrix.md'
-    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure", "Local"]
+    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure", "Local", "Examples"]
     all_apps_metadata.sort(key=lambda x: x['title'].lower())
     table = "<table><thead><tr>" + "".join(f"<th>{h}</th>" for h in headers) + "</tr></thead><tbody>"
     for app in all_apps_metadata:
@@ -417,9 +415,12 @@ def generate_validation_matrix(all_apps_metadata: list):
             continue
         row = [app["title"], app["validated_amd64"], app["validated_arm64"], app["validated_aws"],
                app["validated_azure"], app["validated_local"],]
+        row.append(str(len(app.get("examples", []))))
         table += "\n<tr>" + "".join(f"<td>{c}</td>" for c in row) + "</tr>"
     table += "</tbody></table>"
 
+    dst_path = 'mkdocs/validation_matrix.md'
+    template_path = 'mkdocs/validation_matrix.tpl.md'
     metadata = dict(validation_matrix=table)
     with open(template_path, 'r', encoding='utf-8') as f:
         template = jinja2.Template(f.read())
