@@ -610,7 +610,13 @@ a.blue-green-button-dark-background:hover {
 
 .validation-matrix td:first-child, .validation-matrix th:first-child,
 .validation-matrix td:nth-child(3), .validation-matrix th:nth-child(3) {
-  border-right: 1px solid #0000001f;
+  border-right: 2px solid #0000001f;
+}
+
+.md-typeset table td,
+.md-typeset table th {
+  font-size: .8rem;
+  border-right: 1px solid #0000000f;
 }
 
 /* CUSTOM CSS END */
