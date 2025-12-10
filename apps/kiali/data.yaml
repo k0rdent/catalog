@@ -5,11 +5,21 @@ summary: "The Console for Istio Service Mesh."
 logo: "./assets/icon.svg" # https://raw.githubusercontent.com/kiali/kiali.io/948cbe7a92f404f346fb62d2916d7f990cde19b0/assets/icons/logo.svg
 created: "2025-12-04T00:00:00Z"
 description: |
-  Kiali is an observability console for Istio with service mesh configuration and validation capabilities.
+  Kiali is a service mesh observability console that provides topology visualization,
+  deep traffic metrics, and health checks for microservices deployed within an Istio service mesh environment.
 
-  It helps you understand the structure and health of your service mesh by monitoring traffic flow to
-  infer the topology and report errors. Kiali provides detailed metrics and a basic Grafana integration,
-  which can be used for advanced queries. Distributed tracing is provided by integration with Jaeger.
+  It works by:
+
+  - Collecting data from Prometheus (for metrics) and Istio (for configuration and traffic).
+  - Displaying the service graph, showing how traffic flows between applications .
+
+  Kiali integrates with k0rdent by serving as a core observability component within
+  k0rdent's multi-cluster platform. When k0rdent provisions a child cluster with an
+  Istio service mesh enabled (potentially leveraging k0rdent's Service Templates).
+
+  It allows Platform Engineers to visually monitor the operational health, traffic routing
+  (e.g., canary rollouts), and security policies of applications running across the
+  k0rdent-managed fleet from a single point of control.
 # support_link: TODO
 charts:
   - name: kiali-operator
