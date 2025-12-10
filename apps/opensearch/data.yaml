@@ -5,11 +5,20 @@ summary: "Open Source Search and Analytics Suite."
 logo: "./assets/icon.svg" # https://opensearch.org/trademark-brand-policy/
 created: "2025-12-02T00:00:00Z"
 description: |
-  OpenSearch is an open source, enterprise-grade search and observability suite that brings order to
-  unstructured data at scale.
+  OpenSearch is a community-driven, open-source search and analytics suite derived from
+  Elasticsearch and Kibana.
 
-  OpenSearch is a community-driven, Apache 2.0-licensed open source search and analytics suite that makes it easy
-  to ingest, search, visualize, and analyze data.
+  It consists of:
+
+   - OpenSearch: A distributed, highly scalable search engine that is used for full-text
+     search, log analytics, security monitoring, and application monitoring.
+   - OpenSearch Dashboards: A visualization tool that lets users analyze and visualize data
+     stored in OpenSearch through interactive dashboards.
+
+  OpenSearch provides essential features like security, fine-grained access control,
+  anomaly detection, and alerting, making it a popular choice for enterprise-grade data
+  ingestion and analysis, often serving as the data backbone for observability and
+  security platforms.
 
 charts:
   - name: opensearch
