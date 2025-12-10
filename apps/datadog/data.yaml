@@ -44,6 +44,9 @@ charts:
   - name: datadog
     versions: ['3.149.2']
 
+support_type: Partner
+
+support_link: https://www.datadoghq.com/dg/monitor/free-trial/
 doc_link: https://docs.datadoghq.com/containers/kubernetes/
 
 test_wait_for_pods: "datadog-cluster-agent-"
