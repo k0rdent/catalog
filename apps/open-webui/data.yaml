@@ -10,7 +10,7 @@ description: |
     a powerful AI deployment solution.
 
     <div>
-    ![](https://docs.openwebui.com/assets/images/demo-d3952c8561c4808c1d447fc061c71174.gif){ width="700" }
+    ![](https://github.com/open-webui/open-webui/blob/6f1486ffd0cb288d0e21f41845361924e0d742b3/demo.gif?raw=true){ width="700" }
     </div>
 charts:
   - name: open-webui
