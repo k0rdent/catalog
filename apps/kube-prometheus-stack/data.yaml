@@ -5,20 +5,20 @@ summary: "Collection of monitoring and alerting rules for Kubernetes clusters."
 logo: ./assets/prometheus-operator-logo.svg # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/logos/prometheus-operator-logo.svg 
 created: "2025-03-12T08:16:55Z"
 description: |
-  The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
-  It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
-  It provides a collection of monitoring and alerting rules for Kubernetes clusters
+    The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
+    It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
+    It provides a collection of monitoring and alerting rules for Kubernetes clusters
 support_link: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 charts:
   - name: kube-prometheus-stack
-    versions: ['72.6.2']
+    versions: ['77.0.0', '72.6.2']
 
 doc_link: https://prometheus.io/community/
 
 examples:
-  with_ingress:
-    title: With Ingress-nginx
-    chart_folder: example_ingress
+    with_ingress:
+        title: With Ingress-nginx
+        chart_folder: example_ingress
 
 validated_amd64: 'y'
 validated_aws: 'y'
