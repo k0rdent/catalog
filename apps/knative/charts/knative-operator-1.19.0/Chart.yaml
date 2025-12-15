@@ -2,8 +2,8 @@ apiVersion: v2
 name: knative-operator
 description: A Helm chart that references the official "knative-operator" Helm chart.
 type: application
-version: 1.17.4
+version: 1.19.0
 dependencies:
   - name: knative-operator
-    version: 1.17.4
+    version: 1.19.0
     repository: https://knative.github.io/operator

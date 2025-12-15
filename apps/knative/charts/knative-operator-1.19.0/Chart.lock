@@ -1,0 +1,6 @@
+dependencies:
+- name: knative-operator
+  repository: https://knative.github.io/operator
+  version: v1.19.0
+digest: sha256:0d7093f841338631389c28cdab5c50b8abedac957932e0fdb2b6652fce52c70e
+generated: "2025-12-15T11:34:50.572668+01:00"

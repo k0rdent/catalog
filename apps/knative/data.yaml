@@ -26,7 +26,7 @@ description: |
 support_link: https://knative.dev/community/
 charts:
   - name: knative-operator
-    versions: ['1.17.4']
+    versions: ['1.19.0', '1.17.4']
 
 doc_link: https://knative.dev/docs/install/operator/knative-with-operators/
 
