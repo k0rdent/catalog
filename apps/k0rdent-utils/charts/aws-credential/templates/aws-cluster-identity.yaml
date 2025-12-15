@@ -6,4 +6,6 @@ metadata:
     k0rdent.mirantis.com/component: "kcm"
 spec:
   secretRef: aws-credential-secret
-  allowedNamespaces: {}
+  allowedNamespaces:
+    list: null
+    selector: {}
