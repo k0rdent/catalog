@@ -7,5 +7,5 @@ dependencies:
     version: 4.13.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: kube-prometheus-stack
-    version: 72.6.2
+    version: 77.0.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
