@@ -1,0 +1,8 @@
+apiVersion: v2
+name: aws-cp-standalone-generic-cilium
+type: application
+version: 1.0.0
+dependencies:
+  - name: aws-cp-standalone-generic-cilium
+    version: 0.1.0
+    repository: oci://registry.mirantis.com/k0rdent-ai/example/charts
