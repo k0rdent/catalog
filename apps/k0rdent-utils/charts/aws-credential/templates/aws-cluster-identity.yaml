@@ -7,5 +7,4 @@ metadata:
 spec:
   secretRef: aws-credential-secret
   allowedNamespaces:
-    list: null
-    selector: {}
+    list: [ {{ .Release.Namespace }} ]
