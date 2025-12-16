@@ -9,48 +9,288 @@ description: |
   By pooling resources across environments and utilizing advanced orchestration, NVIDIA Run:ai significantly enhances GPU efficiency and workload capacity. 
   With support for public clouds, private clouds, hybrid environments, or on-premises data centers, NVIDIA Run:ai provides unparalleled flexibility and adaptability.  
 
-  When deployed via k0rdent, run:AI control plane boots fully automatically with all necessary prerequisites. In addition it can be configured to use letsencrypt to automatically issuing certificates. 
+  When deployed via k0rdent, run:AI control plane (version 2.23) boots fully automatically with all necessary prerequisites. In addition it can be configured to use letsencrypt to automatically issuing certificates. 
   You will need to configure DNS after all
 
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://www.nvidia.com/en-gb/software/run-ai/
 support_type: Enterprise
 
+charts:
+  - name: runai-control-plane 
+    versions: ['0.3.0']
+
+prerequisites: |
+  > **Note!**
+  >
+  > You need to bring your own clustertemplate that fulfills all necessary requirements like node tagging. You'll find an example template that you can use in the deploy descriptions.
+
+
+
+  **NVIDIA run:AI prerequisites**:
+
+  * Istio or Cilium (The example clustertemplate uses Cilium and we test with Cilium CNI)
+  * [K0rdent - 1.4.0+](https://docs.k0rdent.io/v1.4.0/admin/installation/install-k0rdent/) 
+  * [NVIDIA run:AI license](https://www.nvidia.com/en-us/software/run-ai/)
+  * [External-DNS](https://catalog.k0rdent.io/latest/apps/external-dns)
+  * [NVIDIA GPU Operator](https://catalog.k0rdent.io/latest/apps/nvidia/)
+  * [CertManager](https://catalog.k0rdent.io/latest/apps/cert-manager)
+  * [NGINX Ingress](https://catalog.k0rdent.io/latest/apps/ingress-nginx)
+  * [KNative-Operator](https://catalog.k0rdent.io/latest/apps/knative/)
+  * [Prometheus Stack](https://catalog.k0rdent.io/latest/apps/kube-prometheus-stack)
+  * CSI & storageclass with ReadWriteMany capabilities (AWS ebs CSI is fine for PoC)
+  
+  * Node Labels:
+
+      * GPU: runai-gpu-worker
+      * System: runai-system
+      * CPU: runai-cpu-worker
+
+  > **Note!**
+  >
+  > The KNative operator enables the deployment and configuration of KNative-serving.
+  >
+  > Host-based routing (subdomain delegation to inference endpoints) requires a wildcard certificate. Within this example deployment we use cert-manager with letsencrypt and DNS01 challenge.
+
+
+  Please refer for more requirements the official [NVIDIA run:AI documentation](https://run-ai-docs.nvidia.com/self-hosted/getting-started/installation/install-using-helm/cp-system-requirements)
+
+  **Tested on**:
+
+  * AWS
+  * NVIDIA L40s GPUs
+  * Ubuntu 22.04
+  * Kubernetes 1.32+
+  * K0rdent 1.4.0
+
+install_code: |
+  ~~~bash
+  helm upgrade --install runai-control-plane oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst --set "chart=runai-control-plane:0.3.0" -n kcm-system
+  helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=external-dns:1.19.0" -n kcm-system
+  helm upgrade --install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=gpu-operator:24.9.2" -n kcm-system
+  helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.13.2" -n kcm-system
+  helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=cert-manager:1.18.2" -n kcm-system
+  helm upgrade --install knative-operator oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=knative-operator:1.19.0" -n kcm-system
+  helm upgrade --install kube-prometheus-stack oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=kube-prometheus-stack:77.0.0" -n kcm-system
+  ~~~
+  
+
+verify_code: |
+  ~~~bash
+    kubectl get servicetemplates -A
+    # NAMESPACE    NAME                            VALID
+    # kcm-system    external-dns-1-19-0             true
+    # kcm-system    runai-control-plane-0-3-0       true      
+    # kcm-system    gpu-operator-24-9-2             true
+    # kcm-system    ingress-nginx-4-13-2            true 
+    # kcm-system    cert-manager-1-18-2             true
+    # kcm-system    knative-operator-1-19-0         true
+    # kcm-system    kube-prometheus-stack-77-0-0    true
+  ~~~
+
 deploy_code: |
+  ### run:AI config 
   ~~~yaml
+  kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: runai-control-plane
+    namespace: kcm-system
+  data:
+    runai-values: |
+      license: <BASE64 encoded run:AI license>
+      clusterIssuer:
+        name: letsencrypt-prod
+        server: https://acme-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          name: letsencrypt-prod
+        solvers:
+          - dns01:
+              route53:
+                region: eu-north-1
+                accessKeyIDSecretRef:
+                  name: prod-route53-credentials-secret # Secret you need to create upfront on child or via servicetemplate and secret delegation
+                  key: AccessKeyID
+                secretAccessKeySecretRef:
+                  name: prod-route53-credentials-secret # Secret you need to create upfront on child or via servicetemplate and secret delegation
+                  key: SecretAccessKey
+      control-plane:
+        global:
+          domain: runai.example.com
+          ingress:
+            extraAnnotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+      tenantsManager:
+        config:
+          adminUsername: "test@run.ai"   # It is highly recommended to change this
+          adminPassword: "Abcd!234"      # It is highly recommended to change this
+      knative:
+        ingress:
+          className: nginx
+        domain:
+          runai.example.com: ""
+  ~~~
+  ### NVIDIA Operator config
+  ~~~yaml
+  kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: service-gpu-operator-values
+    namespace: kcm-system
+  data:
+    values: |
+      gpu-operator:
+        operator:
+          defaultRuntime: containerd
+        toolkit:
+          env:
+          - name: CONTAINERD_CONFIG
+            value: /etc/k0s/containerd.d/nvidia.toml
+          - name: CONTAINERD_SOCKET
+            value: /run/k0s/containerd.sock
+          - name: CONTAINERD_RUNTIME_CLASS
+            value: nvidia
+        # optionally, create DCGM-Exporter ServiceMonitor
+        dcgmExporter:
+          serviceMonitor:
+            enabled: true
+            interval: 15s
+            honorLabels: true
+            additionalLabels: {}
+  ~~~
+  ### External-DNS AWS secret
+  ~~~yaml
+  kind: Secret
+  apiVersion: v1
+  metadata:
+    name: service-external-dns-values
+    namespace: kcm-system
+  type: addons.projectsveltos.io/cluster-profile      # This is necessary for Sveltos secret delegation
+  stringData:
+    values: |
+      provider:
+        name: aws
+      env:
+      - name: AWS_REGION
+        value: 'AWS_REGION'             # Change me
+      - name: AWS_ACCESS_KEY_ID   
+        value: 'AWS_ACCESS_KEY_ID'      # Change me
+      - name: AWS_SECRET_ACCESS_KEY
+        value: ''  # Change me
+  ~~~
+
+  ### Cert-Manager AWS secret
+  ~~~yaml
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: cert-manager-aws-secret
+    namespace: kcm-system
+  type: addons.projectsveltos.io/cluster-profile
+  stringData:
+    secret.yaml: |
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: prod-route53-credentials-secret
+        namespace: cert-manager
+      type: Opaque
+      stringData:
+        AccessKeyID: ''            # Change me
+        SecretAccessKey: ''    # Change me
+  ---
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ServiceTemplate
+  metadata:
+    name: cert-manager-aws-secret
+    namespace: kcm-system
+  spec:
+    resources:
+      localSourceRef:
+        kind: Secret
+        name: cert-manager-aws-secret
+      deploymentType: Remote
+      path: ""  # will be ignored
+  ~~~
+
+  ### MultiClusterService
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
   kind: MultiClusterService
   metadata:
-    name: run-ai-cp
+    name: runai-control-plane
   spec:
     clusterSelector:
       matchLabels:
         group: runai-cp
     serviceSpec:
       services:
-      - template: runai-cp-0-1-0
-        name: runai-cp
-        namespace: runai-backend
+      - name: gpu-operator
+        namespace: gpu-operator
+        template: gpu-operator-24-9-2
+        valuesFrom: 
+          - kind: ConfigMap
+            name: service-gpu-operator-values
+     
+      - name: nginx
+        namespace: ingress-nginx
+        template: ingress-nginx-4-13-2
+     
+      - name: external-dns
+        namespace: external-dns
+        template: external-dns-1-19-0
+        valuesFrom:
+          - kind: Secret
+            name: service-external-dns-values
+      
+      - name: prod-route53-credentials-secret
+        namespace: cert-manager
+        template: cert-manager-aws-secret
+
+      - name: cert-manager
+        namespace: cert-manager
+        template: cert-manager-1-18-2
         values: |
-          license: <BASE64 dockerconfigjson> # provided by NVIDIA
-          clusterIssuer:
-            name: <issuer-name>
-            privateKeySecretRef:
-              name: <key-name>
-            ingressClassName: nginx
-          control-plane:
-            global:
-              domain: runai.mydomain.com
-              ingress:
-                extraAnnotations:
-                  cert-manager.io/cluster-issuer: <issuer-name>
-          knative:
-            domain:
-              runai.mydomain.com: ""
+          cert-manager:
+            crds:
+              enabled: true
+      
+      - name: prometheus
+        namespace: monitoring
+        template: kube-prometheus-stack-77-0-0
+        values: |
+          grafana:
+            enabled: false
+      
+      - name: knative-operator
+        namespace: knative-operator
+        template: knative-operator-1-19-0
+
+      - name: runai-backend
+        namespace: runai-backend
+        template: runai-service-template-cp-0.3.0
+        valuesFrom:
+          - kind: ConfigMap
+            name: runai-control-plane
   ~~~
 
+  > **Please Note!**
+  >
+  > The Helm Chart to deploy NVIDIA run:AI is only a meta helm chart that depends on the NVIDIA run:AI upstream helm chart. It requires CRDs of the other listed services above
+  > and cannot be installed alone. The dependencies are listed in the MultiClusterService not in the chart itself!
+  
+examples:
+  with_ingress:
+    title: Clustertemplate
+    chart_folder: example_clustertemplate
+    content_template_file: example_clustertemplate/content.tpl.md
+  
+  
+
+
 doc_link: https://run-ai-docs.nvidia.com/
-show_install_tab: false
-use_ingress: true
+show_install_tab: true
+
 
 # test settings
 test_deploy_chart: false

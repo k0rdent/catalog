@@ -1,0 +1,6 @@
+dependencies:
+- name: runai-control-plane
+  repository: oci://registry.mirantis.com/k0rdent-ai/example/charts
+  version: 0.3.0
+digest: sha256:27fcf681340d76d48b033cd3d993645c32624caef859ce231afc875ab0874b61
+generated: "2025-12-15T16:07:31.805327+01:00"
