@@ -9,6 +9,9 @@ copyright:
 
 docs_dir: mkdocs
 
+exclude_docs: |
+  /app.tpl.md
+
 nav:
 - k0rdent Catalog: index.md
 
