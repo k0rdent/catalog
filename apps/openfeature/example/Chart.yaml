@@ -1,0 +1,11 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: cert-manager
+    version: 1.18.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: open-feature-operator
+    version: v0.8.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts

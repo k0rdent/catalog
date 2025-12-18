@@ -1,0 +1,44 @@
+tags:
+  - Developer Tools
+title: OpenFeature Operator
+summary: "A feature flag operator for Kubernetes."
+logo: "./assets/icon.svg" # https://openfeature.dev/img/logo-dark.svg
+created: "2025-12-18T00:00:00Z"
+description: |
+  ### Introduction
+
+  The **Open Feature Operator** is a Kubernetes-native operator that enables
+  applications to consume feature flags in a standardized way using the OpenFeature
+  specification. The operator injects a sidecar container into application pods, allowing
+  them to communicate with a `flagd` service and evaluate feature flags at runtime.
+
+  By running as a Kubernetes operator, Open Feature Operator simplifies the lifecycle
+  management of feature flag configuration and sidecar injection, making feature flag
+  usage consistent and portable across clusters and environments.
+
+  For full project documentation, refer to the upstream OpenFeature Operator
+  documentation.
+
+  ### Prerequisites
+
+  - A Kubernetes cluster managed by k0rdent.
+  - **cert-manager** installed on the target cluster.
+  - The **OpenFeature Operator** installed on the target cluster
+  before deploying workloads that rely on feature flags.
+  - Applications must be compatible with the OpenFeature SDK and
+  sidecar-based flag evaluation model.
+
+charts:
+  - name: open-feature-operator
+    versions: ['v0.8.8']
+
+doc_link: https://openfeature.dev/docs/reference/intro
+
+test_wait_for_pods: "open-feature-operator-controller-manager-"
+
+# TODO
+# validated_amd64: 'y'
+# validated_aws: 'y'
+# validated_azure: 'y'
+# validated_arm64: 'y' # aws t4g.medium
+validated_local: 'y'
