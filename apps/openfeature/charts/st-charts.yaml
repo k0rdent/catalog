@@ -1,0 +1,5 @@
+st-charts:
+- name: open-feature-operator
+  dep_name: open-feature-operator
+  version: v0.8.8
+  repository: https://open-feature.github.io/open-feature-operator/
