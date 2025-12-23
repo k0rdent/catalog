@@ -57,17 +57,17 @@ prerequisites: |
 
   **Tested on**:
 
-  * AWS
-  * NVIDIA L40s GPUs
-  * Ubuntu 22.04
-  * Kubernetes 1.32+
-  * K0rdent 1.4.0
+  | run:AI version   |    Provider  | Kubernetes | GPU | k0rdent | OS | Mirantis Meta Helm chart |
+  |----------|:-------------:|------:|------:|------:|------:|------:|
+  | 2.22.x |  AWS | v1.32, v1.33 | L40s | 1.4.0 | Ubuntu 22.04 | 0.2.3 |
+  | 2.23.x |  AWS | v1.33, v1.34 | L40s | 1.4.0, 1.5.0 | Ununtu 22.04 | 0.3.0 |
+
 
 install_code: |
   ~~~bash
   helm upgrade --install runai-control-plane oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst --set "chart=runai-control-plane:0.3.0" -n kcm-system
   helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=external-dns:1.19.0" -n kcm-system
-  helm upgrade --install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=gpu-operator:24.9.2" -n kcm-system
+  helm upgrade --install gpu-operator oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=gpu-operator:25.10.0" -n kcm-system
   helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.13.2" -n kcm-system
   helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=cert-manager:1.18.2" -n kcm-system
   helm upgrade --install knative-operator oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=knative-operator:1.19.0" -n kcm-system
@@ -81,7 +81,7 @@ verify_code: |
     # NAMESPACE    NAME                            VALID
     # kcm-system    external-dns-1-19-0             true
     # kcm-system    runai-control-plane-0-3-0       true      
-    # kcm-system    gpu-operator-24-9-2             true
+    # kcm-system    gpu-operator-25-10-0            true
     # kcm-system    ingress-nginx-4-13-2            true 
     # kcm-system    cert-manager-1-18-2             true
     # kcm-system    knative-operator-1-19-0         true
@@ -145,6 +145,8 @@ deploy_code: |
         toolkit:
           env:
           - name: CONTAINERD_CONFIG
+            value: /run/k0s/containerd-cri.toml
+          - name: RUNTIME_DROP_IN_CONFIG
             value: /etc/k0s/containerd.d/nvidia.toml
           - name: CONTAINERD_SOCKET
             value: /run/k0s/containerd.sock
@@ -227,7 +229,7 @@ deploy_code: |
       services:
       - name: gpu-operator
         namespace: gpu-operator
-        template: gpu-operator-24-9-2
+        template: gpu-operator-25-10-0
         valuesFrom: 
           - kind: ConfigMap
             name: service-gpu-operator-values
