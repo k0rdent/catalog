@@ -26,3 +26,47 @@ validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'y'
 validated_local: 'y'
+
+scan_results:
+  charts:
+    - name: grafana-10.1.0
+      images:
+       - name: docker.io/grafana/grafana:12.2.0
+         score: 5
+         critical: 0
+         high: 0
+         medium: 0
+         low: 0
+         unknown: 0
+       - name: docker.io/bats/bats:v1.4.1
+         score: 5
+         critical: 0
+         high: 0
+         medium: 0
+         low: 0
+         unknown: 0
+    - name: grafana-9.3.6
+      images:
+       - name: docker.io/grafana/grafana:12.1.0
+         score: 3
+         critical: 0
+         high: 0
+         medium: 2
+         low: 0
+         unknown: 0
+       - name: docker.io/bats/bats:v1.4.1
+         score: 5
+         critical: 0
+         high: 0
+         medium: 0
+         low: 0
+         unknown: 0
+    - name: grafana-operator-v5.20.0
+      images:
+       - name: ghcr.io/grafana/grafana-operator:v5.20.0
+         score: 5
+         critical: 0
+         high: 0
+         medium: 0
+         low: 0
+         unknown: 0
