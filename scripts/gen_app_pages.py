@@ -509,6 +509,15 @@ def process_referenced_examples(apps_metadata: list):
             item['examples'][key] = ref_example_copy
 
 
+def try_load_images_metadata(app_path: str):
+    images_file = os.path.join(app_path, 'images.yaml')
+    if not os.path.exists(images_file):
+        return dict()
+    with open(images_file, 'r', encoding='utf-8') as f:
+        images_metadata = yaml.safe_load(f.read())
+        return dict(images=images_metadata)
+
+
 def get_apps_metadata(apps_dir: str) -> list:
     base_metadata = dict(
         version=VERSION
@@ -533,6 +542,7 @@ def get_apps_metadata(apps_dir: str) -> list:
                 update_validation_data(metadata)
                 extract_examples_data(app, metadata, app_path, base_metadata)
                 metadata.update(base_metadata)
+                metadata.update(try_load_images_metadata(app_path))
         else:
             continue
         if 'exclude_versions' in metadata and VERSION in metadata['exclude_versions']:
