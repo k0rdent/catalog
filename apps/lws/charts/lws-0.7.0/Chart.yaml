@@ -1,0 +1,9 @@
+apiVersion: v2
+name: lws
+description: A Helm chart that references the official "lws" Helm chart.
+type: application
+version: 0.7.0
+dependencies:
+  - name: lws
+    version: 0.7.0
+    repository: oci://registry.k8s.io/lws/charts
