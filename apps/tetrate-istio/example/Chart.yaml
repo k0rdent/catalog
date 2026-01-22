@@ -4,11 +4,11 @@ type: application
 version: 1.0.0
 dependencies:
   - name: tetrate-base
-    version: 1.27.10003
+    version: 1.28.20000
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: tetrate-istiod
-    version: 1.27.10003
+    version: 1.28.20000
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: tetrate-gateway
-    version: 1.27.10003
+    version: 1.28.20000
     repository: oci://ghcr.io/k0rdent/catalog/charts

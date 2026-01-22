@@ -1,0 +1,9 @@
+apiVersion: v2
+name: tetrate-gateway
+description: A Helm chart that references the official "tetrate-gateway" Helm chart.
+type: application
+version: 1.28.20000
+dependencies:
+  - name: gateway
+    version: 1.28.20000
+    repository: https://tis.tetrate.io/charts
