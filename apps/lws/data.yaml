@@ -26,3 +26,5 @@ deploy_code: |
       - template: lws-0-7-0
         name: lws
         namespace: lws-system
+validated_amd64: 'y'
+validated_aws: 'y'
