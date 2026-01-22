@@ -23,3 +23,15 @@ st-charts:
   dep_name: gateway
   version: 1.27.10003
   repository: https://tis.tetrate.io/charts
+- name: tetrate-base
+  dep_name: base
+  version: 1.28.20000
+  repository: https://tis.tetrate.io/charts
+- name: tetrate-istiod
+  dep_name: istiod
+  version: 1.28.20000
+  repository: https://tis.tetrate.io/charts
+- name: tetrate-gateway
+  dep_name: gateway
+  version: 1.28.20000
+  repository: https://tis.tetrate.io/charts
