@@ -1,0 +1,28 @@
+title: "LeaderWorkerSet (LWS)"
+tags:
+  - AI/Machine Learning
+created: "2026-01-22T10:37:20Z"
+charts:
+  - name: lws
+    versions: ["0.7.0"]
+summary: An LWS creates a group of pods and controls their lifecycle.
+logo: "./assets/lws_logo.svg"
+description: >
+  LeaderWorkerSet (LWS) is an API for deploying a group of pods as a unit of replication.
+  It aims to address common deployment patterns of AI/ML inference workloads, especially multi-host inference workloads
+  where the LLM will be sharded and run across multiple devices on multiple nodes.
+doc_link: https://lws.sigs.k8s.io/docs/
+deploy_code: |
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: lws
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+      - template: lws-0-7-0
+        name: lws
+        namespace: lws-system
