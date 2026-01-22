@@ -6,19 +6,19 @@ logo: "./assets/tetrate.svg" # https://docs.tetrate.io/
 logo_big: ./assets/tetrate-big.svg # https://docs.tetrate.io/istio-subscription/
 created: "2025-07-31T16:43:20Z"
 description: |
-  Tetrate Istio is a hardened, enterprise-ready distribution of the Istio service mesh maintained
-  by Tetrate. It provides advanced networking, security, and observability features while being
-  compatible with upstream Istio and Envoy APIs. This makes it ideal for multi-cluster Kubernetes
-  environments, especially when paired with k0rdent for federated deployment and lifecycle management.
+    Tetrate Istio is a hardened, enterprise-ready distribution of the Istio service mesh maintained
+    by Tetrate. It provides advanced networking, security, and observability features while being
+    compatible with upstream Istio and Envoy APIs. This makes it ideal for multi-cluster Kubernetes
+    environments, especially when paired with k0rdent for federated deployment and lifecycle management.
 support_link: https://tetrate.io/contact
 support_type: Partner
 charts:
   - name: tetrate-base
-    versions: ['1.27.10003', '1.26.20002']
+    versions: ['1.28.20000', '1.27.10003', '1.26.20002']
   - name: tetrate-istiod
-    versions: ['1.27.10003', '1.26.20002']
+    versions: ['1.28.20000', '1.27.10003', '1.26.20002']
   - name: tetrate-gateway
-    versions: ['1.27.10003', '1.26.20002']
+    versions: ['1.28.20000', '1.27.10003', '1.26.20002']
 
 doc_link: https://docs.tetrate.io/istio-subscription/installation/install-helm
 
