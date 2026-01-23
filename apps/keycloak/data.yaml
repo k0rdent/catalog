@@ -1,0 +1,30 @@
+title: "Keycloak"
+tags:
+  - Authentication
+  - Security
+created: "2026-01-22T13:00:00Z"
+charts:
+  - name: keycloakx
+    versions: ['7.1.7']
+summary: "Open-source identity and access management server developed by Red Hat."
+logo: "./assets/keycloak-logo.svg"
+description: |
+    Keycloak is an open-source Identity and Access Management (IAM) platform that provides
+    centralized authentication, authorization, and single sign-on (SSO) for modern applications.
+    It offloads identity and security concerns from application developers by handling user
+    authentication and access control in a consistent, reusable way.
+  
+    Keycloak supports standard identity protocols such as OAuth 2.0, OpenID Connect, and SAML,
+    and offers features including user federation (LDAP/Active Directory integration), social
+    login, multi-factor authentication (MFA/2FA), and a web-based administrative console for
+    managing users, roles, and authorization policies. Through SSO and identity brokering,
+    users can authenticate once and access multiple applications using a variety of identity
+    providers.
+  
+    > **Note**
+    >
+    > This deployment uses the modern KeycloakX (Quarkus-based) Keycloak distribution, installed
+    > and managed via the community-maintained [Codecentric Helm chart](https://github.com/codecentric/helm-charts),
+    > which tracks upstream Keycloak container images and follows recommended configuration practices.
+
+doc_link: https://www.keycloak.org/documentation
