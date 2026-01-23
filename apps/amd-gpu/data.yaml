@@ -1,6 +1,6 @@
 tags:
-    - AI/Machine Learning
-    - Drivers and plugins
+  - AI/Machine Learning
+  - Drivers and plugins
 title: "AMD GPU Operator"
 summary: "AMD GPU Operator creates/configures/manages GPUs atop Kubernetes."
 logo: ./assets/amd-logo.svg # https://github.com/file-icons/icons/blob/master/svg/AMD.svg
@@ -19,7 +19,7 @@ description: |
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
 charts:
   - name: amd-gpu-operator
-    versions: ['v1.3.0', 'v1.2.2']
+    versions: ['v1.4.1', 'v1.3.0', 'v1.2.2']
 deploy_code: |
     Tested `ClusterDeployment` in Azure:
     ~~~yaml
@@ -71,7 +71,7 @@ deploy_code: |
             cert-manager:
               crds:
                 enabled: true
-        - template: amd-gpu-operator-v1-3-0
+        - template: amd-gpu-operator-v1-4-1
           name: amd-gpu-operator
           namespace: kube-amd-gpu
     ~~~
@@ -113,7 +113,7 @@ deploy_code: |
             amd.com/gpu: 1
      restartPolicy: Never
     ~~~
-    
+
     Expected testing pod output (log):
     ~~~
     AMDSMI Tool: 25.3.0+ede62f2 | AMDSMI Library version: 25.3.0 | ROCm version: 6.4.0 | amdgpu version: 6.8.5 | amd_hsmp version: N/A

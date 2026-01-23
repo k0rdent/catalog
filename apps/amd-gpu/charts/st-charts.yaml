@@ -7,3 +7,7 @@ st-charts:
   dep_name: gpu-operator-charts
   version: v1.3.0
   repository: https://rocm.github.io/gpu-operator
+- name: amd-gpu-operator
+  dep_name: gpu-operator-charts
+  version: v1.4.1
+  repository: https://rocm.github.io/gpu-operator
