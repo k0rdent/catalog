@@ -7,3 +7,7 @@ st-charts:
   dep_name: external-secrets
   version: 0.18.2
   repository: https://charts.external-secrets.io
+- name: external-secrets
+  dep_name: external-secrets
+  version: 1.2.1
+  repository: https://charts.external-secrets.io
