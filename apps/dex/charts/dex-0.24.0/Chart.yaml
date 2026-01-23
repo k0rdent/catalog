@@ -1,0 +1,9 @@
+apiVersion: v2
+name: dex
+description: A Helm chart that references the official "dex" Helm chart.
+type: application
+version: 0.24.0
+dependencies:
+  - name: dex
+    version: 0.24.0
+    repository: https://charts.dexidp.io
