@@ -6,10 +6,10 @@ created: "2026-01-22T13:00:00Z"
 charts:
   - name: keycloakx
     versions: ['7.1.7']
-summary: "Keycloak is an open-source identity and access management server developed by Red Hat."
+summary: "Open-source identity and access management server developed by Red Hat."
 logo: "./assets/keycloak-logo.svg"
 description: |
-    Open-source Identity and Access Management (IAM) platform that provides
+    Keycloak is an open-source Identity and Access Management (IAM) platform that provides
     centralized authentication, authorization, and single sign-on (SSO) for modern applications.
     It offloads identity and security concerns from application developers by handling user
     authentication and access control in a consistent, reusable way.
