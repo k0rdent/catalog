@@ -7,3 +7,7 @@ st-charts:
   dep_name: dex
   version: 0.23.0
   repository: https://charts.dexidp.io
+- name: dex
+  dep_name: dex
+  version: 0.24.0
+  repository: https://charts.dexidp.io
