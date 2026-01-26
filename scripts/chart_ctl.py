@@ -200,7 +200,7 @@ def check_image_arch(image: str):
     for required_arch in ["amd64", "arm64"]:
         if required_arch not in archs:
             print(f"\n::warning::Required architecture '{required_arch}' not found for image '{image}'")
-    print(f"({", ".join(archs)})")
+    print(f"({', '.join(archs)})")
 
 
 def check_images(args: str):
