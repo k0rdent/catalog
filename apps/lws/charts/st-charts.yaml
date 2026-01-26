@@ -1,0 +1,5 @@
+st-charts:
+  - name: lws
+    dep_name: lws
+    version: 0.7.0
+    repository: oci://registry.k8s.io/lws/charts
