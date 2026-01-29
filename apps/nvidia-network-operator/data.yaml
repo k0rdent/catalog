@@ -7,7 +7,7 @@ charts:
   - name: network-operator
     versions: ['25.10.0']
 summary: "Simplifies deployment and lifecycle management of the NVIDIA Mellanox Network Operator."
-logo: "./assets/nvidia_logo.png"
+logo: "./assets/nvidia_logo.svg"
 description: |
     The NVIDIA Network Operator manages networking-related components to enable high-performance 
     networking, RDMA, and GPUDirect for workloads running in a Kubernetes cluster. It automates 
