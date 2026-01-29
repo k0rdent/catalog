@@ -1,0 +1,16 @@
+title: "NVIDIA Network Operator"
+tags:
+  - AI/Machine Learning
+  - Drivers and plugins
+created: "2026-01-29T12:00:00Z"
+charts:
+  - name: network-operator
+    versions: ['25.10.0']
+summary: "Simplifies deployment and lifecycle management of the NVIDIA Mellanox Network Operator."
+logo: "./assets/nvidia-network-operator-logo.png"
+description: |
+    NVIDIA Network Operator manages Networking related components in order to enable Fast networking, 
+    RDMA and GPUDirect for workloads in a Kubernetes cluster. Network Operator works in conjunction 
+    with GPU Operator to enable GPU-Direct RDMA on compatible systems.
+
+doc_link: https://docs.nvidia.com/networking/display/kubernetes2370/network+operator
