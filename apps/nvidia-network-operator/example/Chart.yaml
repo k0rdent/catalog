@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 25.10.0
+dependencies:
+  - name: nvidia-network-operator
+    version: 25.10.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
