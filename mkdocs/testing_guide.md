@@ -35,7 +35,7 @@ Universal workflow to run any example:
 ### Setup testing cluster
 ~~~bash
 # argo-cd, cert-manager, dapr, dex, external-dns, external-secrets,
-# ingress-nginx, istio, kube-prometheus-stack, kubecost, kubernetes-dashboard, kyverno,
+# ingress-nginx, istio, kube-prometheus-stack, kubecost, kyverno,
 # msr, netapp, nvidia, open-webui, opencost, prometheus, pure, velero
 export APP="dapr"
 export TEST_MODE="adopted" # Supported values: aws, azure, adopted

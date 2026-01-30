@@ -8,7 +8,7 @@
 # Batch 5: ./scripts/e2e_app_test.sh harbor harness headlamp hpe-csi
 # Batch 6: ./scripts/e2e_app_test.sh istio istio-ambient jenkins jupyterhub
 # Batch 7: ./scripts/e2e_app_test.sh kagent keda knative kube-prometheus-stack kubecost
-# Batch 8: ./scripts/e2e_app_test.sh kubeflow-spark-operator kuberay kubernetes-dashboard kyverno-guardrails
+# Batch 8: ./scripts/e2e_app_test.sh kubeflow-spark-operator kuberay kyverno-guardrails
 # Batch 9: ./scripts/e2e_app_test.sh local-ai metallb milvus minio mirantis-kyverno-guardrails
 # Batch 10: ./scripts/e2e_app_test.sh mirantis-velero mlflow mongodb msr mysql
 # Batch 11: ./scripts/e2e_app_test.sh n8n nats netapp nginx-ingress-f5 nirmata
