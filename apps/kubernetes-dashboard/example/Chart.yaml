@@ -1,8 +1,0 @@
-apiVersion: v2
-name: example
-type: application
-version: 1.0.0
-dependencies:
-  - name: kubernetes-dashboard
-    version: 7.10.4
-    repository: oci://ghcr.io/k0rdent/catalog/charts
