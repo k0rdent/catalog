@@ -1,0 +1,441 @@
+charts:
+- name: grafana
+  version: 10.1.0
+  images:
+  - name: bats
+    path: docker.io/bats/bats:v1.4.1
+    cves:
+      items:
+      - id: CVE-2022-2097
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2022-2097
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2022-29458
+        severity: HIGH
+        pkg_name: ncurses
+        installed_version: 6.3_p20211120-r0
+      - id: CVE-2022-29458
+        severity: HIGH
+        pkg_name: ncurses-libs
+        installed_version: 6.3_p20211120-r0
+      - id: CVE-2022-29458
+        severity: HIGH
+        pkg_name: ncurses-terminfo-base
+        installed_version: 6.3_p20211120-r0
+      - id: CVE-2022-37434
+        severity: CRITICAL
+        pkg_name: zlib
+        installed_version: 1.2.12-r0
+      - id: CVE-2022-4304
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2022-4304
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2022-4450
+        severity: HIGH
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2022-4450
+        severity: HIGH
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0215
+        severity: HIGH
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0215
+        severity: HIGH
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0286
+        severity: HIGH
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0286
+        severity: HIGH
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0464
+        severity: HIGH
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0464
+        severity: HIGH
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0465
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-0465
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-2650
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-2650
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-29491
+        severity: HIGH
+        pkg_name: ncurses
+        installed_version: 6.3_p20211120-r0
+      - id: CVE-2023-29491
+        severity: HIGH
+        pkg_name: ncurses-libs
+        installed_version: 6.3_p20211120-r0
+      - id: CVE-2023-29491
+        severity: HIGH
+        pkg_name: ncurses-terminfo-base
+        installed_version: 6.3_p20211120-r0
+      - id: CVE-2023-3446
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-3446
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-3817
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-3817
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-47038
+        severity: HIGH
+        pkg_name: perl
+        installed_version: 5.34.0-r1
+      - id: CVE-2023-5678
+        severity: MEDIUM
+        pkg_name: libcrypto1.1
+        installed_version: 1.1.1n-r0
+      - id: CVE-2023-5678
+        severity: MEDIUM
+        pkg_name: libssl1.1
+        installed_version: 1.1.1n-r0
+      summary:
+        critical: 1
+        high: 15
+        medium: 14
+        low: 0
+        unknown: 0
+  - name: grafana
+    path: docker.io/grafana/grafana:12.2.0
+    cves:
+      items:
+      - id: CVE-2024-58251
+        severity: MEDIUM
+        pkg_name: busybox
+        installed_version: 1.37.0-r18
+      - id: CVE-2024-58251
+        severity: MEDIUM
+        pkg_name: busybox-binsh
+        installed_version: 1.37.0-r18
+      - id: CVE-2024-58251
+        severity: MEDIUM
+        pkg_name: ssl_client
+        installed_version: 1.37.0-r18
+      - id: CVE-2025-10148
+        severity: MEDIUM
+        pkg_name: curl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-10148
+        severity: MEDIUM
+        pkg_name: libcurl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-46394
+        severity: LOW
+        pkg_name: busybox
+        installed_version: 1.37.0-r18
+      - id: CVE-2025-46394
+        severity: LOW
+        pkg_name: busybox-binsh
+        installed_version: 1.37.0-r18
+      - id: CVE-2025-46394
+        severity: LOW
+        pkg_name: ssl_client
+        installed_version: 1.37.0-r18
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-47914
+        severity: MEDIUM
+        pkg_name: golang.org/x/crypto
+        installed_version: v0.41.0
+      - id: CVE-2025-58181
+        severity: MEDIUM
+        pkg_name: golang.org/x/crypto
+        installed_version: v0.41.0
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-62408
+        severity: MEDIUM
+        pkg_name: c-ares
+        installed_version: 1.34.5-r0
+      - id: CVE-2025-64751
+        severity: MEDIUM
+        pkg_name: github.com/openfga/openfga
+        installed_version: v1.8.13
+      - id: CVE-2025-9086
+        severity: MEDIUM
+        pkg_name: curl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-9086
+        severity: MEDIUM
+        pkg_name: libcurl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-9230
+        severity: MEDIUM
+        pkg_name: libcrypto3
+        installed_version: 3.5.1-r0
+      - id: CVE-2025-9230
+        severity: MEDIUM
+        pkg_name: libssl3
+        installed_version: 3.5.1-r0
+      - id: CVE-2025-9231
+        severity: MEDIUM
+        pkg_name: libcrypto3
+        installed_version: 3.5.1-r0
+      - id: CVE-2025-9231
+        severity: MEDIUM
+        pkg_name: libssl3
+        installed_version: 3.5.1-r0
+      - id: CVE-2025-9232
+        severity: LOW
+        pkg_name: libcrypto3
+        installed_version: 3.5.1-r0
+      - id: CVE-2025-9232
+        severity: LOW
+        pkg_name: libssl3
+        installed_version: 3.5.1-r0
+      summary:
+        critical: 0
+        high: 6
+        medium: 45
+        low: 5
+        unknown: 0
+- name: grafana-operator
+  version: v5.20.0
+  images:
+  - name: grafana-operator
+    path: ghcr.io/grafana/grafana-operator:v5.20.0
+    cves:
+      items:
+      - id: CVE-2025-47910
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-47914
+        severity: MEDIUM
+        pkg_name: golang.org/x/crypto
+        installed_version: v0.42.0
+      - id: CVE-2025-58181
+        severity: MEDIUM
+        pkg_name: golang.org/x/crypto
+        installed_version: v0.42.0
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.25.0
+      summary:
+        critical: 0
+        high: 2
+        medium: 13
+        low: 0
+        unknown: 0

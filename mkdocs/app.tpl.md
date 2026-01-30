@@ -69,6 +69,41 @@ created: "{{ created }}"
     {% endif %}
 {% endif %}
 
+{% if images %}
+=== "Vulnerabilities"
+
+{%- for chart in images.charts %}
+
+    #### {{ chart.name }} - {{ chart.version }}
+
+    <table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Critical</th>
+            <th>High</th>
+            <th>Medium</th>
+            <th>Low</th>
+            <th>Unknown</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%- for image in chart.images %}
+        <tr>
+            <td>{{ image.name }}</td>
+            <td>{{ image.cves.summary.critical }}</td>
+            <td>{{ image.cves.summary.high }}</td>
+            <td>{{ image.cves.summary.medium }}</td>
+            <td>{{ image.cves.summary.low }}</td>
+            <td>{{ image.cves.summary.unknown }}</td>
+        </tr>
+        {%- endfor %}
+    </tbody>
+    </table>
+
+{%- endfor %}
+{%- endif %}
+
 {% if examples %}
 {%- for key, example in examples.items() %}
 

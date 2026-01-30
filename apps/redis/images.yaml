@@ -1,0 +1,398 @@
+charts:
+- name: redis
+  version: 0.2.0
+  images:
+  - name: redis
+    path: docker.io/redis:8.2.1@sha256:cc2dfb8f5151da2684b4a09bd04b567f92d07591d91980eb3eca21df07e12760
+    cves:
+      items:
+      - id: CVE-2005-2541
+        severity: LOW
+        pkg_name: tar
+        installed_version: 1.34+dfsg-1.2+deb12u1
+      - id: CVE-2007-5686
+        severity: LOW
+        pkg_name: login
+        installed_version: 1:4.13+dfsg1-1+deb12u1
+      - id: CVE-2007-5686
+        severity: LOW
+        pkg_name: passwd
+        installed_version: 1:4.13+dfsg1-1+deb12u1
+      - id: CVE-2010-4756
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2010-4756
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2011-3374
+        severity: LOW
+        pkg_name: apt
+        installed_version: 2.6.1
+      - id: CVE-2011-3374
+        severity: LOW
+        pkg_name: libapt-pkg6.0
+        installed_version: 2.6.1
+      - id: CVE-2011-3389
+        severity: LOW
+        pkg_name: libgnutls30
+        installed_version: 3.7.9-2+deb12u5
+      - id: CVE-2011-4116
+        severity: LOW
+        pkg_name: perl-base
+        installed_version: 5.36.0-7+deb12u2
+      - id: CVE-2013-4392
+        severity: LOW
+        pkg_name: libsystemd0
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2013-4392
+        severity: LOW
+        pkg_name: libudev1
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2016-2781
+        severity: LOW
+        pkg_name: coreutils
+        installed_version: 9.1-1
+      - id: CVE-2017-18018
+        severity: LOW
+        pkg_name: coreutils
+        installed_version: 9.1-1
+      - id: CVE-2018-20796
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2018-20796
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2018-6829
+        severity: LOW
+        pkg_name: libgcrypt20
+        installed_version: 1.10.1-3
+      - id: CVE-2019-1010022
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010022
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010023
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010023
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010024
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010024
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010025
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-1010025
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-9192
+        severity: LOW
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2019-9192
+        severity: LOW
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: bsdutils
+        installed_version: 1:2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: libblkid1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: libmount1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: libsmartcols1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: libuuid1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: mount
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: util-linux
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-0563
+        severity: LOW
+        pkg_name: util-linux-extra
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2022-27943
+        severity: LOW
+        pkg_name: gcc-12-base
+        installed_version: 12.2.0-14+deb12u1
+      - id: CVE-2022-27943
+        severity: LOW
+        pkg_name: libgcc-s1
+        installed_version: 12.2.0-14+deb12u1
+      - id: CVE-2022-27943
+        severity: LOW
+        pkg_name: libstdc++6
+        installed_version: 12.2.0-14+deb12u1
+      - id: CVE-2022-3219
+        severity: LOW
+        pkg_name: gpgv
+        installed_version: 2.2.40-1.1
+      - id: CVE-2023-31437
+        severity: LOW
+        pkg_name: libsystemd0
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2023-31437
+        severity: LOW
+        pkg_name: libudev1
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2023-31438
+        severity: LOW
+        pkg_name: libsystemd0
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2023-31438
+        severity: LOW
+        pkg_name: libudev1
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2023-31439
+        severity: LOW
+        pkg_name: libsystemd0
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2023-31439
+        severity: LOW
+        pkg_name: libudev1
+        installed_version: 252.38-1~deb12u1
+      - id: CVE-2023-31484
+        severity: HIGH
+        pkg_name: perl-base
+        installed_version: 5.36.0-7+deb12u2
+      - id: CVE-2023-31486
+        severity: LOW
+        pkg_name: perl-base
+        installed_version: 5.36.0-7+deb12u2
+      - id: CVE-2023-45853
+        severity: CRITICAL
+        pkg_name: zlib1g
+        installed_version: 1:1.2.13.dfsg-1
+      - id: CVE-2023-50495
+        severity: MEDIUM
+        pkg_name: libtinfo6
+        installed_version: 6.4-4
+      - id: CVE-2023-50495
+        severity: MEDIUM
+        pkg_name: ncurses-base
+        installed_version: 6.4-4
+      - id: CVE-2023-50495
+        severity: MEDIUM
+        pkg_name: ncurses-bin
+        installed_version: 6.4-4
+      - id: CVE-2024-10041
+        severity: MEDIUM
+        pkg_name: libpam-modules
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-10041
+        severity: MEDIUM
+        pkg_name: libpam-modules-bin
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-10041
+        severity: MEDIUM
+        pkg_name: libpam-runtime
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-10041
+        severity: MEDIUM
+        pkg_name: libpam0g
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-2236
+        severity: LOW
+        pkg_name: libgcrypt20
+        installed_version: 1.10.1-3
+      - id: CVE-2024-22365
+        severity: MEDIUM
+        pkg_name: libpam-modules
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-22365
+        severity: MEDIUM
+        pkg_name: libpam-modules-bin
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-22365
+        severity: MEDIUM
+        pkg_name: libpam-runtime
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-22365
+        severity: MEDIUM
+        pkg_name: libpam0g
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2024-56433
+        severity: LOW
+        pkg_name: login
+        installed_version: 1:4.13+dfsg1-1+deb12u1
+      - id: CVE-2024-56433
+        severity: LOW
+        pkg_name: passwd
+        installed_version: 1:4.13+dfsg1-1+deb12u1
+      - id: CVE-2025-13151
+        severity: MEDIUM
+        pkg_name: libtasn1-6
+        installed_version: 4.19.0-2+deb12u1
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: bsdutils
+        installed_version: 1:2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: libblkid1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: libmount1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: libsmartcols1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: libuuid1
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: mount
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: util-linux
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-14104
+        severity: MEDIUM
+        pkg_name: util-linux-extra
+        installed_version: 2.38.1-5+deb12u3
+      - id: CVE-2025-27587
+        severity: LOW
+        pkg_name: libssl3
+        installed_version: 3.0.17-1~deb12u2
+      - id: CVE-2025-30258
+        severity: MEDIUM
+        pkg_name: gpgv
+        installed_version: 2.2.40-1.1
+      - id: CVE-2025-40909
+        severity: MEDIUM
+        pkg_name: perl-base
+        installed_version: 5.36.0-7+deb12u2
+      - id: CVE-2025-4802
+        severity: HIGH
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2025-4802
+        severity: HIGH
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2025-5278
+        severity: LOW
+        pkg_name: coreutils
+        installed_version: 9.1-1
+      - id: CVE-2025-6020
+        severity: HIGH
+        pkg_name: libpam-modules
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2025-6020
+        severity: HIGH
+        pkg_name: libpam-modules-bin
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2025-6020
+        severity: HIGH
+        pkg_name: libpam-runtime
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2025-6020
+        severity: HIGH
+        pkg_name: libpam0g
+        installed_version: 1.5.2-6+deb12u1
+      - id: CVE-2025-6141
+        severity: LOW
+        pkg_name: libtinfo6
+        installed_version: 6.4-4
+      - id: CVE-2025-6141
+        severity: LOW
+        pkg_name: ncurses-base
+        installed_version: 6.4-4
+      - id: CVE-2025-6141
+        severity: LOW
+        pkg_name: ncurses-bin
+        installed_version: 6.4-4
+      - id: CVE-2025-6297
+        severity: LOW
+        pkg_name: dpkg
+        installed_version: 1.21.22
+      - id: CVE-2025-68972
+        severity: MEDIUM
+        pkg_name: gpgv
+        installed_version: 2.2.40-1.1
+      - id: CVE-2025-68973
+        severity: HIGH
+        pkg_name: gpgv
+        installed_version: 2.2.40-1.1
+      - id: CVE-2025-8058
+        severity: MEDIUM
+        pkg_name: libc-bin
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2025-8058
+        severity: MEDIUM
+        pkg_name: libc6
+        installed_version: 2.36-9+deb12u10
+      - id: CVE-2025-9230
+        severity: MEDIUM
+        pkg_name: libssl3
+        installed_version: 3.0.17-1~deb12u2
+      - id: CVE-2025-9232
+        severity: LOW
+        pkg_name: libssl3
+        installed_version: 3.0.17-1~deb12u2
+      - id: CVE-2025-9820
+        severity: UNKNOWN
+        pkg_name: libgnutls30
+        installed_version: 3.7.9-2+deb12u5
+      - id: TEMP-0290435-0B57B5
+        severity: LOW
+        pkg_name: tar
+        installed_version: 1.34+dfsg-1.2+deb12u1
+      - id: TEMP-0517018-A83CE6
+        severity: LOW
+        pkg_name: sysvinit-utils
+        installed_version: 3.06-4
+      - id: TEMP-0628843-DBAD28
+        severity: LOW
+        pkg_name: login
+        installed_version: 1:4.13+dfsg1-1+deb12u1
+      - id: TEMP-0628843-DBAD28
+        severity: LOW
+        pkg_name: passwd
+        installed_version: 1:4.13+dfsg1-1+deb12u1
+      - id: TEMP-0841856-B18BAF
+        severity: LOW
+        pkg_name: bash
+        installed_version: 5.2.15-2+b8
+      summary:
+        critical: 1
+        high: 8
+        medium: 26
+        low: 60
+        unknown: 1
