@@ -152,7 +152,7 @@ jobs:
       - name: Install Helm
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 
       - name: Check updates
         run: |
