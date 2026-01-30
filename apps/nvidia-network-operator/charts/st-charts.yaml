@@ -1,0 +1,5 @@
+st-charts:
+- name: network-operator
+  dep_name: network-operator
+  version: 25.10.0
+  repository: https://helm.ngc.nvidia.com/nvidia
