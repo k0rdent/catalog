@@ -21,9 +21,6 @@ charts:
 doc_link: https://kubernetes.github.io/ingress-nginx/
 
 examples:
-    kubernetes_dashboard:
-        title: Kubernetes Dashboard
-        ref: kubernetes-dashboard.with_ingress
     headlamp:
         title: Headlamp
         ref: headlamp.with_ingress
