@@ -233,6 +233,80 @@ def check_images(args: str):
     for image in images:
         check_image_arch(image)
 
+
+def get_charts(app: str):
+    data = utils.get_app_data(app)
+    if 'charts' in data:
+        return data['charts']
+    return []
+
+
+def get_chart_images(app: str, chart_name: str, chart_version: str) -> list:
+    chart_path = os.path.join('apps', app, 'charts', f'{chart_name}-{chart_version}')
+    subprocess.run(["helm", "dependency", "update", chart_path], check=True)
+    args = ["helm", "images", "get", "--log-level", "error", "-o", "json", "--no-color", chart_path]
+    try:
+        result = subprocess.run(args, check=True, capture_output=True, text=True)
+        obj = json.loads(result.stdout)
+    except:
+        obj = []
+    raw_images = []
+    for item in obj:
+        raw_images.extend(item['image'])
+    raw_images = list(set(raw_images))
+    images = []
+    for raw_image in raw_images:
+        suffix = raw_image.split('/')[-1]
+        image_name = suffix.split(':')[0]
+        cves = get_image_cves(raw_image)
+        image = {'name': image_name, 'path': raw_image, 'cves': cves}
+        images.append(image)
+    return images
+
+
+def get_images(args: str):
+    app = args.app
+    charts = get_charts(app)
+    out_charts = []
+    for chart_dict in charts:
+        chart_name = chart_dict['name']
+        chart_version = str(chart_dict['versions'][0])
+        images = get_chart_images(app, chart_name, chart_version)
+        out_chart = {
+            'name': chart_name,
+            'version': chart_version,
+            'images': images
+        }
+        out_charts.append(out_chart)
+    output_yaml = yaml.dump(dict(charts=out_charts), sort_keys=False)
+    print(output_yaml)
+    with open(f"apps/{app}/images.yaml", "w", encoding='utf-8') as f:
+        f.write(output_yaml)
+
+
+def get_image_cves(image: str):
+    args = ['trivy', 'image', image, '-f', 'json']
+    try:
+        result = subprocess.run(args, check=True, capture_output=True, text=True)
+        obj = json.loads(result.stdout)
+    except:
+        obj = dict()
+    cves = []
+    summary = dict(critical=0, high=0, medium=0, low=0, unknown=0)
+    for res in obj.get('Results', []):
+        for vuln in res.get('Vulnerabilities', []):
+            cve = dict()
+            cve["id"] = vuln['VulnerabilityID']
+            severity = vuln['Severity']
+            cve["severity"] = severity
+            summary[severity.lower()] += 1
+            cve["pkg_name"] = vuln['PkgName']
+            cve["installed_version"] = vuln['InstalledVersion']
+            cves.append(cve)
+    cves_items = sorted(cves, key=lambda x: x["id"])
+    return dict(items=cves_items, summary=summary)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
                                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.
@@ -257,6 +331,10 @@ if __name__ == '__main__':
     check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")
     check_images_parser.add_argument("app")
     check_images_parser.set_defaults(func=check_images)
+
+    imgs = subparsers.add_parser("images", help="Get charts images")
+    imgs.add_argument("app")
+    imgs.set_defaults(func=get_images)
 
     args = parser.parse_args()
     args.func(args)

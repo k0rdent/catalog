@@ -1,0 +1,316 @@
+charts:
+- name: ingress-nginx
+  version: 4.13.2
+  images:
+  - name: controller
+    path: registry.k8s.io/ingress-nginx/controller:v1.13.2@sha256:1f7eaeb01933e719c8a9f4acd8181e555e582330c7d50f24484fb64d2ba9b2ef
+    cves:
+      items:
+      - id: CVE-2024-58251
+        severity: MEDIUM
+        pkg_name: busybox
+        installed_version: 1.37.0-r19
+      - id: CVE-2024-58251
+        severity: MEDIUM
+        pkg_name: busybox-binsh
+        installed_version: 1.37.0-r19
+      - id: CVE-2024-58251
+        severity: MEDIUM
+        pkg_name: ssl_client
+        installed_version: 1.37.0-r19
+      - id: CVE-2025-10148
+        severity: MEDIUM
+        pkg_name: curl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-10148
+        severity: MEDIUM
+        pkg_name: libcurl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-46394
+        severity: LOW
+        pkg_name: busybox
+        installed_version: 1.37.0-r19
+      - id: CVE-2025-46394
+        severity: LOW
+        pkg_name: busybox-binsh
+        installed_version: 1.37.0-r19
+      - id: CVE-2025-46394
+        severity: LOW
+        pkg_name: ssl_client
+        installed_version: 1.37.0-r19
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-49794
+        severity: CRITICAL
+        pkg_name: libxml2
+        installed_version: 2.13.8-r0
+      - id: CVE-2025-49795
+        severity: HIGH
+        pkg_name: libxml2
+        installed_version: 2.13.8-r0
+      - id: CVE-2025-49796
+        severity: CRITICAL
+        pkg_name: libxml2
+        installed_version: 2.13.8-r0
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-6021
+        severity: HIGH
+        pkg_name: libxml2
+        installed_version: 2.13.8-r0
+      - id: CVE-2025-6170
+        severity: LOW
+        pkg_name: libxml2
+        installed_version: 2.13.8-r0
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-62408
+        severity: MEDIUM
+        pkg_name: c-ares
+        installed_version: 1.34.5-r0
+      - id: CVE-2025-9086
+        severity: MEDIUM
+        pkg_name: curl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-9086
+        severity: MEDIUM
+        pkg_name: libcurl
+        installed_version: 8.14.1-r1
+      - id: CVE-2025-9230
+        severity: MEDIUM
+        pkg_name: libcrypto3
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9230
+        severity: MEDIUM
+        pkg_name: libssl3
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9230
+        severity: MEDIUM
+        pkg_name: openssl
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9231
+        severity: MEDIUM
+        pkg_name: libcrypto3
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9231
+        severity: MEDIUM
+        pkg_name: libssl3
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9231
+        severity: MEDIUM
+        pkg_name: openssl
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9232
+        severity: LOW
+        pkg_name: libcrypto3
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9232
+        severity: LOW
+        pkg_name: libssl3
+        installed_version: 3.5.2-r0
+      - id: CVE-2025-9232
+        severity: LOW
+        pkg_name: openssl
+        installed_version: 3.5.2-r0
+      summary:
+        critical: 2
+        high: 8
+        medium: 44
+        low: 7
+        unknown: 0
+  - name: kube-webhook-certgen
+    path: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2@sha256:050a34002d5bb4966849c880c56c91f5320372564245733b33d4b3461b4dbd24
+    cves:
+      items:
+      - id: CVE-2025-47912
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58183
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58185
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58186
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58187
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58188
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-58189
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61723
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61724
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61725
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61727
+        severity: MEDIUM
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      - id: CVE-2025-61729
+        severity: HIGH
+        pkg_name: stdlib
+        installed_version: v1.24.6
+      summary:
+        critical: 0
+        high: 2
+        medium: 10
+        low: 0
+        unknown: 0
