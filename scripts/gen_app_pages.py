@@ -335,6 +335,27 @@ def version2template_names(version: str) -> str:
             "vsphere_hosted_cp": "vsphere-hosted-cp-1-0-19",
             "vsphere_standalone_cp": "vsphere-standalone-cp-1-0-18",
         }
+    if version == "v1.7.0":
+        return {
+            "adopted_cluster": "adopted-cluster-1-0-1",
+            "aws_eks": "aws-eks-1-0-4",
+            "aws_hosted_cp": "aws-hosted-cp-1-0-21",
+            "aws_standalone_cp": "aws-standalone-cp-1-0-20",
+            "azure_aks": "azure-aks-1-0-2",
+            "azure_hosted_cp": "azure-hosted-cp-1-0-23",
+            "azure_standalone_cp": "azure-standalone-cp-1-0-20",
+            "docker_hosted_cp": "docker-hosted-cp-1-0-4",
+            "gcp_gke": "gcp-gke-1-0-7",
+            "gcp_hosted_cp": "gcp-hosted-cp-1-0-20",
+            "gcp_standalone_cp": "gcp-standalone-cp-1-0-18",
+            "kubevirt_hosted_cp": "kubevirt-hosted-cp-1-0-1",
+            "kubevirt_standalone_cp": "kubevirt-standalone-cp-1-0-1",
+            "openstack_hosted_cp": "openstack-hosted-cp-1-0-13",
+            "openstack_standalone_cp": "openstack-standalone-cp-1-0-22",
+            "remote_cluster": "remote-cluster-1-0-19",
+            "vsphere_hosted_cp": "vsphere-hosted-cp-1-0-19",
+            "vsphere_standalone_cp": "vsphere-standalone-cp-1-0-18",
+        }
     raise Exception(f"Unsupported version '{version}' found")
 
 
