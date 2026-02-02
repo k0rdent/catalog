@@ -253,7 +253,7 @@ def get_chart_images(app: str, chart_name: str, chart_version: str) -> list:
     raw_images = []
     for item in obj:
         raw_images.extend(item['image'])
-    raw_images = list(set(raw_images))
+    raw_images = sorted(list(set(raw_images)))
     images = []
     for raw_image in raw_images:
         suffix = raw_image.split('/')[-1]
@@ -292,6 +292,7 @@ def get_image_cves(image: str):
     except:
         obj = dict()
     cves = []
+    cve_tuples = set()
     summary = dict(critical=0, high=0, medium=0, low=0, unknown=0)
     for res in obj.get('Results', []):
         for vuln in res.get('Vulnerabilities', []):
@@ -299,10 +300,13 @@ def get_image_cves(image: str):
             cve["id"] = vuln['VulnerabilityID']
             severity = vuln['Severity']
             cve["severity"] = severity
-            summary[severity.lower()] += 1
             cve["pkg_name"] = vuln['PkgName']
             cve["installed_version"] = vuln['InstalledVersion']
-            cves.append(cve)
+            cve_tuple = (cve["id"], cve["pkg_name"], cve['installed_version'])
+            if cve_tuple not in cve_tuples:
+                cve_tuples.add(cve_tuple)
+                summary[severity.lower()] += 1
+                cves.append(cve)
     cves_items = sorted(cves, key=lambda x: x["id"])
     return dict(items=cves_items, summary=summary)
 
