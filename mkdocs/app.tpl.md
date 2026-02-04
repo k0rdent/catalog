@@ -104,3 +104,40 @@ created: "{{ created }}"
 
 {%- endfor %}
 {%- endif %}
+
+{% if scan_results %}
+=== "Vulnerabilities"
+
+{%- for chart in scan_results.charts %}
+
+    #### {{ chart.name }}
+
+    <table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Critical</th>
+            <th>High</th>
+            <th>Medium</th>
+            <th>Low</th>
+            <th>Unknown</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%- for image in chart.images %}
+        <tr>
+            <td>{{ image.name }}</td>
+            <td>{{ image.score }}</td>
+            <td>{{ image.critical }}</td>
+            <td>{{ image.high }}</td>
+            <td>{{ image.medium }}</td>
+            <td>{{ image.low }}</td>
+            <td>{{ image.unknown }}</td>
+        </tr>
+        {%- endfor %}
+    </tbody>
+    </table>
+
+{%- endfor %}
+{%- endif %}
