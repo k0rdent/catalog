@@ -69,17 +69,16 @@ created: "{{ created }}"
     {% endif %}
 {% endif %}
 
-{% if images %}
-=== "Vulnerabilities"
+{% if security %}
+=== "Security"
 
-{%- for chart in images.charts %}
+    #### Aggregated CVE Summary
 
-    #### {{ chart.name }} - {{ chart.version }}
+    This table provides an aggregated overview of known [CVEs](https://www.cve.org/About/Overview) affecting this application.
 
     <table>
     <thead>
         <tr>
-            <th>Name</th>
             <th>Critical</th>
             <th>High</th>
             <th>Medium</th>
@@ -88,20 +87,32 @@ created: "{{ created }}"
         </tr>
     </thead>
     <tbody>
-        {%- for image in chart.images %}
         <tr>
-            <td>{{ image.name }}</td>
-            <td>{{ image.cves.summary.critical }}</td>
-            <td>{{ image.cves.summary.high }}</td>
-            <td>{{ image.cves.summary.medium }}</td>
-            <td>{{ image.cves.summary.low }}</td>
-            <td>{{ image.cves.summary.unknown }}</td>
+            <td>{{ security.critical }}</td>
+            <td>{{ security.high }}</td>
+            <td>{{ security.medium }}</td>
+            <td>{{ security.low }}</td>
+            <td>{{ security.unknown }}</td>
         </tr>
-        {%- endfor %}
     </tbody>
     </table>
 
-{%- endfor %}
+    The counts represent the number of unique CVE identifiers detected across the entire application stack, including all associated Helm charts, container images, and underlying OS or language-level packages.
+    If the same CVE appears in multiple images or packages, it is counted only once in this summary.
+
+    The vulnerability data is generated using the [Trivy security scanner](https://trivy.dev/), which analyzes container images and their dependencies against multiple vulnerability databases. The results reflect the state of the analyzed images at the time of scanning.
+
+    #### Severity levels
+    CVEs are grouped by severity according to [standard vulnerability scoring](https://www.first.org/cvss/):
+
+    - **Critical** – Vulnerabilities that can be easily exploited and may lead to full system compromise, remote code execution, or severe data exposure.
+	- **High** – Serious vulnerabilities that could significantly impact confidentiality, integrity, or availability, often requiring prompt remediation.
+	- **Medium** – Vulnerabilities with moderate impact that typically require specific conditions or configurations to be exploitable.
+	- **Low** – Issues with limited impact or difficult exploitation, often informational or defense-in-depth concerns.
+	- **Unknown** – CVEs for which a severity score is not available or could not be determined at the time of analysis.
+
+    This summary is intended to provide a high-level security posture of the application.
+
 {%- endif %}
 
 {% if examples %}
