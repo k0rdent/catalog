@@ -1,0 +1,110 @@
+name: Automatic Updates
+
+# Set GitHub repo vars/secrets:
+# Settings > Secrets > Actions > Repository secrets: AUTO_UPDATES_GH_TOKEN (perm: repo:public_repo)
+# Settings > Secrets > Actions > Repository variables: AUTO_UPDATES_ENABLED (value: 1)
+# Settings > Secrets > Actions > Repository variables: AUTO_UPDATES_DST_REPO (value: k0rdent/catalog)
+
+on:
+  workflow_dispatch:
+    inputs:
+      find_args:
+        description: 'Specify a set of folders to test apps from, e.g., "apps/nirmata apps/wandb"'
+        required: false
+        default: 'apps'
+# TODO: enable cron job
+  # schedule:
+  #   - cron: '0 9 * * *'   # 09:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  select-apps:
+    runs-on: ubuntu-latest
+    if: ${{ vars.AUTO_UPDATES_ENABLED == '1' }}
+    outputs:
+      app_folders: ${{ steps.get-tested-apps.outputs.folders }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full commit history
+
+      - name: Ensure the main branch is available
+        run: |
+          git fetch origin main --depth=1
+
+      - name: Get Tested Apps
+        id: get-tested-apps
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo "Running: find ${{ github.event.inputs.find_args }}"
+            all_detected_files=$(find ${{ github.event.inputs.find_args }} -type d -name example)
+          else
+            all_detected_files=$(find apps -type d -name example)
+          fi
+          echo "$all_detected_files"
+          tested_folders=$(echo "$all_detected_files" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | grep -vF "k0rdent-utils" | jq -R -s -c 'split("\n")[:-1]')
+          echo "Detected changes in: $tested_folders"
+          echo "folders=$tested_folders" >> "$GITHUB_OUTPUT"
+
+  update-app:
+    needs: select-apps
+    runs-on: ubuntu-latest
+    if: ${{ needs.select-apps.outputs.app_folders != '[]' }}  # Skip if no app folders
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: ${{ fromJson(needs.select-apps.outputs.app_folders) }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full commit history
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+
+      - name: Check updates
+        run: |
+          app=${{ matrix.folder }}
+          python3 ./scripts/chart_ctl.py check-updates "$app" -gude
+
+      - name: Commit and push changes
+        run: |
+          app=${{ matrix.folder }}
+          branch="${app}-update"
+          set -e
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git checkout -B "$branch"
+
+          # Nothing to do?
+          if git diff --quiet; then
+            echo "NO_CHANGES=true" >> "$GITHUB_ENV"
+            echo "No changes, exiting"
+            exit 0
+          fi
+
+          echo "NO_CHANGES=false" >> "$GITHUB_ENV"
+          git add .
+          git commit -m "Automated update"
+          git push origin "$branch" --force
+
+      - name: Create pull request
+        if: env.NO_CHANGES != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTO_UPDATES_GH_TOKEN }}
+        run: |
+          export APP=${{ matrix.folder }}
+          export DST_REPO=${{ vars.AUTO_UPDATES_DST_REPO }}
+          export OWNER=${{ github.repository_owner }}
+          ./scripts/create_pr.sh
