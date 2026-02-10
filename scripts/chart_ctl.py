@@ -254,37 +254,38 @@ def get_chart_images(app: str, chart_name: str, chart_version: str) -> list:
     for item in obj:
         raw_images.extend(item['image'])
     raw_images = sorted(list(set(raw_images)))
-    images = []
-    for raw_image in raw_images:
-        suffix = raw_image.split('/')[-1]
-        image_name = suffix.split(':')[0]
-        cves = get_image_cves(raw_image)
-        image = {'name': image_name, 'path': raw_image, 'cves': cves}
-        images.append(image)
-    return images
+    return raw_images
 
 
-def get_images(args: str):
+def get_aggregated_cves(images: list) -> dict:
+    summary = dict(critical=0, high=0, medium=0, low=0, unknown=0)
+    unique_cves = set()
+    for image in images:
+        cves = get_image_cves(image)
+        for cve in cves:
+            if cve['id'] not in unique_cves:
+                unique_cves.add(cve['id'])
+                summary[cve['severity'].lower()] += 1
+    return summary
+
+
+def security_cmd(args: str):
     app = args.app
     charts = get_charts(app)
-    out_charts = []
+    app_images = []
     for chart_dict in charts:
         chart_name = chart_dict['name']
         chart_version = str(chart_dict['versions'][0])
-        images = get_chart_images(app, chart_name, chart_version)
-        out_chart = {
-            'name': chart_name,
-            'version': chart_version,
-            'images': images
-        }
-        out_charts.append(out_chart)
-    output_yaml = yaml.dump(dict(charts=out_charts), sort_keys=False)
+        app_images.extend(get_chart_images(app, chart_name, chart_version))
+    summary = get_aggregated_cves(app_images)
+    output_yaml = yaml.dump(summary, sort_keys=False)
     print(output_yaml)
-    with open(f"apps/{app}/images.yaml", "w", encoding='utf-8') as f:
+    with open(f"apps/{app}/security.yaml", "w", encoding='utf-8') as f:
         f.write(output_yaml)
+    return app_images
 
 
-def get_image_cves(image: str):
+def get_image_cves(image: str) -> list:
     args = ['trivy', 'image', image, '-f', 'json']
     try:
         result = subprocess.run(args, check=True, capture_output=True, text=True)
@@ -293,7 +294,6 @@ def get_image_cves(image: str):
         obj = dict()
     cves = []
     cve_tuples = set()
-    summary = dict(critical=0, high=0, medium=0, low=0, unknown=0)
     for res in obj.get('Results', []):
         for vuln in res.get('Vulnerabilities', []):
             cve = dict()
@@ -305,10 +305,9 @@ def get_image_cves(image: str):
             cve_tuple = (cve["id"], cve["pkg_name"], cve['installed_version'])
             if cve_tuple not in cve_tuples:
                 cve_tuples.add(cve_tuple)
-                summary[severity.lower()] += 1
                 cves.append(cve)
     cves_items = sorted(cves, key=lambda x: x["id"])
-    return dict(items=cves_items, summary=summary)
+    return cves_items
 
 
 if __name__ == '__main__':
@@ -336,9 +335,9 @@ if __name__ == '__main__':
     check_images_parser.add_argument("app")
     check_images_parser.set_defaults(func=check_images)
 
-    imgs = subparsers.add_parser("images", help="Get charts images")
+    imgs = subparsers.add_parser("security", help="Get charts images")
     imgs.add_argument("app")
-    imgs.set_defaults(func=get_images)
+    imgs.set_defaults(func=security_cmd)
 
     args = parser.parse_args()
     args.func(args)
