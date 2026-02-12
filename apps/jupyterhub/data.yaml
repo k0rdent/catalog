@@ -1,5 +1,5 @@
 tags:
-    - Developer Tools
+  - Developer Tools
 title: "JupyterHub"
 summary: "A multi-user version of the notebook designed for companies, classrooms and research labs."
 logo: ./assets/juphub-icon.svg # https://www.veryicon.com/icons/business/vscode-program-item-icon/jupyter.html
@@ -19,13 +19,13 @@ description: |
 # support_link:
 charts:
   - name: jupyterhub
-    versions: ['4.2.0']
+    versions: ['4.3.2', '4.2.0']
 
 examples:
-  with_ingress:
-    title: With Ingress-nginx
-    chart_folder: example_ingress
-    content_template_file: example_ingress/content.tpl.md
+    with_ingress:
+        title: With Ingress-nginx
+        chart_folder: example_ingress
+        content_template_file: example_ingress/content.tpl.md
 
 doc_link: https://z2jh.jupyter.org/en/stable/
 
