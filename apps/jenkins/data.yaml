@@ -38,7 +38,7 @@ description: |
 # support_link: TODO
 charts:
   - name: jenkins
-    versions: ['5.8.116', '5.8.84']
+    versions: ['5.8.139', '5.8.116', '5.8.84']
 
 doc_link: https://www.jenkins.io/doc/
 
