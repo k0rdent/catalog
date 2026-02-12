@@ -5,23 +5,23 @@ summary: "Free and Open Source, Distributed, RESTful Search Engine ."
 logo: "./assets/icon.svg"
 created: "2025-08-29T17:51:52Z"
 description: |
-  Elasticsearch is a distributed search and analytics engine, scalable data store and vector database optimized for speed and relevance on production-scale workloads. Elasticsearch is the foundation of Elastic's open Stack platform. Search in near real-time over massive datasets, perform vector searches, integrate with generative AI applications, and much more.
+    Elasticsearch is a distributed search and analytics engine, scalable data store and vector database optimized for speed and relevance on production-scale workloads. Elasticsearch is the foundation of Elastic's open Stack platform. Search in near real-time over massive datasets, perform vector searches, integrate with generative AI applications, and much more.
 
-  Use cases enabled by Elasticsearch include:
+    Use cases enabled by Elasticsearch include:
 
-  * [Retrieval Augmented Generation (RAG)](https://www.elastic.co/search-labs/blog/articles/retrieval-augmented-generation-rag)
-  * [Vector search](https://www.elastic.co/search-labs/blog/categories/vector-search)
-  * Full-text search
-  * Logs
-  * Metrics
-  * Application performance monitoring (APM)
-  * Security logs
+    * [Retrieval Augmented Generation (RAG)](https://www.elastic.co/search-labs/blog/articles/retrieval-augmented-generation-rag)
+    * [Vector search](https://www.elastic.co/search-labs/blog/categories/vector-search)
+    * Full-text search
+    * Logs
+    * Metrics
+    * Application performance monitoring (APM)
+    * Security logs
 support_link: https://www.elastic.co/contact
 charts:
   - name: eck-operator
-    versions: ['3.1.0']
+    versions: ['3.3.0', '3.1.0']
   - name: eck-stack
-    versions: ['0.16.0']
+    versions: ['0.18.0', '0.16.0']
 
 doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart
 
