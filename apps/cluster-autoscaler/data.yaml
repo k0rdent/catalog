@@ -27,7 +27,7 @@ description: |
     - Managing hybrid and multi-cloud environments
 charts:
   - name: cluster-autoscaler
-    versions: ['9.45.0']
+    versions: ['9.55.0', '9.45.0']
 
 support_link: https://github.com/kubernetes/autoscaler/issues
 doc_link: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/README.md

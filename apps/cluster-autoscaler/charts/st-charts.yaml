@@ -3,3 +3,7 @@ st-charts:
   dep_name: cluster-autoscaler
   version: 9.45.0
   repository: https://kubernetes.github.io/autoscaler
+- name: cluster-autoscaler
+  dep_name: cluster-autoscaler
+  version: 9.55.0
+  repository: https://kubernetes.github.io/autoscaler
