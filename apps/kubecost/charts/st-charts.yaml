@@ -3,3 +3,7 @@ st-charts:
   dep_name: cost-analyzer
   version: 2.5.3
   repository: https://kubecost.github.io/cost-analyzer/
+- name: kubecost
+  dep_name: cost-analyzer
+  version: 2.9.6
+  repository: https://kubecost.github.io/cost-analyzer/
