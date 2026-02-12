@@ -3,3 +3,7 @@ st-charts:
   dep_name: jupyterhub
   version: 4.2.0
   repository: https://jupyterhub.github.io/helm-chart/
+- name: jupyterhub
+  dep_name: jupyterhub
+  version: 4.3.2
+  repository: https://jupyterhub.github.io/helm-chart/
