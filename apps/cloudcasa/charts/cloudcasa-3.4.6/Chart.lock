@@ -1,0 +1,6 @@
+dependencies:
+- name: cloudcasa
+  repository: https://catalogicsoftware.github.io/cloudcasa-helmchart/
+  version: 3.4.6
+digest: sha256:472a5eec1a1b58aed58631994ca1387af75e663b8a05d52d51b83988cab51227
+generated: "2026-02-12T20:14:32.808958486Z"
