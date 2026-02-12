@@ -4,5 +4,5 @@ type: application
 version: 1.2.46
 dependencies:
   - name: kube-arangodb
-    version: 1.2.46
+    version: 1.4.0
     repository: oci://ghcr.io/k0rdent/catalog/charts

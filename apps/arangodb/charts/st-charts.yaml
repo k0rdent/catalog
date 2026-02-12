@@ -3,3 +3,7 @@ st-charts:
   dep_name: kube-arangodb
   version: 1.2.46
   repository: https://arangodb.github.io/kube-arangodb
+- name: kube-arangodb
+  dep_name: kube-arangodb
+  version: 1.4.0
+  repository: https://arangodb.github.io/kube-arangodb
