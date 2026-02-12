@@ -6,21 +6,21 @@ summary: "Portable, event-driven runtime."
 logo: "./assets/dapr-logo.svg"
 created: "2025-03-12T08:16:55Z"
 description: |
-  Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
-  Service-to-service invocation: Enables reliable and secure communication between microservices. 
+    Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
+    Service-to-service invocation: Enables reliable and secure communication between microservices. 
 
-  State management: Provides a consistent way to manage application state. 
+    State management: Provides a consistent way to manage application state. 
 
-  Publish and subscribe: Allows microservices to communicate asynchronously through message brokers. 
+    Publish and subscribe: Allows microservices to communicate asynchronously through message brokers. 
 
-  Bindings: Connects applications to external systems and services (e.g., databases, message queues, cloud services). 
+    Bindings: Connects applications to external systems and services (e.g., databases, message queues, cloud services). 
 
-  Actors: Provides a framework for building stateful, concurrent objects. 
+    Actors: Provides a framework for building stateful, concurrent objects. 
 
-  Observability: Offers built-in observability features, including tracing, metrics, and logging.
+    Observability: Offers built-in observability features, including tracing, metrics, and logging.
 charts:
   - name: dapr
-    versions: ['1.14.4']
+    versions: ['1.16.8', '1.14.4']
   - name: dapr-dashboard
     versions: ['0.15.0']
 
@@ -29,9 +29,9 @@ doc_link: https://docs.dapr.io/
 use_ingress: true
 
 examples:
-  with_ingress:
-    title: With Ingress-nginx
-    chart_folder: example_ingress
+    with_ingress:
+        title: With Ingress-nginx
+        chart_folder: example_ingress
 
 validated_amd64: 'y'
 validated_aws: 'y'

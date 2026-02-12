@@ -1,6 +1,6 @@
 apiVersion: v2
 name: dapr-dashboard
-description: A Helm chart to refer the official "dapr-dashboard" helm chart
+description: A Helm chart that references the official "dapr-dashboard" Helm chart.
 type: application
 version: 0.15.0
 dependencies:

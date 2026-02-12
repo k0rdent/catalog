@@ -7,3 +7,7 @@ st-charts:
   dep_name: dapr-dashboard
   version: 0.15.0
   repository: https://dapr.github.io/helm-charts/
+- name: dapr
+  dep_name: dapr
+  version: 1.16.8
+  repository: https://dapr.github.io/helm-charts/
