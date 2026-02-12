@@ -4,5 +4,5 @@ type: application
 version: 7.1.7
 dependencies:
   - name: keycloakx
-    version: 7.1.7
+    version: 7.1.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
