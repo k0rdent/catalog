@@ -1,0 +1,9 @@
+apiVersion: v2
+name: cilium
+description: A Helm chart that references the official "cilium" Helm chart.
+type: application
+version: 1.19.0
+dependencies:
+  - name: cilium
+    version: 1.19.0
+    repository: https://helm.cilium.io/
