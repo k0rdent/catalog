@@ -20,7 +20,7 @@ description: |
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
 charts:
   - name: dapr
-    versions: ['1.16.8', '1.14.4']
+    versions: ['1.16.9', '1.16.8', '1.14.4']
   - name: dapr-dashboard
     versions: ['0.15.0']
 
