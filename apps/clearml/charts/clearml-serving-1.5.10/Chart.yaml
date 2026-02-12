@@ -1,6 +1,6 @@
 apiVersion: v2
 name: clearml-serving
-description: A Helm chart to refer the official "clearml-serving" helm chart
+description: A Helm chart that references the official "clearml-serving" Helm chart.
 type: application
 version: 1.5.10
 dependencies:
