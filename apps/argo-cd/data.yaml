@@ -13,7 +13,7 @@ description: |
 support_link: https://akuity.io/security-hardened-argo-cd
 charts:
   - name: argo-cd
-    versions: ['8.6.1', '7.8.0']
+    versions: ['9.4.1', '8.6.1', '7.8.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
@@ -22,59 +22,59 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: argo-cd-8-6-1
+          - template: argo-cd-9-4-1
             name: argo-cd
             namespace: argo-cd
     ~~~
 doc_link: https://argo-cd.readthedocs.io/en/stable/
 examples:
-  with_ingress:
-    title: "ArgoCD with Ingress-nginx"
-    content: |
-      Install service templates:
-      ~~~bash
-      helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=argo-cd:7.8.0" -n kcm-system
-      helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.12.3" -n kcm-system
-      ~~~
+    with_ingress:
+        title: "ArgoCD with Ingress-nginx"
+        content: |
+            Install service templates:
+            ~~~bash
+            helm install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=argo-cd:7.8.0" -n kcm-system
+            helm install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst --set "chart=ingress-nginx:4.12.3" -n kcm-system
+            ~~~
 
-      #### Deploy MultiClusterService with web UI
-      ~~~yaml
-      apiVersion: k0rdent.mirantis.com/v1beta1
-      kind: MultiClusterService
-      metadata:
-        name: argo-cd
-      spec:
-        clusterSelector:
-          matchLabels:
-            group: demo
-        serviceSpec:
-          services:
-          - template: argo-cd-7-8-0
-            name: argo-cd
-            namespace: argo-cd
-            values: |
-              argo-cd:
-                server:
-                  ingress:
-                    enabled: true
-                    ingressClassName: nginx
-                    hostname: 'argocd.example.com'
-                    annotations:
-                      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          - template: ingress-nginx-4-13-0
-            name: ingress-nginx
-            namespace: argo-cd
-            values: |
-              ingress-nginx:
-                controller:
-                  service:
-                    annotations:
-                      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-                  hostPort:
-                    enabled: true
-      ~~~
+            #### Deploy MultiClusterService with web UI
+            ~~~yaml
+            apiVersion: k0rdent.mirantis.com/v1beta1
+            kind: MultiClusterService
+            metadata:
+              name: argo-cd
+            spec:
+              clusterSelector:
+                matchLabels:
+                  group: demo
+              serviceSpec:
+                services:
+                - template: argo-cd-7-8-0
+                  name: argo-cd
+                  namespace: argo-cd
+                  values: |
+                    argo-cd:
+                      server:
+                        ingress:
+                          enabled: true
+                          ingressClassName: nginx
+                          hostname: 'argocd.example.com'
+                          annotations:
+                            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                - template: ingress-nginx-4-13-0
+                  name: ingress-nginx
+                  namespace: argo-cd
+                  values: |
+                    ingress-nginx:
+                      controller:
+                        service:
+                          annotations:
+                            service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+                        hostPort:
+                          enabled: true
+            ~~~
 
-      You can now access your ArgoCD web UI at `argocd.example.com`.
+            You can now access your ArgoCD web UI at `argocd.example.com`.
 
 validated_amd64: 'y'
 validated_aws: 'y'
