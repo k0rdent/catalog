@@ -1,0 +1,6 @@
+dependencies:
+- name: ray-cluster
+  repository: https://ray-project.github.io/kuberay-helm/
+  version: 1.5.1
+digest: sha256:49b8c582f142b4fc26d44c7ea4526bcaad600aa675c380248bd8d3c55e4bc7b5
+generated: "2026-02-12T20:12:24.322230093Z"
