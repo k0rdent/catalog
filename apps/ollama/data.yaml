@@ -5,22 +5,22 @@ summary: "Easiest way to automate your work using open models, while keeping you
 logo: "./assets/icon.svg" # https://upload.wikimedia.org/wikipedia/commons/3/31/Ollama-logo.svg
 created: "2026-01-30T00:00:00Z"
 description: |
-  Ollama is a lightweight platform for running large language models (LLMs) locally. It simplifies downloading, managing,
-  and serving popular open-source models (such as LLaMA, Mistral, Gemma, and others) through a simple HTTP API.
+    Ollama is a lightweight platform for running large language models (LLMs) locally. It simplifies downloading, managing,
+    and serving popular open-source models (such as LLaMA, Mistral, Gemma, and others) through a simple HTTP API.
 
-  In k0rdent, Ollama can be deployed as a Kubernetes workload and managed consistently across multiple clusters using a
-  MultiClusterService, making it suitable for development, testing, and edge or on-prem AI use cases.
+    In k0rdent, Ollama can be deployed as a Kubernetes workload and managed consistently across multiple clusters using a
+    MultiClusterService, making it suitable for development, testing, and edge or on-prem AI use cases.
 
-  #### Key Features
-  - Run LLMs locally without relying on external cloud services
-  - Simple REST API compatible with common AI tooling
-  -	Supports multiple open-source language models
-  -	Suitable for air-gapped, on-prem, and edge environments
-  -	Can be deployed and managed across clusters with k0rdent
+    #### Key Features
+    - Run LLMs locally without relying on external cloud services
+    - Simple REST API compatible with common AI tooling
+    -	Supports multiple open-source language models
+    -	Suitable for air-gapped, on-prem, and edge environments
+    -	Can be deployed and managed across clusters with k0rdent
 # support_link: TODO
 charts:
   - name: ollama
-    versions: ['1.40.0']
+    versions: ['1.42.0', '1.40.0']
 
 doc_link: https://docs.ollama.com/
 
