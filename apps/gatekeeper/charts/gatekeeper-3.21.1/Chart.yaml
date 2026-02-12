@@ -2,8 +2,8 @@ apiVersion: v2
 name: gatekeeper
 description: A Helm chart that references the official "gatekeeper" Helm chart.
 type: application
-version: 3.17.1
+version: 3.21.1
 dependencies:
   - name: gatekeeper
-    version: 3.17.1
+    version: 3.21.1
     repository: https://open-policy-agent.github.io/gatekeeper/charts/
