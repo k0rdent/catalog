@@ -3,3 +3,7 @@ st-charts:
   dep_name: apisix
   version: 2.12.4
   repository: https://apache.github.io/apisix-helm-chart
+- name: apisix
+  dep_name: apisix
+  version: 2.13.0
+  repository: https://apache.github.io/apisix-helm-chart
