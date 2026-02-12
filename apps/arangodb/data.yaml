@@ -14,7 +14,7 @@ description: |
 support_link: https://arangodb.com/contact/
 charts:
   - name: kube-arangodb
-    versions: ['1.2.46']
+    versions: ['1.4.0', '1.2.46']
 doc_link: https://docs.arangodb.com/stable/
 
 validated_amd64: 'y'
