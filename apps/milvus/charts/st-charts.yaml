@@ -3,3 +3,7 @@ st-charts:
   dep_name: milvus
   version: 5.0.1
   repository: https://zilliztech.github.io/milvus-helm/
+- name: milvus
+  dep_name: milvus
+  version: 5.0.14
+  repository: https://zilliztech.github.io/milvus-helm/
