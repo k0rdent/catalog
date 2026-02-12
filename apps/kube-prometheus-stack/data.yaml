@@ -11,7 +11,7 @@ description: |
 support_link: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 charts:
   - name: kube-prometheus-stack
-    versions: ['77.0.0', '72.6.2']
+    versions: ['81.6.3', '77.0.0', '72.6.2']
 
 doc_link: https://prometheus.io/community/
 

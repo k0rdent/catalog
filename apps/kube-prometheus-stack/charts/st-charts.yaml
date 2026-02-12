@@ -11,3 +11,7 @@ st-charts:
   dep_name: kube-prometheus-stack
   version: 77.0.0
   repository: https://prometheus-community.github.io/helm-charts
+- name: kube-prometheus-stack
+  dep_name: kube-prometheus-stack
+  version: 81.6.3
+  repository: https://prometheus-community.github.io/helm-charts
