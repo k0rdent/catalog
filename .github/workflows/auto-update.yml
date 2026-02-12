@@ -62,6 +62,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.AUTO_UPDATES_GH_TOKEN }}
           fetch-depth: 0  # Ensure full commit history
 
       - name: Install dependencies
@@ -79,8 +80,6 @@ jobs:
           python3 ./scripts/chart_ctl.py check-updates "$app" -gude
 
       - name: Commit and push changes
-        with:
-          token: ${{ secrets.AUTO_UPDATES_GH_TOKEN }}
         run: |
           app=${{ matrix.folder }}
           branch="${app}-update"
