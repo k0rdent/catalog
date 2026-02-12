@@ -1,0 +1,9 @@
+apiVersion: v2
+name: keda
+description: A Helm chart that references the official "keda" Helm chart.
+type: application
+version: 2.19.0
+dependencies:
+  - name: keda
+    version: 2.19.0
+    repository: https://kedacore.github.io/charts
