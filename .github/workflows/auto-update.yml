@@ -79,6 +79,8 @@ jobs:
           python3 ./scripts/chart_ctl.py check-updates "$app" -gude
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTO_UPDATES_GH_TOKEN }}
         run: |
           app=${{ matrix.folder }}
           branch="${app}-update"
@@ -97,7 +99,9 @@ jobs:
           echo "NO_CHANGES=false" >> "$GITHUB_ENV"
           git add .
           git commit -m "Automated update"
-          git push origin "$branch" --force
+          echo "Repo: ${{ github.repository }}"
+          # Using token to push to trigger push Actions
+          git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git "$branch" --force
 
       - name: Create pull request
         if: env.NO_CHANGES != 'true'
