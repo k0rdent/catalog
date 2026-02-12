@@ -6,25 +6,25 @@ logo: "./assets/headlamp.png" # https://github.com/kubernetes-sigs/headlamp/blob
 logo_big: "./assets/headlamp-big.svg" # https://headlamp.dev/img/logo.svg
 created: "2025-07-10T16:26:02Z"
 description: |
-  Headlamp is an easy-to-use and extensible Kubernetes web UI.
+    Headlamp is an easy-to-use and extensible Kubernetes web UI.
 
-  Headlamp was created to blend the traditional feature set of other web UIs/dashboards
-  (i.e., to list and view resources) with added functionality.
+    Headlamp was created to blend the traditional feature set of other web UIs/dashboards
+    (i.e., to list and view resources) with added functionality.
 
-  Headlamp can be used in-cluster, where it's accessed through a web browser, or as a desktop
-  application (using the information defined in the user's kubeconfig).
+    Headlamp can be used in-cluster, where it's accessed through a web browser, or as a desktop
+    application (using the information defined in the user's kubeconfig).
 # support_link:
 charts:
   - name: headlamp
-    versions: ['0.32.1']
+    versions: ['0.40.0', '0.32.1']
 
 doc_link: https://headlamp.dev/docs/latest/
 
 examples:
-  with_ingress:
-    title: With Ingress-nginx
-    chart_folder: example_ingress
-    content_template_file: example_ingress/content.tpl.md
+    with_ingress:
+        title: With Ingress-nginx
+        chart_folder: example_ingress
+        content_template_file: example_ingress/content.tpl.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
