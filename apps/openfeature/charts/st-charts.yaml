@@ -3,3 +3,7 @@ st-charts:
   dep_name: open-feature-operator
   version: v0.8.8
   repository: https://open-feature.github.io/open-feature-operator/
+- name: open-feature-operator
+  dep_name: open-feature-operator
+  version: v0.8.9
+  repository: https://open-feature.github.io/open-feature-operator/
