@@ -94,7 +94,7 @@ jobs:
 
           echo "NO_CHANGES=false" >> "$GITHUB_ENV"
           git add .
-          git commit -m "Automated update"
+          git commit -m "${app}: automated update"
           git push origin "$branch" --force
 
       - name: Create pull request
