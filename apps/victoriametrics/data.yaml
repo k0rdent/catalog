@@ -5,49 +5,49 @@ summary: "High-performance, cost-effective time series database"
 logo: "./assets/victoriametrics.png"
 created: "2025-06-25T18:24:00Z"
 description: |
-  VictoriaMetrics is a fast, cost-effective and scalable monitoring solution and time series database.
-  
-  It is designed to collect, store, and process real-time metrics, making it an excellent choice for monitoring applications, infrastructure, and business metrics. VictoriaMetrics can be used as a long-term remote storage for Prometheus or as a drop-in replacement for Prometheus with better performance and lower resource usage.
-  
-  Key features:
-  - High performance and resource efficiency
-  - Excellent compression for time series data
-  - Easy to operate and maintain
-  - Horizontal scalability
-  - Global query view
-  - Long-term storage
-  - Prometheus compatibility
+    VictoriaMetrics is a fast, cost-effective and scalable monitoring solution and time series database.
 
-  **Storage Configuration:**
-  
-  The example deployment uses emptyDir storage for universal compatibility. Data will be lost on pod restart.
-  
-  For production use, configure persistent storage:
-  
-  ~~~yaml
-  victoriametrics:
-    victoria-metrics-single:
-      server:
-        persistentVolume:
-          enabled: true
-          size: 100Gi
-          storageClass: "your-storage-class"
-  ~~~
-  
-  For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
+    It is designed to collect, store, and process real-time metrics, making it an excellent choice for monitoring applications, infrastructure, and business metrics. VictoriaMetrics can be used as a long-term remote storage for Prometheus or as a drop-in replacement for Prometheus with better performance and lower resource usage.
+
+    Key features:
+    - High performance and resource efficiency
+    - Excellent compression for time series data
+    - Easy to operate and maintain
+    - Horizontal scalability
+    - Global query view
+    - Long-term storage
+    - Prometheus compatibility
+
+    **Storage Configuration:**
+
+    The example deployment uses emptyDir storage for universal compatibility. Data will be lost on pod restart.
+
+    For production use, configure persistent storage:
+
+    ~~~yaml
+    victoriametrics:
+      victoria-metrics-single:
+        server:
+          persistentVolume:
+            enabled: true
+            size: 100Gi
+            storageClass: "your-storage-class"
+    ~~~
+
+    For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
 prerequisites: |
-  **Storage Requirements:**
-  
-  - **Testing/Evaluation**: Uses emptyDir storage (data lost on restart) - works on any cluster
-  - **Production**: Requires persistent volumes with a configured StorageClass
-  
-  **Network Access:**
-  
-  - LoadBalancer service type is used for external access
-  - Port 8428 for VictoriaMetrics HTTP API and web interface
+    **Storage Requirements:**
+
+    - **Testing/Evaluation**: Uses emptyDir storage (data lost on restart) - works on any cluster
+    - **Production**: Requires persistent volumes with a configured StorageClass
+
+    **Network Access:**
+
+    - LoadBalancer service type is used for external access
+    - Port 8428 for VictoriaMetrics HTTP API and web interface
 charts:
   - name: victoriametrics
-    versions: ['0.22.0']
+    versions: ['0.30.0', '0.22.0']
 
 doc_link: https://docs.victoriametrics.com/
 support_link: https://victoriametrics.com/products/enterprise/
