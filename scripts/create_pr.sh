@@ -15,7 +15,7 @@ echo "${head}"
 api_url="https://api.github.com/repos/$DST_REPO/pulls"
 
 # Create PR
-curl --fail -X POST \
+curl -X POST \
 -H "Authorization: Bearer $GITHUB_TOKEN" \
 -H "Accept: application/vnd.github+json" \
 "$api_url" \
