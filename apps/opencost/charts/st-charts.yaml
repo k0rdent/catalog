@@ -7,3 +7,7 @@ st-charts:
   dep_name: opencost
   version: 2.3.2
   repository: https://opencost.github.io/opencost-helm-chart
+- name: opencost
+  dep_name: opencost
+  version: 2.5.8
+  repository: https://opencost.github.io/opencost-helm-chart

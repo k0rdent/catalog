@@ -7,5 +7,5 @@ dependencies:
     version: 27.5.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: opencost
-    version: 2.3.2
+    version: 2.5.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
