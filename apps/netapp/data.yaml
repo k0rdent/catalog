@@ -12,7 +12,7 @@ description: |
 support_link: https://docs.netapp.com/us-en/trident/get-help.html
 charts:
   - name: trident-operator
-    versions: ['100.2506.0', '100.2410.0']
+    versions: ['100.2510.0', '100.2506.0', '100.2410.0']
 
 doc_link: https://docs.netapp.com/us-en/trident/index.html
 
