@@ -5,18 +5,18 @@ summary: "An access platform for your infrastructure."
 logo: "./assets/icon.svg" # https://goteleport.com/docs/favicon.svg
 created: "2025-08-29T17:51:52Z"
 description: |
-  The `teleport-cluster` Helm chart enables you deploy and manage a self-hosted, high-availability Teleport cluster.
-  This chart launches the Teleport Auth Service, Teleport Proxy Service, and the Kubernetes infrastructure required to support
-  these services. The guides in this section show you how to use the `teleport-cluster` Helm chart in your environment.
+    The `teleport-cluster` Helm chart enables you deploy and manage a self-hosted, high-availability Teleport cluster.
+    This chart launches the Teleport Auth Service, Teleport Proxy Service, and the Kubernetes infrastructure required to support
+    these services. The guides in this section show you how to use the `teleport-cluster` Helm chart in your environment.
 
-  You do not need to deploy the Auth Service and Proxy Service on Kubernetes in order to protect a Kubernetes cluster
-  with Teleport, and it is possible to enroll a Kubernetes cluster on Teleport Cloud or by running the Teleport
-  Kubernetes Service on a Linux server. For instructions on enrolling a Kubernetes cluster with Teleport, read
-  the [Kubernetes Access](https://goteleport.com/docs/enroll-resources/kubernetes-access/introduction/) documentation..
+    You do not need to deploy the Auth Service and Proxy Service on Kubernetes in order to protect a Kubernetes cluster
+    with Teleport, and it is possible to enroll a Kubernetes cluster on Teleport Cloud or by running the Teleport
+    Kubernetes Service on a Linux server. For instructions on enrolling a Kubernetes cluster with Teleport, read
+    the [Kubernetes Access](https://goteleport.com/docs/enroll-resources/kubernetes-access/introduction/) documentation..
 # support_link: TODO
 charts:
   - name: teleport-cluster
-    versions: ['18.2.0']
+    versions: ['18.6.8', '18.2.0']
 
 doc_link: https://goteleport.com/docs/installation/helm/
 
