@@ -11,7 +11,7 @@ description: |
 # support_link:
 charts:
   - name: metallb
-    versions: ['0.15.2', '0.14.7']
+    versions: ['0.15.3', '0.15.2', '0.14.7']
 
 doc_link: https://metallb.io/
 
