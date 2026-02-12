@@ -1,0 +1,9 @@
+apiVersion: v2
+name: tetrate-istiod
+description: A Helm chart that references the official "tetrate-istiod" Helm chart.
+type: application
+version: 1.28.3+tetrate0
+dependencies:
+  - name: istiod
+    version: 1.28.3+tetrate0
+    repository: https://tis.tetrate.io/charts
