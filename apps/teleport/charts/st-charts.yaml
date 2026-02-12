@@ -3,3 +3,7 @@ st-charts:
   dep_name: teleport-cluster
   version: 18.2.0
   repository: https://charts.releases.teleport.dev
+- name: teleport-cluster
+  dep_name: teleport-cluster
+  version: 18.6.8
+  repository: https://charts.releases.teleport.dev

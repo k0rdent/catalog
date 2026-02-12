@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: teleport-cluster
-    version: 18.2.0
+    version: 18.6.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
