@@ -2,8 +2,8 @@ apiVersion: v2
 name: node-feature-discovery
 description: A Helm chart that references the official "node-feature-discovery" Helm chart.
 type: application
-version: 0.16.1
+version: 0.18.3
 dependencies:
   - name: node-feature-discovery
-    version: 0.16.1
+    version: 0.18.3
     repository: https://kubernetes-sigs.github.io/node-feature-discovery/charts
