@@ -14,7 +14,7 @@ description: |
     </div>
 charts:
   - name: open-webui
-    versions: ['8.12.3', '8.10.0', '6.20.0']
+    versions: ['10.2.1', '8.12.3', '8.10.0', '6.20.0']
 
 doc_link: https://docs.openwebui.com/
 use_ingress: true
@@ -24,15 +24,15 @@ test_deploy_chart: false # only deploy mcs to save time and resources - big depl
 test_wait_for_pods: "open-webui-ollama-"
 
 examples:
-  with_ingress:
-    title: With Ingress-nginx
-    chart_folder: example_ingress
-  with_gpu:
-    title: With GPU
-    content_template_file: example_ingress/with_gpu.md
-  without_gpu:
-    title: Without GPU
-    content_template_file: example_ingress/without_gpu.md
+    with_ingress:
+        title: With Ingress-nginx
+        chart_folder: example_ingress
+    with_gpu:
+        title: With GPU
+        content_template_file: example_ingress/with_gpu.md
+    without_gpu:
+        title: Without GPU
+        content_template_file: example_ingress/without_gpu.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
