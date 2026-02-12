@@ -1,0 +1,9 @@
+apiVersion: v2
+name: postgresql
+description: A Helm chart that references the official "postgresql" Helm chart.
+type: application
+version: 18.3.0
+dependencies:
+  - name: postgresql
+    version: 18.3.0
+    repository: https://charts.bitnami.com/bitnami

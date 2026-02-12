@@ -7,3 +7,7 @@ st-charts:
   dep_name: postgresql
   version: 16.7.21
   repository: https://charts.bitnami.com/bitnami
+- name: postgresql
+  dep_name: postgresql
+  version: 18.3.0
+  repository: https://charts.bitnami.com/bitnami
