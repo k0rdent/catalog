@@ -14,11 +14,11 @@ support_link: https://tetrate.io/contact
 support_type: Partner
 charts:
   - name: tetrate-base
-    versions: ['1.28.20000', '1.27.10003', '1.26.20002']
+    versions: ['1.28.3+tetrate0', '1.28.20000', '1.27.10003', '1.26.20002']
   - name: tetrate-istiod
-    versions: ['1.28.20000', '1.27.10003', '1.26.20002']
+    versions: ['1.28.3+tetrate0', '1.28.20000', '1.27.10003', '1.26.20002']
   - name: tetrate-gateway
-    versions: ['1.28.20000', '1.27.10003', '1.26.20002']
+    versions: ['1.28.3+tetrate0', '1.28.20000', '1.27.10003', '1.26.20002']
 
 doc_link: https://docs.tetrate.io/istio-subscription/installation/install-helm
 

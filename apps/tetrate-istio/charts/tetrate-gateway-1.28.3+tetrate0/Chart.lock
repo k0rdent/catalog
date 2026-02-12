@@ -1,0 +1,6 @@
+dependencies:
+- name: gateway
+  repository: https://tis.tetrate.io/charts
+  version: 1.28.3+tetrate0
+digest: sha256:9485c8665c90817fb717eb91ff43675fca6a7f1bc3cb26731e719317c51c1676
+generated: "2026-02-12T20:58:55.808607399Z"
