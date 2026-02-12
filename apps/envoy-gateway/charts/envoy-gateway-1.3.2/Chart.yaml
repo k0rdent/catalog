@@ -1,6 +1,6 @@
 apiVersion: v2
 name: envoy-gateway
-description: A Helm chart to refer the official "envoy-gateway" helm chart
+description: A Helm chart that references the official "envoy-gateway" Helm chart.
 type: application
 version: 1.3.2
 dependencies:
