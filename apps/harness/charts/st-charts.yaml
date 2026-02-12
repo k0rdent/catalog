@@ -3,3 +3,7 @@ st-charts:
   dep_name: harness-delegate-ng
   version: 1.0.25
   repository: https://app.harness.io/storage/harness-download/delegate-helm-chart/
+- name: harness-delegate-ng
+  dep_name: harness-delegate-ng
+  version: 1.0.31
+  repository: https://app.harness.io/storage/harness-download/delegate-helm-chart/
