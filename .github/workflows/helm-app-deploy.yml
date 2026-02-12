@@ -120,7 +120,7 @@ jobs:
           if [ -n "$repo_path" ]; then
             echo "Replacing 'ghcr.io/k0rdent/catalog/charts' with '$repo_path' for forked/non-main build"
             sed -i "s|oci://ghcr.io/k0rdent/catalog/charts|oci://$repo_path|g" apps/$APP/example/Chart.yaml
-            helm dependency update "apps/$APP/example"
+            ./scripts/retry.sh helm dependency update "apps/$APP/example"
           fi
 
       - name: Test - Show service templates install commands
