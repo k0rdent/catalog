@@ -13,7 +13,7 @@ description: |
 support_link: https://about.gitlab.com/enterprise/
 charts:
   - name: gitlab
-    versions: ['9.5.1', '8.9.2']
+    versions: ['9.8.4', '9.5.1', '8.9.2']
 deploy_code: |
     In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:
     ~~~yaml
@@ -55,7 +55,7 @@ deploy_code: |
     ...
       serviceSpec:
         services:
-          - template: gitlab-9-5-1
+          - template: gitlab-9-8-4
             name: gitlab
             namespace: gitlab
             values: |
