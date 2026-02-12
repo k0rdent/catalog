@@ -14,7 +14,7 @@ description: |
     foundation for highly available PostgreSQL clusters within the Kubernetes environment.
 
     ## Operator Features
-    
+
     * Rolling updates on Postgres cluster changes, including quick minor version updates
     * Live volume resize without pod restarts
     * Database connection pooling with PGBouncer
@@ -28,7 +28,7 @@ description: |
     * UI to create and edit Postgres cluster manifests
 
     ## PostgreSQL Features
-    
+
     * Supports PostgreSQL 17, starting from 13+
     * Streaming replication cluster via Patroni
     * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
@@ -36,7 +36,7 @@ description: |
 # support_link:
 charts:
   - name: postgres-operator
-    versions: ['1.14.0']
+    versions: ['1.15.1', '1.14.0']
 
 doc_link: https://postgres-operator.readthedocs.io/
 
