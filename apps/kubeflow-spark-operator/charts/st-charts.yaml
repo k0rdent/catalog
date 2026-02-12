@@ -3,3 +3,7 @@ st-charts:
   dep_name: spark-operator
   version: 2.3.0
   repository: https://kubeflow.github.io/spark-operator
+- name: kubeflow-spark-operator
+  dep_name: spark-operator
+  version: 2.4.0
+  repository: https://kubeflow.github.io/spark-operator
