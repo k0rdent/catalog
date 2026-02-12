@@ -1,5 +1,5 @@
 tags:
-    - Networking
+  - Networking
 title: "Istio"
 summary: "Open source service mesh that layers transparently onto existing distributed applications."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
@@ -11,18 +11,18 @@ description: |
 support_link: https://tetrate.io/
 charts:
   - name: istio-base
-    versions: ['1.27.1', '1.24.3']
+    versions: ['1.28.3', '1.27.1', '1.24.3']
   - name: istiod
-    versions: ['1.27.1', '1.24.3']
+    versions: ['1.28.3', '1.27.1', '1.24.3']
   - name: istio-gateway
-    versions: ['1.27.1', '1.24.3']
+    versions: ['1.28.3', '1.27.1', '1.24.3']
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
 examples:
-  kserve:
-    title: KServe
-    ref: kserve.with_istio
+    kserve:
+        title: KServe
+        ref: kserve.with_istio
 
 # test settings
 test_namespace: istio-system

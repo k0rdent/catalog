@@ -1,0 +1,6 @@
+dependencies:
+- name: istiod
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.28.3
+digest: sha256:0648d94591b5ef56e93cb8c907efd53e17ac8158ecb0913f8a960d884cb02d12
+generated: "2026-02-12T20:11:02.377157143Z"

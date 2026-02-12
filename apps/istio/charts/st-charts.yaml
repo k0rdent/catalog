@@ -23,3 +23,15 @@ st-charts:
   dep_name: gateway
   version: 1.27.1
   repository: https://istio-release.storage.googleapis.com/charts
+- name: istio-base
+  dep_name: base
+  version: 1.28.3
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istiod
+  dep_name: istiod
+  version: 1.28.3
+  repository: https://istio-release.storage.googleapis.com/charts
+- name: istio-gateway
+  dep_name: gateway
+  version: 1.28.3
+  repository: https://istio-release.storage.googleapis.com/charts
