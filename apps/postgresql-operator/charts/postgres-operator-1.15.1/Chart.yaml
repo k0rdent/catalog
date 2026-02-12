@@ -1,0 +1,9 @@
+apiVersion: v2
+name: postgres-operator
+description: A Helm chart that references the official "postgres-operator" Helm chart.
+type: application
+version: 1.15.1
+dependencies:
+  - name: postgres-operator
+    version: 1.15.1
+    repository: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
