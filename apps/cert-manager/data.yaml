@@ -10,7 +10,7 @@ description: |
 support_link: https://cert-manager.io/support/
 charts:
   - name: cert-manager
-    versions: ['1.19.2', '1.18.2', '1.17.2', '1.16.2']
+    versions: ['1.19.3', '1.19.2', '1.18.2', '1.17.2', '1.16.2']
 
 doc_link: https://cert-manager.io/docs/installation/helm/
 
