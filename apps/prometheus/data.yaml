@@ -5,33 +5,33 @@ summary: From metrics to insight
 logo: "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png"
 created: "2025-03-12T08:16:55Z"
 description: |
-  Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
-  Since its inception in 2012, many companies and organizations have adopted Prometheus, and
-  the project has a very active developer and user community.
+    Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
+    Since its inception in 2012, many companies and organizations have adopted Prometheus, and
+    the project has a very active developer and user community.
 charts:
   - name: prometheus
-    versions: ['27.5.1']
+    versions: ['28.9.0', '27.5.1']
 deploy_code: |
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  # kind: MultiClusterService
-  ...
-    serviceSpec:
-      services:
-        - template: prometheus-27-5-1
-          name: prometheus
-          namespace: prometheus
-          values: |
-            prometheus:
-              server:
-                ingress:
-                  enabled: true
-                  annotations:
-                    kubernetes.io/ingress.class: nginx
-                  hosts:
-                    - prometheus.example.com
-  ~~~
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    # kind: MultiClusterService
+    ...
+      serviceSpec:
+        services:
+          - template: prometheus-28-9-0
+            name: prometheus
+            namespace: prometheus
+            values: |
+              prometheus:
+                server:
+                  ingress:
+                    enabled: true
+                    annotations:
+                      kubernetes.io/ingress.class: nginx
+                    hosts:
+                      - prometheus.example.com
+    ~~~
 doc_link: https://prometheus.io/docs/introduction/overview/
 test_wait_for_pods: "prometheus-server-"
 use_ingress: true
