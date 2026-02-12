@@ -1,5 +1,5 @@
 tags:
-    - Networking
+  - Networking
 title: "Istio - Ambient Mode"
 summary: "Sidecar-less mesh with node-level routing and app-layer control."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
@@ -18,9 +18,9 @@ description: |
 support_link: https://www.solo.io/istio-support
 charts:
   - name: istio-cni
-    versions: ['1.27.1', '1.24.3']
+    versions: ['1.28.3', '1.27.1', '1.24.3']
   - name: istio-ztunnel
-    versions: ['1.27.1', '1.24.3']
+    versions: ['1.28.3', '1.27.1', '1.24.3']
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
 test_namespace: istio-system
