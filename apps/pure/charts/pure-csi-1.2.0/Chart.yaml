@@ -1,6 +1,6 @@
 apiVersion: v2
 name: pure-csi
-description: A Helm chart to refer the official "pure-csi" helm chart
+description: A Helm chart that references the official "pure-csi" Helm chart.
 type: application
 version: 1.2.0
 dependencies:

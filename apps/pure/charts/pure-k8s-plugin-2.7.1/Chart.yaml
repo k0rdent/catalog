@@ -1,6 +1,6 @@
 apiVersion: v2
 name: pure-k8s-plugin
-description: A Helm chart to refer the official "pure-k8s-plugin" helm chart
+description: A Helm chart that references the official "pure-k8s-plugin" Helm chart.
 type: application
 version: 2.7.1
 dependencies:
