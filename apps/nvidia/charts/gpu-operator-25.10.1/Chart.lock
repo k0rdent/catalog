@@ -1,0 +1,6 @@
+dependencies:
+- name: gpu-operator
+  repository: https://helm.ngc.nvidia.com/nvidia
+  version: v25.10.1
+digest: sha256:af23a7d80929e3e3e805bd220471e395041263179ce07d7050e435d497d909fa
+generated: "2026-02-12T20:20:34.907493011Z"
