@@ -5,19 +5,19 @@ summary: "High-Performance Vector Search at Scale."
 logo: "./assets/icon.svg" # https://qdrant.tech/brand-resources/
 created: "2025-09-04T17:51:52Z"
 description: |
-  **Qdrant** (read: _quadrant_) is a vector similarity search engine and vector database.
-  
-  It provides a production-ready service with a convenient API to store, search, and manage points—vectors with an additional payload
-  Qdrant is tailored to extended filtering support. It makes it useful for all sorts of neural-network or semantic-based matching, faceted search, and other applications.
+    **Qdrant** (read: _quadrant_) is a vector similarity search engine and vector database.
 
-  Qdrant is written in Rust 🦀, which makes it fast and reliable even under high load. See [benchmarks](https://qdrant.tech/benchmarks/).
+    It provides a production-ready service with a convenient API to store, search, and manage points—vectors with an additional payload
+    Qdrant is tailored to extended filtering support. It makes it useful for all sorts of neural-network or semantic-based matching, faceted search, and other applications.
 
-  With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!
+    Qdrant is written in Rust 🦀, which makes it fast and reliable even under high load. See [benchmarks](https://qdrant.tech/benchmarks/).
 
-  Qdrant is also available as a fully managed **[Qdrant Cloud](https://cloud.qdrant.io/)** ⛅ including a **free tier**.
+    With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!
+
+    Qdrant is also available as a fully managed **[Qdrant Cloud](https://cloud.qdrant.io/)** ⛅ including a **free tier**.
 charts:
   - name: qdrant
-    versions: ['1.15.4']
+    versions: ['1.16.3', '1.15.4']
 
 doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
 
