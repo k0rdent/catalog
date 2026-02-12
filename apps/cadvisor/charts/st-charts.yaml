@@ -3,3 +3,7 @@ st-charts:
   dep_name: cadvisor
   version: 2.3.3
   repository: https://ckotzbauer.github.io/helm-charts
+- name: cadvisor
+  dep_name: cadvisor
+  version: 2.4.1
+  repository: https://ckotzbauer.github.io/helm-charts
