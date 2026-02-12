@@ -15,7 +15,7 @@ description: |
     - **Mixed Data Sources:** Mix different data sources in the same graph! You can specify a data source on a per-query basis. This works for even custom datasources.
 charts:
   - name: grafana
-    versions: ['10.1.0', '9.3.6']
+    versions: ['10.5.15', '10.1.0', '9.3.6']
   - name: grafana-operator
     versions: ['v5.20.0']
 
