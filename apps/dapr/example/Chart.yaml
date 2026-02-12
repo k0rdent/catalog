@@ -4,7 +4,7 @@ type: application
 version: 1.14.4
 dependencies:
   - name: dapr
-    version: 1.16.8
+    version: 1.16.9
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: dapr-dashboard
     version: 0.15.0
