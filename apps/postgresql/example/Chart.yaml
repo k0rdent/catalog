@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: postgresql
-    version: 16.7.21
+    version: 18.3.0
     repository: oci://ghcr.io/k0rdent/catalog/charts

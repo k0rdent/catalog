@@ -5,25 +5,25 @@ summary: "Open source object-relational database known for reliability and data 
 logo: "./assets/postgres_logo.svg"
 created: "2025-07-08T16:43:20Z"
 description: |
-  PostgreSQL is a powerful, open-source object-relational database system known for its reliability, rich feature set, and strong
-  performance, backed by over 35 years of active development. It supports complex queries, extensibility, and full ACID compliance.
+    PostgreSQL is a powerful, open-source object-relational database system known for its reliability, rich feature set, and strong
+    performance, backed by over 35 years of active development. It supports complex queries, extensibility, and full ACID compliance.
 
-  PostgreSQL can be deployed and managed at scale using k0rdent, making it a robust choice for multi-cluster environments.
-  The broader open source community offers extensive knowledge and support, helping users get started, deepen their expertise,
-  and stay connected.
+    PostgreSQL can be deployed and managed at scale using k0rdent, making it a robust choice for multi-cluster environments.
+    The broader open source community offers extensive knowledge and support, helping users get started, deepen their expertise,
+    and stay connected.
 # support_link:
 charts:
   - name: postgresql
-    versions: ['16.7.21', '16.7.15']
+    versions: ['18.3.0', '16.7.21', '16.7.15']
 
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 test_check_images_args: "--set postgresql.image.repository=bitnamilegacy/postgresql --set postgresql.global.security.allowInsecureImages=true"
 
 examples:
-  with_ingress:
-    title: "With Ingress-nginx"
-    chart_folder: example_ingress
-    content_template_file: example_ingress/content.tpl.md
+    with_ingress:
+        title: "With Ingress-nginx"
+        chart_folder: example_ingress
+        content_template_file: example_ingress/content.tpl.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
