@@ -1,172 +1,171 @@
 tags:
-    - Networking
+  - Networking
 title: "Cilium"
 summary: "eBPF-based Networking, Observability, Security"
 logo: ./assets/icon.svg
 logo_big: ./assets/logo.svg # https://github.com/cilium/cilium.io/blob/main/src/images/logo.inline.svg
 created: "2025-10-07T00:00:00Z"
 description: |
-  Cilium is a networking, observability, and security solution with an eBPF-based
-  dataplane. It provides a simple flat Layer 3 network with the ability to span
-  multiple clusters in either a native routing or overlay mode. It is L7-protocol
-  aware and can enforce network policies on L3-L7 using an identity based security
-  model that is decoupled from network addressing.
+    Cilium is a networking, observability, and security solution with an eBPF-based
+    dataplane. It provides a simple flat Layer 3 network with the ability to span
+    multiple clusters in either a native routing or overlay mode. It is L7-protocol
+    aware and can enforce network policies on L3-L7 using an identity based security
+    model that is decoupled from network addressing.
 
-  Cilium implements distributed load balancing for traffic between pods and to
-  external services, and is able to fully replace kube-proxy, using efficient
-  hash tables in eBPF allowing for almost unlimited scale. It also supports
-  advanced functionality like integrated ingress and egress gateway, bandwidth
-  management and service mesh, and provides deep network and security visibility and monitoring.
+    Cilium implements distributed load balancing for traffic between pods and to
+    external services, and is able to fully replace kube-proxy, using efficient
+    hash tables in eBPF allowing for almost unlimited scale. It also supports
+    advanced functionality like integrated ingress and egress gateway, bandwidth
+    management and service mesh, and provides deep network and security visibility and monitoring.
 
-  A new Linux kernel technology called eBPF is at the foundation of Cilium. It
-  supports dynamic insertion of eBPF bytecode into the Linux kernel at various
-  integration points such as: network IO, application sockets, and tracepoints to
-  implement security, networking and visibility logic. eBPF is highly efficient
-  and flexible. To learn more about eBPF, visit [eBPF.io](https://eBPF.io){ target="_blank" }.
+    A new Linux kernel technology called eBPF is at the foundation of Cilium. It
+    supports dynamic insertion of eBPF bytecode into the Linux kernel at various
+    integration points such as: network IO, application sockets, and tracepoints to
+    implement security, networking and visibility logic. eBPF is highly efficient
+    and flexible. To learn more about eBPF, visit [eBPF.io](https://eBPF.io){ target="_blank" }.
 support_link: https://cilium.io/enterprise/
-exclude_versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1',
-                   'v1.2.0', 'v1.3.1']
+exclude_versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1', 'v1.2.0', 'v1.3.1']
 charts:
   - name: cilium
-    versions: ['1.18.2']
+    versions: ['1.19.0', '1.18.2']
 deploy_code: |
-  ##### MultiClusterService config
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: MultiClusterService
-  metadata:
-    name: cilium
-  spec:
-    clusterSelector:
-      matchLabels:
-        group: demo
-    serviceSpec:
-      services:
-      - template: cilium-1-18-2
-        name: cilium
-        namespace: cilium
-        values: |
-          cilium:
-            cluster:
-              name: cilium
-            hubble:
-              tls:
-                enabled: false
-              auto:
-                method: helm
-                certManagerIssuerRef: {}
-              ui:
-                enabled: false
-                ingress:
-                  enabled: false
-              relay:
-                enabled: false
-            ipv4:
-              enabled: true
-            ipv6:
-              enabled: false
-            envoy:
-              enabled: false
-            egressGateway:
-              enabled: false
-            kubeProxyReplacement: "true"
-            serviceAccounts:
-              cilium:
+    ##### MultiClusterService config
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: MultiClusterService
+    metadata:
+      name: cilium
+    spec:
+      clusterSelector:
+        matchLabels:
+          group: demo
+      serviceSpec:
+        services:
+        - template: cilium-1-19-0
+          name: cilium
+          namespace: cilium
+          values: |
+            cilium:
+              cluster:
                 name: cilium
-              operator:
-                name: cilium-operator
-            localRedirectPolicy: true
-            ipam:
-              mode: cluster-pool
-              operator:
-                clusterPoolIPv4PodCIDRList:
-                - "192.168.224.0/20"
-                - "192.168.210.0/20"
-                clusterPoolIPv6PodCIDRList:
-                - "fd00::/104"
-            tunnelProtocol: geneve
-            {%- raw %}
-            k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
-            k8sServicePort: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
-            {%- endraw %}
-  ~~~
+              hubble:
+                tls:
+                  enabled: false
+                auto:
+                  method: helm
+                  certManagerIssuerRef: {}
+                ui:
+                  enabled: false
+                  ingress:
+                    enabled: false
+                relay:
+                  enabled: false
+              ipv4:
+                enabled: true
+              ipv6:
+                enabled: false
+              envoy:
+                enabled: false
+              egressGateway:
+                enabled: false
+              kubeProxyReplacement: "true"
+              serviceAccounts:
+                cilium:
+                  name: cilium
+                operator:
+                  name: cilium-operator
+              localRedirectPolicy: true
+              ipam:
+                mode: cluster-pool
+                operator:
+                  clusterPoolIPv4PodCIDRList:
+                  - "192.168.224.0/20"
+                  - "192.168.210.0/20"
+                  clusterPoolIPv6PodCIDRList:
+                  - "fd00::/104"
+              tunnelProtocol: geneve
+              {%- raw %}
+              k8sServiceHost: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
+              k8sServicePort: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
+              {%- endraw %}
+    ~~~
 
-  ##### AWS ClusterDeployment config
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  metadata:
-    name: aws-example
-    namespace: kcm-system
-    labels:
-      type: aws
-      group: demo
-  spec:
-    template: aws-standalone-cp-1-0-20
-    credential: aws-credential
-    config:
-      controlPlane:
-        instanceType: AWS_EC2_FAMILY.medium
-        amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
-        # amiID: ami-0767e2b43d3045650 # arm64
-      controlPlaneNumber: 1
-      publicIP: true
-      region: us-west-1
-      worker:
-        instanceType: AWS_EC2_FAMILY.medium
-        rootVolumeSize: 16
-        amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
-        # amiID: ami-0767e2b43d3045650 # arm64
-      workersNumber: 1
-      k0s:
-        network:
-          calico: null
-          provider: custom
-          kubeProxy:
-            disabled: true
-  ~~~
+    ##### AWS ClusterDeployment config
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: aws-example
+      namespace: kcm-system
+      labels:
+        type: aws
+        group: demo
+    spec:
+      template: aws-standalone-cp-1-0-20
+      credential: aws-credential
+      config:
+        controlPlane:
+          instanceType: AWS_EC2_FAMILY.medium
+          amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+          # amiID: ami-0767e2b43d3045650 # arm64
+        controlPlaneNumber: 1
+        publicIP: true
+        region: us-west-1
+        worker:
+          instanceType: AWS_EC2_FAMILY.medium
+          rootVolumeSize: 16
+          amiID: ami-00db2a05fa9102011 # Ubuntu Jammy LTS at us-west-1 (ensure subscription)
+          # amiID: ami-0767e2b43d3045650 # arm64
+        workersNumber: 1
+        k0s:
+          network:
+            calico: null
+            provider: custom
+            kubeProxy:
+              disabled: true
+    ~~~
 
-  ##### Azure ClusterDeployment config
-  ~~~yaml
-  apiVersion: k0rdent.mirantis.com/v1beta1
-  kind: ClusterDeployment
-  metadata:
-    name: azure-example
-    namespace: kcm-system
-    labels:
-      type: azure
-      group: demo
-  spec:
-    template: azure-standalone-cp-1-0-20
-    credential: azure-credential
-    config:
-      location: "westus"
-      subscriptionID: AZURE_SUB_ID
-      controlPlaneNumber: 1
-      controlPlane:
-        vmSize: Standard_A4_v2
-        image:
-          marketplace:
-            publisher: "Canonical"
-            offer: "0001-com-ubuntu-minimal-jammy"
-            sku: "minimal-22_04-lts"
-            version: "22.04.202502270"
-      workersNumber: 1
-      worker:
-        vmSize: Standard_A4_v2
-        image:
-          marketplace:
-            publisher: "Canonical"
-            offer: "0001-com-ubuntu-minimal-jammy"
-            sku: "minimal-22_04-lts"
-            version: "22.04.202502270"
-      k0s:
-        network:
-          calico: null
-          provider: custom
-          kubeProxy:
-            disabled: true
-  ~~~
+    ##### Azure ClusterDeployment config
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: azure-example
+      namespace: kcm-system
+      labels:
+        type: azure
+        group: demo
+    spec:
+      template: azure-standalone-cp-1-0-20
+      credential: azure-credential
+      config:
+        location: "westus"
+        subscriptionID: AZURE_SUB_ID
+        controlPlaneNumber: 1
+        controlPlane:
+          vmSize: Standard_A4_v2
+          image:
+            marketplace:
+              publisher: "Canonical"
+              offer: "0001-com-ubuntu-minimal-jammy"
+              sku: "minimal-22_04-lts"
+              version: "22.04.202502270"
+        workersNumber: 1
+        worker:
+          vmSize: Standard_A4_v2
+          image:
+            marketplace:
+              publisher: "Canonical"
+              offer: "0001-com-ubuntu-minimal-jammy"
+              sku: "minimal-22_04-lts"
+              version: "22.04.202502270"
+        k0s:
+          network:
+            calico: null
+            provider: custom
+            kubeProxy:
+              disabled: true
+    ~~~
 
 doc_link: https://docs.cilium.io/en/stable/internals/cilium_operator/
 
