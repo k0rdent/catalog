@@ -4,5 +4,5 @@ type: application
 version: 100.2506.0
 dependencies:
   - name: trident-operator
-    version: 100.2506.0
+    version: 100.2510.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
