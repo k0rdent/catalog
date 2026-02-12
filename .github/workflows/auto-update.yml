@@ -16,9 +16,6 @@ on:
   # schedule:
   #   - cron: '0 9 * * *'   # 09:00 UTC
 
-permissions:
-  contents: write
-
 jobs:
   select-apps:
     runs-on: ubuntu-latest
@@ -62,6 +59,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.AUTO_UPDATES_GH_TOKEN }}
           fetch-depth: 0  # Ensure full commit history
 
       - name: Install dependencies
