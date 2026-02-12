@@ -4,5 +4,5 @@ type: application
 version: 14.1.2
 dependencies:
   - name: minio
-    version: 14.1.2
+    version: 17.0.21
     repository: oci://ghcr.io/k0rdent/catalog/charts
