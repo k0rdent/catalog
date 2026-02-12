@@ -1,0 +1,9 @@
+apiVersion: v2
+name: open-feature-operator
+description: A Helm chart that references the official "open-feature-operator" Helm chart.
+type: application
+version: v0.8.9
+dependencies:
+  - name: open-feature-operator
+    version: v0.8.9
+    repository: https://open-feature.github.io/open-feature-operator/

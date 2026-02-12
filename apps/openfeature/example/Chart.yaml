@@ -7,5 +7,5 @@ dependencies:
     version: 1.18.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: open-feature-operator
-    version: v0.8.8
+    version: v0.8.9
     repository: oci://ghcr.io/k0rdent/catalog/charts
