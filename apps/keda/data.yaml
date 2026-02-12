@@ -15,7 +15,7 @@ description: |
     frameworks.
 charts:
   - name: keda
-    versions: ['2.17.0']
+    versions: ['2.19.0', '2.17.0']
 
 support_link: https://keda.sh/enterprise/
 doc_link: https://keda.sh/docs/2.17/
