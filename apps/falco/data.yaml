@@ -10,7 +10,7 @@ description: |
 support_link: https://falco.org/enterprise/
 charts:
   - name: falco
-    versions: ['6.4.0', '4.21.3']
+    versions: ['8.0.0', '6.4.0', '4.21.3']
 doc_link: https://falco.org/docs/
 
 validated_amd64: 'y'
