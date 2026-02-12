@@ -5,28 +5,28 @@ summary: "A Tool for Managing the Machine Learning Lifecycle."
 logo: "./assets/icon.svg" # https://github.com/mlflow/mlflow/blob/master/assets/logo.svg
 created: "2025-10-09T00:00:00Z"
 description: |
-  ## Overview
+    ## Overview
 
-  **MLflow** is an open-source platform designed to manage the complete machine learning lifecycle
-  — from experimentation and reproducibility to deployment and monitoring. It provides a unified
-  interface and standardized tooling for teams building and maintaining ML models, making it easier
-  to collaborate and track model performance over time.
+    **MLflow** is an open-source platform designed to manage the complete machine learning lifecycle
+    — from experimentation and reproducibility to deployment and monitoring. It provides a unified
+    interface and standardized tooling for teams building and maintaining ML models, making it easier
+    to collaborate and track model performance over time.
 
-  MLflow's architecture emphasizes flexibility: it integrates seamlessly with various machine
-  learning libraries and frameworks (such as TensorFlow, PyTorch, or Scikit-learn) and supports
-  deployment to multiple environments including local servers, Kubernetes, and cloud platforms.
+    MLflow's architecture emphasizes flexibility: it integrates seamlessly with various machine
+    learning libraries and frameworks (such as TensorFlow, PyTorch, or Scikit-learn) and supports
+    deployment to multiple environments including local servers, Kubernetes, and cloud platforms.
 
-  ## Key Features
+    ## Key Features
 
-  - **Experiment Tracking:** Record, compare, and visualize runs with parameters, metrics, and artifacts.
-  - **Model Registry:** Centralized hub to manage model versions, lifecycle stages, and approvals.
-  - **Project Packaging:** Standardized format for reproducible machine learning projects using conda or Docker environments.
-  - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
-  - **REST and Python APIs:** Access all MLflow components programmatically.
+    - **Experiment Tracking:** Record, compare, and visualize runs with parameters, metrics, and artifacts.
+    - **Model Registry:** Centralized hub to manage model versions, lifecycle stages, and approvals.
+    - **Project Packaging:** Standardized format for reproducible machine learning projects using conda or Docker environments.
+    - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
+    - **REST and Python APIs:** Access all MLflow components programmatically.
 # support_link: TODO
 charts:
   - name: mlflow
-    versions: ['1.7.1']
+    versions: ['1.8.1', '1.7.1']
 
 doc_link: https://mlflow.org/docs/latest/
 
