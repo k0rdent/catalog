@@ -16,8 +16,8 @@ on:
   # schedule:
   #   - cron: '0 9 * * *'   # 09:00 UTC
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
 jobs:
   select-apps:
