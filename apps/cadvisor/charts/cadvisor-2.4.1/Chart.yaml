@@ -2,8 +2,8 @@ apiVersion: v2
 name: cadvisor
 description: A Helm chart that references the official "cadvisor" Helm chart.
 type: application
-version: 2.3.3
+version: 2.4.1
 dependencies:
   - name: cadvisor
-    version: 2.3.3
+    version: 2.4.1
     repository: https://ckotzbauer.github.io/helm-charts
