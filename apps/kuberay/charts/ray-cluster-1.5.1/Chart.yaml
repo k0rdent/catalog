@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ray-cluster
+description: A Helm chart that references the official "ray-cluster" Helm chart.
+type: application
+version: 1.5.1
+dependencies:
+  - name: ray-cluster
+    version: 1.5.1
+    repository: https://ray-project.github.io/kuberay-helm/

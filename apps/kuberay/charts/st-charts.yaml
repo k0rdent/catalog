@@ -7,3 +7,11 @@ st-charts:
   dep_name: ray-cluster
   version: 1.3.2
   repository: https://ray-project.github.io/kuberay-helm/
+- name: kuberay-operator
+  dep_name: kuberay-operator
+  version: 1.5.1
+  repository: https://ray-project.github.io/kuberay-helm/
+- name: ray-cluster
+  dep_name: ray-cluster
+  version: 1.5.1
+  repository: https://ray-project.github.io/kuberay-helm/

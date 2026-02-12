@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kuberay-operator
+description: A Helm chart that references the official "kuberay-operator" Helm chart.
+type: application
+version: 1.5.1
+dependencies:
+  - name: kuberay-operator
+    version: 1.5.1
+    repository: https://ray-project.github.io/kuberay-helm/

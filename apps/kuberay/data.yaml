@@ -6,31 +6,31 @@ logo: ./assets/ray_logo.png # "https://github.com/ray-project/ray/raw/master/doc
 logo_big: ./assets/ray_header_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
 created: "2025-05-29T12:00:00Z"
 description: |
-  KubeRay is an open-source Kubernetes operator for deploying and managing [Ray](https://www.ray.io) applications.
-  It provides Kubernetes-native custom resources to support distributed workloads efficiently and reliably.
-  
-  #### Key Resources
-  
-  - **RayCluster**  
-    Manages the full lifecycle of a Ray cluster, including autoscaling, fault tolerance, and cluster upgrades.
-  
-  - **RayJob**  
-    Creates a temporary RayCluster, submits a job, and optionally deletes the cluster after completion. Useful for batch
-    and scheduled workloads.
-  
-  - **RayService**  
-    Combines a RayCluster with a Ray Serve deployment graph. Enables zero-downtime upgrades and high availability for
-    serving APIs or models.
-  
-  #### k0rdent Integration
+    KubeRay is an open-source Kubernetes operator for deploying and managing [Ray](https://www.ray.io) applications.
+    It provides Kubernetes-native custom resources to support distributed workloads efficiently and reliably.
 
-  KubeRay is compatible with k0rdent's multi-cluster model. You can deploy it using the MultiClusterService
-  and manage Ray workloads declaratively across clusters.
+    #### Key Resources
+
+    - **RayCluster**  
+      Manages the full lifecycle of a Ray cluster, including autoscaling, fault tolerance, and cluster upgrades.
+
+    - **RayJob**  
+      Creates a temporary RayCluster, submits a job, and optionally deletes the cluster after completion. Useful for batch
+      and scheduled workloads.
+
+    - **RayService**  
+      Combines a RayCluster with a Ray Serve deployment graph. Enables zero-downtime upgrades and high availability for
+      serving APIs or models.
+
+    #### k0rdent Integration
+
+    KubeRay is compatible with k0rdent's multi-cluster model. You can deploy it using the MultiClusterService
+    and manage Ray workloads declaratively across clusters.
 charts:
   - name: kuberay-operator
-    versions: ['1.3.2']
+    versions: ['1.5.1', '1.3.2']
   - name: ray-cluster
-    versions: ['1.3.2']
+    versions: ['1.5.1', '1.3.2']
 
 # support_link:
 doc_link: https://docs.ray.io/en/latest/
@@ -42,10 +42,10 @@ test_install_servicetemplates: true
 test_wait_for_pods: "kuberay-head-"
 
 examples:
-  with_ingress:
-    title: With Ingress-nginx
-    chart_folder: example_ingress
-    content_template_file: example_ingress/content.tpl.md
+    with_ingress:
+        title: With Ingress-nginx
+        chart_folder: example_ingress
+        content_template_file: example_ingress/content.tpl.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
