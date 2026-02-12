@@ -21,7 +21,7 @@ curl --fail -X POST \
 "$api_url" \
 -d @- <<EOF
 {
-    "title": "${APP}: Automated update",
+    "title": "${APP}: automated update",
     "head": "${head}",
     "base": "main",
     "body": "This PR was created automatically by CI."
