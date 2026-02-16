@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: pelagia-ceph
-    version: 1.1.0
+    version: 1.5.0
     repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
