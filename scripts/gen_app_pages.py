@@ -95,7 +95,7 @@ def validate_charts_info(file: str, data: dict):
     if 'charts' not in data:
         raise Exception(f"No 'charts' array found in {file}.")
     if not isinstance(data['charts'], list):
-        raise Exception(f"Field 'charts' must an array of objects with 'name' and 'version' fields.")
+        raise Exception("Field 'charts' must an array of objects with 'name' and 'version' fields.")
     validate_chart_versions(data)
 
 
