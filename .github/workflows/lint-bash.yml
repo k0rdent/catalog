@@ -1,0 +1,27 @@
+name: Bash Lint
+
+on:
+  push:
+    paths:
+      - '**/*.sh'
+      - .github/workflows/lint-bash.yml
+  pull_request:
+    paths:
+      - '**/*.sh'
+      - .github/workflows/lint-bash.yml
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Run ShellCheck
+        run: |
+          shellcheck ./scripts/*.sh
