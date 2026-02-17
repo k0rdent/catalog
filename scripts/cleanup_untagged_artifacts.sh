@@ -38,7 +38,7 @@ for i in $(seq 0 $((package_count - 1))); do
     echo "$untagged_ids"
   else
     echo "🗑️ Deleting $count untagged version(s)..."
-    echo "$untagged_ids" | while read version_id; do
+    echo "$untagged_ids" | while read -r version_id; do
       echo "Deleting version $version_id..."
       gh api --method DELETE "$api_base/packages/container/${encoded_pkg_name}/versions/$version_id"
     done

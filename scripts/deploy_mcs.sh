@@ -3,11 +3,11 @@ set -euo pipefail
 
 ./scripts/ensure_mcs_config.sh
 
-kubectl apply -f apps/$APP/mcs.yaml
+kubectl apply -f apps/"$APP"/mcs.yaml
 
-wfd=$(python3 ./scripts/utils.py get-wait-for-pods $APP)
-wfr=$(python3 ./scripts/utils.py get-wait-for-running $APP)
-wfc=$(python3 ./scripts/utils.py get-wait-for-creating $APP)
+wfd=$(python3 ./scripts/utils.py get-wait-for-pods "$APP")
+wfr=$(python3 ./scripts/utils.py get-wait-for-running "$APP")
+wfc=$(python3 ./scripts/utils.py get-wait-for-creating "$APP")
 ns=$(./scripts/get_mcs_namespace.sh)
 
 check_clusters() {
@@ -17,9 +17,10 @@ check_clusters() {
         export WAIT_FOR_RUNNING=$wfr
         export WAIT_FOR_CREATING=$wfc
         export NAMESPACE=$ns
+        # shellcheck disable=SC2030
         export TEST_MODE=$test_mode
         ./scripts/wait_for_deployment.sh
-        KUBECONFIG="kcfg_$TEST_MODE" kubectl top nodes
+        KUBECONFIG="kcfg_$test_mode" kubectl top nodes
     )
   done
 }
@@ -27,6 +28,7 @@ check_clusters() {
 check_clusters
 
 # for multi-cluster mode check it again in the end for better output readability
+# shellcheck disable=SC2031
 if [[ "$TEST_MODE" == *,* ]]; then
   echo -e "\nLet's check all clusters ($TEST_MODE) once again:"
   check_clusters

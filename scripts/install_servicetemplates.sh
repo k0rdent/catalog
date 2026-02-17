@@ -7,7 +7,7 @@ if helm list -n kcm-system | grep "$APP"; then
 else
     echo "Not installed yet"
     echo "Installing k0rdent service templates based on apps/$APP/example/Chart.yaml deps"
-    install_st_commands=$(python3 ./scripts/utils.py install-servicetemplates $APP)
+    install_st_commands=$(python3 ./scripts/utils.py install-servicetemplates "$APP")
     bash -c "$install_st_commands" || true
 fi
 
