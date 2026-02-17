@@ -8,7 +8,7 @@ for file in apps/${app}/data.yaml; do
   echo "$file"
   spell_file="${file/data.yaml/hunspell_dict.txt}"
   yq -r '.summary, .description' "$file" | tr '[:space:][:punct:]' '\n' | hunspell -d en_US -p ./hunspell_dict_all.txt -l | sort | uniq > spellcheck_detected.txt
-  if grep -rnwFf spellcheck_detected.txt $file; then
+  if grep -rnwFf spellcheck_detected.txt "$file"; then
     echo "=========="
     echo "❌ Some unknown words detected in spell check ($file):"
     cat spellcheck_detected.txt

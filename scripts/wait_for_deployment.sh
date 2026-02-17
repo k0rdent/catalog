@@ -61,7 +61,7 @@ while (( SECONDS < TIMEOUT )); do
     done
 
     for wait_for_pod in ${WAIT_FOR_PODS:-}; do
-        if ! jq -r '.items[].metadata.name' <<< "$pods_json" | grep -q $wait_for_pod; then
+        if ! jq -r '.items[].metadata.name' <<< "$pods_json" | grep -q "$wait_for_pod"; then
            all_ready=false
            all_running=false
            all_creating=false

@@ -13,10 +13,10 @@ apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 EOF
 
-for i in $(seq 1 $MASTERS); do
+for _ in $(seq 1 "$MASTERS"); do
   echo "- role: control-plane" >> kind-config.yaml
 done
 
-for i in $(seq 1 $WORKERS); do
+for _ in $(seq 1 "$WORKERS"); do
   echo "- role: worker" >> kind-config.yaml
 done

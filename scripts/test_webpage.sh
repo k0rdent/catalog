@@ -7,7 +7,7 @@ SECONDS=0
 
 while (( SECONDS < TIMEOUT )); do
     echo "$TEST_MODE/$APP"
-    ingress=$(KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n $APP --no-headers)
+    ingress=$(KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n "$APP" --no-headers)
     echo "$ingress"
     address=$(echo "$ingress" | awk '{print $4}')
     if [[ -z "$address" ]]; then
@@ -56,6 +56,6 @@ done
 if (( SECONDS >= TIMEOUT )); then
     echo "❌ Timeout reached after ${TIMEOUT}s: Webpage test failed"
     echo "🔍 Final ingress status:"
-    KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n $APP -o wide || true
+    KUBECONFIG="kcfg_$TEST_MODE" kubectl get ingress -n "$APP" -o wide || true
     exit 1
 fi

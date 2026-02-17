@@ -5,7 +5,6 @@ set -eo pipefail
 if [[ -n "$SITE_URL" ]]; then
     echo "site url found: $SITE_URL"
     echo "site_url: $SITE_URL" >> mkdocs.yml
-    KIND_CLUSTER="k0rdent"
 else
     echo "SITE_URL not found"
 fi

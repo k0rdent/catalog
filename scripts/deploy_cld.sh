@@ -15,12 +15,13 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
         -e "s/GCP_PROJECT/${GCP_PROJECT}/g" -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY}/g" \
         "$cld_file")
     echo "$cld_cfg_str"
-    if [[ "$@" == --dry-run ]]; then
-        echo "DRY-RUN mode: ClusterDeployment not created!"
-        exit 0
-    else
-        echo "$cld_cfg_str" | kubectl apply -n kcm-system -f -
-    fi
+    for arg in "$@"; do
+        if [[ "$arg" == "--dry-run" ]]; then
+            echo "DRY-RUN mode: ClusterDeployment not created!"
+            exit 0
+        fi
+    done
+    echo "$cld_cfg_str" | kubectl apply -n kcm-system -f -
     cld_name="$TEST_MODE-example-$USER"
 elif [[ "$TEST_MODE" == adopted ]]; then
     cld_name="adopted"
@@ -33,7 +34,7 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     fi
 
     ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | openssl base64 -A)
-    kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'$ADOPTED_KUBECONFIG'"}}'
+    kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'"$ADOPTED_KUBECONFIG"'"}}'
     kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
     kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
 else
@@ -45,7 +46,7 @@ CLDNAME=$cld_name ./scripts/wait_for_cld.sh
 
 if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     # Store kubeconfig file for managed AWS cluster
-    kubectl get secret $cld_name-kubeconfig -n kcm-system -o=jsonpath={.data.value} | base64 -d > "kcfg_$TEST_MODE"
+    kubectl get secret "$cld_name"-kubeconfig -n kcm-system -o jsonpath='{.data.value}' | base64 -d > "kcfg_$TEST_MODE"
 else
     # store adopted cluster kubeconfig
     kind get kubeconfig -n adopted > "kcfg_adopted"
