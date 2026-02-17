@@ -20,3 +20,4 @@ mkdocs-no-sitemap-plugin
 mkdocs==1.6.1
 packaging==25.0
 ruyaml==0.91.0
+ruff==0.15.1
