@@ -23,13 +23,13 @@ jobs:
 
       - name: Authenticate GitHub CLI
         run: |
-          if [ -z "${{ secrets.GH_TOKEN }}" ]; then
-            echo "GH_TOKEN is not set."
+          if [ -z "${{ secrets.CLEANUP_ARTIFACTS_GH_TOKEN }}" ]; then
+            echo "CLEANUP_ARTIFACTS_GH_TOKEN is not set."
             echo "Make sure it's created in repo 'Settings/Secrets and variables/Actions'."
             echo "Use a token with 'repo', 'read:org', 'read:packages' and/or 'delete:packages' permissions"
             exit 1
           fi
-          echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
+          echo "${{ secrets.CLEANUP_ARTIFACTS_GH_TOKEN }}" | gh auth login --with-token
 
       - name: Checkout repository
         uses: actions/checkout@v4
