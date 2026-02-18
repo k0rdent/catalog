@@ -447,7 +447,7 @@ def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
 
 
 def generate_validation_matrix(all_apps_metadata: list):
-    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure", "Local", "Examples"]
+    headers = ["Application", "AMD64", "ARM64", "AWS", "Azure", "Local", "Solutions"]
     all_apps_metadata.sort(key=lambda x: x['title'].lower())
     table = "<table><thead><tr>" + "".join(f"<th>{h}</th>" for h in headers) + "</tr></thead><tbody>"
     for app in all_apps_metadata:
