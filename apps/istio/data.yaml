@@ -19,11 +19,6 @@ charts:
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
-examples:
-    kserve:
-        title: KServe
-        ref: kserve.with_istio
-
 # test settings
 test_namespace: istio-system
 test_deploy_chart: false
