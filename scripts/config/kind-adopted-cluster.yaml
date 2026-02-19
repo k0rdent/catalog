@@ -7,8 +7,14 @@ nodes:
       - containerPort: 80
         hostPort: 50080
         protocol: TCP
+      - containerPort: 30080 # NodePort
+        hostPort: 40080
+        protocol: TCP
       - containerPort: 443
         hostPort: 50443
+        protocol: TCP
+      - containerPort: 30443 # NodePort
+        hostPort: 40443
         protocol: TCP
       - containerPort: 5432
         hostPort: 55432
