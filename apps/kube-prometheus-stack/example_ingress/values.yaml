@@ -17,6 +17,7 @@ kube-prometheus-stack:
         ingressClassName: nginx
         hosts: ['prometheus.example.com']
     grafana:
+      # default login - admin:prom-operator
       ingress:
         enabled: true
         ingressClassName: nginx
