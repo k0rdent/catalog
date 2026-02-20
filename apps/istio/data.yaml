@@ -19,6 +19,12 @@ charts:
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
+examples:
+    security:
+        title: Security
+        chart_folder: example_security
+        content_template_file: example_security/doc.md
+
 # test settings
 test_namespace: istio-system
 test_deploy_chart: false
