@@ -69,6 +69,52 @@ created: "{{ created }}"
     {% endif %}
 {% endif %}
 
+{% if security %}
+=== "Security"
+
+    #### Aggregated CVE Summary
+
+    This table provides an aggregated overview of known [CVEs](https://www.cve.org/About/Overview) affecting this application.
+
+    <table>
+    <thead>
+        <tr>
+            <th>Critical</th>
+            <th>High</th>
+            <th>Medium</th>
+            <th>Low</th>
+            <th>Unknown</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ security.critical }}</td>
+            <td>{{ security.high }}</td>
+            <td>{{ security.medium }}</td>
+            <td>{{ security.low }}</td>
+            <td>{{ security.unknown }}</td>
+        </tr>
+    </tbody>
+    </table>
+
+    The counts represent the number of unique CVE identifiers detected across the entire application stack, including all associated Helm charts, container images, and underlying OS or language-level packages.
+    If the same CVE appears in multiple images or packages, it is counted only once in this summary.
+
+    The vulnerability data is generated using the [Trivy security scanner](https://trivy.dev/), which analyzes container images and their dependencies against multiple vulnerability databases. The results reflect the state of the analyzed images at the time of scanning.
+
+    #### Severity levels
+    CVEs are grouped by severity according to [standard vulnerability scoring](https://www.first.org/cvss/):
+
+    - **Critical** – Vulnerabilities that can be easily exploited and may lead to full system compromise, remote code execution, or severe data exposure.
+	- **High** – Serious vulnerabilities that could significantly impact confidentiality, integrity, or availability, often requiring prompt remediation.
+	- **Medium** – Vulnerabilities with moderate impact that typically require specific conditions or configurations to be exploitable.
+	- **Low** – Issues with limited impact or difficult exploitation, often informational or defense-in-depth concerns.
+	- **Unknown** – CVEs for which a severity score is not available or could not be determined at the time of analysis.
+
+    This summary is intended to provide a high-level security posture of the application.
+
+{%- endif %}
+
 {% if examples %}
 {%- for key, example in examples.items() %}
 
