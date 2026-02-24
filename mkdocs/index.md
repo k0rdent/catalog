@@ -114,6 +114,74 @@ template: home.html
         <!-- <button class="btn-show-more-infra">Show More</button> -->
       </div>
     </div>
+    <input type="radio" id="solutions" name="maintabs" @change="switchedTabs($event)">
+    <label for="solutions"><img src="img/icon-apps.svg" />Solutions</label>
+    <div class="tab tab_apps-content">
+        <div class="tab_apps-top">
+            <div class="left-side">
+              <h2>Discover and deploy complete solutions for your use case</h2>
+              <p>The Solutions catalog provides curated sets of applications that together form fully functional, production-ready configurations tailored to specific business needs. Each solution represents a validated combination of interoperable components designed to work seamlessly on k0rdent-managed clusters. With predefined templates and tested integrations, solutions can be deployed quickly and consistently across environments.</p>
+            </div>
+            <div class="right-side">
+              <div class="filters-section">
+                  <div class="select-wrapper">
+                    <label for="ordering-apps">Sort: </label>
+                    <select id="ordering-apps" v-model="orderingApps">
+                        <option value="asc">A-Z</option>
+                        <option value="desc">Z-A</option>
+                        <option value="newest">By Newest</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="tab_apps-bottom">
+          <div class="tab_apps-sidebar">
+            <p class="categories-title" @click="toggleExpanded($event)">Categories: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg></p>
+            <div id="filterTagsSolutions" class="expandable-list">
+              <div v-for="tag in [...tagsSet].sort((a, b) => a.localeCompare(b))">
+                <input type="checkbox"
+                  :id="tag.replace(/[ /]/g, '-').toLowerCase()"
+                  :name="tag.replace(/[ /]/g, '-').toLowerCase()"
+                  :value="tag.replace(/[ /]/g, '-').toLowerCase()"
+                  v-model="checkboxesCategory">
+                <label :for="tag.replace(/[ /]/g, '-').toLowerCase()">{{ tag }}</label>
+              </div>
+              <br>
+            </div>
+            <p class="categories-title" @click="toggleExpanded($event)">Support: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg></p>
+            <div id="filterTagsApps" class="expandable-list">
+              <div v-for="tag in [...supportTypeSet].sort((a, b) => a.localeCompare(b))">
+                <input type="checkbox"
+                  :id="tag.replace(/[ /]/g, '-').toLowerCase()"
+                  :name="tag.replace(/[ /]/g, '-').toLowerCase()"
+                  :value="tag.replace(/[ /]/g, '-').toLowerCase()"
+                  v-model="checkboxesSupport">
+                <label :for="tag.replace(/[ /]/g, '-').toLowerCase()">{{ tag }}</label>
+              </div>
+              <br>
+            </div>
+          </div>
+          <div class="tab_apps-main-content">
+            <p><b>{{dataSolutions.length}}</b> items</p>
+            <div id="cards-apps" class="grid">
+              <a class="card" :href="card.link" v-for="card in dataSolutions">
+                <span
+                  class="support-badge"
+                  :class="card.support_type.toLowerCase()"
+                  v-if="card.support_type">{{ card.support_type }}</span>
+                <img :src="updateRelLink(card.logo, card.type, card.appDir)" alt="logo" />
+                <p>
+                  <b>{{ card.title }}</b>
+                <br>
+                {{ card.description }}
+                </p>
+              </a>
+            </div>
+          <!-- <button class="btn-show-more-apps">Show More</button>  -->
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -128,6 +196,8 @@ template: home.html
       const dataInfra = ref([])
       const dataApps = ref([])
       const dataAppsFiltered = ref([])
+      const dataSolutionsAll = ref([])
+      const dataSolutions = ref([])
       const checkboxesCategory = ref([])
       const checkboxesSupport = ref([])
       const tagsSet = new Set()
@@ -142,14 +212,21 @@ template: home.html
           .then(res => {
             data.value = res
             dataInfra.value = res.filter(item=>item.type === 'infra')
-            dataApps.value = res.filter(item=>item.type !== 'infra')
+            dataApps.value = res.filter(item=>item.type === 'app')
             dataApps.value.forEach(item=>{
               supportTypeSet.add(item.support_type)
               item.tags.forEach(tag =>tagsSet.add(tag));
             })
             dataAppsFiltered.value = dataApps.value
+            dataSolutionsAll.value = res.filter(item=>item.type === 'solution')
+            dataSolutionsAll.value.forEach(item=>{
+              supportTypeSet.add(item.support_type)
+              item.tags.forEach(tag =>tagsSet.add(tag));
+            })
+            dataSolutions.value = dataSolutionsAll.value
             sorting(dataAppsFiltered.value, 'asc', 'title')
             sorting(dataInfra.value, 'asc', 'title')
+            sorting(dataSolutionsAll.value, 'asc', 'title')
 
             updateCheckboxesFromURL()
           })
@@ -264,6 +341,9 @@ template: home.html
         if(event.target.id === 'infra'){
           history.replaceState({}, '', '#infra')
         }
+        if(event.target.id === 'solutions'){
+          history.replaceState({}, '', '#solutions')
+        }
       }
 
       const toggleExpanded = (event) => {
@@ -300,6 +380,18 @@ template: home.html
 
           const supportMatch = checkboxesSupport.value.length === 0 ||
             checkboxesSupport.value.every(checkbox => supportType === normalize(checkbox));
+
+          return appsMatch && supportMatch;
+        });
+        dataSolutions.value = dataSolutionsAll.value.filter(item => {
+          const tags = item.tags.map(normalize);
+          const supportType = normalize(item.support_type);
+
+          const appsMatch = checkboxesCategory.value.length === 0 ||
+            checkboxesCategory.value.every(checkbox => tags.includes(normalize(checkbox)));
+
+          const supportMatch = checkboxesSupport.value.length === 0 ||
+            checkboxesSupport.value.every(checkbox => supportType === normalize(checkbox));
           
           return appsMatch && supportMatch;
         });
@@ -322,6 +414,7 @@ template: home.html
         data,
         dataInfra,
         dataApps,
+        dataSolutions,
         dataAppsFiltered,
         updateRelLink,
         tagsSet,
