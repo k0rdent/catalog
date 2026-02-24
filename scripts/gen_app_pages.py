@@ -430,12 +430,12 @@ def update_validation_data(metadata: dict):
             metadata[validated_key] = metadata[validated_key]
 
 
-def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
+def app_or_infra_item(metadata: dict, is_infra: bool) -> dict:
     app = metadata['app']
     item = {
         "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
         "title": metadata.get("title", "No Title"),
-        "type": metadata.get("type", " "),
+        "type": metadata.get("type", "app"),
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
         "created": metadata.get("created", " "),
@@ -444,6 +444,35 @@ def app_metadata_item(metadata: dict, is_infra: bool) -> dict:
         "appDir": app,
     }
     return item
+
+
+def solution_items(metadata: dict, is_infra) -> list:
+    app = metadata['app']
+    solutions = []
+    for _, example in metadata.get('examples', dict()).items():
+        solution = {
+            "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
+            "title": metadata.get("title", "No Title"),
+            "type": 'solution',
+            "logo": metadata.get("logo", " "),
+            "tags": metadata.get("tags", []),
+            "created": metadata.get("created", " "),
+            "support_type": metadata_support_type(metadata),
+            "description": example.get("title", "No Summary"),
+            "appDir": app,
+        }
+        solutions.append(solution)
+    return solutions
+
+
+def extract_items(metadata: dict, is_infra: bool) -> list:
+    items = []
+    app_item = app_or_infra_item(metadata, is_infra)
+    items.append(app_item)
+    solutions = solution_items(metadata, is_infra)
+    items.extend(solutions)
+    return items
+
 
 
 def generate_validation_matrix(all_apps_metadata: list):
@@ -570,7 +599,7 @@ def write_fetched_metadata(apps_metadata: list):
     fetched_metadata = []
     for metadata in apps_metadata:
         is_infra = metadata.get("type", "app") == "infra"
-        fetched_metadata.append(app_metadata_item(metadata, is_infra))
+        fetched_metadata.extend(extract_items(metadata, is_infra))
     with mkdocs_gen_files.open("fetched_metadata.json", "w") as f:
         json.dump(fetched_metadata, f, indent=2)
 
