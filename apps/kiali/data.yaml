@@ -29,7 +29,8 @@ doc_link: https://kiali.io/docs/installation/installation-guide/install-with-hel
 
 examples:
     security:
-        title: Traffic monitoring
+        title: Kiali usage for traffic monitoring
+        type: solution
         chart_folder: example_traffic
         content_template_file: example_traffic/doc.md
 
