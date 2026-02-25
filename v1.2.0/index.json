@@ -1,0 +1,2943 @@
+{
+  "metadata": {
+    "generated": "2026-02-25T10:43:57.568901",
+    "version": "1.2.0"
+  },
+  "addons": [
+    {
+      "name": "amd-gpu",
+      "description": "k0rdent operates in conjunction with the AMD GPU Operator by providing a higher-level orchestration layer for Kubernetes",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/amd-gpu/assets/amd-logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/amd-gpu/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "amd-gpu-operator",
+          "versions": [
+            "v1.4.1",
+            "v1.3.0",
+            "v1.2.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning",
+          "Drivers and plugins"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "apisix",
+      "description": "### Open-Source, Community-Driven, Future-Ready",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/apisix/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/apisix/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "apisix",
+          "versions": [
+            "2.13.0",
+            "2.12.4"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "arangodb",
+      "description": "ArangoDB combines the analytical power of native graphs with an integrated search engine,",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/arangodb/assets/arangodb_logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/arangodb/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kube-arangodb",
+          "versions": [
+            "1.4.0",
+            "1.2.46"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database",
+          "Application Runtime"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "argo-cd",
+      "description": "Argo CD is an open-source tool for implementing GitOps in Kubernetes. It automates the deployment and lifecycle management of applications by continuously synchronizing the desired state declared in a Git repository with the live state in the cluster. k0rdent integration:",
+      "logo": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/argo-cd/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "argo-cd",
+          "versions": [
+            "9.4.1",
+            "8.6.1",
+            "7.8.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "CI/CD"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "cadvisor",
+      "description": "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/cadvisor/assets/cadvisor_logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/cadvisor/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "cadvisor",
+          "versions": [
+            "2.4.1",
+            "2.3.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "ceph",
+      "description": "In the context of Mirantis k0rdent Enterprise, Ceph’s benefits become even clearer.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/ceph/assets/logo-ceph.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/ceph/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "pelagia-ceph",
+          "versions": [
+            "1.5.0"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "cert-manager",
+      "description": "Cert-manager is a Kubernetes add-on that automates the management of TLS certificates.",
+      "logo": "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/cert-manager/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "cert-manager",
+          "versions": [
+            "1.19.3",
+            "1.19.2",
+            "1.18.2",
+            "1.17.2",
+            "1.16.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "cilium",
+      "description": "Cilium is a networking, observability, and security solution with an eBPF-based",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/cilium/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/cilium/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "cilium",
+          "versions": [
+            "1.19.0",
+            "1.18.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "clearml",
+      "description": "ClearML is a Machine Learning/Deep Learning (ML/DL) development and production suite. It contains FIVE main modules:",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/clearml/assets/clearml_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/clearml/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "clearml-serving",
+          "versions": [
+            "1.6.2",
+            "1.5.10"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "cloudcasa",
+      "description": "CloudCasa is a comprehensive solution for data protection, disaster recovery, migration, and replication designed for",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/cloudcasa/assets/cc-icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/cloudcasa/",
+      "supportType": "partner",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "cloudcasa",
+          "versions": [
+            "3.4.6",
+            "3.4.4"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Backup and Recovery"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "cluster-autoscaler",
+      "description": "Cluster Autoscaler is a component that automatically adjusts the size of the Kubernetes cluster when there are pods that failed to run in the cluster due to insufficient resources or when there are nodes that have been underutilized for an extended period and their pods can be placed on other existing nodes.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/cluster-autoscaler/assets/cluster-autoscaler.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/cluster-autoscaler/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "cluster-autoscaler",
+          "versions": [
+            "9.55.0",
+            "9.45.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring",
+          "Application Runtime",
+          "Serverless"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "dapr",
+      "description": "Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as:",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/dapr/assets/dapr-logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/dapr/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "dapr",
+          "versions": [
+            "1.16.9",
+            "1.16.8",
+            "1.14.4"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "dapr-dashboard",
+          "versions": [
+            "0.15.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring",
+          "Application Runtime"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "datadog",
+      "description": "Datadog is a **unified monitoring and analytics platform** that provides end-to-end",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/datadog/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/datadog/",
+      "supportType": "partner",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "datadog",
+          "versions": [
+            "3.170.1",
+            "3.149.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "dell",
+      "description": "The **Dell Container Storage Modules Helm Chart** provides a unified way to deploy Dell's portfolio of Kubernetes storage and data services.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/dell/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/dell/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "dell-container-storage-modules",
+          "versions": [
+            "1.9.0",
+            "1.8.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "dex",
+      "description": "Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers.",
+      "logo": "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/dex/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "dex",
+          "versions": [
+            "0.24.0",
+            "0.23.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security",
+          "Authentication"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "elasticsearch",
+      "description": "Elasticsearch is a distributed search and analytics engine, scalable data store and vector database optimized for speed and relevance on production-scale workloads. Elasticsearch is the foundation of Elastic's open Stack platform. Search in near real-time over massive datasets, perform vector searches, integrate with generative AI applications, and much more.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/elasticsearch/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/elasticsearch/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "eck-operator",
+          "versions": [
+            "3.3.0",
+            "3.1.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "eck-stack",
+          "versions": [
+            "0.18.0",
+            "0.16.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "envoy-gateway",
+      "description": "Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/envoy-gateway/assets/envoy-gateway_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/envoy-gateway/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "envoy-gateway",
+          "versions": [
+            "1.3.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "external-dns",
+      "description": "ExternalDNS makes Kubernetes resources discoverable via public DNS servers. Like KubeDNS, it retrieves a list of resources",
+      "logo": "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/external-dns/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "external-dns",
+          "versions": [
+            "1.20.0",
+            "1.19.0",
+            "1.15.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "external-secrets",
+      "description": "The External Secrets Operator extends Kubernetes with Custom Resources, which define where secrets live and how to",
+      "logo": "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/external-secrets/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "external-secrets",
+          "versions": [
+            "2.0.0",
+            "1.2.1",
+            "0.18.2",
+            "0.11.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security",
+          "Authentication"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "falco",
+      "description": "Falco is a cloud native security tool that provides runtime security across hosts, containers, Kubernetes, and cloud environments. It leverages custom rules on Linux kernel events and other data sources through plugins, enriching event data with contextual metadata to deliver real-time alerts. Falco enables the detection of abnormal behavior, potential security threats, and compliance violations.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/falco/assets/falco-logo-small.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/falco/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "falco",
+          "versions": [
+            "8.0.0",
+            "6.4.0",
+            "4.21.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "finops-agent",
+      "description": "FinOps Agent is a forecasting solution that ingests Kubernetes cost and utilization metrics from Prometheus and generates forecasts using TOTO zero-shot model.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/finops-agent/assets/finops-agent_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/finops-agent/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "finops-agent-kof",
+          "versions": [
+            "0.1.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning",
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "fluentd",
+      "description": "Fluentd is a highly flexible, open-source data collector designed to unify logging across distributed",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/fluentd/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/fluentd/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "fluentd",
+          "versions": [
+            "0.5.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": false,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "flux-operator",
+      "description": "[Flux](https://fluxcd.io) is a leading GitOps Continuous Delivery tool",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/flux-operator/assets/flux-icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/flux-operator/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "flux-operator",
+          "versions": [
+            "0.32.0",
+            "0.27.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "CI/CD",
+          "Developer Tools"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "gatekeeper",
+      "description": "A customizable cloud native policy controller that helps enforce policies and strengthen governance.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/gatekeeper/assets/gatekeeper.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/gatekeeper/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "gatekeeper",
+          "versions": [
+            "3.21.1",
+            "3.17.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "gitlab",
+      "description": "GitLab helps companies manage the growing complexities of developing, securing, and deploying",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/gitlab/assets/gitlab_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/gitlab/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "gitlab",
+          "versions": [
+            "9.8.4",
+            "9.5.1",
+            "8.9.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "CI/CD",
+          "Developer Tools"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "grafana",
+      "description": "Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored. Create, explore, and share dashboards with your team and foster a data-driven culture:",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/grafana/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/grafana/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "grafana",
+          "versions": [
+            "10.5.15",
+            "10.1.0",
+            "9.3.6"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "grafana-operator",
+          "versions": [
+            "v5.20.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "harbor",
+      "description": "Harbor is an open source registry that secures artifacts with policies and role-based access",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/harbor/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/harbor/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "harbor",
+          "versions": [
+            "1.18.2",
+            "1.18.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Container Registry"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "harness",
+      "description": "Harness Delegate is a lightweight service that runs in your Kubernetes cluster and securely connects",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/harness/assets/harness-icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/harness/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "harness-delegate-ng",
+          "versions": [
+            "1.0.31",
+            "1.0.25"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "CI/CD"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "headlamp",
+      "description": "Headlamp is an easy-to-use and extensible Kubernetes web UI.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/headlamp/assets/headlamp.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/headlamp/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "headlamp",
+          "versions": [
+            "0.40.0",
+            "0.32.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "hpe-csi",
+      "description": "HPE CSI Driver for Kubernetes allows users to dynamically provision persistent and ephemeral storage with support for a wide",
+      "logo": "https://raw.githubusercontent.com/hpe-storage/co-deployments/master/docs/assets/hpedev.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/hpe-csi/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "hpe-csi-driver",
+          "versions": [
+            "3.0.2",
+            "3.0.1",
+            "2.5.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage",
+          "Drivers and plugins"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "influxdb",
+      "description": "InfluxDB Core is a database built to collect, process, transform, and store event and time series data. It is ideal for use cases that require real-time ingest and fast query response times to build user interfaces, monitoring, and automation solutions.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/influxdb/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/influxdb/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "influxdb2",
+          "versions": [
+            "2.1.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "ingress-nginx",
+      "description": "The NGINX Ingress Controller is a solution for managing external access to applications running in a Kubernetes cluster.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/ingress-nginx/assets/nginx_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/ingress-nginx/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "ingress-nginx",
+          "versions": [
+            "4.14.3",
+            "4.13.2",
+            "4.13.0",
+            "4.12.3",
+            "4.11.5"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "istio",
+      "description": "Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful",
+      "logo": "https://istio.io/latest/favicons/android-192x192.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/istio/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "istio-base",
+          "versions": [
+            "1.28.3",
+            "1.27.1",
+            "1.24.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "istiod",
+          "versions": [
+            "1.28.3",
+            "1.27.1",
+            "1.24.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "istio-gateway",
+          "versions": [
+            "1.28.3",
+            "1.27.1",
+            "1.24.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "istio-ambient",
+      "description": "In ambient mode, Istio implements its features using a per-node Layer 4 (L4) proxy, and optionally a per-namespace",
+      "logo": "https://istio.io/latest/favicons/android-192x192.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/istio-ambient/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "istio-cni",
+          "versions": [
+            "1.28.3",
+            "1.27.1",
+            "1.24.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "istio-ztunnel",
+          "versions": [
+            "1.28.3",
+            "1.27.1",
+            "1.24.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "jenkins",
+      "description": "Jenkins is commonly deployed as a CI/CD (Continuous Integration and Continuous Delivery) tool. Use it to:",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/jenkins/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/jenkins/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "jenkins",
+          "versions": [
+            "5.8.139",
+            "5.8.116",
+            "5.8.84"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "jupyterhub",
+      "description": "JupyterHub brings the power of notebooks to groups of users. It gives users access to",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/jupyterhub/assets/juphub-icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/jupyterhub/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "jupyterhub",
+          "versions": [
+            "4.3.2",
+            "4.2.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Developer Tools"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kagent",
+      "description": "Kagent is an open-source programming framework that brings the power of agentic AI to cloud-native environments.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kagent/assets/kagent_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kagent/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kagent-crds",
+          "versions": [
+            "0.3.13"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "kagent",
+          "versions": [
+            "0.3.13"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking",
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "keda",
+      "description": "KEDA is a single-purpose and lightweight component that can be added into any Kubernetes cluster. KEDA works alongside",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/keda/assets/keda-logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/keda/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "keda",
+          "versions": [
+            "2.19.0",
+            "2.17.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring",
+          "Application Runtime",
+          "Serverless",
+          "CI/CD"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "keycloak",
+      "description": "Keycloak is an open-source Identity and Access Management (IAM) platform that provides",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/keycloak/assets/keycloak-logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/keycloak/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "keycloakx",
+          "versions": [
+            "7.1.8",
+            "7.1.7"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Authentication",
+          "Security"
+        ],
+        "quality": {
+          "tested": false,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kgateway",
+      "description": "kgateway is the most mature and widely deployed Envoy-based gateway in the market today.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kgateway/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kgateway/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kgateway-crds",
+          "versions": [
+            "v2.1.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "kgateway",
+          "versions": [
+            "v2.1.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking",
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kiali",
+      "description": "Kiali is a service mesh observability console that provides topology visualization,",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kiali/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kiali/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kiali-operator",
+          "versions": [
+            "2.21.0",
+            "2.19.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "knative",
+      "description": "k0rdent facilitates the deployment and lifecycle management of Knative within Kubernetes clusters by leveraging its multi-cluster orchestration capabilities.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/knative/assets/knative_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/knative/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "knative-operator",
+          "versions": [
+            "1.21.0",
+            "1.19.0",
+            "1.17.4"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Serverless",
+          "Networking",
+          "Application Runtime"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kserve",
+      "description": "k0rdent facilitates the deployment and lifecycle management of [KServe](https://kserve.github.io/website/latest/){ target=\"_blank\" }",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kserve/assets/kserve_logo_icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kserve/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kserve-crd",
+          "versions": [
+            "v0.15.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "kserve",
+          "versions": [
+            "v0.15.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning",
+          "Serverless"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kube-prometheus-stack",
+      "description": "The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kube-prometheus-stack/assets/prometheus-operator-logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kube-prometheus-stack/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kube-prometheus-stack",
+          "versions": [
+            "81.6.3",
+            "77.0.0",
+            "72.6.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kubecost",
+      "description": "Kubecost is a powerful tool designed to help teams running Kubernetes manage and optimize their cloud infrastructure",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kubecost/assets/kubecost_logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kubecost/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kubecost",
+          "versions": [
+            "2.5.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kubeflow-spark-operator",
+      "description": "## What is Spark Operator?",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kubeflow-spark-operator/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kubeflow-spark-operator/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kubeflow-spark-operator",
+          "versions": [
+            "2.4.0",
+            "2.3.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kuberay",
+      "description": "KubeRay is an open-source Kubernetes operator for deploying and managing [Ray](https://www.ray.io) applications.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/kuberay/assets/ray_logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kuberay/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kuberay-operator",
+          "versions": [
+            "1.5.1",
+            "1.3.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "ray-cluster",
+          "versions": [
+            "1.5.1",
+            "1.3.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kyverno",
+      "description": "Kyverno is a powerful open-source policy engine designed specifically for Kubernetes. It allows you to define and enforce policies that govern the configuration and behavior of your Kubernetes resources, ensuring security, compliance, and operational best practices.",
+      "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kyverno/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kyverno",
+          "versions": [
+            "3.7.0",
+            "3.5.2",
+            "3.4.4",
+            "3.2.6"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "kyverno-guardrails",
+      "description": "Kyverno Guardrails is a set of best-practice Kyverno Cluster-wide policies that can be deployed to enforce security and compliance best practices in your Kubernetes cluster. These policies are designed to help you ensure that your cluster is secure, compliant, and well-configured.",
+      "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/kyverno-guardrails/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kyverno-guardrails",
+          "versions": [
+            "0.1.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "local-ai",
+      "description": "**LocalAI** is the free, Open Source OpenAI alternative. LocalAI act as a drop-in replacement REST API that's compatible with OpenAI",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/local-ai/assets/icon.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/local-ai/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "local-ai",
+          "versions": [
+            "3.4.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "lws",
+      "description": "**LeaderWorkerSet (LWS)** is an API for deploying a group of pods as a unit of replication.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/lws/assets/lws_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/lws/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "lws",
+          "versions": [
+            "0.7.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "metallb",
+      "description": "MetalLB hooks into your Kubernetes cluster, and provides a network load-balancer implementation.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/metallb/assets/metallb_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/metallb/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "metallb",
+          "versions": [
+            "0.15.3",
+            "0.15.2",
+            "0.14.7"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "milvus",
+      "description": "[Milvus](https://milvus.io/) is a high-performance vector database built for scale. It powers AI applications by",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/milvus/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/milvus/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "milvus",
+          "versions": [
+            "5.0.14",
+            "5.0.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "minio",
+      "description": "MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/minio/assets/minio_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/minio/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "minio",
+          "versions": [
+            "14.1.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "mirantis-kyverno-guardrails",
+      "description": "Kyverno Guardrails is a set of best-practice Kyverno Cluster-wide policies that can be deployed to enforce security and compliance best practices in your Kubernetes cluster. These policies are designed to help you ensure that your cluster is secure, compliant, and well-configured.",
+      "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/mirantis-kyverno-guardrails/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "kyverno-guardrails",
+          "versions": [
+            "0.1.0"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "mirantis-velero",
+      "description": "Velero is an open source tool to safely backup and restore, perform disaster recovery,",
+      "logo": "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/mirantis-velero/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "velero",
+          "versions": [
+            "11.1.0",
+            "8.1.0"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Backup and Recovery"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "mlflow",
+      "description": "## Overview",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/mlflow/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/mlflow/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "mlflow",
+          "versions": [
+            "1.8.1",
+            "1.7.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "mongodb",
+      "description": "MongoDB is a general-purpose document database. With the Community Edition you can",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/mongodb/assets/mongo_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/mongodb/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "mongodb-community-operator",
+          "versions": [
+            "0.13.0",
+            "0.12.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "msr",
+      "description": "Mirantis Secure Registry (MSR) 4 is an Enterprise-grade container registry solution based on CNCF Harbor that can",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/msr/assets/msr_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/msr/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "msr",
+          "versions": [
+            "4.13.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Container Registry"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "mysql",
+      "description": "k0rdent facilitates the deployment and management of MySQL within Kubernetes clusters by",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/mysql/assets/MySQL_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/mysql/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "mysql-operator",
+          "versions": [
+            "2.2.3"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "n8n",
+      "description": "N8n is a fair-code workflow automation platform that combines a no-code visual builder",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/n8n/assets/n8n_pink_black.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/n8n/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "n8n",
+          "versions": [
+            "1.0.15"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "nats",
+      "description": "k0rdent facilitates the deployment and management of NATS within Kubernetes clusters",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/nats/assets/nats-horizontal-color.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/nats/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "nats",
+          "versions": [
+            "2.12.4",
+            "1.3.13"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "netapp",
+      "description": "NetApp Trident is a Container Storage Interface (CSI) that integrates with Kubernetes to manage",
+      "logo": "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/netapp/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "trident-operator",
+          "versions": [
+            "100.2510.0",
+            "100.2506.0",
+            "100.2410.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage",
+          "Drivers and plugins"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "nginx-ingress-f5",
+      "description": "Enterprise-grade Kubernetes Ingress Controller built on NGINX and NGINX Plus, designed for",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/nginx-ingress-f5/assets/F5-logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/nginx-ingress-f5/",
+      "supportType": "partner",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "nginx-ingress-f5",
+          "versions": [
+            "2.2.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "nirmata",
+      "description": "Nirmata Enterprise is the enterprise-ready Kyverno distribution that provides support, and integrations for secure and scalable Kubernetes operations – all easily managed with policy-as-code.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/nirmata/assets/nirmata_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/nirmata/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "nirmata-kyverno",
+          "versions": [
+            "3.3.13"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "node-feature-discovery",
+      "description": "Enables node feature discovery for Kubernetes.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/node-feature-discovery/assets/node-feature-discovery.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/node-feature-discovery/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "node-feature-discovery",
+          "versions": [
+            "0.18.3",
+            "0.16.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring",
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "nvidia",
+      "description": "The NVIDIA GPU Operator for Kubernetes is a powerful tool that simplifies the management of GPUs",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/nvidia/assets/GPUoperator-cropped.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/nvidia/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "gpu-operator",
+          "versions": [
+            "25.10.1",
+            "25.10.0",
+            "25.3.0",
+            "24.9.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning",
+          "Drivers and plugins"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "nvidia-network-operator",
+      "description": "The NVIDIA Network Operator manages networking-related components to enable high-performance",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/nvidia-network-operator/assets/nvidia_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/nvidia-network-operator/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "network-operator",
+          "versions": [
+            "25.10.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning",
+          "Drivers and plugins"
+        ],
+        "quality": {
+          "tested": false,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "ollama",
+      "description": "Ollama is a lightweight platform for running large language models (LLMs) locally. It simplifies downloading, managing,",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/ollama/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/ollama/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "ollama",
+          "versions": [
+            "1.42.0",
+            "1.40.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": false,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "open-webui",
+      "description": "Open WebUI is an extensible, feature-rich, and user-friendly self-hosted AI platform designed to operate entirely offline.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/open-webui/assets/icon.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/open-webui/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "open-webui",
+          "versions": [
+            "10.2.1",
+            "8.12.3",
+            "8.10.0",
+            "6.20.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "opencost",
+      "description": "OpenCost is a vendor-neutral open-source project for measuring and allocating cloud infrastructure and container costs in real-time.",
+      "logo": "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/opencost/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "opencost",
+          "versions": [
+            "2.5.8",
+            "2.3.2",
+            "1.43.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "openfeature",
+      "description": "### Introduction",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/openfeature/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/openfeature/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "open-feature-operator",
+          "versions": [
+            "v0.8.9",
+            "v0.8.8"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Developer Tools"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "opentelemetry",
+      "description": "OpenTelemetry, also known as OTel, is a vendor-neutral open source Observability",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/opentelemetry/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/opentelemetry/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "opentelemetry-collector",
+          "versions": [
+            "0.145.0",
+            "0.141.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "opentelemetry-operator",
+          "versions": [
+            "0.105.1",
+            "0.99.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "penpot",
+      "description": "Penpot is the first **open-source** design tool for design and code collaboration. Designers can create stunning designs, interactive",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/penpot/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/penpot/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "penpot",
+          "versions": [
+            "0.28.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Developer Tools"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "postgresql",
+      "description": "PostgreSQL is a powerful, open-source object-relational database system known for its reliability, rich feature set, and strong",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/postgresql/assets/postgres_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/postgresql/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "postgresql",
+          "versions": [
+            "18.3.0",
+            "16.7.21",
+            "16.7.15"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "postgresql-operator",
+      "description": "The Zalando Postgres Operator delivers an easy to run highly-available PostgreSQL clusters on Kubernetes powered by Patroni.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/postgresql-operator/assets/postgres_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/postgresql-operator/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "postgres-operator",
+          "versions": [
+            "1.15.1",
+            "1.14.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "prometheus",
+      "description": "Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.",
+      "logo": "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/prometheus/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "prometheus",
+          "versions": [
+            "28.9.0",
+            "27.5.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "pure",
+      "description": "Pure Storage CSI is a plugin that allows Kubernetes to access storage on Pure Storage's FlashArray",
+      "logo": "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/pure/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "pure-k8s-plugin",
+          "versions": [
+            "2.7.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "pure-csi",
+          "versions": [
+            "1.2.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Storage",
+          "Drivers and plugins"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "pypiserver",
+      "description": "#### Overview",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/pypiserver/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/pypiserver/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "pypiserver",
+          "versions": [
+            "0.1.8"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Developer Tools"
+        ],
+        "quality": {
+          "tested": false,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "qdrant",
+      "description": "**Qdrant** (read: _quadrant_) is a vector similarity search engine and vector database.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/qdrant/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/qdrant/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "qdrant",
+          "versions": [
+            "1.16.3",
+            "1.15.4"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "rabbitmq",
+      "description": "### Why RabbitMQ?",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/rabbitmq/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/rabbitmq/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "rabbitmq",
+          "versions": [
+            "0.1.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "redis",
+      "description": "For developers, who are building real-time data-driven applications, Redis is the preferred,",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/redis/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/redis/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "redis",
+          "versions": [
+            "0.2.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "runai-cp",
+      "description": "NVIDIA Run:ai accelerates AI and machine learning operations by addressing key infrastructure challenges through dynamic resource allocation, comprehensive AI life-cycle support, and strategic resource management.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/runai-cp/assets/nvidia_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/runai-cp/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "runai-control-plane",
+          "versions": [
+            "0.3.0"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "soperator",
+      "description": "Both Slurm and Kubernetes can serve as workload managers for distributed model training and high-performance computing (HPC) in general.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/soperator/assets/slurm_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/soperator/",
+      "supportType": "partner",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "helm-soperator",
+          "versions": [
+            "1.21.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "helm-slurm-cluster",
+          "versions": [
+            "1.21.1"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "stacklight",
+      "description": "Mirantis StackLight LMA is a comprehensive Logging, Monitoring, and Alerting software",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/stacklight/assets/stackligh-logo.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/stacklight/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "stacklight-operator",
+          "versions": [
+            "0.1.0-mcp-16"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "strimzi-kafka-operator",
+      "description": "## Introduction",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/strimzi-kafka-operator/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/strimzi-kafka-operator/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "strimzi-kafka-operator",
+          "versions": [
+            "0.47.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "teleport",
+      "description": "The `teleport-cluster` Helm chart enables you deploy and manage a self-hosted, high-availability Teleport cluster.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/teleport/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/teleport/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "teleport-cluster",
+          "versions": [
+            "18.6.8",
+            "18.2.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Security"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "tetrate-istio",
+      "description": "Tetrate Istio is a hardened, enterprise-ready distribution of the Istio service mesh maintained",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/tetrate-istio/assets/tetrate.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/tetrate-istio/",
+      "supportType": "partner",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "tetrate-base",
+          "versions": [
+            "1.28.20000",
+            "1.27.10003",
+            "1.26.20002"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "tetrate-istiod",
+          "versions": [
+            "1.28.20000",
+            "1.27.10003",
+            "1.26.20002"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        },
+        {
+          "name": "tetrate-gateway",
+          "versions": [
+            "1.28.20000",
+            "1.27.10003",
+            "1.26.20002"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Networking"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "tika",
+      "description": "Apache Tika(TM) is a toolkit for detecting and extracting metadata and structured text content",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/tika/assets/icon.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/tika/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "tika",
+          "versions": [
+            "3.2.2"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "valkey",
+      "description": "Valkey is a high-performance in-memory data store that supports various data structures",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/valkey/assets/valkey_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/valkey/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "valkey",
+          "versions": [
+            "0.1.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Database"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "velero",
+      "description": "Velero is an open source tool to safely backup and restore, perform disaster recovery,",
+      "logo": "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/velero/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "velero",
+          "versions": [
+            "11.3.2",
+            "11.1.0",
+            "10.0.10",
+            "8.1.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Backup and Recovery"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "victoriametrics",
+      "description": "VictoriaMetrics is a fast, cost-effective and scalable monitoring solution and time series database.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/victoriametrics/assets/victoriametrics.png",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/victoriametrics/",
+      "supportType": "community",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "victoriametrics",
+          "versions": [
+            "0.30.0",
+            "0.22.0"
+          ],
+          "repository": "oci://ghcr.io/k0rdent/catalog/charts"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "Monitoring"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    },
+    {
+      "name": "wandb",
+      "description": "W&B Weave is a framework for tracking, experimenting with, evaluating, deploying, and improving LLM-based applications.",
+      "logo": "https://catalog.k0rdent.io/v1.2.0/apps/wandb/assets/wandb_logo.svg",
+      "docsUrl": "https://catalog.k0rdent.io/v1.2.0/apps/wandb/",
+      "supportType": "enterprise",
+      "deprecated": false,
+      "charts": [
+        {
+          "name": "wandb-operator",
+          "versions": [
+            "1.4.1"
+          ],
+          "repository": "oci://registry.mirantis.com/k0rdent-enterprise-catalog"
+        }
+      ],
+      "metadata": {
+        "owner": "k0rdent-team",
+        "lastUpdated": "2026-02-25",
+        "dependencies": [],
+        "tags": [
+          "AI/Machine Learning"
+        ],
+        "quality": {
+          "tested": true,
+          "securityScanned": false
+        }
+      }
+    }
+  ]
+}
