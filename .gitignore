@@ -6,6 +6,7 @@ scripts/set_envs.sh
 kcfg*
 mkdocs/apps/*
 mkdocs/infra/*
+mkdocs/solutions/*
 mkdocs/index.json
 mkdocs/schema/index.json
 
