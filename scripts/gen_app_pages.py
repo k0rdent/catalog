@@ -126,10 +126,9 @@ def validate_metadata(file: str, data: dict):
     validate_show_install_tab(file, data)
 
 
-def try_copy_assets(app: str, apps_dir: str, dst_dir: str, is_infra: bool):
+def try_copy_assets(apps_dir: str, app: str, dst_item_path: str):
     src_dir = os.path.join(apps_dir, app, "assets")
-    subdir = "infra" if is_infra else "apps"
-    dst_dir = os.path.join(dst_dir, subdir, app, "assets")
+    dst_dir = os.path.join(dst_item_path, "assets")
     if os.path.exists(src_dir) and os.path.isdir(src_dir):
         shutil.copytree(src_dir, dst_dir, dirs_exist_ok=True)
         print(f"Assets copied from {src_dir} to {dst_dir}")
@@ -572,27 +571,28 @@ def get_apps_metadata(apps_dir: str) -> list:
     return apps_metadata
 
 
-def render_app_pages(apps_dir: str, dst_dir: str, app_template_path: str, apps_metadata: list):
-    # Read template
+def render_item_pages(apps_dir: str, dst_dir: str, item_type: str, app_template: jinja2.Template, metadata):
+    app = metadata['app']
+    dst_item_path = os.path.join(dst_dir, item_type, app)
+    if not os.path.exists(dst_item_path):
+        os.makedirs(dst_item_path)
+    md_file = os.path.join(dst_item_path, 'index.md')
+    try_copy_assets(apps_dir, app, dst_item_path)
+    # Render the template with metadata
+    rendered_md = app_template.render(**metadata)
+    if changed(md_file, rendered_md):
+        # Write the generated markdown
+        with open(md_file, 'w', encoding='utf-8') as f:
+            f.write(rendered_md)
+
+
+def render_pages(apps_dir: str, dst_dir: str, app_template_path: str, apps_metadata: list):
     with open(app_template_path, 'r', encoding='utf-8') as f:
         template_content = f.read()
     app_template = jinja2.Template(template_content)
-    for metadata in apps_metadata:
-        dst_app_path = os.path.join(dst_dir, metadata['app_path'])
-        is_infra = metadata.get("type", "app") == "infra"
-        if is_infra:
-            dst_app_path = dst_app_path.replace("/apps/", "/infra/")
-        if not os.path.exists(dst_app_path):
-            os.makedirs(dst_app_path)
-        md_file = os.path.join(dst_app_path, 'index.md')
-        app = metadata['app']
-        try_copy_assets(app, apps_dir, dst_dir, is_infra)
-        # Render the template with metadata
-        rendered_md = app_template.render(**metadata)
-        if changed(md_file, rendered_md):
-            # Write the generated markdown
-            with open(md_file, 'w', encoding='utf-8') as f:
-                f.write(rendered_md)
+    for item_metadata in apps_metadata:
+        item_type = item_metadata.get("type", "apps")
+        render_item_pages(apps_dir, dst_dir, item_type, app_template, item_metadata)
 
 
 def write_fetched_metadata(apps_metadata: list):
@@ -609,7 +609,7 @@ def generate_apps():
     dst_dir = 'mkdocs'
     app_template_path = 'mkdocs/app.tpl.md'
     apps_metadata = get_apps_metadata(apps_dir)
-    render_app_pages(apps_dir, dst_dir, app_template_path, apps_metadata)
+    render_pages(apps_dir, dst_dir, app_template_path, apps_metadata)
     generate_validation_matrix(apps_metadata)
     write_fetched_metadata(apps_metadata)
 
