@@ -451,6 +451,8 @@ def solution_items(metadata: dict) -> list:
     app = metadata['app']
     solutions = []
     for example_key, example in metadata.get('examples', dict()).items():
+        if example.get('type') != 'solution':
+            continue
         solution_page_key = get_solution_page_key(metadata['app'], example_key)
         solution = {
             "link": os.path.join('.', 'solutions', solution_page_key),
@@ -594,7 +596,7 @@ def render_item_pages(page_key: str, item_type: str, content: str, template: jin
             f.write(rendered_md)
     if content is None:
         for example_key, example in metadata.get('examples', dict()).items():
-            if 'content' in example:
+            if example.get('type') == 'solution':
                 key = get_solution_page_key(metadata['app'], example_key)
                 render_item_pages(key, 'solutions', example['content'], None, metadata)
 

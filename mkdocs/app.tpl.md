@@ -71,8 +71,9 @@ created: "{{ created }}"
 
 {% if examples %}
 {%- for key, example in examples.items() %}
+{%- if example.type != "solution" %}
 
-=== "Solution: {{ example.title }}"
+=== "Example: {{ example.title }}"
 
     {% if example.content %}
     {{ example.content | replace("\n", "\n    ") }}
@@ -102,5 +103,6 @@ created: "{{ created }}"
 
     {%- endif %}
 
+{%- endif %}
 {%- endfor %}
 {%- endif %}
