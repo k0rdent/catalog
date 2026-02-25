@@ -24,6 +24,8 @@ valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1',
                   'v1.2.0', 'v1.3.1', 'v1.4.0', 'v1.5.0', 'v1.6.0']
 
 VERSION = os.environ.get('VERSION', 'v1.6.0')
+SRC_APPS_ROOT = 'apps'
+DST_DIR = 'mkdocs'
 
 
 def changed(file, content):
@@ -445,12 +447,13 @@ def app_or_infra_item(metadata: dict, is_infra: bool) -> dict:
     return item
 
 
-def solution_items(metadata: dict, is_infra) -> list:
+def solution_items(metadata: dict) -> list:
     app = metadata['app']
     solutions = []
-    for _, example in metadata.get('examples', dict()).items():
+    for example_key, example in metadata.get('examples', dict()).items():
+        solution_page_key = get_solution_page_key(metadata['app'], example_key)
         solution = {
-            "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
+            "link": os.path.join('.', 'solutions', solution_page_key),
             "title": metadata.get("title", "No Title"),
             "type": 'solution',
             "logo": metadata.get("logo", " "),
@@ -468,7 +471,7 @@ def extract_items(metadata: dict, is_infra: bool) -> list:
     items = []
     app_item = app_or_infra_item(metadata, is_infra)
     items.append(app_item)
-    solutions = solution_items(metadata, is_infra)
+    solutions = solution_items(metadata)
     items.extend(solutions)
     return items
 
@@ -537,14 +540,14 @@ def process_referenced_examples(apps_metadata: list):
             item['examples'][key] = ref_example_copy
 
 
-def get_apps_metadata(apps_dir: str) -> list:
+def get_apps_metadata() -> list:
     base_metadata = dict(
         version=VERSION
     )
     base_metadata.update(version2template_names(VERSION))
     apps_metadata = []
-    for app in os.listdir(apps_dir):
-        app_path = os.path.join(apps_dir, app)
+    for app in os.listdir(SRC_APPS_ROOT):
+        app_path = os.path.join(SRC_APPS_ROOT, app)
         data_file = os.path.join(app_path, 'data.yaml')
         if os.path.isdir(app_path) and os.path.exists(data_file):
             with open(data_file, 'r', encoding='utf-8') as f:
@@ -571,28 +574,39 @@ def get_apps_metadata(apps_dir: str) -> list:
     return apps_metadata
 
 
-def render_item_pages(apps_dir: str, dst_dir: str, item_type: str, app_template: jinja2.Template, metadata):
-    app = metadata['app']
-    dst_item_path = os.path.join(dst_dir, item_type, app)
+def get_solution_page_key(app: str, example_key: str) -> str:
+    return f"{app}_{example_key}"
+
+
+def render_item_pages(page_key: str, item_type: str, content: str, template: jinja2.Template, metadata):
+    dst_item_path = os.path.join(DST_DIR, item_type, page_key)
     if not os.path.exists(dst_item_path):
         os.makedirs(dst_item_path)
     md_file = os.path.join(dst_item_path, 'index.md')
-    try_copy_assets(apps_dir, app, dst_item_path)
+    try_copy_assets(SRC_APPS_ROOT, metadata['app'], dst_item_path)
     # Render the template with metadata
-    rendered_md = app_template.render(**metadata)
+    rendered_md = content
+    if content is None:
+        rendered_md = template.render(**metadata)
     if changed(md_file, rendered_md):
         # Write the generated markdown
         with open(md_file, 'w', encoding='utf-8') as f:
             f.write(rendered_md)
+    if content is None:
+        for example_key, example in metadata.get('examples', dict()).items():
+            if 'content' in example:
+                key = get_solution_page_key(metadata['app'], example_key)
+                render_item_pages(key, 'solutions', example['content'], None, metadata)
 
 
-def render_pages(apps_dir: str, dst_dir: str, app_template_path: str, apps_metadata: list):
+def render_pages(app_template_path: str, apps_metadata: list):
     with open(app_template_path, 'r', encoding='utf-8') as f:
         template_content = f.read()
     app_template = jinja2.Template(template_content)
     for item_metadata in apps_metadata:
         item_type = item_metadata.get("type", "apps")
-        render_item_pages(apps_dir, dst_dir, item_type, app_template, item_metadata)
+        dst_app = item_metadata['app']
+        render_item_pages(dst_app, item_type, None, app_template, item_metadata)
 
 
 def write_fetched_metadata(apps_metadata: list):
@@ -605,11 +619,9 @@ def write_fetched_metadata(apps_metadata: list):
 
 
 def generate_apps():
-    apps_dir = 'apps'
-    dst_dir = 'mkdocs'
     app_template_path = 'mkdocs/app.tpl.md'
-    apps_metadata = get_apps_metadata(apps_dir)
-    render_pages(apps_dir, dst_dir, app_template_path, apps_metadata)
+    apps_metadata = get_apps_metadata()
+    render_pages(app_template_path, apps_metadata)
     generate_validation_matrix(apps_metadata)
     write_fetched_metadata(apps_metadata)
 
