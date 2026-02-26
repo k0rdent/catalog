@@ -1,6 +1,6 @@
 ![logo]({{ logo_big }}){ align="right", width="100" }
 
-# Use Istio Ambient for pod-to-pod encryption
+# Service Mesh mTLS encryption with Istio - Ambient mode
 
 This k0rdent solution example demonstrates how to deploy Istio in ambient mode together with kube-prometheus-stack, enabling mTLS-based service mesh security without sidecar injection. In this setup, Istio’s ambient dataplane (ztunnel and optional waypoint proxies) transparently secures traffic for Prometheus, Grafana, and related monitoring components at the namespace level.
 
@@ -8,7 +8,7 @@ This k0rdent solution example demonstrates how to deploy Istio in ambient mode t
 Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}/admin/installation/install-k0rdent/){ target="_blank" }
 
 #### Install template to k0rdent
-{{ install_code  }}
+{{ install_code }}
 
 #### Verify service template
 {{ verify_code }}

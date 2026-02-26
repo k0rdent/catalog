@@ -1,6 +1,6 @@
 ![logo]({{ logo_big }}){ align="right", width="100" }
 
-# Kiali usage for traffic monitoring
+# Service Mesh Traffic Monitoring with Kiali
 
 This k0rdent solution example demonstrates how to deploy Istio together with kube-prometheus-stack and Kiali to provide full observability for applications running inside a service mesh. Istio generates detailed service mesh telemetry, Prometheus collects and stores the metrics, and Kiali visualizes service topology, traffic flow, and runtime behavior.
 
