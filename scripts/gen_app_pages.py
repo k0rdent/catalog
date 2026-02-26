@@ -436,12 +436,12 @@ def app_or_infra_item(metadata: dict, is_infra: bool) -> dict:
     item = {
         "link": os.path.join('.', 'infra' if is_infra else 'apps', app),
         "title": metadata.get("title", "No Title"),
+        "description": metadata.get("summary", "No Description"),
         "type": metadata.get("type", "app"),
         "logo": metadata.get("logo", " "),
         "tags": metadata.get("tags", []),
         "created": metadata.get("created", " "),
         "support_type": metadata_support_type(metadata),
-        "description": metadata.get("summary", "No Description"),
         "appDir": app,
     }
     return item
@@ -456,13 +456,13 @@ def solution_items(metadata: dict) -> list:
         solution_page_key = get_solution_page_key(metadata['app'], example_key)
         solution = {
             "link": os.path.join('.', 'solutions', solution_page_key),
-            "title": metadata.get("title", "No Title"),
+            "title": example.get("card_title", "No Title"),
+            "description": example.get("card_summary", "No Summary"),
             "type": 'solution',
             "logo": metadata.get("logo", " "),
             "tags": metadata.get("tags", []),
             "created": metadata.get("created", " "),
             "support_type": metadata_support_type(metadata),
-            "description": example.get("title", "No Summary"),
             "appDir": app,
         }
         solutions.append(solution)
@@ -596,9 +596,10 @@ def render_item_pages(page_key: str, item_type: str, content: str, template: jin
             f.write(rendered_md)
     if content is None:
         for example_key, example in metadata.get('examples', dict()).items():
-            if example.get('type') == 'solution':
-                key = get_solution_page_key(metadata['app'], example_key)
-                render_item_pages(key, 'solutions', example['content'], None, metadata)
+            if example.get('type') != 'solution':
+                continue
+            key = get_solution_page_key(metadata['app'], example_key)
+            render_item_pages(key, 'solutions', example['content'], None, metadata)
 
 
 def render_pages(app_template_path: str, apps_metadata: list):
