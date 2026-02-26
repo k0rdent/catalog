@@ -1,4 +1,6 @@
-## Use Istio for pod-to-pod encryption
+![logo]({{ logo_big }}){ align="right", width="100" }
+
+# Service Mesh mTLS encryption with Istio
 
 This k0rdent solution example demonstrates how to deploy Istio together with kube-prometheus-stack, with Istio providing mTLS-based service mesh security for Prometheus, Grafana, and related monitoring components. The example shows how to secure internal communication between monitoring services using Istio’s traffic encryption, authentication, and authorization features.
 

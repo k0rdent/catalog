@@ -29,7 +29,10 @@ doc_link: https://kiali.io/docs/installation/installation-guide/install-with-hel
 
 examples:
     security:
-        title: Traffic monitoring
+        card_title: Service Mesh Traffic Monitoring
+        card_summary: Kiali, Istio, kube-prometheus-stack
+        title: Service Mesh Traffic Monitoring
+        type: solution
         chart_folder: example_traffic
         content_template_file: example_traffic/doc.md
 

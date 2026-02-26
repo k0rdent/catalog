@@ -21,7 +21,10 @@ doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
 examples:
     security:
-        title: Security
+        card_title: Service Mesh mTLS encryption
+        card_summary: Istio, kube-prometheus-stack
+        title: Use Istio for pod-to-pod encryption
+        type: solution
         chart_folder: example_security
         content_template_file: example_security/doc.md
 
