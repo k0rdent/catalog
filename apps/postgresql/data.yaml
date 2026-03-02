@@ -17,7 +17,6 @@ charts:
     versions: ['18.3.0', '16.7.21', '16.7.15']
 
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
-test_check_images_args: "--set postgresql.image.repository=bitnamilegacy/postgresql --set postgresql.global.security.allowInsecureImages=true"
 
 examples:
     with_ingress:
