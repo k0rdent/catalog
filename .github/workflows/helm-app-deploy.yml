@@ -93,6 +93,17 @@ jobs:
           echo "$test_settings" >> $GITHUB_ENV
           echo "DEBUG=${{ runner.debug }}"
           echo "DEBUG=${{ runner.debug }}" >> $GITHUB_ENV
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Pull request - use fork ghcr registry"
+            repo_url="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "'In fork' test - use fork ghcr registry"
+            repo_url="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
+          fi
+          if [ -n "$repo_url" ]; then
+            echo "REPO_URL=$repo_url"
+            echo "REPO_URL=$repo_url" >> $GITHUB_ENV
+          fi
 
       - name: Check app charts changed
         run: |
@@ -110,16 +121,9 @@ jobs:
         if: (env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true') && env.APP_CHARTS_CHANGED == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "Pull request - use fork ghcr registry"
-            repo_path="$(echo "ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "'In fork' test - use fork ghcr registry"
-            repo_path="$(echo "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          fi
-          if [ -n "$repo_path" ]; then
+          if [ -n "$REPO_URL" ]; then
             echo "Replacing 'ghcr.io/k0rdent/catalog/charts' with '$repo_path' for forked/non-main build"
-            sed -i "s|oci://ghcr.io/k0rdent/catalog/charts|oci://$repo_path|g" apps/$APP/example/Chart.yaml
+            sed -i "s|oci://ghcr.io/k0rdent/catalog/charts|$REPO_URL|g" apps/$APP/example/Chart.yaml
             ./scripts/retry.sh helm dependency update "apps/$APP/example"
           fi
 
@@ -127,13 +131,6 @@ jobs:
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "Pull request - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "'In fork' test - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          fi
           python3 ./scripts/utils.py install-servicetemplates $APP
 
       - name: Test - Ensure MultiClusterService config
@@ -173,13 +170,6 @@ jobs:
         if: env.CHECK_IMAGES == 'true'
         run: |
           app=${{ matrix.folder }}
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "Pull request - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "'In fork' test - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          fi
           python3 ./scripts/chart_ctl.py check-images "$app"
 
       - name: Install Kind
@@ -231,13 +221,6 @@ jobs:
         if: env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "Pull request - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.event.pull_request.head.repo.owner.login }}/${{ github.event.pull_request.head.repo.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          elif [ "${{ github.repository }}" != "k0rdent/catalog" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "'In fork' test - use fork ghcr registry"
-            export REPO_URL="$(echo "oci://ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/charts" | tr '[:upper:]' '[:lower:]')"
-          fi
           ./scripts/install_servicetemplates.sh
 
       - name: Test - Install adopted cluster (k0rdent child)
