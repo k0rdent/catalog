@@ -203,27 +203,29 @@ def check_image_arch(image: str):
     print(f"({', '.join(archs)})")
 
 
-def check_images(args: str):
-    app = args.app
-    cfg = read_charts_cfg(app, allow_return_none=True)
-    if cfg is None:
-        print('Charts config not found.')
-        return
-    chart = cfg['st-charts'][-1]
-    check_image_args = os.getenv("CHECK_IMAGES_ARGS", '')
-    repo_url = os.environ.get('REPO_URL', "oci://ghcr.io/k0rdent/catalog/charts")
-    args = ["helm", "template", "chart", f"{repo_url}/{chart['name']}", "--version", chart['version']]
-    if check_image_args != '':
-        args.extend(check_image_args.split(' '))
+def bash_cmd_run(args: list, check: bool = True, capture_output: bool = True, text: bool = True):
     print(f"Run: {' '.join(args)}")
     try:
-        result = subprocess.run(args, check=True, capture_output=True, text=True)
+        result = subprocess.run(args, check=check, capture_output=capture_output, text=text)
+        return result
     except subprocess.CalledProcessError as e:
         print("Command failed!")
         print("Return code:", e.returncode)
         print("Command:", e.cmd)
         print("STDOUT:", e.stdout)
         print("STDERR:", e.stderr, file=sys.stderr)
+        return None
+
+
+def check_images(args: str):
+    app = args.app
+    example_chart = f"apps/{app}/example"
+    args_build = ["helm", "dependency", "build", example_chart]
+    bash_cmd_run(args_build)
+    args = ["helm", "template", "chart", example_chart]
+    result = bash_cmd_run(args)
+    if result is None:
+        return
     image_regex = r'(?:[a-zA-Z0-9\-_.]+(?:[.:][a-zA-Z0-9\-_.]+)?\/)?[a-zA-Z0-9\-_.]+(?:\/[a-zA-Z0-9\-_.]+)*(?::[a-zA-Z0-9\-_.]+)'
     matches = re.findall(r'image:\s*["\']?(' + image_regex + r')["\']?', result.stdout)
     images = sorted(set(filter(lambda x: "{{" not in x and "}}" not in x, matches)))
@@ -232,6 +234,7 @@ def check_images(args: str):
     print(f"{len(images)} images found:")
     for image in images:
         check_image_arch(image)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Catalog charts CLI tool.',
