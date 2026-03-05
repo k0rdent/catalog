@@ -115,7 +115,7 @@ template: home.html
       </div>
     </div>
     <input type="radio" id="solutions" name="maintabs" @change="switchedTabs($event)">
-    <label for="solutions"><img src="img/icon-apps.svg" />Solutions</label>
+    <label for="solutions"><img src="img/icon-solutions.svg" />Solutions</label>
     <div class="tab tab_apps-content">
         <div class="tab_apps-top">
             <div class="left-side">
