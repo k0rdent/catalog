@@ -19,6 +19,12 @@ examples:
     with_ingress:
         title: With Ingress-nginx
         chart_folder: example_ingress
+    with_loki:
+        card_title: Aggregated cluster logs
+        card_summary: Kube-prometheus-stack, Loki, Alloy
+        type: solution
+        chart_folder: example_logs
+        content_template_file: example_logs/doc.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
