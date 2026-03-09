@@ -21,9 +21,9 @@ allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 
 allowed_support_types = ['Enterprise', 'Community', 'Partner']
 summary_chars_limit = 90
 valid_versions = ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1',
-                  'v1.2.0', 'v1.3.1', 'v1.4.0', 'v1.5.0', 'v1.6.0']
+                  'v1.2.0', 'v1.3.1', 'v1.4.0', 'v1.5.0', 'v1.6.0', 'v1.7.0', 'v1.8.0']
 
-VERSION = os.environ.get('VERSION', 'v1.6.0')
+VERSION = os.environ.get('VERSION', 'v1.8.0')
 SRC_APPS_ROOT = 'apps'
 DST_DIR = 'mkdocs'
 
@@ -356,6 +356,27 @@ def version2template_names(version: str) -> str:
             "remote_cluster": "remote-cluster-1-0-19",
             "vsphere_hosted_cp": "vsphere-hosted-cp-1-0-19",
             "vsphere_standalone_cp": "vsphere-standalone-cp-1-0-18",
+        }
+    if version == "v1.8.0":
+        return {
+            "adopted_cluster": "adopted-cluster-1-0-1",
+            "aws_eks": "aws-eks-1-0-6",
+            "aws_hosted_cp": "aws-hosted-cp-1-0-24",
+            "aws_standalone_cp": "aws-standalone-cp-1-0-23",
+            "azure_aks": "azure-aks-1-0-4",
+            "azure_hosted_cp": "azure-hosted-cp-1-0-26",
+            "azure_standalone_cp": "azure-standalone-cp-1-0-23",
+            "docker_hosted_cp": "docker-hosted-cp-1-0-5",
+            "gcp_gke": "gcp-gke-1-0-8",
+            "gcp_hosted_cp": "gcp-hosted-cp-1-0-23",
+            "gcp_standalone_cp": "gcp-standalone-cp-1-0-21",
+            "kubevirt_hosted_cp": "kubevirt-hosted-cp-1-0-4",
+            "kubevirt_standalone_cp": "kubevirt-standalone-cp-1-0-4",
+            "openstack_hosted_cp": "openstack-hosted-cp-1-0-16",
+            "openstack_standalone_cp": "openstack-standalone-cp-1-0-25",
+            "remote_cluster": "remote-cluster-1-0-22",
+            "vsphere_hosted_cp": "vsphere-hosted-cp-1-0-22",
+            "vsphere_standalone_cp": "vsphere-standalone-cp-1-0-21",
         }
     raise Exception(f"Unsupported version '{version}' found")
 
