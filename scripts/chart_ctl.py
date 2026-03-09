@@ -189,7 +189,10 @@ def check_updates(args: str):
 
 def check_image_arch(image: str):
     print(f"- {image} ", end="")
-    manifest = subprocess.run(["crane", "manifest", image], check=True, capture_output=True, text=True)
+    args = ["crane", "manifest", image]
+    manifest = bash_cmd_run(args)
+    if manifest is None:
+        return
     manifest_dict = json.loads(manifest.stdout)
     if "manifests" not in manifest_dict:
         print(f"::warning::No manifest found for '{image}'!")
@@ -204,11 +207,11 @@ def check_image_arch(image: str):
 
 
 def bash_cmd_run(args: list, check: bool = True, capture_output: bool = True, text: bool = True):
-    print(f"Run: {' '.join(args)}")
     try:
         result = subprocess.run(args, check=check, capture_output=capture_output, text=text)
         return result
     except subprocess.CalledProcessError as e:
+        print(f"Running: {' '.join(args)}")
         print("Command failed!")
         print("Return code:", e.returncode)
         print("Command:", e.cmd)
