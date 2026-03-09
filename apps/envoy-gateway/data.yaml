@@ -10,7 +10,7 @@ description: |
   Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
 charts:
   - name: envoy-gateway
-    versions: ['1.3.2']
+    versions: ['1.5.9', '1.3.2']
 
 doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/
 # support_link:
