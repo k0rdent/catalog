@@ -1,9 +1,3 @@
-dapr-dashboard:
-  dapr-dashboard:
-    ingress:
-      enabled: true
-      host: ''
-
 traefik:
   traefik:
     deployment:
@@ -15,3 +9,13 @@ traefik:
       websecure:
         port: 8443
         hostPort: 443
+
+harbor:
+  harbor:
+    externalURL: http://harbor.local
+    expose:
+      ingress:
+        hosts:
+          core: harbor.local
+      tls:
+        enabled: false

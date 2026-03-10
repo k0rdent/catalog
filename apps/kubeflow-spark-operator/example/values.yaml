@@ -3,4 +3,3 @@ kubeflow-spark-operator:
     controller:
       uiIngress:
         enable: true
-        ingressClassName: nginx

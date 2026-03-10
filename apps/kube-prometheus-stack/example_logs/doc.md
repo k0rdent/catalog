@@ -9,7 +9,7 @@ The k0rdent Catalog simplifies deploying and managing production-ready platform 
 
 This demo demonstrates how the k0rdent Catalog can be used to deploy a centralized observability stack consisting of:
 
-- ingress-nginx – provides a standard Kubernetes ingress controller for exposing services
+- Traefik – provides a standard Kubernetes ingress controller for exposing services
 - kube-prometheus-stack – deploys Prometheus, Alertmanager, and Grafana for cluster metrics and monitoring
 - Alloy – collects telemetry data from clusters
 - Loki – stores and indexes logs collected from the clusters
@@ -19,7 +19,7 @@ Together, these components provide a multi-cluster observability solution:
 - Metrics from all clusters are collected and visualized in Grafana
 - Logs from multiple clusters are aggregated in Loki
 - Alloy acts as the telemetry pipeline collecting and forwarding logs and metrics
-- ingress-nginx exposes the observability services for external access
+- Traefik exposes the observability services for external access
 
 Using the k0rdent Catalog service templates, this stack can be installed once and then deployed automatically to any number of clusters. This ensures consistent configuration while reducing operational complexity.
 
@@ -46,17 +46,20 @@ spec:
       group: demo
   serviceSpec:
     services:
-    - template: ingress-nginx-4-14-3
-      name: ingress-nginx
-      namespace: ingress-nginx
+    - template: traefik-39-0-5
+      name: traefik
+      namespace: traefik
       values: |
-        ingress-nginx:
-          controller:
-            service:
-              annotations:
-                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-            hostPort:
-              enabled: true
+        traefik:
+          deployment:
+            kind: DaemonSet
+          ports:
+            web:
+              port: 8000
+              hostPort: 80
+            websecure:
+              port: 8443
+              hostPort: 443
     - template: kube-prometheus-stack-81-6-3
       name: prometheus
       namespace: prometheus
@@ -65,7 +68,6 @@ spec:
           grafana:
             ingress:
               enabled: true
-              ingressClassName: nginx
               hosts: ['']
             additionalDataSources:
               - name: Loki

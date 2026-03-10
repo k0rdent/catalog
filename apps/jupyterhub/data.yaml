@@ -23,7 +23,7 @@ charts:
 
 examples:
     with_ingress:
-        title: With Ingress-nginx
+        title: With Ingress
         chart_folder: example_ingress
         content_template_file: example_ingress/content.tpl.md
 

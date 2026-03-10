@@ -28,6 +28,5 @@ spec:
                 run: [llama3.2:3b]
           ingress:
             enabled: true
-            class: "nginx"
             host: 'openwebui.example.com'
 ~~~

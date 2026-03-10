@@ -17,7 +17,7 @@ charts:
     versions: ['10.2.1', '8.12.3', '8.10.0', '6.20.0']
 
 doc_link: https://docs.openwebui.com/
-use_ingress: true
+
 
 # test settings
 test_deploy_chart: false # only deploy mcs to save time and resources - big deployment
@@ -25,7 +25,7 @@ test_wait_for_pods: "open-webui-ollama-"
 
 examples:
     with_ingress:
-        title: With Ingress-nginx
+        title: With Ingress
         chart_folder: example_ingress
     with_gpu:
         title: With GPU

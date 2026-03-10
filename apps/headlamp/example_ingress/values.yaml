@@ -1,19 +1,21 @@
-ingress-nginx:
-  ingress-nginx:
-    controller:
-      service:
-        annotations:
-          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-      hostPort:
-        enabled: true
+traefik:
+  traefik:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        port: 8000
+        hostPort: 80
+      websecure:
+        port: 8443
+        hostPort: 443
 
 headlamp:
   headlamp:
     ingress:
       enabled: true
-      ingressClassName: nginx
       hosts:
-        - host: headlamp.example.com
+        - host: ''
           paths:
             - path: "/"
               type: Prefix

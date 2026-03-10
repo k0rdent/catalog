@@ -125,8 +125,6 @@ deploy_code: |
           adminUsername: "test@run.ai"   # It is highly recommended to change this
           adminPassword: "Abcd!234"      # It is highly recommended to change this
       knative:
-        ingress:
-          className: nginx
         domain:
           runai.example.com: ""
   ~~~
