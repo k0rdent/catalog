@@ -11,30 +11,15 @@ description: |
 charts:
   - name: prometheus
     versions: ['28.9.0', '27.5.1']
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    # kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: prometheus-28-9-0
-            name: prometheus
-            namespace: prometheus
-            values: |
-              prometheus:
-                server:
-                  ingress:
-                    enabled: true
-                    annotations:
-                      kubernetes.io/ingress.class: nginx
-                    hosts:
-                      - prometheus.example.com
-    ~~~
+
+examples:
+    with_ingress:
+        title: With Ingress
+        chart_folder: example_ingress
+
 doc_link: https://prometheus.io/docs/introduction/overview/
 test_wait_for_pods: "prometheus-server-"
-use_ingress: true
+
 
 validated_amd64: 'y'
 validated_aws: 'y'

@@ -17,7 +17,7 @@ doc_link: https://prometheus.io/community/
 
 examples:
     with_ingress:
-        title: With Ingress-nginx
+        title: With Ingress
         chart_folder: example_ingress
     with_loki:
         card_title: Aggregated cluster logs

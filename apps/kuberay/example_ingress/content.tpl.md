@@ -18,7 +18,6 @@ metadata:
 name: kuberay-dashboard
 namespace: kuberay
 spec:
-ingressClassName: nginx
 rules:
     - host: kuberay.example.com
     http:

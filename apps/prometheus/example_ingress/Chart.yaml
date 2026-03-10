@@ -1,11 +1,11 @@
 apiVersion: v2
 name: example
 type: application
-version: 4.0.1
+version: 1.0.0
 dependencies:
   - name: traefik
     version: 39.0.5
     repository: oci://ghcr.io/k0rdent/catalog/charts
-  - name: msr
-    version: 4.13.2
+  - name: prometheus
+    version: 28.9.0
     repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -40,6 +40,5 @@ spec:
                 run: [smollm:135m]
           ingress:
             enabled: true
-            class: "nginx"
             host: 'openwebui.example.com'
 ~~~
