@@ -114,8 +114,8 @@ def write_app_data(app: str, ruyaml_dict: dict) -> dict:
         yml.dump(ruyaml_dict, sys.stdout)
 
 
-def get_example_chart(app: str) -> dict:
-    chart_path = f"apps/{app}/example/Chart.yaml"
+def get_example_chart(app: str, example_folder_name: str) -> dict:
+    chart_path = f"apps/{app}/{example_folder_name}/Chart.yaml"
     chart_dict = read_yaml_file(chart_path)
     return chart_dict
 
@@ -169,7 +169,8 @@ def chart_2_repos(chart: dict) -> dict:
 
 def install_servicetemplates(args):
     app = args.app
-    chart_dict = get_example_chart(app)
+    example_folder_name = args.example_folder_name
+    chart_dict = get_example_chart(app, example_folder_name)
     repos = chart_2_repos(chart_dict)
     for repo in repos:
         charts = repos[repo]
@@ -253,6 +254,7 @@ if __name__ == '__main__':
 
     install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
     install.add_argument("app")
+    install.add_argument("--example-folder-name", "-e", help="Example folder name (default: example)", required=True)
     install.set_defaults(func=install_servicetemplates)
 
     print_vars = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
