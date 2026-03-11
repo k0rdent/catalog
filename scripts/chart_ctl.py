@@ -113,7 +113,7 @@ def update_data_service_templates_docs(app_data: dict, st_updates: dict):
 
 
 def update_example_chart(args, updates_dict: dict) -> bool:
-    chart_data = utils.get_example_chart(args.app)
+    chart_data = utils.get_example_chart(args.app, 'example')
     changed = False
     for dep in chart_data['dependencies']:
         if dep['name'] in updates_dict:
