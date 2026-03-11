@@ -1,0 +1,149 @@
+traefik:
+  traefik:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        port: 8000
+        hostPort: 80
+      websecure:
+        port: 8443
+        hostPort: 443
+
+tempo:
+  tempo:
+    tempoConfig:
+      distributor:
+        receivers:
+          otlp:
+            protocols:
+              grpc:
+              http:
+      storage:
+        trace:
+          backend: local
+          local:
+            path: /var/tempo
+      metrics_generator:
+        registry:
+          external_labels:
+            source: tempo
+    persistence:
+      enabled: true
+      size: 2Gi
+
+opentelemetry-collector:
+  opentelemetry-collector:
+    image:
+      repository: "otel/opentelemetry-collector-k8s"
+    mode: deployment
+    config:
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+              endpoint: 0.0.0.0:4317 # Ensure it listens on all interfaces
+      exporters:
+        otlp:
+          endpoint: "tempo.tracing.svc.cluster.local:4317"
+          tls:
+            insecure: true
+        debug:
+          verbosity: basic # basic, normal, detailed
+      service:
+        telemetry:
+          metrics:
+            address: "0.0.0.0:8888"
+          logs:
+            level: "info"
+        pipelines:
+          traces:
+            receivers: [otlp]
+            exporters: [otlp, debug]
+    ports:
+      otlp:
+        enabled: true
+        containerPort: 4317
+        servicePort: 4317
+        hostPort: 4317
+        protocol: TCP
+      metrics:
+        enabled: true
+        containerPort: 8888
+        servicePort: 8888
+        protocol: TCP
+
+istiod:
+  istiod:
+    meshConfig:
+      enableTracing: true
+      defaultProviders:
+        metrics:
+        - prometheus
+        tracing:
+        - otel
+      defaultConfig:
+        proxyLogLevel: debug
+        tracing:
+          provider:
+            name: otel
+          sampling: 100
+      extensionProviders:
+        - name: otel
+          opentelemetry:
+            service: otel-opentelemetry-collector.tracing.svc.cluster.local
+            port: 4317
+
+raw:
+  raw:
+    resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: prometheus
+        labels:
+          istio-injection: enabled
+
+    - apiVersion: telemetry.istio.io/v1alpha1
+      kind: Telemetry
+      metadata:
+        name: mesh-tracing
+        namespace: istio-system
+      spec:
+        tracing:
+          - providers:
+              - name: otel
+            randomSamplingPercentage: 100
+
+kube-prometheus-stack:
+  kube-prometheus-stack:
+    prometheus:
+      prometheusSpec:
+        maximumStartupDurationSeconds: 300
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 5Gi
+      ingress:
+        enabled: true
+        hosts: ['prometheus.example.com']
+    grafana:
+      sidecar:
+        datasources:
+          httpMethod: GET
+      ingress:
+        enabled: true
+        hosts: ['']
+      additionalDataSources:
+        - name: Tempo
+          type: tempo
+          access: proxy
+          url: http://tempo.tracing:3200
+          jsonData:
+            httpMethod: GET
+            serviceMap:
+              datasourceUid: prometheus

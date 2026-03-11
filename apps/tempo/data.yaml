@@ -24,10 +24,18 @@ description: |
   In a Kubernetes environment, Grafana Tempo can be deployed as a scalable distributed
   service that collects traces from instrumented workloads across clusters, helping
   teams gain deep insight into application performance and system behavior.
-# support_link: TODO
+
 charts:
   - name: tempo
     versions: ['1.24.4']
+
+examples:
+  tracing:
+      card_title: Traffic Tracing with Tempo
+      card_summary: Traefik, Tempo, Open Telemetry, Istio, Kube-prometheus-stack
+      type: solution
+      chart_folder: example_tracing
+      content_template_file: example_tracing/doc.md
 
 doc_link: https://grafana.com/docs/tempo/latest/
 
