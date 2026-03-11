@@ -131,7 +131,7 @@ jobs:
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          python3 ./scripts/utils.py install-servicetemplates $APP
+          python3 ./scripts/utils.py install-servicetemplates $APP -e example
 
       - name: Test - Ensure MultiClusterService config
         if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
