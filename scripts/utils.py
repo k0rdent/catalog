@@ -45,10 +45,12 @@ def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
     services = []
     for dep in deps:
         dep_name = dep['name']
+        service_namespace = dep.get('mcs_namespace', namespace)
+        service_name = dep.get('mcs_name', dep_name)
         service = dict(
             template = get_service_template(dep_name, dep['version']),
-            name = dep_name,
-            namespace = namespace
+            name = service_name,
+            namespace = service_namespace
         )
         if dep_name in chart_values_data:
             service['values'] = ValuesClass(chart_values_data[dep_name])
