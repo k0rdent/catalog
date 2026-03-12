@@ -24,7 +24,7 @@ jobs:
       app_folders: ${{ steps.get-tested-apps.outputs.folders }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Ensure full commit history
 
@@ -57,7 +57,7 @@ jobs:
     
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.AUTO_UPDATES_GH_TOKEN }}
           fetch-depth: 0  # Ensure full commit history
