@@ -32,7 +32,7 @@ jobs:
           echo "${{ secrets.CLEANUP_ARTIFACTS_GH_TOKEN }}" | gh auth login --with-token
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: List and optionally delete untagged versions
         env:

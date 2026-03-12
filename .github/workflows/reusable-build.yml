@@ -30,7 +30,7 @@ jobs:
       changed_folders: ${{ steps.get-changes.outputs.folders }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # fetch full history for "git diff" commands
 
@@ -61,7 +61,7 @@ jobs:
     
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Helm
         run: |
