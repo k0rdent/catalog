@@ -69,7 +69,8 @@ def chart_2_mcs_str(chart_dict: dict, chart_folder: str, app_name: str, app_meta
 
 def render_mcs(args):
     app = args.app
-    chart_folder = f"apps/{app}/example"
+    example_folder_name = args.example_folder_name
+    chart_folder = f"apps/{app}/{example_folder_name}"
     chart_dict = read_yaml_file(f"{chart_folder}/Chart.yaml")
     app_metadata = get_app_data(app)
     output = chart_2_mcs_str(chart_dict, chart_folder, app, app_metadata)
@@ -249,12 +250,15 @@ if __name__ == '__main__':
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     render = subparsers.add_parser("render-mcs", help="Render MultiClusterService using app example chart")
+    render.add_argument("--example-folder-name", "-e", help="Example folder name (default: example)", required=True,
+                        default="example")
     render.add_argument("app")
     render.set_defaults(func=render_mcs)
 
     install = subparsers.add_parser("install-servicetemplates", help="Install app example service templates")
     install.add_argument("app")
-    install.add_argument("--example-folder-name", "-e", help="Example folder name (default: example)", required=True)
+    install.add_argument("--example-folder-name", "-e", help="Example folder name (default: example)", required=True,
+                         default="example")
     install.set_defaults(func=install_servicetemplates)
 
     print_vars = subparsers.add_parser("print-test-vars", help="Print testing env vars values")
