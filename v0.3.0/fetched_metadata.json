@@ -1,0 +1,1507 @@
+[
+  {
+    "link": "./apps/alloy",
+    "title": "Alloy",
+    "description": "One agent for logs, metrics, and traces in Kubernetes.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2026-03-03T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "alloy"
+  },
+  {
+    "link": "./apps/aws-ebs-csi-driver",
+    "title": "Amazon EBS CSI",
+    "description": "The Amazon Elastic Block Store Container Storage Interface (CSI) Driver.",
+    "type": "app",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "created": "2025-03-12T20:16:05Z",
+    "support_type": "Community",
+    "appDir": "aws-ebs-csi-driver"
+  },
+  {
+    "link": "./infra/aws",
+    "title": "Amazon EC2",
+    "description": "Deploy kubernetes clusters with k0rdent on AWS infrastructure.",
+    "type": "infra",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+    "tags": [],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "aws"
+  },
+  {
+    "link": "./infra/eks",
+    "title": "Amazon Elastic Kubernetes Service",
+    "description": "Deploy kubernetes clusters with k0rdent on Amazon Elastic Kubernetes Service",
+    "type": "infra",
+    "logo": "https://cdn.prod.website-files.com/64902e94cf962d0707c23165/64f20142e6b212d8af65e59f_amazon-eks.911x1024.webp",
+    "tags": [],
+    "created": "2025-03-12T20:16:05Z",
+    "support_type": "Community",
+    "appDir": "eks"
+  },
+  {
+    "link": "./apps/amd-gpu",
+    "title": "AMD GPU Operator",
+    "description": "AMD GPU Operator creates/configures/manages GPUs atop Kubernetes.",
+    "type": "app",
+    "logo": "./assets/amd-logo.svg",
+    "tags": [
+      "AI/Machine Learning",
+      "Drivers and plugins"
+    ],
+    "created": "2025-05-05T11:25:39Z",
+    "support_type": "Community",
+    "appDir": "amd-gpu"
+  },
+  {
+    "link": "./infra/ampere",
+    "title": "Ampere",
+    "description": "Scalable, low-power ARM64 infrastructure for Kubernetes at the edge.",
+    "type": "infra",
+    "logo": "./assets/ampere.svg",
+    "tags": [],
+    "created": "2025-07-07T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "ampere"
+  },
+  {
+    "link": "./apps/apisix",
+    "title": "Apache APISIX",
+    "description": "API Gateway & AI Gateway for APIs and AI Agents.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-12-08T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "apisix"
+  },
+  {
+    "link": "./apps/tika",
+    "title": "Apache Tika",
+    "description": "A Content Analysis Toolkit.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-09-10T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "tika"
+  },
+  {
+    "link": "./apps/arangodb",
+    "title": "ArangoDB",
+    "description": "Scalable graph database system.",
+    "type": "app",
+    "logo": "./assets/arangodb_logo.png",
+    "tags": [
+      "Database",
+      "Application Runtime"
+    ],
+    "created": "2025-03-18T11:58:30Z",
+    "support_type": "Community",
+    "appDir": "arangodb"
+  },
+  {
+    "link": "./apps/argo-cd",
+    "title": "ArgoCD",
+    "description": "Declarative, GitOps continuous delivery tool for Kubernetes.",
+    "type": "app",
+    "logo": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+    "tags": [
+      "CI/CD"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "argo-cd"
+  },
+  {
+    "link": "./infra/azure",
+    "title": "Azure Compute Services",
+    "description": "Deploy kubernetes clusters with k0rdent on Azure infrastructure.",
+    "type": "infra",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png",
+    "tags": [],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "azure"
+  },
+  {
+    "link": "./apps/azure-disk-csi",
+    "title": "Azure Disk CSI",
+    "description": "The Azure Disk Container Storage Interface (CSI) Driver.",
+    "type": "app",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "created": "2025-03-12T20:16:05Z",
+    "support_type": "Community",
+    "appDir": "azure-disk-csi"
+  },
+  {
+    "link": "./infra/aks",
+    "title": "Azure Kubernetes Service",
+    "description": "Deploy kubernetes clusters with k0rdent on Azure Kubernetes Service.",
+    "type": "infra",
+    "logo": "https://azure.microsoft.com/svghandler/kubernetes-service/?width=600&height=315",
+    "tags": [],
+    "created": "2025-03-12T20:16:05Z",
+    "support_type": "Community",
+    "appDir": "aks"
+  },
+  {
+    "link": "./apps/cadvisor",
+    "title": "cAdvisor",
+    "description": "Analyzes resource usage and performance characteristics of running containers.",
+    "type": "app",
+    "logo": "./assets/cadvisor_logo.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-03-28T14:52:18Z",
+    "support_type": "Community",
+    "appDir": "cadvisor"
+  },
+  {
+    "link": "./apps/calico",
+    "title": "Calico CNI",
+    "description": "Networking and security solution specifically designed for Kubernetes clusters.",
+    "type": "app",
+    "logo": "https://docs.tigera.io/img/calico-logo.png",
+    "tags": [
+      "Networking",
+      "Security"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "calico"
+  },
+  {
+    "link": "./apps/cert-manager",
+    "title": "Cert-manager",
+    "description": "Management and issuance of TLS certificates.",
+    "type": "app",
+    "logo": "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "cert-manager"
+  },
+  {
+    "link": "./apps/clearml",
+    "title": "ClearML",
+    "description": "ClearML is a ML/DL development and production suite.",
+    "type": "app",
+    "logo": "./assets/clearml_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-04-02T19:24:04Z",
+    "support_type": "Community",
+    "appDir": "clearml"
+  },
+  {
+    "link": "./apps/cloudcasa",
+    "title": "CloudCasa by Catalogic",
+    "description": "CloudCasa backup and migration service agent for Kubernetes",
+    "type": "app",
+    "logo": "./assets/cc-icon.svg",
+    "tags": [
+      "Backup and Recovery"
+    ],
+    "created": "2025-05-15T00:54:27Z",
+    "support_type": "Enterprise",
+    "appDir": "cloudcasa"
+  },
+  {
+    "link": "./apps/cluster-autoscaler",
+    "title": "Cluster Autoscaler",
+    "description": "Automatically adjusts the size of Kubernetes clusters based on demand.",
+    "type": "app",
+    "logo": "./assets/cluster-autoscaler.svg",
+    "tags": [
+      "Monitoring",
+      "Application Runtime",
+      "Serverless"
+    ],
+    "created": "2025-09-07T10:00:00Z",
+    "support_type": "Community",
+    "appDir": "cluster-autoscaler"
+  },
+  {
+    "link": "./apps/dapr",
+    "title": "Dapr",
+    "description": "Portable, event-driven runtime.",
+    "type": "app",
+    "logo": "./assets/dapr-logo.svg",
+    "tags": [
+      "Monitoring",
+      "Application Runtime"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "dapr"
+  },
+  {
+    "link": "./apps/datadog",
+    "title": "Datadog",
+    "description": "Observability and Security Platform for Cloud Applications",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-12-02T00:00:00Z",
+    "support_type": "Enterprise",
+    "appDir": "datadog"
+  },
+  {
+    "link": "./apps/dell",
+    "title": "Dell CSI Drivers & Modules",
+    "description": "Dell Container Storage Modules.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Storage"
+    ],
+    "created": "2025-10-03T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "dell"
+  },
+  {
+    "link": "./apps/dex",
+    "title": "Dex",
+    "description": "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors.",
+    "type": "app",
+    "logo": "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png",
+    "tags": [
+      "Security",
+      "Authentication"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "dex"
+  },
+  {
+    "link": "./apps/elasticsearch",
+    "title": "Elasticsearch",
+    "description": "Free and Open Source, Distributed, RESTful Search Engine .",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Storage"
+    ],
+    "created": "2025-08-29T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "elasticsearch"
+  },
+  {
+    "link": "./apps/envoy-gateway",
+    "title": "Envoy Gateway",
+    "description": "Manage your Application and API traffic with Envoy Gateway.",
+    "type": "app",
+    "logo": "./assets/envoy-gateway_logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-03-25T09:17:52Z",
+    "support_type": "Community",
+    "appDir": "envoy-gateway"
+  },
+  {
+    "link": "./apps/external-secrets",
+    "title": "External-secrets",
+    "description": "External secret management.",
+    "type": "app",
+    "logo": "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png",
+    "tags": [
+      "Security",
+      "Authentication"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "external-secrets"
+  },
+  {
+    "link": "./apps/external-dns",
+    "title": "ExternalDNS",
+    "description": "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.",
+    "type": "app",
+    "logo": "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "external-dns"
+  },
+  {
+    "link": "./apps/falco",
+    "title": "Falco",
+    "description": "Runtime security tool that detects and alerts on abnormal behavior and threats.",
+    "type": "app",
+    "logo": "./assets/falco-logo-small.svg",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-04-16T13:06:51Z",
+    "support_type": "Community",
+    "appDir": "falco"
+  },
+  {
+    "link": "./apps/finops-agent",
+    "title": "FinOps Agent",
+    "description": "A forecasting agent for Kubernetes cost and utilization predictions",
+    "type": "app",
+    "logo": "./assets/finops-agent_logo.svg",
+    "tags": [
+      "AI/Machine Learning",
+      "Monitoring"
+    ],
+    "created": "2025-11-06T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "finops-agent"
+  },
+  {
+    "link": "./apps/fluentd",
+    "title": "Fluentd",
+    "description": "Open source data collector for unified logging layer.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2026-02-12T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "fluentd"
+  },
+  {
+    "link": "./apps/flux-operator",
+    "title": "Flux Operator",
+    "description": "Open and extensible continuous delivery solution for Kubernetes. Powered by GitOps Toolkit",
+    "type": "app",
+    "logo": "./assets/flux-icon.svg",
+    "tags": [
+      "CI/CD",
+      "Developer Tools"
+    ],
+    "created": "2025-08-07T13:40:00Z",
+    "support_type": "Community",
+    "appDir": "flux-operator"
+  },
+  {
+    "link": "./apps/gatekeeper",
+    "title": "Gatekeeper",
+    "description": "Cloud native policy controller that helps enforce policies and strengthen governance.",
+    "type": "app",
+    "logo": "./assets/gatekeeper.svg",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-03-28T14:40:08Z",
+    "support_type": "Community",
+    "appDir": "gatekeeper"
+  },
+  {
+    "link": "./apps/gcore",
+    "title": "Gcore",
+    "description": "Cloud, Edge, and AI Solutions.",
+    "type": "app",
+    "logo": "./assets/gcore_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-04-30T20:12:15Z",
+    "support_type": "Enterprise",
+    "appDir": "gcore"
+  },
+  {
+    "link": "./apps/gitlab",
+    "title": "GitLab",
+    "description": "The most comprehensive AI-powered DevSecOps platform.",
+    "type": "app",
+    "logo": "./assets/gitlab_logo.svg",
+    "tags": [
+      "CI/CD",
+      "Developer Tools"
+    ],
+    "created": "2025-03-18T14:07:09Z",
+    "support_type": "Community",
+    "appDir": "gitlab"
+  },
+  {
+    "link": "./infra/gcp",
+    "title": "Google Compute Engine",
+    "description": "Deploy kubernetes clusters with k0rdent on GCP infrastructure.",
+    "type": "infra",
+    "logo": "./assets/gce_logo.svg",
+    "tags": [],
+    "created": "2025-04-03T09:22:55Z",
+    "support_type": "Community",
+    "appDir": "gcp"
+  },
+  {
+    "link": "./infra/gke",
+    "title": "Google Kubernetes Engine",
+    "description": "Deploy kubernetes clusters with k0rdent on Google Kubernetes Engine.",
+    "type": "infra",
+    "logo": "./assets/gke_logo.svg",
+    "tags": [],
+    "created": "2025-04-03T09:22:55Z",
+    "support_type": "Community",
+    "appDir": "gke"
+  },
+  {
+    "link": "./apps/grafana",
+    "title": "Grafana",
+    "description": "The open-source platform for monitoring and observability.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-08-27T13:06:51Z",
+    "support_type": "Community",
+    "appDir": "grafana"
+  },
+  {
+    "link": "./apps/harbor",
+    "title": "Harbor",
+    "description": "Cloud native repository for Kubernetes.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Container Registry"
+    ],
+    "created": "2025-10-22T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "harbor"
+  },
+  {
+    "link": "./apps/harness",
+    "title": "Harness",
+    "description": "DevOps platform for CI/CD, feature flags, cloud cost, and reliability..",
+    "type": "app",
+    "logo": "./assets/harness-icon.svg",
+    "tags": [
+      "CI/CD"
+    ],
+    "created": "2025-07-25T06:02:26Z",
+    "support_type": "Community",
+    "appDir": "harness"
+  },
+  {
+    "link": "./apps/headlamp",
+    "title": "Headlamp",
+    "description": "User-friendly Kubernetes UI focused on extensibility.",
+    "type": "app",
+    "logo": "./assets/headlamp.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-07-10T16:26:02Z",
+    "support_type": "Community",
+    "appDir": "headlamp"
+  },
+  {
+    "link": "./apps/hpe-csi",
+    "title": "HPE CSI Driver for Kubernetes",
+    "description": "Multi-vendor and multi-platform Container Storage Interface driver.",
+    "type": "app",
+    "logo": "https://raw.githubusercontent.com/hpe-storage/co-deployments/master/docs/assets/hpedev.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "created": "2025-03-31T15:40:47Z",
+    "support_type": "Community",
+    "appDir": "hpe-csi"
+  },
+  {
+    "link": "./apps/influxdb",
+    "title": "InfluxDB v2",
+    "description": "Scalable datastore for metrics, events, and real-time analytics.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-11-05T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "influxdb"
+  },
+  {
+    "link": "./apps/ingress-nginx",
+    "title": "Ingress-nginx",
+    "description": "Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.",
+    "type": "app",
+    "logo": "./assets/nginx_logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "ingress-nginx"
+  },
+  {
+    "link": "./apps/istio",
+    "title": "Istio",
+    "description": "Open source service mesh that layers transparently onto existing distributed applications.",
+    "type": "app",
+    "logo": "https://istio.io/latest/favicons/android-192x192.png",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "istio"
+  },
+  {
+    "link": "./solutions/istio_security",
+    "title": "Service Mesh mTLS encryption",
+    "description": "Istio, kube-prometheus-stack",
+    "type": "solution",
+    "logo": "https://istio.io/latest/favicons/android-192x192.png",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "istio"
+  },
+  {
+    "link": "./apps/istio-ambient",
+    "title": "Istio - Ambient Mode",
+    "description": "Sidecar-less mesh with node-level routing and app-layer control.",
+    "type": "app",
+    "logo": "https://istio.io/latest/favicons/android-192x192.png",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-05-07T18:27:00Z",
+    "support_type": "Community",
+    "appDir": "istio-ambient"
+  },
+  {
+    "link": "./solutions/istio-ambient_security",
+    "title": "Service Mesh mTLS encryption",
+    "description": "Istio - Ambient mode, kube-prometheus-stack",
+    "type": "solution",
+    "logo": "https://istio.io/latest/favicons/android-192x192.png",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-05-07T18:27:00Z",
+    "support_type": "Community",
+    "appDir": "istio-ambient"
+  },
+  {
+    "link": "./apps/jenkins",
+    "title": "Jenkins",
+    "description": "The leading open source automation server.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Storage"
+    ],
+    "created": "2025-09-01T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "jenkins"
+  },
+  {
+    "link": "./apps/jupyterhub",
+    "title": "JupyterHub",
+    "description": "A multi-user version of the notebook designed for companies, classrooms and research labs.",
+    "type": "app",
+    "logo": "./assets/juphub-icon.svg",
+    "tags": [
+      "Developer Tools"
+    ],
+    "created": "2025-07-30T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "jupyterhub"
+  },
+  {
+    "link": "./apps/strimzi-kafka-operator",
+    "title": "Kafka Operator by Strimzi",
+    "description": "Apache Kafka running on Kubernetes.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-09-30T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "strimzi-kafka-operator"
+  },
+  {
+    "link": "./apps/kagent",
+    "title": "kagent",
+    "description": "Universal remote agent for secure Kubernetes automation",
+    "type": "app",
+    "logo": "./assets/kagent_logo.svg",
+    "tags": [
+      "Networking",
+      "Security"
+    ],
+    "created": "2025-06-16T14:07:09Z",
+    "support_type": "Community",
+    "appDir": "kagent"
+  },
+  {
+    "link": "./apps/keda",
+    "title": "KEDA",
+    "description": "KEDA is a Kubernetes-based Event Driven Autoscaler.",
+    "type": "app",
+    "logo": "./assets/keda-logo.svg",
+    "tags": [
+      "Monitoring",
+      "Application Runtime",
+      "Serverless",
+      "CI/CD"
+    ],
+    "created": "2025-04-11T14:02:07Z",
+    "support_type": "Community",
+    "appDir": "keda"
+  },
+  {
+    "link": "./apps/keycloak",
+    "title": "Keycloak",
+    "description": "Open-source identity and access management server developed by Red Hat.",
+    "type": "app",
+    "logo": "./assets/keycloak-logo.svg",
+    "tags": [
+      "Authentication",
+      "Security"
+    ],
+    "created": "2026-01-22T13:00:00Z",
+    "support_type": "Community",
+    "appDir": "keycloak"
+  },
+  {
+    "link": "./apps/kgateway",
+    "title": "kgateway",
+    "description": "The most mature and widely deployed Envoy-based gateway in the market today",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Networking",
+      "Security"
+    ],
+    "created": "2025-11-11T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "kgateway"
+  },
+  {
+    "link": "./apps/kiali",
+    "title": "Kiali",
+    "description": "The Console for Istio Service Mesh.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-12-04T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "kiali"
+  },
+  {
+    "link": "./solutions/kiali_security",
+    "title": "Service Mesh Traffic Monitoring",
+    "description": "Kiali, Istio, kube-prometheus-stack",
+    "type": "solution",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-12-04T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "kiali"
+  },
+  {
+    "link": "./apps/knative",
+    "title": "Knative",
+    "description": "Kubernetes-based platform to deploy and manage modern serverless workloads.",
+    "type": "app",
+    "logo": "./assets/knative_logo.svg",
+    "tags": [
+      "Serverless",
+      "Networking",
+      "Application Runtime"
+    ],
+    "created": "2025-03-20T16:26:02Z",
+    "support_type": "Community",
+    "appDir": "knative"
+  },
+  {
+    "link": "./apps/kube-prometheus-stack",
+    "title": "Kube Prometheus Stack",
+    "description": "Collection of monitoring and alerting rules for Kubernetes clusters.",
+    "type": "app",
+    "logo": "./assets/prometheus-operator-logo.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "kube-prometheus-stack"
+  },
+  {
+    "link": "./solutions/kube-prometheus-stack_with_loki",
+    "title": "Aggregated cluster logs",
+    "description": "Kube-prometheus-stack, Loki, Alloy",
+    "type": "solution",
+    "logo": "./assets/prometheus-operator-logo.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "kube-prometheus-stack"
+  },
+  {
+    "link": "./apps/kubecost",
+    "title": "Kubecost",
+    "description": "Monitor your cloud costs.",
+    "type": "app",
+    "logo": "./assets/kubecost_logo.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-03-12T12:22:17Z",
+    "support_type": "Community",
+    "appDir": "kubecost"
+  },
+  {
+    "link": "./apps/kserve",
+    "title": "Kubeflow KServe",
+    "description": "Serverless platform for deploying, monitoring, and managing ML models on Kubernetes.",
+    "type": "app",
+    "logo": "./assets/kserve_logo_icon.svg",
+    "tags": [
+      "AI/Machine Learning",
+      "Serverless"
+    ],
+    "created": "2025-04-22T06:02:26Z",
+    "support_type": "Community",
+    "appDir": "kserve"
+  },
+  {
+    "link": "./apps/kubeflow-spark-operator",
+    "title": "Kubeflow Spark Operator",
+    "description": "The Kubernetes Operator for Apache Spark.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-09-29T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "kubeflow-spark-operator"
+  },
+  {
+    "link": "./apps/kuberay",
+    "title": "KubeRay",
+    "description": "Deploy and scale Ray apps on Kubernetes using custom resources.",
+    "type": "app",
+    "logo": "./assets/ray_logo.png",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-05-29T12:00:00Z",
+    "support_type": "Community",
+    "appDir": "kuberay"
+  },
+  {
+    "link": "./apps/kyverno",
+    "title": "Kyverno",
+    "description": "Kubernetes Native Policy Management.",
+    "type": "app",
+    "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "kyverno"
+  },
+  {
+    "link": "./apps/kyverno-guardrails",
+    "title": "Kyverno Guardrails",
+    "description": "Set of Best-Practice Kyverno Policies.",
+    "type": "app",
+    "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-04-16T10:49:16Z",
+    "support_type": "Community",
+    "appDir": "kyverno-guardrails"
+  },
+  {
+    "link": "./apps/lws",
+    "title": "LeaderWorkerSet (LWS)",
+    "description": "An LWS creates a group of pods and controls their lifecycle.",
+    "type": "app",
+    "logo": "./assets/lws_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2026-01-22T10:37:20Z",
+    "support_type": "Community",
+    "appDir": "lws"
+  },
+  {
+    "link": "./apps/local-ai",
+    "title": "Local AI",
+    "description": "The free, Open Source alternative to OpenAI, Claude and others.",
+    "type": "app",
+    "logo": "./assets/icon.png",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-09-02T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "local-ai"
+  },
+  {
+    "link": "./apps/loki",
+    "title": "Loki",
+    "description": "Horizontally scalable, highly available, multi-tenant log aggregation system.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2026-03-02T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "loki"
+  },
+  {
+    "link": "./apps/metallb",
+    "title": "MetalLB",
+    "description": "Load-balancer for bare metal Kubernetes clusters, using standard routing protocols.",
+    "type": "app",
+    "logo": "./assets/metallb_logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-03-19T17:58:28Z",
+    "support_type": "Community",
+    "appDir": "metallb"
+  },
+  {
+    "link": "./apps/milvus",
+    "title": "Milvus",
+    "description": "High-performance, cloud-native vector database built for scalable vector ANN search.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-08-29T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "milvus"
+  },
+  {
+    "link": "./apps/minio",
+    "title": "MinIO",
+    "description": "Object storage solution that provides an AWS S3-compatible API.",
+    "type": "app",
+    "logo": "./assets/minio_logo.svg",
+    "tags": [
+      "Storage"
+    ],
+    "created": "2025-03-19T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "minio"
+  },
+  {
+    "link": "./apps/ceph",
+    "title": "Mirantis Ceph",
+    "description": "A Unified Storage Solution",
+    "type": "app",
+    "logo": "./assets/logo-ceph.svg",
+    "tags": [
+      "Storage"
+    ],
+    "created": "2025-06-05T20:16:05Z",
+    "support_type": "Enterprise",
+    "appDir": "ceph"
+  },
+  {
+    "link": "./apps/mirantis-kyverno-guardrails",
+    "title": "Mirantis Kyverno Guardrails",
+    "description": "Set of Best-Practice Kyverno Policies.",
+    "type": "app",
+    "logo": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-07-22T10:49:16Z",
+    "support_type": "Enterprise",
+    "appDir": "mirantis-kyverno-guardrails"
+  },
+  {
+    "link": "./apps/msr",
+    "title": "Mirantis Secure Registry",
+    "description": "Mirantis Secure Registry (MSR) 4 is an Enterprise-grade container registry solution.",
+    "type": "app",
+    "logo": "./assets/msr_logo.svg",
+    "tags": [
+      "Container Registry"
+    ],
+    "created": "2025-03-12T15:33:55Z",
+    "support_type": "Community",
+    "appDir": "msr"
+  },
+  {
+    "link": "./apps/stacklight",
+    "title": "Mirantis StackLight",
+    "description": "Operations Support System for Mirantis Container Cloud and Mirantis Cloud Platform",
+    "type": "app",
+    "logo": "./assets/stackligh-logo.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-06-05T20:16:05Z",
+    "support_type": "Enterprise",
+    "appDir": "stacklight"
+  },
+  {
+    "link": "./apps/mirantis-velero",
+    "title": "Mirantis Velero",
+    "description": "Open source tool to safely backup and restore.",
+    "type": "app",
+    "logo": "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png",
+    "tags": [
+      "Backup and Recovery"
+    ],
+    "created": "2025-07-22T08:16:55Z",
+    "support_type": "Enterprise",
+    "appDir": "mirantis-velero"
+  },
+  {
+    "link": "./apps/mlflow",
+    "title": "mlflow",
+    "description": "A Tool for Managing the Machine Learning Lifecycle.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-10-09T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "mlflow"
+  },
+  {
+    "link": "./apps/mongodb",
+    "title": "MongoDB",
+    "description": "General-purpose document database.",
+    "type": "app",
+    "logo": "./assets/mongo_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-03-18T10:27:25Z",
+    "support_type": "Community",
+    "appDir": "mongodb"
+  },
+  {
+    "link": "./apps/mysql",
+    "title": "MySQL",
+    "description": "The world's most popular open source database.",
+    "type": "app",
+    "logo": "./assets/MySQL_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-03-17T11:50:06Z",
+    "support_type": "Community",
+    "appDir": "mysql"
+  },
+  {
+    "link": "./apps/n8n",
+    "title": "N8n",
+    "description": "Flexible AI workflow automation tool",
+    "type": "app",
+    "logo": "./assets/n8n_pink_black.png",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-10-03T13:41:55Z",
+    "support_type": "Community",
+    "appDir": "n8n"
+  },
+  {
+    "link": "./apps/nats",
+    "title": "NATS",
+    "description": "High-performance messaging system for cloud-native applications.",
+    "type": "app",
+    "logo": "./assets/nats-horizontal-color.png",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-08-27T11:00:00Z",
+    "support_type": "Community",
+    "appDir": "nats"
+  },
+  {
+    "link": "./apps/soperator",
+    "title": "Nebius Soperator",
+    "description": "Kubernetes Operator for SLURM.",
+    "type": "app",
+    "logo": "./assets/slurm_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-11-3T10:00:00Z",
+    "support_type": "Enterprise",
+    "appDir": "soperator"
+  },
+  {
+    "link": "./apps/netapp",
+    "title": "NetApp",
+    "description": "NetApp's Trident CSI storage provisioner using the Trident Operator.",
+    "type": "app",
+    "logo": "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "netapp"
+  },
+  {
+    "link": "./apps/nginx-ingress-f5",
+    "title": "Nginx-ingress F5",
+    "description": "Enterprise-grade Kubernetes ingress controller built on NGINX Plus.",
+    "type": "app",
+    "logo": "./assets/F5-logo.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-08-26T08:16:55Z",
+    "support_type": "Enterprise",
+    "appDir": "nginx-ingress-f5"
+  },
+  {
+    "link": "./apps/nirmata",
+    "title": "Nirmata Enterprise for Kyverno",
+    "description": "Policy-based Security, Compliance, and Governance",
+    "type": "app",
+    "logo": "./assets/nirmata_logo.svg",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-03-12T20:16:05Z",
+    "support_type": "Enterprise",
+    "appDir": "nirmata"
+  },
+  {
+    "link": "./apps/node-feature-discovery",
+    "title": "Node Feature Discovery",
+    "description": "Enables node feature discovery for Kubernetes.",
+    "type": "app",
+    "logo": "./assets/node-feature-discovery.svg",
+    "tags": [
+      "Monitoring",
+      "Security"
+    ],
+    "created": "2025-03-28T14:06:27Z",
+    "support_type": "Community",
+    "appDir": "node-feature-discovery"
+  },
+  {
+    "link": "./apps/nvidia",
+    "title": "NVIDIA GPU Operator",
+    "description": "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes.",
+    "type": "app",
+    "logo": "./assets/GPUoperator-cropped.png",
+    "tags": [
+      "AI/Machine Learning",
+      "Drivers and plugins"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "nvidia"
+  },
+  {
+    "link": "./apps/nvidia-network-operator",
+    "title": "NVIDIA Network Operator",
+    "description": "Simplifies deployment and lifecycle management of the NVIDIA Mellanox Network Operator.",
+    "type": "app",
+    "logo": "./assets/nvidia_logo.svg",
+    "tags": [
+      "AI/Machine Learning",
+      "Drivers and plugins"
+    ],
+    "created": "2026-01-29T12:00:00Z",
+    "support_type": "Community",
+    "appDir": "nvidia-network-operator"
+  },
+  {
+    "link": "./apps/runai-cp",
+    "title": "NVIDIA Run:ai",
+    "description": "Accelerate AI Workflows With Dynamic Orchestration",
+    "type": "app",
+    "logo": "./assets/nvidia_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-09-15T14:52:15Z",
+    "support_type": "Enterprise",
+    "appDir": "runai-cp"
+  },
+  {
+    "link": "./apps/ollama",
+    "title": "Ollama",
+    "description": "Easiest way to automate your work using open models, while keeping your data safe.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2026-01-30T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "ollama"
+  },
+  {
+    "link": "./apps/open-webui",
+    "title": "Open WebUI",
+    "description": "A User-Friendly Web Interface for Chat Interactions.",
+    "type": "app",
+    "logo": "./assets/icon.png",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "open-webui"
+  },
+  {
+    "link": "./apps/opencost",
+    "title": "OpenCost",
+    "description": "Monitor your cloud costs.",
+    "type": "app",
+    "logo": "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "opencost"
+  },
+  {
+    "link": "./apps/openfeature",
+    "title": "OpenFeature Operator",
+    "description": "A feature flag operator for Kubernetes.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Developer Tools"
+    ],
+    "created": "2025-12-18T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "openfeature"
+  },
+  {
+    "link": "./infra/openstack",
+    "title": "OpenStack",
+    "description": "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure.",
+    "type": "infra",
+    "logo": "https://avatars.githubusercontent.com/u/324574?s=200&v=4",
+    "tags": [],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "openstack"
+  },
+  {
+    "link": "./apps/opentelemetry",
+    "title": "OpenTelemetry",
+    "description": "High-quality, ubiquitous, and portable telemetry to enable effective observability.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-12-09T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "opentelemetry"
+  },
+  {
+    "link": "./apps/penpot",
+    "title": "Penpot",
+    "description": "Open Source design and prototyping platform.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Developer Tools"
+    ],
+    "created": "2025-10-16T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "penpot"
+  },
+  {
+    "link": "./apps/postgresql",
+    "title": "PostgreSQL",
+    "description": "Open source object-relational database known for reliability and data integrity.",
+    "type": "app",
+    "logo": "./assets/postgres_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-07-08T16:43:20Z",
+    "support_type": "Community",
+    "appDir": "postgresql"
+  },
+  {
+    "link": "./apps/postgresql-operator",
+    "title": "PostgreSQL Operator",
+    "description": "Postgres Operator for deploying and managing PostgreSQL clusters on Kubernetes.",
+    "type": "app",
+    "logo": "./assets/postgres_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-03-27T16:43:20Z",
+    "support_type": "Community",
+    "appDir": "postgresql-operator"
+  },
+  {
+    "link": "./apps/prometheus",
+    "title": "Prometheus",
+    "description": "From metrics to insight",
+    "type": "app",
+    "logo": "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "prometheus"
+  },
+  {
+    "link": "./apps/pure",
+    "title": "Pure",
+    "description": "Storage service.",
+    "type": "app",
+    "logo": "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png",
+    "tags": [
+      "Storage",
+      "Drivers and plugins"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "pure"
+  },
+  {
+    "link": "./apps/pypiserver",
+    "title": "PyPI Server",
+    "description": "Minimal PyPI server for use with pip/easy_install.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Developer Tools"
+    ],
+    "created": "2026-01-13T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "pypiserver"
+  },
+  {
+    "link": "./apps/qdrant",
+    "title": "Qdrant",
+    "description": "High-Performance Vector Search at Scale.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-09-04T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "qdrant"
+  },
+  {
+    "link": "./apps/rabbitmq",
+    "title": "RabbitMQ",
+    "description": "One broker to queue them all.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-09-05T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "rabbitmq"
+  },
+  {
+    "link": "./apps/raw",
+    "title": "Raw",
+    "description": "Raw Kubernetes manifests managed by Helm release.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Drivers and plugins"
+    ],
+    "created": "2026-03-11T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "raw"
+  },
+  {
+    "link": "./apps/redis",
+    "title": "Redis",
+    "description": "In-memory data store.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-09-05T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "redis"
+  },
+  {
+    "link": "./apps/teleport",
+    "title": "Teleport",
+    "description": "An access platform for your infrastructure.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Security"
+    ],
+    "created": "2025-08-29T17:51:52Z",
+    "support_type": "Community",
+    "appDir": "teleport"
+  },
+  {
+    "link": "./apps/tempo",
+    "title": "Tempo",
+    "description": "Distributed Tracing Backend.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2026-03-09T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "tempo"
+  },
+  {
+    "link": "./solutions/tempo_tracing",
+    "title": "Traffic Tracing with Tempo",
+    "description": "Traefik, Tempo, Open Telemetry, Istio, Kube-prometheus-stack",
+    "type": "solution",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2026-03-09T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "tempo"
+  },
+  {
+    "link": "./apps/tetrate-istio",
+    "title": "Tetrate Istio",
+    "description": "Fully-supported, Enterprise-ready build of Istio.",
+    "type": "app",
+    "logo": "./assets/tetrate.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2025-07-31T16:43:20Z",
+    "support_type": "Enterprise",
+    "appDir": "tetrate-istio"
+  },
+  {
+    "link": "./apps/traefik",
+    "title": "Traefik",
+    "description": "Kubernetes Ingress Controller.",
+    "type": "app",
+    "logo": "./assets/icon.svg",
+    "tags": [
+      "Networking"
+    ],
+    "created": "2026-03-09T00:00:00Z",
+    "support_type": "Community",
+    "appDir": "traefik"
+  },
+  {
+    "link": "./apps/valkey",
+    "title": "Valkey",
+    "description": "High-performance in-memory data store and cache.",
+    "type": "app",
+    "logo": "./assets/valkey_logo.svg",
+    "tags": [
+      "Database"
+    ],
+    "created": "2025-06-16T14:20:00Z",
+    "support_type": "Community",
+    "appDir": "valkey"
+  },
+  {
+    "link": "./apps/velero",
+    "title": "Velero",
+    "description": "Open source tool to safely backup and restore.",
+    "type": "app",
+    "logo": "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png",
+    "tags": [
+      "Backup and Recovery"
+    ],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "velero"
+  },
+  {
+    "link": "./apps/victoriametrics",
+    "title": "VictoriaMetrics",
+    "description": "High-performance, cost-effective time series database",
+    "type": "app",
+    "logo": "./assets/victoriametrics.png",
+    "tags": [
+      "Monitoring"
+    ],
+    "created": "2025-06-25T18:24:00Z",
+    "support_type": "Community",
+    "appDir": "victoriametrics"
+  },
+  {
+    "link": "./infra/vsphere",
+    "title": "VMware vSphere",
+    "description": "Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure.",
+    "type": "infra",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg",
+    "tags": [],
+    "created": "2025-03-12T08:16:55Z",
+    "support_type": "Community",
+    "appDir": "vsphere"
+  },
+  {
+    "link": "./apps/wandb",
+    "title": "Weights & Biases",
+    "description": "The AI developer platform to build AI agents, applications, and models with confidence.",
+    "type": "app",
+    "logo": "./assets/wandb_logo.svg",
+    "tags": [
+      "AI/Machine Learning"
+    ],
+    "created": "2025-05-06T09:08:47Z",
+    "support_type": "Enterprise",
+    "appDir": "wandb"
+  }
+]
