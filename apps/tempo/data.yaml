@@ -31,6 +31,4 @@ charts:
 
 doc_link: https://grafana.com/docs/tempo/latest/
 
-# test_wait_for_pods: "milvus-standalone-"
-# test_wait_for_running: true # (default: false) wait for Running, instead of Ready (e.g. due to proprietery API dependency etc)
-# test_wait_for_creating: true # (default: false) e.g. when pulling a huge image (finops-agent)
+test_wait_for_pods: "tempo-0"
