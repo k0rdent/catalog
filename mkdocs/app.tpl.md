@@ -26,6 +26,29 @@ created: "{{ created }}"
     Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
     {% endif %}
 
+{% if charts %}
+=== "Charts"
+
+    <table>
+    <thead>
+        <tr>
+            <th>Chart name</th>
+            <th>Version</th>
+            <th>App Version</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for chart in charts %}
+    <tr>
+        <td>{{ chart.name }}</td>
+        <td>{{ chart.versions[0] }}</td>
+        <td>TODO</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+
 {% if show_install_tab %}
 === "Install"
 
