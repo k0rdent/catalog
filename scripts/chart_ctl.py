@@ -70,6 +70,7 @@ def generate(args: str):
     cfg = read_charts_cfg(app)
     for chart in cfg['st-charts']:
         generate_app_chart(app, chart)
+    generate_charts_info(app, cfg, args.rewrite_charts)
 
 
 def get_last_deps(cfg: dict):
@@ -141,6 +142,12 @@ def write_charts_cfg(app: str, s: str) -> dict:
         file.write(s)
 
 
+def write_charts_info(app: str, s: str) -> dict:
+    charts_info_path = f"apps/{app}/charts/charts.yaml"
+    with open(charts_info_path, "w", encoding='utf-8') as file:
+        file.write(s)
+
+
 def update_charts_cfg(args: str, updates_list: list, cfg: dict):
     if len(updates_list) > 0 and args.update_cfg:
         cfg['st-charts'].extend(updates_list)
@@ -181,6 +188,47 @@ def check_updates(args: str):
         update_app_data(args, updates_dict)
     if args.update_example:
         update_example_chart(args, updates_dict)
+
+
+def generate_charts_info(app: str, cfg: dict, rewrite: bool):
+    if cfg is None:
+        print('Charts config not found.')
+        return
+    charts_file = f"apps/{app}/charts/charts.yaml"
+    if os.path.exists(charts_file) and not rewrite:
+        print(f"{charts_file} already exists!")
+        return
+    deps = cfg['st-charts']
+    repos = dict()
+    out_charts = dict()
+    for data in deps:
+        repo = data['dep_name']
+        if data['repository'].startswith("http") and data['repository'] not in repos:
+            repo_name = repo
+            subprocess.run(["helm", "repo", "add", repo_name, data['repository']], check=True)
+            subprocess.run(["helm", "repo", "update"], check=True)
+            repos[data['repository']] = repo_name
+        elif data['repository'].startswith("oci"):
+            repo_name = data['repository']
+        else:
+            repo_name = repos.get(data['repository'])
+        args = ["helm", "show", "chart", f"{repo_name}/{repo}", "--version", data['version']]
+        result = subprocess.run(args, check=True, capture_output=True, text=True)
+        up_to_date_chart = yaml.safe_load(result.stdout)
+        name = up_to_date_chart['name']
+        out_chart = dict(
+            version=up_to_date_chart.get('version', ''),
+            appVersion=up_to_date_chart.get('appVersion', '')
+        )
+        print(out_chart)
+        if name not in out_charts:
+            out_charts[name] = []
+        out_charts[name].append(out_chart)
+    for _, repo in repos.items():
+        subprocess.run(["helm", "repo", "remove", repo], check=True)
+    output = yaml.dump(dict(charts=out_charts), sort_keys=False)
+    print(output)
+    write_charts_info(app, output)
 
 
 def check_image_arch(image: str):
@@ -242,6 +290,8 @@ if __name__ == '__main__':
 
     show = subparsers.add_parser("generate", help="Generate charts from config")
     show.add_argument("app")
+    show.add_argument("--rewrite-charts", "-r", action="store_true", default=False,
+                      help="Rewrite existing 'charts.yaml' config")
     show.set_defaults(func=generate)
 
     check_upd = subparsers.add_parser("check-updates", help="Generate charts from config")
