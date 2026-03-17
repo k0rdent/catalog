@@ -35,10 +35,6 @@ def read_charts_cfg(app: str, allow_return_none: bool = False) -> dict:
     return cfg
 
 
-def generate_charts(app: str, cfg: dict):
-    generate_app_chart(app, cfg)
-
-
 def try_generate_lock_file(chart_dir: str) -> bool:
     chart_path = pathlib.Path(chart_dir)
     lock_file = chart_path / "Chart.lock"
@@ -73,7 +69,7 @@ def generate(args: str):
     app = args.app
     cfg = read_charts_cfg(app)
     for chart in cfg['st-charts']:
-        generate_charts(app, chart)
+        generate_app_chart(app, chart)
 
 
 def get_last_deps(cfg: dict):
