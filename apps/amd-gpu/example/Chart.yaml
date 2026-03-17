@@ -9,3 +9,4 @@ dependencies:
   - name: amd-gpu-operator
     version: v1.4.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
