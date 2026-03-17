@@ -52,6 +52,12 @@ def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
             name = service_name,
             namespace = service_namespace
         )
+        dep_index = dep.get('mcs_dep_index', None)
+        if dep_index is not None:
+            service['dependsOn'] = [dict(
+                name=services[dep_index]['name'],
+                namespace=services[dep_index]['namespace']
+            )]
         if dep_name in chart_values_data:
             service['values'] = ValuesClass(chart_values_data[dep_name])
         services.append(service)
