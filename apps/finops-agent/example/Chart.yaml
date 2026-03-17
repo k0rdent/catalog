@@ -9,3 +9,4 @@ dependencies:
   - name: finops-agent-kof
     version: 0.1.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
