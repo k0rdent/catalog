@@ -1,0 +1,4 @@
+charts:
+  influxdb2:
+  - version: 2.1.2
+    appVersion: 2.7.4

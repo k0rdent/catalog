@@ -1,0 +1,4 @@
+charts:
+  rabbitmq:
+  - version: 0.1.0
+    appVersion: 4.1.3

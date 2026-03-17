@@ -1,0 +1,6 @@
+charts:
+  prometheus:
+  - version: 27.5.1
+    appVersion: v3.2.1
+  - version: 28.9.0
+    appVersion: v3.9.1

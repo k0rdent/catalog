@@ -1,0 +1,4 @@
+charts:
+  finops-agent-kof:
+  - version: 0.1.3
+    appVersion: 0.1.3

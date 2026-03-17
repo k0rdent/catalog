@@ -1,0 +1,6 @@
+charts:
+  velero:
+  - version: 8.1.0
+    appVersion: 1.15.0
+  - version: 11.1.0
+    appVersion: 1.17.0

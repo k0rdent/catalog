@@ -1,0 +1,6 @@
+charts:
+  apisix:
+  - version: 2.12.4
+    appVersion: 3.14.1
+  - version: 2.13.0
+    appVersion: 3.15.0

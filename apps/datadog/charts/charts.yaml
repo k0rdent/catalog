@@ -1,0 +1,6 @@
+charts:
+  datadog:
+  - version: 3.149.2
+    appVersion: '7'
+  - version: 3.170.1
+    appVersion: '7'

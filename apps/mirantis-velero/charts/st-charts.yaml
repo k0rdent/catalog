@@ -1,0 +1,10 @@
+generate_charts: False
+st-charts:
+- name: velero
+  dep_name: velero
+  version: 8.1.0
+  repository: https://vmware-tanzu.github.io/helm-charts/
+- name: velero
+  dep_name: velero
+  version: 11.1.0
+  repository: https://vmware-tanzu.github.io/helm-charts/

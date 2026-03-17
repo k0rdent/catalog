@@ -1,0 +1,4 @@
+charts:
+  kyverno-guardrails:
+  - version: 0.1.0
+    appVersion: ''

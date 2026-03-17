@@ -1,0 +1,6 @@
+charts:
+  postgres-operator:
+  - version: 1.14.0
+    appVersion: 1.14.0
+  - version: 1.15.1
+    appVersion: 1.15.1

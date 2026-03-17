@@ -1,0 +1,4 @@
+charts:
+  n8n:
+  - version: 1.0.15
+    appVersion: 1.112.0

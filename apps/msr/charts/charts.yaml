@@ -1,0 +1,7 @@
+charts:
+  harbor:
+  - version: 4.0.1
+    appVersion: v4.0.1
+  msr:
+  - version: 4.13.2
+    appVersion: v4.13.2

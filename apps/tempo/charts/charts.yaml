@@ -1,0 +1,4 @@
+charts:
+  tempo:
+  - version: 1.24.4
+    appVersion: 2.9.0

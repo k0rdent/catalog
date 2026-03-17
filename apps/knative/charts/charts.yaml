@@ -1,0 +1,8 @@
+charts:
+  knative-operator:
+  - version: 1.17.4
+    appVersion: ''
+  - version: 1.19.0
+    appVersion: ''
+  - version: 1.21.0
+    appVersion: ''

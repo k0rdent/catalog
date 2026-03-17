@@ -1,0 +1,6 @@
+charts:
+  stacklight-operator:
+  - version: 0.1.0-mcp-16
+    appVersion: 0.1.0
+  - version: 1.0.0
+    appVersion: 0.1.0

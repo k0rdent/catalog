@@ -1,0 +1,6 @@
+charts:
+  runai-control-plane:
+  - version: 0.3.0
+    appVersion: 2.23.0
+  - version: 0.2.3
+    appVersion: 2.22.0

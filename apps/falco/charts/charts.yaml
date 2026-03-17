@@ -1,0 +1,8 @@
+charts:
+  falco:
+  - version: 4.21.3
+    appVersion: 0.40.0
+  - version: 6.4.0
+    appVersion: 0.41.3
+  - version: 8.0.0
+    appVersion: 0.43.0

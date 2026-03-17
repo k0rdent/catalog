@@ -1,0 +1,7 @@
+charts:
+  kagent:
+  - version: 0.3.13
+    appVersion: ''
+  kagent-crds:
+  - version: 0.3.13
+    appVersion: ''

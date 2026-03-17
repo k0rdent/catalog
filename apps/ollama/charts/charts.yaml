@@ -1,0 +1,6 @@
+charts:
+  ollama:
+  - version: 1.40.0
+    appVersion: 0.15.2
+  - version: 1.42.0
+    appVersion: 0.15.6

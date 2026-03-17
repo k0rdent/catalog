@@ -1,0 +1,4 @@
+charts:
+  redis:
+  - version: 0.2.0
+    appVersion: 8.2.1

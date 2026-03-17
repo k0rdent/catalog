@@ -1,0 +1,4 @@
+charts:
+  tika:
+  - version: 3.2.2
+    appVersion: 3.2.2.0-full
