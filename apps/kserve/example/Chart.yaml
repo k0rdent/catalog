@@ -9,6 +9,8 @@ dependencies:
   - name: kserve-crd
     version: v0.15.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
   - name: kserve
     version: v0.15.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 1
