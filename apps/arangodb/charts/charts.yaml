@@ -1,0 +1,6 @@
+charts:
+  kube-arangodb:
+  - version: 1.2.46
+    appVersion: ''
+  - version: 1.4.0
+    appVersion: ''

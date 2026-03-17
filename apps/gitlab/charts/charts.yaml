@@ -1,0 +1,8 @@
+charts:
+  gitlab:
+  - version: 8.9.2
+    appVersion: v17.9.2
+  - version: 9.5.1
+    appVersion: v18.5.1
+  - version: 9.8.4
+    appVersion: v18.8.4

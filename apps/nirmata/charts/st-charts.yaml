@@ -1,0 +1,6 @@
+generate_charts: false
+st-charts:
+- name: nirmata-kyverno
+  dep_name: kyverno
+  version: 3.3.13
+  repository: https://nirmata.github.io/kyverno-charts/

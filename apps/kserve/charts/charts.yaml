@@ -1,0 +1,7 @@
+charts:
+  kserve-crd:
+  - version: v0.15.0
+    appVersion: ''
+  kserve:
+  - version: v0.15.0
+    appVersion: ''

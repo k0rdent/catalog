@@ -1,0 +1,4 @@
+charts:
+  minio:
+  - version: 14.1.2
+    appVersion: 2024.3.21

@@ -1,0 +1,6 @@
+charts:
+  mlflow:
+  - version: 1.7.1
+    appVersion: 3.4.0
+  - version: 1.8.1
+    appVersion: 3.7.0

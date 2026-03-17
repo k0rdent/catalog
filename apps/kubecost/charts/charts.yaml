@@ -1,0 +1,4 @@
+charts:
+  cost-analyzer:
+  - version: 2.5.3
+    appVersion: 2.5.3

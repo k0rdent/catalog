@@ -1,0 +1,6 @@
+charts:
+  clearml-serving:
+  - version: 1.5.10
+    appVersion: 1.3.0
+  - version: 1.6.2
+    appVersion: 1.3.0

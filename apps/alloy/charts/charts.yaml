@@ -1,0 +1,4 @@
+charts:
+  alloy:
+  - version: 1.6.1
+    appVersion: v1.13.2

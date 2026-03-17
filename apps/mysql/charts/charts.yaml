@@ -1,0 +1,4 @@
+charts:
+  mysql-operator:
+  - version: 2.2.3
+    appVersion: 9.2.0-2.2.3

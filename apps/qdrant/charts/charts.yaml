@@ -1,0 +1,6 @@
+charts:
+  qdrant:
+  - version: 1.15.4
+    appVersion: v1.15.4
+  - version: 1.16.3
+    appVersion: v1.16.3

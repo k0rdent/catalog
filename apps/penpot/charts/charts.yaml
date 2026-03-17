@@ -1,0 +1,4 @@
+charts:
+  penpot:
+  - version: 0.28.0
+    appVersion: 2.10.1

@@ -1,0 +1,8 @@
+charts:
+  trident-operator:
+  - version: 100.2410.0
+    appVersion: 24.10.0
+  - version: 100.2506.0
+    appVersion: 25.06.0
+  - version: 100.2510.0
+    appVersion: 25.10.0

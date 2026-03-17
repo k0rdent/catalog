@@ -1,0 +1,4 @@
+charts:
+  network-operator:
+  - version: 25.10.0
+    appVersion: v25.10.0

@@ -1,0 +1,4 @@
+charts:
+  nginx-ingress:
+  - version: 2.2.2
+    appVersion: 5.1.1
