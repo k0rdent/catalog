@@ -9,3 +9,4 @@ dependencies:
   - name: pure-csi
     version: 1.2.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
