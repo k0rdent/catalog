@@ -6,6 +6,7 @@ on:
       - '**'
     paths:
       - apps/**/data.yaml
+      - apps/*/example/**
       - apps/**/hunspell_dict.txt
       - mkdocs.yml
       - mkdocs/**
@@ -18,6 +19,7 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - apps/**/data.yaml
+      - apps/*/example/**
       - apps/**/hunspell_dict.txt
       - mkdocs/**
       - overrides/**
