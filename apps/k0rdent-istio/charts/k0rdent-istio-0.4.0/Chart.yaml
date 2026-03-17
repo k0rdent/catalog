@@ -1,0 +1,9 @@
+apiVersion: v2
+name: k0rdent-istio
+description: A Helm chart that references the official "k0rdent-istio" Helm chart.
+type: application
+version: 0.4.0
+dependencies:
+  - name: k0rdent-istio
+    version: 0.4.0
+    repository: oci://ghcr.io/k0rdent/istio/charts

@@ -1,0 +1,56 @@
+title: k0rdent Istio
+tags:
+  - Networking
+created: "2026-03-17T10:16:55Z"
+charts:
+  - name: k0rdent-istio
+    versions: ['0.4.0']
+summary: "Simplifies deploying and managing Istio across management and remote clusters."
+logo: "https://istio.io/latest/favicons/android-192x192.png"
+description: |
+    k0rdent Istio automates the deployment and management of Istio service mesh
+    across multiple Kubernetes clusters within the k0rdent platform, enabling
+    secure multi-cluster connectivity without manual configuration.
+
+    Key features:
+    
+    - Root CA provisioned on the management cluster, with intermediate CAs automatically generated per remote cluster.
+    - Remote secrets automatically generated for each remote cluster to enable cross-cluster endpoint discovery.
+    - Istio Gateway deployed in each cluster for mTLS-protected inter-cluster traffic.
+    - Automatic mesh enrollment via the `k0rdent.mirantis.com/istio-role: member` label on `ClusterDeployment` resources.
+    - Mesh isolation via the `k0rdent.mirantis.com/istio-mesh` label, supporting multiple independent meshes.
+support_type: Community
+doc_link: https://github.com/k0rdent/istio/tree/main/docs
+deploy_code: |
+    Tested `ClusterDeployment` in AWS:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: k0rdent-istio-demo
+      namespace: kcm-system
+      labels:
+        # Label to automatically enroll this cluster into the Istio mesh
+        k0rdent.mirantis.com/istio-role: member
+        # Optional label to deploy an Istio Gateway in this cluster for inter-cluster communication
+        k0rdent.mirantis.com/istio-gateway: "true"
+        # Optional label to assign this cluster to a specific mesh (clusters with the same mesh label value will be in the same mesh)
+        k0rdent.mirantis.com/istio-mesh: demo-mesh
+    spec:
+      template: aws-cluster-template
+      credential: aws-credential
+      config:
+        clusterIdentity:
+          name: aws-credential-identity
+          namespace: kcm-system
+        region: us-east-2
+        controlPlaneNumber: 1
+        controlPlane:
+          instanceType: t3.large
+        workersNumber: 3
+        worker:
+          instanceType: t3.medium
+    ~~~
+test_namespace: istio-system
+test_install_servicetemplates: true
+test_deploy_multiclusterservice: false

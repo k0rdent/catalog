@@ -1,0 +1,6 @@
+dependencies:
+- name: k0rdent-istio
+  repository: oci://ghcr.io/k0rdent/istio/charts
+  version: 0.4.0
+digest: sha256:8ed5d3bc6c30b3f0d090e4950c07ab69f71d4df365dc9c131dd61a9c4f328347
+generated: "2026-03-17T10:17:06.428613+02:00"
