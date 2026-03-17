@@ -9,6 +9,8 @@ dependencies:
   - name: tetrate-istiod
     version: 1.28.20000
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
   - name: tetrate-gateway
     version: 1.28.20000
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 1
