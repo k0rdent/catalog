@@ -1,0 +1,5 @@
+st-charts:
+- name: k0rdent-istio
+  dep_name: k0rdent-istio
+  version: 0.4.0
+  repository: oci://ghcr.io/k0rdent/istio/charts
