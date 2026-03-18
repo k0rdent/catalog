@@ -52,7 +52,6 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     - `title` (string): The application's name.
     - `tags` (array of strings): Keywords or tags related to the application. Please ensure that at least one tag is used. Allowed tags are `AI/Machine Learning`, `Application Runtime`, `Authentication`, `Backup and Recovery`, `CI/CD`, `Container Registry`, `Database`, `Developer Tools`, `Drivers and plugins`, `Monitoring`, `Networking`, `Security`, `Serverless`, `Storage`.
     - `created` (string): Contribution timestamp for easily tracking when the item was added.
-    - `charts` (array of objects): List of charts used to automatically generate installation and verification commands. See the example.
     - `summary` (string): A brief description of the application.
     - `logo` (string): A relative link to the app logo (e.g., `./assets/dapr_logo.svg`).
     - `description` (string): Description of the application or service.
@@ -86,11 +85,6 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     Actors: Provides a framework for building stateful, concurrent objects. 
   
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
-  charts:
-    - name: dapr
-      versions: ['1.14.4']
-    - name: dapr-dashboard
-      versions: ['0.15.0']
   support_link: https://www.diagrid.io/conductor
   doc_link: https://docs.dapr.io/
   use_ingress: true
@@ -134,6 +128,7 @@ dapr-dashboard: # example chart top-level key
   │   └── icon.svg
   ├── charts
   |   ├──dapr-1.2.3
+  |   ├──charts.yaml
   |   └──st-charts.yaml
   ├── data.yaml
   ├── hunspell_dict.txt
