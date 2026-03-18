@@ -68,9 +68,10 @@ def try_create_chart_folders(app: str, name: str, version: str, templates: bool)
 def generate(args: str):
     app = args.app
     cfg = read_charts_cfg(app)
-    for chart in cfg['st-charts']:
-        generate_app_chart(app, chart)
     generate_charts_info(app, cfg, args.rewrite_charts)
+    if cfg.get('generate_charts', True):
+        for chart in cfg['st-charts']:
+            generate_app_chart(app, chart)
 
 
 def get_last_deps(cfg: dict):
