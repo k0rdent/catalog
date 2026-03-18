@@ -263,8 +263,12 @@ def try_add_charts_data(app: str, metadata: dict):
         charts_dict = yaml.safe_load(f.read())
         charts_versions = []
         for chart_name, chart_versions_arr in charts_dict['charts'].items():
-            versions = [chart['version'] for chart in chart_versions_arr]
-            charts_versions.append(dict(name=chart_name, versions=versions))
+            versions = []
+            appVersions = []
+            for chart in reversed(chart_versions_arr):
+                versions.append(chart['version'])
+                appVersions.append(chart['appVersion'])
+            charts_versions.append(dict(name=chart_name, versions=versions, appVersions=appVersions))
         metadata['charts'] = charts_versions
 
 

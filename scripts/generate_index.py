@@ -106,6 +106,14 @@ def addons_items(version: str):
         },
         "description": "List of chart versions"
     }
+    chart_required_props.append("appVersions")
+    chart_props["appVersions"] = {
+        "type": "array",
+        "items": {
+            "type": "string"
+        },
+        "description": "List of chart appVersions"
+    }
     if Version(version) > Version("v1.0.0"):
         chart_required_props.append("repository")
         chart_props["repository"] = {
