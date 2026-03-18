@@ -19,22 +19,14 @@ created: "{{ created }}"
 
 === "Description"
 
-    {{ description | replace("\n", "\n    ") }}
-
-    {% if support_link %}
-    <br>
-    Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
-    {% endif %}
-
-{% if charts %}
-=== "Charts"
-
+    {% if charts %}
+    #### Helm Charts
     <table>
     <thead>
         <tr>
-            <th>Chart name</th>
+            <th>Name</th>
             <th>Version</th>
-            <th>App Version</th>
+            <th>App version</th>
         </tr>
     </thead>
     <tbody>
@@ -42,12 +34,19 @@ created: "{{ created }}"
     <tr>
         <td>{{ chart.name }}</td>
         <td>{{ chart.versions[0] }}</td>
-        <td>TODO</td>
+        <td>{{ chart.appVersions[0] }}</td>
     </tr>
     {% endfor %}
     </tbody>
     </table>
-{% endif %}
+    {% endif %}
+
+    {{ description | replace("\n", "\n    ") }}
+
+    {% if support_link %}
+    <br>
+    Looking for Commercial Support? [LEARN MORE]({{ support_link }}){ target="_blank" .bold }
+    {% endif %}
 
 {% if show_install_tab %}
 === "Install"
