@@ -13,7 +13,7 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'de
                   'deploy_code', 'type', 'support_link', 'doc_link', 'test_namespace', 'use_ingress', 'support_type',
                   'exclude_versions', 'prerequisites', 'test_deploy_chart', 'test_install_servicetemplates',
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'test_wait_for_running', 'show_install_tab',
-                  'examples', 'charts', 'test_check_images', 'test_wait_for_creating',
+                  'examples', 'test_check_images', 'test_wait_for_creating',
                   'validated_amd64', 'validated_aws', 'validated_azure', 'validated_arm64', 'validated_local']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
@@ -89,19 +89,17 @@ def validate_chart_versions(data: dict):
                     raise Exception(f"Chart {chart} version ({version}) contains unsupported char: {c}")
 
 
-def validate_charts_info(file: str, data: dict):
+def validate_charts_info(data: dict):
     if not data.get('show_install_tab', True):
         return
     if 'install_code' in data:
         return
-    if 'charts' not in data:
-        raise Exception(f"No 'charts' array found in {file}.")
     if not isinstance(data['charts'], list):
         raise Exception("Field 'charts' must an array of objects with 'name' and 'version' fields.")
     validate_chart_versions(data)
 
 
-def validate_metadata(file: str, data: dict):
+def validate_data_file(file: str, data: dict):
     validate_support_type(file, data)
     for required_field in required_fields:
         if required_field not in data:
@@ -116,16 +114,19 @@ def validate_metadata(file: str, data: dict):
     for tag in data['tags']:
         if tag not in allowed_tags:
             raise Exception(f"Unsupported tag '{tag}' found in {file}. Allowed tags: {allowed_tags}")
-
     if data.get('type', 'app') != 'infra':
         if len(data['tags']) == 0:
             raise Exception(f"No application tag found in {file}. Set at least one from tags: {allowed_tags}")
-        validate_charts_info(file, data)
 
     validate_summary(file, data)
     try_validate_versions(file, data)
     try_validate_wait_for_pods(file, data)
     validate_show_install_tab(file, data)
+
+
+def validate_metadata(data: dict):
+    if data.get('type', 'app') != 'infra':
+        validate_charts_info(data)
 
 
 def try_copy_assets(apps_dir: str, app: str, dst_item_path: str):
@@ -577,7 +578,8 @@ def get_apps_metadata() -> list:
                 metadata_tpl = jinja2.Template(f.read())
                 metadata_str = metadata_tpl.render(**base_metadata)
                 metadata = yaml.safe_load(metadata_str)
-                validate_metadata(data_file, metadata)
+                validate_data_file(data_file, metadata)
+                utils.try_add_charts_data(app, metadata)
                 metadata['app_path'] = app_path
                 metadata['app'] = app
                 ensure_big_logo(metadata)
@@ -585,6 +587,7 @@ def get_apps_metadata() -> list:
                 ensure_verify_code(metadata)
                 ensure_deploy_code(metadata)
                 update_validation_data(metadata)
+                validate_metadata(metadata)
                 metadata.update(base_metadata)
                 extract_examples_data(app, metadata, app_path)
         else:
