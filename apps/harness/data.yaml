@@ -22,9 +22,6 @@ description: |
 
 support_link: https://www.harness.io/company/contact-sales
 support_type: Community
-charts:
-  - name: harness-delegate-ng
-    versions: ['1.0.31', '1.0.25']
 
 doc_link: https://developer.harness.io/docs/category/install-delegates
 

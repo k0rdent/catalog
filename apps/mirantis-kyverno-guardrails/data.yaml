@@ -12,9 +12,6 @@ prerequisites: |
 description: |
     Kyverno Guardrails is a set of best-practice Kyverno Cluster-wide policies that can be deployed to enforce security and compliance best practices in your Kubernetes cluster. These policies are designed to help you ensure that your cluster is secure, compliant, and well-configured.
 support_type: Enterprise
-charts:
-  - name: kyverno-guardrails
-    versions: ['0.1.0']
 
 doc_link: https://kyverno.io/policies/
 

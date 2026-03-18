@@ -10,11 +10,6 @@ description: |
   Kagent is an open-source programming framework that brings the power of agentic AI to cloud-native environments.
   Built specifically for DevOps and platform engineers, Kagent enables AI agents to run directly in Kubernetes clusters
   to automate operations, troubleshoot issues, and solve complex cloud-native challenges.
-charts:
-  - name: kagent-crds
-    versions: ['0.3.13']
-  - name: kagent
-    versions: ['0.3.13']
 
 support_link: https://kagent.dev
 doc_link: https://kagent.dev

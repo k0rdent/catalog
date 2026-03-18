@@ -8,9 +8,6 @@ created: "2025-04-16T13:06:51Z"
 description: |
     Falco is a cloud native security tool that provides runtime security across hosts, containers, Kubernetes, and cloud environments. It leverages custom rules on Linux kernel events and other data sources through plugins, enriching event data with contextual metadata to deliver real-time alerts. Falco enables the detection of abnormal behavior, potential security threats, and compliance violations.
 support_link: https://falco.org/enterprise/
-charts:
-  - name: falco
-    versions: ['8.0.0', '6.4.0', '4.21.3']
 doc_link: https://falco.org/docs/
 
 validated_amd64: 'y'

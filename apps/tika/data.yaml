@@ -13,9 +13,6 @@ description: |
   Apache Tika, Tika, Apache, the Apache feather logo, and the Apache Tika project
   logo are trademarks of The Apache Software Foundation.
 # support_link: TODO
-charts:
-  - name: tika
-    versions: ['3.2.2']
 
 doc_link: https://tika.apache.org/
 

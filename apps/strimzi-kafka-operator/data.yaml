@@ -26,9 +26,6 @@ description: |
    - **Grafana Dashboards** - Built-in support for loading Grafana® dashboards via the grafana_sidecar
 
 # support_link: TODO
-charts:
-  - name: strimzi-kafka-operator
-    versions: ['0.47.0']
 
 doc_link: https://strimzi.io/documentation/
 

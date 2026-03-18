@@ -11,9 +11,6 @@ description: |
     - Simplified Deployment: k0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
     - Policy-Driven Deployments: Leverage k0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
 support_link: https://akuity.io/security-hardened-argo-cd
-charts:
-  - name: argo-cd
-    versions: ['9.4.1', '8.6.1', '7.8.0']
 
 doc_link: https://argo-cd.readthedocs.io/en/stable/
 

@@ -16,9 +16,6 @@ description: |
 support_link: https://www.nvidia.com/en-gb/software/run-ai/
 support_type: Enterprise
 
-charts:
-  - name: runai-control-plane 
-    versions: ['0.3.0']
 
 prerequisites: |
   > **Note!**

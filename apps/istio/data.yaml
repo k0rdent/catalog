@@ -9,13 +9,6 @@ description: |
     features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,
     service-to-service authentication, and monitoring – with few or no service code changes.
 support_link: https://tetrate.io/
-charts:
-  - name: istio-base
-    versions: ['1.28.3', '1.27.1', '1.24.3']
-  - name: istiod
-    versions: ['1.28.3', '1.27.1', '1.24.3']
-  - name: istio-gateway
-    versions: ['1.28.3', '1.27.1', '1.24.3']
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/
 

@@ -11,9 +11,7 @@ description: |
     Velero is an open source tool to safely backup and restore, perform disaster recovery,
     and migrate Kubernetes cluster resources and persistent volumes.
 support_type: Enterprise
-charts:
-  - name: velero
-    versions: ['11.1.0', '8.1.0']
+
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1

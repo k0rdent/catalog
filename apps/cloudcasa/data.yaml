@@ -22,9 +22,6 @@ description: |
     For other deployment options or editions, please get in touch with the CloudCasa team.
 
 support_type: Partner
-charts:
-  - name: cloudcasa
-    versions: ['3.4.6', '3.4.4']
 
 doc_link: https://docs.cloudcasa.io
 support_link: https://cloudcasa.io/support

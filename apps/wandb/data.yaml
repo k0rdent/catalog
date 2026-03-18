@@ -21,9 +21,6 @@ description: |
 
 support_link: https://wandb.ai/site/support/
 support_type: Enterprise
-charts:
-  - name: wandb-operator
-    versions: ['1.4.1']
 
 doc_link: https://docs.wandb.ai/guides/hosting/operator/
 show_install_tab: true

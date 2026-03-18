@@ -25,9 +25,6 @@ description: |
     and flexible. To learn more about eBPF, visit [eBPF.io](https://eBPF.io){ target="_blank" }.
 support_link: https://cilium.io/enterprise/
 exclude_versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1', 'v1.2.0', 'v1.3.1']
-charts:
-  - name: cilium
-    versions: ['1.19.0', '1.18.2']
 deploy_code: |
     ##### MultiClusterService config
     ~~~yaml

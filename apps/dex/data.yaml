@@ -9,9 +9,6 @@ description: |
     Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. 
     Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.
 support_link: https://dexidp.io/docs/guides/kubernetes/
-charts:
-  - name: dex
-    versions: ['0.24.0', '0.23.0']
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1

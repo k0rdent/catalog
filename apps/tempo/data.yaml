@@ -25,9 +25,6 @@ description: |
   service that collects traces from instrumented workloads across clusters, helping
   teams gain deep insight into application performance and system behavior.
 
-charts:
-  - name: tempo
-    versions: ['1.24.4']
 
 examples:
   tracing:

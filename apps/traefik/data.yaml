@@ -37,9 +37,6 @@ description: |
   Traefik can be configured to run as the default ingress controller for the cluster, allowing applications that create
   Ingress resources to be exposed automatically.
 # support_link: TODO
-charts:
-  - name: traefik
-    versions: ['39.0.5']
 
 examples:
     with_config:

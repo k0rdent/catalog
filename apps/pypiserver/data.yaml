@@ -31,9 +31,6 @@ description: |
   - Source: <https://github.com/pypiserver/pypiserver>
   - PyPI: <https://pypi.org/project/pypiserver/>
 
-charts:
-  - name: pypiserver
-    versions: ['0.1.8']
 
 doc_link: https://community-charts.github.io/docs/category/pypiserver
 

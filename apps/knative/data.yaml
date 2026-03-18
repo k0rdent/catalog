@@ -24,9 +24,6 @@ description: |
 
     By deploying the Knative Operator alongside Istio from the catalog, k0rdent enables users to build and scale event-driven applications while leveraging Kubernetes-native infrastructure.
 support_link: https://knative.dev/community/
-charts:
-  - name: knative-operator
-    versions: ['1.21.0', '1.19.0', '1.17.4']
 
 doc_link: https://knative.dev/docs/install/operator/knative-with-operators/
 

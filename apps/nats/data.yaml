@@ -16,9 +16,6 @@ description: |
 
     A full working cluster example is available in examples/workload.yaml.
 # support_link: https://nats.io/community/
-charts:
-  - name: nats
-    versions: ['2.12.4', '1.3.13']
 
 doc_link: https://docs.nats.io/running-a-nats-service/nats-kubernetes
 

@@ -6,11 +6,6 @@ summary: "The most mature and widely deployed Envoy-based gateway in the market 
 logo: "./assets/icon.svg" # https://www.cncf.io/projects/kgateway/
 logo_big: "./assets/kgateway_logo.svg" # https://kgateway.dev/blog/guide-to-installing-kgateway/
 created: "2025-11-11T00:00:00Z"
-charts:
-  - name: kgateway-crds
-    versions: ['v2.1.1']
-  - name: kgateway
-    versions: ['v2.1.1']
 description: |
   kgateway is the most mature and widely deployed Envoy-based gateway in the market today.
   Built on open source and open standards, kgateway implements the Kubernetes Gateway API

@@ -20,9 +20,6 @@ description: |
   - [Orchestration Dashboard](https://clear.ml/docs/latest/docs/webapp/webapp_orchestration_dash/) - Live rich dashboard for your entire compute cluster (Cloud / Kubernetes / On-Prem)
 
 support_link: https://clear.ml/contact-us
-charts:
-  - name: clearml-serving
-    versions: ['1.6.2', '1.5.10']
 
 doc_link: https://clear.ml/docs/latest/docs/
 

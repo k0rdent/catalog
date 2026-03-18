@@ -19,9 +19,6 @@ description: |
   InfluxDB is optimized for scenarios where near real-time data monitoring is essential and queries 
   need to return quickly to support user experiences such as dashboards and interactive user interfaces.
 # support_link: TODO
-charts:
-  - name: influxdb2
-    versions: ['2.1.2']
 
 doc_link: https://docs.influxdata.com/influxdb/v2/
 

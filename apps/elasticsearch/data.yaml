@@ -17,11 +17,6 @@ description: |
     * Application performance monitoring (APM)
     * Security logs
 support_link: https://www.elastic.co/contact
-charts:
-  - name: eck-operator
-    versions: ['3.3.0', '3.1.0']
-  - name: eck-stack
-    versions: ['0.18.0', '0.16.0']
 
 doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart
 

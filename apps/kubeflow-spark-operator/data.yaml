@@ -30,9 +30,6 @@ description: |
     - Supports automatic retries of failed submissions with optional linear back-off.
     - Supports collecting and exporting application-level metrics and driver/executor metrics to Prometheus.
 # support_link: TODO
-charts:
-  - name: kubeflow-spark-operator
-    versions: ['2.4.0', '2.3.0']
 
 doc_link: https://github.com/kubeflow/spark-operator
 

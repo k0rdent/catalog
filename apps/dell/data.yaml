@@ -44,9 +44,6 @@ description: |
     - Please refer to the [Dell CSM official documentation](https://dell.github.io/csm-docs/docs/support/) for the helm install instructions.
     - The details of all possible values is available on the [helm-charts repository](https://github.com/dell/helm-charts/blob/main/installation-wizard/container-storage-modules/values.yaml).
 support_link: https://dell.github.io/csm-docs/docs/support/
-charts:
-  - name: dell-container-storage-modules
-    versions: ['1.9.0', '1.8.0']
 
 doc_link: https://dell.github.io/csm-docs/docs/
 

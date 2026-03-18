@@ -21,9 +21,6 @@ description: |
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 support_type: Enterprise
-charts:
-  - name: nirmata-kyverno
-    versions: ['3.3.13']
 
 doc_link: https://docs.nirmata.io/docs/n4k/getting-started-with-n4k/
 show_install_tab: true

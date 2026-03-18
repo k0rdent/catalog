@@ -10,11 +10,6 @@ description: |
     and FlashBlade devices. CSI stands for Container Storage Interface. It's a standard that enables
     storage systems to communicate with Kubernetes.
 support_link: https://support.purestorage.com/
-charts:
-  - name: pure-k8s-plugin
-    versions: ['2.7.1']
-  - name: pure-csi
-    versions: ['1.2.0']
 
 doc_link: https://github.com/purestorage/helm-charts
 

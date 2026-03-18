@@ -17,9 +17,6 @@ description: |
     and scalable, and is suitable for small and large teams, academic courses, and large-scale
     infrastructure.
 # support_link:
-charts:
-  - name: jupyterhub
-    versions: ['4.3.2', '4.2.0']
 
 examples:
     with_ingress:

@@ -24,9 +24,6 @@ description: |
     - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
     - **REST and Python APIs:** Access all MLflow components programmatically.
 # support_link: TODO
-charts:
-  - name: mlflow
-    versions: ['1.8.1', '1.7.1']
 
 doc_link: https://mlflow.org/docs/latest/
 

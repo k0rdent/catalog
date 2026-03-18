@@ -13,9 +13,6 @@ description: |
   Penpot is available on browser and [self host](https://penpot.app/self-host). It's web-based and works with open standards
   (SVG, CSS and HTML). And last but not least, it's free!
 support_link: https://penpot.app/talk-to-us
-charts:
-  - name: penpot
-    versions: ['0.28.0']
 
 doc_link: https://help.penpot.app/technical-guide/getting-started/kubernetes/#install-penpot-chart
 

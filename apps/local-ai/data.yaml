@@ -10,9 +10,6 @@ description: |
   only) locally or on-prem with consumer grade hardware, supporting multiple model families. Does not require GPU. It is created and
   maintained by [Ettore Di Giacinto](https://github.com/mudler).
 # support_link: TODO
-charts:
-  - name: local-ai
-    versions: ['3.4.2']
 
 doc_link: https://localai.io/basics/kubernetes/
 
