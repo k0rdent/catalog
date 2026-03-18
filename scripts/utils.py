@@ -252,6 +252,22 @@ def get_wait_for_creating(args):
         print(f"{app_data['test_wait_for_creating']}".lower())
 
 
+def try_add_charts_data(app: str, metadata: dict):
+    app_path = os.path.join('apps', app)
+    charts_file = os.path.join(app_path, 'charts', 'charts.yaml')
+    if not os.path.exists(charts_file):
+        return
+    if 'charts' in metadata:
+        raise Exception(f'Mixed "charts" info in data.yaml and charts.yaml ({app})')
+    with open(charts_file, 'r', encoding='utf-8') as f:
+        charts_dict = yaml.safe_load(f.read())
+        charts_versions = []
+        for chart_name, chart_versions_arr in charts_dict['charts'].items():
+            versions = [chart['version'] for chart in chart_versions_arr]
+            charts_versions.append(dict(name=chart_name, versions=versions))
+        metadata['charts'] = charts_versions
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Catalog dev tool.',
                                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)  # To show default values in help.

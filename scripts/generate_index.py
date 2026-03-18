@@ -9,6 +9,9 @@ import logging
 import jsonschema
 import os
 from packaging.version import Version
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import utils
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -243,17 +246,19 @@ def process_addon(app_dir: Path, version: str) -> Optional[Dict]:
     data_yaml = app_dir / "data.yaml"
     
     if not data_yaml.exists():
-        logger.warning(f"No data.yaml found in {app_dir}")
+        print(f"No data.yaml found for {app_name}, skipped.")
         return None
 
-    try:
-        with open(data_yaml, 'r', encoding='utf-8') as f:
-            data = yaml.safe_load(f)
-    except Exception as e:
-        logger.error(f"Error reading {data_yaml}: {e}")
+    with open(data_yaml, 'r', encoding='utf-8') as f:
+        data = yaml.safe_load(f)
+
+    if data.get('type') == 'infra':
         return None
+
+    utils.try_add_charts_data(app_name, data)
 
     if len(data.get('charts', [])) == 0:
+        print(f"No charts found for {app_name}, skipped.")
         return None
 
     # Get available versions
