@@ -10,9 +10,6 @@ description: |
     not a DNS server itself, but merely configures other DNS providers accordingly—e.g. AWS Route 53 or Google Cloud DNS.
 
     In a broader sense, ExternalDNS allows you to control DNS records dynamically via Kubernetes resources in a DNS provider-agnostic way.
-charts:
-  - name: external-dns
-    versions: ['1.20.0', '1.19.0', '1.15.1']
 
 examples:
     cloudflare:

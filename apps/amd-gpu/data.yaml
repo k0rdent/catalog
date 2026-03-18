@@ -17,9 +17,6 @@ description: |
     This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
     and comprehensive observability for AI applications running on AMD hardware.
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
-charts:
-  - name: amd-gpu-operator
-    versions: ['v1.4.1', 'v1.3.0', 'v1.2.2']
 deploy_code: |
     Tested `ClusterDeployment` in Azure:
     ~~~yaml

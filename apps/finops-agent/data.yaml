@@ -19,9 +19,6 @@ description: |
   - **Quantile Predictions**: Generates confidence intervals (P10, P50, P90) for risk assessment
   - **Cluster-aware**: Supports multi-cluster deployments with intelligent data aggregation
 
-charts:
-  - name: finops-agent-kof
-    versions: ['0.1.3']
 deploy_code: |
   FinOps Agent assumes that:
   1. the user has kof installed with the k0rdent.

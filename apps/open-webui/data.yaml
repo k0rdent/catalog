@@ -12,9 +12,6 @@ description: |
     <div>
     ![](https://github.com/open-webui/open-webui/blob/6f1486ffd0cb288d0e21f41845361924e0d742b3/demo.gif?raw=true){ width="700" }
     </div>
-charts:
-  - name: open-webui
-    versions: ['10.2.1', '8.12.3', '8.10.0', '6.20.0']
 
 doc_link: https://docs.openwebui.com/
 

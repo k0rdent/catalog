@@ -18,9 +18,6 @@ description: |
     -	Suitable for air-gapped, on-prem, and edge environments
     -	Can be deployed and managed across clusters with k0rdent
 # support_link: TODO
-charts:
-  - name: ollama
-    versions: ['1.42.0', '1.40.0']
 
 doc_link: https://docs.ollama.com/
 

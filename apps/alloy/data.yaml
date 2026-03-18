@@ -33,10 +33,6 @@ description: |
   with Loki and Tempo deployments managed through the k0rdent catalog, forming a complete, multi-cluster
   observability stack.
 
-charts:
-  - name: alloy
-    versions: ['1.6.1']
-
 doc_link: https://grafana.com/docs/alloy/latest/
 
 test_wait_for_pods: "alloy-"

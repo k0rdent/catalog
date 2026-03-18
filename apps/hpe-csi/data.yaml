@@ -11,9 +11,6 @@ description: |
     provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads running
     on Kubernetes.
 support_link: https://scod.hpedev.io/legal/support/
-charts:
-  - name: hpe-csi-driver
-    versions: ['3.0.2', '3.0.1', '2.5.2']
 
 doc_link: https://scod.hpedev.io/
 

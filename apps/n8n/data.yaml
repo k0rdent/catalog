@@ -2,9 +2,6 @@ title: N8n
 tags:
   - AI/Machine Learning
 created: "2025-10-03T13:41:55Z"
-charts:
-  - name: n8n
-    versions: ['1.0.15']
 summary: "Flexible AI workflow automation tool"
 logo: "./assets/n8n_pink_black.png"
 description: |

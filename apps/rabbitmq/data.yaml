@@ -22,9 +22,6 @@ description: |
   ensure your messages are safe with RabbitMQ.
 
 support_link: https://www.rabbitmq.com/commercial-features
-charts:
-  - name: rabbitmq
-    versions: ['0.1.0']
 
 doc_link: https://www.rabbitmq.com/docs
 

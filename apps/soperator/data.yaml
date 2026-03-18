@@ -17,11 +17,6 @@ description: |
     2. Slurm Cluster 
 support_link: https://github.com/nebius/soperator
 support_type: Partner
-charts:
-  - name: helm-soperator
-    versions: ['1.21.1']
-  - name: helm-slurm-cluster
-    versions: ['1.21.1']
 
 prerequisites: |
   **Soperator requires**:

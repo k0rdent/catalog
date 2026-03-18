@@ -28,9 +28,6 @@ description: |
     - Applications must be compatible with the OpenFeature SDK and
     sidecar-based flag evaluation model.
 
-charts:
-  - name: open-feature-operator
-    versions: ['v0.8.9', 'v0.8.8']
 
 doc_link: https://openfeature.dev/docs/reference/intro
 

@@ -13,11 +13,6 @@ description: |
     vendors, integrated by many libraries, services, and apps, and adopted by numerous
     end users.
 
-charts:
-  - name: opentelemetry-collector
-    versions: ['0.145.0', '0.141.0']
-  - name: opentelemetry-operator
-    versions: ['0.105.1', '0.99.2']
 
 doc_link: https://opentelemetry.io/docs/platforms/kubernetes/helm/
 

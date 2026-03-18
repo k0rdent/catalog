@@ -19,9 +19,6 @@ description: |
   Typical use cases include deploying lightweight utilities, custom resources,
   configuration objects, or other Kubernetes manifests that do not require
   templating logic but should still be tracked and managed by Helm.
-charts:
-  - name: raw
-    versions: ['2.0.2']
 
 doc_link: https://github.com/bedag/helm-charts/tree/master/charts/raw
 

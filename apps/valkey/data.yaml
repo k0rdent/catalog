@@ -11,9 +11,6 @@ description: |
     Redis with enhanced features and performance optimizations. Valkey can be used as a
     database, cache, message broker, and streaming engine.
 # support_link: https://github.com/orgs/valkey-io/discussions
-charts:
-  - name: valkey
-    versions: ['0.1.0']
 
 doc_link: https://valkey.io/docs/
 

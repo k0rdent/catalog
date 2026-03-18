@@ -12,9 +12,6 @@ description: |
     help you consistently and securely manage artifacts across cloud native compute platforms like
     Kubernetes and Docker.
 # support_link: TODO
-charts:
-  - name: harbor
-    versions: ['1.18.2', '1.18.0']
 
 doc_link: https://goharbor.io/docs/latest/install-config/harbor-ha-helm/
 

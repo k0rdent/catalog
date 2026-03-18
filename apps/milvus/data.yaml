@@ -30,9 +30,6 @@ description: |
     under [LF AI & Data Foundation](https://lfaidata.foundation/projects/milvus/), distributed
     with [Apache 2.0](https://github.com/milvus-io/milvus/blob/master/LICENSE) License, with Zilliz as its major contributor.
 # support_link: TODO
-charts:
-  - name: milvus
-    versions: ['5.0.14', '5.0.1']
 
 doc_link: https://milvus.io/docs/install_cluster-helm.md
 

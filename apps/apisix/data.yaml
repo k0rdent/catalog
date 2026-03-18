@@ -13,9 +13,6 @@ description: |
     Apache APISIX provides open source API Gateway to help you manage microservices, delivering
     the ultimate performance, security, and scalable platform for all your APIs and microservices.
 
-charts:
-  - name: apisix
-    versions: ['2.13.0', '2.12.4']
 
 doc_link: https://apisix.apache.org/docs/helm-chart/apisix/
 

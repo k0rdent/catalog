@@ -33,9 +33,6 @@ description: |
 
   Fluentd is an essential building block for implementing observability and log aggregation in production-grade Kubernetes platforms.
 
-charts:
-  - name: fluentd
-    versions: ['0.5.3']
 
 doc_link: https://docs.fluentd.org/
 

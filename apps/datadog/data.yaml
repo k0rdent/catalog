@@ -40,9 +40,6 @@ description: |
     ensures that this massive, distributed infrastructure is **visible, secure, and
     performant** through unified metrics, logs, and traces.
 
-charts:
-  - name: datadog
-    versions: ['3.170.1', '3.149.2']
 
 support_type: Partner
 

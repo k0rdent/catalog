@@ -10,9 +10,6 @@ description: |
     It detects hardware features available on each node in a Kubernetes cluster, and advertises those
     features using node labels and optionally node extended resources, annotations and node taints.
 support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=readme-ov-file
-charts:
-  - name: node-feature-discovery
-    versions: ['0.18.3', '0.16.1']
 
 doc_link: https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html
 

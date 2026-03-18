@@ -33,9 +33,6 @@ description: |
   Prometheus-based metrics monitoring by providing unified log visibility at scale.
 
 # support_link: TODO
-charts:
-  - name: loki
-    versions: ['6.53.0']
 
 doc_link: https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/
 

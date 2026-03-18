@@ -10,9 +10,6 @@ description: |
     It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how
     resources are being used.
 support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
-charts:
-  - name: opencost
-    versions: ['2.5.8', '2.3.2', '1.43.2']
 
 doc_link: https://opencost.io/
 

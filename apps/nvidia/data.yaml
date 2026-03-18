@@ -11,9 +11,6 @@ description: |
     software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
     training and high-performance computing.
 support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
-charts:
-  - name: gpu-operator
-    versions: ['25.10.1', '25.10.0', '25.3.0', '24.9.2']
 deploy_code: |
     Tested `ClusterDeployment` in AWS:
     ~~~yaml

@@ -20,9 +20,6 @@ description: |
   - **Event Store & Message Broker:** Implements queues (lists), priority queues (sorted sets), event deduplication (sets), streams, and pub/sub with probabilistic stream processing capabilities.
   - **Vector Store for GenAI:** Integrates with AI applications (e.g. LangGraph, mem0) for short-term memory, long-term memory, LLM response caching (semantic caching), and retrieval augmented generation (RAG).
   - **Real-Time Analytics:** Powers personalization, recommendations, fraud detection, and risk assessment.
-charts:
-  - name: redis
-    versions: ['0.2.0']
 
 doc_link: https://redis.io/docs/latest/get-started/
 

@@ -11,9 +11,6 @@ description: |
     This chart contains Mirantis Secure Registry 4 without the high-availability for the storage
     layer (Postgres & Redis). Please check the link for more information on
     [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
-charts:
-  - name: msr
-    versions: ['4.13.2']
 
 support_link: https://docs.mirantis.com/msr/4.13/get-support.html
 doc_link: https://docs.mirantis.com/msr/4.13/overview.html

@@ -21,9 +21,6 @@ description: |
     (e.g., canary rollouts), and security policies of applications running across the
     k0rdent-managed fleet from a single point of control.
 # support_link: TODO
-charts:
-  - name: kiali-operator
-    versions: ['2.21.0', '2.19.0']
 
 doc_link: https://kiali.io/docs/installation/installation-guide/install-with-helm/
 

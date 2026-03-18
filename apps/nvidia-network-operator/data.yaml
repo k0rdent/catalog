@@ -3,9 +3,6 @@ tags:
   - AI/Machine Learning
   - Drivers and plugins
 created: "2026-01-29T12:00:00Z"
-charts:
-  - name: network-operator
-    versions: ['25.10.0']
 summary: "Simplifies deployment and lifecycle management of the NVIDIA Mellanox Network Operator."
 logo: "./assets/nvidia_logo.svg"
 description: |

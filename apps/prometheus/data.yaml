@@ -8,9 +8,6 @@ description: |
     Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
     Since its inception in 2012, many companies and organizations have adopted Prometheus, and
     the project has a very active developer and user community.
-charts:
-  - name: prometheus
-    versions: ['28.9.0', '27.5.1']
 
 examples:
     with_ingress:

@@ -12,9 +12,6 @@ description: |
     ArangoDB is available in a community and a commercial edition. You can use it for on-premises
     deployments, as well as a fully managed cloud service, the ArangoGraph Insights Platform.
 support_link: https://arangodb.com/contact/
-charts:
-  - name: kube-arangodb
-    versions: ['1.4.0', '1.2.46']
 doc_link: https://docs.arangodb.com/stable/
 
 validated_amd64: 'y'

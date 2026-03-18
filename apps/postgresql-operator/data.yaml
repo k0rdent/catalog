@@ -34,9 +34,6 @@ description: |
     * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
     * Includes popular PostgreSQL extensions
 # support_link:
-charts:
-  - name: postgres-operator
-    versions: ['1.15.1', '1.14.0']
 
 doc_link: https://postgres-operator.readthedocs.io/
 

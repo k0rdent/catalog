@@ -45,9 +45,6 @@ prerequisites: |
 
     - LoadBalancer service type is used for external access
     - Port 8428 for VictoriaMetrics HTTP API and web interface
-charts:
-  - name: victoriametrics
-    versions: ['0.30.0', '0.22.0']
 
 doc_link: https://docs.victoriametrics.com/
 support_link: https://victoriametrics.com/products/enterprise/

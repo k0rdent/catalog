@@ -45,9 +45,6 @@ description: |
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 support_link: https://www.mirantis.com/software/mcp/stacklight/
 support_type: Enterprise
-charts:
-  - name: stacklight-operator
-    versions: ['0.1.0-mcp-16']
 
 doc_link: https://docs.mirantis.com/mosk/latest/ref-arch/stacklight.html
 show_install_tab: true

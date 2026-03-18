@@ -12,9 +12,6 @@ description: |
     The broader open source community offers extensive knowledge and support, helping users get started, deepen their expertise,
     and stay connected.
 # support_link:
-charts:
-  - name: postgresql
-    versions: ['18.3.0', '16.7.21', '16.7.15']
 
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 
