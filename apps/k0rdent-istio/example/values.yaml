@@ -1,0 +1,29 @@
+cert-manager:
+  cert-manager:
+    crds:
+      enabled: true
+
+k0rdent-istio:
+  k0rdent-istio:
+    operator:
+      enabled: false
+    rootCA:
+      enabled: false
+    isManagement: false
+    intermediateCAs:
+      management:
+        certificate: false
+        issuer: false
+    global:
+      multiCluster:
+        clusterName: test
+      network: test-network
+    cert-manager-service-template:
+      enabled: false
+    cert-manager-istio-csr:
+      app:
+        certmanager:
+          issuer:
+            name: k0rdent-istio-istio-system-test-ca
+        server:
+          clusterID: test

@@ -3,6 +3,11 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
+  - name: cert-manager
+    version: 1.18.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: kcm-system
   - name: k0rdent-istio
     version: 0.4.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
