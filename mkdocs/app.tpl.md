@@ -17,14 +17,13 @@ created: "{{ created }}"
 ![logo]({{ logo_big }}){ align="right", width="100" }
 # {{ title }}
 
-=== "Description"
+=== "Overview"
 
     {% if charts %}
-    #### Helm Charts
     <table>
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Chart Name</th>
             <th>Version</th>
             <th>App version</th>
         </tr>
