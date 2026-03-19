@@ -58,8 +58,8 @@ def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
                 name=services[dep_index]['name'],
                 namespace=services[dep_index]['namespace']
             )]
-        if dep_name in chart_values_data:
-            service['values'] = ValuesClass(chart_values_data[dep_name])
+        if service_name in chart_values_data:
+            service['values'] = ValuesClass(chart_values_data[service_name])
         services.append(service)
     return yaml.dump(services, sort_keys=False, default_flow_style=False)
 
