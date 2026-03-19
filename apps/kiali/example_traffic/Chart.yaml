@@ -3,18 +3,40 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
+  - name: traefik
+    version: 39.0.5
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: traefik
   - name: istio-base
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: istio-system
   - name: istiod
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
-  - name: istio-gateway
-    version: 1.28.3
+    mcs_dep_index: 1
+    mcs_namespace: istio-system
+  - name: raw
+    version: 2.0.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_name: raw1
+    mcs_namespace: raw
+    mcs_dep_index: 2
   - name: kube-prometheus-stack
     version: 81.6.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 3
+    mcs_name: prometheus
+    mcs_namespace: prometheus
+  - name: raw
+    alias: raw2
+    version: 2.0.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_name: raw2
+    mcs_namespace: raw
+    mcs_dep_index: 4
   - name: kiali-operator
     version: 2.21.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: kiali
+    mcs_dep_index: 5
