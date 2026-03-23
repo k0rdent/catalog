@@ -1,0 +1,13 @@
+services:
+  catalog:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install && npx vite"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - ../k0rdent_catalog.tsx:/app/src/k0rdent_catalog.tsx:ro
+      - ./node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
