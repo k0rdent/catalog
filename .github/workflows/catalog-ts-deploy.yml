@@ -1,0 +1,90 @@
+name: Build and Deploy Catalog (TSX)
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - apps/**/data.yaml
+      - apps/*/example/**
+      - apps/*/charts/**
+      - k0rdent_catalog.tsx
+      - catalog-ts/**
+      - scripts/generate_catalog_json.py
+      - scripts/generate_html_pages.py
+      - scripts/utils.py
+      - .github/workflows/catalog-ts-deploy.yml
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - apps/**/data.yaml
+      - apps/*/example/**
+      - apps/*/charts/**
+      - k0rdent_catalog.tsx
+      - catalog-ts/**
+      - scripts/generate_catalog_json.py
+      - scripts/generate_html_pages.py
+      - scripts/utils.py
+      - .github/workflows/catalog-ts-deploy.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Python dependencies
+        run: pip install pyyaml jinja2 ruyaml
+
+      - name: Generate catalog.json
+        run: |
+          mkdir -p catalog-ts/public
+          OUTPUT_DIR=catalog-ts/public python3 scripts/generate_catalog_json.py
+
+      - name: Copy TSX source into catalog-ts
+        run: cp k0rdent_catalog.tsx catalog-ts/src/k0rdent_catalog.tsx
+
+      - name: Install Node dependencies
+        working-directory: catalog-ts
+        run: npm ci --ignore-scripts 2>/dev/null || npm install
+
+      - name: Build SPA
+        working-directory: catalog-ts
+        run: npx vite build
+
+      - name: Generate static detail pages
+        env:
+          TEMPLATES_DIR: catalog-ts/templates
+          DIST_DIR: catalog-ts/dist
+        run: python3 scripts/generate_html_pages.py
+
+      - name: Add CNAME for custom domain (main repo only)
+        if: github.repository == 'k0rdent/catalog'
+        run: echo "catalog.k0rdent.io" > catalog-ts/dist/CNAME
+
+      - name: Deploy to gh-pages (push only)
+        if: github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: catalog-ts/dist
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "Deploy catalog from ${{ github.sha }}"
