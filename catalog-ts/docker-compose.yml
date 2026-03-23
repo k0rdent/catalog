@@ -1,13 +1,45 @@
 services:
-  catalog:
+  dev:
     image: node:22-alpine
     working_dir: /app
-    command: sh -c "npm install && npx vite"
+    command: >
+      sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
+             pip install pyyaml jinja2 ruyaml --quiet --break-system-packages &&
+             python3 /repo/scripts/generate_catalog_json.py &&
+             cp /repo/k0rdent_catalog.tsx /app/src/k0rdent_catalog.tsx &&
+             npm install &&
+             npx vite"
     ports:
       - "8080:3000"
     volumes:
       - ./:/app
-      - ../k0rdent_catalog.tsx:/app/src/k0rdent_catalog.tsx:ro
+      - ../:/repo:ro
       - ./node_modules:/app/node_modules
     environment:
       - NODE_ENV=development
+      - OUTPUT_DIR=/app/public
+      - TEMPLATES_DIR=/app/templates
+      - DIST_DIR=/app/dist
+
+  build:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
+             pip install pyyaml jinja2 ruyaml --quiet --break-system-packages &&
+             python3 /repo/scripts/generate_catalog_json.py &&
+             cp /repo/k0rdent_catalog.tsx /app/src/k0rdent_catalog.tsx &&
+             npm install &&
+             npx vite build &&
+             python3 /repo/scripts/generate_html_pages.py"
+    volumes:
+      - ./:/app
+      - ../:/repo:ro
+      - ./node_modules:/app/node_modules
+      - ./dist:/app/dist
+    environment:
+      - OUTPUT_DIR=/app/public
+      - TEMPLATES_DIR=/app/templates
+      - DIST_DIR=/app/dist
+    profiles:
+      - build
