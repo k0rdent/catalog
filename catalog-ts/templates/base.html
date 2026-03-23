@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}k0rdent Catalog{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}k0rdent Application Catalog{% endblock %}">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg0: #0a0e1a; --bg1: #0f1424; --bg2: #151b2e; --bg3: #1c2540;
+      --border: #1e2d4a; --border-hi: #2a3f6a;
+      --teal: #00c8c8; --cyan: #00e5ff;
+      --text-pri: #e8edf8; --text-sec: #7a8aaa; --text-mut: #3d4d6a;
+      --green: #00d48a; --amber: #f5a623; --red: #ff4d6a; --purple: #a78bfa;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg0); color: var(--text-pri);
+      line-height: 1.6; min-height: 100vh;
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; border-bottom: 1px solid var(--border);
+      background: var(--bg1);
+    }
+    .nav-logo { font-family: monospace; font-size: 18px; font-weight: 700; color: var(--teal); }
+    .nav-links { display: flex; gap: 18px; font-size: 13px; }
+    .nav-links a { color: var(--text-sec); }
+    .nav-links a:hover { color: var(--teal); }
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 60px; }
+    code, pre {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+    }
+    code { padding: 2px 6px; font-size: 13px; }
+    pre { padding: 16px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+    pre code { background: none; border: none; padding: 0; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    h2 { font-size: 20px; font-weight: 700; margin: 32px 0 12px; color: var(--text-pri); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; }
+    h4 { font-size: 14px; font-weight: 600; margin: 20px 0 6px; }
+    p { margin: 8px 0; color: var(--text-sec); }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+    }
+    .badge-community { background: rgba(122,138,170,0.12); color: var(--text-sec); border: 1px solid rgba(122,138,170,0.25); }
+    .badge-enterprise { background: rgba(0,200,200,0.15); color: var(--teal); border: 1px solid rgba(0,200,200,0.3); }
+    .badge-partner { background: rgba(0,212,138,0.12); color: var(--green); border: 1px solid rgba(0,212,138,0.25); }
+    .tag {
+      display: inline-block; padding: 2px 7px; border-radius: 3px;
+      font-size: 10px; font-weight: 500; margin-right: 4px;
+      background: var(--bg3); color: var(--text-sec); border: 1px solid var(--border);
+    }
+    .header-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+    .header-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; background: var(--bg3); padding: 5px; }
+    .back-link { display: inline-block; margin-bottom: 24px; font-size: 13px; color: var(--text-sec); }
+    .back-link:hover { color: var(--teal); }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    th, td { text-align: left; padding: 10px 14px; border: 1px solid var(--border); font-size: 13px; }
+    th { background: var(--bg2); color: var(--text-pri); font-weight: 600; }
+    td { background: var(--bg1); color: var(--text-sec); }
+    .footer {
+      border-top: 1px solid var(--border); padding: 20px 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; color: var(--text-mut);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">k0rdent</a>
+    <div class="nav-links">
+      <a href="/">Catalog</a>
+      <a href="/contribute/">Contribute</a>
+      <a href="https://github.com/k0rdent/catalog" target="_blank">GitHub</a>
+    </div>
+  </nav>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+  <footer class="footer">
+    <span>Application Catalog {{ version }} &middot; originated by Mirantis</span>
+    <span>&copy; 2025 The k0rdent authors</span>
+  </footer>
+</body>
+</html>
