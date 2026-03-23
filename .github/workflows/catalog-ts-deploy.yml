@@ -63,14 +63,27 @@ jobs:
         working-directory: catalog-ts
         run: npm ci --ignore-scripts 2>/dev/null || npm install
 
+      - name: Determine base path
+        id: base
+        run: |
+          if [ "${{ github.repository }}" = "k0rdent/catalog" ]; then
+            echo "path=/" >> "$GITHUB_OUTPUT"
+          else
+            REPO_NAME="${{ github.event.repository.name }}"
+            echo "path=/${REPO_NAME}/" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build SPA
         working-directory: catalog-ts
+        env:
+          BASE_PATH: ${{ steps.base.outputs.path }}
         run: npx vite build
 
       - name: Generate static detail pages
         env:
           TEMPLATES_DIR: catalog-ts/templates
           DIST_DIR: catalog-ts/dist
+          BASE_PATH: ${{ steps.base.outputs.path }}
         run: python3 scripts/generate_html_pages.py
 
       - name: Add CNAME for custom domain (main repo only)
