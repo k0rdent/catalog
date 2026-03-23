@@ -4,7 +4,7 @@ services:
     working_dir: /app
     command: sh -c "npm install && npx vite"
     ports:
-      - "3000:3000"
+      - "8080:3000"
     volumes:
       - ./:/app
       - ../k0rdent_catalog.tsx:/app/src/k0rdent_catalog.tsx:ro
