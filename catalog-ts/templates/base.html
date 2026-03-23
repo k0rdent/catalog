@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}k0rdent Catalog{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}k0rdent Application Catalog{% endblock %}">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="{{ base_path }}favicon.ico">
   <style>
     :root {
       --bg0: #0a0e1a; --bg1: #0f1424; --bg2: #151b2e; --bg3: #1c2540;
@@ -73,10 +73,10 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="/" class="nav-logo">k0rdent</a>
+    <a href="{{ base_path }}" class="nav-logo">k0rdent</a>
     <div class="nav-links">
-      <a href="/">Catalog</a>
-      <a href="/contribute/">Contribute</a>
+      <a href="{{ base_path }}">Catalog</a>
+      <a href="{{ base_path }}contribute/">Contribute</a>
       <a href="https://github.com/k0rdent/catalog" target="_blank">GitHub</a>
     </div>
   </nav>

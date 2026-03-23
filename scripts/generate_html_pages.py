@@ -15,6 +15,7 @@ APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
 TEMPLATES_DIR = os.environ.get('TEMPLATES_DIR', os.path.join(CATALOG_ROOT, 'catalog-ts', 'templates'))
 DIST_DIR = os.environ.get('DIST_DIR', os.path.join(CATALOG_ROOT, 'catalog-ts', 'dist'))
 VERSION = os.environ.get('VERSION', 'v1.8.0')
+BASE_PATH = os.environ.get('BASE_PATH', '/')
 
 
 def md_code_to_html(text: str) -> str:
@@ -99,6 +100,7 @@ def process_app(app_name: str) -> dict | None:
                     example[f'{efield}_html'] = ''
 
     data['version'] = VERSION
+    data['base_path'] = BASE_PATH
     return data
 
 
