@@ -56,9 +56,6 @@ jobs:
           mkdir -p catalog-ts/public
           OUTPUT_DIR=catalog-ts/public python3 scripts/generate_catalog_json.py
 
-      - name: Copy TSX source into catalog-ts
-        run: cp k0rdent_catalog.tsx catalog-ts/src/k0rdent_catalog.tsx
-
       - name: Install Node dependencies
         working-directory: catalog-ts
         run: npm ci --ignore-scripts 2>/dev/null || npm install
