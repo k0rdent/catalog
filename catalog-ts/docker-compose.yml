@@ -6,7 +6,6 @@ services:
       sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
              pip install pyyaml jinja2 ruyaml --quiet --break-system-packages &&
              python3 /repo/scripts/generate_catalog_json.py &&
-             cp /repo/k0rdent_catalog.tsx /app/src/k0rdent_catalog.tsx &&
              npm install &&
              npx vite"
     ports:
@@ -28,7 +27,6 @@ services:
       sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
              pip install pyyaml jinja2 ruyaml --quiet --break-system-packages &&
              python3 /repo/scripts/generate_catalog_json.py &&
-             cp /repo/k0rdent_catalog.tsx /app/src/k0rdent_catalog.tsx &&
              npm install &&
              npx vite build &&
              python3 /repo/scripts/generate_html_pages.py"
