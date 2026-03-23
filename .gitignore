@@ -25,3 +25,7 @@ mkdocs/validation_matrix.md
 .vscode
 __pycache__
 hunspell_dict_all.txt
+
+# catalog-ts
+catalog-ts/node_modules/
+catalog-ts/src/k0rdent_catalog.tsx
