@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - k0rdent Catalog{% endblock %}
+{% block meta_description %}{{ summary }}{% endblock %}
+
+{% block content %}
+<a href="/" class="back-link">&larr; Back to catalog</a>
+
+<div class="header-row">
+  {% if logo %}
+  <img src="{{ logo }}" alt="{{ title }}" class="header-logo">
+  {% endif %}
+  <div>
+    <h1>{{ title }}</h1>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="badge badge-{{ support_type | lower }}">{{ support_type }}</span>
+      {% for tag in tags %}
+      <span class="tag">{{ tag }}</span>
+      {% endfor %}
+      {% if charts %}
+      <span style="font-size:11px;color:var(--text-mut);font-family:monospace">{{ charts[0].versions[0] }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% if charts %}
+<h2>Charts</h2>
+<table>
+  <thead>
+    <tr><th>Chart Name</th><th>Version</th><th>App Version</th></tr>
+  </thead>
+  <tbody>
+    {% for chart in charts %}
+    <tr>
+      <td>{{ chart.name }}</td>
+      <td>{{ chart.versions[0] }}</td>
+      <td>{{ chart.appVersions[0] if chart.appVersions else '-' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+<h2>Description</h2>
+<div class="description">{{ description_html }}</div>
+
+{% if show_install_tab %}
+<h2>Install</h2>
+
+{% if prerequisites_html %}
+{{ prerequisites_html }}
+{% else %}
+<h4>Prerequisites</h4>
+<p>Deploy k0rdent {{ version }}: <a href="https://docs.k0rdent.io/{{ version }}/admin/installation/install-k0rdent/" target="_blank">QuickStart</a></p>
+{% endif %}
+
+{% if install_code %}
+<h4>Install template to k0rdent</h4>
+{{ install_code_html }}
+{% endif %}
+
+{% if verify_code %}
+<h4>Verify service template</h4>
+{{ verify_code_html }}
+{% endif %}
+
+{% if deploy_code %}
+<h4>Deploy service template</h4>
+{{ deploy_code_html }}
+{% endif %}
+
+{% if doc_link %}
+<p><a href="{{ doc_link }}" target="_blank">Official documentation &rarr;</a></p>
+{% endif %}
+{% endif %}
+
+{% if examples %}
+{% for key, example in examples.items() %}
+{% if example.type != "solution" %}
+<h2>Example: {{ example.title }}</h2>
+{% if example.content_html %}
+{{ example.content_html }}
+{% else %}
+{% if example.install_code_html %}
+<h4>Install template to k0rdent</h4>
+{{ example.install_code_html }}
+{% endif %}
+{% if example.verify_code_html %}
+<h4>Verify service template</h4>
+{{ example.verify_code_html }}
+{% endif %}
+{% if example.deploy_code_html %}
+<h4>Deploy service template</h4>
+{{ example.deploy_code_html }}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}
