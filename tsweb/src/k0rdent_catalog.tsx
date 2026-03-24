@@ -119,11 +119,11 @@ function getLogoUrl(name) {
   return "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/" + slug + ".svg";
 }
 
-function AppLogo({ name, size, accent, logo }:{ name:string, size?:number, accent?:string, logo?:string }) {
+function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:number, accent?:string, logo?:string, brandColor?:string }) {
   var sz = size || 32;
   var [svgContent, setSvgContent] = React.useState(LOGO_CACHE[name] || null);
   var [failed, setFailed] = React.useState(false);
-  var color = BRAND_COLORS[name] || accent || "#7a8aaa";
+  var color = brandColor || BRAND_COLORS[name] || accent || "#7a8aaa";
   var bg = color + "18";
   var border = color + "30";
 
@@ -394,7 +394,7 @@ function DetailPanel({ item, onClose }) {
         {eff==="mirantis-certified"&&<div style={{height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",flexShrink:0}}/>}
         <div style={{padding:"18px 22px 0",flexShrink:0}}>
           <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:12}}>
-            <AppLogo name={item.name} size={44} accent={accent} logo={item.logo}/>
+            <AppLogo name={item.name} size={44} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:4}}>
                 <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{item.name}</h2>
@@ -558,7 +558,7 @@ function Card({ item, onOpen }) {
     >
       {isCert&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")"}}/>}
       <div style={{display:"flex",gap:9,alignItems:"flex-start"}}>
-        <AppLogo name={item.name} size={32} accent={accent} logo={item.logo}/>
+        <AppLogo name={item.name} size={32} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
             <span style={{fontWeight:600,fontSize:12.5,color:B.textPri}}>{item.name}</span>
