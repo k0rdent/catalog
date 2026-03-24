@@ -1284,16 +1284,47 @@ function Nav({ view, setView }) {
   );
 }
 
+function readUrlParams() {
+  var p = new URLSearchParams(window.location.search);
+  return {
+    view: p.get("view") || "catalog",
+    search: p.get("q") || "",
+    tag: p.get("tag") || "All",
+    support: p.get("support") || "All",
+    sort: p.get("sort") || "A-Z",
+    compliance: p.get("compliance") || "All",
+  };
+}
+
+function updateUrlParams(state: {view:string, search:string, tag:string, support:string, sort:string, compliance:string}) {
+  var p = new URLSearchParams();
+  if (state.view !== "catalog") p.set("view", state.view);
+  if (state.search) p.set("q", state.search);
+  if (state.tag !== "All") p.set("tag", state.tag);
+  if (state.support !== "All") p.set("support", state.support);
+  if (state.sort !== "A-Z") p.set("sort", state.sort);
+  if (state.compliance !== "All") p.set("compliance", state.compliance);
+  var qs = p.toString();
+  var url = window.location.pathname + (qs ? "?" + qs : "");
+  history.replaceState(null, "", url);
+}
+
 export default function App() {
+  var initParams = useMemo(readUrlParams, []);
   var [loading, setLoading] = useState(true);
   var [loadError, setLoadError] = useState("");
-  var [view, setView] = useState("catalog");
-  var [search, setSearch] = useState("");
-  var [tag, setTag] = useState("All");
-  var [support, setSupport] = useState("All");
-  var [sort, setSort] = useState("A-Z");
-  var [compliance, setCompliance] = useState("All");
+  var [view, setView] = useState(initParams.view);
+  var [search, setSearch] = useState(initParams.search);
+  var [tag, setTag] = useState(initParams.tag);
+  var [support, setSupport] = useState(initParams.support);
+  var [sort, setSort] = useState(initParams.sort);
+  var [compliance, setCompliance] = useState(initParams.compliance);
   var [selected, setSelected] = useState(null);
+
+  // Sync filters to URL
+  useEffect(function(){
+    if (!loading) updateUrlParams({view, search, tag, support, sort, compliance});
+  }, [view, search, tag, support, sort, compliance, loading]);
 
   function doLoad() {
     setLoading(true);
