@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "Kube Prometheus Stack"
-summary: "Collection of monitoring and alerting rules for Kubernetes clusters."
+summary: "The kube-prometheus-stack Helm chart deploys a fully integrated monitoring system — Prometheus, Alertmanager, Grafana, kube-state-metrics, node-exporter, and a curated library of recording rules and dashboards — in a single command. It includes pre-built NVIDIA DCGM dashboards for GPU utilization, making it the fastest path to end-to-end AI infrastructure observability on a new cluster."
 logo: ./assets/prometheus-operator-logo.svg # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/logos/prometheus-operator-logo.svg 
 created: "2025-03-12T08:16:55Z"
 description: |

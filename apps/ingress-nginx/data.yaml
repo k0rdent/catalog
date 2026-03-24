@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "Ingress-nginx"
-summary: "Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer."
+summary: "The ingress-nginx controller is the most widely deployed Kubernetes Ingress implementation, proxying external HTTP/S traffic to in-cluster Services using NGINX under the hood. It supports TLS termination, path and host-based routing, rate limiting, custom headers, and WebSocket passthrough — covering the routing requirements of most AI API endpoints with minimal configuration."
 logo: "./assets/nginx_logo.svg"
 created: "2025-03-12T08:16:55Z"
 description: |

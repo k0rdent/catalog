@@ -1,7 +1,7 @@
 tags:
   - Developer Tools
 title: "JupyterHub"
-summary: "A multi-user version of the notebook designed for companies, classrooms and research labs."
+summary: "JupyterHub spawns isolated, authenticated Jupyter server instances for each user from a single multi-tenant deployment, giving data science teams on-demand notebook environments with configurable CPU, memory, and GPU resource profiles. Its KubeSpawner back-end creates per-user pods with persistent volume mounts, making it the standard way to provide self-service compute to ML researchers on Kubernetes."
 logo: ./assets/juphub-icon.svg # https://www.veryicon.com/icons/business/vscode-program-item-icon/jupyter.html
 logo_big: ./assets/juphub-big.svg # https://jupyter.org/hub
 created: "2025-07-30T08:16:55Z"

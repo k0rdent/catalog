@@ -4,7 +4,7 @@ tags:
   - Application Runtime
   - Serverless
   - CI/CD
-summary: "KEDA is a Kubernetes-based Event Driven Autoscaler."
+summary: "KEDA (Kubernetes Event-driven Autoscaler) scales Deployments, StatefulSets, and Jobs to zero and back based on external event sources — Kafka lag, SQS queue depth, Prometheus query values, database row counts, and 60+ other scalers. For AI inference services it enables true serverless behavior: scale to zero when idle, burst to many replicas when request queues build, and scale back when the queue drains."
 logo: "./assets/keda-logo.svg"
 created: "2025-04-11T14:02:07Z"
 description: |

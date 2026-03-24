@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "OpenCost"
-summary: "Monitor your cloud costs."
+summary: "OpenCost is a CNCF vendor-neutral Kubernetes cost allocation engine that computes per-pod, per-namespace, per-deployment, and per-label costs in real time using actual cloud pricing APIs. Unlike cloud cost tools, it understands Kubernetes constructs natively and can attribute shared node costs fairly across tenant namespaces, making it the foundation of FinOps practices for multi-team AI platforms."
 logo: "https://github.com/opencost/opencost-website/blob/d8f2a459dd958bf3033dc479f0c0a7677bae03ca/static/img/opencostpig.png?raw=true"
 logo_big: ./assets/opencost-big_logo.svg # https://svgmix.com/item/yGNjlw/opencost
 created: "2025-03-12T08:16:55Z"

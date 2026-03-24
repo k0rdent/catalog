@@ -1,7 +1,7 @@
 tags:
   - 'Networking'
 title: Traefik
-summary: "Kubernetes Ingress Controller."
+summary: "Traefik is a cloud-native reverse proxy and ingress controller that auto-discovers services via Docker, Kubernetes, Consul, and other providers, generating routing rules dynamically without restarts. Its middleware system supports rate limiting, circuit breaking, basic auth, OAuth forwarding, and request mirroring — making it a flexible alternative to ingress-nginx for teams that prefer automatic service discovery over annotation-driven configuration."
 logo: "./assets/icon.svg" # https://techicons.dev/icons/traefikproxy
 created: "2026-03-09T00:00:00Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: OpenTelemetry
-summary: "High-quality, ubiquitous, and portable telemetry to enable effective observability."
+summary: "The OpenTelemetry Collector is the CNCF-standard vendor-neutral telemetry pipeline that receives traces, metrics, and logs from instrumented applications, processes and enriches them, and exports to any backend — Jaeger, Prometheus, Loki, Datadog, or cloud-native services. Standardizing on OTel eliminates vendor lock-in for observability data and allows AI teams to switch backends without re-instrumenting code."
 logo: "./assets/icon.svg" # https://techicons.dev/icons/opentelemetry
 created: "2025-12-09T00:00:00Z"
 description: |

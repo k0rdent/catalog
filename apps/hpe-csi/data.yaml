@@ -2,7 +2,7 @@ tags:
   - Storage
   - Drivers and plugins
 title: "HPE CSI Driver for Kubernetes"
-summary: "Multi-vendor and multi-platform Container Storage Interface driver."
+summary: "The HPE CSI Driver for Kubernetes provides dynamic, policy-driven provisioning of persistent volumes from HPE Nimble Storage, Primera, Alletra, and MSA arrays via the CSI specification. It supports volume snapshots, cloning, multi-attach, and quality-of-service settings, enabling AI workloads on HPE infrastructure to consume enterprise storage with the same declarative API used for cloud-native workloads."
 logo: https://raw.githubusercontent.com/hpe-storage/co-deployments/master/docs/assets/hpedev.png
 created: "2025-03-31T15:40:47Z"
 description: |

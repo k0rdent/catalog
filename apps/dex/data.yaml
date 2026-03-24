@@ -2,7 +2,7 @@ tags:
   - Security
   - Authentication
 title: "Dex"
-summary: "OpenID Connect Identity (OIDC) and OAuth 2.0 Provider with Pluggable Connectors."
+summary: "Dex is a federated OpenID Connect identity provider that translates logins from upstream identity sources — LDAP, Active Directory, GitHub, Google, SAML 2.0, and more — into OIDC tokens that Kubernetes and its ecosystem can consume natively. It enables single-sign-on for platform tooling including Grafana, Argo CD, and JupyterHub without modifying each application's auth logic."
 logo: "https://raw.githubusercontent.com/dexidp/website/9ac240c84d3e34766814cd9ece76710cf075ba23/static/favicons/favicon.png"
 created: "2025-03-12T08:16:55Z"
 description: |

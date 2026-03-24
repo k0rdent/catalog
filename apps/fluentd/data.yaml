@@ -1,7 +1,7 @@
 tags:
   - 'Monitoring'
 title: Fluentd
-summary: "Open source data collector for unified logging layer."
+summary: "Fluentd is a CNCF-graduated unified logging layer that collects, filters, transforms, and routes log data from hundreds of input sources to dozens of output destinations including Elasticsearch, S3, and Loki. Its plugin ecosystem and proven stability at petabyte scale make it a reliable choice for aggregating logs from heterogeneous AI platform components."
 logo: "./assets/icon.svg" # https://github.com/fluent/fluentd-docs-gitbook/blob/53020426cdcfcb5a5f722031838ee1cb95b5a7a2/images/logo/Fluentd_icon.svg
 created: "2026-02-12T00:00:00Z"
 description: |

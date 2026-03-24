@@ -2,7 +2,7 @@ title: "Dapr"
 tags:
   - Monitoring
   - Application Runtime
-summary: "Portable, event-driven runtime."
+summary: "Dapr (Distributed Application Runtime) provides a set of building-block APIs — pub/sub, service invocation, state management, secrets, and workflows — that abstract away infrastructure differences so microservices can run unchanged on any cloud. It is particularly useful for event-driven AI pipelines where inference services, data processors, and notification systems need to compose without tight coupling."
 logo: "./assets/dapr-logo.svg"
 created: "2025-03-12T08:16:55Z"
 description: |

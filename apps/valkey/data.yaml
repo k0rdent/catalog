@@ -1,7 +1,7 @@
 tags:
   - Database
 title: Valkey
-summary: "High-performance in-memory data store and cache."
+summary: "Valkey is a high-performance, open-source, BSD-licensed fork of Redis maintained by the Linux Foundation, fully compatible with the Redis 7.2 API including all data structures, commands, persistence modes, and the RESP3 protocol. It was created after Redis changed its licensing, giving the community a truly open alternative for caching, pub/sub, and feature store use cases in AI workloads."
 logo: "./assets/valkey_logo.svg"
 logo_big: "./assets/valkey_logo_big.svg"
 created: "2025-06-16T14:20:00Z"

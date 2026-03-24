@@ -1,7 +1,7 @@
 title: "Grafana"
 tags:
   - Monitoring
-summary: "The open-source platform for monitoring and observability."
+summary: "Grafana is the open-source analytics and visualization platform used by more teams than any other to build operational dashboards. Its plugin system supports 150+ data sources — Prometheus, Loki, Tempo, ClickHouse, and more — enabling unified dashboards that correlate GPU utilization, model request latency, log errors, and distributed traces in a single view."
 logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Grafana_icon.svg#file
 created: "2025-08-27T13:06:51Z"
 description: |

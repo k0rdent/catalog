@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "MetalLB"
-summary: "Load-balancer for bare metal Kubernetes clusters, using standard routing protocols."
+summary: "MetalLB implements the Kubernetes LoadBalancer service type for bare-metal clusters that lack a cloud provider's load balancer controller. Using either Layer 2 ARP announcements or BGP route advertisements, it assigns external IP addresses to services so on-premises AI inference endpoints are reachable from outside the cluster without a hardware load balancer."
 logo: "./assets/metallb_logo.svg"
 created: "2025-03-19T17:58:28Z"
 description: |
