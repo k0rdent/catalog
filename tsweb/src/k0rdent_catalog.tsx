@@ -119,12 +119,24 @@ function getLogoUrl(name) {
   return "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/" + slug + ".svg";
 }
 
-function AppLogo({ name, size, accent }) {
+function AppLogo({ name, size, accent, logo }:{ name:string, size?:number, accent?:string, logo?:string }) {
   var sz = size || 32;
   var [svgContent, setSvgContent] = React.useState(LOGO_CACHE[name] || null);
   var [failed, setFailed] = React.useState(false);
   var color = BRAND_COLORS[name] || accent || "#7a8aaa";
+  var bg = color + "18";
+  var border = color + "30";
 
+  // If catalog data provides a logo URL, use it directly as an <img>
+  if (logo) {
+    return (
+      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
+        <img src={logo} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
+      </div>
+    );
+  }
+
+  // Fallback: fetch from SimpleIcons CDN
   React.useEffect(function() {
     if (svgContent || failed) return;
     var url = getLogoUrl(name);
@@ -146,8 +158,6 @@ function AppLogo({ name, size, accent }) {
   var parts = name.replace(/-/g," ").split(" ");
   var initials = "";
   for (var pi=0;pi<Math.min(2,parts.length);pi++) initials+=parts[pi][0].toUpperCase();
-  var bg = color + "18";
-  var border = color + "30";
 
   if (svgContent && !failed) {
     return (
@@ -384,7 +394,7 @@ function DetailPanel({ item, onClose }) {
         {eff==="mirantis-certified"&&<div style={{height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",flexShrink:0}}/>}
         <div style={{padding:"18px 22px 0",flexShrink:0}}>
           <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:12}}>
-            <AppLogo name={item.name} size={44} accent={accent}/>
+            <AppLogo name={item.name} size={44} accent={accent} logo={item.logo}/>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:4}}>
                 <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{item.name}</h2>
@@ -548,7 +558,7 @@ function Card({ item, onOpen }) {
     >
       {isCert&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")"}}/>}
       <div style={{display:"flex",gap:9,alignItems:"flex-start"}}>
-        <AppLogo name={item.name} size={32} accent={accent}/>
+        <AppLogo name={item.name} size={32} accent={accent} logo={item.logo}/>
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
             <span style={{fontWeight:600,fontSize:12.5,color:B.textPri}}>{item.name}</span>
