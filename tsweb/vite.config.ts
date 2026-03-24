@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.BASE_PATH || "/",
   server: {
-    port: 3000,
+    port: 8080,
     host: "0.0.0.0",
     watch: {
       usePolling: true,
