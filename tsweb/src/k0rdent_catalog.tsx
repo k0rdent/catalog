@@ -124,13 +124,14 @@ function AppLogo({ name, size, accent, logo }:{ name:string, size?:number, accen
   var [svgContent, setSvgContent] = React.useState(LOGO_CACHE[name] || null);
   var [failed, setFailed] = React.useState(false);
   var color = BRAND_COLORS[name] || accent || "#7a8aaa";
-  var bg = color + "18";
-  var border = color + "30";
+  var logoBg = "#ffffff";
+  var logoBorder = "#7a8aaa30";
+  var logoStyle = {width:sz,height:sz,borderRadius:sz>36?9:7,background:logoBg,border:"1px solid "+logoBorder,display:"flex" as const,alignItems:"center" as const,justifyContent:"center" as const,flexShrink:0,boxSizing:"border-box" as const};
 
   // If catalog data provides a logo URL, use it directly as an <img>
   if (logo) {
     return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
+      <div style={{...logoStyle,padding:sz>36?5:3}}>
         <img src={logo} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
       </div>
     );
@@ -161,14 +162,14 @@ function AppLogo({ name, size, accent, logo }:{ name:string, size?:number, accen
 
   if (svgContent && !failed) {
     return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?7:5,boxSizing:"border-box"}}
+      <div style={{...logoStyle,padding:sz>36?7:5}}
         dangerouslySetInnerHTML={{__html:svgContent.replace(/width="[^"]*"/, 'width="'+(sz-10)+'"').replace(/height="[^"]*"/, 'height="'+(sz-10)+'"')}}
       />
     );
   }
 
   return (
-    <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:sz>36?13:11,fontWeight:700,color:color,fontFamily:"monospace"}}>
+    <div style={{...logoStyle,fontSize:sz>36?13:11,fontWeight:700,color:color,fontFamily:"monospace"}}>
       {initials}
     </div>
   );
