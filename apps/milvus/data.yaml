@@ -1,7 +1,7 @@
 tags:
   - Database
 title: "Milvus"
-summary: "High-performance, cloud-native vector database built for scalable vector ANN search."
+summary: "Milvus is a cloud-native, purpose-built vector database designed from the ground up for billion-scale similarity search, supporting HNSW, IVF, and DiskANN indexes with GPU-accelerated distance computation. Its disaggregated storage-compute architecture and streaming ingestion pipeline make it the production vector store of choice for enterprise RAG systems and large-scale semantic search."
 logo: "./assets/icon.svg" # https://raw.githubusercontent.com/milvus-io/artwork/master/stacked/color/milvus-stacked-color.svg
 created: "2025-08-29T17:51:52Z"
 description: |

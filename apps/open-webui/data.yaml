@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "Open WebUI"
-summary: "A User-Friendly Web Interface for Chat Interactions."
+summary: "Open WebUI is a feature-rich, self-hosted AI chat interface compatible with Ollama and any OpenAI-compatible API, offering multi-model switching, image generation, document upload for RAG, conversation history, user management, and a plugin system — all packaged as a single container. It is the fastest way to give an organization's users a private ChatGPT-equivalent backed by models running entirely on their own infrastructure."
 logo: "./assets/icon.png" # https://github.com/open-webui/open-webui/blob/6f1486ffd0cb288d0e21f41845361924e0d742b3/static/favicon.png
 created: "2025-03-12T08:16:55Z"
 description: |

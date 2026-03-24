@@ -2,7 +2,7 @@ title: "Flux Operator"
 tags:
   - CI/CD
   - Developer Tools
-summary: "Open and extensible continuous delivery solution for Kubernetes. Powered by GitOps Toolkit"
+summary: "The Flux Operator manages the full lifecycle of a Flux CD installation on Kubernetes, providing automatic upgrades, health checks, and a FluxInstance CRD that encapsulates Flux's multi-component architecture into a single manageable object. It is the recommended way to run Flux in production and integrates naturally with k0rdent's GitOps-first cluster management model."
 logo: "./assets/flux-icon.svg"
 logo_big: "./assets/flux-icon-big.png"
 created: "2025-08-07T13:40:00Z"

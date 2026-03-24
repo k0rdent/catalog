@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "NATS"
-summary: "High-performance messaging system for cloud-native applications."
+summary: "NATS is an ultra-lightweight, cloud-native messaging system delivering core pub/sub, request/reply, and queue group semantics at sub-millisecond latencies with a 3 MB server binary. JetStream, its persistence layer, adds durable streams, key-value storage, and object store capabilities, making NATS a versatile backbone for event-driven AI pipelines that need both real-time messaging and at-least-once delivery."
 logo: "./assets/nats-horizontal-color.png"
 created: "2025-08-27T11:00:00Z"
 description: |

@@ -3,7 +3,7 @@ tags:
   - Networking
   - Application Runtime
 title: Knative
-summary: "Kubernetes-based platform to deploy and manage modern serverless workloads."
+summary: "Knative adds serverless primitives to Kubernetes: a serving layer that automatically scales container workloads to zero when idle and back to thousands of replicas under load, and an eventing layer that connects cloud events to workloads through declarative subscriptions. It is a natural fit for AI inference endpoints that must handle unpredictable traffic spikes without over-provisioning GPU capacity."
 logo: "./assets/knative_logo.svg"
 created: "2025-03-20T16:26:02Z"
 description: |

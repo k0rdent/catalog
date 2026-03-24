@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "Nginx-ingress F5"
-summary: "Enterprise-grade Kubernetes ingress controller built on NGINX Plus."
+summary: "The NGINX Ingress Controller from F5 is built on NGINX Plus and adds enterprise capabilities beyond the community controller: an integrated Web Application Firewall (WAF), JWT authentication, Active Health Checks, session persistence, and support for NGINX App Protect policies. It is the preferred ingress for organizations that need proven WAF protection in front of AI API endpoints."
 logo: "./assets/F5-logo.svg" # https://seekvectors.com/post/f5-networks-vector-logo
 created: "2025-08-26T08:16:55Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "Weights & Biases"
-summary: "The AI developer platform to build AI agents, applications, and models with confidence."
+summary: "Weights & Biases (W&B) Weave is the LLM observability and evaluation framework from the team behind the industry-leading ML experiment tracker. It captures LLM call traces, token usage, latency, and evaluation scores, and provides tools to build evaluation pipelines, compare prompt versions, and detect regressions in model quality — deployed as a self-hosted operator for teams that cannot send model inputs and outputs to the W&B cloud."
 logo: ./assets/wandb_logo.svg # https://github.com/wandb/assets/blob/main/wandb-dots-logo.svg
 logo_big: ./assets/wandb_logo_big.svg # https://github.com/wandb/assets/blob/main/wandb-logo-yellow-dots-black-wb.svg
 created: "2025-05-06T09:08:47Z"

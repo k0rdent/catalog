@@ -1,7 +1,7 @@
 tags:
   - Database
 title: "InfluxDB v2"
-summary: "Scalable datastore for metrics, events, and real-time analytics."
+summary: "InfluxDB is a purpose-built time-series database optimized for high-ingest workloads of timestamped measurements — sensor readings, performance counters, financial ticks, and IoT events. Its SQL and Flux query interfaces, columnar storage engine, and native downsampling make it the preferred backend for AI applications that train predictive models on time-ordered operational data."
 logo: "./assets/icon.svg" # https://influxdata.github.io/branding/img/downloads/cubo-teal.svg
 created: "2025-11-05T00:00:00Z"
 description: |

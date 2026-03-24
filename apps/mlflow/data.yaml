@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "mlflow"
-summary: "A Tool for Managing the Machine Learning Lifecycle."
+summary: "MLflow is the most widely adopted open-source platform for managing the ML lifecycle, providing experiment tracking with parameter and metric logging, a centralized model registry with staging and production promotion, a projects specification for reproducible runs, and a model serving component. It integrates with PyTorch, TensorFlow, scikit-learn, XGBoost, and Hugging Face Transformers out of the box."
 logo: "./assets/icon.svg" # https://github.com/mlflow/mlflow/blob/master/assets/logo.svg
 created: "2025-10-09T00:00:00Z"
 description: |

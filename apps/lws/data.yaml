@@ -2,7 +2,7 @@ title: "LeaderWorkerSet (LWS)"
 tags:
   - AI/Machine Learning
 created: "2026-01-22T10:37:20Z"
-summary: An LWS creates a group of pods and controls their lifecycle.
+summary: "LeaderWorkerSet (LWS) is a Kubernetes API that groups a leader pod and N worker pods as a replicated unit, enabling multi-node distributed inference for large language models that exceed single-GPU memory capacity. It handles coordinated scheduling, graceful restarts, and gang scheduling semantics that are essential for serving 70B+ parameter models across multiple GPU nodes."
 logo: "./assets/lws_logo.svg"
 description: |
   **LeaderWorkerSet (LWS)** is an API for deploying a group of pods as a unit of replication.

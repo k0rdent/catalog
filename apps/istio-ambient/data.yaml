@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "Istio - Ambient Mode"
-summary: "Sidecar-less mesh with node-level routing and app-layer control."
+summary: "Istio Ambient mode replaces per-pod Envoy sidecars with a shared per-node ztunnel for L4 mTLS and a dedicated waypoint proxy for L7 policy, dramatically reducing the memory and CPU overhead of the service mesh. For GPU-intensive inference workloads where every millicore matters, ambient mode delivers the security guarantees of Istio without the sidecar tax."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
 created: "2025-05-07T18:27:00Z"
 description: |

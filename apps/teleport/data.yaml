@@ -1,7 +1,7 @@
 tags:
   - Security
 title: "Teleport"
-summary: "An access platform for your infrastructure."
+summary: "Teleport is a zero-trust infrastructure access platform that replaces VPNs and bastion hosts with certificate-based short-lived credentials, enforced MFA, and a complete audit log of every session. It provides role-based kubectl access to Kubernetes clusters, SSH access to nodes, and database access to PostgreSQL and MySQL — all routed through a single access plane with session recording for compliance."
 logo: "./assets/icon.svg" # https://goteleport.com/docs/favicon.svg
 created: "2025-08-29T17:51:52Z"
 description: |

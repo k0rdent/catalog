@@ -1,7 +1,7 @@
 tags:
   - Database
 title: "MySQL"
-summary: "The world's most popular open source database."
+summary: "The MySQL Operator for Kubernetes manages MySQL InnoDB Cluster — MySQL's native HA solution with Group Replication and MySQL Router — as a first-class Kubernetes workload, automating provisioning, failover, backup, and cluster expansion through a MySQLCluster CRD. It is the recommended way to run MySQL with automatic failover and read-scale-out on Kubernetes."
 logo: "./assets/MySQL_logo.svg"
 created: "2025-03-17T11:50:06Z"
 description: |
