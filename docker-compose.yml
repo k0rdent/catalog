@@ -9,11 +9,11 @@ services:
              npm install &&
              npx vite"
     ports:
-      - "8080:3000"
+      - "8080:8080"
     volumes:
-      - ./:/app
-      - ../:/repo:ro
-      - ./node_modules:/app/node_modules
+      - ./tsweb/:/app
+      - ./:/repo:ro
+      - ./tsweb/node_modules:/app/node_modules
     environment:
       - NODE_ENV=development
       - OUTPUT_DIR=/app/public
@@ -31,10 +31,10 @@ services:
              npx vite build &&
              python3 /repo/scripts/generate_html_pages.py"
     volumes:
-      - ./:/app
-      - ../:/repo:ro
-      - ./node_modules:/app/node_modules
-      - ./dist:/app/dist
+      - ./tsweb/:/app
+      - ./:/repo:ro
+      - ./tsweb/node_modules:/app/node_modules
+      - ./tsweb/dist:/app/dist
     environment:
       - OUTPUT_DIR=/app/public
       - TEMPLATES_DIR=/app/templates
