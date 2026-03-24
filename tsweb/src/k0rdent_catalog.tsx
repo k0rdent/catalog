@@ -1262,22 +1262,26 @@ function ContributePage() {
   );
 }
 
-function Nav({ view, setView }) {
+function Nav({ view, setView, resetFilters }) {
+  function navTo(v:string) {
+    if (v === "catalog") { resetFilters(); }
+    setView(v);
+  }
   return (
     <div style={{background:B.bg1,borderBottom:"1px solid "+B.border,padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
       <div style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
         <div style={{display:"flex",alignItems:"center",gap:14}}>
-          <svg width="100" height="20" viewBox="0 0 100 20"><text x="0" y="16" fontFamily="monospace" fontSize="16" fontWeight="700" fill={B.teal} letterSpacing="-0.5">k0rdent</text></svg>
+          <svg onClick={function(){navTo("catalog");}} style={{cursor:"pointer"}} width="100" height="20" viewBox="0 0 100 20"><text x="0" y="16" fontFamily="monospace" fontSize="16" fontWeight="700" fill={B.teal} letterSpacing="-0.5">k0rdent</text></svg>
           <div style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
             {["catalog","solutions","configurator"].map(function(v){
               var active=view===v;
-              return <button key={v} onClick={function(){setView(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}</button>;
+              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}</button>;
             })}
           </div>
         </div>
         <div style={{display:"flex",gap:8,alignItems:"center"}}>
           <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:11,color:B.textSec,textDecoration:"none",padding:"5px 11px",border:"1px solid "+B.border,borderRadius:6,background:B.bg2}}>GitHub</a>
-          <button onClick={function(){setView("contribute");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit"}}>Contribute</button>
+          <button onClick={function(){navTo("contribute");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit"}}>Contribute</button>
         </div>
       </div>
     </div>
@@ -1398,7 +1402,7 @@ export default function App() {
 
   return (
     <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
-      <Nav view={view} setView={setView}/>
+      <Nav view={view} setView={setView} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); }}/>
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage/>}
