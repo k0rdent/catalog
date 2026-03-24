@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Generate catalog.json from apps/*/data.yaml for the React TSX frontend."""
+"""Generate catalog.json from apps/*/data.yaml for the React TSX frontend.
+Copies local logo files to the output directory so they can be served as static assets.
+"""
 
 import json
 import os
+import shutil
 import sys
 import yaml
 
@@ -33,6 +36,23 @@ def get_support_tier(data: dict) -> str:
     return 'community'
 
 
+def copy_local_logo(app_name: str, logo_path: str) -> str:
+    """Copy a local logo file to OUTPUT_DIR/logos/<app>/<filename> and return the public URL path."""
+    # Strip leading ./
+    rel_path = logo_path.lstrip('./')
+    src = os.path.join(APPS_DIR, app_name, rel_path)
+    if not os.path.exists(src):
+        print(f"  Warning: logo not found: {src}")
+        return logo_path
+
+    filename = os.path.basename(rel_path)
+    dst_dir = os.path.join(OUTPUT_DIR, 'logos', app_name)
+    os.makedirs(dst_dir, exist_ok=True)
+    dst = os.path.join(dst_dir, filename)
+    shutil.copy2(src, dst)
+    return f"logos/{app_name}/{filename}"
+
+
 def process_app(app_name: str) -> dict | None:
     app_path = os.path.join(APPS_DIR, app_name)
     data_file = os.path.join(app_path, 'data.yaml')
@@ -52,7 +72,10 @@ def process_app(app_name: str) -> dict | None:
     versions = charts[0]['versions'] if charts else []
     chart_name = charts[0]['name'] if charts else app_name
 
-    is_infra = data.get('type', 'app') == 'infra'
+    # Handle logo: copy local files, keep remote URLs as-is
+    logo = data.get('logo', '')
+    if logo.startswith('./') or (logo and not logo.startswith('http')):
+        logo = copy_local_logo(app_name, logo)
 
     entry = {
         'name': app_name,
@@ -66,7 +89,7 @@ def process_app(app_name: str) -> dict | None:
         'versions': versions[:5],
         'chartName': chart_name,
         'type': data.get('type', 'app'),
-        'logo': data.get('logo', ''),
+        'logo': logo,
         'doc_link': data.get('doc_link', ''),
         'created': data.get('created', ''),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",

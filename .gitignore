@@ -31,3 +31,4 @@ tsweb/node_modules/
 tsweb/dist/
 tsweb/.vite/
 tsweb/public/catalog.json
+tsweb/public/logos/
