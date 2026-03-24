@@ -9,11 +9,11 @@ on:
       - apps/*/example/**
       - apps/*/charts/**
       - k0rdent_catalog.tsx
-      - catalog-ts/**
+      - tsweb/**
       - scripts/generate_catalog_json.py
       - scripts/generate_html_pages.py
       - scripts/utils.py
-      - .github/workflows/catalog-ts-deploy.yml
+      - .github/workflows/tsweb-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -21,11 +21,11 @@ on:
       - apps/*/example/**
       - apps/*/charts/**
       - k0rdent_catalog.tsx
-      - catalog-ts/**
+      - tsweb/**
       - scripts/generate_catalog_json.py
       - scripts/generate_html_pages.py
       - scripts/utils.py
-      - .github/workflows/catalog-ts-deploy.yml
+      - .github/workflows/tsweb-deploy.yml
 
 permissions:
   contents: write
@@ -53,11 +53,11 @@ jobs:
 
       - name: Generate catalog.json
         run: |
-          mkdir -p catalog-ts/public
-          OUTPUT_DIR=catalog-ts/public python3 scripts/generate_catalog_json.py
+          mkdir -p tsweb/public
+          OUTPUT_DIR=tsweb/public python3 scripts/generate_catalog_json.py
 
       - name: Install Node dependencies
-        working-directory: catalog-ts
+        working-directory: tsweb
         run: npm ci --ignore-scripts 2>/dev/null || npm install
 
       - name: Determine base path
@@ -71,28 +71,28 @@ jobs:
           fi
 
       - name: Build SPA
-        working-directory: catalog-ts
+        working-directory: tsweb
         env:
           BASE_PATH: ${{ steps.base.outputs.path }}
         run: npx vite build
 
       - name: Generate static detail pages
         env:
-          TEMPLATES_DIR: catalog-ts/templates
-          DIST_DIR: catalog-ts/dist
+          TEMPLATES_DIR: tsweb/templates
+          DIST_DIR: tsweb/dist
           BASE_PATH: ${{ steps.base.outputs.path }}
         run: python3 scripts/generate_html_pages.py
 
       - name: Add CNAME for custom domain (main repo only)
         if: github.repository == 'k0rdent/catalog'
-        run: echo "catalog.k0rdent.io" > catalog-ts/dist/CNAME
+        run: echo "catalog.k0rdent.io" > tsweb/dist/CNAME
 
       - name: Deploy to gh-pages (push only)
         if: github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: catalog-ts/dist
+          publish_dir: tsweb/dist
           publish_branch: gh-pages
           force_orphan: true
           user_name: github-actions[bot]
