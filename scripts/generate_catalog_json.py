@@ -160,6 +160,9 @@ def process_app(app_name: str) -> dict | None:
     if data is None:
         return None
 
+    if data.get('type') == 'infra':
+        return None
+
     utils.try_add_charts_data(app_name, data)
 
     charts = data.get('charts', [])
