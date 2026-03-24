@@ -3,6 +3,7 @@
 
 import os
 import re
+import shutil
 import sys
 import yaml
 import jinja2
@@ -76,6 +77,22 @@ def process_app(app_name: str) -> dict | None:
     utils.try_add_charts_data(app_name, data)
     data['app'] = app_name
     data['app_path'] = app_path
+
+    # Handle local logos: copy to dist and rewrite path
+    logo = data.get('logo', '')
+    if logo.startswith('./') or (logo and not logo.startswith('http')):
+        rel_path = logo.lstrip('./')
+        src = os.path.join(app_path, rel_path)
+        if os.path.exists(src):
+            is_infra = data.get('type', 'app') == 'infra'
+            subdir = 'infra' if is_infra else 'apps'
+            logo_dst_dir = os.path.join(DIST_DIR, subdir, app_name, 'assets')
+            os.makedirs(logo_dst_dir, exist_ok=True)
+            filename = os.path.basename(rel_path)
+            shutil.copy2(src, os.path.join(logo_dst_dir, filename))
+            data['logo'] = f'assets/{filename}'
+        else:
+            print(f"  Warning: logo not found: {src}")
 
     # Convert markdown fields to HTML
     data['description_html'] = md_to_html(data.get('description', ''))
