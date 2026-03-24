@@ -1,7 +1,7 @@
 tags:
   - 'Monitoring'
 title: Alloy
-summary: "One agent for logs, metrics, and traces in Kubernetes."
+summary: "Grafana Alloy is a batteries-included OpenTelemetry collector that unifies Prometheus scraping, OTel pipelines, and log collection into a single, programmable agent. Its component-based River configuration makes it easy to route telemetry to any backend without running multiple agents per node."
 logo: "./assets/icon.svg" # https://github.com/grafana/alloy/blob/main/docs/sources/assets/alloy_icon_orange.svg
 logo_big: "./assets/logo.svg" # https://github.com/grafana/alloy/blob/main/docs/sources/assets/logo_alloy_dark.svg
 created: "2026-03-03T00:00:00Z"

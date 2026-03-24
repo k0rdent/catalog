@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "cAdvisor"
-summary: "Analyzes resource usage and performance characteristics of running containers."
+summary: "cAdvisor (Container Advisor) is Google's open-source per-container resource usage daemon, exposing CPU, memory, filesystem, and network metrics at the container level. It runs as a DaemonSet and feeds Prometheus with the granular signals needed to right-size AI workloads and detect GPU memory pressure early."
 logo: ./assets/cadvisor_logo.png
 logo_big: ./assets/cadvisor.png
 created: "2025-03-28T14:52:18Z"

@@ -1,7 +1,7 @@
 tags:
   - Backup and Recovery
 title: "Velero"
-summary: "Open source tool to safely backup and restore."
+summary: "Velero is the CNCF standard for Kubernetes backup, restore, and migration, capturing cluster resources and persistent volume snapshots to object storage and replaying them on demand. It supports scheduled backups with configurable retention, namespace-scoped or cluster-wide scope, and hooks for pre/post-backup commands — making it essential for protecting the stateful components of AI platforms such as vector databases, model registries, and pipeline metadata stores."
 logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
 created: "2025-03-12T08:16:55Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - Storage
 title: "MinIO"
-summary: "Object storage solution that provides an AWS S3-compatible API."
+summary: "MinIO is a high-performance, Kubernetes-native object store that implements the full S3 API, delivering over 325 GiB/s read and 165 GiB/s write throughput on NVMe hardware. It serves as the standard backend for MLflow artifacts, model checkpoints, training datasets, and Loki log chunks in AI infrastructure stacks that need S3 semantics without a cloud provider dependency."
 logo: "./assets/minio_logo.svg"
 created: "2025-03-19T17:51:52Z"
 description: |

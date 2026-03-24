@@ -1,7 +1,7 @@
 tags:
   - Storage
 title: "Mirantis Ceph"
-summary: "A Unified Storage Solution"
+summary: "Ceph is the industry-standard software-defined storage platform, providing simultaneously available block (RBD), object (S3-compatible), and shared filesystem (CephFS) storage from a single cluster. In k0rdent Enterprise deployments, Rook-managed Ceph delivers the persistent, high-throughput storage that AI training pipelines and vector databases require on bare metal and vSphere."
 logo: ./assets/logo-ceph.svg # https://github.com/ceph/ceph.io/blob/main/src/assets/svgs/logo-ceph-grey.svg
 logo_big: ./assets/logo-ceph-big.svg # https://github.com/ceph/ceph.io/blob/main/src/assets/svgs/logo-ceph-grey.svg
 created: "2025-06-05T20:16:05Z"

@@ -2,7 +2,7 @@ title: N8n
 tags:
   - AI/Machine Learning
 created: "2025-10-03T13:41:55Z"
-summary: "Flexible AI workflow automation tool"
+summary: "n8n is a self-hosted, fair-code workflow automation platform with a visual node-based editor and 400+ pre-built integrations for APIs, databases, and SaaS services. Its code nodes support arbitrary JavaScript and Python, enabling data science teams to build ETL pipelines, AI-triggered notification workflows, and data labeling automation that run entirely within their own infrastructure."
 logo: "./assets/n8n_pink_black.png"
 description: |
   N8n is a fair-code workflow automation platform that combines a no-code visual builder

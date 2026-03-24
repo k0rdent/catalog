@@ -2,7 +2,7 @@ title: "FinOps Agent"
 tags:
   - "AI/Machine Learning"
   - Monitoring
-summary: "A forecasting agent for Kubernetes cost and utilization predictions"
+summary: "FinOps Agent is a lightweight k0rdent-native cost intelligence service that reads workload cost metrics from Prometheus and generates short-term spend forecasts using time-series models. It powers the k0rdent FinOps dashboard and enables teams to set budget alerts and model the cost impact of scaling GPU node pools before making infrastructure changes."
 logo: "./assets/finops-agent_logo.svg"
 created: "2025-11-06T00:00:00Z"
 description: |

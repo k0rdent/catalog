@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "Istio"
-summary: "Open source service mesh that layers transparently onto existing distributed applications."
+summary: "Istio is the CNCF service mesh that injects Envoy sidecar proxies alongside every workload to provide transparent mTLS encryption, fine-grained traffic management (canary splits, retries, circuit breakers), and per-request telemetry without changes to application code. In AI platforms it secures communication between model serving, feature stores, and data pipelines while giving operations teams deep traffic observability."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
 created: "2025-03-12T08:16:55Z"
 description: |

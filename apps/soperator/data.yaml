@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: Nebius Soperator
-summary: "Kubernetes Operator for SLURM."
+summary: "Soperator deploys and manages NVIDIA Slurm clusters on Kubernetes, giving HPC and AI teams access to Slurm's mature batch scheduling — MPI jobs, array jobs, resource reservations, and preemption policies — while running on standard Kubernetes infrastructure managed by k0rdent. It bridges the gap between traditional supercomputing workflows and cloud-native orchestration for organizations migrating HPC workloads to Kubernetes."
 logo: ./assets/slurm_logo.svg 
 created: "2025-11-3T10:00:00Z"
 description: |

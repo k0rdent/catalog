@@ -1,7 +1,7 @@
 tags:
   - Database
 title: PostgreSQL
-summary: "Open source object-relational database known for reliability and data integrity."
+summary: "PostgreSQL is the world's most advanced open-source relational database, with 35 years of active development, ACID compliance, advanced JSON support, full-text search, and a rich extension ecosystem including pgvector for storing and querying embedding vectors. This chart deploys a production-ready PostgreSQL instance with configurable replication, making it the default relational backend for MLflow, Argo CD, and dozens of other AI platform components."
 logo: "./assets/postgres_logo.svg"
 created: "2025-07-08T16:43:20Z"
 description: |

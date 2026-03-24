@@ -1,7 +1,7 @@
 tags:
   - 'Monitoring'
 title: Loki
-summary: "Horizontally scalable, highly available, multi-tenant log aggregation system."
+summary: "Grafana Loki is a horizontally scalable log aggregation system that indexes only metadata labels rather than full log content, achieving a 10-100x storage cost reduction compared to Elasticsearch for log data. It queries logs using LogQL — a Prometheus-inspired language — and integrates tightly with Grafana for correlated log and metric exploration."
 logo: "./assets/icon.svg" # https://dashboardicons.com/icons/loki
 created: "2026-03-02T00:00:00Z"
 description: |

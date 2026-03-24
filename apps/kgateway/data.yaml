@@ -2,7 +2,7 @@ title: "kgateway"
 tags:
   - Networking
   - Security
-summary: "The most mature and widely deployed Envoy-based gateway in the market today"
+summary: "kgateway (formerly Gloo Edge) is a feature-rich Kubernetes Gateway API implementation backed by Envoy that adds AI-specific capabilities including token-based rate limiting for LLM APIs, model failover routing, and prompt guard policies. It is the gateway of choice for teams exposing multiple model backends behind a single, policy-enforced API surface."
 logo: "./assets/icon.svg" # https://www.cncf.io/projects/kgateway/
 logo_big: "./assets/kgateway_logo.svg" # https://kgateway.dev/blog/guide-to-installing-kgateway/
 created: "2025-11-11T00:00:00Z"

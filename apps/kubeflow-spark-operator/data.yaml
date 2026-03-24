@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "Kubeflow Spark Operator"
-summary: "The Kubernetes Operator for Apache Spark."
+summary: "The Kubeflow Spark Operator manages Apache Spark application lifecycles on Kubernetes using a SparkApplication CRD, handling driver and executor pod provisioning, retry logic, and status reporting declaratively. ML teams use it for large-scale data preprocessing, feature engineering, and batch scoring jobs that need the distributed compute power of Spark without managing a separate cluster."
 logo: "./assets/icon.svg" # https://github.com/kubeflow/kubeflow/blob/master/logo/icon.svg
 logo_big: "./assets/logo.svg" # https://github.com/kubeflow/kubeflow/blob/master/logo/horizontal.svg
 created: "2025-09-29T17:51:52Z"

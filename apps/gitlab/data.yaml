@@ -2,7 +2,7 @@ tags:
   - CI/CD
   - Developer Tools
 title: GitLab
-summary: "The most comprehensive AI-powered DevSecOps platform."
+summary: "GitLab self-managed brings the complete DevSecOps lifecycle — source control, CI/CD pipelines, container registry, dependency scanning, DAST, and deployment environments — into a single on-premises application. Running GitLab on k0rdent gives regulated organizations full data sovereignty over their code, ML experiment definitions, and model deployment pipelines."
 logo: "./assets/gitlab_logo.svg"
 created: "2025-03-18T14:07:09Z"
 description: |

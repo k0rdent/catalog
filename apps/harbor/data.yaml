@@ -1,7 +1,7 @@
 tags:
   - Container Registry
 title: "Harbor"
-summary: "Cloud native repository for Kubernetes."
+summary: "Harbor is a CNCF-graduated open-source container and artifact registry that adds vulnerability scanning, content trust signing, RBAC access control, and replication policies on top of the standard OCI distribution spec. It gives AI teams a private, auditable registry for base images, model artifacts, and Helm charts that satisfies security review requirements without a cloud provider dependency."
 logo: "./assets/icon.svg" # https://github.com/cncf/artwork/blob/main/projects/harbor/icon/color/harbor-icon-color.svg
 logo_big: ./assets/logo_big.svg # https://github.com/cncf/artwork/blob/main/projects/harbor/horizontal/color/harbor-horizontal-color.svg
 created: "2025-10-22T00:00:00Z"

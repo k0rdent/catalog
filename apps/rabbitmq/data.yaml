@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: RabbitMQ
-summary: "One broker to queue them all."
+summary: "RabbitMQ is a battle-proven, standards-based message broker supporting AMQP 0-9-1, AMQP 1.0, MQTT, STOMP, and WebSocket protocols with configurable durability, routing exchanges, and consumer acknowledgements. Its Kubernetes operator manages cluster formation, rolling upgrades, and topology-aware replication, making RabbitMQ a reliable task queue for AI workloads that need guaranteed message delivery and dead-letter handling."
 logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/303576/rabbitmq-logo
 created: "2025-09-05T17:51:52Z"
 description: |

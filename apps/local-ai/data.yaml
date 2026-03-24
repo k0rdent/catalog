@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "Local AI"
-summary: "The free, Open Source alternative to OpenAI, Claude and others."
+summary: "LocalAI is an open-source, drop-in OpenAI API replacement that runs quantized LLMs, image generation models, audio transcription, and embedding models entirely on local CPU or GPU hardware without sending data to external services. It supports GGUF, GGML, and other efficient formats, making it the go-to choice for air-gapped or data-sovereignty-constrained AI deployments."
 logo: "./assets/icon.png"
 created: "2025-09-02T17:51:52Z"
 description: |
