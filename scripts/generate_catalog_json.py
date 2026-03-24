@@ -13,7 +13,7 @@ CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
 VERSION = os.environ.get('VERSION', 'v1.8.0')
 # OUTPUT_DIR can be overridden for Docker builds where repo is read-only
-OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'catalog-ts', 'public'))
+OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'public'))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'catalog.json')
 
 

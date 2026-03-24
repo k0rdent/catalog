@@ -12,8 +12,8 @@ import utils
 
 CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
-TEMPLATES_DIR = os.environ.get('TEMPLATES_DIR', os.path.join(CATALOG_ROOT, 'catalog-ts', 'templates'))
-DIST_DIR = os.environ.get('DIST_DIR', os.path.join(CATALOG_ROOT, 'catalog-ts', 'dist'))
+TEMPLATES_DIR = os.environ.get('TEMPLATES_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'templates'))
+DIST_DIR = os.environ.get('DIST_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'dist'))
 VERSION = os.environ.get('VERSION', 'v1.8.0')
 BASE_PATH = os.environ.get('BASE_PATH', '/')
 
