@@ -1,7 +1,7 @@
 tags:
   - 'Developer Tools'
 title: PyPI Server
-summary: "Minimal PyPI server for use with pip/easy_install."
+summary: "pypiserver is a minimal, self-hosted Python package index that serves private packages via the standard pip install interface. Data science teams use it to distribute internal Python libraries — custom model utilities, preprocessing code, feature engineering packages — across training and inference environments without publishing them to the public PyPI or maintaining a heavy artifact management system."
 logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Python-logo-notext.svg
 created: "2026-01-13T00:00:00Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - Security
 title: "ExternalDNS"
-summary: "Synchronizes exposed Kubernetes Services and Ingresses with DNS providers."
+summary: "ExternalDNS watches Kubernetes Services and Ingresses and automatically creates and updates DNS records in Route 53, Azure DNS, Google Cloud DNS, and 30+ other providers. It eliminates the manual step of registering DNS entries for new AI API endpoints, keeping public-facing model inference services reliably reachable as deployments scale."
 logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png"
 created: "2025-03-12T08:16:55Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "Prometheus"
-summary: From metrics to insight
+summary: "Prometheus is the CNCF-graduated time-series monitoring system and the de-facto standard metrics backend for Kubernetes. It scrapes instrumented targets on a pull model, evaluates alerting and recording rules, and stores metrics in a local TSDB with a powerful PromQL query language. The NVIDIA DCGM exporter, kube-state-metrics, and virtually every cloud-native application expose Prometheus metrics natively."
 logo: "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png"
 created: "2025-03-12T08:16:55Z"
 description: |

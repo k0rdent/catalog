@@ -2,7 +2,7 @@ tags:
   - AI/Machine Learning
   - Drivers and plugins
 title: "AMD GPU Operator"
-summary: "AMD GPU Operator creates/configures/manages GPUs atop Kubernetes."
+summary: "The AMD GPU Operator automates every layer of AMD GPU enablement on Kubernetes — ROCm drivers, the device plugin, and node labeling — so GPU nodes are ready for AI workloads in minutes rather than hours. Works alongside k0rdent's cluster lifecycle management for consistent GPU provisioning across bare metal and vSphere."
 logo: ./assets/amd-logo.svg # https://github.com/file-icons/icons/blob/master/svg/AMD.svg
 logo_big: ./assets/amd-logo-big.svg # https://en.m.wikipedia.org/wiki/File:AMD_Logo.svg
 created: "2025-05-05T11:25:39Z"

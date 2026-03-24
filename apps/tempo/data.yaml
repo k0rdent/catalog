@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: Tempo
-summary: "Distributed Tracing Backend."
+summary: "Grafana Tempo is a distributed tracing backend that stores traces in object storage (S3, GCS, Azure Blob) at a fraction of the cost of Elasticsearch-based solutions, with no index required — only trace IDs. It integrates with Grafana's exemplar and trace link features so teams can jump from a slow Prometheus query directly to the distributed trace that explains the latency spike in an AI serving pipeline."
 logo: "./assets/icon.svg" # https://raw.githubusercontent.com/cncf/landscape/refs/heads/master/hosted_logos/grafana-tempo.svg
 created: "2026-03-09T00:00:00Z"
 description: |

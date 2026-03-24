@@ -2,7 +2,7 @@ tags:
   - Database
   - Application Runtime
 title: ArangoDB
-summary: "Scalable graph database system."
+summary: "ArangoDB is a natively multi-model database combining document storage, key-value, and graph traversal in a single engine with its own AQL query language. Its integrated graph capabilities make it well-suited for knowledge graphs and entity relationship data that power RAG pipelines and AI recommendation systems."
 logo: "./assets/arangodb_logo.png"
 created: "2025-03-18T11:58:30Z"
 description: |

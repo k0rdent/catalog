@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: Headlamp
-summary: "User-friendly Kubernetes UI focused on extensibility."
+summary: "Headlamp is a fast, extensible Kubernetes dashboard that renders live cluster state through a plugin-based architecture, allowing teams to add custom views for CRDs, operators, and internal tooling. Unlike kubectl, it provides a friendly graphical interface for browsing pods, inspecting GPU resource allocations, and monitoring multi-cluster k0rdent deployments without granting broad CLI access."
 logo: "./assets/headlamp.png" # https://github.com/kubernetes-sigs/headlamp/blob/main/docs/images/icon.svg
 logo_big: "./assets/headlamp-big.svg" # https://headlamp.dev/img/logo.svg
 created: "2025-07-10T16:26:02Z"

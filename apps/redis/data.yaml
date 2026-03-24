@@ -1,7 +1,7 @@
 tags:
   - Database
 title: Redis
-summary: "In-memory data store."
+summary: "Redis is the world's most popular in-memory data structure store, supporting strings, hashes, lists, sets, sorted sets, streams, and geospatial indexes with sub-millisecond latency. In AI infrastructure it serves as a semantic cache for LLM API responses, a session store for multi-turn conversational agents, a feature store for real-time inference, and a message broker via Redis Streams."
 logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/303460/redis-logo
 created: "2025-09-05T17:51:52Z"
 description: |

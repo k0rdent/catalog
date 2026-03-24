@@ -1,7 +1,7 @@
 tags:
   - Storage
 title: "Elasticsearch"
-summary: "Free and Open Source, Distributed, RESTful Search Engine ."
+summary: "Deployed via the Elastic Cloud on Kubernetes (ECK) operator, Elasticsearch provides distributed full-text search, log analytics, and vector search (HNSW approximate nearest neighbor) in a single managed cluster. Its dense vector field type and kNN search API make it a compelling hybrid store for semantic search applications that need keyword and embedding retrieval in one query."
 logo: "./assets/icon.svg"
 created: "2025-08-29T17:51:52Z"
 description: |

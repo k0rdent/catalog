@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "Apache Tika"
-summary: "A Content Analysis Toolkit."
+summary: "Apache Tika is a content detection and extraction toolkit that parses text, metadata, and structured content from over 1,000 file formats — PDF, Word, Excel, PowerPoint, HTML, images via OCR, audio, and video. In AI document pipelines it acts as the ingestion layer that converts raw enterprise files into clean text ready for chunking, embedding, and insertion into a RAG vector store."
 logo: "./assets/icon.svg" # https://seeklogo.com/vector-logo/314278/apache
 created: "2025-09-10T17:51:52Z"
 description: |

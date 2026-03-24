@@ -1,7 +1,7 @@
 tags:
   - CI/CD
 title: "ArgoCD"
-summary: "Declarative, GitOps continuous delivery tool for Kubernetes."
+summary: "Argo CD is the reference GitOps controller for Kubernetes, continuously reconciling live cluster state against declarative definitions stored in Git. It provides a rich UI, RBAC, multi-cluster sync, and ApplicationSets for templating deployments across large cluster fleets — ideal for managing AI platform components at scale."
 logo: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
 created: "2025-03-12T08:16:55Z"
 description: |

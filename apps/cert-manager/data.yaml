@@ -1,7 +1,7 @@
 tags:
   - Security
 title: "Cert-manager"
-summary: "Management and issuance of TLS certificates."
+summary: "cert-manager is the de-facto standard Kubernetes certificate controller, automating issuance and renewal from Let's Encrypt, Vault, AWS ACM, and custom CAs via a CRD-driven API. It eliminates certificate expiry incidents and ensures mTLS between AI microservices is always current without manual intervention."
 logo: "https://github.com/cert-manager/cert-manager/blob/master/logo/logo-small.png?raw=true"
 created: "2025-03-12T08:16:55Z"
 description: |

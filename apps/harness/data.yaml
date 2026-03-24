@@ -1,7 +1,7 @@
 tags:
   - CI/CD
 title: Harness
-summary: "DevOps platform for CI/CD, feature flags, cloud cost, and reliability.."
+summary: "The Harness Delegate is a lightweight worker that runs inside your Kubernetes cluster and establishes an outbound-only connection to the Harness SaaS platform, enabling Harness to orchestrate deployments, run pipelines, and execute policy checks without opening inbound firewall ports. It brings Harness's AI-assisted CD, feature flags, and chaos engineering capabilities to clusters managed by k0rdent."
 logo: ./assets/harness-icon.svg # https://seeklogo.com/vector-logo/448108/harness-icon
 logo_big: ./assets/harness-text.svg # https://seeklogo.com/vector-logo/448107/harness
 created: "2025-07-25T06:02:26Z"

@@ -1,7 +1,7 @@
 tags:
   - 'Developer Tools'
 title: "Penpot"
-summary: "Open Source design and prototyping platform."
+summary: "Penpot is an open-source, browser-based design and prototyping tool that is fully self-hostable and produces design tokens, SVG assets, and CSS specs that developers can consume directly. For AI platform teams it provides a private, collaborative design environment for building internal dashboards, admin UIs, and data visualization components without sending design files to external SaaS vendors."
 logo: "./assets/icon.svg" # https://github.com/penpot/penpot/blob/735032965810dd59136ec8c5e890ff8fb677ca42/frontend/resources/images/icons/penpot-logo-icon-loader.svg
 logo_big: ./assets/logo_big.svg # https://github.com/penpot/penpot/blob/735032965810dd59136ec8c5e890ff8fb677ca42/frontend/resources/images/icons/penpot-logo.svg
 created: "2025-10-16T00:00:00Z"

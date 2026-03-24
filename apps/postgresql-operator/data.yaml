@@ -1,7 +1,7 @@
 tags:
   - Database
 title: PostgreSQL Operator
-summary: "Postgres Operator for deploying and managing PostgreSQL clusters on Kubernetes."
+summary: "The Zalando Postgres Operator automates the provisioning and management of highly available PostgreSQL clusters on Kubernetes using Patroni for leader election, WAL-G for continuous archiving, and configurable connection pooling via PgBouncer. It is the operator of choice for teams that need database-as-a-service semantics — create a Postgresql CRD, get a replicated HA cluster — without managing replication manually."
 logo: "./assets/postgres_logo.svg"
 created: "2025-03-27T16:43:20Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "VictoriaMetrics"
-summary: "High-performance, cost-effective time series database"
+summary: "VictoriaMetrics is a fast, resource-efficient time-series database and monitoring solution that is drop-in compatible with the Prometheus query API and remote write protocol, while using up to 7x less storage and 3x less RAM than Prometheus for the same data. Its single-node and cluster modes, long-term retention support, and native downsampling make it a compelling Prometheus replacement for multi-cluster AI observability at scale."
 logo: "./assets/victoriametrics.png"
 created: "2025-06-25T18:24:00Z"
 description: |

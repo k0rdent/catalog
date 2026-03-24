@@ -1,7 +1,7 @@
 tags:
   - 'Drivers and plugins'
 title: Raw
-summary: "Raw Kubernetes manifests managed by Helm release."
+summary: "The raw Helm chart is a utility chart that renders arbitrary Kubernetes YAML manifests as a Helm release, enabling teams to manage plain manifests through the Helm lifecycle — versioning, values-based parameterization, rollback, and templating — without converting every resource to a full chart. It is useful for deploying one-off CRDs, ConfigMaps, or operator configurations that do not have their own Helm chart."
 logo: "./assets/icon.svg" # https://techicons.dev/icons/helm
 created: "2026-03-11T00:00:00Z"
 description: |

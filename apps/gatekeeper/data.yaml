@@ -1,7 +1,7 @@
 tags:
   - Security
 title: "Gatekeeper"
-summary: "Cloud native policy controller that helps enforce policies and strengthen governance."
+summary: "OPA Gatekeeper is the CNCF policy controller that enforces Open Policy Agent rules at the Kubernetes admission webhook, blocking non-compliant resources before they are created. It uses ConstraintTemplates written in Rego to codify any governance requirement — from mandatory GPU resource limits on AI workloads to required security context fields — as auditable, version-controlled policy."
 logo: "./assets/gatekeeper.svg"
 created: "2025-03-28T14:40:08Z"
 description: |

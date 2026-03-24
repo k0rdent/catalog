@@ -2,7 +2,7 @@ tags:
   - AI/Machine Learning
   - Serverless
 title: Kubeflow KServe
-summary: "Serverless platform for deploying, monitoring, and managing ML models on Kubernetes."
+summary: "KServe is a CNCF Kubernetes-native model inference platform that abstracts the complexity of serving TensorFlow, PyTorch, XGBoost, Scikit-learn, and custom models behind a unified InferenceService API. It supports canary rollouts, explainability, model monitoring, multi-model serving, and GPU autoscaling, making it the standard serving layer for production ML deployments on Kubernetes."
 logo: ./assets/kserve_logo_icon.svg # https://github.com/kserve/artwork/blob/main/icon/color/k-serve-icon-color.svg
 logo_big: ./assets/kserve_logo.svg # https://github.com/kserve/artwork/blob/main/color/k-serve-color.svg
 created: "2025-04-22T06:02:26Z"
