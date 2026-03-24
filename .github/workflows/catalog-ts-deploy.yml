@@ -49,12 +49,15 @@ jobs:
           node-version: "22"
 
       - name: Install Python dependencies
-        run: pip install pyyaml jinja2 ruyaml
+        run: pip install pyyaml jinja2 ruyaml jsonschema packaging
 
       - name: Generate catalog.json
         run: |
           mkdir -p tsweb/public
           OUTPUT_DIR=tsweb/public python3 scripts/generate_catalog_json.py
+
+      - name: Generate index.json
+        run: python3 scripts/generate_index.py
 
       - name: Install Node dependencies
         working-directory: tsweb
@@ -89,6 +92,9 @@ jobs:
           cp -r tsweb/dist/* tsweb/deploy/latest/
           echo '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>' > tsweb/deploy/index.html
           cp tsweb/deploy/latest/404.html tsweb/deploy/404.html 2>/dev/null || true
+          cp mkdocs/index.json tsweb/deploy/latest/index.json
+          mkdir -p tsweb/deploy/latest/schema
+          cp mkdocs/schema/index.json tsweb/deploy/latest/schema/index.json 2>/dev/null || true
 
       - name: Add CNAME for custom domain (main repo only)
         if: github.repository == 'k0rdent/catalog'

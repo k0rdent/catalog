@@ -32,3 +32,5 @@ tsweb/dist/
 tsweb/.vite/
 tsweb/public/catalog.json
 tsweb/public/logos/
+tsweb/public/index.json
+tsweb/public/schema/
