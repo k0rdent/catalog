@@ -242,8 +242,35 @@ function CIBadge({ s }) {
   );
 }
 
-var RAW = [
-  {name:"alloy",desc:"Grafana Alloy is a batteries-included OpenTelemetry collector that unifies Prometheus scraping, OTel pipelines, and log collection into a single, programmable agent. Its component-based River configuration makes it easy to route telemetry to any backend without running multiple agents per node.",support:"community",tested:false,tags:["Monitoring"],version:"1.6.1",versions:["1.6.1"],chartName:"alloy",docs:"https://catalog.k0rdent.io/v1.8.0/apps/alloy/"},
+var RAW:any[] = [];
+var SOLUTIONS:any[] = [];
+var _catalogLoaded = false;
+
+function loadCatalog(): Promise<void> {
+  if (_catalogLoaded) return Promise.resolve();
+  return fetch("catalog.json")
+    .then(function(r){ return r.json(); })
+    .then(function(data:any){
+      RAW.length = 0;
+      Array.prototype.push.apply(RAW, data.apps || []);
+      SOLUTIONS.length = 0;
+      Array.prototype.push.apply(SOLUTIONS, data.solutions || []);
+      // Rebuild ALL_TAGS
+      ALL_TAGS.length = 0;
+      ALL_TAGS.push("All");
+      var seen:any = {};
+      for (var i = 0; i < RAW.length; i++) {
+        for (var j = 0; j < RAW[i].tags.length; j++) {
+          if (!seen[RAW[i].tags[j]]) { seen[RAW[i].tags[j]] = 1; ALL_TAGS.push(RAW[i].tags[j]); }
+        }
+      }
+      ALL_TAGS.sort(function(a:string,b:string){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
+      _catalogLoaded = true;
+    });
+}
+
+// placeholder - was: var RAW = [
+var _REMOVED_INLINE_DATA = [
   {name:"amd-gpu",desc:"The AMD GPU Operator automates every layer of AMD GPU enablement on Kubernetes — ROCm drivers, the device plugin, and node labeling — so GPU nodes are ready for AI workloads in minutes rather than hours. Works alongside k0rdent's cluster lifecycle management for consistent GPU provisioning across bare metal and vSphere.",support:"community",tested:true,tags:["AI/ML","Drivers"],version:"v1.4.1",versions:["v1.4.1","v1.3.0","v1.2.2"],chartName:"amd-gpu-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/amd-gpu/"},
   {name:"apisix",desc:"Apache APISIX is a high-performance, cloud-native API gateway with dynamic routing, authentication, rate limiting, and a plugin ecosystem of 80+ extensions. It handles millions of requests per second and supports gRPC, WebSocket, and HTTP/3, making it a strong fit for AI inference APIs that require low-latency traffic shaping.",support:"community",tested:true,tags:["Networking"],version:"2.13.0",versions:["2.13.0","2.12.4"],chartName:"apisix",docs:"https://catalog.k0rdent.io/v1.8.0/apps/apisix/"},
   {name:"arangodb",desc:"ArangoDB is a natively multi-model database combining document storage, key-value, and graph traversal in a single engine with its own AQL query language. Its integrated graph capabilities make it well-suited for knowledge graphs and entity relationship data that power RAG pipelines and AI recommendation systems.",support:"community",tested:true,tags:["Database"],version:"1.4.0",versions:["1.4.0","1.2.46"],chartName:"kube-arangodb",docs:"https://catalog.k0rdent.io/v1.8.0/apps/arangodb/"},
@@ -343,19 +370,12 @@ var RAW = [
   {name:"wandb",desc:"Weights & Biases (W&B) Weave is the LLM observability and evaluation framework from the team behind the industry-leading ML experiment tracker. It captures LLM call traces, token usage, latency, and evaluation scores, and provides tools to build evaluation pipelines, compare prompt versions, and detect regressions in model quality — deployed as a self-hosted operator for teams that cannot send model inputs and outputs to the W&B cloud.",support:"enterprise",tested:true,tags:["AI/ML"],version:"1.4.1",versions:["1.4.1"],chartName:"wandb-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/wandb/"},
 ];
 
-var ALL_TAGS = ["All"];
-(function(){
-  var seen = {};
-  for (var i = 0; i < RAW.length; i++) {
-    for (var j = 0; j < RAW[i].tags.length; j++) {
-      if (!seen[RAW[i].tags[j]]) { seen[RAW[i].tags[j]] = 1; ALL_TAGS.push(RAW[i].tags[j]); }
-    }
-  }
-  ALL_TAGS.sort(function(a,b){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
-})();
+var ALL_TAGS:string[] = ["All"];
 var ALL_SUPPORT = ["All","community","partner","mirantis-certified"];
 
-var SOLUTIONS = [
+// SOLUTIONS data removed - now loaded from catalog.json via loadCatalog()
+
+var _REMOVED_SOLUTIONS = [
   {
     id:"ai-inference-stack",title:"AI Inference Stack",category:"AI/ML",tier:"mirantis-certified",
     badge:"Production Ready",badgeColor:B.teal,icon:"⬡",
@@ -1495,6 +1515,7 @@ function Nav({ view, setView }) {
 }
 
 export default function App() {
+  var [loading, setLoading] = useState(true);
   var [view, setView] = useState("catalog");
   var [search, setSearch] = useState("");
   var [tag, setTag] = useState("All");
@@ -1503,7 +1524,12 @@ export default function App() {
   var [compliance, setCompliance] = useState("All");
   var [selected, setSelected] = useState(null);
 
+  useEffect(function(){
+    loadCatalog().then(function(){ setLoading(false); });
+  }, []);
+
   var filtered = useMemo(function(){
+    if (loading) return [];
     var r=RAW.filter(function(i){
       return (tag==="All"||i.tags.indexOf(tag)!==-1)&&
              (support==="All"||getEff(i)===support)&&
@@ -1516,10 +1542,20 @@ export default function App() {
     if(sort==="Certified first") r.sort(function(a,b){return (getEff(b)==="mirantis-certified"?1:0)-(getEff(a)==="mirantis-certified"?1:0);});
     if(sort==="Most popular") r.sort(function(a,b){return deployStats(b.name).deploys-deployStats(a.name).deploys;});
     return r;
-  },[search,tag,support,sort,compliance]);
+  },[loading,search,tag,support,sort,compliance]);
 
   var testedCount=0; var certCount=0;
-  for(var i=0;i<RAW.length;i++){if(RAW[i].tested)testedCount++;if(getEff(RAW[i])==="mirantis-certified")certCount++;}
+  if (!loading) {
+    for(var i=0;i<RAW.length;i++){if(RAW[i].tested)testedCount++;if(getEff(RAW[i])==="mirantis-certified")certCount++;}
+  }
+
+  if (loading) {
+    return (
+      <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}>
+        <span style={{color:B.teal,fontSize:16}}>Loading catalog...</span>
+      </div>
+    );
+  }
 
   return (
     <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
