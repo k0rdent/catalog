@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "Kubecost"
-summary: "Monitor your cloud costs."
+summary: "Kubecost provides real-time, per-namespace and per-workload cost allocation for Kubernetes based on actual cloud pricing data. It attributes shared costs fairly, surfaces idle resource waste, and generates rightsizing recommendations — giving FinOps and platform teams the visibility to optimize GPU node spending without waiting for end-of-month cloud bills."
 logo: ./assets/kubecost_logo.png # "https://raw.githubusercontent.com/kubecost/.github/9602bea0c06773da66ba43cb9ce5e1eb2b797c32/kubecost_logo.png"
 logo_big: ./assets/kubecost-big_logo.svg # https://logowik.com/kubecost-logo-vector-svg-pdf-ai-eps-cdr-free-download-14167.html
 created: "2025-03-12T12:22:17Z"

@@ -3,7 +3,7 @@ tags:
   - AI/Machine Learning
   - Drivers and plugins
 created: "2026-01-29T12:00:00Z"
-summary: "Simplifies deployment and lifecycle management of the NVIDIA Mellanox Network Operator."
+summary: "The NVIDIA Network Operator automates deployment of the full RDMA and high-speed networking stack — Mellanox OFED drivers, SR-IOV device plugin, RDMA device plugin, and secondary network CNI plugins — on Kubernetes nodes equipped with ConnectX NICs. It is a prerequisite for enabling GPUDirect RDMA, which allows GPU-to-GPU data transfers across nodes without CPU involvement, dramatically accelerating distributed training."
 logo: "./assets/nvidia_logo.svg"
 description: |
     The NVIDIA Network Operator manages networking-related components to enable high-performance 

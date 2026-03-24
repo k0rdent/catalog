@@ -2,7 +2,7 @@ tags:
   - Storage
   - Drivers and plugins
 title: "NetApp"
-summary: "NetApp's Trident CSI storage provisioner using the Trident Operator."
+summary: "NetApp Trident is NetApp's official CNCF-certified CSI driver for Kubernetes, dynamically provisioning NFS, iSCSI, NVMe/TCP, and S3 volumes from ONTAP on-premises, Cloud Volumes ONTAP, Azure NetApp Files, and Amazon FSx for NetApp ONTAP. Its snapshots, cloning, and QoS policies enable AI teams to instantly duplicate large training datasets for parallel experiments without copying data."
 logo: "https://raw.githubusercontent.com/NetApp/trident/master/logo/trident.png"
 created: "2025-03-12T08:16:55Z"
 description: |

@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "KubeRay"
-summary: "Deploy and scale Ray apps on Kubernetes using custom resources."
+summary: "KubeRay is the Kubernetes operator for Ray, the distributed Python framework used by Anthropic, OpenAI, and most major AI labs for large-scale model training, hyperparameter tuning, and reinforcement learning. It provisions Ray clusters on demand, autoscales worker nodes based on task queue depth, and integrates with KServe for serving Ray Serve endpoints."
 logo: ./assets/ray_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
 logo_big: ./assets/ray_header_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
 created: "2025-05-29T12:00:00Z"

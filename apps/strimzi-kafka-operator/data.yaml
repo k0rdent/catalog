@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "Kafka Operator by Strimzi"
-summary: "Apache Kafka running on Kubernetes."
+summary: "Strimzi manages the full lifecycle of Apache Kafka clusters on Kubernetes through a set of CRDs covering brokers, ZooKeeper (or KRaft), topics, users, MirrorMaker 2 replication, and Kafka Connect — all with rolling upgrade support and TLS/SASL security built in. For AI platforms, Kafka provides the high-throughput, durable event backbone needed for real-time feature pipelines, model input streaming, and audit trails."
 logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/353951/kafka-icon
 created: "2025-09-30T17:51:52Z"
 description: |

@@ -3,7 +3,7 @@ tags:
   - Monitoring
   - Application Runtime
   - Serverless
-summary: "Automatically adjusts the size of Kubernetes clusters based on demand."
+summary: "Cluster Autoscaler watches for unschedulable pods and automatically adjusts node group sizes in AWS, Azure, GCP, and vSphere to match actual demand. For AI workloads with bursty GPU requirements — such as batch training jobs — it provisions expensive GPU nodes on-demand and removes them when idle to control cost."
 logo: "./assets/cluster-autoscaler.svg"
 created: "2025-09-07T10:00:00Z"
 description: |

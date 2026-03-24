@@ -2,7 +2,7 @@ tags:
   - AI/Machine Learning
   - Drivers and plugins
 title: "NVIDIA GPU Operator"
-summary: "NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes."
+summary: "The NVIDIA GPU Operator automates the complete software stack required to use NVIDIA GPUs in Kubernetes: drivers, CUDA toolkit, container runtime, device plugin, DCGM exporter, MIG manager, and GPU Feature Discovery. A single Helm install replaces days of manual node configuration and ensures every GPU node in a k0rdent cluster presents a consistent, monitored interface to AI workloads."
 logo: "./assets/GPUoperator-cropped.png"
 created: "2025-03-12T08:16:55Z"
 description: |

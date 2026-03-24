@@ -1,7 +1,7 @@
 tags:
   - Networking
 title: "Cilium"
-summary: "eBPF-based Networking, Observability, Security"
+summary: "Cilium replaces kube-proxy with an eBPF dataplane that enforces network policy, encrypts traffic with WireGuard, and exposes per-flow observability through Hubble — all at kernel speed with no sidecar overhead. Its ability to enforce L7 policies and isolate GPU workload namespaces makes it the preferred CNI for regulated AI environments."
 logo: ./assets/icon.svg
 logo_big: ./assets/logo.svg # https://github.com/cilium/cilium.io/blob/main/src/images/logo.inline.svg
 created: "2025-10-07T00:00:00Z"

@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: Datadog
-summary: "Observability and Security Platform for Cloud Applications"
+summary: "Datadog is a cloud-scale observability platform that unifies infrastructure metrics, APM traces, logs, security signals, and real user monitoring in a single pane. Its Kubernetes integration automatically discovers pods and services, while its GPU monitoring extension surfaces NVIDIA DCGM metrics so AI platform teams can track utilization, memory, and thermal state per workload."
 logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Datadog.png
 created: "2025-12-02T00:00:00Z"
 description: |

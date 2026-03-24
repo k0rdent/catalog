@@ -2,7 +2,7 @@ title: "kagent"
 tags:
   - Networking
   - Security
-summary: "Universal remote agent for secure Kubernetes automation"
+summary: "Kagent is a Kubernetes-native agentic AI framework that lets teams define, deploy, and manage AI agents as first-class Kubernetes resources using standard CRDs. Agents can call tools, browse the web, execute code, and interact with cluster APIs — enabling self-healing operations, intelligent alert triage, and policy-driven remediation workflows that run directly inside the cluster."
 logo: "./assets/kagent_logo.svg"
 logo_big: "./assets/kagent_logo_big.svg"
 created: "2025-06-16T14:07:09Z"

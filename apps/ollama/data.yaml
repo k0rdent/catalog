@@ -1,7 +1,7 @@
 tags:
   - 'AI/Machine Learning'
 title: Ollama
-summary: "Easiest way to automate your work using open models, while keeping your data safe."
+summary: "Ollama is the simplest way to run quantized open-weight LLMs — Llama 3, Mistral, Gemma, Phi, Qwen, and dozens more — locally, providing an OpenAI-compatible REST API and CLI with automatic model download, GPU offloading, and multi-model multiplexing. In Kubernetes it powers the LLM backend for RAG applications and Open WebUI deployments that need self-hosted inference without a full serving framework."
 logo: "./assets/icon.svg" # https://upload.wikimedia.org/wikipedia/commons/3/31/Ollama-logo.svg
 created: "2026-01-30T00:00:00Z"
 description: |

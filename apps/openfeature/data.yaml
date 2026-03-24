@@ -1,7 +1,7 @@
 tags:
   - Developer Tools
 title: OpenFeature Operator
-summary: "A feature flag operator for Kubernetes."
+summary: "The OpenFeature Operator brings the CNCF OpenFeature standard for feature flagging to Kubernetes, injecting a feature flag provider sidecar that exposes a vendor-neutral SDK to application containers via a local gRPC interface. It decouples flag evaluation from flag management backends — LaunchDarkly, Flagsmith, flagd, and others — so AI teams can safely roll out model changes and experimental features with runtime toggles."
 logo: "./assets/icon.svg" # https://openfeature.dev/img/logo-dark.svg
 created: "2025-12-18T00:00:00Z"
 description: |

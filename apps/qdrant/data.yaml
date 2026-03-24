@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: "Qdrant"
-summary: "High-Performance Vector Search at Scale."
+summary: "Qdrant is a high-performance vector similarity search engine written in Rust, purpose-built for production retrieval-augmented generation and recommendation workloads. It supports HNSW indexing, payload filtering, sparse vectors, binary quantization, and named vectors per point, all accessible via a clean REST and gRPC API — with consistently faster query throughput than alternatives at equivalent recall rates."
 logo: "./assets/icon.svg" # https://qdrant.tech/brand-resources/
 created: "2025-09-04T17:51:52Z"
 description: |

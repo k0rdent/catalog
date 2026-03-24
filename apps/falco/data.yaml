@@ -1,7 +1,7 @@
 title: "Falco"
 tags:
   - Security
-summary: "Runtime security tool that detects and alerts on abnormal behavior and threats."
+summary: "Falco is the CNCF runtime security project that uses eBPF probes and a rules engine to detect unexpected behavior inside containers in real time — system call anomalies, privilege escalation, file integrity violations, and network connections from model serving pods. It generates structured alerts that feed SIEM systems and is required for HIPAA and FedRAMP runtime threat-detection controls."
 logo: "./assets/falco-logo-small.svg" # https://icon-icons.com/icon/falco-logo/171164
 logo_big: "./assets/falco-logo.svg"
 created: "2025-04-16T13:06:51Z"

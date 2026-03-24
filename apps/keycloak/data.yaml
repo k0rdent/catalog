@@ -3,7 +3,7 @@ tags:
   - Authentication
   - Security
 created: "2026-01-22T13:00:00Z"
-summary: "Open-source identity and access management server developed by Red Hat."
+summary: "Keycloak is a production-grade, self-hosted identity and access management server providing SSO, OAuth 2.0, OpenID Connect, and SAML 2.0 out of the box. Its admin console and REST API let platform teams centrally manage users, roles, and clients for Grafana, Argo CD, JupyterHub, and internal AI tooling without building custom auth logic in each application."
 logo: "./assets/keycloak-logo.svg"
 description: |
     Keycloak is an open-source Identity and Access Management (IAM) platform that provides
