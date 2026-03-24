@@ -251,10 +251,13 @@ function loadCatalog(): Promise<void> {
   return fetch("catalog.json")
     .then(function(r){ return r.json(); })
     .then(function(data:any){
+      // Support both formats: {apps:[...], solutions:[...]} or flat array
+      var apps = Array.isArray(data) ? data : (data.apps || []);
+      var solutions = Array.isArray(data) ? [] : (data.solutions || []);
       RAW.length = 0;
-      Array.prototype.push.apply(RAW, data.apps || []);
+      Array.prototype.push.apply(RAW, apps);
       SOLUTIONS.length = 0;
-      Array.prototype.push.apply(SOLUTIONS, data.solutions || []);
+      Array.prototype.push.apply(SOLUTIONS, solutions);
       // Rebuild ALL_TAGS
       ALL_TAGS.length = 0;
       ALL_TAGS.push("All");
