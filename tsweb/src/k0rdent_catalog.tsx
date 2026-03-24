@@ -246,31 +246,7 @@ var RAW:any[] = [];
 var SOLUTIONS:any[] = [];
 var _catalogLoaded = false;
 
-function loadCatalog(): Promise<void> {
-  if (_catalogLoaded) return Promise.resolve();
-  return fetch("catalog.json")
-    .then(function(r){ return r.json(); })
-    .then(function(data:any){
-      // Support both formats: {apps:[...], solutions:[...]} or flat array
-      var apps = Array.isArray(data) ? data : (data.apps || []);
-      var solutions = Array.isArray(data) ? [] : (data.solutions || []);
-      RAW.length = 0;
-      Array.prototype.push.apply(RAW, apps);
-      SOLUTIONS.length = 0;
-      Array.prototype.push.apply(SOLUTIONS, solutions);
-      // Rebuild ALL_TAGS
-      ALL_TAGS.length = 0;
-      ALL_TAGS.push("All");
-      var seen:any = {};
-      for (var i = 0; i < RAW.length; i++) {
-        for (var j = 0; j < RAW[i].tags.length; j++) {
-          if (!seen[RAW[i].tags[j]]) { seen[RAW[i].tags[j]] = 1; ALL_TAGS.push(RAW[i].tags[j]); }
-        }
-      }
-      ALL_TAGS.sort(function(a:string,b:string){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
-      _catalogLoaded = true;
-    });
-}
+// loadCatalog logic is now inline in App.doLoad() with cache-busting
 
 var ALL_TAGS:string[] = ["All"];
 var ALL_SUPPORT = ["All","community","partner","mirantis-certified"];
@@ -1310,6 +1286,7 @@ function Nav({ view, setView }) {
 
 export default function App() {
   var [loading, setLoading] = useState(true);
+  var [loadError, setLoadError] = useState("");
   var [view, setView] = useState("catalog");
   var [search, setSearch] = useState("");
   var [tag, setTag] = useState("All");
@@ -1318,9 +1295,42 @@ export default function App() {
   var [compliance, setCompliance] = useState("All");
   var [selected, setSelected] = useState(null);
 
-  useEffect(function(){
-    loadCatalog().then(function(){ setLoading(false); });
-  }, []);
+  function doLoad() {
+    setLoading(true);
+    setLoadError("");
+    _catalogLoaded = false;
+    // Add cache-busting query param to bypass Vite's cached 404
+    fetch("catalog.json?t=" + Date.now())
+      .then(function(r){
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function(data:any){
+        var apps = Array.isArray(data) ? data : (data.apps || []);
+        var solutions = Array.isArray(data) ? [] : (data.solutions || []);
+        RAW.length = 0;
+        Array.prototype.push.apply(RAW, apps);
+        SOLUTIONS.length = 0;
+        Array.prototype.push.apply(SOLUTIONS, solutions);
+        ALL_TAGS.length = 0;
+        ALL_TAGS.push("All");
+        var seen:any = {};
+        for (var i = 0; i < RAW.length; i++) {
+          for (var j = 0; j < RAW[i].tags.length; j++) {
+            if (!seen[RAW[i].tags[j]]) { seen[RAW[i].tags[j]] = 1; ALL_TAGS.push(RAW[i].tags[j]); }
+          }
+        }
+        ALL_TAGS.sort(function(a:string,b:string){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
+        _catalogLoaded = true;
+        setLoading(false);
+      })
+      .catch(function(e:any){
+        setLoadError(String(e));
+        setLoading(false);
+      });
+  }
+
+  useEffect(function(){ doLoad(); }, []);
 
   var filtered = useMemo(function(){
     if (loading) return [];
@@ -1343,10 +1353,14 @@ export default function App() {
     for(var i=0;i<RAW.length;i++){if(RAW[i].tested)testedCount++;if(getEff(RAW[i])==="mirantis-certified")certCount++;}
   }
 
-  if (loading) {
+  if (loading || loadError) {
     return (
-      <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}>
-        <span style={{color:B.teal,fontSize:16}}>Loading catalog...</span>
+      <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
+        {loading && <span style={{color:B.teal,fontSize:16}}>Loading catalog...</span>}
+        {loadError && <>
+          <span style={{color:B.red,fontSize:14}}>{loadError}</span>
+          <button onClick={doLoad} style={{padding:"8px 20px",background:B.teal,color:B.bg0,border:"none",borderRadius:6,cursor:"pointer",fontWeight:600,fontSize:13}}>Retry</button>
+        </>}
       </div>
     );
   }
