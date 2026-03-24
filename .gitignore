@@ -30,3 +30,4 @@ hunspell_dict_all.txt
 tsweb/node_modules/
 tsweb/dist/
 tsweb/.vite/
+tsweb/public/catalog.json
