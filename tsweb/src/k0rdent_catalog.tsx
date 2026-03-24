@@ -348,9 +348,7 @@ function TestResults({ item }) {
   );
 }
 
-function DetailPanel({ item, onClose }) {
-  var [tab, setTab] = useState("overview");
-  var [selVer, setSelVer] = useState(item.version);
+function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
   var eff = getEff(item);
   var ss = SUPPORT_STYLE[eff];
   var compTags = COMPLIANCE[item.name] || [];
@@ -1307,10 +1305,13 @@ function readUrlParams() {
     support: p.get("support") || "All",
     sort: p.get("sort") || "A-Z",
     compliance: p.get("compliance") || "All",
+    app: p.get("app") || "",
+    dtab: p.get("dtab") || "overview",
+    ver: p.get("ver") || "",
   };
 }
 
-function updateUrlParams(state: {view:string, search:string, tag:string, support:string, sort:string, compliance:string}) {
+function updateUrlParams(state: {view:string, search:string, tag:string, support:string, sort:string, compliance:string, app:string, dtab:string, ver:string}) {
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
   if (state.search) p.set("q", state.search);
@@ -1318,6 +1319,9 @@ function updateUrlParams(state: {view:string, search:string, tag:string, support
   if (state.support !== "All") p.set("support", state.support);
   if (state.sort !== "A-Z") p.set("sort", state.sort);
   if (state.compliance !== "All") p.set("compliance", state.compliance);
+  if (state.app) p.set("app", state.app);
+  if (state.app && state.dtab !== "overview") p.set("dtab", state.dtab);
+  if (state.app && state.ver) p.set("ver", state.ver);
   var qs = p.toString();
   var url = window.location.pathname + (qs ? "?" + qs : "");
   history.replaceState(null, "", url);
@@ -1333,12 +1337,22 @@ export default function App() {
   var [support, setSupport] = useState(initParams.support);
   var [sort, setSort] = useState(initParams.sort);
   var [compliance, setCompliance] = useState(initParams.compliance);
-  var [selected, setSelected] = useState(null);
+  var [selected, setSelected] = useState<any>(null);
+  var [detailTab, setDetailTab] = useState(initParams.dtab);
+  var [detailVer, setDetailVer] = useState(initParams.ver);
+
+  // Restore selected app from URL after data loads
+  useEffect(function(){
+    if (!loading && initParams.app && !selected) {
+      var found = RAW.find(function(i:any){ return i.name === initParams.app; });
+      if (found) setSelected(found);
+    }
+  }, [loading]);
 
   // Sync filters to URL
   useEffect(function(){
-    if (!loading) updateUrlParams({view, search, tag, support, sort, compliance});
-  }, [view, search, tag, support, sort, compliance, loading]);
+    if (!loading) updateUrlParams({view, search, tag, support, sort, compliance, app: selected ? selected.name : "", dtab: detailTab, ver: detailVer});
+  }, [view, search, tag, support, sort, compliance, selected, detailTab, detailVer, loading]);
 
   function doLoad() {
     setLoading(true);
@@ -1412,7 +1426,7 @@ export default function App() {
 
   return (
     <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
-      <Nav view={view} setView={setView} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); }}/>
+      <Nav view={view} setView={setView} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); }}/>
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage/>}
@@ -1502,7 +1516,7 @@ export default function App() {
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
                 :<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);}}/>;}) }
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer(item.version);}}/>;}) }
                 </div>
               }
             </div>
@@ -1522,7 +1536,7 @@ export default function App() {
         </div>
       )}
 
-      {selected&&<DetailPanel item={selected} onClose={function(){setSelected(null);}}/>}
+      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");}}/>}
     </div>
   );
 }
