@@ -8,7 +8,6 @@ import re
 import json
 import sys
 import utils
-from ruyaml.scalarstring import SingleQuotedScalarString
 
 
 chart_app_tpl = """apiVersion: v2
@@ -86,19 +85,6 @@ def service_template_name(chart_name: str, version: str) -> str:
     return f"{chart_name}-{st_version}"
 
 
-def update_data_chart_versions(app_data: dict, updates_dict: dict) -> dict:
-    st_updates = dict()
-    for chart in app_data['charts']:
-        if chart['name'] in updates_dict:
-            if chart['versions'][0] != updates_dict[chart['name']]['version']:
-                chart['versions'].insert(0,
-                    SingleQuotedScalarString(updates_dict[chart['name']]['version']))
-                old_st = service_template_name(chart['name'], chart['versions'][1])
-                new_st = service_template_name(chart['name'], chart['versions'][0])
-                st_updates[old_st] = new_st
-    return st_updates
-
-
 def update_data_service_templates_docs(app_data: dict, st_updates: dict):
     keys = ['deploy_code']
     for key in keys:
@@ -120,14 +106,6 @@ def update_example_chart(args, updates_dict: dict) -> bool:
                 changed = True
     if changed:
         utils.write_example_chart(args.app, chart_data)
-
-
-def update_app_data(args, updates_dict: dict):
-    app_data = utils.get_app_data(args.app)
-    st_updates = update_data_chart_versions(app_data, updates_dict)
-    update_data_service_templates_docs(app_data, st_updates)
-    if len(st_updates) > 0:
-        utils.write_app_data(args.app, app_data)
 
 
 def try_ignore_prefix_v(up_to_date_chart: dict, prev_version: str):
@@ -185,8 +163,6 @@ def check_updates(args: str):
     update_charts_cfg(args, updates_list, cfg)
     if args.generate_charts:
         generate(args)
-    if args.update_data:
-        update_app_data(args, updates_dict)
     if args.update_example:
         update_example_chart(args, updates_dict)
 
@@ -301,10 +277,10 @@ if __name__ == '__main__':
                         help="Update app 'st-charts.yaml' config")
     check_upd.add_argument("--generate-charts", "-g", action="store_true", default=False,
                         help="Generate charts from updated st-charts.yaml config")
-    check_upd.add_argument("--update-data", "-d", action="store_true", default=False,
-                        help="Update app data.yaml file")
     check_upd.add_argument("--update-example", "-e", action="store_true", default=False,
                         help="Update app example file")
+    check_upd.add_argument("--rewrite-charts", "-r", action="store_true", default=True,
+                        help="Rewrite existing 'charts.yaml' config")
     check_upd.set_defaults(func=check_updates)
 
     check_images_parser = subparsers.add_parser("check-images", help="Generate charts from config")

@@ -182,7 +182,7 @@ source ./scripts/setup_python.sh
 ### Automatically update existing app
 Example for `metallb` app:
 ~~~bash
-python3 ./scripts/chart_ctl.py check-updates metallb -gude
+python3 ./scripts/chart_ctl.py check-updates metallb -gue
 git add ./apps/metallb
 # ...
 ~~~
