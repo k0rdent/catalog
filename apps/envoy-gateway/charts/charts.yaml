@@ -1,5 +1,5 @@
 charts:
-  gateway-helm:
+  envoy-gateway:
   - version: 1.3.2
     appVersion: v1.3.2
   - version: 1.5.9

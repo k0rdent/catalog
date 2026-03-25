@@ -1,5 +1,5 @@
 charts:
-  gpu-operator-charts:
+  amd-gpu-operator:
   - version: v1.2.2
     appVersion: v1.2.2
   - version: v1.3.0

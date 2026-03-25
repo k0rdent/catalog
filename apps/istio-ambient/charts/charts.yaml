@@ -1,12 +1,12 @@
 charts:
-  ztunnel:
+  istio-ztunnel:
   - version: 1.24.3
     appVersion: 1.24.3
   - version: 1.27.1
     appVersion: 1.27.1
   - version: 1.28.3
     appVersion: 1.28.3
-  cni:
+  istio-cni:
   - version: 1.24.3
     appVersion: 1.24.3
   - version: 1.27.1

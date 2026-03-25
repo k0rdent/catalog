@@ -216,7 +216,7 @@ def generate_charts_info(app: str, cfg: dict, rewrite: bool):
         args = ["helm", "show", "chart", f"{repo_name}/{repo}", "--version", data['version']]
         result = subprocess.run(args, check=True, capture_output=True, text=True)
         up_to_date_chart = yaml.safe_load(result.stdout)
-        name = up_to_date_chart['name']
+        name = data['name']
         out_chart = dict(
             version=up_to_date_chart.get('version', ''),
             appVersion=up_to_date_chart.get('appVersion', '')
