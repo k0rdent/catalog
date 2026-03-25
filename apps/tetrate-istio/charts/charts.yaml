@@ -1,22 +1,22 @@
 charts:
   tetrate-base:
-  - version: 1.26.2+tetrate2
-    appVersion: 1.26.2-tetrate2
-  - version: 1.27.1+tetrate3
-    appVersion: 1.27.1-tetrate3
-  - version: 1.28.2+tetrate0
-    appVersion: 1.28.2-tetrate0
+  - version: 1.26.20002
+    appVersion: 1.26.20002
+  - version: 1.27.10003
+    appVersion: 1.27.10003
+  - version: 1.28.20000
+    appVersion: 1.28.20000
   tetrate-istiod:
-  - version: 1.26.2+tetrate2
-    appVersion: 1.26.2-tetrate2
-  - version: 1.27.1+tetrate3
-    appVersion: 1.27.1-tetrate3
-  - version: 1.28.2+tetrate0
-    appVersion: 1.28.2-tetrate0
+  - version: 1.26.20002
+    appVersion: 1.26.20002
+  - version: 1.27.10003
+    appVersion: 1.27.10003
+  - version: 1.28.20000
+    appVersion: 1.28.20000
   tetrate-gateway:
-  - version: 1.26.2+tetrate2
-    appVersion: 1.26.2-tetrate2
-  - version: 1.27.1+tetrate3
-    appVersion: 1.27.1-tetrate3
-  - version: 1.28.2+tetrate0
-    appVersion: 1.28.2-tetrate0
+  - version: 1.26.20002
+    appVersion: 1.26.20002
+  - version: 1.27.10003
+    appVersion: 1.27.10003
+  - version: 1.28.20000
+    appVersion: 1.28.20000
