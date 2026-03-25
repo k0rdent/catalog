@@ -1,5 +1,5 @@
 charts:
-  victoria-metrics-single:
+  victoriametrics:
   - version: 0.22.0
     appVersion: v1.120.0
   - version: 0.30.0
