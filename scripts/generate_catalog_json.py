@@ -4,6 +4,7 @@ Copies local logo files to the output directory so they can be served as static 
 """
 
 import colorsys
+import jinja2
 import json
 import os
 import re
@@ -17,6 +18,14 @@ import utils
 CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
 VERSION = os.environ.get('VERSION', 'v1.8.0')
+
+def get_base_metadata() -> dict:
+    """Build the Jinja2 template context for rendering data.yaml files."""
+    base = {"version": VERSION}
+    base.update(utils.version2template_names(VERSION))
+    return base
+
+BASE_METADATA = get_base_metadata()
 # OUTPUT_DIR can be overridden for Docker builds where repo is read-only
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'public'))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'catalog.json')
@@ -147,6 +156,181 @@ def copy_local_logo(app_name: str, logo_path: str) -> str:
     return f"logos/{app_name}/{filename}"
 
 
+## --- Markdown to HTML conversion ---
+
+def md_code_to_html(text: str) -> str:
+    def replace_block(m):
+        lang = m.group(1) or ''
+        code = m.group(2).strip()
+        code = code.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        return f'<pre><code class="language-{lang}">{code}</code></pre>'
+    return re.sub(r'~~~(\w*)\n(.*?)~~~', replace_block, text, flags=re.DOTALL)
+
+
+def md_to_html(text: str) -> str:
+    if not text:
+        return ''
+    html = md_code_to_html(text)
+    html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html)
+    html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', html)
+    parts = re.split(r'\n\n+', html)
+    result = []
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+        if part.startswith('<pre>') or part.startswith('<h') or part.startswith('<table'):
+            result.append(part)
+        else:
+            result.append(f'<p>{part}</p>')
+    return '\n'.join(result)
+
+
+## --- Install code generation (from gen_app_pages.py logic) ---
+
+def kgst_install(chart_name: str, chart_version: str, enterprise: bool) -> str:
+    kgst = 'oci://ghcr.io/k0rdent/catalog/charts/kgst'
+    if enterprise:
+        kgst = "oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst"
+    return f'helm upgrade --install {chart_name} {kgst} --set "chart={chart_name}:{chart_version}" -n kcm-system'
+
+
+def generate_install_code(metadata: dict, version: str) -> str | None:
+    if 'install_code' in metadata:
+        return metadata['install_code']
+    if 'charts' not in metadata:
+        return None
+    lines = ['~~~bash']
+    for chart in metadata['charts']:
+        enterprise = metadata.get('support_type') == 'Enterprise'
+        ver = version if version else chart['versions'][0]
+        lines.append(kgst_install(chart['name'], ver, enterprise))
+    lines.append('~~~')
+    return '\n'.join(lines)
+
+
+def generate_verify_code(metadata: dict, version: str) -> str | None:
+    if 'verify_code' in metadata:
+        return metadata['verify_code']
+    if 'charts' not in metadata:
+        return None
+    charts = []
+    for chart in metadata['charts']:
+        ver = version if version else chart['versions'][0]
+        charts.append({'name': chart['name'], 'version': ver})
+    return utils.charts_2_verify_code(charts)
+
+
+def generate_deploy_code(metadata: dict, version: str = None) -> str | None:
+    if 'deploy_code' in metadata:
+        deploy_md = metadata['deploy_code']
+        if version and metadata.get('charts'):
+            # For manual deploy_code, substitute template version strings
+            for chart in metadata['charts']:
+                default_ver = chart['versions'][0]
+                old_slug = chart['name'] + '-' + default_ver.replace('.', '-')
+                new_slug = chart['name'] + '-' + version.replace('.', '-')
+                deploy_md = deploy_md.replace(old_slug, new_slug)
+        return deploy_md
+    chart_folder = os.path.join(metadata.get('app_path', ''), 'example')
+    if not os.path.exists(chart_folder):
+        return None
+    chart_file = os.path.join(chart_folder, 'Chart.yaml')
+    if not os.path.exists(chart_file):
+        return None
+    chart_dict = utils.read_yaml_file(chart_file)
+    if version and 'dependencies' in chart_dict:
+        # Override dependency versions for version-specific deploy code
+        import copy
+        chart_dict = copy.deepcopy(chart_dict)
+        for dep in chart_dict['dependencies']:
+            if metadata.get('charts'):
+                for mc in metadata['charts']:
+                    if dep['name'] == mc['name']:
+                        dep['version'] = version
+                        break
+    return utils.chart_2_deploy_code(chart_dict, chart_folder, metadata['app'], metadata)
+
+
+def extract_examples(app_name: str, metadata: dict, app_path: str) -> list:
+    examples = []
+    for key, item in metadata.get('examples', {}).items():
+        if item.get('type') == 'solution':
+            continue
+        example = {'title': item.get('title', key)}
+        if 'chart_folder' in item:
+            chart_folder = os.path.join(app_path, item['chart_folder'])
+            chart_file = os.path.join(chart_folder, 'Chart.yaml')
+            if os.path.exists(chart_file):
+                chart_dict = utils.read_yaml_file(chart_file)
+                example['installHtml'] = md_to_html(utils.chart_2_install_code(chart_dict))
+                example['verifyHtml'] = md_to_html(utils.charts_2_verify_code(chart_dict['dependencies']))
+                example['deployHtml'] = md_to_html(utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, metadata))
+        if 'content_template_file' in item:
+            file_path = os.path.join(app_path, item['content_template_file'])
+            if os.path.exists(file_path):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    tpl = jinja2.Template(f.read())
+                    merged = dict(BASE_METADATA)
+                    merged.update(metadata)
+                    merged.update(item)
+                    example['contentHtml'] = md_to_html(tpl.render(**merged))
+        elif 'content' in item:
+            example['contentHtml'] = md_to_html(item['content'])
+        examples.append(example)
+    return examples
+
+
+def generate_install_json(app_name: str, data: dict, app_path: str):
+    """Generate per-app install.json with HTML install content."""
+    data['app'] = app_name
+    data['app_path'] = app_path
+    data['test_namespace'] = data.get('test_namespace', app_name)
+    data.update(BASE_METADATA)
+
+    show_install = data.get('show_install_tab', True)
+    if not show_install:
+        return None
+
+    # Generate install/verify/deploy for each chart version
+    versions_data = []
+    charts = data.get('charts', [])
+    all_versions = charts[0]['versions'] if charts else []
+    for ver in all_versions[:5]:
+        install_md = generate_install_code(data, ver)
+        verify_md = generate_verify_code(data, ver)
+        deploy_md = generate_deploy_code(data, ver)
+        versions_data.append({
+            'version': ver,
+            'installHtml': md_to_html(install_md) if install_md else '',
+            'verifyHtml': md_to_html(verify_md) if verify_md else '',
+            'deployHtml': md_to_html(deploy_md) if deploy_md else '',
+        })
+
+    # Prerequisites
+    prereq = data.get('prerequisites', '')
+    default_prereq = f'Deploy k0rdent {VERSION}: <a href="https://docs.k0rdent.io/{VERSION}/admin/installation/install-k0rdent/" target="_blank">QuickStart</a>'
+
+    # Examples
+    examples = extract_examples(app_name, data, app_path)
+
+    install_data = {
+        'versions': versions_data,
+        'prerequisitesHtml': md_to_html(prereq) if prereq else default_prereq,
+        'docLink': data.get('doc_link', ''),
+        'examples': examples,
+    }
+
+    # Write to per-app directory
+    out_dir = os.path.join(OUTPUT_DIR, 'apps', app_name)
+    os.makedirs(out_dir, exist_ok=True)
+    out_file = os.path.join(out_dir, 'install.json')
+    with open(out_file, 'w', encoding='utf-8') as f:
+        json.dump(install_data, f, indent=2, ensure_ascii=False)
+
+    return install_data
+
+
 def process_app(app_name: str) -> dict | None:
     app_path = os.path.join(APPS_DIR, app_name)
     data_file = os.path.join(app_path, 'data.yaml')
@@ -155,7 +339,9 @@ def process_app(app_name: str) -> dict | None:
         return None
 
     with open(data_file, 'r', encoding='utf-8') as f:
-        data = yaml.safe_load(f.read())
+        tpl = jinja2.Template(f.read())
+        rendered = tpl.render(**BASE_METADATA)
+        data = yaml.safe_load(rendered)
 
     if data is None:
         return None
@@ -176,6 +362,9 @@ def process_app(app_name: str) -> dict | None:
     if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
         brand_color = extract_brand_color(app_name, logo_raw)
         logo = copy_local_logo(app_name, logo_raw)
+
+    # Generate per-app install.json
+    generate_install_json(app_name, data, app_path)
 
     entry = {
         'name': app_name,
@@ -203,15 +392,18 @@ def main():
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     catalog = []
+    install_count = 0
     for app_name in sorted(os.listdir(APPS_DIR)):
         entry = process_app(app_name)
         if entry:
             catalog.append(entry)
+            if os.path.exists(os.path.join(OUTPUT_DIR, 'apps', app_name, 'install.json')):
+                install_count += 1
 
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, indent=2, ensure_ascii=False)
 
-    print(f"Generated {OUTPUT_FILE} with {len(catalog)} entries")
+    print(f"Generated {OUTPUT_FILE} with {len(catalog)} entries, {install_count} install.json files")
 
 
 if __name__ == '__main__':
