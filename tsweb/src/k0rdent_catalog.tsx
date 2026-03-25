@@ -405,7 +405,8 @@ function InstallTab({ item, selVer, setSelVer }) {
   if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
   if (!installData) return null;
 
-  var verData = installData.versions.find(function(v:any){ return v.version === selVer; }) || installData.versions[0];
+  var effectiveVer = selVer || (installData.versions[0] && installData.versions[0].version) || "";
+  var verData = installData.versions.find(function(v:any){ return v.version === effectiveVer; }) || installData.versions[0];
 
   function stepBlock(n:number, title:string, html:string) {
     if (!html) return null;
@@ -424,7 +425,7 @@ function InstallTab({ item, selVer, setSelVer }) {
     <div>
       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
         <span style={{fontSize:12,color:B.textSec}}>Version:</span>
-        <select value={selVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
+        <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
           {item.versions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
         </select>
         {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
@@ -1658,7 +1659,7 @@ export default function App() {
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
                 :<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer(item.version);history.pushState(null,"",buildAppUrl(item.name,"overview",""));}}/>;}) }
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildAppUrl(item.name,"overview",""));}}/>;}) }
                 </div>
               }
             </div>
