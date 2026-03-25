@@ -129,9 +129,10 @@ function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:n
 
   // If catalog data provides a logo URL, use it directly as an <img>
   if (logo) {
+    var logoSrc = logo.startsWith("http") ? logo : BASE + logo;
     return (
       <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
-        <img src={logo} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
+        <img src={logoSrc} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
       </div>
     );
   }
@@ -394,7 +395,7 @@ function InstallTab({ item, selVer, setSelVer }) {
   useEffect(function(){
     setLoading(true);
     setError("");
-    fetch("apps/" + item.name + "/install.json?t=" + Date.now())
+    fetch(BASE + "apps/" + item.name + "/install.json?t=" + Date.now())
       .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(function(d){ setInstallData(d); setLoading(false); })
       .catch(function(e){ setError(String(e)); setLoading(false); });
@@ -1376,8 +1377,24 @@ function Nav({ view, setView, resetFilters }) {
   );
 }
 
+// Detect base path from <base> tag or Vite's base config
+var BASE = (function(){
+  var b = document.querySelector("base");
+  if (b) return b.getAttribute("href") || "/";
+  // Infer from current script path or default
+  var s = document.querySelector('script[src*="k0rdent_catalog"]');
+  if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
+  // Fallback: strip /apps/<name>/ suffix from current path
+  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/+$/, "/");
+  return p || "/";
+})();
+
 function readUrlParams() {
   var p = new URLSearchParams(window.location.search);
+  var pathname = window.location.pathname;
+  // Parse app name from /apps/<name>/ path
+  var appMatch = pathname.match(/\/apps\/([^/]+)/);
+  var app = appMatch ? appMatch[1] : (p.get("app") || "");
   return {
     view: p.get("view") || "catalog",
     search: p.get("q") || "",
@@ -1385,13 +1402,21 @@ function readUrlParams() {
     support: p.get("support") || "All",
     sort: p.get("sort") || "A-Z",
     compliance: p.get("compliance") || "All",
-    app: p.get("app") || "",
+    app: app,
     dtab: p.get("dtab") || "overview",
     ver: p.get("ver") || "",
   };
 }
 
-function updateUrlParams(state: {view:string, search:string, tag:string, support:string, sort:string, compliance:string, app:string, dtab:string, ver:string}) {
+function buildAppUrl(appName:string, dtab:string, ver:string):string {
+  var p = new URLSearchParams();
+  if (dtab && dtab !== "overview") p.set("dtab", dtab);
+  if (ver) p.set("ver", ver);
+  var qs = p.toString();
+  return BASE + "apps/" + appName + "/" + (qs ? "?" + qs : "");
+}
+
+function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string}):string {
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
   if (state.search) p.set("q", state.search);
@@ -1399,12 +1424,8 @@ function updateUrlParams(state: {view:string, search:string, tag:string, support
   if (state.support !== "All") p.set("support", state.support);
   if (state.sort !== "A-Z") p.set("sort", state.sort);
   if (state.compliance !== "All") p.set("compliance", state.compliance);
-  if (state.app) p.set("app", state.app);
-  if (state.app && state.dtab !== "overview") p.set("dtab", state.dtab);
-  if (state.app && state.ver) p.set("ver", state.ver);
   var qs = p.toString();
-  var url = window.location.pathname + (qs ? "?" + qs : "");
-  history.replaceState(null, "", url);
+  return BASE + (qs ? "?" + qs : "");
 }
 
 export default function App() {
@@ -1425,21 +1446,62 @@ export default function App() {
   useEffect(function(){
     if (!loading && initParams.app && !selected) {
       var found = RAW.find(function(i:any){ return i.name === initParams.app; });
-      if (found) setSelected(found);
+      if (found) {
+        setSelected(found);
+        if (initParams.ver) setDetailVer(initParams.ver);
+      }
     }
   }, [loading]);
 
-  // Sync filters to URL
+  // Handle browser back/forward
   useEffect(function(){
-    if (!loading) updateUrlParams({view, search, tag, support, sort, compliance, app: selected ? selected.name : "", dtab: detailTab, ver: detailVer});
-  }, [view, search, tag, support, sort, compliance, selected, detailTab, detailVer, loading]);
+    function onPopState() {
+      var params = readUrlParams();
+      if (params.app) {
+        var found = RAW.find(function(i:any){ return i.name === params.app; });
+        if (found) {
+          setSelected(found);
+          setDetailTab(params.dtab);
+          setDetailVer(params.ver || found.version);
+          return;
+        }
+      }
+      setSelected(null);
+      setDetailTab("overview");
+      setDetailVer("");
+      // Restore catalog filters from URL
+      setView(params.view);
+      setSearch(params.search);
+      setTag(params.tag);
+      setSupport(params.support);
+      setSort(params.sort);
+      setCompliance(params.compliance);
+    }
+    window.addEventListener("popstate", onPopState);
+    return function(){ window.removeEventListener("popstate", onPopState); };
+  }, []);
+
+  // Sync URL when app detail tab/version changes (replaceState, no history entry)
+  useEffect(function(){
+    if (!loading && selected) {
+      history.replaceState(null, "", buildAppUrl(selected.name, detailTab, detailVer));
+    }
+  }, [detailTab, detailVer]);
+
+  // Sync catalog filters to URL (replaceState)
+  useEffect(function(){
+    // Don't overwrite /apps/<name>/ URL before the app is restored from URL
+    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/)) {
+      history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}));
+    }
+  }, [view, search, tag, support, sort, compliance, loading]);
 
   function doLoad() {
     setLoading(true);
     setLoadError("");
     _catalogLoaded = false;
     // Add cache-busting query param to bypass Vite's cached 404
-    fetch("catalog.json?t=" + Date.now())
+    fetch(BASE + "catalog.json?t=" + Date.now())
       .then(function(r){
         if (!r.ok) throw new Error("HTTP " + r.status);
         return r.json();
@@ -1506,7 +1568,7 @@ export default function App() {
 
   return (
     <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
-      <Nav view={view} setView={setView} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); }}/>
+      <Nav view={view} setView={setView} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage/>}
@@ -1596,7 +1658,7 @@ export default function App() {
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
                 :<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer(item.version);}}/>;}) }
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer(item.version);history.pushState(null,"",buildAppUrl(item.name,"overview",""));}}/>;}) }
                 </div>
               }
             </div>
@@ -1616,7 +1678,7 @@ export default function App() {
         </div>
       )}
 
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");}}/>}
+      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
     </div>
   );
 }
