@@ -432,11 +432,6 @@ function InstallTab({ item, selVer, setSelVer }) {
       {verData && stepBlock(2, "Install template to k0rdent", verData.installHtml)}
       {verData && stepBlock(3, "Verify service template", verData.verifyHtml)}
       {verData && stepBlock(4, "Deploy service template", verData.deployHtml)}
-      {installData.docLink && (
-        <div style={{paddingLeft:28,marginTop:8}}>
-          <a href={installData.docLink} target="_blank" rel="noreferrer" style={{fontSize:12,color:B.teal}}>Official documentation →</a>
-        </div>
-      )}
       {installData.examples.length > 0 && (
         <div style={{marginTop:20,borderTop:"1px solid "+B.border,paddingTop:16}}>
           <div style={{fontSize:11,fontWeight:600,color:B.textPri,marginBottom:12,textTransform:"uppercase",letterSpacing:0.5}}>Examples</div>
@@ -519,7 +514,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1}}/>
-            <a href={item.docs} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:B.bg0,textDecoration:"none",background:B.teal,fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>
+            {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:B.bg0,textDecoration:"none",background:B.teal,fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
           </div>
         </div>
         <div style={{padding:"18px 22px",flex:1}}>
