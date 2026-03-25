@@ -192,7 +192,7 @@ def kgst_install(chart_name: str, chart_version: str, enterprise: bool) -> str:
     kgst = 'oci://ghcr.io/k0rdent/catalog/charts/kgst'
     if enterprise:
         kgst = "oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst"
-    return f'helm upgrade --install {chart_name} {kgst} --set "chart={chart_name}:{chart_version}" -n kcm-system'
+    return f'helm upgrade --install {chart_name} {kgst} \\\n  --set "chart={chart_name}:{chart_version}" \\\n  -n kcm-system'
 
 
 def generate_install_code(metadata: dict, version: str) -> str | None:
