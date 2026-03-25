@@ -348,6 +348,115 @@ function TestResults({ item }) {
   );
 }
 
+function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
+  var ref = React.useRef<HTMLDivElement>(null);
+  useEffect(function(){
+    if (!ref.current) return;
+    var pres = ref.current.querySelectorAll("pre");
+    pres.forEach(function(pre:HTMLPreElement){
+      if (pre.querySelector(".copy-btn")) return;
+      pre.style.position = "relative";
+      pre.style.background = B.bg0;
+      pre.style.border = "1px solid " + B.border;
+      pre.style.borderRadius = "7px";
+      pre.style.padding = "12px 14px";
+      pre.style.fontSize = "11px";
+      pre.style.color = "#7dd3fc";
+      pre.style.fontFamily = "monospace";
+      pre.style.lineHeight = "1.6";
+      pre.style.overflowX = "auto";
+      pre.style.whiteSpace = "pre";
+      pre.style.margin = "0 0 8px 0";
+      var btn = document.createElement("button");
+      btn.className = "copy-btn";
+      btn.textContent = "Copy";
+      btn.style.cssText = "position:absolute;top:6px;right:6px;background:"+B.bg2+";border:1px solid "+B.borderHi+";border-radius:5px;padding:2px 8px;font-size:9.5px;color:"+B.textSec+";cursor:pointer;font-family:inherit;";
+      btn.onclick = function(){
+        var code = pre.querySelector("code");
+        var text = code ? code.textContent || "" : pre.textContent || "";
+        if (navigator.clipboard) navigator.clipboard.writeText(text);
+        btn.textContent = "Copied";
+        btn.style.color = B.green;
+        btn.style.background = B.green + "30";
+        setTimeout(function(){ btn.textContent = "Copy"; btn.style.color = B.textSec; btn.style.background = B.bg2; }, 1500);
+      };
+      pre.appendChild(btn);
+    });
+  }, [html]);
+  return <div ref={ref} style={style} dangerouslySetInnerHTML={{__html:html}}/>;
+}
+
+function InstallTab({ item, selVer, setSelVer }) {
+  var [installData, setInstallData] = useState<any>(null);
+  var [loading, setLoading] = useState(true);
+  var [error, setError] = useState("");
+
+  useEffect(function(){
+    setLoading(true);
+    setError("");
+    fetch("apps/" + item.name + "/install.json?t=" + Date.now())
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(d){ setInstallData(d); setLoading(false); })
+      .catch(function(e){ setError(String(e)); setLoading(false); });
+  }, [item.name]);
+
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading install data...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+  if (!installData) return null;
+
+  var verData = installData.versions.find(function(v:any){ return v.version === selVer; }) || installData.versions[0];
+
+  function stepBlock(n:number, title:string, html:string) {
+    if (!html) return null;
+    return (
+      <div key={n} style={{marginBottom:14}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{n}</div>
+          <span style={{fontSize:12,fontWeight:600,color:B.textPri}}>{title}</span>
+        </div>
+        <HtmlWithCopy html={html} style={{paddingLeft:28,fontSize:12,color:B.textSec}}/>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+        <span style={{fontSize:12,color:B.textSec}}>Version:</span>
+        <select value={selVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
+          {item.versions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
+        </select>
+        {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
+      </div>
+      {stepBlock(1, "Prerequisites", installData.prerequisitesHtml)}
+      {verData && stepBlock(2, "Install template to k0rdent", verData.installHtml)}
+      {verData && stepBlock(3, "Verify service template", verData.verifyHtml)}
+      {verData && stepBlock(4, "Deploy service template", verData.deployHtml)}
+      {installData.docLink && (
+        <div style={{paddingLeft:28,marginTop:8}}>
+          <a href={installData.docLink} target="_blank" rel="noreferrer" style={{fontSize:12,color:B.teal}}>Official documentation →</a>
+        </div>
+      )}
+      {installData.examples.length > 0 && (
+        <div style={{marginTop:20,borderTop:"1px solid "+B.border,paddingTop:16}}>
+          <div style={{fontSize:11,fontWeight:600,color:B.textPri,marginBottom:12,textTransform:"uppercase",letterSpacing:0.5}}>Examples</div>
+          {installData.examples.map(function(ex:any, i:number){
+            return (
+              <div key={i} style={{marginBottom:16,padding:14,background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
+                <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:8}}>{ex.title}</div>
+                {ex.contentHtml && <HtmlWithCopy html={ex.contentHtml} style={{fontSize:12,color:B.textSec}}/>}
+                {ex.installHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Install</div><HtmlWithCopy html={ex.installHtml} style={{fontSize:12,color:B.textSec}}/></div>}
+                {ex.verifyHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Verify</div><HtmlWithCopy html={ex.verifyHtml} style={{fontSize:12,color:B.textSec}}/></div>}
+                {ex.deployHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Deploy</div><HtmlWithCopy html={ex.deployHtml} style={{fontSize:12,color:B.textSec}}/></div>}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
   var eff = getEff(item);
   var ss = SUPPORT_STYLE[eff];
@@ -455,31 +564,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
             </div>
           )}
           {tab==="install" && (
-            <div>
-              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
-                <span style={{fontSize:12,color:B.textSec}}>Version:</span>
-                <select value={selVer} onChange={function(e){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
-                  {item.versions.map(function(v){return <option key={v} value={v}>{v}</option>;})}
-                </select>
-                {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
-              </div>
-              {[{n:1,title:"Prerequisites",isText:true,content:"Deploy k0rdent v1.8.0 first."},{n:2,title:"Install template to k0rdent",isText:false,content:installCmd(item,selVer)},{n:3,title:"Verify service template",isText:false,content:verifyCmd(item,selVer)},{n:4,title:"Deploy service template",isText:false,content:deployYamlFn(item,selVer)}].map(function(step){
-                return (
-                  <div key={step.n} style={{marginBottom:14}}>
-                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
-                      <div style={{width:20,height:20,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{step.n}</div>
-                      <span style={{fontSize:12,fontWeight:600,color:B.textPri}}>{step.title}</span>
-                    </div>
-                    <div style={{paddingLeft:28}}>
-                      {step.isText
-                        ? <p style={{fontSize:12,color:B.textSec,margin:0}}>{step.content} <a href="https://docs.k0rdent.io/v1.8.0/admin/installation/install-k0rdent/" target="_blank" rel="noreferrer" style={{color:B.teal}}>QuickStart</a></p>
-                        : <CodeBlock text={step.content}/>
-                      }
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <InstallTab item={item} selVer={selVer} setSelVer={setSelVer}/>
           )}
           {tab==="compatibility" && (
             <div>
