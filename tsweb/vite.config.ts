@@ -7,25 +7,37 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: "serve-public-json",
+      name: "serve-public-json-and-spa-fallback",
       configureServer(server) {
-        // Serve .json files from public/ directly, bypassing SPA fallback cache
-        server.middlewares.use(function (req, res, next) {
-          if (req.url && req.url.split("?")[0].endsWith(".json")) {
-            var cleanUrl = req.url.split("?")[0];
-            var filePath = path.join(process.cwd(), "public", cleanUrl);
-            if (fs.existsSync(filePath)) {
-              res.setHeader("Content-Type", "application/json");
-              fs.createReadStream(filePath).pipe(res);
-              return;
-            } else {
-              res.statusCode = 404;
-              res.end("Not found");
+        // Run AFTER Vite's built-in middleware but BEFORE the default 404
+        return function () {
+          server.middlewares.use(function (req, res, next) {
+            var cleanUrl = (req.url || "/").split("?")[0];
+
+            // Serve .json files from public/ directly
+            if (cleanUrl.endsWith(".json")) {
+              var jsonPath = path.join(process.cwd(), "public", cleanUrl);
+              if (fs.existsSync(jsonPath)) {
+                res.setHeader("Content-Type", "application/json");
+                fs.createReadStream(jsonPath).pipe(res);
+                return;
+              } else {
+                res.statusCode = 404;
+                res.end("Not found");
+                return;
+              }
+            }
+
+            // SPA fallback: rewrite /apps/<name>/ to / and let Vite serve index.html
+            if (cleanUrl.match(/^\/apps\/[^/]+\/?$/)) {
+              req.url = "/" + (req.url!.split("?")[1] ? "?" + req.url!.split("?")[1] : "");
+              next();
               return;
             }
-          }
-          next();
-        });
+
+            next();
+          });
+        };
       },
     },
   ],
