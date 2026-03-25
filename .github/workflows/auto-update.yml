@@ -74,7 +74,7 @@ jobs:
       - name: Check updates
         run: |
           app=${{ matrix.folder }}
-          python3 ./scripts/chart_ctl.py check-updates "$app" -gude
+          python3 ./scripts/chart_ctl.py check-updates "$app" -gue
 
       - name: Commit and push changes
         run: |
