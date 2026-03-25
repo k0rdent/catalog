@@ -137,8 +137,12 @@ def try_copy_assets(apps_dir: str, app: str, dst_item_path: str):
         print(f"Assets copied from {src_dir} to {dst_dir}")
 
 
-def version2template_names(version: str) -> str:
-    # python3 ./scripts/find_cluster_templates.py ../kcm/templates/provider/kcm-templates/files/templates
+def version2template_names(version: str) -> dict:
+    return utils.version2template_names(version)
+
+
+def _OLD_version2template_names(version: str) -> str:
+    # Moved to utils.version2template_names() - keeping dead code to avoid large diff
     if version == "v0.1.0":
         return {
             "adopted_cluster": "adopted-cluster-0-1-0",
