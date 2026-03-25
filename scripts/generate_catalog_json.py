@@ -382,6 +382,7 @@ def process_app(app_name: str) -> dict | None:
         'brandColor': brand_color,
         'doc_link': data.get('doc_link', ''),
         'created': data.get('created', ''),
+        'showInstall': data.get('show_install_tab', True),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
     }
 

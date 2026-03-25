@@ -510,7 +510,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
           <div style={{display:"flex",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22}}>
-            {["overview","install","compatibility","test results","cost"].map(function(t){
+            {["overview","install","compatibility","test results","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1}}/>
