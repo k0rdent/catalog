@@ -1402,7 +1402,7 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
           <div style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
             {["catalog","solutions","configurator"].map(function(v){
               var active=view===v;
-              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}</button>;
+              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}{v==="configurator"&&<span style={{fontSize:8,marginLeft:4,padding:"1px 4px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</button>;
             })}
           </div>
         </div>
