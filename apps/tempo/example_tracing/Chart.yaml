@@ -7,28 +7,42 @@ dependencies:
     version: 39.0.5
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: traefik
+    solution_role: Ingress Controller
+    solution_why: Exposes Grafana dashboards and generates traceable HTTP traffic
   - name: tempo
     version: 1.24.4
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: tracing
+    solution_role: Trace Storage
+    solution_why: Stores distributed traces in object storage for Grafana querying
   - name: opentelemetry-collector
     version: 0.145.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: tracing
+    solution_role: Trace Collection
+    solution_why: Receives OTLP spans from Istio proxies and forwards to Tempo
   - name: istio-base
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: istio-system
+    solution_role: Mesh CRDs
+    solution_why: Installs Istio CRDs required for sidecar injection and tracing
   - name: istiod
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: istio-system
+    solution_role: Mesh Control Plane
+    solution_why: Configures Envoy sidecars to emit trace spans via OpenTelemetry
   - name: raw
     version: 2.0.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: raw
+    solution_role: Custom Resources
+    solution_why: Deploys Istio Telemetry CR to configure trace export to OTel collector
   - name: kube-prometheus-stack
     version: 81.6.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: prometheus
     mcs_name: prometheus
+    solution_role: Metrics and Dashboards
+    solution_why: Provides Grafana with Tempo data source for trace visualization

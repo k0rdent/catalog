@@ -25,6 +25,16 @@ examples:
         card_summary: Istio - Ambient mode, kube-prometheus-stack
         title: Use Istio Ambient for pod-to-pod encryption
         type: solution
+        tagline: Sidecar-less mTLS with Istio Ambient mode
+        category: Security
+        badge: Validated
+        tier: community
+        use_cases:
+            - Transparent mTLS without sidecar overhead
+            - Lightweight service mesh for GPU workloads
+            - Zero-trust networking with minimal resource cost
+        clouds: ["AWS EC2", "Azure VM", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
         chart_folder: example_security
         content_template_file: example_security/doc.md
 

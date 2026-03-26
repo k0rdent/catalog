@@ -18,6 +18,16 @@ examples:
         card_summary: Istio, kube-prometheus-stack
         title: Use Istio for pod-to-pod encryption
         type: solution
+        tagline: Pod-to-pod encryption with Istio service mesh
+        category: Security
+        badge: Validated
+        tier: community
+        use_cases:
+            - mTLS encryption between all microservices
+            - Fine-grained traffic policies for monitoring stack
+            - Zero-trust networking for AI inference pipelines
+        clouds: ["AWS EC2", "Azure VM", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
         chart_folder: example_security
         content_template_file: example_security/doc.md
 
