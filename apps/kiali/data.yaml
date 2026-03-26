@@ -26,11 +26,11 @@ doc_link: https://kiali.io/docs/installation/installation-guide/install-with-hel
 
 examples:
     security:
-        card_title: Service Mesh Traffic Monitoring
-        card_summary: Kiali, Istio, kube-prometheus-stack
-        title: Service Mesh Traffic Monitoring
+        card_title: Service Mesh Observability with Kiali
+        card_summary: Real-time traffic topology, health dashboards, and routing validation for Istio
+        title: Service Mesh Observability with Kiali
         type: solution
-        tagline: Visual traffic observability for Istio service mesh
+        tagline: Visual service graph, traffic flow analysis, and mesh health monitoring
         category: Observability
         badge: Validated
         tier: community

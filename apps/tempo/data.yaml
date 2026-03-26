@@ -28,11 +28,11 @@ description: |
 
 examples:
   tracing:
-      card_title: Traffic Tracing with Tempo
-      card_summary: Traefik, Tempo, Open Telemetry, Istio, Kube-prometheus-stack
-      title: Traffic Tracing with Tempo
+      card_title: Distributed Tracing with Tempo and Istio
+      card_summary: End-to-end request tracing from ingress through service mesh to backend — visualized in Grafana
+      title: Distributed Tracing with Tempo and Istio
       type: solution
-      tagline: End-to-end distributed tracing across service mesh
+      tagline: OTLP trace collection, Istio span generation, and Grafana trace exploration
       category: Observability
       badge: Validated
       tier: community
