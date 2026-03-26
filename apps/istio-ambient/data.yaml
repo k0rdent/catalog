@@ -21,11 +21,11 @@ doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
 examples:
     security:
-        card_title: Service Mesh mTLS encryption
-        card_summary: Istio - Ambient mode, kube-prometheus-stack
-        title: Use Istio Ambient for pod-to-pod encryption
+        card_title: Sidecar-Free Service Mesh with Istio Ambient
+        card_summary: Node-level mTLS encryption without sidecar overhead — ideal for GPU and high-throughput workloads
+        title: Sidecar-Free Service Mesh with Istio Ambient
         type: solution
-        tagline: Sidecar-less mTLS with Istio Ambient mode
+        tagline: ztunnel-based L4 encryption with zero sidecar resource cost
         category: Security
         badge: Validated
         tier: community
