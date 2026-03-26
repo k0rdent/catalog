@@ -1400,7 +1400,7 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
             </select>
           )}
           <div style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
-            {["catalog","solutions"].map(function(v){
+            {["catalog","solutions","configurator"].map(function(v){
               var active=view===v;
               return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}</button>;
             })}
