@@ -17,15 +17,16 @@ import utils
 
 CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
+VERSIONS_FILE = os.path.join(CATALOG_ROOT, 'versions.yaml')
 VERSION = os.environ.get('VERSION', 'v1.8.0')
 
-def get_base_metadata() -> dict:
+def get_base_metadata(version: str) -> dict:
     """Build the Jinja2 template context for rendering data.yaml files."""
-    base = {"version": VERSION}
-    base.update(utils.version2template_names(VERSION))
+    base = {"version": version}
+    base.update(utils.version2template_names(version))
     return base
 
-BASE_METADATA = get_base_metadata()
+BASE_METADATA = get_base_metadata(VERSION)
 # OUTPUT_DIR can be overridden for Docker builds where repo is read-only
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'public'))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'catalog.json')
@@ -389,8 +390,14 @@ def process_app(app_name: str) -> dict | None:
     return entry
 
 
-def main():
-    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+def build_version(version: str, output_dir: str):
+    """Build catalog.json and install.json files for a single version."""
+    global VERSION, BASE_METADATA, OUTPUT_DIR, OUTPUT_FILE
+    VERSION = version
+    BASE_METADATA = get_base_metadata(version)
+    OUTPUT_DIR = output_dir
+    OUTPUT_FILE = os.path.join(output_dir, 'catalog.json')
+    os.makedirs(output_dir, exist_ok=True)
 
     catalog = []
     install_count = 0
@@ -398,14 +405,70 @@ def main():
         entry = process_app(app_name)
         if entry:
             catalog.append(entry)
-            if os.path.exists(os.path.join(OUTPUT_DIR, 'apps', app_name, 'install.json')):
+            if os.path.exists(os.path.join(output_dir, 'apps', app_name, 'install.json')):
                 install_count += 1
 
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, indent=2, ensure_ascii=False)
 
-    print(f"Generated {OUTPUT_FILE} with {len(catalog)} entries, {install_count} install.json files")
+    print(f"  {version}: {len(catalog)} entries, {install_count} install.json files")
+
+
+def load_versions() -> dict:
+    with open(VERSIONS_FILE, 'r') as f:
+        return yaml.safe_load(f)
+
+
+def main():
+    base_output = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'public'))
+
+    if '--all-versions' in sys.argv:
+        versions_config = load_versions()
+        versions = versions_config['versions']
+        latest = versions_config['latest']
+
+        # Write versions.json for the SPA
+        versions_json = os.path.join(base_output, 'versions.json')
+        os.makedirs(base_output, exist_ok=True)
+        with open(versions_json, 'w') as f:
+            json.dump(versions_config, f, indent=2)
+        print(f"Generated {versions_json}")
+
+        # Build each version into its own subdirectory
+        for v in versions:
+            ver_output = os.path.join(base_output, v)
+            build_version(v, ver_output)
+
+        # Copy latest version data to root (for backward compat / default)
+        latest_dir = os.path.join(base_output, latest)
+        for fname in ['catalog.json']:
+            src = os.path.join(latest_dir, fname)
+            dst = os.path.join(base_output, fname)
+            if os.path.exists(src):
+                shutil.copy2(src, dst)
+        # Copy latest apps/ install.json files to root
+        latest_apps = os.path.join(latest_dir, 'apps')
+        root_apps = os.path.join(base_output, 'apps')
+        if os.path.exists(latest_apps):
+            if os.path.exists(root_apps):
+                shutil.rmtree(root_apps)
+            shutil.copytree(latest_apps, root_apps)
+        # Copy latest logos to root
+        latest_logos = os.path.join(latest_dir, 'logos')
+        root_logos = os.path.join(base_output, 'logos')
+        if os.path.exists(latest_logos):
+            if os.path.exists(root_logos):
+                shutil.rmtree(root_logos)
+            shutil.copytree(latest_logos, root_logos)
+
+        print(f"Built {len(versions)} versions, latest={latest}")
+    else:
+        # Single version mode (backward compat)
+        version = os.environ.get('VERSION', 'v1.8.0')
+        build_version(version, base_output)
+        print(f"Generated {base_output}/catalog.json")
 
 
 if __name__ == '__main__':
+    import sys
     main()
