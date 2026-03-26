@@ -34,8 +34,7 @@ services:
              cp /repo/mkdocs/index.json /app/public/index.json &&
              cp /repo/mkdocs/schema/index.json /app/public/schema/index.json 2>/dev/null || true &&
              npm install &&
-             npx vite build &&
-             python3 /repo/scripts/generate_html_pages.py"
+             npx vite build"
     volumes:
       - ./tsweb/:/app
       - ./:/repo
