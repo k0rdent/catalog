@@ -19,7 +19,18 @@ examples:
     with_loki:
         card_title: Aggregated cluster logs
         card_summary: Kube-prometheus-stack, Loki, Alloy
+        title: Aggregated cluster logs
         type: solution
+        tagline: Centralized logging with Loki and Grafana dashboards
+        category: Observability
+        badge: Validated
+        tier: community
+        use_cases:
+            - Centralized log aggregation across clusters
+            - Correlated logs and metrics in Grafana
+            - Log-based alerting for AI pipeline failures
+        clouds: ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
         chart_folder: example_logs
         content_template_file: example_logs/doc.md
 
