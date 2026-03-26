@@ -15,7 +15,6 @@ Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}
 
 #### Deploy service templates
 
-##### Deploy istio
 {{ deploy_code }}
 
 #### UI access
