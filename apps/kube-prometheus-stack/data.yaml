@@ -17,11 +17,11 @@ examples:
         title: With Ingress
         chart_folder: example_ingress
     with_loki:
-        card_title: Aggregated cluster logs
-        card_summary: Kube-prometheus-stack, Loki, Alloy
-        title: Aggregated cluster logs
+        card_title: Centralized Multi-Cluster Logging
+        card_summary: Unified log aggregation, querying, and alerting across all k0rdent-managed clusters
+        title: Centralized Multi-Cluster Logging
         type: solution
-        tagline: Centralized logging with Loki and Grafana dashboards
+        tagline: Alloy collection, Loki storage, and Grafana dashboards — one deploy across all clusters
         category: Observability
         badge: Validated
         tier: community

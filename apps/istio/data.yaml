@@ -14,11 +14,11 @@ doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
 examples:
     security:
-        card_title: Service Mesh mTLS encryption
-        card_summary: Istio, kube-prometheus-stack
-        title: Use Istio for pod-to-pod encryption
+        card_title: Zero-Trust Service Mesh with Istio
+        card_summary: Automatic mTLS encryption and traffic policy enforcement for all cluster workloads
+        title: Zero-Trust Service Mesh with Istio
         type: solution
-        tagline: Pod-to-pod encryption with Istio service mesh
+        tagline: Transparent mTLS, traffic policies, and mesh-wide observability — deployed in minutes
         category: Security
         badge: Validated
         tier: community
