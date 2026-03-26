@@ -1391,7 +1391,7 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
     <div style={{background:B.bg1,borderBottom:"1px solid "+B.border,padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
       <div style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
         <div style={{display:"flex",alignItems:"center",gap:14}}>
-          <svg onClick={function(){navTo("catalog");}} style={{cursor:"pointer"}} width="100" height="20" viewBox="0 0 100 20"><text x="0" y="16" fontFamily="monospace" fontSize="16" fontWeight="700" fill={B.teal} letterSpacing="-0.5">k0rdent</text></svg>
+          <img onClick={function(){navTo("catalog");}} src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{cursor:"pointer",height:22}} />
           {versions.versions.length > 0 && (
             <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}} style={{padding:"3px 6px",fontSize:10,background:B.bg2,color:B.teal,border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",fontFamily:"monospace",outline:"none"}}>
               {versions.versions.slice().reverse().map(function(v:string){
@@ -1748,7 +1748,7 @@ export default function App() {
 
           <div style={{marginTop:28,paddingTop:18,borderTop:"1px solid "+B.border,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:9}}>
             <div style={{display:"flex",alignItems:"center",gap:9}}>
-              <svg width="70" height="15" viewBox="0 0 70 15"><text x="0" y="12" fontFamily="monospace" fontSize="12" fontWeight="700" fill={B.teal}>k0rdent</text></svg>
+              <img src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{height:15}} />
               <span style={{fontSize:9.5,color:B.textMut}}>Application Catalog v1.8.0 · originated by Mirantis</span>
             </div>
             <div style={{display:"flex",gap:14}}>
