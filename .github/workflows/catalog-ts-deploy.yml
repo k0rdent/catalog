@@ -79,19 +79,13 @@ jobs:
           BASE_PATH: ${{ steps.base.outputs.path }}
         run: npx vite build
 
-      - name: Generate static detail pages
-        env:
-          TEMPLATES_DIR: tsweb/templates
-          DIST_DIR: tsweb/dist
-          BASE_PATH: ${{ steps.base.outputs.path }}
-        run: python3 scripts/generate_html_pages.py
-
       - name: Move build output under /latest/ and add root redirect
         run: |
           mkdir -p tsweb/deploy/latest
           cp -r tsweb/dist/* tsweb/deploy/latest/
           echo '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>' > tsweb/deploy/index.html
-          cp tsweb/deploy/latest/404.html tsweb/deploy/404.html 2>/dev/null || true
+          cp tsweb/dist/index.html tsweb/deploy/404.html
+          cp tsweb/dist/index.html tsweb/deploy/latest/404.html
           cp mkdocs/index.json tsweb/deploy/latest/index.json
           mkdir -p tsweb/deploy/latest/schema
           cp mkdocs/schema/index.json tsweb/deploy/latest/schema/index.json 2>/dev/null || true
