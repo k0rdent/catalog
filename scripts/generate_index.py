@@ -23,7 +23,8 @@ APPS_DIR = CATALOG_ROOT / "apps"
 SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
 VERSION = os.getenv("VERSION", "v1.5.0")
-BASE_URL = f"https://catalog.k0rdent.io/{VERSION}"
+SITE_URL = os.getenv("SITE_URL", "https://catalog.k0rdent.io")
+BASE_URL = f"{SITE_URL.rstrip('/')}/{VERSION}"
 DEFAULT_CHART_REPOS = {
     "community": "oci://ghcr.io/k0rdent/catalog/charts",
     "enterprise": "oci://registry.mirantis.com/k0rdent-enterprise-catalog",
@@ -244,9 +245,9 @@ def normalize_logo_url(logo: str, app_name: str) -> str:
     """Convert relative logo paths to absolute URLs."""
     if logo.startswith(('http://', 'https://')):
         return logo
-    if logo.startswith('./'):
-        return f"{BASE_URL}/apps/{app_name}/{logo[2:]}"
-    return f"{BASE_URL}/apps/{app_name}/{logo}"
+    # Local logos are served from logos/<app>/<filename>
+    filename = os.path.basename(logo.lstrip('./'))
+    return f"{BASE_URL}/logos/{app_name}/{filename}"
 
 def process_addon(app_dir: Path, version: str) -> Optional[Dict]:
     """Process a single add-on directory and extract its metadata."""
