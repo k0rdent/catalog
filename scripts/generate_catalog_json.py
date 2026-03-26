@@ -390,6 +390,33 @@ def process_app(app_name: str) -> dict | None:
     return entry
 
 
+def generate_fetched_metadata(catalog: list, output_dir: str):
+    """Generate fetched_metadata.json for backward compatibility with MkDocs frontend."""
+    items = []
+    for app in catalog:
+        support = app.get('support', 'community')
+        if support == 'enterprise':
+            support_type = 'Enterprise'
+        elif support == 'partner':
+            support_type = 'Enterprise'
+        else:
+            support_type = 'Community'
+        items.append({
+            'link': './apps/' + app['name'],
+            'title': app.get('title', app['name']),
+            'description': app.get('desc', ''),
+            'type': app.get('type', 'app'),
+            'logo': app.get('logo', ''),
+            'tags': app.get('tags', []),
+            'created': app.get('created', ''),
+            'support_type': support_type,
+            'appDir': app['name'],
+        })
+    out_file = os.path.join(output_dir, 'fetched_metadata.json')
+    with open(out_file, 'w', encoding='utf-8') as f:
+        json.dump(items, f, indent=2, ensure_ascii=False)
+
+
 def build_version(version: str, output_dir: str):
     """Build catalog.json and install.json files for a single version."""
     global VERSION, BASE_METADATA, OUTPUT_DIR, OUTPUT_FILE
@@ -410,6 +437,8 @@ def build_version(version: str, output_dir: str):
 
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, indent=2, ensure_ascii=False)
+
+    generate_fetched_metadata(catalog, output_dir)
 
     print(f"  {version}: {len(catalog)} entries, {install_count} install.json files")
 
@@ -441,7 +470,7 @@ def main():
 
         # Copy latest version data to root (for backward compat / default)
         latest_dir = os.path.join(base_output, latest)
-        for fname in ['catalog.json']:
+        for fname in ['catalog.json', 'fetched_metadata.json']:
             src = os.path.join(latest_dir, fname)
             dst = os.path.join(base_output, fname)
             if os.path.exists(src):
