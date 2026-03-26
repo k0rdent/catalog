@@ -5,10 +5,7 @@ services:
     command: >
       sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
              pip install pyyaml jinja2 ruyaml jsonschema packaging --quiet --break-system-packages &&
-             cd /repo && python3 scripts/generate_catalog_json.py && python3 scripts/generate_index.py && cd /app &&
-             mkdir -p /app/public/schema &&
-             cp /repo/mkdocs/index.json /app/public/index.json &&
-             cp /repo/mkdocs/schema/index.json /app/public/schema/index.json 2>/dev/null || true &&
+             cd /repo && OUTPUT_DIR=/app/public python3 scripts/generate_catalog_json.py --all-versions && cd /app &&
              npm install &&
              npx vite"
     ports:
@@ -29,10 +26,7 @@ services:
     command: >
       sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
              pip install pyyaml jinja2 ruyaml jsonschema packaging --quiet --break-system-packages &&
-             cd /repo && python3 scripts/generate_catalog_json.py && python3 scripts/generate_index.py && cd /app &&
-             mkdir -p /app/public/schema &&
-             cp /repo/mkdocs/index.json /app/public/index.json &&
-             cp /repo/mkdocs/schema/index.json /app/public/schema/index.json 2>/dev/null || true &&
+             cd /repo && OUTPUT_DIR=/app/public python3 scripts/generate_catalog_json.py --all-versions && cd /app &&
              npm install &&
              npx vite build"
     volumes:

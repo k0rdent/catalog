@@ -387,7 +387,7 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
   return <div ref={ref} style={style} dangerouslySetInnerHTML={{__html:html}}/>;
 }
 
-function InstallTab({ item, selVer, setSelVer }) {
+function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:string, setSelVer:any, k0rdentVer?:string }) {
   var [installData, setInstallData] = useState<any>(null);
   var [loading, setLoading] = useState(true);
   var [error, setError] = useState("");
@@ -395,7 +395,7 @@ function InstallTab({ item, selVer, setSelVer }) {
   useEffect(function(){
     setLoading(true);
     setError("");
-    fetch(BASE + "apps/" + item.name + "/install.json?t=" + Date.now())
+    fetch(dataPrefix(k0rdentVer || "") + "apps/" + item.name + "/install.json?t=" + Date.now())
       .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(function(d){ setInstallData(d); setLoading(false); })
       .catch(function(e){ setError(String(e)); setLoading(false); });
@@ -454,7 +454,7 @@ function InstallTab({ item, selVer, setSelVer }) {
   );
 }
 
-function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
+function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer }:any) {
   var eff = getEff(item);
   var ss = SUPPORT_STYLE[eff];
   var compTags = COMPLIANCE[item.name] || [];
@@ -561,7 +561,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer }) {
             </div>
           )}
           {tab==="install" && (
-            <InstallTab item={item} selVer={selVer} setSelVer={setSelVer}/>
+            <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
           )}
           {tab==="compatibility" && (
             <div>
@@ -1352,16 +1352,24 @@ function ContributePage() {
   );
 }
 
-function Nav({ view, setView, resetFilters }) {
+function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChange }:any) {
   function navTo(v:string) {
     if (v === "catalog") { resetFilters(); }
     setView(v);
   }
+  var displayVer = k0rdentVer || versions.latest || "";
   return (
     <div style={{background:B.bg1,borderBottom:"1px solid "+B.border,padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
       <div style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
         <div style={{display:"flex",alignItems:"center",gap:14}}>
           <svg onClick={function(){navTo("catalog");}} style={{cursor:"pointer"}} width="100" height="20" viewBox="0 0 100 20"><text x="0" y="16" fontFamily="monospace" fontSize="16" fontWeight="700" fill={B.teal} letterSpacing="-0.5">k0rdent</text></svg>
+          {versions.versions.length > 0 && (
+            <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}} style={{padding:"3px 6px",fontSize:10,background:B.bg2,color:B.teal,border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",fontFamily:"monospace",outline:"none"}}>
+              {versions.versions.slice().reverse().map(function(v:string){
+                return <option key={v} value={v}>{v}{v===versions.latest?" (latest)":""}</option>;
+              })}
+            </select>
+          )}
           <div style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
             {["catalog","solutions","configurator"].map(function(v){
               var active=view===v;
@@ -1378,17 +1386,30 @@ function Nav({ view, setView, resetFilters }) {
   );
 }
 
-// Detect base path from <base> tag or Vite's base config
+// Detect base path and current k0rdent version from URL
 var BASE = (function(){
   var b = document.querySelector("base");
   if (b) return b.getAttribute("href") || "/";
-  // Infer from current script path or default
   var s = document.querySelector('script[src*="k0rdent_catalog"]');
   if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
-  // Fallback: strip /apps/<name>/ suffix from current path
   var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/+$/, "/");
   return p || "/";
 })();
+
+// Detect k0rdent version from URL path (e.g. /v1.7.0/ or /latest/)
+function detectUrlVersion(): string {
+  var m = window.location.pathname.match(/\/(v\d+\.\d+\.\d+)\//);
+  return m ? m[1] : "";
+}
+
+// Build data URL prefix for a given k0rdent version
+function dataPrefix(k0rdentVer: string): string {
+  if (!k0rdentVer) return BASE;
+  // If BASE already contains the version (e.g. /v1.7.0/), use it as-is
+  if (BASE.indexOf(k0rdentVer) !== -1) return BASE;
+  // Otherwise, insert version into the path: /latest/ -> /v1.7.0/
+  return BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + k0rdentVer + "/");
+}
 
 function readUrlParams() {
   var p = new URLSearchParams(window.location.search);
@@ -1409,15 +1430,20 @@ function readUrlParams() {
   };
 }
 
-function buildAppUrl(appName:string, dtab:string, ver:string):string {
+function versionBase(k0rdentVer:string):string {
+  if (!k0rdentVer) return BASE;
+  return BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + k0rdentVer + "/");
+}
+
+function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string):string {
   var p = new URLSearchParams();
   if (dtab && dtab !== "overview") p.set("dtab", dtab);
   if (ver) p.set("ver", ver);
   var qs = p.toString();
-  return BASE + "apps/" + appName + "/" + (qs ? "?" + qs : "");
+  return versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : "");
 }
 
-function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string}):string {
+function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string}, k0rdentVer?:string):string {
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
   if (state.search) p.set("q", state.search);
@@ -1426,13 +1452,15 @@ function buildCatalogUrl(state:{view:string, search:string, tag:string, support:
   if (state.sort !== "A-Z") p.set("sort", state.sort);
   if (state.compliance !== "All") p.set("compliance", state.compliance);
   var qs = p.toString();
-  return BASE + (qs ? "?" + qs : "");
+  return versionBase(k0rdentVer || "") + (qs ? "?" + qs : "");
 }
 
 export default function App() {
   var initParams = useMemo(readUrlParams, []);
   var [loading, setLoading] = useState(true);
   var [loadError, setLoadError] = useState("");
+  var [k0rdentVer, setK0rdentVer] = useState(detectUrlVersion);
+  var [versions, setVersions] = useState<{versions:string[],latest:string}>({versions:[],latest:""});
   var [view, setView] = useState(initParams.view);
   var [search, setSearch] = useState(initParams.search);
   var [tag, setTag] = useState(initParams.tag);
@@ -1485,7 +1513,7 @@ export default function App() {
   // Sync URL when app detail tab/version changes (replaceState, no history entry)
   useEffect(function(){
     if (!loading && selected) {
-      history.replaceState(null, "", buildAppUrl(selected.name, detailTab, detailVer));
+      history.replaceState(null, "", buildAppUrl(selected.name, detailTab, detailVer, k0rdentVer));
     }
   }, [detailTab, detailVer]);
 
@@ -1493,16 +1521,26 @@ export default function App() {
   useEffect(function(){
     // Don't overwrite /apps/<name>/ URL before the app is restored from URL
     if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/)) {
-      history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}));
+      history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}, k0rdentVer));
     }
   }, [view, search, tag, support, sort, compliance, loading]);
 
-  function doLoad() {
+  function doLoad(ver?:string) {
+    var prefix = dataPrefix(ver || k0rdentVer);
     setLoading(true);
     setLoadError("");
     _catalogLoaded = false;
-    // Add cache-busting query param to bypass Vite's cached 404
-    fetch(BASE + "catalog.json?t=" + Date.now())
+
+    // Fetch versions.json (once)
+    var versionsPromise = versions.versions.length > 0
+      ? Promise.resolve()
+      : fetch(BASE + "versions.json?t=" + Date.now())
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(d:any){ if (d) setVersions(d); })
+          .catch(function(){});
+
+    // Fetch catalog data for the selected version
+    var catalogPromise = fetch(prefix + "catalog.json?t=" + Date.now())
       .then(function(r){
         if (!r.ok) throw new Error("HTTP " + r.status);
         return r.json();
@@ -1524,12 +1562,22 @@ export default function App() {
         }
         ALL_TAGS.sort(function(a:string,b:string){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
         _catalogLoaded = true;
-        setLoading(false);
-      })
-      .catch(function(e:any){
-        setLoadError(String(e));
-        setLoading(false);
       });
+
+    Promise.all([versionsPromise, catalogPromise])
+      .then(function(){ setLoading(false); })
+      .catch(function(e:any){ setLoadError(String(e)); setLoading(false); });
+  }
+
+  function switchK0rdentVersion(newVer:string) {
+    setK0rdentVer(newVer);
+    setSelected(null);
+    setDetailTab("overview");
+    setDetailVer("");
+    // Navigate to the new version URL
+    var newBase = BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + newVer + "/");
+    history.pushState(null, "", newBase);
+    doLoad(newVer);
   }
 
   useEffect(function(){ doLoad(); }, []);
@@ -1569,7 +1617,7 @@ export default function App() {
 
   return (
     <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
-      <Nav view={view} setView={setView} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
+      <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage/>}
@@ -1659,7 +1707,7 @@ export default function App() {
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
                 :<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildAppUrl(item.name,"overview",""));}}/>;}) }
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildAppUrl(item.name,"overview","",k0rdentVer));}}/>;}) }
                 </div>
               }
             </div>
@@ -1679,7 +1727,7 @@ export default function App() {
         </div>
       )}
 
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
+      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
     </div>
   );
 }
