@@ -51,13 +51,26 @@ jobs:
       - name: Install Python dependencies
         run: pip install pyyaml jinja2 ruyaml jsonschema packaging
 
-      - name: Generate catalog.json
+      - name: Generate catalog data for all versions
         run: |
           mkdir -p tsweb/public
-          OUTPUT_DIR=tsweb/public python3 scripts/generate_catalog_json.py
+          OUTPUT_DIR=tsweb/public python3 scripts/generate_catalog_json.py --all-versions
 
-      - name: Generate index.json
-        run: python3 scripts/generate_index.py
+      - name: Generate index.json for all versions
+        run: |
+          python3 -c "
+          import yaml, subprocess, shutil, os
+          with open('versions.yaml') as f:
+              cfg = yaml.safe_load(f)
+          for v in cfg['versions']:
+              subprocess.run(['python3', 'scripts/generate_index.py'], env={**os.environ, 'VERSION': v}, check=True)
+              dst = os.path.join('tsweb/public', v)
+              os.makedirs(dst, exist_ok=True)
+              shutil.copy2('mkdocs/index.json', os.path.join(dst, 'index.json'))
+              os.makedirs(os.path.join(dst, 'schema'), exist_ok=True)
+              if os.path.exists('mkdocs/schema/index.json'):
+                  shutil.copy2('mkdocs/schema/index.json', os.path.join(dst, 'schema/index.json'))
+          "
 
       - name: Install Node dependencies
         working-directory: tsweb
@@ -79,16 +92,50 @@ jobs:
           BASE_PATH: ${{ steps.base.outputs.path }}
         run: npx vite build
 
-      - name: Move build output under /latest/ and add root redirect
+      - name: Assemble deploy folder with versioned data
         run: |
           mkdir -p tsweb/deploy/latest
+
+          # SPA bundle goes into /latest/ (the default entry point)
           cp -r tsweb/dist/* tsweb/deploy/latest/
-          echo '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>' > tsweb/deploy/index.html
           cp tsweb/dist/index.html tsweb/deploy/404.html
           cp tsweb/dist/index.html tsweb/deploy/latest/404.html
-          cp mkdocs/index.json tsweb/deploy/latest/index.json
-          mkdir -p tsweb/deploy/latest/schema
-          cp mkdocs/schema/index.json tsweb/deploy/latest/schema/index.json 2>/dev/null || true
+          echo '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>' > tsweb/deploy/index.html
+
+          # Copy versions.json to root for the SPA version selector
+          cp tsweb/public/versions.json tsweb/deploy/latest/versions.json
+
+          # Copy versioned data (catalog.json, install.json, index.json, logos) per version
+          python3 -c "
+          import yaml, shutil, os
+          with open('versions.yaml') as f:
+              cfg = yaml.safe_load(f)
+          for v in cfg['versions']:
+              src = os.path.join('tsweb/public', v)
+              dst = os.path.join('tsweb/deploy', v)
+              if os.path.exists(src):
+                  shutil.copytree(src, dst, dirs_exist_ok=True)
+                  # Each version also needs the SPA for direct URL access
+                  shutil.copy2('tsweb/dist/index.html', os.path.join(dst, 'index.html'))
+                  shutil.copy2('tsweb/dist/index.html', os.path.join(dst, '404.html'))
+                  # Copy SPA assets
+                  assets_src = os.path.join('tsweb/dist/assets')
+                  assets_dst = os.path.join(dst, 'assets')
+                  if os.path.exists(assets_src) and not os.path.exists(assets_dst):
+                      shutil.copytree(assets_src, assets_dst)
+                  # Copy versions.json to each version folder
+                  shutil.copy2('tsweb/public/versions.json', os.path.join(dst, 'versions.json'))
+          # /latest/ gets the latest version's data
+          latest = cfg['latest']
+          latest_src = os.path.join('tsweb/public', latest)
+          if os.path.exists(latest_src):
+              shutil.copytree(latest_src, 'tsweb/deploy/latest', dirs_exist_ok=True)
+          # Shared logos at root level (from latest)
+          logos_src = os.path.join(latest_src, 'logos')
+          if os.path.exists(logos_src):
+              shutil.copytree(logos_src, 'tsweb/deploy/latest/logos', dirs_exist_ok=True)
+          print(f'Assembled {len(cfg[\"versions\"])} versions, latest={latest}')
+          "
 
       - name: Add CNAME for custom domain (main repo only)
         if: github.repository == 'k0rdent/catalog'

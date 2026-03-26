@@ -35,3 +35,6 @@ tsweb/public/logos/
 tsweb/public/apps/
 tsweb/public/index.json
 tsweb/public/schema/
+tsweb/public/versions.json
+tsweb/public/catalog.json
+tsweb/public/v*/
