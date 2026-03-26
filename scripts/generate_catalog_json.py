@@ -171,19 +171,74 @@ def md_code_to_html(text: str) -> str:
 def md_to_html(text: str) -> str:
     if not text:
         return ''
+    # Code blocks first (must be before other processing)
     html = md_code_to_html(text)
+
+    # Images: ![alt](src){ width="600" } or ![alt](src)
+    # Strip MkDocs-style attributes like { align="right", width="600" }
+    # Skip images with empty src
+    def img_replace(m):
+        src = m.group(2).strip()
+        if not src:
+            return ''
+        alt = m.group(1)
+        width = m.group(3)
+        if width:
+            return f'<img src="{src}" alt="{alt}" style="max-width:{width}px" />'
+        return f'<img src="{src}" alt="{alt}" style="max-width:100%" />'
+    html = re.sub(r'!\[([^\]]*)\]\(([^)]*)\)(?:\{[^}]*width="(\d+)"[^}]*\})?(?:\{[^}]*\})?', img_replace, html)
+
+    # Links: [text](url){ target="_blank" } or [text](url)
+    html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)(?:\{[^}]*\})?', r'<a href="\2" target="_blank">\1</a>', html)
+
+    # Bold
     html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html)
-    html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', html)
+
+    # Inline code
+    html = re.sub(r'`([^`]+)`', r'<code>\1</code>', html)
+
+    # Protect <pre> blocks from heading conversion
+    pre_blocks = {}
+    def stash_pre(m):
+        key = f'__PRE_{len(pre_blocks)}__'
+        pre_blocks[key] = m.group(0)
+        return key
+    html = re.sub(r'<pre>.*?</pre>', stash_pre, html, flags=re.DOTALL)
+
+    # Headings: # h1, ## h2, ... #### h4
+    html = re.sub(r'^#{4}\s+(.+)$', r'<h4>\1</h4>', html, flags=re.MULTILINE)
+    html = re.sub(r'^#{3}\s+(.+)$', r'<h3>\1</h3>', html, flags=re.MULTILINE)
+    html = re.sub(r'^#{2}\s+(.+)$', r'<h2>\1</h2>', html, flags=re.MULTILINE)
+    html = re.sub(r'^#{1}\s+(.+)$', r'<h1>\1</h1>', html, flags=re.MULTILINE)
+
+    # Restore <pre> blocks
+    for key, val in pre_blocks.items():
+        html = html.replace(key, val)
+
+    # Split into blocks by double newlines
     parts = re.split(r'\n\n+', html)
     result = []
     for part in parts:
         part = part.strip()
         if not part:
             continue
-        if part.startswith('<pre>') or part.startswith('<h') or part.startswith('<table'):
+        # Already block-level elements
+        if re.match(r'^<(?:pre|h[1-6]|table|img|div|ul|ol)', part):
             result.append(part)
-        else:
-            result.append(f'<p>{part}</p>')
+            continue
+        # Unordered list: lines starting with -
+        lines = part.split('\n')
+        if all(ln.strip().startswith('- ') or ln.strip().startswith('* ') for ln in lines if ln.strip()):
+            items = [f'<li>{ln.strip().lstrip("-* ").strip()}</li>' for ln in lines if ln.strip()]
+            result.append('<ul>' + ''.join(items) + '</ul>')
+            continue
+        # Ordered list: lines starting with 1. 2. etc
+        if all(re.match(r'^\d+\.\s', ln.strip()) for ln in lines if ln.strip()):
+            items = [f'<li>{re.sub(r"^[0-9]+[.]\\s*", "", ln.strip())}</li>' for ln in lines if ln.strip()]
+            result.append('<ol>' + ''.join(items) + '</ol>')
+            continue
+        # Regular paragraph
+        result.append(f'<p>{part}</p>')
     return '\n'.join(result)
 
 
@@ -417,8 +472,120 @@ def generate_fetched_metadata(catalog: list, output_dir: str):
         json.dump(items, f, indent=2, ensure_ascii=False)
 
 
+def extract_solutions(output_dir: str) -> list:
+    """Extract solution data from all apps and generate per-solution detail JSON files."""
+    solutions = []
+    for app_name in sorted(os.listdir(APPS_DIR)):
+        app_path = os.path.join(APPS_DIR, app_name)
+        data_file = os.path.join(app_path, 'data.yaml')
+        if not os.path.isdir(app_path) or not os.path.exists(data_file):
+            continue
+        with open(data_file, 'r', encoding='utf-8') as f:
+            tpl = jinja2.Template(f.read())
+            rendered = tpl.render(**BASE_METADATA)
+            data = yaml.safe_load(rendered)
+        if not data or not data.get('examples'):
+            continue
+
+        # Get app logo for the solution card
+        logo_raw = data.get('logo', '')
+        logo = logo_raw
+        if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
+            filename = os.path.basename(logo_raw.lstrip('./'))
+            logo = f"logos/{app_name}/{filename}"
+
+        for key, ex in data['examples'].items():
+            if ex.get('type') != 'solution':
+                continue
+            chart_folder = os.path.join(app_path, ex.get('chart_folder', ''))
+            chart_file = os.path.join(chart_folder, 'Chart.yaml')
+
+            # Extract unique components from Chart.yaml dependencies (by name+version, ordered)
+            components = []
+            seen_components = set()
+            if os.path.exists(chart_file):
+                chart_dict = utils.read_yaml_file(chart_file)
+                for dep in chart_dict.get('dependencies', []):
+                    comp_key = (dep['name'], dep['version'])
+                    if comp_key not in seen_components:
+                        seen_components.add(comp_key)
+                        components.append({
+                            'name': dep['name'],
+                            'version': dep['version'],
+                            'role': dep.get('solution_role', ''),
+                            'why': dep.get('solution_why', ''),
+                        })
+
+            sol_id = f"{app_name}_{key}"
+            badge_color = {
+                'community': '#00d48a',
+                'partner': '#00c8c8',
+                'mirantis-certified': '#00c8c8',
+            }.get(ex.get('tier', 'community'), '#00d48a')
+
+            sol_entry = {
+                'id': sol_id,
+                'title': ex.get('card_title', ex.get('title', key)),
+                'category': ex.get('category', ''),
+                'tier': ex.get('tier', 'community'),
+                'badge': ex.get('badge', 'Validated'),
+                'badgeColor': badge_color,
+                'icon': ex.get('icon', '◈'),
+                'logo': logo,
+                'appName': app_name,
+                'tagline': ex.get('tagline', ex.get('card_summary', '')),
+                'desc': ex.get('card_summary', ''),
+                'useCases': ex.get('use_cases', []),
+                'components': components,
+                'clouds': ex.get('clouds', []),
+                'k8s': ex.get('k8s', []),
+            }
+            solutions.append(sol_entry)
+
+            # Generate per-solution detail JSON (deploy YAML + rendered content)
+            detail = {}
+            if os.path.exists(chart_file):
+                chart_dict = utils.read_yaml_file(chart_file)
+                deploy_md = utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, {
+                    'app': app_name, 'app_path': app_path,
+                    'test_namespace': data.get('test_namespace', app_name),
+                    **BASE_METADATA
+                })
+                detail['deployHtml'] = md_to_html(deploy_md)
+                # Raw YAML for copy button
+                detail['deployYaml'] = utils.chart_2_mcs_str(chart_dict, chart_folder, app_name, {
+                    'app': app_name, 'app_path': app_path,
+                    'test_namespace': data.get('test_namespace', app_name),
+                    **BASE_METADATA
+                })
+
+            if ex.get('content_template_file'):
+                content_path = os.path.join(app_path, ex['content_template_file'])
+                if os.path.exists(content_path):
+                    with open(content_path, 'r', encoding='utf-8') as f:
+                        content_tpl = jinja2.Template(f.read())
+                        merged = dict(BASE_METADATA)
+                        merged.update(data)
+                        merged.update(ex)
+                        # Generate install/verify/deploy for content template
+                        if os.path.exists(chart_file):
+                            chart_dict = utils.read_yaml_file(chart_file)
+                            merged['install_code'] = utils.chart_2_install_code(chart_dict)
+                            merged['verify_code'] = utils.charts_2_verify_code(chart_dict['dependencies'])
+                            merged['deploy_code'] = utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, merged)
+                        detail['contentHtml'] = md_to_html(content_tpl.render(**merged))
+
+            sol_detail_dir = os.path.join(output_dir, 'apps', app_name)
+            os.makedirs(sol_detail_dir, exist_ok=True)
+            sol_detail_file = os.path.join(sol_detail_dir, f'solution_{key}.json')
+            with open(sol_detail_file, 'w', encoding='utf-8') as f:
+                json.dump(detail, f, indent=2, ensure_ascii=False)
+
+    return solutions
+
+
 def build_version(version: str, output_dir: str):
-    """Build catalog.json and install.json files for a single version."""
+    """Build catalog.json, install.json, and solution files for a single version."""
     global VERSION, BASE_METADATA, OUTPUT_DIR, OUTPUT_FILE
     VERSION = version
     BASE_METADATA = get_base_metadata(version)
@@ -435,12 +602,15 @@ def build_version(version: str, output_dir: str):
             if os.path.exists(os.path.join(output_dir, 'apps', app_name, 'install.json')):
                 install_count += 1
 
+    solutions = extract_solutions(output_dir)
+
+    # Write catalog.json as nested format with solutions
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(catalog, f, indent=2, ensure_ascii=False)
+        json.dump({'apps': catalog, 'solutions': solutions}, f, indent=2, ensure_ascii=False)
 
     generate_fetched_metadata(catalog, output_dir)
 
-    print(f"  {version}: {len(catalog)} entries, {install_count} install.json files")
+    print(f"  {version}: {len(catalog)} apps, {len(solutions)} solutions, {install_count} install.json files")
 
 
 def load_versions() -> dict:

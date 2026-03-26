@@ -808,7 +808,7 @@ function SolutionCard({ sol, onClick }) {
       <div style={{padding:"16px 18px"}}>
         <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:10,marginBottom:10}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <div style={{width:38,height:38,borderRadius:9,background:bc+"18",border:"1px solid "+bc+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,color:bc,flexShrink:0}}>{sol.icon}</div>
+            {sol.logo ? <AppLogo name={sol.appName||""} size={38} accent={bc} logo={sol.logo}/> : <div style={{width:38,height:38,borderRadius:9,background:bc+"18",border:"1px solid "+bc+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,color:bc,flexShrink:0}}>{sol.icon}</div>}
             <div>
               <div style={{fontSize:13.5,fontWeight:700,color:B.textPri}}>{sol.title}</div>
               <div style={{fontSize:10,color:B.textMut,marginTop:1}}>{sol.tagline}</div>
@@ -821,10 +821,7 @@ function SolutionCard({ sol, onClick }) {
           <div style={{fontSize:9,color:B.textMut,textTransform:"uppercase",marginBottom:5}}>Components</div>
           <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
             {sol.components.map(function(c){
-              var app=null;
-              for(var ii=0;ii<RAW.length;ii++){if(RAW[ii].name===c.name){app=RAW[ii];break;}}
-              var ac=tagAccent(app?app.tags[0]:"Other");
-              return <span key={c.name} style={{fontSize:9.5,padding:"1px 7px",borderRadius:4,background:ac+"12",color:ac,border:"1px solid "+ac+"25",fontWeight:500,fontFamily:"monospace"}}>{c.name}</span>;
+              return <span key={c.name} style={{fontSize:9.5,padding:"1px 7px",borderRadius:4,background:bc+"12",color:bc,border:"1px solid "+bc+"25",fontWeight:500,fontFamily:"monospace"}}>{c.name}</span>;
             })}
           </div>
         </div>
@@ -844,12 +841,23 @@ function SolutionDetail({ sol, onClose }) {
   var bc = sol.badgeColor;
   var ss = SUPPORT_STYLE[sol.tier]||SUPPORT_STYLE.community;
   var [copied, setCopied] = useState(false);
+  var [detail, setDetail] = useState<any>(null);
+  var [detailLoading, setDetailLoading] = useState(true);
   useEffect(function(){
     var h=function(e){if(e.key==="Escape")onClose();};
     window.addEventListener("keydown",h);
     return function(){window.removeEventListener("keydown",h);};
   },[]);
-  function doCopy(){if(navigator.clipboard)navigator.clipboard.writeText(sol.deployYaml);setCopied(true);setTimeout(function(){setCopied(false);},1500);}
+  useEffect(function(){
+    if (!sol.appName) { setDetailLoading(false); return; }
+    var solKey = sol.id.replace(sol.appName + "_", "");
+    fetch(dataPrefix("") + "apps/" + sol.appName + "/solution_" + solKey + ".json?t=" + Date.now())
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ setDetail(d); setDetailLoading(false); })
+      .catch(function(){ setDetailLoading(false); });
+  },[sol.id]);
+  var deployYaml = detail ? detail.deployYaml : (sol.deployYaml || "");
+  function doCopy(){if(navigator.clipboard)navigator.clipboard.writeText(deployYaml);setCopied(true);setTimeout(function(){setCopied(false);},1500);}
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:1000,display:"flex",alignItems:"stretch",justifyContent:"flex-end"}}>
       <div style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.75)"}}/>
@@ -857,7 +865,7 @@ function SolutionDetail({ sol, onClose }) {
         <div style={{height:3,background:"linear-gradient(90deg,"+bc+","+bc+"50)",flexShrink:0}}/>
         <div style={{padding:"20px 24px 0",flexShrink:0}}>
           <div style={{display:"flex",gap:12,alignItems:"flex-start",marginBottom:12}}>
-            <div style={{width:48,height:48,borderRadius:11,background:bc+"18",border:"1px solid "+bc+"35",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,color:bc,flexShrink:0}}>{sol.icon}</div>
+            {sol.logo ? <AppLogo name={sol.appName||""} size={48} accent={bc} logo={sol.logo}/> : <div style={{width:48,height:48,borderRadius:11,background:bc+"18",border:"1px solid "+bc+"35",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,color:bc,flexShrink:0}}>{sol.icon}</div>}
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:3}}>
                 <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{sol.title}</h2>
@@ -886,14 +894,11 @@ function SolutionDetail({ sol, onClose }) {
                 </tr></thead>
                 <tbody>
                   {sol.components.map(function(c,ci){
-                    var app=null;
-                    for(var jj=0;jj<RAW.length;jj++){if(RAW[jj].name===c.name){app=RAW[jj];break;}}
-                    var ac=tagAccent(app?app.tags[0]:"Other");
                     return (
-                      <tr key={c.name} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"50":"transparent"}}>
-                        <td style={{padding:"8px 10px",whiteSpace:"nowrap"}}><span style={{fontSize:10.5,fontFamily:"monospace",fontWeight:600,color:ac}}>{c.name}</span>{app&&app.version&&<span style={{fontSize:8.5,color:B.textMut,marginLeft:4,fontFamily:"monospace"}}>{app.version}</span>}</td>
-                        <td style={{padding:"8px 10px",fontSize:11,color:bc,fontWeight:500,whiteSpace:"nowrap"}}>{c.role}</td>
-                        <td style={{padding:"8px 10px",fontSize:11,color:B.textSec,lineHeight:1.5}}>{c.why}</td>
+                      <tr key={c.name+c.version} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"50":"transparent"}}>
+                        <td style={{padding:"8px 10px",whiteSpace:"nowrap"}}><span style={{fontSize:10.5,fontFamily:"monospace",fontWeight:600,color:bc}}>{c.name}</span><span style={{fontSize:8.5,color:B.textMut,marginLeft:4,fontFamily:"monospace"}}>{c.version}</span></td>
+                        <td style={{padding:"8px 10px",fontSize:11,color:c.role?bc:B.red,fontWeight:500,whiteSpace:"nowrap"}}>{c.role||"EMPTY"}</td>
+                        <td style={{padding:"8px 10px",fontSize:11,color:c.why?B.textSec:B.red,lineHeight:1.5}}>{c.why||"EMPTY"}</td>
                       </tr>
                     );
                   })}
@@ -915,13 +920,12 @@ function SolutionDetail({ sol, onClose }) {
               </div>
             </div>
           </div>
-          <div>
-            <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Deploy this solution</div>
-            <div style={{position:"relative"}}>
-              <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:7,padding:"13px 15px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{sol.deployYaml}</pre>
-              <button onClick={doCopy} style={{position:"absolute",top:7,right:7,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 9px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
+          {detailLoading ? <div style={{padding:12}}><span style={{fontSize:11,color:B.textSec}}>Loading documentation...</span></div> : detail && detail.contentHtml ? (
+            <div style={{marginTop:16,borderTop:"1px solid "+B.border,paddingTop:16}}>
+              <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Documentation</div>
+              <HtmlWithCopy html={detail.contentHtml} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/>
             </div>
-          </div>
+          ) : null}
           <div style={{marginTop:12}}>
             <FinOpsEstimator stackItems={sol.components} defaultCloud="aws"/>
           </div>
@@ -931,11 +935,36 @@ function SolutionDetail({ sol, onClose }) {
   );
 }
 
-function SolutionsPage() {
-  var [selected, setSelected] = useState(null);
-  var [catFilter, setCatFilter] = useState("All");
+function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, initScat?:string, k0rdentVer?:string }) {
+  var [selected, setSelected] = useState<any>(null);
+  var [catFilter, setCatFilter] = useState(initScat || "All");
   var cats=["All","AI/ML","Observability","Security"];
   var filtered=SOLUTIONS.filter(function(s){return catFilter==="All"||s.category===catFilter;});
+
+  // Restore selected solution from URL param
+  useEffect(function(){
+    if (initSolId && !selected) {
+      var found = SOLUTIONS.find(function(s:any){ return s.id === initSolId; });
+      if (found) setSelected(found);
+    }
+  }, [initSolId]);
+
+  function updateUrl(sol?:string, cat?:string) {
+    history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol||"",scat:cat||catFilter}, k0rdentVer));
+  }
+  function openSol(sol:any) {
+    setSelected(sol);
+    history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol.id,scat:catFilter}, k0rdentVer));
+  }
+  function closeSol() {
+    setSelected(null);
+    history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:catFilter}, k0rdentVer));
+  }
+  function changeCat(c:string) {
+    setCatFilter(c);
+    history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:c}, k0rdentVer));
+  }
+
   return (
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
       <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
@@ -943,18 +972,18 @@ function SolutionsPage() {
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Solution bundles for <span style={{color:B.teal}}>AI infrastructure</span></h1>
         <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
-          {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){setCatFilter(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
+          {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){changeCat(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
           <span style={{marginLeft:"auto",fontSize:11,color:B.textMut}}>{filtered.length} bundles</span>
         </div>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(310px,1fr))",gap:13}}>
-        {filtered.map(function(sol){return <SolutionCard key={sol.id} sol={sol} onClick={function(){setSelected(sol);}}/>;}) }
+        {filtered.map(function(sol){return <SolutionCard key={sol.id} sol={sol} onClick={function(){openSol(sol);}}/>;}) }
       </div>
       <div style={{marginTop:28,padding:"16px 20px",background:B.bg2,border:"1px solid "+B.border,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
         <div><div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>Want to contribute a solution bundle?</div><div style={{fontSize:12,color:B.textSec}}>Open a PR with your bundle definition and component list.</div></div>
         <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.teal,color:B.bg0,borderRadius:6,fontSize:12,fontWeight:700,textDecoration:"none",whiteSpace:"nowrap"}}>Contribute a bundle</a>
       </div>
-      {selected!==null&&<SolutionDetail sol={selected} onClose={function(){setSelected(null);}}/>}
+      {selected!==null&&<SolutionDetail sol={selected} onClose={closeSol}/>}
     </div>
   );
 }
@@ -1427,6 +1456,8 @@ function readUrlParams() {
     app: app,
     dtab: p.get("dtab") || "overview",
     ver: p.get("ver") || "",
+    sol: p.get("sol") || "",
+    scat: p.get("scat") || "All",
   };
 }
 
@@ -1443,7 +1474,7 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
   return versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : "");
 }
 
-function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string}, k0rdentVer?:string):string {
+function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
   if (state.search) p.set("q", state.search);
@@ -1451,6 +1482,8 @@ function buildCatalogUrl(state:{view:string, search:string, tag:string, support:
   if (state.support !== "All") p.set("support", state.support);
   if (state.sort !== "A-Z") p.set("sort", state.sort);
   if (state.compliance !== "All") p.set("compliance", state.compliance);
+  if (state.sol) p.set("sol", state.sol);
+  if (state.scat && state.scat !== "All") p.set("scat", state.scat);
   var qs = p.toString();
   return versionBase(k0rdentVer || "") + (qs ? "?" + qs : "");
 }
@@ -1620,7 +1653,7 @@ export default function App() {
       <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
       {view==="contribute"&&<ContributePage/>}
-      {view==="solutions"&&<SolutionsPage/>}
+      {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} k0rdentVer={k0rdentVer}/>}
       {view==="configurator"&&<ConfiguratorPage/>}
 
       {view==="catalog"&&(
