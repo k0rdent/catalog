@@ -13,7 +13,7 @@ services:
              cd /app && npm install &&
              npx vite"
     ports:
-      - "8080:8080"
+      - "9080:9080"
     volumes:
       - ./tsweb/:/app
       - ./:/repo
@@ -23,7 +23,7 @@ services:
       - OUTPUT_DIR=/app/public
       - TEMPLATES_DIR=/app/templates
       - DIST_DIR=/app/dist
-      - SITE_URL=http://localhost:8080
+      - SITE_URL=http://localhost:9080
 
   build:
     image: node:22-alpine

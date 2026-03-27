@@ -43,7 +43,7 @@ export default defineConfig({
   ],
   base: process.env.BASE_PATH || "/",
   server: {
-    port: 8080,
+    port: 9080,
     host: "0.0.0.0",
     watch: {
       usePolling: true,
