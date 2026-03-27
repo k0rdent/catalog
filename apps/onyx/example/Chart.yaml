@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: 0.4.38
+dependencies:
+  - name: onyx
+    version: 0.4.38
+    repository: oci://ghcr.io/k0rdent/catalog/charts

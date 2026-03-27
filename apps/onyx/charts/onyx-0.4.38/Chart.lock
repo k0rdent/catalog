@@ -1,0 +1,6 @@
+dependencies:
+- name: onyx
+  repository: https://onyx-dot-app.github.io/onyx/
+  version: 0.4.38
+digest: sha256:e61411c6843ff328c9e40b2475aef43ba92137c27069fdd2e5b549074c8ccc46
+generated: "2026-03-27T11:55:15.317245089Z"
