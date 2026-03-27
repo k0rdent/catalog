@@ -65,6 +65,8 @@ jobs:
           fi
 
       - name: Generate catalog data for all versions
+        env:
+          SITE_URL: ${{ steps.base.outputs.site_url }}
         run: |
           mkdir -p tsweb/public
           OUTPUT_DIR=tsweb/public python3 scripts/generate_catalog_json.py --all-versions
