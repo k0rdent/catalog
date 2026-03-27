@@ -447,6 +447,8 @@ def process_app(app_name: str) -> dict | None:
 
 def generate_fetched_metadata(catalog: list, output_dir: str):
     """Generate fetched_metadata.json for backward compatibility with MkDocs frontend."""
+    site_url = os.environ.get('SITE_URL', 'https://catalog.k0rdent.io')
+    base_url = f"{site_url.rstrip('/')}/{VERSION}"
     items = []
     for app in catalog:
         support = app.get('support', 'community')
@@ -456,12 +458,15 @@ def generate_fetched_metadata(catalog: list, output_dir: str):
             support_type = 'Enterprise'
         else:
             support_type = 'Community'
+        logo = app.get('logo', '')
+        if logo and not logo.startswith('http'):
+            logo = f"{base_url}/{logo}"
         items.append({
             'link': './apps/' + app['name'],
             'title': app.get('title', app['name']),
             'description': app.get('desc', ''),
             'type': app.get('type', 'app'),
-            'logo': app.get('logo', ''),
+            'logo': logo,
             'tags': app.get('tags', []),
             'created': app.get('created', ''),
             'support_type': support_type,
