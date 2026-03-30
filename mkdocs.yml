@@ -62,7 +62,8 @@ extra:
     domain: catalog.k0rdent.io
 
 plugins:
-  - search
+  - search:
+      separator: '[\s\-\.]+'
   - tags
   - mike
   - gen-files:
