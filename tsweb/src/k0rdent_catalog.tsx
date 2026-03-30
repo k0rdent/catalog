@@ -1503,6 +1503,7 @@ export default function App() {
   var [selected, setSelected] = useState<any>(null);
   var [detailTab, setDetailTab] = useState(initParams.dtab);
   var [detailVer, setDetailVer] = useState(initParams.ver);
+  var [sidebarOpen, setSidebarOpen] = useState(function(){ return window.innerWidth > 640; });
 
   // Restore selected app from URL after data loads
   useEffect(function(){
@@ -1670,8 +1671,7 @@ export default function App() {
           .k0-filter-row { flex-wrap: wrap !important; }
           .k0-catalog-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
           .k0-catalog-layout { flex-direction: column !important; }
-          .k0-sidebar { width: 100% !important; position: static !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 8px !important; }
-          .k0-sidebar > div { flex: 1 1 auto; min-width: 120px; }
+          .k0-sidebar { width: 100% !important; position: static !important; gap: 10px !important; }
         }
         @media (max-width: 400px) {
           .k0-nav-tabs button { padding: 0 5px !important; font-size: 10px !important; }
@@ -1718,7 +1718,7 @@ export default function App() {
           </div>
 
           <div className="k0-catalog-layout" style={{display:"flex",gap:13,alignItems:"flex-start"}}>
-            <div className="k0-sidebar" style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
+            {sidebarOpen && <div className="k0-sidebar" style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
               <div>
                 <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Search</div>
                 <div style={{position:"relative"}}>
@@ -1763,10 +1763,16 @@ export default function App() {
                   })}
                 </div>
               </div>
-              <div style={{fontSize:10,color:B.textMut,fontFamily:"monospace",paddingTop:4,borderTop:"1px solid "+B.border}}>{filtered.length} / {RAW.length}</div>
-            </div>
+            </div>}
 
             <div style={{flex:1,minWidth:0}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                <button onClick={function(){setSidebarOpen(!sidebarOpen);}} style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",border:"1px solid "+B.border,borderRadius:5,fontSize:10,background:sidebarOpen?B.teal+"15":B.bg2,color:sidebarOpen?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
+                  <span style={{fontSize:12}}>{sidebarOpen?"◂":"▸"}</span> Filters
+                  {(tag!=="All"||support!=="All"||compliance!=="All"||search)&&<span style={{width:6,height:6,borderRadius:"50%",background:B.teal,flexShrink:0}}/>}
+                </button>
+                <span style={{fontSize:10,color:B.textMut,fontFamily:"monospace"}}>{filtered.length} / {RAW.length}</span>
+              </div>
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
                 :<div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
