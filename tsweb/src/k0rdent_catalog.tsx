@@ -970,7 +970,7 @@ function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, 
       <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Validated · Composable · Production-ready</div>
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Solution bundles for <span style={{color:B.teal}}>AI infrastructure</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
+        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px",textAlign:"justify"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
           {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){changeCat(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
           <span style={{marginLeft:"auto",fontSize:11,color:B.textMut}}>{filtered.length} bundles</span>
@@ -1196,7 +1196,7 @@ function ConfiguratorPage() {
       <div style={{marginBottom:24,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>AI-native · Validated · One-click deploy</div>
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Visual stack <span style={{color:B.teal}}>configurator</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px"}}>
+        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px",textAlign:"justify"}}>
           Answer four questions about your use case, infrastructure, compliance requirements, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
         </p>
       </div>
@@ -1690,7 +1690,7 @@ export default function App() {
               <span style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em"}}>Curated for AI-native Kubernetes</span>
             </div>
             <h1 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:"0 0 5px",letterSpacing:"-0.02em"}}>Best-in-class software for <span style={{color:B.teal}}>the AI infrastructure stack</span></h1>
-            <p style={{fontSize:12,color:B.textSec,margin:"0 0 10px",lineHeight:1.9}}>
+            <p style={{fontSize:12,color:B.textSec,margin:"0 0 10px",lineHeight:1.9,textAlign:"justify"}}>
               Every integration in this catalog sits at the intersection of <span style={{color:B.textPri,fontWeight:500}}>AI workloads</span> and <span style={{color:B.textPri,fontWeight:500}}>cloud-native Kubernetes infrastructure</span> — a deliberately narrow space defined by the real operational challenges of running AI in production: provisioning GPU nodes in minutes, serving models that scale to zero when idle and to hundreds of replicas under load, storing billion-scale vector embeddings with sub-10ms retrieval, and meeting the policy and audit requirements that regulated industries demand before a model touches sensitive data. A tool earns a place here by being production-hardened on real enterprise clusters, composable with the other integrations in the catalog, and relevant to the full AI infrastructure lifecycle — from raw compute and distributed training through model serving, RAG pipelines, observability, security, and FinOps. The result is not a directory of everything that exists, but a curated set of <span style={{color:B.teal,fontWeight:500}}>best-in-class integrations</span> that Mirantis platform engineers have validated, assembled into composable blueprints, and made deployable in minutes on any infrastructure.
             </p>
             <div className="k0-stats-row" style={{display:"flex",gap:0,background:B.bg2,border:"1px solid "+B.border,borderRadius:8,overflow:"hidden",marginBottom:10}}>
