@@ -1719,9 +1719,12 @@ export default function App() {
 
           <div className="k0-catalog-layout" style={{display:"flex",gap:13,alignItems:"flex-start"}}>
             <div className="k0-sidebar" style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
-              <div style={{position:"relative"}}>
-                <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
-                <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:6,paddingBottom:6,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,outline:"none",background:B.bg3,color:B.textPri}}/>
+              <div>
+                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Search</div>
+                <div style={{position:"relative"}}>
+                  <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
+                  <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:6,paddingBottom:6,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,outline:"none",background:B.bg3,color:B.textPri}}/>
+                </div>
               </div>
               <div>
                 <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Sort</div>
