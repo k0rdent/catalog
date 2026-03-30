@@ -1720,13 +1720,6 @@ export default function App() {
           <div className="k0-catalog-layout" style={{display:"flex",gap:13,alignItems:"flex-start"}}>
             {sidebarOpen && <div className="k0-sidebar" style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
               <div>
-                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Search</div>
-                <div style={{position:"relative"}}>
-                  <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
-                  <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:6,paddingBottom:6,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,outline:"none",background:B.bg3,color:B.textPri}}/>
-                </div>
-              </div>
-              <div>
                 <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Sort</div>
                 <select value={sort} onChange={function(e){setSort(e.target.value);}} style={{width:"100%",padding:"5px 7px",border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,background:B.bg3,color:B.textSec,outline:"none",cursor:"pointer"}}>
                   <option>A-Z</option><option>Z-A</option><option>Tested first</option><option>Certified first</option><option>Most popular</option>
@@ -1766,12 +1759,16 @@ export default function App() {
             </div>}
 
             <div style={{flex:1,minWidth:0}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,flexWrap:"wrap"}}>
                 <button onClick={function(){setSidebarOpen(!sidebarOpen);}} style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",border:"1px solid "+B.border,borderRadius:5,fontSize:10,background:sidebarOpen?B.teal+"15":B.bg2,color:sidebarOpen?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
                   <span style={{fontSize:12}}>{sidebarOpen?"◂":"▸"}</span> Filters
-                  {(tag!=="All"||support!=="All"||compliance!=="All"||search)&&<span style={{width:6,height:6,borderRadius:"50%",background:B.teal,flexShrink:0}}/>}
+                  {(tag!=="All"||support!=="All"||compliance!=="All")&&<span style={{width:6,height:6,borderRadius:"50%",background:B.teal,flexShrink:0}}/>}
                 </button>
-                <span style={{fontSize:10,color:B.textMut,fontFamily:"monospace"}}>{filtered.length} / {RAW.length}</span>
+                <div style={{position:"relative",flex:1,minWidth:120}}>
+                  <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
+                  <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:5,paddingBottom:5,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11,outline:"none",background:B.bg3,color:B.textPri}}/>
+                </div>
+                <span style={{fontSize:10,color:B.textMut,fontFamily:"monospace",flexShrink:0}}>{filtered.length} / {RAW.length}</span>
               </div>
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
