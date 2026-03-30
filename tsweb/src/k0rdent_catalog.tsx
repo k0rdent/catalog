@@ -1665,8 +1665,8 @@ export default function App() {
           .k0-detail-header { padding: 12px 14px 0 !important; }
           .k0-card-grid { grid-template-columns: 1fr !important; }
           .k0-sol-grid { grid-template-columns: 1fr !important; }
-          .k0-stats-row { flex-wrap: wrap !important; }
-          .k0-stats-row > div { flex: 1 1 45% !important; min-width: 120px !important; }
+          .k0-stats-row { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; }
+          .k0-stats-row > div { padding: 5px 7px !important; font-size: 9px !important; }
           .k0-filter-row { flex-wrap: wrap !important; }
           .k0-catalog-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
           .k0-catalog-layout { flex-direction: column !important; }
