@@ -1,4 +1,3 @@
-generate_charts: false
 st-charts:
 - name: wandb-operator
   dep_name: operator
