@@ -4,6 +4,7 @@ title: "Teleport"
 summary: "Teleport is a zero-trust infrastructure access platform that replaces VPNs and bastion hosts with certificate-based short-lived credentials, enforced MFA, and a complete audit log of every session. It provides role-based kubectl access to Kubernetes clusters, SSH access to nodes, and database access to PostgreSQL and MySQL — all routed through a single access plane with session recording for compliance."
 logo: "./assets/icon.svg" # https://goteleport.com/docs/favicon.svg
 created: "2025-08-29T17:51:52Z"
+github_repo: gravitational/teleport
 description: |
     The `teleport-cluster` Helm chart enables you deploy and manage a self-hosted, high-availability Teleport cluster.
     This chart launches the Teleport Auth Service, Teleport Proxy Service, and the Kubernetes infrastructure required to support

@@ -6,6 +6,7 @@ summary: "Kagent is a Kubernetes-native agentic AI framework that lets teams def
 logo: "./assets/kagent_logo.svg"
 logo_big: "./assets/kagent_logo_big.svg"
 created: "2025-06-16T14:07:09Z"
+github_repo: kagent-dev/kagent
 description: |
   Kagent is an open-source programming framework that brings the power of agentic AI to cloud-native environments.
   Built specifically for DevOps and platform engineers, Kagent enables AI agents to run directly in Kubernetes clusters

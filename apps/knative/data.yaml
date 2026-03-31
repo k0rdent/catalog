@@ -6,6 +6,7 @@ title: Knative
 summary: "Knative adds serverless primitives to Kubernetes: a serving layer that automatically scales container workloads to zero when idle and back to thousands of replicas under load, and an eventing layer that connects cloud events to workloads through declarative subscriptions. It is a natural fit for AI inference endpoints that must handle unpredictable traffic spikes without over-provisioning GPU capacity."
 logo: "./assets/knative_logo.svg"
 created: "2025-03-20T16:26:02Z"
+github_repo: knative/serving
 description: |
     k0rdent facilitates the deployment and lifecycle management of Knative within Kubernetes clusters by leveraging its multi-cluster orchestration capabilities. 
     While not a direct integration at the application level, k0rdent simplifies the installation and management of the Knative Operator, 

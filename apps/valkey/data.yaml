@@ -5,6 +5,7 @@ summary: "Valkey is a high-performance, open-source, BSD-licensed fork of Redis 
 logo: "./assets/valkey_logo.svg"
 logo_big: "./assets/valkey_logo_big.svg"
 created: "2025-06-16T14:20:00Z"
+github_repo: valkey-io/valkey
 description: |
     Valkey is a high-performance in-memory data store that supports various data structures
     including strings, hashes, lists, sets, and sorted sets. It's a drop-in replacement for

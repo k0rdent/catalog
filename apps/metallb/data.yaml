@@ -4,6 +4,7 @@ title: "MetalLB"
 summary: "MetalLB implements the Kubernetes LoadBalancer service type for bare-metal clusters that lack a cloud provider's load balancer controller. Using either Layer 2 ARP announcements or BGP route advertisements, it assigns external IP addresses to services so on-premises AI inference endpoints are reachable from outside the cluster without a hardware load balancer."
 logo: "./assets/metallb_logo.svg"
 created: "2025-03-19T17:58:28Z"
+github_repo: metallb/metallb
 description: |
     MetalLB hooks into your Kubernetes cluster, and provides a network load-balancer implementation.
     In short, it allows you to create Kubernetes services of type LoadBalancer in clusters that don’t

@@ -6,6 +6,7 @@ summary: "Cilium replaces kube-proxy with an eBPF dataplane that enforces networ
 logo: ./assets/icon.svg
 logo_big: ./assets/logo.svg # https://github.com/cilium/cilium.io/blob/main/src/images/logo.inline.svg
 created: "2025-10-07T00:00:00Z"
+github_repo: cilium/cilium
 description: |
     Cilium is a networking, observability, and security solution with an eBPF-based
     dataplane. It provides a simple flat Layer 3 network with the ability to span
