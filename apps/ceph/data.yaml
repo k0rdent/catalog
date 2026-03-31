@@ -5,6 +5,7 @@ summary: "Ceph is the industry-standard software-defined storage platform, provi
 logo: ./assets/logo-ceph.svg # https://github.com/ceph/ceph.io/blob/main/src/assets/svgs/logo-ceph-grey.svg
 logo_big: ./assets/logo-ceph-big.svg # https://github.com/ceph/ceph.io/blob/main/src/assets/svgs/logo-ceph-grey.svg
 created: "2025-06-05T20:16:05Z"
+github_repo: rook/rook
 prerequisites: |
   #### Prerequisites
   - k0rdent Enterprise

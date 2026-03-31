@@ -4,6 +4,7 @@ title: MongoDB
 summary: "The MongoDB Community Operator automates the deployment and management of MongoDB replica sets and sharded clusters on Kubernetes, handling member provisioning, rolling upgrades, TLS certificate rotation, and user management through CRDs. MongoDB's flexible document model and aggregation pipeline make it a common operational database for AI application metadata, session state, and event logs."
 logo: "./assets/mongo_logo.svg"
 created: "2025-03-18T10:27:25Z"
+github_repo: mongodb/mongodb-kubernetes-operator
 description: |
     MongoDB is a general-purpose document database. With the Community Edition you can
     self-manage and host it locally or in the cloud. You can also develop with MongoDB

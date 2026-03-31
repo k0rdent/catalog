@@ -5,6 +5,7 @@ support_type: Partner
 summary: "Istio Ambient mode replaces per-pod Envoy sidecars with a shared per-node ztunnel for L4 mTLS and a dedicated waypoint proxy for L7 policy, dramatically reducing the memory and CPU overhead of the service mesh. For GPU-intensive inference workloads where every millicore matters, ambient mode delivers the security guarantees of Istio without the sidecar tax."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
 created: "2025-05-07T18:27:00Z"
+github_repo: istio/istio
 description: |
     In ambient mode, Istio implements its features using a per-node Layer 4 (L4) proxy, and optionally a per-namespace
     Layer 7 (L7) proxy.
