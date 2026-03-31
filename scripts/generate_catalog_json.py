@@ -10,10 +10,14 @@ import os
 import re
 import shutil
 import sys
+import urllib.request
 import yaml
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import utils
+
+# Cache for GitHub star counts (shared across versions in --all-versions mode)
+_STARS_CACHE: dict = {}
 
 CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
@@ -387,6 +391,29 @@ def generate_install_json(app_name: str, data: dict, app_path: str):
     return install_data
 
 
+def fetch_github_stars(github_repo: str) -> int:
+    """Fetch star count from GitHub API. Uses GITHUB_TOKEN if available. Caches results."""
+    if not github_repo:
+        return 0
+    if github_repo in _STARS_CACHE:
+        return _STARS_CACHE[github_repo]
+    url = f"https://api.github.com/repos/{github_repo}"
+    req = urllib.request.Request(url, headers={"Accept": "application/vnd.github.v3+json", "User-Agent": "k0rdent-catalog"})
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if token:
+        req.add_header("Authorization", f"token {token}")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+            stars = data.get("stargazers_count", 0)
+            _STARS_CACHE[github_repo] = stars
+            return stars
+    except Exception as e:
+        print(f"  Warning: GitHub API failed for {github_repo}: {e}")
+        _STARS_CACHE[github_repo] = 0
+        return 0
+
+
 def process_app(app_name: str) -> dict | None:
     app_path = os.path.join(APPS_DIR, app_name)
     data_file = os.path.join(app_path, 'data.yaml')
@@ -419,6 +446,10 @@ def process_app(app_name: str) -> dict | None:
         brand_color = extract_brand_color(app_name, logo_raw)
         logo = copy_local_logo(app_name, logo_raw)
 
+    # Fetch GitHub stars
+    github_repo = data.get('github_repo', '')
+    stars = fetch_github_stars(github_repo) if github_repo else 0
+
     # Generate per-app install.json
     generate_install_json(app_name, data, app_path)
 
@@ -438,6 +469,8 @@ def process_app(app_name: str) -> dict | None:
         'brandColor': brand_color,
         'doc_link': data.get('doc_link', ''),
         'created': data.get('created', ''),
+        'githubRepo': github_repo,
+        'stars': stars,
         'showInstall': data.get('show_install_tab', True),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
     }
