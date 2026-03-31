@@ -5,6 +5,7 @@ summary: "The Kubeflow Spark Operator manages Apache Spark application lifecycle
 logo: "./assets/icon.svg" # https://github.com/kubeflow/kubeflow/blob/master/logo/icon.svg
 logo_big: "./assets/logo.svg" # https://github.com/kubeflow/kubeflow/blob/master/logo/horizontal.svg
 created: "2025-09-29T17:51:52Z"
+github_repo: kubeflow/spark-operator
 description: |
     ## What is Spark Operator?
 

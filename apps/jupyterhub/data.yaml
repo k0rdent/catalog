@@ -5,6 +5,7 @@ summary: "JupyterHub spawns isolated, authenticated Jupyter server instances for
 logo: ./assets/juphub-icon.svg # https://www.veryicon.com/icons/business/vscode-program-item-icon/jupyter.html
 logo_big: ./assets/juphub-big.svg # https://jupyter.org/hub
 created: "2025-07-30T08:16:55Z"
+github_repo: jupyterhub/zero-to-jupyterhub-k8s
 description: |
     JupyterHub brings the power of notebooks to groups of users. It gives users access to
     computational environments and resources without burdening the users with installation and

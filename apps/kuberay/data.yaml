@@ -5,6 +5,7 @@ summary: "KubeRay is the Kubernetes operator for Ray, the distributed Python fra
 logo: ./assets/ray_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
 logo_big: ./assets/ray_header_logo.png # "https://github.com/ray-project/ray/raw/master/doc/source/images/ray_header_logo.png"
 created: "2025-05-29T12:00:00Z"
+github_repo: ray-project/kuberay
 description: |
     KubeRay is an open-source Kubernetes operator for deploying and managing [Ray](https://www.ray.io) applications.
     It provides Kubernetes-native custom resources to support distributed workloads efficiently and reliably.

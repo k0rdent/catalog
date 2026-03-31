@@ -4,6 +4,7 @@ title: "ExternalDNS"
 summary: "ExternalDNS watches Kubernetes Services and Ingresses and automatically creates and updates DNS records in Route 53, Azure DNS, Google Cloud DNS, and 30+ other providers. It eliminates the manual step of registering DNS entries for new AI API endpoints, keeping public-facing model inference services reliably reachable as deployments scale."
 logo: "https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png"
 created: "2025-03-12T08:16:55Z"
+github_repo: kubernetes-sigs/external-dns
 description: |
     ExternalDNS makes Kubernetes resources discoverable via public DNS servers. Like KubeDNS, it retrieves a list of resources
     (Services, Ingresses, etc.) from the Kubernetes API to determine a desired list of DNS records. Unlike KubeDNS, however, it’s
