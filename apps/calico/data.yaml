@@ -2,6 +2,7 @@ tags:
     - Networking
     - Security
 title: "Calico CNI"
+support_type: Partner
 summary: "Networking and security solution specifically designed for Kubernetes clusters."
 logo: "https://docs.tigera.io/img/calico-logo.png"
 created: "2025-03-12T08:16:55Z"
