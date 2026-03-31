@@ -5,6 +5,7 @@ summary: "Tetrate Istio Distro (TID) is a FIPS 140-2 validated, hardened Istio d
 logo: "./assets/tetrate.svg" # https://docs.tetrate.io/
 logo_big: ./assets/tetrate-big.svg # https://docs.tetrate.io/istio-subscription/
 created: "2025-07-31T16:43:20Z"
+github_repo: tetratelabs/istio
 description: |
     Tetrate Istio is a hardened, enterprise-ready distribution of the Istio service mesh maintained
     by Tetrate. It provides advanced networking, security, and observability features while being

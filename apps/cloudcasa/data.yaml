@@ -5,6 +5,7 @@ summary: "CloudCasa is a SaaS-delivered backup and disaster recovery service for
 logo: "./assets/cc-icon.svg"
 logo_big: "./assets/cloudcasa-logo.svg"
 created: "2025-05-15T00:54:27Z"
+github_repo: catalogicsoftware/cloudcasa-helmchart
 description: |
     CloudCasa is a comprehensive solution for data protection, disaster recovery, migration, and replication designed for
     Kubernetes and cloud-native applications. It is available as both a SaaS offering and a self-hosted deployment,

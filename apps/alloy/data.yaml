@@ -5,6 +5,7 @@ summary: "Grafana Alloy is a batteries-included OpenTelemetry collector that uni
 logo: "./assets/icon.svg" # https://github.com/grafana/alloy/blob/main/docs/sources/assets/alloy_icon_orange.svg
 logo_big: "./assets/logo.svg" # https://github.com/grafana/alloy/blob/main/docs/sources/assets/logo_alloy_dark.svg
 created: "2026-03-03T00:00:00Z"
+github_repo: grafana/alloy
 description: |
   Grafana Alloy is a vendor-neutral telemetry collector built on the OpenTelemetry Collector and Prometheus Agent.
   It provides a unified solution for collecting, processing, and exporting logs, metrics, and traces from Kubernetes

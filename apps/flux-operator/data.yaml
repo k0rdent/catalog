@@ -6,6 +6,7 @@ summary: "The Flux Operator manages the full lifecycle of a Flux CD installation
 logo: "./assets/flux-icon.svg"
 logo_big: "./assets/flux-icon-big.png"
 created: "2025-08-07T13:40:00Z"
+github_repo: controlplaneio-fluxcd/flux-operator
 description: |
   [Flux](https://fluxcd.io) is a leading GitOps Continuous Delivery tool
   used to streamline and automate application deployments on Kubernetes.

@@ -5,6 +5,7 @@ summary: "cAdvisor (Container Advisor) is Google's open-source per-container res
 logo: ./assets/cadvisor_logo.png
 logo_big: ./assets/cadvisor.png
 created: "2025-03-28T14:52:18Z"
+github_repo: google/cadvisor
 description: |
     cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics
     of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about

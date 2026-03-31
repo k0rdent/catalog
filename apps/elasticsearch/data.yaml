@@ -4,6 +4,7 @@ title: "Elasticsearch"
 summary: "Deployed via the Elastic Cloud on Kubernetes (ECK) operator, Elasticsearch provides distributed full-text search, log analytics, and vector search (HNSW approximate nearest neighbor) in a single managed cluster. Its dense vector field type and kNN search API make it a compelling hybrid store for semantic search applications that need keyword and embedding retrieval in one query."
 logo: "./assets/icon.svg"
 created: "2025-08-29T17:51:52Z"
+github_repo: elastic/elasticsearch
 description: |
     Elasticsearch is a distributed search and analytics engine, scalable data store and vector database optimized for speed and relevance on production-scale workloads. Elasticsearch is the foundation of Elastic's open Stack platform. Search in near real-time over massive datasets, perform vector searches, integrate with generative AI applications, and much more.
 

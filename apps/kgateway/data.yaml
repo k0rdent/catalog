@@ -6,6 +6,7 @@ summary: "kgateway (formerly Gloo Edge) is a feature-rich Kubernetes Gateway API
 logo: "./assets/icon.svg" # https://www.cncf.io/projects/kgateway/
 logo_big: "./assets/kgateway_logo.svg" # https://kgateway.dev/blog/guide-to-installing-kgateway/
 created: "2025-11-11T00:00:00Z"
+github_repo: kgateway-dev/kgateway
 description: |
   kgateway is the most mature and widely deployed Envoy-based gateway in the market today.
   Built on open source and open standards, kgateway implements the Kubernetes Gateway API
