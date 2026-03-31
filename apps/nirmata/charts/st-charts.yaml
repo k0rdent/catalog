@@ -1,4 +1,3 @@
-generate_charts: false
 st-charts:
 - name: nirmata-kyverno
   dep_name: kyverno

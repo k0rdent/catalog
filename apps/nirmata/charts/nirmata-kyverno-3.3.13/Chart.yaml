@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nirmata-kyverno
+description: A Helm chart that references the official "nirmata-kyverno" Helm chart.
+type: application
+version: 3.3.13
+dependencies:
+  - name: kyverno
+    version: 3.3.13
+    repository: https://nirmata.github.io/kyverno-charts/
