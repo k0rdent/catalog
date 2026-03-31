@@ -5,6 +5,7 @@ title: "Node Feature Discovery"
 summary: "Node Feature Discovery (NFD) detects hardware capabilities of Kubernetes nodes — CPU instruction sets, PCIe devices, GPU models, NUMA topology, and kernel features — and exposes them as node labels and extended resources. Scheduler rules can then target specific GPU SKUs, NVLink topologies, or RDMA-capable NICs, ensuring AI training jobs land on the right hardware every time."
 logo: "./assets/node-feature-discovery.svg"
 created: "2025-03-28T14:06:27Z"
+github_repo: kubernetes-sigs/node-feature-discovery
 description: |
     Enables node feature discovery for Kubernetes.
     It detects hardware features available on each node in a Kubernetes cluster, and advertises those

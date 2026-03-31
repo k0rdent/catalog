@@ -4,6 +4,7 @@ title: "Jenkins"
 summary: "Jenkins is the battle-tested open-source automation server that powers CI/CD pipelines through a massive plugin ecosystem of 1,800+ integrations. Running Jenkins on Kubernetes with ephemeral pod-based agents lets ML teams execute model training jobs, data validation steps, and integration tests on dynamically provisioned GPU nodes that terminate when the pipeline finishes."
 logo: "./assets/icon.svg" # https://commons.wikimedia.org/wiki/File:Jenkins_logo.svg
 created: "2025-09-01T17:51:52Z"
+github_repo: jenkinsci/jenkins
 description: |
     Jenkins is commonly deployed as a CI/CD (Continuous Integration and Continuous Delivery) tool. Use it to:
 

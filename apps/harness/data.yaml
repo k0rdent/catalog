@@ -5,6 +5,7 @@ summary: "The Harness Delegate is a lightweight worker that runs inside your Kub
 logo: ./assets/harness-icon.svg # https://seeklogo.com/vector-logo/448108/harness-icon
 logo_big: ./assets/harness-text.svg # https://seeklogo.com/vector-logo/448107/harness
 created: "2025-07-25T06:02:26Z"
+github_repo: harness/harness
 description: |
     Harness Delegate is a lightweight service that runs in your Kubernetes cluster and securely connects
     your internal infrastructure to the Harness SaaS platform. It performs all deployment and integration

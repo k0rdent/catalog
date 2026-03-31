@@ -4,6 +4,7 @@ title: Kiali
 summary: "Kiali is the official observability console for Istio service meshes, providing auto-generated topology graphs, real-time traffic flow animations, health indicators, and configuration validation for virtual services and destination rules. It accelerates debugging of inter-service communication issues in AI platforms where model servers, feature pipelines, and databases communicate through the mesh."
 logo: "./assets/icon.svg" # https://raw.githubusercontent.com/kiali/kiali.io/948cbe7a92f404f346fb62d2916d7f990cde19b0/assets/icons/logo.svg
 created: "2025-12-04T00:00:00Z"
+github_repo: kiali/kiali
 description: |
     Kiali is a service mesh observability console that provides topology visualization,
     deep traffic metrics, and health checks for microservices deployed within an Istio service mesh environment.
