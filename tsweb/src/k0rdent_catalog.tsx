@@ -20,7 +20,7 @@ var K8S_COMPAT = {
   partner:["1.29","1.30","1.31","1.32"],
   "mirantis-certified":["1.29","1.30","1.31","1.32"],
 };
-var MIRANTIS_CERTIFIED = {"amd-gpu":1,"nvidia":1,"ceph":1,"mirantis-kyverno-guardrails":1,"mirantis-velero":1,"nirmata":1,"runai-cp":1,"stacklight":1,"wandb":1};
+var MIRANTIS_CERTIFIED = {"amd-gpu":1,"nvidia":1,"nvidia-network-operator":1,"ceph":1,"cert-manager":1,"external-secrets":1,"mirantis-kyverno-guardrails":1,"mirantis-velero":1,"msr":1,"runai-cp":1,"stacklight":1};
 var SUPPORT_LABEL = {community:"Community",partner:"Verified Partner","mirantis-certified":"Mirantis Certified"};
 var SUPPORT_STYLE = {
   community:{bg:"#ffffff08",text:B.textSec,border:"#ffffff15"},
