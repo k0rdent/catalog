@@ -445,8 +445,9 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
   var parts = item.name.replace(/-/g," ").split(" ");
   for (var pi=0;pi<Math.min(2,parts.length);pi++) initials += parts[pi][0].toUpperCase();
   var d = deployStats(item.name);
-  var maxD = 18420;
-  var pct = Math.round(d.deploys/maxD*100);
+  var maxD = 1;
+  for (var ri=0;ri<RAW.length;ri++){if((RAW[ri].pulls||0)>maxD)maxD=RAW[ri].pulls;}
+  var pct = maxD>0?Math.round((item.pulls||0)/maxD*100):0;
 
   useEffect(function(){
     var h = function(e){ if(e.key==="Escape") onClose(); };
@@ -518,12 +519,12 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Deploy and usage signals <span style={{fontSize:8,color:B.amber,fontWeight:600,marginLeft:4,padding:"1px 5px",borderRadius:3,background:B.amber+"15",border:"1px solid "+B.amber+"30",textTransform:"uppercase"}}>Estimated</span></div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
-                  {[{l:"Total deploys",v:item.pulls>0?fmtNum(item.pulls)+" clusters":"—",c:B.teal,info:"Estimated based on chart pulls number."},{l:"GitHub stars",v:item.stars>0?fmtNum(item.stars):"—",c:B.cyan,href:item.githubRepo?"https://github.com/"+item.githubRepo:""}].map(function(r:any){
+                  {[{l:"Total deploys",v:item.pulls>0?fmtNum(item.pulls)+" clusters":"—",c:B.teal,info:"Derived from Helm chart downloads on ghcr.io."},{l:"GitHub stars",v:item.stars>0?fmtNum(item.stars):"—",c:B.cyan,href:item.githubRepo?"https://github.com/"+item.githubRepo:""}].map(function(r:any){
                     var box = <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border,cursor:r.href?"pointer":"default",position:"relative"}}>{r.info&&<span title={r.info} style={{position:"absolute",top:5,right:7,fontSize:9,color:B.textMut,cursor:"help",opacity:0.6}}>ⓘ</span>}<div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}{r.href&&<span style={{marginLeft:4,fontSize:8}}>↗</span>}</div><div style={{fontSize:12.5,color:r.c,fontWeight:600,fontFamily:"monospace"}}>{r.v}</div></div>;
                     return r.href ? <a key={r.l} href={r.href} target="_blank" rel="noreferrer" style={{textDecoration:"none"}}>{box}</a> : <div key={r.l}>{box}</div>;
                   })}
                 </div>
-                <div style={{fontSize:9.5,color:B.textMut,marginBottom:3}}>Popularity vs peak ({fmtNum(maxD)} deploys)</div>
+                <div style={{fontSize:9.5,color:B.textMut,marginBottom:3}}>Popularity vs peak ({fmtNum(maxD)} pulls)</div>
                 <div style={{height:5,background:B.bg3,borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",width:pct+"%",background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",borderRadius:3}}/></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:2}}><span style={{fontSize:9,color:B.textMut}}>0</span><span style={{fontSize:9,color:B.teal,fontWeight:600}}>{pct}%</span><span style={{fontSize:9,color:B.textMut}}>{fmtNum(maxD)}</span></div>
               </div>
