@@ -98,7 +98,7 @@ deploy_code: |
         type: aws
         group: demo
     spec:
-      template: aws-standalone-cp-1-0-20
+      template: aws-standalone-cp-1-0-23
       credential: aws-credential
       config:
         controlPlane:
@@ -133,7 +133,7 @@ deploy_code: |
         type: azure
         group: demo
     spec:
-      template: azure-standalone-cp-1-0-20
+      template: azure-standalone-cp-1-0-23
       credential: azure-credential
       config:
         location: "westus"
