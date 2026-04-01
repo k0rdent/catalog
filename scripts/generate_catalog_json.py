@@ -460,6 +460,13 @@ def process_app(app_name: str) -> dict | None:
         'description': data.get('description', ''),
         'support': get_support_tier(data),
         'tested': get_tested(data),
+        'validated': {
+            'amd64': data.get('validated_amd64', '-'),
+            'arm64': data.get('validated_arm64', '-'),
+            'aws': data.get('validated_aws', '-'),
+            'azure': data.get('validated_azure', '-'),
+            'local': data.get('validated_local', '-'),
+        },
         'tags': data.get('tags', []),
         'version': versions[0] if versions else '',
         'versions': versions[:5],
