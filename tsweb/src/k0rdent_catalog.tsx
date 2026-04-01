@@ -214,27 +214,7 @@ function deployStats(name) {
 function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(1)+"k" : String(n); }
 
 var ENVS = ["AWS EC2","AWS EKS","Azure AKS","vSphere","OpenStack","Bare Metal"];
-function ciResults(item) {
-  var eff = getEff(item);
-  var envs = CLOUD_COMPAT[eff] || CLOUD_COMPAT.community;
-  var k8s = K8S_COMPAT[eff] || K8S_COMPAT.community;
-  var seed = 0;
-  for (var i = 0; i < item.name.length; i++) seed += item.name.charCodeAt(i);
-  var out = [];
-  for (var ei = 0; ei < ENVS.length; ei++) {
-    var env = ENVS[ei];
-    var supported = envs.indexOf(env) !== -1;
-    if (!supported) { out.push({env:env,status:"n/a",runs:[]}); continue; }
-    var runs = [];
-    for (var vi = 0; vi < k8s.length; vi++) {
-      if (!item.tested) { runs.push({v:k8s[vi],s:"pending"}); continue; }
-      var h = (seed*(ei+1)*(vi+1))%17;
-      runs.push({v:k8s[vi],s:h===0?"fail":h===1?"skip":"pass"});
-    }
-    out.push({env:env,status:item.tested?(((seed+ei)%9===0)?"fail":"pass"):"pending",runs:runs});
-  }
-  return out;
-}
+// ciResults removed — replaced by real validated_* data from catalog.json
 var STATUS_STYLE = {
   pass:{bg:"#00d48a18",text:"#00d48a",border:"#00d48a30",label:"Pass"},
   fail:{bg:"#ff4d6a18",text:"#ff4d6a",border:"#ff4d6a30",label:"Fail"},
@@ -300,25 +280,25 @@ function CodeBlock({ text }) {
 }
 
 function TestResults({ item }) {
-  var results = ciResults(item);
-  var k8s = K8S_COMPAT[getEff(item)] || K8S_COMPAT.community;
-  var passed=0,failed=0,skipped=0,total=0;
-  for (var ri=0;ri<results.length;ri++) {
-    for (var rj=0;rj<results[ri].runs.length;rj++) {
-      var s = results[ri].runs[rj].s;
-      if (s!=="n/a"&&s!=="pending") {
-        total++;
-        if(s==="pass")passed++;
-        else if(s==="fail")failed++;
-        else if(s==="skip")skipped++;
-      }
-    }
+  var v = item.validated || {};
+  var platforms = [
+    {key:"amd64", label:"AMD64", icon:"🖥"},
+    {key:"arm64", label:"ARM64", icon:"📱"},
+    {key:"aws", label:"AWS", icon:"☁"},
+    {key:"azure", label:"Azure", icon:"☁"},
+    {key:"local", label:"Local", icon:"💻"},
+  ];
+  var passed=0, failed=0, pending=0;
+  for (var pi=0;pi<platforms.length;pi++){
+    var val=v[platforms[pi].key]||"-";
+    if(val==="y")passed++;
+    else if(val==="n")failed++;
+    else pending++;
   }
-  var passRate = total ? Math.round(passed/total*100) : 0;
   return (
     <div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:14}}>
-        {[{n:passed,l:"Passed",c:B.green},{n:failed,l:"Failed",c:B.red},{n:skipped,l:"Skipped",c:B.amber},{n:passRate+"%",l:"Pass rate",c:passRate===100?B.green:passRate>=80?B.amber:B.red}].map(function(s){
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:14}}>
+        {[{n:passed,l:"Validated",c:B.green},{n:failed,l:"Unsupported",c:B.red},{n:pending,l:"To be tested",c:B.textMut}].map(function(s){
           return <div key={s.l} style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"10px",textAlign:"center"}}><div style={{fontSize:18,fontWeight:700,color:s.c,fontFamily:"monospace"}}>{s.n}</div><div style={{fontSize:10,color:B.textMut,marginTop:2}}>{s.l}</div></div>;
         })}
       </div>
@@ -326,25 +306,28 @@ function TestResults({ item }) {
         <table style={{width:"100%",borderCollapse:"collapse"}}>
           <thead>
             <tr style={{background:B.bg3}}>
-              <th style={{padding:"7px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left"}}>Environment</th>
-              <th style={{padding:"7px 8px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"center"}}>Overall</th>
-              {k8s.map(function(v){return <th key={v} style={{padding:"7px 6px",fontSize:9,fontWeight:600,color:B.textMut,textAlign:"center",fontFamily:"monospace"}}>{v}</th>;})}
+              <th style={{padding:"7px 10px",fontSize:10,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left"}}>Platform</th>
+              <th style={{padding:"7px 10px",fontSize:10,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"center"}}>Status</th>
             </tr>
           </thead>
           <tbody>
-            {results.map(function(r,ri){
+            {platforms.map(function(p,pi){
+              var val=v[p.key]||"-";
+              var color=val==="y"?B.green:val==="n"?B.red:B.textMut;
+              var label=val==="y"?"Validated":val==="n"?"Unsupported":"To be tested";
+              var icon=val==="y"?"✓":val==="n"?"✕":"—";
               return (
-                <tr key={r.env} style={{borderTop:"1px solid "+B.border,background:ri%2===0?B.bg2+"40":"transparent"}}>
-                  <td style={{padding:"8px 10px",fontSize:11,color:r.status==="n/a"?B.textMut:B.textPri,fontWeight:500}}>{r.env}</td>
-                  <td style={{textAlign:"center",padding:"8px 6px"}}><CIBadge s={r.status}/></td>
-                  {r.runs.length>0?r.runs.map(function(run){return <td key={run.v} style={{textAlign:"center",padding:"8px 6px"}}><CIBadge s={run.s}/></td>;}):k8s.map(function(v){return <td key={v} style={{textAlign:"center",padding:"8px 6px"}}><CIBadge s="n/a"/></td>;})}
+                <tr key={p.key} style={{borderTop:"1px solid "+B.border,background:pi%2===0?B.bg2+"40":"transparent"}}>
+                  <td style={{padding:"9px 10px",fontSize:12,color:B.textPri,fontWeight:500}}><span style={{marginRight:6}}>{p.icon}</span>{p.label}</td>
+                  <td style={{padding:"9px 10px",textAlign:"center"}}>
+                    <span style={{fontSize:10,padding:"2px 8px",borderRadius:4,background:color+"18",color:color,border:"1px solid "+color+"30",fontWeight:600}}>{icon} {label}</span>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
       </div>
-      <div style={{marginTop:8,fontSize:10,color:B.textMut,textAlign:"right"}}>Last run: 2026-03-12 · k0rdent v1.8.0</div>
     </div>
   );
 }
@@ -512,7 +495,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
           <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
-            {["overview","install","compatibility","test results","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
+            {["overview","install","compatibility","validation","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
@@ -607,7 +590,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
               </div>
             </div>
           )}
-          {tab==="test results" && <TestResults item={item}/>}
+          {tab==="validation" && <TestResults item={item}/>}
           {tab==="cost" && (
             <div>
               <p style={{fontSize:12,color:B.textSec,lineHeight:1.7,marginTop:0,marginBottom:14}}>
