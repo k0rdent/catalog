@@ -37,3 +37,5 @@ description: |
 doc_link: https://docs.fluentd.org/
 
 test_wait_for_pods: "fluentd-"
+validated_amd64: 'y'
+validated_local: 'y'

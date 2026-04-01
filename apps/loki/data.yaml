@@ -37,3 +37,5 @@ description: |
 doc_link: https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/
 
 test_wait_for_pods: "loki-0"
+validated_amd64: 'y'
+validated_local: 'y'

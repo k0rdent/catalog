@@ -46,3 +46,5 @@ examples:
 doc_link: https://doc.traefik.io/traefik/getting-started/kubernetes/#install-traefik
 
 test_wait_for_pods: "traefik-"
+validated_amd64: 'y'
+validated_local: 'y'

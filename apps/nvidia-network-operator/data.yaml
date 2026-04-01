@@ -16,3 +16,5 @@ description: |
     and network interfaces while reducing CPU overhead and improving application performance.
 
 doc_link: https://docs.nvidia.com/networking/display/kubernetes2370/network+operator
+validated_amd64: 'y'
+validated_local: 'y'
