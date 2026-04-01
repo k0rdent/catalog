@@ -1567,7 +1567,7 @@ export default function App() {
     if(sort==="Z-A") r.sort(function(a,b){return b.name.localeCompare(a.name);});
     if(sort==="Tested first") r.sort(function(a,b){return b.tested-a.tested;});
     if(sort==="Certified first") r.sort(function(a,b){return (getEff(b)==="mirantis-certified"?1:0)-(getEff(a)==="mirantis-certified"?1:0);});
-    if(sort==="Most popular") r.sort(function(a,b){return deployStats(b.name).deploys-deployStats(a.name).deploys;});
+    if(sort==="Most popular") r.sort(function(a,b){return (b.pulls||0)-(a.pulls||0);});
     if(sort==="By Newest") r.sort(function(a,b){return (b.created||"").localeCompare(a.created||"");});
     return r;
   },[loading,search,tag,support,sort,compliance]);
