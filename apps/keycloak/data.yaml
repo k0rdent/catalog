@@ -27,3 +27,5 @@ description: |
 doc_link: https://www.keycloak.org/documentation
 validated_amd64: 'y'
 validated_local: 'y'
+validated_aws: 'y'
+validated_azure: 'y'

@@ -34,8 +34,8 @@ doc_link: https://openfeature.dev/docs/reference/intro
 test_wait_for_pods: "open-feature-operator-controller-manager-"
 
 # TODO
-# validated_amd64: 'y'
-# validated_aws: 'y'
-# validated_azure: 'y'
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
 # validated_arm64: 'y' # aws t4g.medium
 validated_local: 'y'

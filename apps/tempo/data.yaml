@@ -39,3 +39,6 @@ doc_link: https://grafana.com/docs/tempo/latest/
 test_wait_for_pods: "tempo-0"
 validated_amd64: 'y'
 validated_local: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
