@@ -24,3 +24,5 @@ doc_link: https://docs.ollama.com/
 # test_wait_for_pods: "milvus-standalone-"
 # test_wait_for_running: true # (default: false) wait for Running, instead of Ready (e.g. due to proprietery API dependency etc)
 # test_wait_for_creating: true # (default: false) e.g. when pulling a huge image (finops-agent)
+validated_amd64: 'y'
+validated_local: 'y'

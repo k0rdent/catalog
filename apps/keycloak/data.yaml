@@ -25,3 +25,5 @@ description: |
     > which tracks upstream Keycloak container images and follows recommended configuration practices.
 
 doc_link: https://www.keycloak.org/documentation
+validated_amd64: 'y'
+validated_local: 'y'

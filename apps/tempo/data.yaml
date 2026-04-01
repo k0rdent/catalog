@@ -37,3 +37,5 @@ examples:
 doc_link: https://grafana.com/docs/tempo/latest/
 
 test_wait_for_pods: "tempo-0"
+validated_amd64: 'y'
+validated_local: 'y'
