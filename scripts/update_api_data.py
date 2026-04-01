@@ -63,6 +63,17 @@ def should_skip(yaml_file: str, max_age: timedelta) -> bool:
     return (datetime.now(timezone.utc) - updated) < max_age
 
 
+def get_chart_name(app_name: str) -> str:
+    """Get the first chart name from charts.yaml."""
+    charts_file = os.path.join(APPS_DIR, app_name, 'charts', 'charts.yaml')
+    if not os.path.exists(charts_file):
+        return ""
+    with open(charts_file) as f:
+        data = yaml.safe_load(f)
+    charts = data.get('charts', {})
+    return next(iter(charts)) if charts else ""
+
+
 def get_all_app_names() -> list:
     return sorted([
         d for d in os.listdir(APPS_DIR)
@@ -141,8 +152,85 @@ def cmd_stars(args):
 
 # --- Subcommand: pulls ---
 
+def parse_human_count(s: str) -> int:
+    """Convert '336k' -> 336000, '4.28k' -> 4280, '1.2m' -> 1200000."""
+    s = s.strip().lower()
+    if s.endswith('m'):
+        return int(float(s[:-1]) * 1_000_000)
+    if s.endswith('k'):
+        return int(float(s[:-1]) * 1_000)
+    return int(s.replace(',', ''))
+
+
+def scrape_ghcr_pulls() -> dict:
+    """Scrape all pages of GitHub packages to get chart_name -> pull_count."""
+    pulls = {}
+    page = 1
+    while True:
+        url = f"https://github.com/orgs/k0rdent/packages?repo_name=catalog&page={page}"
+        req = urllib.request.Request(url, headers={"User-Agent": "k0rdent-catalog"})
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                html = resp.read().decode('utf-8')
+        except Exception as e:
+            print(f"  Warning: Failed to fetch page {page}: {e}")
+            break
+
+        names = re.findall(r'title="catalog/charts/([^"]+)"', html)
+        counts = re.findall(
+            r'octicon-download.*?</svg>\s*([\d,.]+[kKmM]?)\s*</span>',
+            html, re.DOTALL
+        )
+
+        if not names:
+            break
+
+        for name, count in zip(names, counts):
+            pulls[name] = parse_human_count(count)
+
+        # Check if there's a next page
+        if f'page={page + 1}' not in html:
+            break
+        page += 1
+        print(f"  Scraped page {page - 1}: {len(names)} packages")
+
+    print(f"  Total: {len(pulls)} packages scraped")
+    return pulls
+
+
 def cmd_pulls(args):
-    print("Not implemented yet. Will fetch GHCR pull counts in a future update.")
+    max_age = parse_iso8601_duration(args.max_age)
+    app_names = args.apps if args.apps else get_all_app_names()
+
+    print(f"Fetching GHCR pull counts...")
+    all_pulls = scrape_ghcr_pulls()
+
+    print(f"Updating pulls for {len(app_names)} apps (max-age: {args.max_age})")
+    updated = 0
+    for app_name in app_names:
+        pulls_file = os.path.join(APPS_DIR, app_name, 'pulls.yaml')
+
+        if should_skip(pulls_file, max_age):
+            continue
+
+        # Get first chart name for this app
+        chart_name = get_chart_name(app_name)
+        if not chart_name:
+            continue
+
+        count = all_pulls.get(chart_name, 0)
+
+        with open(pulls_file, 'w') as f:
+            yaml.dump({
+                'gh_pulls': count,
+                'updated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+            }, f, default_flow_style=False, sort_keys=False)
+
+        if count > 0:
+            print(f"  {app_name}: {count:,} pulls ({chart_name})")
+        updated += 1
+
+    print(f"Done: {updated} updated, {len(app_names) - updated} skipped")
 
 
 # --- Main ---
@@ -161,7 +249,7 @@ def main():
     stars_parser.set_defaults(func=cmd_stars)
 
     # pulls subcommand
-    pulls_parser = subparsers.add_parser('pulls', help='Fetch GHCR pull counts (not implemented)')
+    pulls_parser = subparsers.add_parser('pulls', help='Fetch GHCR pull counts from GitHub packages page')
     pulls_parser.add_argument('apps', nargs='*', help='App names to update (default: all)')
     pulls_parser.add_argument('--max-age', default='P1D',
                               help='Skip data newer than this ISO 8601 duration (default: P1D). Use P0D to force.')
