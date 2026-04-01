@@ -213,7 +213,6 @@ function deployStats(name) {
 }
 function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(1)+"k" : String(n); }
 
-var ENVS = ["AWS EC2","AWS EKS","Azure AKS","vSphere","OpenStack","Bare Metal"];
 // ciResults removed — replaced by real validated_* data from catalog.json
 var STATUS_STYLE = {
   pass:{bg:"#00d48a18",text:"#00d48a",border:"#00d48a30",label:"Pass"},
@@ -448,8 +447,6 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
   var d = deployStats(item.name);
   var maxD = 18420;
   var pct = Math.round(d.deploys/maxD*100);
-  var k8s = K8S_COMPAT[eff] || K8S_COMPAT.community;
-  var clouds2 = CLOUD_COMPAT[eff] || CLOUD_COMPAT.community;
 
   useEffect(function(){
     var h = function(e){ if(e.key==="Escape") onClose(); };
@@ -495,7 +492,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
           <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
-            {["overview","install","compatibility","validation","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
+            {["overview","install","validation","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
@@ -546,49 +543,6 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
           )}
           {tab==="install" && (
             <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
-          )}
-          {tab==="compatibility" && (
-            <div>
-              <div style={{marginBottom:16}}>
-                <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Kubernetes versions</div>
-                <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                  {K8S_VERS.map(function(v){var ok=k8s.indexOf(v)!==-1;return <span key={v} style={{fontSize:11,padding:"4px 12px",borderRadius:6,border:"1px solid "+(ok?B.teal+"40":B.border),background:ok?B.tealBg:B.bg2,color:ok?B.teal:B.textMut,fontFamily:"monospace",fontWeight:ok?600:400}}>{v} {ok?"✓":""}</span>;})}
-                </div>
-              </div>
-              <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Cloud providers</div>
-              <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
-                <table style={{width:"100%",borderCollapse:"collapse"}}>
-                  <thead>
-                    <tr>
-                      <th style={{padding:"6px 10px 8px 0",color:B.textMut,fontSize:9.5,fontWeight:500,textAlign:"left"}}>Provider</th>
-                      {K8S_VERS.map(function(v){return <th key={v} style={{padding:"6px 7px 8px",color:k8s.indexOf(v)!==-1?B.teal:B.textMut,fontSize:9.5,fontFamily:"monospace",textAlign:"center",fontWeight:k8s.indexOf(v)!==-1?600:400}}>{v}</th>;})}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {CLOUDS.map(function(c,ci){
-                      var cOk = clouds2.indexOf(c)!==-1;
-                      return (
-                        <tr key={c} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"40":"transparent"}}>
-                          <td style={{padding:"7px 10px 7px 0",fontSize:11.5,color:cOk?B.textPri:B.textMut,fontWeight:cOk?500:400}}>{c}</td>
-                          {K8S_VERS.map(function(v){
-                            var ok=cOk&&k8s.indexOf(v)!==-1;
-                            return <td key={v} style={{textAlign:"center",padding:"7px"}}>
-                              {ok
-                                ? <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill={B.teal} fillOpacity="0.2"/><path d="M3 6l2 2 4-4" stroke={B.teal} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
-                                : <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill={B.textMut} fillOpacity="0.15"/><path d="M3.5 6h5" stroke={B.textMut} strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
-                              }
-                            </td>;
-                          })}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <div style={{marginTop:10,padding:"9px 12px",background:B.bg2,borderRadius:7,border:"1px solid "+B.border,fontSize:12,color:item.tested?B.green:B.amber}}>
-                {item.tested?"CI-validated on k0rdent "+(eff==="mirantis-certified"?"Enterprise":"managed")+" clusters":"CI testing in progress — community contributions welcome"}
-              </div>
-            </div>
           )}
           {tab==="validation" && <TestResults item={item}/>}
           {tab==="cost" && (
