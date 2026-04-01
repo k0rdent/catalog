@@ -40,5 +40,7 @@ deploy_code: |
         name: lws
         namespace: lws-system
   ~~~
+validated_local: 'y'
 validated_amd64: 'y'
 validated_aws: 'y'
+validated_azure: 'y'
