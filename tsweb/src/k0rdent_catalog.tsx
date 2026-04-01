@@ -1568,6 +1568,7 @@ export default function App() {
     if(sort==="Tested first") r.sort(function(a,b){return b.tested-a.tested;});
     if(sort==="Certified first") r.sort(function(a,b){return (getEff(b)==="mirantis-certified"?1:0)-(getEff(a)==="mirantis-certified"?1:0);});
     if(sort==="Most popular") r.sort(function(a,b){return deployStats(b.name).deploys-deployStats(a.name).deploys;});
+    if(sort==="By Newest") r.sort(function(a,b){return (b.created||"").localeCompare(a.created||"");});
     return r;
   },[loading,search,tag,support,sort,compliance]);
 
@@ -1661,7 +1662,7 @@ export default function App() {
               <div>
                 <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Sort</div>
                 <select value={sort} onChange={function(e){setSort(e.target.value);}} style={{width:"100%",padding:"5px 7px",border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,background:B.bg3,color:B.textSec,outline:"none",cursor:"pointer"}}>
-                  <option>A-Z</option><option>Z-A</option><option>Tested first</option><option>Certified first</option><option>Most popular</option>
+                  <option>A-Z</option><option>Z-A</option><option>By Newest</option><option>Tested first</option><option>Certified first</option><option>Most popular</option>
                 </select>
               </div>
               <div>
