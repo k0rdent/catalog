@@ -1,5 +1,6 @@
 .lh/
 *.tgz
+.env
 
 scripts/set_envs.sh
 *ign*
