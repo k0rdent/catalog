@@ -6,7 +6,7 @@ metadata:
     type: aws
     group: demo
 spec:
-  template: aws-standalone-cp-1-0-20
+  template: aws-standalone-cp-1-0-23
   credential: aws-credential
   config:
     controlPlane:
