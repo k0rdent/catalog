@@ -31,5 +31,15 @@ if kubectl get mcs "$APP" 2>/dev/null; then
 fi
 echo "✅ Multicluster service '$APP' removed!"
 
-# shellcheck disable=SC2031
-KUBECONFIG="kcfg_$TEST_MODE" kubectl top nodes
+top_nodes() {
+  # shellcheck disable=SC2031
+  for test_mode in ${TEST_MODE//,/ }; do
+    (
+        # shellcheck disable=SC2031
+        TEST_MODE=$test_mode
+        KUBECONFIG="kcfg_$TEST_MODE" kubectl top nodes
+    )
+  done
+}
+
+top_nodes
