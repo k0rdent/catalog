@@ -41,6 +41,7 @@ It can also be used to install a Service Template from any existing application 
 ~~~bash
 helm upgrade --install grafana oci://ghcr.io/k0rdent/catalog/charts/kgst \
   --set "repo.spec.url=https://grafana.github.io/helm-charts" \
+  --set "repo.spec.type=default" \
   --set "repo.name=grafana" \
   --set "chart=grafana:9.3.6" -n kcm-system
 ~~~
