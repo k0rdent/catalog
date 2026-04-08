@@ -292,12 +292,12 @@ function TestResults({ item }) {
     {key:"amd64", label:"AMD64", icon:"🖥"},
     {key:"arm64", label:"ARM64", icon:"📱"},
   ];
-  var cloudProviders = [
+  var providers = [
     {key:"aws", label:"AWS", icon:"☁"},
     {key:"azure", label:"Azure", icon:"☁"},
     {key:"local", label:"Bare Metal", icon:"💻"},
   ];
-  var allPlatforms = architectures.concat(cloudProviders);
+  var allPlatforms = architectures.concat(providers);
   var passed=0, failed=0, pending=0;
   for (var pi=0;pi<allPlatforms.length;pi++){
     var val=v[allPlatforms[pi].key]||"-";
@@ -340,7 +340,7 @@ function TestResults({ item }) {
         })}
       </div>
       {renderTable("Architecture", architectures)}
-      {renderTable("Cloud Provider", cloudProviders)}
+      {renderTable("Provider", providers)}
     </div>
   );
 }
