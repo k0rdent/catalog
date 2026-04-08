@@ -1,9 +1,10 @@
 tags:
   - Monitoring
 title: "Kube Prometheus Stack"
-summary: "Collection of monitoring and alerting rules for Kubernetes clusters."
+summary: "The kube-prometheus-stack Helm chart deploys a fully integrated monitoring system — Prometheus, Alertmanager, Grafana, kube-state-metrics, node-exporter, and a curated library of recording rules and dashboards — in a single command. It includes pre-built NVIDIA DCGM dashboards for GPU utilization, making it the fastest path to end-to-end AI infrastructure observability on a new cluster."
 logo: ./assets/prometheus-operator-logo.svg # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/logos/prometheus-operator-logo.svg 
 created: "2025-03-12T08:16:55Z"
+github_repo: prometheus-operator/kube-prometheus
 description: |
     The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
     It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
@@ -17,9 +18,20 @@ examples:
         title: With Ingress
         chart_folder: example_ingress
     with_loki:
-        card_title: Aggregated cluster logs
-        card_summary: Kube-prometheus-stack, Loki, Alloy
+        card_title: Centralized Multi-Cluster Logging
+        card_summary: Unified log aggregation, querying, and alerting across all k0rdent-managed clusters
+        title: Centralized Multi-Cluster Logging
         type: solution
+        tagline: Alloy collection, Loki storage, and Grafana dashboards — one deploy across all clusters
+        category: Observability
+        badge: Validated
+        tier: community
+        use_cases:
+            - Centralized log aggregation across clusters
+            - Correlated logs and metrics in Grafana
+            - Log-based alerting for AI pipeline failures
+        clouds: ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
         chart_folder: example_logs
         content_template_file: example_logs/doc.md
 

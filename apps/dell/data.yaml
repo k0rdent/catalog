@@ -1,9 +1,11 @@
 tags:
   - Storage
 title: "Dell CSI Drivers & Modules"
-summary: "Dell Container Storage Modules."
+support_type: Partner
+summary: "Dell Container Storage Modules (CSM) is an open-source suite of Kubernetes storage extensions for Dell PowerStore, PowerFlex, PowerScale, Unity XT, and PowerMax arrays. It adds CSI-compliant dynamic provisioning, volume replication, observability, authorization, and resiliency policies so enterprises can use existing Dell infrastructure as first-class Kubernetes storage."
 logo: "./assets/icon.svg" # https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_logo_2016.svg
 created: "2025-10-03T00:00:00Z"
+github_repo: dell/csm
 description: |
     The **Dell Container Storage Modules Helm Chart** provides a unified way to deploy Dell's portfolio of Kubernetes storage and data services.  
     It bundles multiple Container Storage Interface (CSI) drivers and complementary modules into a single installation,  

@@ -6,15 +6,25 @@ dependencies:
   - name: istio-base
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Mesh CRDs
+    solution_why: Installs Istio custom resource definitions required by ambient mode
   - name: istio-cni
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: CNI Plugin
+    solution_why: Redirects pod traffic into the mesh without sidecars
   - name: istiod
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Control Plane
+    solution_why: Manages mTLS certificates and traffic policies for ztunnel proxies
   - name: istio-ztunnel
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: L4 Proxy
+    solution_why: Node-level proxy that encrypts pod traffic with mTLS without sidecars
   - name: kube-prometheus-stack
     version: 81.6.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Monitoring
+    solution_why: Collects mesh metrics and provides Grafana dashboards for observability

@@ -1,4 +1,3 @@
-##### Configuration without GPU
 Tested on worker `instanceType: t3.xlarge` and `rootVolumeSize: 32`:
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1beta1

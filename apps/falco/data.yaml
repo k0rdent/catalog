@@ -1,10 +1,11 @@
 title: "Falco"
 tags:
   - Security
-summary: "Runtime security tool that detects and alerts on abnormal behavior and threats."
+summary: "Falco is the CNCF runtime security project that uses eBPF probes and a rules engine to detect unexpected behavior inside containers in real time — system call anomalies, privilege escalation, file integrity violations, and network connections from model serving pods. It generates structured alerts that feed SIEM systems and is required for HIPAA and FedRAMP runtime threat-detection controls."
 logo: "./assets/falco-logo-small.svg" # https://icon-icons.com/icon/falco-logo/171164
 logo_big: "./assets/falco-logo.svg"
 created: "2025-04-16T13:06:51Z"
+github_repo: falcosecurity/falco
 description: |
     Falco is a cloud native security tool that provides runtime security across hosts, containers, Kubernetes, and cloud environments. It leverages custom rules on Linux kernel events and other data sources through plugins, enriching event data with contextual metadata to deliver real-time alerts. Falco enables the detection of abnormal behavior, potential security threats, and compliance violations.
 support_link: https://falco.org/enterprise/

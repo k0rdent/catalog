@@ -6,12 +6,20 @@ dependencies:
   - name: traefik
     version: 39.0.5
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Ingress Controller
+    solution_why: Exposes Grafana web UI for external access to log dashboards
   - name: kube-prometheus-stack
     version: 81.6.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Metrics and Visualization
+    solution_why: Deploys Prometheus, Alertmanager, and Grafana with Loki data source preconfigured
   - name: alloy
     version: 1.6.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Log Collection
+    solution_why: Collects pod logs from all namespaces and forwards them to Loki
   - name: loki
     version: 6.53.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Log Storage
+    solution_why: Indexes and stores logs for querying via Grafana Explore

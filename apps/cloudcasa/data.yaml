@@ -1,10 +1,11 @@
 title: "CloudCasa by Catalogic"
 tags:
   - Backup and Recovery
-summary: "CloudCasa backup and migration service agent for Kubernetes"
+summary: "CloudCasa is a SaaS-delivered backup and disaster recovery service for Kubernetes that protects etcd, PVCs, and namespaces across multi-cloud and hybrid environments. Its agentless architecture requires only a lightweight Helm deployment, while the managed control plane handles scheduling, retention, and cross-cluster restores."
 logo: "./assets/cc-icon.svg"
 logo_big: "./assets/cloudcasa-logo.svg"
 created: "2025-05-15T00:54:27Z"
+github_repo: catalogicsoftware/cloudcasa-helmchart
 description: |
     CloudCasa is a comprehensive solution for data protection, disaster recovery, migration, and replication designed for
     Kubernetes and cloud-native applications. It is available as both a SaaS offering and a self-hosted deployment,

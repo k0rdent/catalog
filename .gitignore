@@ -1,5 +1,6 @@
 .lh/
 *.tgz
+.env
 
 scripts/set_envs.sh
 *ign*
@@ -25,3 +26,17 @@ mkdocs/validation_matrix.md
 .vscode
 __pycache__
 hunspell_dict_all.txt
+
+# tsweb
+tsweb/node_modules/
+tsweb/dist/
+tsweb/.vite/
+tsweb/public/catalog.json
+tsweb/public/fetched_metadata.json
+tsweb/public/logos/
+tsweb/public/apps/
+tsweb/public/index.json
+tsweb/public/schema/
+tsweb/public/versions.json
+tsweb/public/catalog.json
+tsweb/public/v*/

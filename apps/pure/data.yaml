@@ -2,7 +2,7 @@ tags:
   - Storage
   - Drivers and plugins
 title: "Pure"
-summary: "Storage service."
+summary: "The Pure Storage CSI driver provisions block and file volumes from Pure Storage FlashArray and FlashBlade arrays, supporting dynamic provisioning, snapshots, cloning, and volume expansion through the CSI specification. Its NVMe/FC and NVMe/RoCE transport support delivers the sub-100µs latency that checkpoint-heavy AI training workloads need when writing model state to persistent storage."
 logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
 created: "2025-03-12T08:16:55Z"
 description: |

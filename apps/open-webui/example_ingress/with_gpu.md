@@ -1,4 +1,3 @@
-##### Configuration with GPU
 This setup requires corresponding cluster setup, see [NVIDIA GPU Operator](../../../{{ version }}/apps/nvidia/#install){ target="_blank" }
 
 ~~~yaml

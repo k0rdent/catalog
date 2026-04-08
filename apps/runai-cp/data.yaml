@@ -1,7 +1,7 @@
 tags:
   - AI/Machine Learning
 title: NVIDIA Run:ai 
-summary: "Accelerate AI Workflows With Dynamic Orchestration"
+summary: "NVIDIA Run:ai is an AI compute orchestration platform that virtualizes and pools GPU resources across teams and projects, enabling dynamic multi-tenancy, fair-share scheduling, guaranteed quotas, and over-provisioning policies that significantly increase GPU utilization. Its control plane integrates with Kubernetes scheduler as a custom resource, giving infrastructure teams a single pane to allocate expensive GPU capacity across research, development, and production workloads."
 logo: ./assets/nvidia_logo.svg # https://commons.wikimedia.org/wiki/File:Nvidia_Logo.svg
 created: "2025-09-15T14:52:15Z"
 description: |
