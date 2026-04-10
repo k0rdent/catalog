@@ -1,0 +1,4 @@
+charts:
+  haproxy-ingress:
+  - version: 1.49.0
+    appVersion: 3.2.6

@@ -1,0 +1,4 @@
+haproxy-ingress:
+  kubernetes-ingress:
+    controller:
+      replicaCount: 1
