@@ -1,0 +1,27 @@
+tags:
+  - Networking
+title: "HAProxy Ingress"
+support_type: Partner
+summary: "Enterprise-grade Kubernetes ingress controller with advanced load balancing."
+logo: "./assets/icon.svg" # https://icon-icons.com/icon/haproxy-logo/171017
+created: "2026-04-10T00:00:00Z"
+github_repo: haproxytech/kubernetes-ingress
+description: |
+    HAProxy Kubernetes Ingress Controller is a high-performance, enterprise-grade ingress solution for Kubernetes
+    built on the industry-proven HAProxy load balancer. It provides advanced Layer 7 traffic management including
+    content-based routing, rate limiting, connection queuing, and Web Application Firewall (WAF) capabilities.
+
+    HAProxy's event-driven architecture handles millions of concurrent connections with minimal resource consumption,
+    making it suitable for high-throughput AI inference endpoints and large-scale API gateways. It supports both the
+    traditional Kubernetes Ingress API and the newer Gateway API specification.
+
+    Key features include SSL/TLS termination and passthrough, advanced health checking, circuit breaking,
+    sticky sessions, and comprehensive metrics via Prometheus integration. The controller automatically
+    discovers and configures routes based on Kubernetes Ingress and Gateway API resources.
+
+doc_link: https://www.haproxy.com/documentation/kubernetes-ingress/
+
+validated_amd64: 'y'
+validated_local: 'y'
+
+test_wait_for_pods: "haproxy-ingress-kubernetes-ingress-"

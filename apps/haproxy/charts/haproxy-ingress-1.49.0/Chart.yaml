@@ -1,0 +1,9 @@
+apiVersion: v2
+name: haproxy-ingress
+description: A Helm chart that references the official "haproxy-ingress" Helm chart.
+type: application
+version: 1.49.0
+dependencies:
+  - name: kubernetes-ingress
+    version: 1.49.0
+    repository: https://haproxytech.github.io/helm-charts
