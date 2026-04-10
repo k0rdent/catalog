@@ -1,7 +1,6 @@
 tags:
   - Networking
 title: "HAProxy Ingress"
-support_type: Partner
 summary: "Enterprise-grade Kubernetes ingress controller with advanced load balancing."
 logo: "./assets/icon.svg" # https://icon-icons.com/icon/haproxy-logo/171017
 created: "2026-04-10T00:00:00Z"
