@@ -1,0 +1,9 @@
+apiVersion: v2
+name: onyx
+description: A Helm chart that references the official "onyx" Helm chart.
+type: application
+version: 0.4.38
+dependencies:
+  - name: onyx
+    version: 0.4.38
+    repository: https://onyx-dot-app.github.io/onyx/

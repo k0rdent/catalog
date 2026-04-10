@@ -1,0 +1,16 @@
+tags:
+  - AI/Machine Learning
+title: "Onyx"
+summary: "Open-source AI-powered knowledge assistant for search and question answering."
+logo: "./assets/onyx_logo.svg"
+created: "2026-03-27T00:00:00Z"
+description: |
+    Onyx (formerly Danswer) is an open-source AI-powered knowledge assistant and search platform.
+    It connects to your organization's documents, Slack, GitHub, Confluence, and other tools to
+    provide natural language search and question answering over your internal knowledge base.
+    Onyx features a chat interface, automatic document syncing, role-based access control, and
+    support for multiple LLM backends.
+
+doc_link: https://docs.onyx.app/
+
+support_type: Community

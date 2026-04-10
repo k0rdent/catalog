@@ -1,0 +1,4 @@
+charts:
+  onyx:
+  - version: 0.4.38
+    appVersion: latest
