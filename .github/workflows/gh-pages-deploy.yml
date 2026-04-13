@@ -13,7 +13,7 @@ on:
       - overrides/**
       - mkdocs.yml
       - scripts/build_web.sh
-      - .github/workflows/build-catalog-web.yml
+      - .github/workflows/gh-pages-deploy.yml
 
 permissions:
   contents: read
