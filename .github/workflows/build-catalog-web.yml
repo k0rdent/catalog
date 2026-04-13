@@ -34,6 +34,12 @@ jobs:
           echo "image=ghcr.io/${OWNER}/catalog-web" >> "$GITHUB_OUTPUT"
           echo "owner=${OWNER}" >> "$GITHUB_OUTPUT"
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -46,6 +52,7 @@ jobs:
         with:
           context: .
           file: catalog-web/Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ steps.meta.outputs.image }}:latest
