@@ -1,6 +1,12 @@
 #!/bin/bash
 set -eo pipefail
 
+# Deploy catalog web pages to gh-pages branch using mike
+# This script uses mike (not build_web.sh) because mike manages
+# the gh-pages branch directly with versioned deployments.
+#
+# For building static files without git (e.g. Docker image), use build_web.sh instead.
+
 # Ensure "site_url" field in mkdocs.yml (stay on the same page on version switch)
 if [[ -n "$SITE_URL" ]]; then
     echo "site url found: $SITE_URL"

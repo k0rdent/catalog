@@ -6,10 +6,14 @@ on:
       - '**'
     paths:
       - catalog-web/**
+      - apps/**/data.yaml
+      - apps/*/example/**
+      - apps/*/charts/**
+      - mkdocs/**
+      - overrides/**
+      - mkdocs.yml
+      - scripts/build_web.sh
       - .github/workflows/build-catalog-web.yml
-  workflow_run:
-    workflows: ["Build and Deploy Catalog (TSX)"]
-    types: [completed]
 
 permissions:
   contents: read
@@ -18,23 +22,17 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-
-      - name: Checkout gh-pages branch content
-        uses: actions/checkout@v6
-        with:
-          ref: gh-pages
-          path: catalog-web/dist
 
       - name: Determine image name
         id: meta
         run: |
           OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           echo "image=ghcr.io/${OWNER}/catalog-web" >> "$GITHUB_OUTPUT"
+          echo "owner=${OWNER}" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -46,7 +44,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: catalog-web
+          context: .
+          file: catalog-web/Dockerfile
           push: true
           tags: |
             ${{ steps.meta.outputs.image }}:latest
@@ -54,8 +53,8 @@ jobs:
 
       - name: Package and push Helm chart
         run: |
-          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE="ghcr.io/${OWNER}/catalog-web"
+          IMAGE="${{ steps.meta.outputs.image }}"
+          OWNER="${{ steps.meta.outputs.owner }}"
 
           # Update image in values.yaml for this build
           sed -i "s|repository: .*|repository: ${IMAGE}|" catalog-web/helm/values.yaml
