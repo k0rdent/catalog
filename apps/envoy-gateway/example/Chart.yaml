@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: envoy-gateway
-    version: 1.5.9
+    version: 1.7.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
