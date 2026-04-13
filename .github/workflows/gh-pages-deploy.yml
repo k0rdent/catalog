@@ -1,80 +1,64 @@
-name: Deploy MkDocs to GitHub Pages
+name: Build catalog-web Docker image
 
 on:
   push:
     branches:
       - '**'
     paths:
+      - catalog-web/**
       - apps/**/data.yaml
       - apps/*/example/**
-      - apps/**/hunspell_dict.txt
-      - mkdocs.yml
-      - mkdocs/**
-      - overrides/**
-      - scripts/deploy_web.sh
-      - scripts/generate_index.py
-      - scripts/gen_app_pages.py
-      - .github/workflows/gh-pages-deploy.yml
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - apps/**/data.yaml
-      - apps/*/example/**
-      - apps/**/hunspell_dict.txt
+      - apps/*/charts/**
       - mkdocs/**
       - overrides/**
       - mkdocs.yml
-      - scripts/deploy_web.sh
-      - scripts/generate_index.py
-      - scripts/gen_app_pages.py
-      - .github/workflows/gh-pages-deploy.yml
+      - scripts/build_web.sh
+      - .github/workflows/build-catalog-web.yml
 
 permissions:
-  contents: write
+  contents: read
+  packages: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Configure Git User
+      - name: Determine image name
+        id: meta
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "image=ghcr.io/${OWNER}/catalog-web" >> "$GITHUB_OUTPUT"
+          echo "owner=${OWNER}" >> "$GITHUB_OUTPUT"
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
         with:
-          python-version: "3.x"
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r scripts/requirements.txt
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: catalog-web/Dockerfile
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.image }}:latest
+            ${{ steps.meta.outputs.image }}:${{ github.sha }}
 
-      - name: Test web pages build
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+      - name: Package and push Helm chart
         run: |
-          echo "REPO: $GITHUB_CONTEXT"
-          mkdocs build
+          IMAGE="${{ steps.meta.outputs.image }}"
+          OWNER="${{ steps.meta.outputs.owner }}"
 
-      - name: Web pages spell check
-        run: |
-          sudo apt update
-          sudo apt install -y hunspell hunspell-en-us
-          ./scripts/validate_spellcheck_configs.sh
-          ./scripts/spellcheck.sh
+          # Update image in values.yaml for this build
+          sed -i "s|repository: .*|repository: ${IMAGE}|" catalog-web/helm/values.yaml
+          sed -i "s|tag: .*|tag: ${{ github.sha }}|" catalog-web/helm/values.yaml
 
-      - name: Build and Deploy pages - fork
-        if: github.repository != 'k0rdent/catalog'
-        run: |
-          SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh
-
-      - name: Build and Deploy pages - k0rdent/catalog
-        if: github.repository == 'k0rdent/catalog' && github.ref == 'refs/heads/main'
-        run: |
-          SITE_URL=${{ vars.SITE_URL }} ./scripts/deploy_web.sh
+          helm package catalog-web/helm --version 0.1.0
+          helm push catalog-web-0.1.0.tgz "oci://ghcr.io/${OWNER}"
