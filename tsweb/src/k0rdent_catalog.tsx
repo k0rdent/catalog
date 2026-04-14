@@ -879,6 +879,15 @@ function SolutionDetail({ sol, onClose }) {
               <HtmlWithCopy html={detail.contentHtml} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/>
             </div>
           ) : null}
+          {deployYaml && (
+            <div style={{marginTop:16,borderTop:"1px solid "+B.border,paddingTop:16}}>
+              <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Deploy this solution</div>
+              <div style={{position:"relative"}}>
+                <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:7,padding:"13px 15px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{deployYaml}</pre>
+                <button onClick={doCopy} style={{position:"absolute",top:7,right:7,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 9px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
+              </div>
+            </div>
+          )}
           <div style={{marginTop:12}}>
             <FinOpsEstimator stackItems={sol.components} defaultCloud="aws"/>
           </div>
