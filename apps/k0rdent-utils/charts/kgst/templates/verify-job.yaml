@@ -38,8 +38,7 @@ spec:
               {{- else }}
               # Add http repo
               helm repo add "{{ $chartName }}-repo" "{{ $.Values.repo.spec.url }}"
-              # List all repo charts
-              helm search repo "{{ $chartName }}-repo" | grep "{{ $chartName }}-repo/{{ $chartName }}"
+              helm repo update "{{ $chartName }}-repo"
               # Try to pull the chart
               helm pull "{{ $chartName }}-repo/{{ $chartName }}" --version $VERSION --untar --destination /tmp || {
                 echo "Chart $CHART_FULL:$VERSION does not exist or cannot be pulled"
