@@ -1,9 +1,11 @@
 tags:
   - Networking
 title: "Istio - Ambient Mode"
-summary: "Sidecar-less mesh with node-level routing and app-layer control."
+support_type: Partner
+summary: "Istio Ambient mode replaces per-pod Envoy sidecars with a shared per-node ztunnel for L4 mTLS and a dedicated waypoint proxy for L7 policy, dramatically reducing the memory and CPU overhead of the service mesh. For GPU-intensive inference workloads where every millicore matters, ambient mode delivers the security guarantees of Istio without the sidecar tax."
 logo: "https://istio.io/latest/favicons/android-192x192.png"
 created: "2025-05-07T18:27:00Z"
+github_repo: istio/istio
 description: |
     In ambient mode, Istio implements its features using a per-node Layer 4 (L4) proxy, and optionally a per-namespace
     Layer 7 (L7) proxy.
@@ -21,10 +23,20 @@ doc_link: https://istio.io/latest/docs/ambient/install/helm/
 
 examples:
     security:
-        card_title: Service Mesh mTLS encryption
-        card_summary: Istio - Ambient mode, kube-prometheus-stack
-        title: Use Istio Ambient for pod-to-pod encryption
+        card_title: Sidecar-Free Service Mesh with Istio Ambient
+        card_summary: Node-level mTLS encryption without sidecar overhead — ideal for GPU and high-throughput workloads
+        title: Sidecar-Free Service Mesh with Istio Ambient
         type: solution
+        tagline: ztunnel-based L4 encryption with zero sidecar resource cost
+        category: Security
+        badge: Validated
+        tier: community
+        use_cases:
+            - Transparent mTLS without sidecar overhead
+            - Lightweight service mesh for GPU workloads
+            - Zero-trust networking with minimal resource cost
+        clouds: ["AWS EC2", "Azure VM", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
         chart_folder: example_security
         content_template_file: example_security/doc.md
 

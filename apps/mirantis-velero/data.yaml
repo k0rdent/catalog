@@ -1,7 +1,7 @@
 tags:
   - Backup and Recovery
 title: "Mirantis Velero"
-summary: "Open source tool to safely backup and restore."
+summary: "Mirantis Velero is the enterprise-supported distribution of Velero, providing Mirantis-tested backup and disaster recovery for k0rdent-managed clusters with guaranteed compatibility, validated restore procedures, and 24x7 incident response. It covers cluster state snapshots, PVC backups to S3-compatible storage, and scheduled retention policies for RPO/RTO compliance."
 logo: "https://cdn-images-1.medium.com/max/1600/1*-9mb3AKnKdcL_QD3CMnthQ.png"
 created: "2025-07-22T08:16:55Z"
 prerequisites: |

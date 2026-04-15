@@ -1,4 +1,3 @@
-##### Configuration with Cloudflare
 Use ExternalDNS to leverage Cloudflare provider.
 
 ~~~yaml
