@@ -501,7 +501,6 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
               </div>
               <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
                 {item.tags.map(function(t){return <span key={t} style={{fontSize:9.5,padding:"1px 6px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),border:"1px solid "+tagAccent(t)+"25",fontWeight:500}}>{t}</span>;})}
-                {compTags.map(function(c){var cs=COMPLIANCE_STYLE[c];return <span key={c} style={{fontSize:9,padding:"1px 5px",borderRadius:3,background:cs.bg,color:cs.text,border:"1px solid "+cs.border,fontWeight:600}}>{c}</span>;})}
               </div>
             </div>
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
@@ -542,14 +541,6 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
                 <div style={{height:5,background:B.bg3,borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",width:pct+"%",background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",borderRadius:3}}/></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:2}}><span style={{fontSize:9,color:B.textMut}}>0</span><span style={{fontSize:9,color:B.teal,fontWeight:600}}>{pct}%</span><span style={{fontSize:9,color:B.textMut}}>{fmtNum(maxD)}</span></div>
               </div>
-              {compTags.length>0&&(
-                <div>
-                  <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Compliance frameworks</div>
-                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                    {compTags.map(function(c){var cs=COMPLIANCE_STYLE[c];return <div key={c} style={{background:cs.bg,border:"1px solid "+cs.border,borderRadius:6,padding:"7px 12px"}}><div style={{fontSize:12,fontWeight:700,color:cs.text}}>{c}</div><div style={{fontSize:9.5,color:B.textSec,marginTop:2}}>{c==="SOC 2"?"Access controls & audit logging":c==="HIPAA"?"PHI data handling":c==="PCI DSS"?"Payment environments":"US Federal security"}</div></div>;})}
-                  </div>
-                </div>
-              )}
               <div style={{marginTop:16,padding:"11px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
                 <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
                 <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
@@ -601,7 +592,6 @@ function Card({ item, onOpen }) {
             {item.tags.slice(0,2).map(function(t){return <span key={t} style={{fontSize:9,padding:"1px 5px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),fontWeight:500,border:"1px solid "+tagAccent(t)+"25"}}>{t}</span>;})}
             <span style={{fontSize:8.5,color:B.textMut,fontFamily:"monospace"}}>{item.version}</span>
           </div>
-          {compTags.length>0&&<div style={{display:"flex",gap:3,marginTop:3,flexWrap:"wrap"}}>{compTags.map(function(c){var cs=COMPLIANCE_STYLE[c];return <span key={c} style={{fontSize:8,padding:"1px 4px",borderRadius:3,background:cs.bg,color:cs.text,border:"1px solid "+cs.border,fontWeight:600}}>{c}</span>;})}</div>}
         </div>
       </div>
       <p style={{fontSize:11,color:B.textSec,marginTop:8,lineHeight:1.55,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",flex:1}}>{item.desc}</p>
@@ -1696,16 +1686,6 @@ export default function App() {
                     var active=support===s;
                     var color=s==="mirantis-certified"?B.teal:s==="partner"?B.green:B.textSec;
                     return <button key={s} onClick={function(){setSupport(s);}} style={{textAlign:"left",padding:"5px 9px",border:"1px solid "+(active?color+"60":B.border),borderRadius:5,fontSize:11,background:active?color+"15":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontWeight:active?600:400,fontFamily:"inherit"}}>{s==="All"?"All tiers":SUPPORT_LABEL[s]}</button>;
-                  })}
-                </div>
-              </div>
-              <div>
-                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Compliance</div>
-                <div style={{display:"flex",flexDirection:"column",gap:3}}>
-                  {["All","SOC 2","HIPAA","PCI DSS","FedRAMP"].map(function(c){
-                    var cs=c==="All"?null:COMPLIANCE_STYLE[c]; var active=compliance===c;
-                    var color=cs?cs.text:B.teal;
-                    return <button key={c} onClick={function(){setCompliance(c);}} style={{textAlign:"left",padding:"5px 9px",border:"1px solid "+(active?color+"60":B.border),borderRadius:5,fontSize:11,background:active?color+"15":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontWeight:active?600:400,fontFamily:"inherit"}}>{c==="All"?"All frameworks":c}</button>;
                   })}
                 </div>
               </div>
