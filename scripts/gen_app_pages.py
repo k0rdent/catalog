@@ -401,9 +401,16 @@ def kgst_install(chart_name: str, chart_version: str, kcm_version: str, enterpri
 def ensure_install_code(metadata: dict):
     if 'install_code' in metadata:
         return
+    # Prefer example/Chart.yaml dependencies (includes all needed charts like cert-manager)
+    example_chart = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
+    if os.path.exists(example_chart):
+        chart_dict = utils.read_yaml_file(example_chart)
+        if 'dependencies' in chart_dict:
+            metadata['install_code'] = utils.chart_2_install_code(chart_dict)
+            return
+    # Fallback to charts from charts.yaml
     if 'charts' not in metadata:
         return
-
     install_code_lines = ['~~~bash']
     for chart in metadata['charts']:
         enterprise = metadata.get('support_type') == 'Enterprise'
@@ -415,9 +422,17 @@ def ensure_install_code(metadata: dict):
 def ensure_verify_code(metadata: dict):
     if 'verify_code' in metadata:
         return
+    # Prefer example/Chart.yaml dependencies (matches install code source)
+    example_chart = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
+    if os.path.exists(example_chart):
+        chart_dict = utils.read_yaml_file(example_chart)
+        if 'dependencies' in chart_dict:
+            verify_code = utils.charts_2_verify_code(chart_dict['dependencies'])
+            metadata['verify_code'] = verify_code
+            return
+    # Fallback to charts from charts.yaml
     if 'charts' not in metadata:
         return
-
     charts = [{'name': chart['name'], 'version': chart['versions'][0]} for chart in metadata['charts']]
     verify_code = utils.charts_2_verify_code(charts)
     metadata['verify_code'] = verify_code
