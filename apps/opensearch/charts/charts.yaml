@@ -1,0 +1,4 @@
+charts:
+  opensearch:
+  - version: 3.3.2
+    appVersion: 3.3.2
