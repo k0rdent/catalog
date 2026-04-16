@@ -8,4 +8,4 @@ kubectl get Credential remote-credential -n {{ .Release.Namespace }} -o yaml
 
 Set your SSH private key (associated pub key is registered in remote machines - nodes):
 REMOTE_SSH_KEY_B64=$(cat ~/.ssh/id_k0rdent | openssl base64 -A)
-kubectl patch secret remote-ssh-key -n {{ .Release.Namespace }} -p='{"stringData":{"value":"'$REMOTE_SSH_KEY_B64'"}}'
+kubectl patch secret remote-ssh-key -n {{ .Release.Namespace }} -p='{"data":{"value":"'$REMOTE_SSH_KEY_B64'"}}'
