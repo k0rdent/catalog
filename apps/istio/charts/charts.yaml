@@ -6,6 +6,8 @@ charts:
     appVersion: 1.27.1
   - version: 1.28.3
     appVersion: 1.28.3
+  - version: 1.29.2
+    appVersion: 1.29.2
   istiod:
   - version: 1.24.3
     appVersion: 1.24.3
@@ -13,6 +15,8 @@ charts:
     appVersion: 1.27.1
   - version: 1.28.3
     appVersion: 1.28.3
+  - version: 1.29.2
+    appVersion: 1.29.2
   istio-gateway:
   - version: 1.24.3
     appVersion: 1.24.3
@@ -20,3 +24,5 @@ charts:
     appVersion: 1.27.1
   - version: 1.28.3
     appVersion: 1.28.3
+  - version: 1.29.2
+    appVersion: 1.29.2
