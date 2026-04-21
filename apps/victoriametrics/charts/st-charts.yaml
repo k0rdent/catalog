@@ -7,3 +7,7 @@ st-charts:
   dep_name: victoria-metrics-single
   version: 0.30.0
   repository: https://victoriametrics.github.io/helm-charts/
+- name: victoriametrics
+  dep_name: victoria-metrics-single
+  version: 0.35.0
+  repository: https://victoriametrics.github.io/helm-charts/
