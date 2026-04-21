@@ -4,3 +4,5 @@ charts:
     appVersion: 0.15.2
   - version: 1.42.0
     appVersion: 0.15.6
+  - version: 1.54.0
+    appVersion: 0.19.0
