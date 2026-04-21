@@ -1,0 +1,6 @@
+dependencies:
+- name: harbor
+  repository: https://helm.goharbor.io
+  version: 1.18.3
+digest: sha256:34cf9627b47dd9d878526fcebdbe0f91d75972569204827654f094ed436cae64
+generated: "2026-04-21T20:10:42.9463474Z"
