@@ -3,3 +3,7 @@ st-charts:
   dep_name: traefik
   version: 39.0.5
   repository: https://traefik.github.io/charts
+- name: traefik
+  dep_name: traefik
+  version: 39.0.8
+  repository: https://traefik.github.io/charts
