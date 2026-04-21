@@ -10,3 +10,5 @@ charts:
     appVersion: 0.6.34
   - version: 10.2.1
     appVersion: 0.7.2
+  - version: 14.1.0
+    appVersion: 0.9.1
