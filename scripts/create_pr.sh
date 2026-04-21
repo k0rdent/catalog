@@ -15,7 +15,7 @@ echo "${head}"
 api_url="https://api.github.com/repos/$DST_REPO/pulls"
 
 # Create PR
-curl --fail -X POST \
+response=$(curl -s -w "\n%{http_code}" -X POST \
 -H "Authorization: Bearer $GITHUB_TOKEN" \
 -H "Accept: application/vnd.github+json" \
 "$api_url" \
@@ -27,3 +27,15 @@ curl --fail -X POST \
     "body": "This PR was created automatically by CI."
 }
 EOF
+)
+
+http_code=$(echo "$response" | tail -1)
+body=$(echo "$response" | sed '$d')
+
+if [ "$http_code" -ge 400 ]; then
+    echo "Error: GitHub API returned HTTP $http_code"
+    echo "$body"
+    exit 1
+fi
+
+echo "$body"
