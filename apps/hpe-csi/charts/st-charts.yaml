@@ -11,3 +11,7 @@ st-charts:
   dep_name: hpe-csi-driver
   version: 3.0.2
   repository: https://hpe-storage.github.io/co-deployments/
+- name: hpe-csi-driver
+  dep_name: hpe-csi-driver
+  version: 3.1.0
+  repository: https://hpe-storage.github.io/co-deployments/
