@@ -19,3 +19,7 @@ st-charts:
   dep_name: open-webui
   version: 10.2.1
   repository: https://helm.openwebui.com/
+- name: open-webui
+  dep_name: open-webui
+  version: 14.1.0
+  repository: https://helm.openwebui.com/
