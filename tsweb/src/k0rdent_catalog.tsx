@@ -757,7 +757,7 @@ function SolutionCard({ sol, onClick }) {
               <div style={{fontSize:10,color:B.textMut,marginTop:1}}>{sol.tagline}</div>
             </div>
           </div>
-          <span style={{fontSize:8.5,padding:"2px 7px",borderRadius:4,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase",whiteSpace:"nowrap",flexShrink:0}}>{sol.badge}</span>
+          {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:4,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase",whiteSpace:"nowrap",flexShrink:0}}>{sol.badge}</span>}
         </div>
         <p style={{fontSize:11.5,color:B.textSec,lineHeight:1.6,margin:"0 0 11px"}}>{sol.desc.slice(0,155)}...</p>
         <div style={{marginBottom:10}}>
@@ -812,8 +812,8 @@ function SolutionDetail({ sol, onClose }) {
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:3}}>
                 <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{sol.title}{sol.beta&&<span style={{fontSize:9,marginLeft:6,padding:"2px 5px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"middle"}}>Beta</span>}</h2>
-                <span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase"}}>{sol.badge}</span>
-                <span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[sol.tier]}</span>
+                {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase"}}>{sol.badge}</span>}
+                {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[sol.tier]}</span>}
               </div>
               <div style={{fontSize:11.5,color:B.textMut}}>{sol.tagline}</div>
             </div>
