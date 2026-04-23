@@ -84,7 +84,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: gpu-operator-25-10-1
+        - template: gpu-operator-26-3-1
           name: gpu-operator
           namespace: gpu-operator
           values: |
@@ -108,7 +108,23 @@ deploy_code: |
                   interval: 15s
                   honorLabels: true
                   additionalLabels: {}
+              # optionally, enable NRI plugin
+              # cdi:
+              #   nriPluginEnabled: true
     ~~~
+
+    #### NRI plugin support
+    On GPU node add this file:
+    `/etc/k0s/containerd.d/nri-enable.toml`:
+    ~~~
+    version = 2
+    [plugins]
+      [plugins."io.containerd.grpc.v1.cri"]
+        enable_cdi = true
+      [plugins."io.containerd.nri.v1.nri"]
+        disable = false
+    ~~~
+    See [official NRI plugin docs](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/cdi.html).
 
 validated_amd64: 'y'
 validated_aws: 'y'
