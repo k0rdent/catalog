@@ -84,7 +84,7 @@ deploy_code: |
           group: demo
       serviceSpec:
         services:
-        - template: gpu-operator-25-10-1
+        - template: gpu-operator-26-3-1
           name: gpu-operator
           namespace: gpu-operator
           values: |
