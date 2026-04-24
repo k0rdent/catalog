@@ -28,9 +28,9 @@ var SUPPORT_STYLE = {
   "mirantis-certified":{bg:"#00c8c810",text:B.teal,border:"#00c8c840"},
 };
 var TIER_DESC = {
-  community:"Open-source integrations contributed by the k0rdent community. Tested against k0rdent-managed clusters but without a commercial SLA.",
-  partner:"Integrations jointly validated with an ISV partner. Partner provides first-line support; Mirantis ensures k0rdent compatibility.",
-  "mirantis-certified":"Fully validated, hardened, and supported by Mirantis engineering. Included in k0rdent Enterprise Support SLA.",
+  community:"Compatible but not supported. Intended for self-service (DIY) use without formal support.",
+  partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",
+  "mirantis-certified":"Fully verified and tested end-to-end with k0rdent AI Enterprise. Provided with Mirantis Enterprise Support.",
 };
 var COMPLIANCE = {
   "cert-manager":["SOC 2","HIPAA","PCI DSS"],"external-secrets":["SOC 2","HIPAA","PCI DSS","FedRAMP"],
@@ -1664,7 +1664,7 @@ export default function App() {
                       <span style={{fontSize:10.5,fontWeight:700,color:ss.text}}>{SUPPORT_LABEL[k]}</span>
                       <span style={{fontSize:9,fontFamily:"monospace",color:B.textMut,background:B.bg3,border:"1px solid "+B.border,borderRadius:3,padding:"1px 5px"}}>{cnt}</span>
                     </div>
-                    <div style={{fontSize:10,color:B.textSec,lineHeight:1.55}}>{desc}</div>
+                    <div style={{fontSize:10,color:B.textSec,lineHeight:1.55}}>{desc.indexOf("Mirantis Enterprise Support")!==-1?<>{desc.split("Mirantis Enterprise Support")[0]}<a href="https://www.mirantis.com/support/enterprise-support-options/" target="_blank" rel="noreferrer" style={{color:B.teal}}>Mirantis Enterprise Support</a>{desc.split("Mirantis Enterprise Support")[1]}</>:desc}</div>
                   </div>
                 </div>;
               })}
