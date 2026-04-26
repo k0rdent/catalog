@@ -1,0 +1,5 @@
+k8gb:
+  clusterGeoTag: "us-east-1"
+  extGslbClustersGeoTags: "eu-west-1"
+  dnsZone: "cloud.example.com"
+  dnsStrategy: "failover"

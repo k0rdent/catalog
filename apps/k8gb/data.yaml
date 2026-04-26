@@ -1,0 +1,32 @@
+tags:
+  - 'Networking'
+title: k8gb
+summary: "Kubernetes Global Balancer - DNS-based global load balancing for multi-cluster Kubernetes."
+logo: "./assets/k8gb_logo.svg"
+created: "2026-01-16T00:00:00Z"
+description: |
+  k8gb is a cloud-native global load balancer designed for Kubernetes. It provides DNS-based geographic load balancing across geographically dispersed Kubernetes clusters using multiple load balancing strategies.
+
+  Key features
+
+  - DNS-based load balancing - Uses the battle-tested DNS protocol for global traffic routing.
+  - No single point of failure - Fully distributed architecture, each cluster runs its own k8gb instance.
+  - Kubernetes native - Uses standard Kubernetes health checks for load balancing decisions.
+  - Multiple strategies - Supports RoundRobin, Weighted RoundRobin, Failover, and GeoIP routing.
+  - Multi-cluster support - Works across multiple Kubernetes clusters in different regions.
+
+  Common use cases
+
+  - Geo-routing - Route users to the nearest cluster based on geographic location.
+  - Disaster recovery - Automatic failover to backup clusters when primary fails.
+  - Traffic distribution - Split traffic across multiple clusters using weighted round-robin.
+
+  k8gb integrates with popular DNS providers including AWS Route53, CloudFlare, Azure DNS, Google Cloud DNS, NS1, Infoblox, and more.
+
+doc_link: https://www.k8gb.io/
+
+test_wait_for_pods: "k8gb-"
+validated_amd64: 'y'
+validated_local: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
