@@ -4,8 +4,12 @@ charts:
     appVersion: ''
   - version: 1.5.1
     appVersion: ''
+  - version: 1.6.1
+    appVersion: ''
   ray-cluster:
   - version: 1.3.2
     appVersion: ''
   - version: 1.5.1
+    appVersion: ''
+  - version: 1.6.1
     appVersion: ''
