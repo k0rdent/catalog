@@ -2,3 +2,5 @@ charts:
   alloy:
   - version: 1.6.1
     appVersion: v1.13.2
+  - version: 1.8.0
+    appVersion: v1.16.0
