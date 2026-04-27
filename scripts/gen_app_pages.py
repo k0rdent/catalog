@@ -138,8 +138,12 @@ def try_copy_assets(apps_dir: str, app: str, dst_item_path: str):
         print(f"Assets copied from {src_dir} to {dst_dir}")
 
 
-def version2template_names(version: str) -> str:
-    # python3 ./scripts/find_cluster_templates.py ../kcm/templates/provider/kcm-templates/files/templates
+def version2template_names(version: str) -> dict:
+    return utils.version2template_names(version)
+
+
+def _OLD_version2template_names(version: str) -> str:
+    # Moved to utils.version2template_names() - keeping dead code to avoid large diff
     if version == "v0.1.0":
         return {
             "adopted_cluster": "adopted-cluster-0-1-0",
@@ -395,7 +399,7 @@ def kgst_install(chart_name: str, chart_version: str, kcm_version: str, enterpri
         kgst = "oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst"
     if kcm_version in ['v0.1.0', 'v0.2.0', 'v0.3.0']:
         k0rdentAPIFlag = '\\\n  --set "k0rdentApiVersion=v1alpha1" '
-    return f'helm upgrade --install {chart_name} {kgst} --set "chart={chart_name}:{chart_version}" {k0rdentAPIFlag}-n kcm-system'
+    return f'helm upgrade --install {chart_name} {kgst} \\\n  --set "chart={chart_name}:{chart_version}" \\\n  {k0rdentAPIFlag}-n kcm-system'
 
 
 def ensure_install_code(metadata: dict):

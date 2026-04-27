@@ -7,27 +7,37 @@ dependencies:
     version: 39.0.5
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: traefik
+    solution_role: Ingress Controller
+    solution_why: Exposes Kiali and Grafana dashboards for external access
   - name: istio-base
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: istio-system
+    solution_role: Mesh CRDs
+    solution_why: Installs Istio custom resource definitions for the service mesh
   - name: istiod
     version: 1.28.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 1
     mcs_namespace: istio-system
+    solution_role: Mesh Control Plane
+    solution_why: Manages sidecar injection, mTLS, and traffic routing policies
   - name: raw
     version: 2.0.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_name: raw1
     mcs_namespace: raw
     mcs_dep_index: 2
+    solution_role: Custom Resources
+    solution_why: Deploys Istio PeerAuthentication and Prometheus ServiceMonitor CRs
   - name: kube-prometheus-stack
     version: 81.6.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 3
     mcs_name: prometheus
     mcs_namespace: prometheus
+    solution_role: Metrics and Dashboards
+    solution_why: Collects Istio and Envoy metrics for Kiali traffic visualizations
   - name: raw
     alias: raw2
     version: 2.0.2
@@ -35,8 +45,12 @@ dependencies:
     mcs_name: raw2
     mcs_namespace: raw
     mcs_dep_index: 4
+    solution_role: Custom Resources
+    solution_why: Deploys Kiali CR to configure the operator with Istio and Prometheus
   - name: kiali-operator
     version: 2.21.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: kiali
     mcs_dep_index: 5
+    solution_role: Traffic Visualization
+    solution_why: Provides real-time service mesh topology, health, and traffic flow UI

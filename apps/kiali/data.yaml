@@ -1,9 +1,10 @@
 tags:
   - Monitoring
 title: Kiali
-summary: "The Console for Istio Service Mesh."
+summary: "Kiali is the official observability console for Istio service meshes, providing auto-generated topology graphs, real-time traffic flow animations, health indicators, and configuration validation for virtual services and destination rules. It accelerates debugging of inter-service communication issues in AI platforms where model servers, feature pipelines, and databases communicate through the mesh."
 logo: "./assets/icon.svg" # https://raw.githubusercontent.com/kiali/kiali.io/948cbe7a92f404f346fb62d2916d7f990cde19b0/assets/icons/logo.svg
 created: "2025-12-04T00:00:00Z"
+github_repo: kiali/kiali
 description: |
     Kiali is a service mesh observability console that provides topology visualization,
     deep traffic metrics, and health checks for microservices deployed within an Istio service mesh environment.
@@ -26,10 +27,20 @@ doc_link: https://kiali.io/docs/installation/installation-guide/install-with-hel
 
 examples:
     security:
-        card_title: Service Mesh Traffic Monitoring
-        card_summary: Kiali, Istio, kube-prometheus-stack
-        title: Service Mesh Traffic Monitoring
+        card_title: Service Mesh Observability with Kiali
+        card_summary: Real-time traffic topology, health dashboards, and routing validation for Istio
+        title: Service Mesh Observability with Kiali
         type: solution
+        tagline: Visual service graph, traffic flow analysis, and mesh health monitoring
+        category: Observability
+        badge: Validated
+        tier: community
+        use_cases:
+            - Visual service mesh topology and traffic flow
+            - Health monitoring of Istio-managed services
+            - Traffic routing validation for canary deployments
+        clouds: ["AWS EC2", "Azure VM", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
         chart_folder: example_traffic
         content_template_file: example_traffic/doc.md
 

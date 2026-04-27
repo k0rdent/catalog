@@ -1,7 +1,7 @@
 tags:
   - Monitoring
 title: "Mirantis StackLight"
-summary: "Operations Support System for Mirantis Container Cloud and Mirantis Cloud Platform"
+summary: "Mirantis StackLight is a production-hardened Logging, Monitoring, and Alerting (LMA) stack purpose-built for k0rdent Enterprise clusters. It bundles pre-configured OpenStack and Kubernetes collectors, curated alert rules, Grafana dashboards, and a centralized log pipeline into a single managed solution with Mirantis 24x7 support — replacing the need to assemble and maintain these components individually."
 logo: ./assets/stackligh-logo.png # https://www.mirantis.com/software/mcp/stacklight/
 created: "2025-06-05T20:16:05Z"
 prerequisites: |

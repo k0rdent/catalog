@@ -15,7 +15,6 @@ Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}
 
 #### Deploy service templates
 
-##### Deploy istio
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: MultiClusterService
@@ -71,7 +70,7 @@ kubectl logs -f -n istio-system ds/ztunnel
 # 2026-02-23T18:31:18.619090Z     info    xds::client:xds{id=5}   received response       type_url="type.googleapis.com/istio.security.Authorization" size=0 removes=0
 ~~~
 
-##### Enroll the Monitoring Namespace into Ambient Mode
+#### Enroll the Monitoring Namespace into Ambient Mode
 Label the prometheus namespace to enable Istio ambient dataplane.
 After labeling, restart the workloads so that existing pods are fully captured by ztunnel:
 ~~~bash
@@ -81,7 +80,7 @@ kubectl rollout restart deploy,sts,ds -n prometheus
 The namespace label activates ambient mode for all pods in the namespace.
 The rollout restart ensures that running Deployments, StatefulSets, and DaemonSets are recreated so their traffic is redirected through ztunnel.
 
-##### Verify Traffic Is Secured by ztunnel
+#### Verify Traffic Is Secured by ztunnel
 After the restart, monitor the ztunnel logs to confirm that traffic from Prometheus components is being intercepted and handled by the ambient dataplane:
 ~~~bash
 kubectl logs -f -n istio-system ds/ztunnel

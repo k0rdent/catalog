@@ -2,9 +2,10 @@ tags:
   - Security
   - Authentication
 title: "External-secrets"
-summary: "External secret management."
+summary: "External Secrets Operator synchronizes secrets from external vaults — HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, GCP Secret Manager, and others — into native Kubernetes Secrets on a configurable schedule. AI workloads that need API keys, database credentials, and signing certificates can consume them as standard Secrets without ever storing sensitive values in Git."
 logo: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png"
 created: "2025-03-12T08:16:55Z"
+github_repo: external-secrets/external-secrets
 description: |
     The External Secrets Operator extends Kubernetes with Custom Resources, which define where secrets live and how to
     synchronize them. The controller fetches secrets from an external API and creates Kubernetes secrets. If the secret

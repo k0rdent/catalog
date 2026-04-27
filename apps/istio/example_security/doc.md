@@ -15,7 +15,6 @@ Deploy k0rdent {{ version }}: [QuickStart](https://docs.k0rdent.io/{{ version }}
 
 #### Deploy service templates
 
-##### Deploy istio
 ~~~yaml
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: MultiClusterService
