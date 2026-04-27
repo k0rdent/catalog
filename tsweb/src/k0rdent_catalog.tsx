@@ -28,9 +28,9 @@ var SUPPORT_STYLE = {
   "mirantis-certified":{bg:"#00c8c810",text:B.teal,border:"#00c8c840"},
 };
 var TIER_DESC = {
-  community:"Compatible but not supported. Intended for self-service (DIY) use without formal support.",
-  partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",
   "mirantis-certified":"Fully verified and tested end-to-end with k0rdent AI Enterprise. Provided with Mirantis Enterprise Support.",
+  partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",
+  community:"Compatible but not supported. Intended for self-service (DIY) use without formal support.",
 };
 var COMPLIANCE = {
   "cert-manager":["SOC 2","HIPAA","PCI DSS"],"external-secrets":["SOC 2","HIPAA","PCI DSS","FedRAMP"],
@@ -247,7 +247,7 @@ var _catalogLoaded = false;
 // loadCatalog logic is now inline in App.doLoad() with cache-busting
 
 var ALL_TAGS:string[] = ["All"];
-var ALL_SUPPORT = ["All","community","partner","mirantis-certified"];
+var ALL_SUPPORT = ["All","mirantis-certified","partner","community"];
 
 var CONTRIB_STEPS = [
   {n:1,title:"Fork the repository",body:"Fork the k0rdent catalog repository to your GitHub account. Enable GitHub Actions and GitHub Pages (Settings > Pages > branch: gh-pages) so your changes preview on every push.",code:"git clone https://github.com/YOUR_USERNAME/catalog.git\ncd catalog"},
