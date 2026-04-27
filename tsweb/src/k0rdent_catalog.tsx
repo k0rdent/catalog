@@ -28,9 +28,9 @@ var SUPPORT_STYLE = {
   "mirantis-certified":{bg:"#00c8c810",text:B.teal,border:"#00c8c840"},
 };
 var TIER_DESC = {
-  community:"Compatible but not supported. Intended for self-service (DIY) use without formal support.",
-  partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",
   "mirantis-certified":"Fully verified and tested end-to-end with k0rdent AI Enterprise. Provided with Mirantis Enterprise Support.",
+  partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",
+  community:"Compatible but not supported. Intended for self-service (DIY) use without formal support.",
 };
 var COMPLIANCE = {
   "cert-manager":["SOC 2","HIPAA","PCI DSS"],"external-secrets":["SOC 2","HIPAA","PCI DSS","FedRAMP"],
