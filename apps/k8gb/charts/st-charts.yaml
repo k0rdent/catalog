@@ -2,4 +2,4 @@ st-charts:
   - name: k8gb
     dep_name: k8gb
     version: 0.19.0
-    repository: https://www.k8gb.io
+    repository: https://www.k8gb.io/
