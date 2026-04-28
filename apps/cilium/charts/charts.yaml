@@ -2,7 +2,5 @@ charts:
   cilium:
   - version: 1.18.2
     appVersion: 1.18.2
-  - version: 1.19.0
-    appVersion: 1.19.0
   - version: 1.19.3
     appVersion: 1.19.3

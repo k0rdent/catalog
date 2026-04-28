@@ -2,7 +2,5 @@ charts:
   metallb:
   - version: 0.14.7
     appVersion: v0.14.7
-  - version: 0.15.2
-    appVersion: v0.15.2
   - version: 0.15.3
     appVersion: v0.15.3
