@@ -1,0 +1,6 @@
+charts:
+  opentelemetry-collector:
+  - version: 0.141.0
+    appVersion: 0.141.0
+  - version: 0.145.0
+    appVersion: 0.145.0
