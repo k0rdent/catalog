@@ -1,0 +1,11 @@
+tags:
+- Developer Tools
+title: Dapr Dashboard
+summary: Web UI for Dapr runtime status, components, and configurations.
+logo: ./assets/dapr-logo.svg
+created: '2026-04-24T00:00:00Z'
+description: '    Web UI for Dapr runtime status, components, and configurations.
+
+  '
+show_install_tab: true
+github_repo: dapr/dashboard

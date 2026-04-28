@@ -12,7 +12,7 @@ description: |
     training and high-performance computing.
 support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
 deploy_code: |
-    Tested `ClusterDeployment` in AWS:
+    ##### Tested `ClusterDeployment` in AWS
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
@@ -42,7 +42,7 @@ deploy_code: |
         workersNumber: 1
     ~~~
 
-    Tested `ClusterDeployment` in Azure:
+    ##### Tested `ClusterDeployment` in Azure
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
     kind: ClusterDeployment
@@ -72,7 +72,7 @@ deploy_code: |
           vmSize: Standard_NC4as_T4_v3
     ~~~
 
-    Operator deployment:
+    ##### Operator deployment
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1
     kind: MultiClusterService

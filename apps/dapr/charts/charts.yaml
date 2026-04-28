@@ -6,6 +6,3 @@ charts:
     appVersion: 1.16.8
   - version: 1.16.9
     appVersion: 1.16.9
-  dapr-dashboard:
-  - version: 0.15.0
-    appVersion: 0.15.0

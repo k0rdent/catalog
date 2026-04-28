@@ -3,9 +3,6 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
-  - name: grafana
-    version: 10.5.15
-    repository: oci://ghcr.io/k0rdent/catalog/charts
-  - name: grafana-operator
-    version: v5.20.0
-    repository: oci://ghcr.io/k0rdent/catalog/charts
+- name: grafana
+  version: 10.5.15
+  repository: oci://ghcr.io/k0rdent/catalog/charts

@@ -1,0 +1,6 @@
+charts:
+  opentelemetry-operator:
+  - version: 0.99.2
+    appVersion: 0.138.0
+  - version: 0.105.1
+    appVersion: 0.144.0

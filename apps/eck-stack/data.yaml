@@ -1,0 +1,11 @@
+tags:
+- Database
+title: ECK Stack
+summary: Elasticsearch, Kibana, and APM Server managed by the ECK Operator.
+logo: ./assets/icon.svg
+created: '2026-04-24T00:00:00Z'
+description: '    Elasticsearch, Kibana, and APM Server managed by the ECK Operator.
+
+  '
+show_install_tab: true
+github_repo: elastic/cloud-on-k8s

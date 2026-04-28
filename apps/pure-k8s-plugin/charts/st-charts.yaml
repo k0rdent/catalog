@@ -1,0 +1,5 @@
+st-charts:
+- name: pure-k8s-plugin
+  dep_name: pure-k8s-plugin
+  version: 2.7.1
+  repository: https://purestorage.github.io/helm-charts

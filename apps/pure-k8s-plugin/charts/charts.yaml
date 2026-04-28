@@ -1,0 +1,4 @@
+charts:
+  pure-k8s-plugin:
+  - version: 2.7.1
+    appVersion: 2.7.1

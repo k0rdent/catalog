@@ -1,0 +1,10 @@
+tags:
+- Storage
+title: Pure Storage FlexVol Plugin
+summary: FlexVolume driver for Pure Storage arrays on Kubernetes.
+logo: https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png
+created: '2026-04-24T00:00:00Z'
+description: '    FlexVolume driver for Pure Storage arrays on Kubernetes.
+
+  '
+show_install_tab: true

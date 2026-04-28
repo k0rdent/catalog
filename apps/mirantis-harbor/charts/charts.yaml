@@ -1,0 +1,4 @@
+charts:
+  mirantis-harbor:
+  - version: 4.0.1
+    appVersion: v4.0.1

@@ -1,0 +1,11 @@
+tags:
+- Monitoring
+title: OpenTelemetry Operator
+summary: Kubernetes operator for managing OpenTelemetry collectors and instrumentation.
+logo: ./assets/icon.svg
+created: '2026-04-24T00:00:00Z'
+description: '    Kubernetes operator for managing OpenTelemetry collectors and instrumentation.
+
+  '
+show_install_tab: true
+github_repo: open-telemetry/opentelemetry-operator

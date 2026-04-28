@@ -3,9 +3,6 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
-  - name: opentelemetry-collector
-    version: 0.145.0
-    repository: oci://ghcr.io/k0rdent/catalog/charts
-  - name: opentelemetry-operator
-    version: 0.105.1
-    repository: oci://ghcr.io/k0rdent/catalog/charts
+- name: opentelemetry-collector
+  version: 0.145.0
+  repository: oci://ghcr.io/k0rdent/catalog/charts

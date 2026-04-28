@@ -1,0 +1,11 @@
+tags:
+- Container Registry
+title: Mirantis Harbor
+support_type: Enterprise
+summary: Enterprise container registry based on Harbor with Mirantis support.
+logo: ./assets/icon.svg
+created: '2026-04-24T00:00:00Z'
+description: '    Mirantis Harbor is an enterprise-grade container registry built
+  on the open-source Harbor project.
+
+  '

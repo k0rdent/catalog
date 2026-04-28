@@ -1,0 +1,11 @@
+tags:
+- Monitoring
+title: Grafana Operator
+summary: Kubernetes operator for managing Grafana instances and dashboards.
+logo: ./assets/icon.svg
+created: '2026-04-24T00:00:00Z'
+description: '    Kubernetes operator for managing Grafana instances and dashboards.
+
+  '
+show_install_tab: true
+github_repo: grafana/grafana-operator

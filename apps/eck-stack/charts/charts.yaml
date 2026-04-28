@@ -1,0 +1,6 @@
+charts:
+  eck-stack:
+  - version: 0.16.0
+    appVersion: ''
+  - version: 0.18.0
+    appVersion: ''
