@@ -1,8 +1,4 @@
 st-charts:
-- name: mirantis-harbor
-  dep_name: harbor
-  version: 4.0.1
-  repository: oci://registry.mirantis.com/harbor/helm
 - name: msr
   dep_name: msr
   version: 4.13.2
