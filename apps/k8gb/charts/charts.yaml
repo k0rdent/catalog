@@ -1,0 +1,4 @@
+charts:
+  k8gb:
+  - version: 0.19.0
+    appVersion: v0.19.0

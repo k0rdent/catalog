@@ -1,0 +1,9 @@
+apiVersion: v2
+name: k8gb
+description: A Helm chart that references the official "k8gb" Helm chart.
+type: application
+version: 0.19.0
+dependencies:
+  - name: k8gb
+    version: 0.19.0
+    repository: https://www.k8gb.io/
