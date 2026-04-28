@@ -1,6 +1,6 @@
 tags:
   - Monitoring
-title: OpenTelemetry Operator
+title: OpenTelemetry Collector
 summary: "High-quality, ubiquitous, and portable telemetry to enable effective observability."
 logo: "./assets/icon.svg" # https://techicons.dev/icons/opentelemetry
 created: "2025-12-09T00:00:00Z"
@@ -16,7 +16,7 @@ description: |
 
 doc_link: https://opentelemetry.io/docs/platforms/kubernetes/helm/
 
-test_wait_for_pods: "opentelemetry-operator-"
+test_wait_for_pods: "opentelemetry-collector-agent-"
 
 validated_amd64: 'y'
 validated_aws: 'y'
