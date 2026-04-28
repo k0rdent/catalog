@@ -259,6 +259,14 @@ def generate_install_code(metadata: dict, version: str) -> str | None:
     if os.path.exists(example_chart):
         chart_dict = utils.read_yaml_file(example_chart)
         if 'dependencies' in chart_dict:
+            import copy
+            chart_dict = copy.deepcopy(chart_dict)
+            # Substitute version for the app's own charts
+            if version and metadata.get('charts'):
+                app_chart_names = {c['name'] for c in metadata['charts']}
+                for dep in chart_dict['dependencies']:
+                    if dep['name'] in app_chart_names:
+                        dep['version'] = version
             return utils.chart_2_install_code(chart_dict)
     # Fallback to charts from charts.yaml
     if 'charts' not in metadata:
@@ -280,7 +288,15 @@ def generate_verify_code(metadata: dict, version: str) -> str | None:
     if os.path.exists(example_chart):
         chart_dict = utils.read_yaml_file(example_chart)
         if 'dependencies' in chart_dict:
-            return utils.charts_2_verify_code(chart_dict['dependencies'])
+            import copy
+            deps = copy.deepcopy(chart_dict['dependencies'])
+            # Substitute version for the app's own charts
+            if version and metadata.get('charts'):
+                app_chart_names = {c['name'] for c in metadata['charts']}
+                for dep in deps:
+                    if dep['name'] in app_chart_names:
+                        dep['version'] = version
+            return utils.charts_2_verify_code(deps)
     # Fallback to charts from charts.yaml
     if 'charts' not in metadata:
         return None

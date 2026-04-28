@@ -381,7 +381,8 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
     // Syntax highlighting
     if ((window as any).hljs) {
       ref.current.querySelectorAll("pre code").forEach(function(block:any){
-        if (!block.dataset.highlighted) (window as any).hljs.highlightElement(block);
+        delete block.dataset.highlighted;
+        (window as any).hljs.highlightElement(block);
       });
     }
   }, [html]);
@@ -432,9 +433,9 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
         {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
       </div>
       {stepBlock(1, "Prerequisites", installData.prerequisitesHtml)}
-      {verData && stepBlock(2, "Install template to k0rdent", verData.installHtml)}
-      {verData && stepBlock(3, "Verify service template", verData.verifyHtml)}
-      {verData && stepBlock(4, "Deploy service template", verData.deployHtml)}
+      {verData && <div key={"install-"+effectiveVer}>{stepBlock(2, "Install template to k0rdent", verData.installHtml)}</div>}
+      {verData && <div key={"verify-"+effectiveVer}>{stepBlock(3, "Verify service template", verData.verifyHtml)}</div>}
+      {verData && <div key={"deploy-"+effectiveVer}>{stepBlock(4, "Deploy service template", verData.deployHtml)}</div>}
       {installData.examples.length > 0 && (
         <div style={{marginTop:20,borderTop:"1px solid "+B.border,paddingTop:16}}>
           <div style={{fontSize:11,fontWeight:600,color:B.textPri,marginBottom:12,textTransform:"uppercase",letterSpacing:0.5}}>Examples</div>
