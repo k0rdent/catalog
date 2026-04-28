@@ -1278,47 +1278,20 @@ function ConfiguratorPage() {
 }
 
 function ContributePage() {
-  var [copied, setCopied] = useState({});
-  function doCopy(key,text){
-    if(navigator.clipboard)navigator.clipboard.writeText(text);
-    setCopied(function(c){ var nx=Object.assign({},c); nx[key]=true; return nx; });
-    setTimeout(function(){setCopied(function(c){ var nx=Object.assign({},c); nx[key]=false; return nx; });},1500);
-  }
+  var [html, setHtml] = useState("");
+  var [loading, setLoading] = useState(true);
+  useEffect(function(){
+    fetch(BASE + "contribute.json?t=" + Date.now())
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ if (d && d.contentHtml) setHtml(d.contentHtml); setLoading(false); })
+      .catch(function(){ setLoading(false); });
+  }, []);
   return (
     <div style={{maxWidth:860,margin:"0 auto",padding:"30px 20px 0"}}>
-      <div style={{marginBottom:24,paddingBottom:22,borderBottom:"1px solid "+B.border}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>Open source · community driven</div>
-        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 9px"}}>Add your app to the <span style={{color:B.teal}}>k0rdent catalog</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:640,margin:"0 0 18px"}}>The k0rdent catalog is community-driven and open source. Every integration goes through validation, CI testing, and peer review before listing.</p>
-        <div style={{display:"flex",gap:9,flexWrap:"wrap"}}>
-          <a href="https://github.com/k0rdent/catalog/fork" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.teal,color:B.bg0,borderRadius:6,fontSize:12,fontWeight:700,textDecoration:"none"}}>Fork on GitHub</a>
-          <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.bg2,color:B.textSec,border:"1px solid "+B.border,borderRadius:6,fontSize:12,textDecoration:"none"}}>View repository</a>
-        </div>
-      </div>
-      <div style={{marginBottom:20}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:12}}>Contribution process</div>
-        {CONTRIB_STEPS.map(function(s){return (
-          <div key={s.n} style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:9,overflow:"hidden",marginBottom:9}}>
-            <div style={{display:"flex",gap:12,padding:"13px 16px",alignItems:"flex-start"}}>
-              <div style={{width:26,height:26,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{s.n}</div>
-              <div style={{flex:1,minWidth:0}}>
-                <div style={{fontSize:12.5,fontWeight:600,color:B.textPri,marginBottom:4}}>{s.title}</div>
-                <div style={{fontSize:11.5,color:B.textSec,lineHeight:1.7,marginBottom:8}}>{s.body}</div>
-                <div style={{position:"relative"}}>
-                  <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:6,padding:"10px 12px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.6,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{s.code}</pre>
-                  <button onClick={function(){doCopy(s.n,s.code);}} style={{position:"absolute",top:5,right:5,background:copied[s.n]?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 7px",fontSize:9,color:copied[s.n]?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied[s.n]?"Copied":"Copy"}</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        );})}
-      </div>
-      <div style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:9,padding:"14px 18px",marginBottom:18}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:9}}>Allowed tags</div>
-        <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
-          {ALLOWED_TAGS.map(function(t){return <span key={t} style={{fontSize:10.5,padding:"3px 9px",borderRadius:4,background:tagAccent(t)+"15",color:tagAccent(t),border:"1px solid "+tagAccent(t)+"30",fontWeight:500}}>{t}</span>;})}
-        </div>
-      </div>
+      {loading ? <div style={{color:B.textSec,fontSize:13}}>Loading...</div>
+        : html ? <HtmlWithCopy html={html} style={{fontSize:13,color:B.textSec,lineHeight:1.8}}/>
+        : <div style={{color:B.textMut,fontSize:13}}>Contribute page not available.</div>
+      }
     </div>
   );
 }
@@ -1350,7 +1323,7 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
         </div>
         <div className="k0-nav-right" style={{display:"flex",gap:8,alignItems:"center"}}>
           <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:11,color:B.textSec,textDecoration:"none",padding:"5px 11px",border:"1px solid "+B.border,borderRadius:6,background:B.bg2}}>GitHub</a>
-          <button onClick={function(){navTo("contribute");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit"}}>Contribute</button>
+          <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",versionBase(k0rdentVer||"")+"contribute/");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>Contribute</a>
         </div>
       </div>
     </div>
@@ -1388,8 +1361,10 @@ function readUrlParams() {
   // Parse app name from /apps/<name>/ path
   var appMatch = pathname.match(/\/apps\/([^/]+)/);
   var app = appMatch ? appMatch[1] : (p.get("app") || "");
+  // Detect /contribute/ path
+  var isContribute = pathname.match(/\/contribute\/?$/);
   return {
-    view: p.get("view") || "catalog",
+    view: isContribute ? "contribute" : (p.get("view") || "catalog"),
     search: p.get("q") || "",
     tag: p.get("tag") || "All",
     support: p.get("support") || "All",
@@ -1417,6 +1392,7 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
 }
 
 function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
+  if (state.view === "contribute") return versionBase(k0rdentVer || "") + "contribute/";
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
   if (state.search) p.set("q", state.search);
@@ -1496,7 +1472,7 @@ export default function App() {
   // Sync catalog filters to URL (replaceState)
   useEffect(function(){
     // Don't overwrite /apps/<name>/ URL before the app is restored from URL
-    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/)) {
+    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/contribute\/?$/)) {
       history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}, k0rdentVer));
     }
   }, [view, search, tag, support, sort, compliance, loading]);
@@ -1620,6 +1596,10 @@ export default function App() {
         @media (max-width: 400px) {
           .k0-nav-tabs button { padding: 0 5px !important; font-size: 10px !important; }
         }
+        .anchor-link { color: #3d4d6a; text-decoration: none; margin-left: 6px; opacity: 0; transition: opacity 0.15s; font-size: 0.8em; }
+        h1:hover .anchor-link, h2:hover .anchor-link, h3:hover .anchor-link, h4:hover .anchor-link { opacity: 1; }
+        a { color: #00c8c8; }
+        a:hover { color: #00e5ff; }
       `}</style>
       <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
@@ -1722,7 +1702,7 @@ export default function App() {
             <div style={{display:"flex",gap:14}}>
               <span style={{fontSize:9.5,color:B.textMut}}>Privacy Policy</span>
               <span style={{fontSize:9.5,color:B.textMut}}>Terms of Use</span>
-              <span onClick={function(){setView("contribute");}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500}}>Contribute</span>
+              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",versionBase(k0rdentVer||"")+"contribute/");}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500,textDecoration:"none"}}>Contribute</a>
             </div>
           </div>
         </div>

@@ -7,16 +7,18 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
 - The application should be well-documented and functional.
 
 ## Contribution Process
+
 ### 1. Fork the Repository:
 - #### Fork the [k0rdent catalog repository](https://github.com/k0rdent/catalog/fork){ target="_blank" } to your own GitHub (or equivalent) account. [](){ #fork-repo }
 - #### Enable GitHub Actions in your fork:
     - Go to your fork on GitHub. Click the __"Actions"__ tab. If prompted, click the __"I understand my workflows, go ahead and enable them"__ button.
-- #### Expose _Fork static pages_ ([example](https://josca.github.io/k0rdent-catalog/latest/)):
+- #### Expose _Fork static pages_ ([example](https://josef-hak.github.io/k0rdent-catalog/latest/)):
     - In fork repositories pages are automatically deployed on each push to any branch. This allows easy and convenient review of static pages updates. You just need to allow this in your fork repository using following steps:
         - Enable github pages in repository `Settings` > `Pages` menu item.
         - Set GitHub Pages "Branch" to `gh-pages`. This branch is created automatically on first push.
         - Click "Save". Now your fork will expose Catalog pages with your updates on every push.
-### 2. Create the Application Helm Charts
+
+### 2. Create the Application Helm Charts:
 Before adding metadata, you need to provide Helm charts for your application. These charts enable deployment within k0rdent clusters and will be stored in the catalog registry as a central source of verified application charts.
 
 -	#### Create the `charts` directory
@@ -27,22 +29,26 @@ Before adding metadata, you need to provide Helm charts for your application. Th
 	  -	An **app chart** referencing the original upstream application chart.
     - A **service-template** chart to register the app in the mothership as a service template.
     - An `st-charts.yaml` file. It defines how charts are generated to be consistent with the rest of the catalog charts. Example:
-    ~~~yaml
-    st-charts:
-      - name: dapr
-        dep_name: dapr
-        version: 1.14.4
-        repository: https://dapr.github.io/helm-charts/ # upstream helm repository
-      - name: dapr-dashboard
-        dep_name: dapr-dashboard
-        version: 0.15.0
-        repository: https://dapr.github.io/helm-charts/
-    ~~~
-    -	Generate Charts Automatically. Use the `chart_ctl.py` script from the repository to generate the app and service-template charts based on `st-charts.yaml`. Example:
-    ~~~bash
-    source ./scripts/setup_python.sh
-    python3 ./scripts/chart_ctl.py generate dapr
-    ~~~
+
+~~~yaml
+st-charts:
+- name: dapr
+  dep_name: dapr
+  version: 1.14.4
+  repository: https://dapr.github.io/helm-charts/
+- name: dapr
+  dep_name: dapr
+  version: 1.16.8
+  repository: https://dapr.github.io/helm-charts/
+~~~
+
+-	Generate Charts Automatically. Use the `chart_ctl.py` script from the repository to generate the app and service-template charts based on `st-charts.yaml`. Example:
+
+~~~bash
+source ./scripts/setup_python.sh
+python3 ./scripts/chart_ctl.py generate dapr
+~~~
+
 ### 3. Create a New Application Metadata File:
 - Create an `assets` folder and add a logo to it (e.g., `assets/dapr_logo.svg`). Please use the SVG format if possible.
 - Create a new `data.yaml` file.
@@ -64,31 +70,23 @@ Before adding metadata, you need to provide Helm charts for your application. Th
     - `logo_big` (string): A relative link to a larger version of the app logo (e.g., `./assets/dapr_logo_big.svg`). Displayed on the application detail page.
     - `prerequisites` (string): Custom *Prerequisites* section of the application detail page.
     - `support_type` (string): Allowed values: `Community`, `Enterprise` or `Partner`.
-- #### Example:
-  ~~~yaml
-  title: "Dapr"
-  tags:
-    - Monitoring
-  summary: "Portable, event-driven runtime."
-  logo: "./assets/icon.svg"
-  created: "2025-03-12T08:16:55Z"
-  description: |
-    Dapr (Distributed Application Runtime) is an open-source, portable, event-driven runtime that makes it easy for developers to build resilient, microservices applications that run on the cloud and edge. Dapr provides APIs that abstract away the complexities of common challenges when building distributed applications, such as: 
-    Service-to-service invocation: Enables reliable and secure communication between microservices. 
-  
-    State management: Provides a consistent way to manage application state. 
-  
-    Publish and subscribe: Allows microservices to communicate asynchronously through message brokers. 
-  
-    Bindings: Connects applications to external systems and services (e.g., databases, message queues, cloud services). 
-  
-    Actors: Provides a framework for building stateful, concurrent objects. 
-  
-    Observability: Offers built-in observability features, including tracing, metrics, and logging.
-  support_link: https://www.diagrid.io/conductor
-  doc_link: https://docs.dapr.io/
-  use_ingress: true
-  ~~~
+#### Example:
+
+~~~yaml
+title: "Dapr"
+tags:
+  - Monitoring
+summary: "Portable, event-driven runtime."
+logo: "./assets/icon.svg"
+created: "2025-03-12T08:16:55Z"
+description: |
+  Dapr (Distributed Application Runtime) is an open-source, portable,
+  event-driven runtime that makes it easy for developers to build resilient,
+  microservices applications that run on the cloud and edge.
+support_link: https://www.diagrid.io/conductor
+doc_link: https://docs.dapr.io/
+use_ingress: true
+~~~
 
 ### 4. Validate Your YAML File:
 - Ensure your YAML file is valid by using a YAML validator. This will prevent errors during the review process.
@@ -100,7 +98,7 @@ Before adding metadata, you need to provide Helm charts for your application. Th
 apiVersion: v2
 name: example
 type: application
-version: 1.14.4
+version: 1.0.0
 dependencies:
   - name: dapr
     version: 1.14.4
@@ -121,29 +119,32 @@ dapr-dashboard: # example chart top-level key
 ~~~
 
 ### 6. Added files overview:
-- This is how the added files for a new app `abc` should look:
-  ~~~
-  apps/dapr
-  ├── assets
-  │   └── icon.svg
-  ├── charts
-  |   ├──dapr-1.2.3
-  |   ├──charts.yaml
-  |   └──st-charts.yaml
-  ├── data.yaml
-  ├── hunspell_dict.txt
-  └── example
-      ├── Chart.yaml
-      └── values.yaml
-  ~~~
+- This is how the added files for a new app should look:
+
+~~~
+apps/dapr
+├── assets
+│   └── icon.svg
+├── charts
+|   ├── dapr-1.2.3
+|   ├── charts.yaml
+|   └── st-charts.yaml
+├── data.yaml
+├── hunspell_dict.txt
+└── example
+    ├── Chart.yaml
+    └── values.yaml
+~~~
 - You can also check existing apps in the Catalog (e.g., [here](https://github.com/k0rdent/catalog/tree/main/apps/ingress-nginx)).
 ### 7. Commit and Push Your Changes:
 - Run spell check script locally:
-    ~~~bash
-    docker run --rm -it -v $(pwd):/catalog -w /catalog ghcr.io/josca/hunspell:latest scripts/spellcheck.sh dapr
-    ~~~
-    - Add detected unknown words list to `hunspell_dict.txt` file ([example](https://github.com/k0rdent/catalog/blob/main/apps/rabbitmq/hunspell_dict.txt)).
-    - Make sure the file ends with a newline character.
+
+~~~bash
+docker run --rm -it -v $(pwd):/catalog -w /catalog ghcr.io/josca/hunspell:latest scripts/spellcheck.sh dapr
+~~~
+
+- Add detected unknown words list to `hunspell_dict.txt` file ([example](https://github.com/k0rdent/catalog/blob/main/apps/rabbitmq/hunspell_dict.txt)).
+- Make sure the file ends with a newline character.
     - Run the script again. Ensure it returns `✅ Spell check OK`.
 - Commit your changes to your forked repository.
 - Push your changes to your remote branch.
