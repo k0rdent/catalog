@@ -1,6 +1,0 @@
-dependencies:
-- name: harbor
-  repository: oci://registry.mirantis.com/harbor/helm
-  version: 4.0.1
-digest: sha256:716728757dbbceebef28b760ad544894ab4c3eee68740101f1493d4a597e8f87
-generated: "2025-10-17T15:07:31.702851+02:00"
