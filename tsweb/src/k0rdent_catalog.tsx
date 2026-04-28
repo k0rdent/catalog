@@ -1647,7 +1647,8 @@ export default function App() {
                 var k=entry[0]; var desc=entry[1];
                 var ss=SUPPORT_STYLE[k];
                 var cnt=0; for(var ii=0;ii<RAW.length;ii++){if(getEff(RAW[ii])===k)cnt++;}
-                return <div key={k} style={{background:B.bg2,border:"1px solid "+ss.border,borderLeft:"2px solid "+ss.text,borderRadius:7,padding:"9px 12px",display:"flex",gap:9}}>
+                var isActive=support===k;
+                return <div key={k} style={{background:isActive?ss.bg:B.bg2,border:"1px solid "+(isActive?ss.text+"60":ss.border),borderLeft:"2px solid "+ss.text,borderRadius:7,padding:"9px 12px",display:"flex",gap:9,transition:"background 0.2s, border-color 0.2s"}}>
                   <span style={{width:7,height:7,borderRadius:"50%",background:ss.text,flexShrink:0,marginTop:3,display:"inline-block"}}/>
                   <div style={{flex:1}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:3}}>
