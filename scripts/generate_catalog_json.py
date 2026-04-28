@@ -254,6 +254,13 @@ def kgst_install(chart_name: str, chart_version: str, enterprise: bool) -> str:
 def generate_install_code(metadata: dict, version: str) -> str | None:
     if 'install_code' in metadata:
         return metadata['install_code']
+    # Prefer example/Chart.yaml dependencies (includes all needed charts like cert-manager)
+    example_chart = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
+    if os.path.exists(example_chart):
+        chart_dict = utils.read_yaml_file(example_chart)
+        if 'dependencies' in chart_dict:
+            return utils.chart_2_install_code(chart_dict)
+    # Fallback to charts from charts.yaml
     if 'charts' not in metadata:
         return None
     lines = ['~~~bash']
@@ -268,6 +275,13 @@ def generate_install_code(metadata: dict, version: str) -> str | None:
 def generate_verify_code(metadata: dict, version: str) -> str | None:
     if 'verify_code' in metadata:
         return metadata['verify_code']
+    # Prefer example/Chart.yaml dependencies
+    example_chart = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
+    if os.path.exists(example_chart):
+        chart_dict = utils.read_yaml_file(example_chart)
+        if 'dependencies' in chart_dict:
+            return utils.charts_2_verify_code(chart_dict['dependencies'])
+    # Fallback to charts from charts.yaml
     if 'charts' not in metadata:
         return None
     charts = []
