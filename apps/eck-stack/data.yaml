@@ -1,0 +1,32 @@
+tags:
+- Database
+title: ECK Stack
+summary: Elasticsearch, Kibana, and APM Server deployed via the ECK Operator.
+logo: ./assets/icon.svg
+created: '2026-04-24T00:00:00Z'
+description: |
+    ECK Stack is a Helm chart that deploys a complete Elastic Stack — Elasticsearch, Kibana, and APM Server —
+    as Kubernetes-native custom resources managed by the Elastic Cloud on Kubernetes (ECK) Operator. It provides
+    a production-ready search, analytics, and observability backend with automated node scaling, rolling upgrades,
+    TLS encryption, and snapshot-based backups.
+
+    The stack is commonly used as a log analytics backend (with Filebeat or Fluentd), a full-text search engine
+    for application data, and an APM tracing backend for distributed microservices. Kibana provides dashboards,
+    alerting, and a query interface for exploring Elasticsearch data.
+
+    Requires the ECK Operator (eck-operator) to be installed first, which handles lifecycle management of all
+    Elastic resources in the cluster.
+
+github_repo: elastic/cloud-on-k8s
+
+support_link: https://www.elastic.co/contact
+
+doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart
+
+test_wait_for_pods: "eck-stack-eck-kibana-kb-"
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y' # t4g.xlarge
+validated_local: 'y'
