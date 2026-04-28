@@ -1,6 +1,0 @@
-dependencies:
-- name: k0rdent-catalog
-  repository: oci://ghcr.io/k0rdent/catalog/charts
-  version: 1.0.0
-digest: sha256:b03f96c46cd2bbb3c26f870b93c3923d07f4eacd13799143e609b22c3e20f2a5
-generated: "2025-02-03T17:23:57.947567+01:00"

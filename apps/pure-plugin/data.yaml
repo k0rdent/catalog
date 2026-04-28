@@ -1,7 +1,7 @@
 tags:
   - Storage
   - Drivers and plugins
-title: "Pure CSI"
+title: "Pure Kubernetes Plugin"
 summary: "Storage service."
 logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
 created: "2025-03-12T08:16:55Z"
@@ -16,8 +16,6 @@ doc_link: https://github.com/purestorage/helm-charts
 # test settings
 test_deploy_chart: false
 test_check_images: false
-
-test_wait_for_pods: "pure-flex- pure-provisioner-"
 
 validated_amd64: 'y'
 validated_aws: 'y'
