@@ -358,7 +358,6 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
       pre.style.borderRadius = "7px";
       pre.style.padding = "12px 14px";
       pre.style.fontSize = "11px";
-      pre.style.color = "#7dd3fc";
       pre.style.fontFamily = "monospace";
       pre.style.lineHeight = "1.6";
       pre.style.overflowX = "auto";
@@ -379,6 +378,12 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
       };
       pre.appendChild(btn);
     });
+    // Syntax highlighting
+    if ((window as any).hljs) {
+      ref.current.querySelectorAll("pre code").forEach(function(block:any){
+        if (!block.dataset.highlighted) (window as any).hljs.highlightElement(block);
+      });
+    }
   }, [html]);
   return <div ref={ref} style={style} dangerouslySetInnerHTML={{__html:html}}/>;
 }
