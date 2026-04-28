@@ -49,7 +49,9 @@ jobs:
           node-version: "22"
 
       - name: Install Python dependencies
-        run: pip install pyyaml jinja2 ruyaml jsonschema packaging
+        run: |
+          pip install --upgrade pip
+          pip install -r scripts/requirements.txt
 
       - name: Determine base path and SITE_URL
         id: base
