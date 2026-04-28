@@ -32,6 +32,7 @@ tsweb/node_modules/
 tsweb/dist/
 tsweb/.vite/
 tsweb/public/catalog.json
+tsweb/public/contribute.json
 tsweb/public/fetched_metadata.json
 tsweb/public/logos/
 tsweb/public/apps/

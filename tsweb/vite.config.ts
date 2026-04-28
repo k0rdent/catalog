@@ -28,8 +28,8 @@ export default defineConfig({
               }
             }
 
-            // SPA fallback: rewrite /apps/<name>/ to / and let Vite serve index.html
-            if (cleanUrl.match(/^\/apps\/[^/]+\/?$/)) {
+            // SPA fallback: rewrite /apps/<name>/ and /contribute/ to / and let Vite serve index.html
+            if (cleanUrl.match(/^\/apps\/[^/]+\/?$/) || cleanUrl.match(/^\/contribute\/?$/)) {
               req.url = "/" + (req.url!.split("?")[1] ? "?" + req.url!.split("?")[1] : "");
               next();
               return;

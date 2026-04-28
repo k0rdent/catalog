@@ -628,6 +628,27 @@ def extract_solutions(output_dir: str) -> list:
     return solutions
 
 
+def generate_contribute_html(output_dir: str):
+    """Convert mkdocs/contribute.md to HTML and write as contribute.json."""
+    import markdown
+    contribute_md = os.path.join(CATALOG_ROOT, 'mkdocs', 'contribute.md')
+    if not os.path.exists(contribute_md):
+        return
+    with open(contribute_md, 'r', encoding='utf-8') as f:
+        content = f.read()
+    # Strip MkDocs-specific attributes like { target="_blank" } and { #id }
+    content = re.sub(r'\{[^}]*target="_blank"[^}]*\}', '', content)
+    content = re.sub(r'\[\]\(\)\{[^}]*\}', '', content)
+    content = re.sub(r'\{[^}]*#[a-z-]+[^}]*\}', '', content)
+    html = markdown.markdown(content, extensions=['fenced_code', 'tables', 'toc'],
+                             extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor-link'}})
+    # Make all links open in new tab and style them
+    html = html.replace('<a href="http', '<a target="_blank" rel="noreferrer" style="color:#00c8c8" href="http')
+    out_file = os.path.join(output_dir, 'contribute.json')
+    with open(out_file, 'w', encoding='utf-8') as f:
+        json.dump({'contentHtml': html}, f, ensure_ascii=False)
+
+
 def build_version(version: str, output_dir: str):
     """Build catalog.json, install.json, and solution files for a single version."""
     global VERSION, BASE_METADATA, OUTPUT_DIR, OUTPUT_FILE
@@ -653,6 +674,7 @@ def build_version(version: str, output_dir: str):
         json.dump({'apps': catalog, 'solutions': solutions}, f, indent=2, ensure_ascii=False)
 
     generate_fetched_metadata(catalog, output_dir)
+    generate_contribute_html(output_dir)
 
     print(f"  {version}: {len(catalog)} apps, {len(solutions)} solutions, {install_count} install.json files")
 
