@@ -963,16 +963,6 @@ var CONFIGURATOR_STEPS = [
     ],
   },
   {
-    id:"compliance",label:"Compliance",question:"Do you have compliance requirements?",multi:true,
-    options:[
-      {id:"none",label:"None",icon:"◉",desc:"No specific framework required"},
-      {id:"soc2",label:"SOC 2",icon:"◈",desc:"Security controls and audit logging"},
-      {id:"hipaa",label:"HIPAA",icon:"⬡",desc:"Healthcare data protection"},
-      {id:"pci",label:"PCI DSS",icon:"◈",desc:"Payment card environments"},
-      {id:"fedramp",label:"FedRAMP",icon:"◉",desc:"US Federal security requirements"},
-    ],
-  },
-  {
     id:"scale",label:"Scale",question:"What is your expected cluster scale?",
     options:[
       {id:"small",label:"Small",icon:"◈",desc:"1-5 clusters, dev/test or startup"},
@@ -1149,7 +1139,7 @@ function ConfiguratorPage() {
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>AI-native · Validated · One-click deploy</div>
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Visual stack <span style={{color:B.teal}}>configurator</span></h1>
         <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px",textAlign:"justify"}}>
-          Answer four questions about your use case, infrastructure, compliance requirements, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
+          Answer three questions about your use case, infrastructure, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
         </p>
       </div>
 
@@ -1648,7 +1638,7 @@ export default function App() {
               Every integration in this catalog sits at the intersection of <span style={{color:B.textPri,fontWeight:500}}>AI workloads</span> and <span style={{color:B.textPri,fontWeight:500}}>cloud-native Kubernetes infrastructure</span> — a deliberately narrow space defined by the real operational challenges of running AI in production: provisioning GPU nodes in minutes, serving models that scale to zero when idle and to hundreds of replicas under load, storing billion-scale vector embeddings with sub-10ms retrieval, and meeting the policy and audit requirements that regulated industries demand before a model touches sensitive data. A tool earns a place here by being production-hardened on real enterprise clusters, composable with the other integrations in the catalog, and relevant to the full AI infrastructure lifecycle — from raw compute and distributed training through model serving, RAG pipelines, observability, security, and FinOps. The result is not a directory of everything that exists, but a curated set of <span style={{color:B.teal,fontWeight:500}}>best-in-class integrations</span> that Mirantis platform engineers have validated, assembled into composable blueprints, and made deployable in minutes on any infrastructure.
             </p>
             <div className="k0-stats-row" style={{display:"flex",gap:0,background:B.bg2,border:"1px solid "+B.border,borderRadius:8,overflow:"hidden",marginBottom:10}}>
-              {[{n:RAW.length,l:"Integrations",sub:"hand-selected",c:B.teal},{n:testedCount,l:"CI-validated",sub:"across 6 providers",c:B.green},{n:certCount,l:"Certified",sub:"Enterprise Support SLA",c:B.cyan},{n:"13",l:"Categories",sub:"GPU to GitOps",c:B.purple},{n:"4",l:"Compliance",sub:"SOC 2 · HIPAA · PCI · FedRAMP",c:B.amber}].map(function(s,si,arr){
+              {[{n:RAW.length,l:"Integrations",sub:"hand-selected",c:B.teal},{n:testedCount,l:"CI-validated",sub:"across 6 providers",c:B.green},{n:certCount,l:"Certified",sub:"Enterprise Support SLA",c:B.cyan},{n:"13",l:"Categories",sub:"GPU to GitOps",c:B.purple}].map(function(s,si,arr){
                 return <div key={s.l} style={{flex:"1 1 0",padding:"9px 12px",borderRight:si<arr.length-1?"1px solid "+B.border:"none",minWidth:0}}><div style={{fontSize:16,fontWeight:700,color:s.c,fontFamily:"monospace",lineHeight:1}}>{s.n}</div><div style={{fontSize:10.5,color:B.textPri,fontWeight:500,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.l}</div><div style={{fontSize:9,color:B.textMut,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.sub}</div></div>;
               })}
             </div>
