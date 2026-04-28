@@ -1,0 +1,5 @@
+st-charts:
+- name: grafana-operator
+  dep_name: grafana-operator
+  version: v5.20.0
+  repository: oci://ghcr.io/grafana/helm-charts
