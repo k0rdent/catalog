@@ -1,0 +1,3 @@
+GrafanaDashboard
+GrafanaDatasource
+GrafanaFolder

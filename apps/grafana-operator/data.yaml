@@ -1,0 +1,28 @@
+tags:
+- Monitoring
+title: Grafana Operator
+summary: Kubernetes operator for declarative Grafana instance and dashboard management.
+logo: ./assets/icon.svg
+created: '2026-04-24T00:00:00Z'
+description: |
+    Grafana Operator manages the full lifecycle of Grafana instances, dashboards, data sources, and folder
+    structures through Kubernetes custom resources. It enables GitOps-driven observability by allowing teams
+    to define dashboards as code and deploy them consistently across clusters.
+
+    The operator watches for GrafanaDashboard, GrafanaDatasource, and GrafanaFolder CRDs, automatically
+    syncing them to managed Grafana instances. This eliminates manual dashboard configuration and ensures
+    that monitoring views stay in sync with the infrastructure they observe.
+
+    In multi-cluster k0rdent environments, the Grafana Operator enables centralized dashboard management —
+    define once, deploy everywhere — with support for external data sources like Prometheus, Loki, Tempo,
+    and Mimir.
+
+github_repo: grafana/grafana-operator
+
+doc_link: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: 'y'
+validated_arm64: 'y'
+validated_local: 'y'

@@ -6,6 +6,3 @@ charts:
     appVersion: 12.2.0
   - version: 10.5.15
     appVersion: 12.3.1
-  grafana-operator:
-  - version: v5.20.0
-    appVersion: v5.20.0
