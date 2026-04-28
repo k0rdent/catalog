@@ -1,9 +1,5 @@
 charts:
   jenkins:
-  - version: 5.8.84
-    appVersion: 2.516.2
-  - version: 5.8.116
-    appVersion: 2.528.3
   - version: 5.8.139
     appVersion: 2.541.1
   - version: 5.9.9

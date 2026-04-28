@@ -1,6 +1,4 @@
 charts:
   keycloakx:
-  - version: 7.1.7
-    appVersion: 26.5.1
   - version: 7.1.8
     appVersion: 26.5.3

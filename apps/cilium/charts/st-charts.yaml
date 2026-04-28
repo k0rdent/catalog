@@ -5,9 +5,5 @@ st-charts:
   repository: https://helm.cilium.io/
 - name: cilium
   dep_name: cilium
-  version: 1.19.0
-  repository: https://helm.cilium.io/
-- name: cilium
-  dep_name: cilium
   version: 1.19.3
   repository: https://helm.cilium.io/
