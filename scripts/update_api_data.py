@@ -13,7 +13,6 @@ import argparse
 import json
 import os
 import re
-import sys
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -202,7 +201,7 @@ def cmd_pulls(args):
     max_age = parse_iso8601_duration(args.max_age)
     app_names = args.apps if args.apps else get_all_app_names()
 
-    print(f"Fetching GHCR pull counts...")
+    print("Fetching GHCR pull counts...")
     all_pulls = scrape_ghcr_pulls()
 
     print(f"Updating pulls for {len(app_names)} apps (max-age: {args.max_age})")
