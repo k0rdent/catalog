@@ -1,0 +1,4 @@
+charts:
+  dapr-dashboard:
+  - version: 0.15.0
+    appVersion: 0.15.0
