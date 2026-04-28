@@ -1,0 +1,9 @@
+st-charts:
+- name: eck-stack
+  dep_name: eck-stack
+  version: 0.16.0
+  repository: https://helm.elastic.co
+- name: eck-stack
+  dep_name: eck-stack
+  version: 0.18.0
+  repository: https://helm.elastic.co
