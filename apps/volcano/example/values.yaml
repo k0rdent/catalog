@@ -1,0 +1,3 @@
+# Volcano upstream defaults install scheduler + admission webhook +
+# controller + CRDs into the chart's release namespace. That's the full
+# stack — no overrides needed for a working baseline.

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: volcano
+description: A Helm chart that references the official "volcano" Helm chart.
+type: application
+version: 1.14.1
+dependencies:
+  - name: volcano
+    version: 1.14.1
+    repository: https://volcano-sh.github.io/helm-charts

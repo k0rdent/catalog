@@ -1,0 +1,5 @@
+st-charts:
+- name: volcano
+  dep_name: volcano
+  version: 1.14.1
+  repository: https://volcano-sh.github.io/helm-charts

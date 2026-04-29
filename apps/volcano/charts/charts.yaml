@@ -1,0 +1,4 @@
+charts:
+  volcano:
+  - version: 1.14.1
+    appVersion: 1.14.1
