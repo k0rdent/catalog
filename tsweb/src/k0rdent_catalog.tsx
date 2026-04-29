@@ -1342,7 +1342,7 @@ var BASE = (function(){
   if (b) return b.getAttribute("href") || "/";
   var s = document.querySelector('script[src*="k0rdent_catalog"]');
   if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
-  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/+$/, "/");
+  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/contribute\/?$/, "/").replace(/\/+$/, "/");
   return p || "/";
 })();
 
