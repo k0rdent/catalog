@@ -1,0 +1,50 @@
+tags:
+  - AI/Machine Learning
+title: "Volcano"
+summary: "Volcano is the CNCF batch scheduler for high-performance and AI workloads on Kubernetes. It adds gang scheduling, fair-share queues, job priorities, and topology-aware placement to support distributed training jobs (PyTorch, TensorFlow, MPI, Ray) where partial pod placement is unacceptable."
+logo: ./assets/volcano_logo.svg
+logo_big: ./assets/volcano_logo_big.png
+created: "2026-04-29T00:00:00Z"
+github_repo: volcano-sh/volcano
+description: |
+    Volcano is a Kubernetes-native batch system originally donated by Huawei and now a CNCF
+    incubating project. It introduces a gang-scheduler that places all pods of a Job atomically —
+    the foundational guarantee distributed training needs — plus queue-based fairness, preemption,
+    and PodGroup-aware admission control.
+
+    #### Key Resources
+
+    - **Job (`batch.volcano.sh/v1alpha1`)**
+      Volcano's batch Job CR with first-class support for multiple task groups, plugins (ssh, env,
+      svc), and `minAvailable` for gang admission.
+
+    - **PodGroup (`scheduling.volcano.sh/v1beta1`)**
+      Schedulable unit that groups related pods. The Volcano scheduler binds the group atomically
+      or not at all.
+
+    - **Queue (`scheduling.volcano.sh/v1beta1`)**
+      Resource pool with weight, capacity, and reclaim policies. Enables multi-tenant fair-share
+      across teams or workloads.
+
+    Volcano integrates with KubeRay, MPI Operator, PyTorch Operator, and TensorFlow Operator out
+    of the box — workloads opt in via `schedulerName: volcano` or by submitting a Volcano Job.
+
+    #### k0rdent Integration
+
+    Volcano installs cleanly via a `MultiClusterService`, registering the scheduler across every
+    k0rdent-managed cluster that matches a label selector. Workloads then opt in by setting
+    `schedulerName: volcano` on Pod templates, or by submitting `batch.volcano.sh/Job` CRs.
+
+doc_link: https://volcano.sh/en/docs/
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: true
+test_install_servicetemplates: true
+test_wait_for_pods: "volcano-scheduler-"
+
+validated_amd64: 'y'
+validated_aws: 'n'
+validated_azure: 'n'
+validated_arm64: 'n'
+validated_local: 'y'

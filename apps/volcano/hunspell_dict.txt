@@ -1,0 +1,11 @@
+CRs
+Huawei
+MPI
+PodGroup
+Schedulable
+env
+minAvailable
+schedulerName
+svc
+v1alpha1
+v1beta1
