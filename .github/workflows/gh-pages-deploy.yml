@@ -111,6 +111,12 @@ jobs:
           cp tsweb/dist/index.html tsweb/deploy/latest/404.html
           echo '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>' > tsweb/deploy/index.html
 
+          # SPA route stubs — place index.html at known SPA routes
+          for route in contribute solutions configurator; do
+            mkdir -p tsweb/deploy/latest/$route
+            cp tsweb/dist/index.html tsweb/deploy/latest/$route/index.html
+          done
+
           # Copy versions.json to root for the SPA version selector
           cp tsweb/public/versions.json tsweb/deploy/latest/versions.json
 
@@ -132,6 +138,11 @@ jobs:
                   assets_dst = os.path.join(dst, 'assets')
                   if os.path.exists(assets_src) and not os.path.exists(assets_dst):
                       shutil.copytree(assets_src, assets_dst)
+                  # SPA route stubs for versioned paths
+                  for route in ['contribute', 'solutions', 'configurator']:
+                      route_dir = os.path.join(dst, route)
+                      os.makedirs(route_dir, exist_ok=True)
+                      shutil.copy2('tsweb/dist/index.html', os.path.join(route_dir, 'index.html'))
                   # Copy versions.json to each version folder
                   shutil.copy2('tsweb/public/versions.json', os.path.join(dst, 'versions.json'))
           # /latest/ gets the latest version's data
