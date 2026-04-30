@@ -1306,6 +1306,11 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
   function navTo(v:string) {
     if (v === "catalog") { resetFilters(); }
     setView(v);
+    if (v === "catalog") {
+      history.pushState(null, "", versionBase(k0rdentVer || ""));
+    } else {
+      history.pushState(null, "", versionBase(k0rdentVer || "") + v + "/");
+    }
   }
   var displayVer = k0rdentVer || versions.latest || "";
   return (
@@ -1342,7 +1347,7 @@ var BASE = (function(){
   if (b) return b.getAttribute("href") || "/";
   var s = document.querySelector('script[src*="k0rdent_catalog"]');
   if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
-  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/contribute\/?$/, "/").replace(/\/+$/, "/");
+  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/(contribute|solutions|configurator)\/?$/, "/").replace(/\/+$/, "/");
   return p || "/";
 })();
 
@@ -1368,9 +1373,9 @@ function readUrlParams() {
   var appMatch = pathname.match(/\/apps\/([^/]+)/);
   var app = appMatch ? appMatch[1] : (p.get("app") || "");
   // Detect /contribute/ path
-  var isContribute = pathname.match(/\/contribute\/?$/);
+  var pathView = pathname.match(/\/(contribute|solutions|configurator)\/?$/);
   return {
-    view: isContribute ? "contribute" : (p.get("view") || "catalog"),
+    view: pathView ? pathView[1] : (p.get("view") || "catalog"),
     search: p.get("q") || "",
     tag: p.get("tag") || "All",
     support: p.get("support") || "All",
@@ -1398,7 +1403,14 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
 }
 
 function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
-  if (state.view === "contribute") return versionBase(k0rdentVer || "") + "contribute/";
+  if (state.view === "contribute" || state.view === "solutions" || state.view === "configurator") {
+    var base = versionBase(k0rdentVer || "") + state.view + "/";
+    var sp = new URLSearchParams();
+    if (state.sol) sp.set("sol", state.sol);
+    if (state.scat && state.scat !== "All") sp.set("scat", state.scat);
+    var sqs = sp.toString();
+    return base + (sqs ? "?" + sqs : "");
+  }
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
   if (state.search) p.set("q", state.search);
@@ -1478,7 +1490,7 @@ export default function App() {
   // Sync catalog filters to URL (replaceState)
   useEffect(function(){
     // Don't overwrite /apps/<name>/ URL before the app is restored from URL
-    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/contribute\/?$/)) {
+    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/(contribute|solutions|configurator)\/?$/)) {
       history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}, k0rdentVer));
     }
   }, [view, search, tag, support, sort, compliance, loading]);
