@@ -1,0 +1,31 @@
+title: "NVIDIA DRA Driver"
+tags:
+  - AI/Machine Learning
+  - Drivers and plugins
+created: "2026-05-01T08:00:00Z"
+github_repo: kubernetes-sigs/dra-driver-nvidia-gpu
+summary: "The NVIDIA DRA Driver enables Kubernetes Dynamic Resource Allocation (DRA) for GPUs, allowing fine-grained, on-demand provisioning of GPU resources to workloads. It improves utilization and flexibility by decoupling resource requests from static device plugins and enabling dynamic, claim-based allocation."
+logo: "./assets/nvidia_logo.svg"
+description: |
+    The NVIDIA DRA Driver integrates with Kubernetes' Dynamic Resource Allocation (DRA) 
+    framework to provide flexible and efficient GPU resource management for containerized
+    workloads. Unlike traditional device plugins, DRA enables workloads to request GPU resources
+    dynamically through resource claims, allowing better scheduling decisions and 
+    optimized hardware utilization.
+
+    The NVIDIA DRA Driver manages the lifecycle of GPU resource claims, 
+    handling allocation, configuration, and release of GPU resources in coordination 
+    with the Kubernetes control plane. This approach supports advanced use cases 
+    such as fractional GPU allocation, multi-tenant environments, 
+    and workload-specific configurations.
+
+    Working alongside the NVIDIA GPU Operator, the DRA Driver enhances cluster efficiency
+    by enabling more granular control over GPU consumption, 
+    reducing resource fragmentation, and improving overall workload density 
+    in GPU-accelerated Kubernetes environments.
+
+doc_link: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/dra-intro-install.html
+validated_amd64: 'y'
+validated_local: 'y'
+validated_aws: 'y'
+validated_azure: 'y'

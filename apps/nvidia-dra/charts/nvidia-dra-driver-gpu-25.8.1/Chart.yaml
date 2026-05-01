@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nvidia-dra-driver-gpu
+description: A Helm chart that references the official "nvidia-dra-driver-gpu" Helm chart.
+type: application
+version: 25.8.1
+dependencies:
+  - name: nvidia-dra-driver-gpu
+    version: 25.8.1
+    repository: https://helm.ngc.nvidia.com/nvidia

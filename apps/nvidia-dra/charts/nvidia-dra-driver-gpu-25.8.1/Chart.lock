@@ -1,0 +1,6 @@
+dependencies:
+- name: nvidia-dra-driver-gpu
+  repository: https://helm.ngc.nvidia.com/nvidia
+  version: 25.8.1
+digest: sha256:0348b68af443f839ef5adc40e4f9e7255c9343e39f851da822d653a924ecca6a
+generated: "2026-04-30T16:37:26.176444141+02:00"
