@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 var B = {
   bg0:"#0a0e1a",bg1:"#0f1424",bg2:"#151b2e",bg3:"#1c2540",
@@ -20,7 +20,7 @@ var K8S_COMPAT = {
   partner:["1.29","1.30","1.31","1.32"],
   "mirantis-certified":["1.29","1.30","1.31","1.32"],
 };
-var MIRANTIS_CERTIFIED = {"amd-gpu":1,"nvidia":1,"nvidia-network-operator":1,"ceph":1,"cert-manager":1,"external-secrets":1,"mirantis-kyverno-guardrails":1,"mirantis-velero":1,"msr":1,"runai-cp":1,"stacklight":1};
+var MIRANTIS_CERTIFIED = {"amd-gpu":1,"nvidia":1,"ceph":1,"mirantis-kyverno-guardrails":1,"mirantis-velero":1,"nirmata":1,"runai-cp":1,"stacklight":1,"wandb":1};
 var SUPPORT_LABEL = {community:"Community",partner:"Verified Partner","mirantis-certified":"Mirantis Certified"};
 var SUPPORT_STYLE = {
   community:{bg:"#ffffff08",text:B.textSec,border:"#ffffff15"},
@@ -28,9 +28,9 @@ var SUPPORT_STYLE = {
   "mirantis-certified":{bg:"#00c8c810",text:B.teal,border:"#00c8c840"},
 };
 var TIER_DESC = {
-  "mirantis-certified":"Fully verified and tested end-to-end with k0rdent AI Enterprise. Provided with Mirantis Enterprise Support.",
-  partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",
-  community:"Compatible but not supported. Intended for self-service (DIY) use without formal support.",
+  community:"Open-source integrations contributed by the k0rdent community. Tested against k0rdent-managed clusters but without a commercial SLA.",
+  partner:"Integrations jointly validated with an ISV partner. Partner provides first-line support; Mirantis ensures k0rdent compatibility.",
+  "mirantis-certified":"Fully validated, hardened, and supported by Mirantis engineering. Included in k0rdent Enterprise 24x7 SLA.",
 };
 var COMPLIANCE = {
   "cert-manager":["SOC 2","HIPAA","PCI DSS"],"external-secrets":["SOC 2","HIPAA","PCI DSS","FedRAMP"],
@@ -119,25 +119,12 @@ function getLogoUrl(name) {
   return "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/" + slug + ".svg";
 }
 
-function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:number, accent?:string, logo?:string, brandColor?:string }) {
+function AppLogo({ name, size, accent }) {
   var sz = size || 32;
   var [svgContent, setSvgContent] = React.useState(LOGO_CACHE[name] || null);
   var [failed, setFailed] = React.useState(false);
-  var color = brandColor || BRAND_COLORS[name] || accent || "#7a8aaa";
-  var bg = color + "18";
-  var border = color + "30";
+  var color = BRAND_COLORS[name] || accent || "#7a8aaa";
 
-  // If catalog data provides a logo URL, use it directly as an <img>
-  if (logo) {
-    var logoSrc = logo.startsWith("http") ? logo : BASE + logo;
-    return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
-        <img src={logoSrc} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
-      </div>
-    );
-  }
-
-  // Fallback: fetch from SimpleIcons CDN
   React.useEffect(function() {
     if (svgContent || failed) return;
     var url = getLogoUrl(name);
@@ -159,6 +146,8 @@ function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:n
   var parts = name.replace(/-/g," ").split(" ");
   var initials = "";
   for (var pi=0;pi<Math.min(2,parts.length);pi++) initials+=parts[pi][0].toUpperCase();
+  var bg = color + "18";
+  var border = color + "30";
 
   if (svgContent && !failed) {
     return (
@@ -213,7 +202,28 @@ function deployStats(name) {
 }
 function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(1)+"k" : String(n); }
 
-// ciResults removed — replaced by real validated_* data from catalog.json
+var ENVS = ["AWS EC2","AWS EKS","Azure AKS","vSphere","OpenStack","Bare Metal"];
+function ciResults(item) {
+  var eff = getEff(item);
+  var envs = CLOUD_COMPAT[eff] || CLOUD_COMPAT.community;
+  var k8s = K8S_COMPAT[eff] || K8S_COMPAT.community;
+  var seed = 0;
+  for (var i = 0; i < item.name.length; i++) seed += item.name.charCodeAt(i);
+  var out = [];
+  for (var ei = 0; ei < ENVS.length; ei++) {
+    var env = ENVS[ei];
+    var supported = envs.indexOf(env) !== -1;
+    if (!supported) { out.push({env:env,status:"n/a",runs:[]}); continue; }
+    var runs = [];
+    for (var vi = 0; vi < k8s.length; vi++) {
+      if (!item.tested) { runs.push({v:k8s[vi],s:"pending"}); continue; }
+      var h = (seed*(ei+1)*(vi+1))%17;
+      runs.push({v:k8s[vi],s:h===0?"fail":h===1?"skip":"pass"});
+    }
+    out.push({env:env,status:item.tested?(((seed+ei)%9===0)?"fail":"pass"):"pending",runs:runs});
+  }
+  return out;
+}
 var STATUS_STYLE = {
   pass:{bg:"#00d48a18",text:"#00d48a",border:"#00d48a30",label:"Pass"},
   fail:{bg:"#ff4d6a18",text:"#ff4d6a",border:"#ff4d6a30",label:"Fail"},
@@ -232,22 +242,224 @@ function CIBadge({ s }) {
   );
 }
 
-var RAW:any[] = [];
-var SOLUTIONS:any[] = [];
-var HARDCODED_SOLUTIONS:any[] = [
-  {"id": "ai-inference-stack", "title": "AI Inference Stack", "category": "AI/ML", "tier": "mirantis-certified", "badge": "Production Ready", "badgeColor": "#00c8c8", "icon": "⬡", "tagline": "GPU-optimized inference serving at enterprise scale", "desc": "A fully integrated stack for deploying and serving LLMs and ML models in production. Combines GPU provisioning, model serving, observability, and autoscaling into a single validated blueprint for organizations running LLM inference and real-time prediction workloads.", "useCases": ["LLM inference endpoints (OpenAI-compatible)", "Embedding generation for RAG pipelines", "Real-time ML prediction serving", "Multi-model A/B testing and canary deployments"], "components": [{"name": "nvidia", "role": "GPU Operator", "why": "Automates GPU driver, CUDA, and device plugin deployment"}, {"name": "kserve", "role": "Model Serving", "why": "Kubernetes-native inference platform with autoscaling"}, {"name": "open-webui", "role": "LLM Interface", "why": "Self-hosted OpenAI-compatible UI for model interaction"}, {"name": "ollama", "role": "Local LLM Runtime", "why": "Lightweight LLM runtime for on-prem model hosting"}, {"name": "kube-prometheus-stack", "role": "GPU Observability", "why": "Pre-built DCGM dashboards for GPU utilization tracking"}, {"name": "keda", "role": "Event-driven Autoscaling", "why": "Scale inference pods based on request queue depth"}, {"name": "lws", "role": "Multi-node Inference", "why": "LeaderWorkerSet for large multi-GPU model deployments"}], "clouds": ["AWS EC2", "Azure VM", "Bare Metal"], "k8s": ["1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-inference-stack\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: ai-inference\n  serviceSpec:\n    services:\n    - template: gpu-operator-25-10-1\n      name: nvidia-gpu-operator\n      namespace: gpu-operator\n    - template: kserve-v0-15-0\n      name: kserve\n      namespace: kserve\n    - template: keda-2-19-0\n      name: keda\n      namespace: keda", "beta": true},
-  {"id": "mlops-platform", "title": "MLOps Platform", "category": "AI/ML", "tier": "mirantis-certified", "badge": "Production Ready", "badgeColor": "#00c8c8", "icon": "◈", "tagline": "End-to-end ML lifecycle management on Kubernetes", "desc": "A complete MLOps platform for teams building, training, and deploying ML models. Covers the full lifecycle from experiment tracking and dataset versioning to distributed training and model registry, all running on k0rdent-managed Kubernetes with GitOps delivery.", "useCases": ["Experiment tracking and reproducibility", "Distributed model training on GPU clusters", "Model registry and versioning", "Automated ML pipeline orchestration"], "components": [{"name": "mlflow", "role": "Experiment Tracking", "why": "Industry-standard ML experiment and model registry"}, {"name": "kuberay", "role": "Distributed Training", "why": "Ray clusters for distributed PyTorch and TensorFlow"}, {"name": "kubeflow-spark-operator", "role": "Data Processing", "why": "Apache Spark for large-scale feature engineering"}, {"name": "minio", "role": "Artifact Storage", "why": "S3-compatible storage for datasets and model checkpoints"}, {"name": "jupyterhub", "role": "Notebook Environment", "why": "Shared Jupyter notebooks for data scientists"}, {"name": "postgresql", "role": "Metadata Store", "why": "Reliable backend for MLflow and pipeline metadata"}], "clouds": ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "Bare Metal"], "k8s": ["1.29", "1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mlops-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: mlops\n  serviceSpec:\n    services:\n    - template: mlflow-1-8-1\n      name: mlflow\n      namespace: mlops\n    - template: kuberay-operator-1-5-1\n      name: kuberay\n      namespace: kuberay\n    - template: minio-14-1-2\n      name: minio\n      namespace: minio", "beta": true},
-  {"id": "rag-vector-stack", "title": "RAG and Vector Search Stack", "category": "AI/ML", "tier": "community", "badge": "Validated", "badgeColor": "#00d48a", "icon": "✦", "tagline": "Production RAG pipelines with vector search and LLM serving", "desc": "A curated stack for building Retrieval-Augmented Generation applications. Combines high-performance vector databases with LLM serving, document processing, and observability for enterprise knowledge bases and semantic search systems.", "useCases": ["Enterprise knowledge base search", "Document Q&A and summarization", "Semantic search over large corpora", "Real-time recommendation systems"], "components": [{"name": "qdrant", "role": "Primary Vector DB", "why": "High-performance vector similarity search at billion scale"}, {"name": "milvus", "role": "Alternative Vector DB", "why": "Distributed vector database for large-scale AI applications"}, {"name": "ollama", "role": "LLM Backend", "why": "Self-hosted LLM runtime for embedding and generation"}, {"name": "open-webui", "role": "RAG Interface", "why": "Built-in RAG support with document upload and retrieval"}, {"name": "tika", "role": "Document Processing", "why": "Extract text from PDFs, Office docs, and 1000+ formats"}, {"name": "redis", "role": "Semantic Cache", "why": "Cache vector query results to reduce LLM API costs"}], "clouds": ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "vSphere", "Bare Metal"], "k8s": ["1.29", "1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: rag-vector-stack\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: rag\n  serviceSpec:\n    services:\n    - template: qdrant-1-16-3\n      name: qdrant\n      namespace: rag\n    - template: ollama-1-42-0\n      name: ollama\n      namespace: rag\n    - template: open-webui-10-2-1\n      name: open-webui\n      namespace: rag", "beta": true},
-  {"id": "ai-observability", "title": "AI Infrastructure Observability", "category": "Observability", "tier": "mirantis-certified", "badge": "Production Ready", "badgeColor": "#00c8c8", "icon": "◉", "tagline": "Full-stack observability for GPU-accelerated AI workloads", "desc": "Purpose-built observability for AI infrastructure teams. Provides real-time GPU utilization metrics, cost allocation per workload, distributed tracing across model serving pipelines, and FinOps dashboards validated for multi-cluster Kubernetes.", "useCases": ["GPU utilization tracking per team and workload", "ML model latency and error rate monitoring", "FinOps cost attribution for training vs inference", "Multi-cluster observability from a single pane"], "components": [{"name": "kube-prometheus-stack", "role": "Metrics and Alerting", "why": "Includes DCGM GPU metrics and pre-built AI dashboards"}, {"name": "grafana", "role": "Visualization", "why": "GPU utilization, cost, and model performance dashboards"}, {"name": "loki", "role": "Log Aggregation", "why": "Correlated logs for training runs and inference requests"}, {"name": "tempo", "role": "Distributed Tracing", "why": "End-to-end traces across model serving pipelines"}, {"name": "opencost", "role": "Cost Attribution", "why": "Per-workload GPU and compute cost allocation"}, {"name": "finops-agent", "role": "Cost Forecasting", "why": "AI-powered spend forecasting using Prometheus metrics"}], "clouds": ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "vSphere", "OpenStack", "Bare Metal"], "k8s": ["1.29", "1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-observability\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: ai-ops\n  serviceSpec:\n    services:\n    - template: kube-prometheus-stack-81-6-3\n      name: monitoring\n      namespace: monitoring\n    - template: grafana-10-5-15\n      name: grafana\n      namespace: monitoring\n    - template: opencost-2-5-8\n      name: opencost\n      namespace: finops", "beta": true},
-  {"id": "secure-ai-platform", "title": "Secure AI Platform", "category": "Security", "tier": "mirantis-certified", "badge": "Enterprise", "badgeColor": "#a78bfa", "icon": "◈", "tagline": "Zero-trust security for regulated AI deployments", "desc": "A hardened security stack for organizations running AI in regulated environments. Combines policy enforcement, secrets management, runtime threat detection, and audit logging to meet SOC 2, HIPAA, and FedRAMP requirements.", "useCases": ["HIPAA-compliant AI workloads in healthcare", "FedRAMP-authorized government AI deployments", "Financial services AI with PCI DSS requirements", "Zero-trust access to ML training infrastructure"], "components": [{"name": "kyverno", "role": "Policy Engine", "why": "Validates every AI workload manifest against security policies"}, {"name": "falco", "role": "Runtime Security", "why": "Real-time threat detection for GPU pods and ML pipelines"}, {"name": "external-secrets", "role": "Secrets Management", "why": "Sync API keys from Vault and AWS securely"}, {"name": "teleport", "role": "Zero-Trust Access", "why": "MFA-gated access to AI training clusters with audit logs"}, {"name": "cert-manager", "role": "Certificate Automation", "why": "Automated mTLS between model serving components"}, {"name": "gatekeeper", "role": "Admission Control", "why": "OPA policies to enforce GPU resource quotas and labels"}], "clouds": ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "vSphere", "Bare Metal"], "k8s": ["1.29", "1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: secure-ai-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      compliance: regulated-ai\n  serviceSpec:\n    services:\n    - template: kyverno-3-7-0\n      name: kyverno\n      namespace: kyverno\n    - template: falco-8-0-0\n      name: falco\n      namespace: falco\n    - template: cert-manager-1-19-3\n      name: cert-manager\n      namespace: cert-manager", "beta": true},
-  {"id": "ai-data-platform", "title": "AI Data Platform", "category": "AI/ML", "tier": "community", "badge": "Validated", "badgeColor": "#00d48a", "icon": "⬡", "tagline": "Scalable data infrastructure for AI training pipelines", "desc": "A composable data platform for AI teams needing reliable storage, messaging, and workflow orchestration for training pipelines. Supports the full data lifecycle from ingestion to model-ready datasets.", "useCases": ["Training data ingestion and preprocessing pipelines", "Feature store for real-time ML serving", "Workflow automation for data labeling", "Multi-modal data management (text, image, audio)"], "components": [{"name": "minio", "role": "Object Storage", "why": "S3-compatible storage for raw datasets and model artifacts"}, {"name": "milvus", "role": "Vector Store", "why": "Store and query high-dimensional embeddings at scale"}, {"name": "strimzi-kafka-operator", "role": "Data Streaming", "why": "Real-time event streaming for continuous ML pipelines"}, {"name": "postgresql", "role": "Structured Data", "why": "Relational store for feature metadata and labels"}, {"name": "redis", "role": "Feature Cache", "why": "Low-latency feature serving for real-time ML inference"}, {"name": "influxdb", "role": "Time-Series Store", "why": "Metrics and sensor data for IoT and predictive AI models"}], "clouds": ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "vSphere", "OpenStack", "Bare Metal"], "k8s": ["1.28", "1.29", "1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-data-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: data-platform\n  serviceSpec:\n    services:\n    - template: minio-14-1-2\n      name: minio\n      namespace: data\n    - template: milvus-5-0-14\n      name: milvus\n      namespace: data\n    - template: postgresql-18-3-0\n      name: postgresql\n      namespace: data", "beta": true},
+var RAW = [
+  {name:"alloy",desc:"Grafana Alloy is a batteries-included OpenTelemetry collector that unifies Prometheus scraping, OTel pipelines, and log collection into a single, programmable agent. Its component-based River configuration makes it easy to route telemetry to any backend without running multiple agents per node.",support:"community",tested:false,tags:["Monitoring"],version:"1.6.1",versions:["1.6.1"],chartName:"alloy",docs:"https://catalog.k0rdent.io/v1.8.0/apps/alloy/"},
+  {name:"amd-gpu",desc:"The AMD GPU Operator automates every layer of AMD GPU enablement on Kubernetes — ROCm drivers, the device plugin, and node labeling — so GPU nodes are ready for AI workloads in minutes rather than hours. Works alongside k0rdent's cluster lifecycle management for consistent GPU provisioning across bare metal and vSphere.",support:"community",tested:true,tags:["AI/ML","Drivers"],version:"v1.4.1",versions:["v1.4.1","v1.3.0","v1.2.2"],chartName:"amd-gpu-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/amd-gpu/"},
+  {name:"apisix",desc:"Apache APISIX is a high-performance, cloud-native API gateway with dynamic routing, authentication, rate limiting, and a plugin ecosystem of 80+ extensions. It handles millions of requests per second and supports gRPC, WebSocket, and HTTP/3, making it a strong fit for AI inference APIs that require low-latency traffic shaping.",support:"community",tested:true,tags:["Networking"],version:"2.13.0",versions:["2.13.0","2.12.4"],chartName:"apisix",docs:"https://catalog.k0rdent.io/v1.8.0/apps/apisix/"},
+  {name:"arangodb",desc:"ArangoDB is a natively multi-model database combining document storage, key-value, and graph traversal in a single engine with its own AQL query language. Its integrated graph capabilities make it well-suited for knowledge graphs and entity relationship data that power RAG pipelines and AI recommendation systems.",support:"community",tested:true,tags:["Database"],version:"1.4.0",versions:["1.4.0","1.2.46"],chartName:"kube-arangodb",docs:"https://catalog.k0rdent.io/v1.8.0/apps/arangodb/"},
+  {name:"argo-cd",desc:"Argo CD is the reference GitOps controller for Kubernetes, continuously reconciling live cluster state against declarative definitions stored in Git. It provides a rich UI, RBAC, multi-cluster sync, and ApplicationSets for templating deployments across large cluster fleets — ideal for managing AI platform components at scale.",support:"community",tested:true,tags:["CI/CD"],version:"9.4.1",versions:["9.4.1","8.6.1","7.8.0"],chartName:"argo-cd",docs:"https://catalog.k0rdent.io/v1.8.0/apps/argo-cd/"},
+  {name:"cadvisor",desc:"cAdvisor (Container Advisor) is Google's open-source per-container resource usage daemon, exposing CPU, memory, filesystem, and network metrics at the container level. It runs as a DaemonSet and feeds Prometheus with the granular signals needed to right-size AI workloads and detect GPU memory pressure early.",support:"community",tested:true,tags:["Monitoring"],version:"2.4.1",versions:["2.4.1","2.3.3"],chartName:"cadvisor",docs:"https://catalog.k0rdent.io/v1.8.0/apps/cadvisor/"},
+  {name:"ceph",desc:"Ceph is the industry-standard software-defined storage platform, providing simultaneously available block (RBD), object (S3-compatible), and shared filesystem (CephFS) storage from a single cluster. In k0rdent Enterprise deployments, Rook-managed Ceph delivers the persistent, high-throughput storage that AI training pipelines and vector databases require on bare metal and vSphere.",support:"enterprise",tested:true,tags:["Storage"],version:"1.5.0",versions:["1.5.0"],chartName:"pelagia-ceph",docs:"https://catalog.k0rdent.io/v1.8.0/apps/ceph/"},
+  {name:"cert-manager",desc:"cert-manager is the de-facto standard Kubernetes certificate controller, automating issuance and renewal from Let's Encrypt, Vault, AWS ACM, and custom CAs via a CRD-driven API. It eliminates certificate expiry incidents and ensures mTLS between AI microservices is always current without manual intervention.",support:"community",tested:true,tags:["Security"],version:"1.19.3",versions:["1.19.3","1.19.2","1.18.2","1.17.2","1.16.2"],chartName:"cert-manager",docs:"https://catalog.k0rdent.io/v1.8.0/apps/cert-manager/"},
+  {name:"cilium",desc:"Cilium replaces kube-proxy with an eBPF dataplane that enforces network policy, encrypts traffic with WireGuard, and exposes per-flow observability through Hubble — all at kernel speed with no sidecar overhead. Its ability to enforce L7 policies and isolate GPU workload namespaces makes it the preferred CNI for regulated AI environments.",support:"community",tested:true,tags:["Networking"],version:"1.19.0",versions:["1.19.0","1.18.2"],chartName:"cilium",docs:"https://catalog.k0rdent.io/v1.8.0/apps/cilium/"},
+  {name:"clearml",desc:"ClearML is an open-source MLOps platform covering the full experiment lifecycle: automatic metric and artifact logging, dataset versioning, a model registry, remote execution agents, and a visual experiment comparison UI. Teams use it to reproduce training runs, track hyperparameter sweeps, and promote models to production with a full audit trail.",support:"community",tested:true,tags:["AI/ML"],version:"1.6.2",versions:["1.6.2","1.5.10"],chartName:"clearml-serving",docs:"https://catalog.k0rdent.io/v1.8.0/apps/clearml/"},
+  {name:"cloudcasa",desc:"CloudCasa is a SaaS-delivered backup and disaster recovery service for Kubernetes that protects etcd, PVCs, and namespaces across multi-cloud and hybrid environments. Its agentless architecture requires only a lightweight Helm deployment, while the managed control plane handles scheduling, retention, and cross-cluster restores.",support:"partner",tested:true,tags:["Backup"],version:"3.4.6",versions:["3.4.6","3.4.4"],chartName:"cloudcasa",docs:"https://catalog.k0rdent.io/v1.8.0/apps/cloudcasa/"},
+  {name:"cluster-autoscaler",desc:"Cluster Autoscaler watches for unschedulable pods and automatically adjusts node group sizes in AWS, Azure, GCP, and vSphere to match actual demand. For AI workloads with bursty GPU requirements — such as batch training jobs — it provisions expensive GPU nodes on-demand and removes them when idle to control cost.",support:"community",tested:true,tags:["Autoscaling"],version:"9.55.0",versions:["9.55.0","9.45.0"],chartName:"cluster-autoscaler",docs:"https://catalog.k0rdent.io/v1.8.0/apps/cluster-autoscaler/"},
+  {name:"dapr",desc:"Dapr (Distributed Application Runtime) provides a set of building-block APIs — pub/sub, service invocation, state management, secrets, and workflows — that abstract away infrastructure differences so microservices can run unchanged on any cloud. It is particularly useful for event-driven AI pipelines where inference services, data processors, and notification systems need to compose without tight coupling.",support:"community",tested:true,tags:["Runtime"],version:"1.16.9",versions:["1.16.9","1.16.8","1.14.4"],chartName:"dapr",docs:"https://catalog.k0rdent.io/v1.8.0/apps/dapr/"},
+  {name:"datadog",desc:"Datadog is a cloud-scale observability platform that unifies infrastructure metrics, APM traces, logs, security signals, and real user monitoring in a single pane. Its Kubernetes integration automatically discovers pods and services, while its GPU monitoring extension surfaces NVIDIA DCGM metrics so AI platform teams can track utilization, memory, and thermal state per workload.",support:"partner",tested:true,tags:["Monitoring"],version:"3.170.1",versions:["3.170.1","3.149.2"],chartName:"datadog",docs:"https://catalog.k0rdent.io/v1.8.0/apps/datadog/"},
+  {name:"dell",desc:"Dell Container Storage Modules (CSM) is an open-source suite of Kubernetes storage extensions for Dell PowerStore, PowerFlex, PowerScale, Unity XT, and PowerMax arrays. It adds CSI-compliant dynamic provisioning, volume replication, observability, authorization, and resiliency policies so enterprises can use existing Dell infrastructure as first-class Kubernetes storage.",support:"community",tested:true,tags:["Storage"],version:"1.9.0",versions:["1.9.0","1.8.0"],chartName:"dell-container-storage-modules",docs:"https://catalog.k0rdent.io/v1.8.0/apps/dell/"},
+  {name:"dex",desc:"Dex is a federated OpenID Connect identity provider that translates logins from upstream identity sources — LDAP, Active Directory, GitHub, Google, SAML 2.0, and more — into OIDC tokens that Kubernetes and its ecosystem can consume natively. It enables single-sign-on for platform tooling including Grafana, Argo CD, and JupyterHub without modifying each application's auth logic.",support:"community",tested:true,tags:["Security","Auth"],version:"0.24.0",versions:["0.24.0","0.23.0"],chartName:"dex",docs:"https://catalog.k0rdent.io/v1.8.0/apps/dex/"},
+  {name:"elasticsearch",desc:"Deployed via the Elastic Cloud on Kubernetes (ECK) operator, Elasticsearch provides distributed full-text search, log analytics, and vector search (HNSW approximate nearest neighbor) in a single managed cluster. Its dense vector field type and kNN search API make it a compelling hybrid store for semantic search applications that need keyword and embedding retrieval in one query.",support:"community",tested:true,tags:["Storage"],version:"3.3.0",versions:["3.3.0","3.1.0"],chartName:"eck-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/elasticsearch/"},
+  {name:"envoy-gateway",desc:"Envoy Gateway implements the Kubernetes Gateway API on top of Envoy Proxy, providing a standardized, vendor-neutral way to configure HTTP routing, TLS termination, traffic splitting, and rate limiting for services running inside a cluster. It replaces bespoke Ingress annotations with portable Gateway resources that work identically across cloud providers.",support:"community",tested:true,tags:["Networking"],version:"1.5.9",versions:["1.5.9","1.3.2"],chartName:"envoy-gateway",docs:"https://catalog.k0rdent.io/v1.8.0/apps/envoy-gateway/"},
+  {name:"external-dns",desc:"ExternalDNS watches Kubernetes Services and Ingresses and automatically creates and updates DNS records in Route 53, Azure DNS, Google Cloud DNS, and 30+ other providers. It eliminates the manual step of registering DNS entries for new AI API endpoints, keeping public-facing model inference services reliably reachable as deployments scale.",support:"community",tested:true,tags:["Security"],version:"1.20.0",versions:["1.20.0","1.19.0","1.15.1"],chartName:"external-dns",docs:"https://catalog.k0rdent.io/v1.8.0/apps/external-dns/"},
+  {name:"external-secrets",desc:"External Secrets Operator synchronizes secrets from external vaults — HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, GCP Secret Manager, and others — into native Kubernetes Secrets on a configurable schedule. AI workloads that need API keys, database credentials, and signing certificates can consume them as standard Secrets without ever storing sensitive values in Git.",support:"community",tested:true,tags:["Security","Auth"],version:"2.0.0",versions:["2.0.0","1.2.1","0.18.2","0.11.0"],chartName:"external-secrets",docs:"https://catalog.k0rdent.io/v1.8.0/apps/external-secrets/"},
+  {name:"falco",desc:"Falco is the CNCF runtime security project that uses eBPF probes and a rules engine to detect unexpected behavior inside containers in real time — system call anomalies, privilege escalation, file integrity violations, and network connections from model serving pods. It generates structured alerts that feed SIEM systems and is required for HIPAA and FedRAMP runtime threat-detection controls.",support:"community",tested:true,tags:["Security"],version:"8.0.0",versions:["8.0.0","6.4.0","4.21.3"],chartName:"falco",docs:"https://catalog.k0rdent.io/v1.8.0/apps/falco/"},
+  {name:"finops-agent",desc:"FinOps Agent is a lightweight k0rdent-native cost intelligence service that reads workload cost metrics from Prometheus and generates short-term spend forecasts using time-series models. It powers the k0rdent FinOps dashboard and enables teams to set budget alerts and model the cost impact of scaling GPU node pools before making infrastructure changes.",support:"community",tested:true,tags:["AI/ML","Monitoring"],version:"0.1.3",versions:["0.1.3"],chartName:"finops-agent-kof",docs:"https://catalog.k0rdent.io/v1.8.0/apps/finops-agent/"},
+  {name:"fluentd",desc:"Fluentd is a CNCF-graduated unified logging layer that collects, filters, transforms, and routes log data from hundreds of input sources to dozens of output destinations including Elasticsearch, S3, and Loki. Its plugin ecosystem and proven stability at petabyte scale make it a reliable choice for aggregating logs from heterogeneous AI platform components.",support:"community",tested:false,tags:["Monitoring"],version:"0.5.3",versions:["0.5.3"],chartName:"fluentd",docs:"https://catalog.k0rdent.io/v1.8.0/apps/fluentd/"},
+  {name:"flux-operator",desc:"The Flux Operator manages the full lifecycle of a Flux CD installation on Kubernetes, providing automatic upgrades, health checks, and a FluxInstance CRD that encapsulates Flux's multi-component architecture into a single manageable object. It is the recommended way to run Flux in production and integrates naturally with k0rdent's GitOps-first cluster management model.",support:"community",tested:true,tags:["CI/CD"],version:"0.32.0",versions:["0.32.0","0.27.0"],chartName:"flux-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/flux-operator/"},
+  {name:"gatekeeper",desc:"OPA Gatekeeper is the CNCF policy controller that enforces Open Policy Agent rules at the Kubernetes admission webhook, blocking non-compliant resources before they are created. It uses ConstraintTemplates written in Rego to codify any governance requirement — from mandatory GPU resource limits on AI workloads to required security context fields — as auditable, version-controlled policy.",support:"community",tested:true,tags:["Security"],version:"3.21.1",versions:["3.21.1","3.17.1"],chartName:"gatekeeper",docs:"https://catalog.k0rdent.io/v1.8.0/apps/gatekeeper/"},
+  {name:"gitlab",desc:"GitLab self-managed brings the complete DevSecOps lifecycle — source control, CI/CD pipelines, container registry, dependency scanning, DAST, and deployment environments — into a single on-premises application. Running GitLab on k0rdent gives regulated organizations full data sovereignty over their code, ML experiment definitions, and model deployment pipelines.",support:"community",tested:true,tags:["CI/CD"],version:"9.8.4",versions:["9.8.4","9.5.1","8.9.2"],chartName:"gitlab",docs:"https://catalog.k0rdent.io/v1.8.0/apps/gitlab/"},
+  {name:"grafana",desc:"Grafana is the open-source analytics and visualization platform used by more teams than any other to build operational dashboards. Its plugin system supports 150+ data sources — Prometheus, Loki, Tempo, ClickHouse, and more — enabling unified dashboards that correlate GPU utilization, model request latency, log errors, and distributed traces in a single view.",support:"community",tested:true,tags:["Monitoring"],version:"10.5.15",versions:["10.5.15","10.1.0","9.3.6"],chartName:"grafana",docs:"https://catalog.k0rdent.io/v1.8.0/apps/grafana/"},
+  {name:"harbor",desc:"Harbor is a CNCF-graduated open-source container and artifact registry that adds vulnerability scanning, content trust signing, RBAC access control, and replication policies on top of the standard OCI distribution spec. It gives AI teams a private, auditable registry for base images, model artifacts, and Helm charts that satisfies security review requirements without a cloud provider dependency.",support:"community",tested:true,tags:["Registry"],version:"1.18.2",versions:["1.18.2","1.18.0"],chartName:"harbor",docs:"https://catalog.k0rdent.io/v1.8.0/apps/harbor/"},
+  {name:"harness",desc:"The Harness Delegate is a lightweight worker that runs inside your Kubernetes cluster and establishes an outbound-only connection to the Harness SaaS platform, enabling Harness to orchestrate deployments, run pipelines, and execute policy checks without opening inbound firewall ports. It brings Harness's AI-assisted CD, feature flags, and chaos engineering capabilities to clusters managed by k0rdent.",support:"community",tested:true,tags:["CI/CD"],version:"1.0.31",versions:["1.0.31","1.0.25"],chartName:"harness-delegate-ng",docs:"https://catalog.k0rdent.io/v1.8.0/apps/harness/"},
+  {name:"headlamp",desc:"Headlamp is a fast, extensible Kubernetes dashboard that renders live cluster state through a plugin-based architecture, allowing teams to add custom views for CRDs, operators, and internal tooling. Unlike kubectl, it provides a friendly graphical interface for browsing pods, inspecting GPU resource allocations, and monitoring multi-cluster k0rdent deployments without granting broad CLI access.",support:"community",tested:true,tags:["Monitoring"],version:"0.40.0",versions:["0.40.0","0.32.1"],chartName:"headlamp",docs:"https://catalog.k0rdent.io/v1.8.0/apps/headlamp/"},
+  {name:"hpe-csi",desc:"The HPE CSI Driver for Kubernetes provides dynamic, policy-driven provisioning of persistent volumes from HPE Nimble Storage, Primera, Alletra, and MSA arrays via the CSI specification. It supports volume snapshots, cloning, multi-attach, and quality-of-service settings, enabling AI workloads on HPE infrastructure to consume enterprise storage with the same declarative API used for cloud-native workloads.",support:"community",tested:true,tags:["Storage","Drivers"],version:"3.0.2",versions:["3.0.2","3.0.1","2.5.2"],chartName:"hpe-csi-driver",docs:"https://catalog.k0rdent.io/v1.8.0/apps/hpe-csi/"},
+  {name:"influxdb",desc:"InfluxDB is a purpose-built time-series database optimized for high-ingest workloads of timestamped measurements — sensor readings, performance counters, financial ticks, and IoT events. Its SQL and Flux query interfaces, columnar storage engine, and native downsampling make it the preferred backend for AI applications that train predictive models on time-ordered operational data.",support:"community",tested:true,tags:["Database"],version:"2.1.2",versions:["2.1.2"],chartName:"influxdb2",docs:"https://catalog.k0rdent.io/v1.8.0/apps/influxdb/"},
+  {name:"ingress-nginx",desc:"The ingress-nginx controller is the most widely deployed Kubernetes Ingress implementation, proxying external HTTP/S traffic to in-cluster Services using NGINX under the hood. It supports TLS termination, path and host-based routing, rate limiting, custom headers, and WebSocket passthrough — covering the routing requirements of most AI API endpoints with minimal configuration.",support:"community",tested:true,tags:["Networking"],version:"4.14.3",versions:["4.14.3","4.13.2","4.13.0","4.12.3","4.11.5"],chartName:"ingress-nginx",docs:"https://catalog.k0rdent.io/v1.8.0/apps/ingress-nginx/"},
+  {name:"istio",desc:"Istio is the CNCF service mesh that injects Envoy sidecar proxies alongside every workload to provide transparent mTLS encryption, fine-grained traffic management (canary splits, retries, circuit breakers), and per-request telemetry without changes to application code. In AI platforms it secures communication between model serving, feature stores, and data pipelines while giving operations teams deep traffic observability.",support:"community",tested:true,tags:["Networking"],version:"1.28.3",versions:["1.28.3","1.27.1","1.24.3"],chartName:"istio-base",docs:"https://catalog.k0rdent.io/v1.8.0/apps/istio/"},
+  {name:"istio-ambient",desc:"Istio Ambient mode replaces per-pod Envoy sidecars with a shared per-node ztunnel for L4 mTLS and a dedicated waypoint proxy for L7 policy, dramatically reducing the memory and CPU overhead of the service mesh. For GPU-intensive inference workloads where every millicore matters, ambient mode delivers the security guarantees of Istio without the sidecar tax.",support:"community",tested:true,tags:["Networking"],version:"1.28.3",versions:["1.28.3","1.27.1","1.24.3"],chartName:"istio-cni",docs:"https://catalog.k0rdent.io/v1.8.0/apps/istio-ambient/"},
+  {name:"jenkins",desc:"Jenkins is the battle-tested open-source automation server that powers CI/CD pipelines through a massive plugin ecosystem of 1,800+ integrations. Running Jenkins on Kubernetes with ephemeral pod-based agents lets ML teams execute model training jobs, data validation steps, and integration tests on dynamically provisioned GPU nodes that terminate when the pipeline finishes.",support:"community",tested:true,tags:["CI/CD"],version:"5.8.139",versions:["5.8.139","5.8.116","5.8.84"],chartName:"jenkins",docs:"https://catalog.k0rdent.io/v1.8.0/apps/jenkins/"},
+  {name:"jupyterhub",desc:"JupyterHub spawns isolated, authenticated Jupyter server instances for each user from a single multi-tenant deployment, giving data science teams on-demand notebook environments with configurable CPU, memory, and GPU resource profiles. Its KubeSpawner back-end creates per-user pods with persistent volume mounts, making it the standard way to provide self-service compute to ML researchers on Kubernetes.",support:"community",tested:true,tags:["Developer Tools"],version:"4.3.2",versions:["4.3.2","4.2.0"],chartName:"jupyterhub",docs:"https://catalog.k0rdent.io/v1.8.0/apps/jupyterhub/"},
+  {name:"kagent",desc:"Kagent is a Kubernetes-native agentic AI framework that lets teams define, deploy, and manage AI agents as first-class Kubernetes resources using standard CRDs. Agents can call tools, browse the web, execute code, and interact with cluster APIs — enabling self-healing operations, intelligent alert triage, and policy-driven remediation workflows that run directly inside the cluster.",support:"community",tested:true,tags:["Networking","Security"],version:"0.3.13",versions:["0.3.13"],chartName:"kagent",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kagent/"},
+  {name:"keda",desc:"KEDA (Kubernetes Event-driven Autoscaler) scales Deployments, StatefulSets, and Jobs to zero and back based on external event sources — Kafka lag, SQS queue depth, Prometheus query values, database row counts, and 60+ other scalers. For AI inference services it enables true serverless behavior: scale to zero when idle, burst to many replicas when request queues build, and scale back when the queue drains.",support:"community",tested:true,tags:["Autoscaling","CI/CD"],version:"2.19.0",versions:["2.19.0","2.17.0"],chartName:"keda",docs:"https://catalog.k0rdent.io/v1.8.0/apps/keda/"},
+  {name:"keycloak",desc:"Keycloak is a production-grade, self-hosted identity and access management server providing SSO, OAuth 2.0, OpenID Connect, and SAML 2.0 out of the box. Its admin console and REST API let platform teams centrally manage users, roles, and clients for Grafana, Argo CD, JupyterHub, and internal AI tooling without building custom auth logic in each application.",support:"community",tested:false,tags:["Auth","Security"],version:"7.1.8",versions:["7.1.8","7.1.7"],chartName:"keycloakx",docs:"https://catalog.k0rdent.io/v1.8.0/apps/keycloak/"},
+  {name:"kgateway",desc:"kgateway (formerly Gloo Edge) is a feature-rich Kubernetes Gateway API implementation backed by Envoy that adds AI-specific capabilities including token-based rate limiting for LLM APIs, model failover routing, and prompt guard policies. It is the gateway of choice for teams exposing multiple model backends behind a single, policy-enforced API surface.",support:"community",tested:true,tags:["Networking","Security"],version:"v2.1.1",versions:["v2.1.1"],chartName:"kgateway",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kgateway/"},
+  {name:"kiali",desc:"Kiali is the official observability console for Istio service meshes, providing auto-generated topology graphs, real-time traffic flow animations, health indicators, and configuration validation for virtual services and destination rules. It accelerates debugging of inter-service communication issues in AI platforms where model servers, feature pipelines, and databases communicate through the mesh.",support:"community",tested:true,tags:["Monitoring"],version:"2.21.0",versions:["2.21.0","2.19.0"],chartName:"kiali-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kiali/"},
+  {name:"knative",desc:"Knative adds serverless primitives to Kubernetes: a serving layer that automatically scales container workloads to zero when idle and back to thousands of replicas under load, and an eventing layer that connects cloud events to workloads through declarative subscriptions. It is a natural fit for AI inference endpoints that must handle unpredictable traffic spikes without over-provisioning GPU capacity.",support:"community",tested:true,tags:["Serverless","Networking"],version:"1.21.0",versions:["1.21.0","1.19.0","1.17.4"],chartName:"knative-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/knative/"},
+  {name:"kserve",desc:"KServe is a CNCF Kubernetes-native model inference platform that abstracts the complexity of serving TensorFlow, PyTorch, XGBoost, Scikit-learn, and custom models behind a unified InferenceService API. It supports canary rollouts, explainability, model monitoring, multi-model serving, and GPU autoscaling, making it the standard serving layer for production ML deployments on Kubernetes.",support:"community",tested:true,tags:["AI/ML","Serverless"],version:"v0.15.0",versions:["v0.15.0"],chartName:"kserve",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kserve/"},
+  {name:"kube-prometheus-stack",desc:"The kube-prometheus-stack Helm chart deploys a fully integrated monitoring system — Prometheus, Alertmanager, Grafana, kube-state-metrics, node-exporter, and a curated library of recording rules and dashboards — in a single command. It includes pre-built NVIDIA DCGM dashboards for GPU utilization, making it the fastest path to end-to-end AI infrastructure observability on a new cluster.",support:"community",tested:true,tags:["Monitoring"],version:"81.6.3",versions:["81.6.3","77.0.0","72.6.2"],chartName:"kube-prometheus-stack",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kube-prometheus-stack/"},
+  {name:"kubecost",desc:"Kubecost provides real-time, per-namespace and per-workload cost allocation for Kubernetes based on actual cloud pricing data. It attributes shared costs fairly, surfaces idle resource waste, and generates rightsizing recommendations — giving FinOps and platform teams the visibility to optimize GPU node spending without waiting for end-of-month cloud bills.",support:"community",tested:true,tags:["Monitoring"],version:"2.5.3",versions:["2.5.3"],chartName:"kubecost",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kubecost/"},
+  {name:"kubeflow-spark-operator",desc:"The Kubeflow Spark Operator manages Apache Spark application lifecycles on Kubernetes using a SparkApplication CRD, handling driver and executor pod provisioning, retry logic, and status reporting declaratively. ML teams use it for large-scale data preprocessing, feature engineering, and batch scoring jobs that need the distributed compute power of Spark without managing a separate cluster.",support:"community",tested:true,tags:["AI/ML"],version:"2.4.0",versions:["2.4.0","2.3.0"],chartName:"kubeflow-spark-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kubeflow-spark-operator/"},
+  {name:"kuberay",desc:"KubeRay is the Kubernetes operator for Ray, the distributed Python framework used by Anthropic, OpenAI, and most major AI labs for large-scale model training, hyperparameter tuning, and reinforcement learning. It provisions Ray clusters on demand, autoscales worker nodes based on task queue depth, and integrates with KServe for serving Ray Serve endpoints.",support:"community",tested:true,tags:["AI/ML"],version:"1.5.1",versions:["1.5.1","1.3.2"],chartName:"kuberay-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kuberay/"},
+  {name:"kyverno",desc:"Kyverno is a CNCF Kubernetes-native policy engine that validates, mutates, and generates resources using policies written in YAML — no Rego required. Platform teams use it to enforce GPU resource limits, inject required labels, block privileged containers, and auto-generate NetworkPolicies, providing programmable guardrails that keep AI workloads compliant by construction.",support:"community",tested:true,tags:["Security"],version:"3.7.0",versions:["3.7.0","3.5.2","3.4.4","3.2.6"],chartName:"kyverno",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kyverno/"},
+  {name:"kyverno-guardrails",desc:"Kyverno Guardrails is a ready-to-apply collection of curated Kyverno ClusterPolicies that enforce Kubernetes security best practices — blocking host-network access, requiring read-only root filesystems, mandating resource limits, and more — without requiring teams to author policy from scratch. It provides an immediate security baseline for new clusters with a single Helm install.",support:"community",tested:true,tags:["Security"],version:"0.1.0",versions:["0.1.0"],chartName:"kyverno-guardrails",docs:"https://catalog.k0rdent.io/v1.8.0/apps/kyverno-guardrails/"},
+  {name:"local-ai",desc:"LocalAI is an open-source, drop-in OpenAI API replacement that runs quantized LLMs, image generation models, audio transcription, and embedding models entirely on local CPU or GPU hardware without sending data to external services. It supports GGUF, GGML, and other efficient formats, making it the go-to choice for air-gapped or data-sovereignty-constrained AI deployments.",support:"community",tested:true,tags:["AI/ML"],version:"3.4.2",versions:["3.4.2"],chartName:"local-ai",docs:"https://catalog.k0rdent.io/v1.8.0/apps/local-ai/"},
+  {name:"loki",desc:"Grafana Loki is a horizontally scalable log aggregation system that indexes only metadata labels rather than full log content, achieving a 10-100x storage cost reduction compared to Elasticsearch for log data. It queries logs using LogQL — a Prometheus-inspired language — and integrates tightly with Grafana for correlated log and metric exploration.",support:"community",tested:false,tags:["Monitoring"],version:"6.53.0",versions:["6.53.0"],chartName:"loki",docs:"https://catalog.k0rdent.io/v1.8.0/apps/loki/"},
+  {name:"lws",desc:"LeaderWorkerSet (LWS) is a Kubernetes API that groups a leader pod and N worker pods as a replicated unit, enabling multi-node distributed inference for large language models that exceed single-GPU memory capacity. It handles coordinated scheduling, graceful restarts, and gang scheduling semantics that are essential for serving 70B+ parameter models across multiple GPU nodes.",support:"community",tested:true,tags:["AI/ML"],version:"0.7.0",versions:["0.7.0"],chartName:"lws",docs:"https://catalog.k0rdent.io/v1.8.0/apps/lws/"},
+  {name:"metallb",desc:"MetalLB implements the Kubernetes LoadBalancer service type for bare-metal clusters that lack a cloud provider's load balancer controller. Using either Layer 2 ARP announcements or BGP route advertisements, it assigns external IP addresses to services so on-premises AI inference endpoints are reachable from outside the cluster without a hardware load balancer.",support:"community",tested:true,tags:["Networking"],version:"0.15.3",versions:["0.15.3","0.15.2","0.14.7"],chartName:"metallb",docs:"https://catalog.k0rdent.io/v1.8.0/apps/metallb/"},
+  {name:"milvus",desc:"Milvus is a cloud-native, purpose-built vector database designed from the ground up for billion-scale similarity search, supporting HNSW, IVF, and DiskANN indexes with GPU-accelerated distance computation. Its disaggregated storage-compute architecture and streaming ingestion pipeline make it the production vector store of choice for enterprise RAG systems and large-scale semantic search.",support:"community",tested:true,tags:["Database"],version:"5.0.14",versions:["5.0.14","5.0.1"],chartName:"milvus",docs:"https://catalog.k0rdent.io/v1.8.0/apps/milvus/"},
+  {name:"minio",desc:"MinIO is a high-performance, Kubernetes-native object store that implements the full S3 API, delivering over 325 GiB/s read and 165 GiB/s write throughput on NVMe hardware. It serves as the standard backend for MLflow artifacts, model checkpoints, training datasets, and Loki log chunks in AI infrastructure stacks that need S3 semantics without a cloud provider dependency.",support:"community",tested:true,tags:["Storage"],version:"14.1.2",versions:["14.1.2"],chartName:"minio",docs:"https://catalog.k0rdent.io/v1.8.0/apps/minio/"},
+  {name:"mirantis-kyverno-guardrails",desc:"Mirantis Kyverno Guardrails is the enterprise-hardened edition of the community Kyverno Guardrails policy library, extended with additional AI workload policies, CIS Kubernetes Benchmark controls, and compliance mappings for SOC 2, HIPAA, PCI DSS, and FedRAMP. Delivered with Mirantis 24x7 support SLA, including policy updates as new CVEs and compliance requirements emerge.",support:"enterprise",tested:true,tags:["Security"],version:"0.1.0",versions:["0.1.0"],chartName:"kyverno-guardrails",docs:"https://catalog.k0rdent.io/v1.8.0/apps/mirantis-kyverno-guardrails/"},
+  {name:"mirantis-velero",desc:"Mirantis Velero is the enterprise-supported distribution of Velero, providing Mirantis-tested backup and disaster recovery for k0rdent-managed clusters with guaranteed compatibility, validated restore procedures, and 24x7 incident response. It covers cluster state snapshots, PVC backups to S3-compatible storage, and scheduled retention policies for RPO/RTO compliance.",support:"enterprise",tested:true,tags:["Backup"],version:"11.1.0",versions:["11.1.0","8.1.0"],chartName:"velero",docs:"https://catalog.k0rdent.io/v1.8.0/apps/mirantis-velero/"},
+  {name:"mlflow",desc:"MLflow is the most widely adopted open-source platform for managing the ML lifecycle, providing experiment tracking with parameter and metric logging, a centralized model registry with staging and production promotion, a projects specification for reproducible runs, and a model serving component. It integrates with PyTorch, TensorFlow, scikit-learn, XGBoost, and Hugging Face Transformers out of the box.",support:"community",tested:true,tags:["AI/ML"],version:"1.8.1",versions:["1.8.1","1.7.1"],chartName:"mlflow",docs:"https://catalog.k0rdent.io/v1.8.0/apps/mlflow/"},
+  {name:"mongodb",desc:"The MongoDB Community Operator automates the deployment and management of MongoDB replica sets and sharded clusters on Kubernetes, handling member provisioning, rolling upgrades, TLS certificate rotation, and user management through CRDs. MongoDB's flexible document model and aggregation pipeline make it a common operational database for AI application metadata, session state, and event logs.",support:"community",tested:true,tags:["Database"],version:"0.13.0",versions:["0.13.0","0.12.0"],chartName:"mongodb-community-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/mongodb/"},
+  {name:"msr",desc:"Mirantis Secure Registry (MSR) 4 is an enterprise container registry built on CNCF Harbor that adds Mirantis-managed installation, upgrades, and support on top of Harbor's role-based access control, vulnerability scanning, content trust, and replication capabilities. It gives teams running Mirantis Kubernetes Engine a fully integrated, on-premises registry with a single vendor support relationship.",support:"community",tested:true,tags:["Registry"],version:"4.13.2",versions:["4.13.2"],chartName:"msr",docs:"https://catalog.k0rdent.io/v1.8.0/apps/msr/"},
+  {name:"mysql",desc:"The MySQL Operator for Kubernetes manages MySQL InnoDB Cluster — MySQL's native HA solution with Group Replication and MySQL Router — as a first-class Kubernetes workload, automating provisioning, failover, backup, and cluster expansion through a MySQLCluster CRD. It is the recommended way to run MySQL with automatic failover and read-scale-out on Kubernetes.",support:"community",tested:true,tags:["Database"],version:"2.2.3",versions:["2.2.3"],chartName:"mysql-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/mysql/"},
+  {name:"n8n",desc:"n8n is a self-hosted, fair-code workflow automation platform with a visual node-based editor and 400+ pre-built integrations for APIs, databases, and SaaS services. Its code nodes support arbitrary JavaScript and Python, enabling data science teams to build ETL pipelines, AI-triggered notification workflows, and data labeling automation that run entirely within their own infrastructure.",support:"community",tested:true,tags:["AI/ML"],version:"1.0.15",versions:["1.0.15"],chartName:"n8n",docs:"https://catalog.k0rdent.io/v1.8.0/apps/n8n/"},
+  {name:"nats",desc:"NATS is an ultra-lightweight, cloud-native messaging system delivering core pub/sub, request/reply, and queue group semantics at sub-millisecond latencies with a 3 MB server binary. JetStream, its persistence layer, adds durable streams, key-value storage, and object store capabilities, making NATS a versatile backbone for event-driven AI pipelines that need both real-time messaging and at-least-once delivery.",support:"community",tested:true,tags:["Networking"],version:"2.12.4",versions:["2.12.4","1.3.13"],chartName:"nats",docs:"https://catalog.k0rdent.io/v1.8.0/apps/nats/"},
+  {name:"netapp",desc:"NetApp Trident is NetApp's official CNCF-certified CSI driver for Kubernetes, dynamically provisioning NFS, iSCSI, NVMe/TCP, and S3 volumes from ONTAP on-premises, Cloud Volumes ONTAP, Azure NetApp Files, and Amazon FSx for NetApp ONTAP. Its snapshots, cloning, and QoS policies enable AI teams to instantly duplicate large training datasets for parallel experiments without copying data.",support:"community",tested:true,tags:["Storage","Drivers"],version:"100.2510.0",versions:["100.2510.0","100.2506.0","100.2410.0"],chartName:"trident-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/netapp/"},
+  {name:"nginx-ingress-f5",desc:"The NGINX Ingress Controller from F5 is built on NGINX Plus and adds enterprise capabilities beyond the community controller: an integrated Web Application Firewall (WAF), JWT authentication, Active Health Checks, session persistence, and support for NGINX App Protect policies. It is the preferred ingress for organizations that need proven WAF protection in front of AI API endpoints.",support:"partner",tested:true,tags:["Networking"],version:"2.2.2",versions:["2.2.2"],chartName:"nginx-ingress-f5",docs:"https://catalog.k0rdent.io/v1.8.0/apps/nginx-ingress-f5/"},
+  {name:"nirmata",desc:"Nirmata Enterprise for Kyverno is the commercially supported distribution of Kyverno with an enterprise-grade management console, policy-as-code workflows, multi-cluster policy distribution, and compliance reporting dashboards mapped to SOC 2, HIPAA, PCI DSS, and FedRAMP controls. Nirmata provides first-line support and works with Mirantis to ensure seamless integration on k0rdent-managed clusters.",support:"enterprise",tested:true,tags:["Security"],version:"3.3.13",versions:["3.3.13"],chartName:"nirmata-kyverno",docs:"https://catalog.k0rdent.io/v1.8.0/apps/nirmata/"},
+  {name:"node-feature-discovery",desc:"Node Feature Discovery (NFD) detects hardware capabilities of Kubernetes nodes — CPU instruction sets, PCIe devices, GPU models, NUMA topology, and kernel features — and exposes them as node labels and extended resources. Scheduler rules can then target specific GPU SKUs, NVLink topologies, or RDMA-capable NICs, ensuring AI training jobs land on the right hardware every time.",support:"community",tested:true,tags:["Monitoring","Security"],version:"0.18.3",versions:["0.18.3","0.16.1"],chartName:"node-feature-discovery",docs:"https://catalog.k0rdent.io/v1.8.0/apps/node-feature-discovery/"},
+  {name:"nvidia",desc:"The NVIDIA GPU Operator automates the complete software stack required to use NVIDIA GPUs in Kubernetes: drivers, CUDA toolkit, container runtime, device plugin, DCGM exporter, MIG manager, and GPU Feature Discovery. A single Helm install replaces days of manual node configuration and ensures every GPU node in a k0rdent cluster presents a consistent, monitored interface to AI workloads.",support:"community",tested:true,tags:["AI/ML","Drivers"],version:"25.10.1",versions:["25.10.1","25.10.0","25.3.0","24.9.2"],chartName:"gpu-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/nvidia/"},
+  {name:"nvidia-network-operator",desc:"The NVIDIA Network Operator automates deployment of the full RDMA and high-speed networking stack — Mellanox OFED drivers, SR-IOV device plugin, RDMA device plugin, and secondary network CNI plugins — on Kubernetes nodes equipped with ConnectX NICs. It is a prerequisite for enabling GPUDirect RDMA, which allows GPU-to-GPU data transfers across nodes without CPU involvement, dramatically accelerating distributed training.",support:"community",tested:false,tags:["AI/ML","Drivers"],version:"25.10.0",versions:["25.10.0"],chartName:"network-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/nvidia-network-operator/"},
+  {name:"ollama",desc:"Ollama is the simplest way to run quantized open-weight LLMs — Llama 3, Mistral, Gemma, Phi, Qwen, and dozens more — locally, providing an OpenAI-compatible REST API and CLI with automatic model download, GPU offloading, and multi-model multiplexing. In Kubernetes it powers the LLM backend for RAG applications and Open WebUI deployments that need self-hosted inference without a full serving framework.",support:"community",tested:false,tags:["AI/ML"],version:"1.42.0",versions:["1.42.0","1.40.0"],chartName:"ollama",docs:"https://catalog.k0rdent.io/v1.8.0/apps/ollama/"},
+  {name:"open-webui",desc:"Open WebUI is a feature-rich, self-hosted AI chat interface compatible with Ollama and any OpenAI-compatible API, offering multi-model switching, image generation, document upload for RAG, conversation history, user management, and a plugin system — all packaged as a single container. It is the fastest way to give an organization's users a private ChatGPT-equivalent backed by models running entirely on their own infrastructure.",support:"community",tested:true,tags:["AI/ML"],version:"10.2.1",versions:["10.2.1","8.12.3","8.10.0","6.20.0"],chartName:"open-webui",docs:"https://catalog.k0rdent.io/v1.8.0/apps/open-webui/"},
+  {name:"opencost",desc:"OpenCost is a CNCF vendor-neutral Kubernetes cost allocation engine that computes per-pod, per-namespace, per-deployment, and per-label costs in real time using actual cloud pricing APIs. Unlike cloud cost tools, it understands Kubernetes constructs natively and can attribute shared node costs fairly across tenant namespaces, making it the foundation of FinOps practices for multi-team AI platforms.",support:"community",tested:true,tags:["Monitoring"],version:"2.5.8",versions:["2.5.8","2.3.2","1.43.2"],chartName:"opencost",docs:"https://catalog.k0rdent.io/v1.8.0/apps/opencost/"},
+  {name:"openfeature",desc:"The OpenFeature Operator brings the CNCF OpenFeature standard for feature flagging to Kubernetes, injecting a feature flag provider sidecar that exposes a vendor-neutral SDK to application containers via a local gRPC interface. It decouples flag evaluation from flag management backends — LaunchDarkly, Flagsmith, flagd, and others — so AI teams can safely roll out model changes and experimental features with runtime toggles.",support:"community",tested:true,tags:["Developer Tools"],version:"v0.8.9",versions:["v0.8.9","v0.8.8"],chartName:"open-feature-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/openfeature/"},
+  {name:"opentelemetry",desc:"The OpenTelemetry Collector is the CNCF-standard vendor-neutral telemetry pipeline that receives traces, metrics, and logs from instrumented applications, processes and enriches them, and exports to any backend — Jaeger, Prometheus, Loki, Datadog, or cloud-native services. Standardizing on OTel eliminates vendor lock-in for observability data and allows AI teams to switch backends without re-instrumenting code.",support:"community",tested:true,tags:["Monitoring"],version:"0.145.0",versions:["0.145.0","0.141.0"],chartName:"opentelemetry-collector",docs:"https://catalog.k0rdent.io/v1.8.0/apps/opentelemetry/"},
+  {name:"penpot",desc:"Penpot is an open-source, browser-based design and prototyping tool that is fully self-hostable and produces design tokens, SVG assets, and CSS specs that developers can consume directly. For AI platform teams it provides a private, collaborative design environment for building internal dashboards, admin UIs, and data visualization components without sending design files to external SaaS vendors.",support:"community",tested:true,tags:["Developer Tools"],version:"0.28.0",versions:["0.28.0"],chartName:"penpot",docs:"https://catalog.k0rdent.io/v1.8.0/apps/penpot/"},
+  {name:"postgresql",desc:"PostgreSQL is the world's most advanced open-source relational database, with 35 years of active development, ACID compliance, advanced JSON support, full-text search, and a rich extension ecosystem including pgvector for storing and querying embedding vectors. This chart deploys a production-ready PostgreSQL instance with configurable replication, making it the default relational backend for MLflow, Argo CD, and dozens of other AI platform components.",support:"community",tested:true,tags:["Database"],version:"18.3.0",versions:["18.3.0","16.7.21","16.7.15"],chartName:"postgresql",docs:"https://catalog.k0rdent.io/v1.8.0/apps/postgresql/"},
+  {name:"postgresql-operator",desc:"The Zalando Postgres Operator automates the provisioning and management of highly available PostgreSQL clusters on Kubernetes using Patroni for leader election, WAL-G for continuous archiving, and configurable connection pooling via PgBouncer. It is the operator of choice for teams that need database-as-a-service semantics — create a Postgresql CRD, get a replicated HA cluster — without managing replication manually.",support:"community",tested:true,tags:["Database"],version:"1.15.1",versions:["1.15.1","1.14.0"],chartName:"postgres-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/postgresql-operator/"},
+  {name:"prometheus",desc:"Prometheus is the CNCF-graduated time-series monitoring system and the de-facto standard metrics backend for Kubernetes. It scrapes instrumented targets on a pull model, evaluates alerting and recording rules, and stores metrics in a local TSDB with a powerful PromQL query language. The NVIDIA DCGM exporter, kube-state-metrics, and virtually every cloud-native application expose Prometheus metrics natively.",support:"community",tested:true,tags:["Monitoring"],version:"28.9.0",versions:["28.9.0","27.5.1"],chartName:"prometheus",docs:"https://catalog.k0rdent.io/v1.8.0/apps/prometheus/"},
+  {name:"pure",desc:"The Pure Storage CSI driver provisions block and file volumes from Pure Storage FlashArray and FlashBlade arrays, supporting dynamic provisioning, snapshots, cloning, and volume expansion through the CSI specification. Its NVMe/FC and NVMe/RoCE transport support delivers the sub-100µs latency that checkpoint-heavy AI training workloads need when writing model state to persistent storage.",support:"community",tested:true,tags:["Storage","Drivers"],version:"2.7.1",versions:["2.7.1"],chartName:"pure-k8s-plugin",docs:"https://catalog.k0rdent.io/v1.8.0/apps/pure/"},
+  {name:"pypiserver",desc:"pypiserver is a minimal, self-hosted Python package index that serves private packages via the standard pip install interface. Data science teams use it to distribute internal Python libraries — custom model utilities, preprocessing code, feature engineering packages — across training and inference environments without publishing them to the public PyPI or maintaining a heavy artifact management system.",support:"community",tested:false,tags:["Developer Tools"],version:"0.1.8",versions:["0.1.8"],chartName:"pypiserver",docs:"https://catalog.k0rdent.io/v1.8.0/apps/pypiserver/"},
+  {name:"qdrant",desc:"Qdrant is a high-performance vector similarity search engine written in Rust, purpose-built for production retrieval-augmented generation and recommendation workloads. It supports HNSW indexing, payload filtering, sparse vectors, binary quantization, and named vectors per point, all accessible via a clean REST and gRPC API — with consistently faster query throughput than alternatives at equivalent recall rates.",support:"community",tested:true,tags:["AI/ML"],version:"1.16.3",versions:["1.16.3","1.15.4"],chartName:"qdrant",docs:"https://catalog.k0rdent.io/v1.8.0/apps/qdrant/"},
+  {name:"rabbitmq",desc:"RabbitMQ is a battle-proven, standards-based message broker supporting AMQP 0-9-1, AMQP 1.0, MQTT, STOMP, and WebSocket protocols with configurable durability, routing exchanges, and consumer acknowledgements. Its Kubernetes operator manages cluster formation, rolling upgrades, and topology-aware replication, making RabbitMQ a reliable task queue for AI workloads that need guaranteed message delivery and dead-letter handling.",support:"community",tested:true,tags:["Networking"],version:"0.1.0",versions:["0.1.0"],chartName:"rabbitmq",docs:"https://catalog.k0rdent.io/v1.8.0/apps/rabbitmq/"},
+  {name:"raw",desc:"The raw Helm chart is a utility chart that renders arbitrary Kubernetes YAML manifests as a Helm release, enabling teams to manage plain manifests through the Helm lifecycle — versioning, values-based parameterization, rollback, and templating — without converting every resource to a full chart. It is useful for deploying one-off CRDs, ConfigMaps, or operator configurations that do not have their own Helm chart.",support:"community",tested:false,tags:["Drivers"],version:"2.0.2",versions:["2.0.2"],chartName:"raw",docs:"https://catalog.k0rdent.io/v1.8.0/apps/raw/"},
+  {name:"redis",desc:"Redis is the world's most popular in-memory data structure store, supporting strings, hashes, lists, sets, sorted sets, streams, and geospatial indexes with sub-millisecond latency. In AI infrastructure it serves as a semantic cache for LLM API responses, a session store for multi-turn conversational agents, a feature store for real-time inference, and a message broker via Redis Streams.",support:"community",tested:true,tags:["Database"],version:"0.2.0",versions:["0.2.0"],chartName:"redis",docs:"https://catalog.k0rdent.io/v1.8.0/apps/redis/"},
+  {name:"runai-cp",desc:"NVIDIA Run:ai is an AI compute orchestration platform that virtualizes and pools GPU resources across teams and projects, enabling dynamic multi-tenancy, fair-share scheduling, guaranteed quotas, and over-provisioning policies that significantly increase GPU utilization. Its control plane integrates with Kubernetes scheduler as a custom resource, giving infrastructure teams a single pane to allocate expensive GPU capacity across research, development, and production workloads.",support:"enterprise",tested:true,tags:["AI/ML"],version:"0.3.0",versions:["0.3.0"],chartName:"runai-control-plane",docs:"https://catalog.k0rdent.io/v1.8.0/apps/runai-cp/"},
+  {name:"soperator",desc:"Soperator deploys and manages NVIDIA Slurm clusters on Kubernetes, giving HPC and AI teams access to Slurm's mature batch scheduling — MPI jobs, array jobs, resource reservations, and preemption policies — while running on standard Kubernetes infrastructure managed by k0rdent. It bridges the gap between traditional supercomputing workflows and cloud-native orchestration for organizations migrating HPC workloads to Kubernetes.",support:"partner",tested:true,tags:["AI/ML"],version:"1.21.1",versions:["1.21.1"],chartName:"helm-soperator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/soperator/"},
+  {name:"stacklight",desc:"Mirantis StackLight is a production-hardened Logging, Monitoring, and Alerting (LMA) stack purpose-built for k0rdent Enterprise clusters. It bundles pre-configured OpenStack and Kubernetes collectors, curated alert rules, Grafana dashboards, and a centralized log pipeline into a single managed solution with Mirantis 24x7 support — replacing the need to assemble and maintain these components individually.",support:"enterprise",tested:true,tags:["Monitoring"],version:"0.1.0-mcp-16",versions:["0.1.0-mcp-16"],chartName:"stacklight-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/stacklight/"},
+  {name:"strimzi-kafka-operator",desc:"Strimzi manages the full lifecycle of Apache Kafka clusters on Kubernetes through a set of CRDs covering brokers, ZooKeeper (or KRaft), topics, users, MirrorMaker 2 replication, and Kafka Connect — all with rolling upgrade support and TLS/SASL security built in. For AI platforms, Kafka provides the high-throughput, durable event backbone needed for real-time feature pipelines, model input streaming, and audit trails.",support:"community",tested:true,tags:["Networking"],version:"0.47.0",versions:["0.47.0"],chartName:"strimzi-kafka-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/strimzi-kafka-operator/"},
+  {name:"teleport",desc:"Teleport is a zero-trust infrastructure access platform that replaces VPNs and bastion hosts with certificate-based short-lived credentials, enforced MFA, and a complete audit log of every session. It provides role-based kubectl access to Kubernetes clusters, SSH access to nodes, and database access to PostgreSQL and MySQL — all routed through a single access plane with session recording for compliance.",support:"community",tested:true,tags:["Security"],version:"18.6.8",versions:["18.6.8","18.2.0"],chartName:"teleport-cluster",docs:"https://catalog.k0rdent.io/v1.8.0/apps/teleport/"},
+  {name:"tempo",desc:"Grafana Tempo is a distributed tracing backend that stores traces in object storage (S3, GCS, Azure Blob) at a fraction of the cost of Elasticsearch-based solutions, with no index required — only trace IDs. It integrates with Grafana's exemplar and trace link features so teams can jump from a slow Prometheus query directly to the distributed trace that explains the latency spike in an AI serving pipeline.",support:"community",tested:false,tags:["Monitoring"],version:"1.24.4",versions:["1.24.4"],chartName:"tempo",docs:"https://catalog.k0rdent.io/v1.8.0/apps/tempo/"},
+  {name:"tetrate-istio",desc:"Tetrate Istio Distro (TID) is a FIPS 140-2 validated, hardened Istio distribution from Tetrate that provides long-term support, security patches, and enterprise support SLAs on top of upstream Istio. It is the preferred Istio distribution for US Federal and regulated enterprise deployments that require a validated service mesh with a commercially accountable support chain.",support:"partner",tested:true,tags:["Networking"],version:"1.28.20000",versions:["1.28.20000","1.27.10003","1.26.20002"],chartName:"tetrate-base",docs:"https://catalog.k0rdent.io/v1.8.0/apps/tetrate-istio/"},
+  {name:"tika",desc:"Apache Tika is a content detection and extraction toolkit that parses text, metadata, and structured content from over 1,000 file formats — PDF, Word, Excel, PowerPoint, HTML, images via OCR, audio, and video. In AI document pipelines it acts as the ingestion layer that converts raw enterprise files into clean text ready for chunking, embedding, and insertion into a RAG vector store.",support:"community",tested:true,tags:["AI/ML"],version:"3.2.2",versions:["3.2.2"],chartName:"tika",docs:"https://catalog.k0rdent.io/v1.8.0/apps/tika/"},
+  {name:"traefik",desc:"Traefik is a cloud-native reverse proxy and ingress controller that auto-discovers services via Docker, Kubernetes, Consul, and other providers, generating routing rules dynamically without restarts. Its middleware system supports rate limiting, circuit breaking, basic auth, OAuth forwarding, and request mirroring — making it a flexible alternative to ingress-nginx for teams that prefer automatic service discovery over annotation-driven configuration.",support:"community",tested:false,tags:["Networking"],version:"39.0.5",versions:["39.0.5"],chartName:"traefik",docs:"https://catalog.k0rdent.io/v1.8.0/apps/traefik/"},
+  {name:"valkey",desc:"Valkey is a high-performance, open-source, BSD-licensed fork of Redis maintained by the Linux Foundation, fully compatible with the Redis 7.2 API including all data structures, commands, persistence modes, and the RESP3 protocol. It was created after Redis changed its licensing, giving the community a truly open alternative for caching, pub/sub, and feature store use cases in AI workloads.",support:"community",tested:true,tags:["Database"],version:"0.1.0",versions:["0.1.0"],chartName:"valkey",docs:"https://catalog.k0rdent.io/v1.8.0/apps/valkey/"},
+  {name:"velero",desc:"Velero is the CNCF standard for Kubernetes backup, restore, and migration, capturing cluster resources and persistent volume snapshots to object storage and replaying them on demand. It supports scheduled backups with configurable retention, namespace-scoped or cluster-wide scope, and hooks for pre/post-backup commands — making it essential for protecting the stateful components of AI platforms such as vector databases, model registries, and pipeline metadata stores.",support:"community",tested:true,tags:["Backup"],version:"11.3.2",versions:["11.3.2","11.1.0","10.0.10","8.1.0"],chartName:"velero",docs:"https://catalog.k0rdent.io/v1.8.0/apps/velero/"},
+  {name:"victoriametrics",desc:"VictoriaMetrics is a fast, resource-efficient time-series database and monitoring solution that is drop-in compatible with the Prometheus query API and remote write protocol, while using up to 7x less storage and 3x less RAM than Prometheus for the same data. Its single-node and cluster modes, long-term retention support, and native downsampling make it a compelling Prometheus replacement for multi-cluster AI observability at scale.",support:"community",tested:true,tags:["Monitoring"],version:"0.30.0",versions:["0.30.0","0.22.0"],chartName:"victoriametrics",docs:"https://catalog.k0rdent.io/v1.8.0/apps/victoriametrics/"},
+  {name:"wandb",desc:"Weights & Biases (W&B) Weave is the LLM observability and evaluation framework from the team behind the industry-leading ML experiment tracker. It captures LLM call traces, token usage, latency, and evaluation scores, and provides tools to build evaluation pipelines, compare prompt versions, and detect regressions in model quality — deployed as a self-hosted operator for teams that cannot send model inputs and outputs to the W&B cloud.",support:"enterprise",tested:true,tags:["AI/ML"],version:"1.4.1",versions:["1.4.1"],chartName:"wandb-operator",docs:"https://catalog.k0rdent.io/v1.8.0/apps/wandb/"},
 ];
-var _catalogLoaded = false;
 
-// loadCatalog logic is now inline in App.doLoad() with cache-busting
+var ALL_TAGS = ["All"];
+(function(){
+  var seen = {};
+  for (var i = 0; i < RAW.length; i++) {
+    for (var j = 0; j < RAW[i].tags.length; j++) {
+      if (!seen[RAW[i].tags[j]]) { seen[RAW[i].tags[j]] = 1; ALL_TAGS.push(RAW[i].tags[j]); }
+    }
+  }
+  ALL_TAGS.sort(function(a,b){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
+})();
+var ALL_SUPPORT = ["All","community","partner","mirantis-certified"];
 
-var ALL_TAGS:string[] = ["All"];
-var ALL_SUPPORT = ["All","mirantis-certified","partner","community"];
+var SOLUTIONS = [
+  {
+    id:"ai-inference-stack",title:"AI Inference Stack",category:"AI/ML",tier:"mirantis-certified",
+    badge:"Production Ready",badgeColor:B.teal,icon:"⬡",
+    tagline:"GPU-optimized inference serving at enterprise scale",
+    desc:"A fully integrated stack for deploying and serving LLMs and ML models in production. Combines GPU provisioning, model serving, observability, and autoscaling into a single validated blueprint for organizations running LLM inference and real-time prediction workloads.",
+    useCases:["LLM inference endpoints (OpenAI-compatible)","Embedding generation for RAG pipelines","Real-time ML prediction serving","Multi-model A/B testing and canary deployments"],
+    components:[
+      {name:"nvidia",role:"GPU Operator",why:"Automates GPU driver, CUDA, and device plugin deployment"},
+      {name:"kserve",role:"Model Serving",why:"Kubernetes-native inference platform with autoscaling"},
+      {name:"open-webui",role:"LLM Interface",why:"Self-hosted OpenAI-compatible UI for model interaction"},
+      {name:"ollama",role:"Local LLM Runtime",why:"Lightweight LLM runtime for on-prem model hosting"},
+      {name:"kube-prometheus-stack",role:"GPU Observability",why:"Pre-built DCGM dashboards for GPU utilization tracking"},
+      {name:"keda",role:"Event-driven Autoscaling",why:"Scale inference pods based on request queue depth"},
+      {name:"lws",role:"Multi-node Inference",why:"LeaderWorkerSet for large multi-GPU model deployments"},
+    ],
+    clouds:["AWS EC2","Azure VM","Bare Metal"],k8s:["1.30","1.31","1.32"],
+    deployYaml:"apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-inference-stack\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: ai-inference\n  serviceSpec:\n    services:\n    - template: gpu-operator-25-10-1\n      name: nvidia-gpu-operator\n      namespace: gpu-operator\n    - template: kserve-v0-15-0\n      name: kserve\n      namespace: kserve\n    - template: keda-2-19-0\n      name: keda\n      namespace: keda",
+  },
+  {
+    id:"mlops-platform",title:"MLOps Platform",category:"AI/ML",tier:"mirantis-certified",
+    badge:"Production Ready",badgeColor:B.teal,icon:"◈",
+    tagline:"End-to-end ML lifecycle management on Kubernetes",
+    desc:"A complete MLOps platform for teams building, training, and deploying ML models. Covers the full lifecycle from experiment tracking and dataset versioning to distributed training and model registry, all running on k0rdent-managed Kubernetes with GitOps delivery.",
+    useCases:["Experiment tracking and reproducibility","Distributed model training on GPU clusters","Model registry and versioning","Automated ML pipeline orchestration"],
+    components:[
+      {name:"mlflow",role:"Experiment Tracking",why:"Industry-standard ML experiment and model registry"},
+      {name:"kuberay",role:"Distributed Training",why:"Ray clusters for distributed PyTorch and TensorFlow"},
+      {name:"kubeflow-spark-operator",role:"Data Processing",why:"Apache Spark for large-scale feature engineering"},
+      {name:"minio",role:"Artifact Storage",why:"S3-compatible storage for datasets and model checkpoints"},
+      {name:"jupyterhub",role:"Notebook Environment",why:"Shared Jupyter notebooks for data scientists"},
+      {name:"postgresql",role:"Metadata Store",why:"Reliable backend for MLflow and pipeline metadata"},
+    ],
+    clouds:["AWS EC2","AWS EKS","Azure VM","Azure AKS","Bare Metal"],k8s:["1.29","1.30","1.31","1.32"],
+    deployYaml:"apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mlops-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: mlops\n  serviceSpec:\n    services:\n    - template: mlflow-1-8-1\n      name: mlflow\n      namespace: mlops\n    - template: kuberay-operator-1-5-1\n      name: kuberay\n      namespace: kuberay\n    - template: minio-14-1-2\n      name: minio\n      namespace: minio",
+  },
+  {
+    id:"rag-vector-stack",title:"RAG and Vector Search Stack",category:"AI/ML",tier:"community",
+    badge:"Validated",badgeColor:B.green,icon:"✦",
+    tagline:"Production RAG pipelines with vector search and LLM serving",
+    desc:"A curated stack for building Retrieval-Augmented Generation applications. Combines high-performance vector databases with LLM serving, document processing, and observability for enterprise knowledge bases and semantic search systems.",
+    useCases:["Enterprise knowledge base search","Document Q&A and summarization","Semantic search over large corpora","Real-time recommendation systems"],
+    components:[
+      {name:"qdrant",role:"Primary Vector DB",why:"High-performance vector similarity search at billion scale"},
+      {name:"milvus",role:"Alternative Vector DB",why:"Distributed vector database for large-scale AI applications"},
+      {name:"ollama",role:"LLM Backend",why:"Self-hosted LLM runtime for embedding and generation"},
+      {name:"open-webui",role:"RAG Interface",why:"Built-in RAG support with document upload and retrieval"},
+      {name:"tika",role:"Document Processing",why:"Extract text from PDFs, Office docs, and 1000+ formats"},
+      {name:"redis",role:"Semantic Cache",why:"Cache vector query results to reduce LLM API costs"},
+    ],
+    clouds:["AWS EC2","AWS EKS","Azure VM","Azure AKS","vSphere","Bare Metal"],k8s:["1.29","1.30","1.31","1.32"],
+    deployYaml:"apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: rag-vector-stack\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: rag\n  serviceSpec:\n    services:\n    - template: qdrant-1-16-3\n      name: qdrant\n      namespace: rag\n    - template: ollama-1-42-0\n      name: ollama\n      namespace: rag\n    - template: open-webui-10-2-1\n      name: open-webui\n      namespace: rag",
+  },
+  {
+    id:"ai-observability",title:"AI Infrastructure Observability",category:"Observability",tier:"mirantis-certified",
+    badge:"Production Ready",badgeColor:B.teal,icon:"◉",
+    tagline:"Full-stack observability for GPU-accelerated AI workloads",
+    desc:"Purpose-built observability for AI infrastructure teams. Provides real-time GPU utilization metrics, cost allocation per workload, distributed tracing across model serving pipelines, and FinOps dashboards validated for multi-cluster Kubernetes.",
+    useCases:["GPU utilization tracking per team and workload","ML model latency and error rate monitoring","FinOps cost attribution for training vs inference","Multi-cluster observability from a single pane"],
+    components:[
+      {name:"kube-prometheus-stack",role:"Metrics and Alerting",why:"Includes DCGM GPU metrics and pre-built AI dashboards"},
+      {name:"grafana",role:"Visualization",why:"GPU utilization, cost, and model performance dashboards"},
+      {name:"loki",role:"Log Aggregation",why:"Correlated logs for training runs and inference requests"},
+      {name:"tempo",role:"Distributed Tracing",why:"End-to-end traces across model serving pipelines"},
+      {name:"opencost",role:"Cost Attribution",why:"Per-workload GPU and compute cost allocation"},
+      {name:"finops-agent",role:"Cost Forecasting",why:"AI-powered spend forecasting using Prometheus metrics"},
+    ],
+    clouds:["AWS EC2","AWS EKS","Azure VM","Azure AKS","vSphere","OpenStack","Bare Metal"],k8s:["1.29","1.30","1.31","1.32"],
+    deployYaml:"apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-observability\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: ai-ops\n  serviceSpec:\n    services:\n    - template: kube-prometheus-stack-81-6-3\n      name: monitoring\n      namespace: monitoring\n    - template: grafana-10-5-15\n      name: grafana\n      namespace: monitoring\n    - template: opencost-2-5-8\n      name: opencost\n      namespace: finops",
+  },
+  {
+    id:"secure-ai-platform",title:"Secure AI Platform",category:"Security",tier:"mirantis-certified",
+    badge:"Enterprise",badgeColor:B.purple,icon:"◈",
+    tagline:"Zero-trust security for regulated AI deployments",
+    desc:"A hardened security stack for organizations running AI in regulated environments. Combines policy enforcement, secrets management, runtime threat detection, and audit logging to meet SOC 2, HIPAA, and FedRAMP requirements.",
+    useCases:["HIPAA-compliant AI workloads in healthcare","FedRAMP-authorized government AI deployments","Financial services AI with PCI DSS requirements","Zero-trust access to ML training infrastructure"],
+    components:[
+      {name:"kyverno",role:"Policy Engine",why:"Validates every AI workload manifest against security policies"},
+      {name:"falco",role:"Runtime Security",why:"Real-time threat detection for GPU pods and ML pipelines"},
+      {name:"external-secrets",role:"Secrets Management",why:"Sync API keys from Vault and AWS securely"},
+      {name:"teleport",role:"Zero-Trust Access",why:"MFA-gated access to AI training clusters with audit logs"},
+      {name:"cert-manager",role:"Certificate Automation",why:"Automated mTLS between model serving components"},
+      {name:"gatekeeper",role:"Admission Control",why:"OPA policies to enforce GPU resource quotas and labels"},
+    ],
+    clouds:["AWS EC2","AWS EKS","Azure VM","Azure AKS","vSphere","Bare Metal"],k8s:["1.29","1.30","1.31","1.32"],
+    deployYaml:"apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: secure-ai-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      compliance: regulated-ai\n  serviceSpec:\n    services:\n    - template: kyverno-3-7-0\n      name: kyverno\n      namespace: kyverno\n    - template: falco-8-0-0\n      name: falco\n      namespace: falco\n    - template: cert-manager-1-19-3\n      name: cert-manager\n      namespace: cert-manager",
+  },
+  {
+    id:"ai-data-platform",title:"AI Data Platform",category:"AI/ML",tier:"community",
+    badge:"Validated",badgeColor:B.green,icon:"⬡",
+    tagline:"Scalable data infrastructure for AI training pipelines",
+    desc:"A composable data platform for AI teams needing reliable storage, messaging, and workflow orchestration for training pipelines. Supports the full data lifecycle from ingestion to model-ready datasets.",
+    useCases:["Training data ingestion and preprocessing pipelines","Feature store for real-time ML serving","Workflow automation for data labeling","Multi-modal data management (text, image, audio)"],
+    components:[
+      {name:"minio",role:"Object Storage",why:"S3-compatible storage for raw datasets and model artifacts"},
+      {name:"milvus",role:"Vector Store",why:"Store and query high-dimensional embeddings at scale"},
+      {name:"strimzi-kafka-operator",role:"Data Streaming",why:"Real-time event streaming for continuous ML pipelines"},
+      {name:"postgresql",role:"Structured Data",why:"Relational store for feature metadata and labels"},
+      {name:"redis",role:"Feature Cache",why:"Low-latency feature serving for real-time ML inference"},
+      {name:"influxdb",role:"Time-Series Store",why:"Metrics and sensor data for IoT and predictive AI models"},
+    ],
+    clouds:["AWS EC2","AWS EKS","Azure VM","Azure AKS","vSphere","OpenStack","Bare Metal"],k8s:["1.28","1.29","1.30","1.31","1.32"],
+    deployYaml:"apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-data-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: data-platform\n  serviceSpec:\n    services:\n    - template: minio-14-1-2\n      name: minio\n      namespace: data\n    - template: milvus-5-0-14\n      name: milvus\n      namespace: data\n    - template: postgresql-18-3-0\n      name: postgresql\n      namespace: data",
+  },
+];
 
 var CONTRIB_STEPS = [
   {n:1,title:"Fork the repository",body:"Fork the k0rdent catalog repository to your GitHub account. Enable GitHub Actions and GitHub Pages (Settings > Pages > branch: gh-pages) so your changes preview on every push.",code:"git clone https://github.com/YOUR_USERNAME/catalog.git\ncd catalog"},
@@ -287,176 +499,58 @@ function CodeBlock({ text }) {
 }
 
 function TestResults({ item }) {
-  var v = item.validated || {};
-  var architectures = [
-    {key:"amd64", label:"AMD64", icon:"🖥"},
-    {key:"arm64", label:"ARM64", icon:"📱"},
-  ];
-  var providers = [
-    {key:"aws", label:"AWS", icon:"☁"},
-    {key:"azure", label:"Azure", icon:"☁"},
-    {key:"local", label:"Bare Metal", icon:"💻"},
-  ];
-  var allPlatforms = architectures.concat(providers);
-  var passed=0, failed=0, pending=0;
-  for (var pi=0;pi<allPlatforms.length;pi++){
-    var val=v[allPlatforms[pi].key]||"-";
-    if(val==="y")passed++;
-    else if(val==="n")failed++;
-    else pending++;
+  var results = ciResults(item);
+  var k8s = K8S_COMPAT[getEff(item)] || K8S_COMPAT.community;
+  var passed=0,failed=0,skipped=0,total=0;
+  for (var ri=0;ri<results.length;ri++) {
+    for (var rj=0;rj<results[ri].runs.length;rj++) {
+      var s = results[ri].runs[rj].s;
+      if (s!=="n/a"&&s!=="pending") {
+        total++;
+        if(s==="pass")passed++;
+        else if(s==="fail")failed++;
+        else if(s==="skip")skipped++;
+      }
+    }
   }
-  function renderTable(title:string, items:any[]) {
-    return (
-      <div style={{marginBottom:14}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:6}}>{title}</div>
-        <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
-          <table style={{width:"100%",borderCollapse:"collapse"}}>
-            <tbody>
-              {items.map(function(p,pi){
-                var val=v[p.key]||"-";
-                var color=val==="y"?B.green:val==="n"?B.red:B.textMut;
-                var label=val==="y"?"Validated":val==="n"?"Unsupported":"To be tested";
-                var icon=val==="y"?"✓":val==="n"?"✕":"—";
-                return (
-                  <tr key={p.key} style={{borderTop:pi>0?"1px solid "+B.border:"none",background:pi%2===0?B.bg2+"40":"transparent"}}>
-                    <td style={{padding:"9px 10px",fontSize:12,color:B.textPri,fontWeight:500}}><span style={{marginRight:6}}>{p.icon}</span>{p.label}</td>
-                    <td style={{padding:"9px 10px",textAlign:"center"}}>
-                      <span style={{fontSize:10,padding:"2px 8px",borderRadius:4,background:color+"18",color:color,border:"1px solid "+color+"30",fontWeight:600}}>{icon} {label}</span>
-                    </td>
-                  </tr>
-                );
-            })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
+  var passRate = total ? Math.round(passed/total*100) : 0;
   return (
     <div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:14}}>
-        {[{n:passed,l:"Validated",c:B.green},{n:failed,l:"Unsupported",c:B.red},{n:pending,l:"To be tested",c:B.textMut}].map(function(s){
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:14}}>
+        {[{n:passed,l:"Passed",c:B.green},{n:failed,l:"Failed",c:B.red},{n:skipped,l:"Skipped",c:B.amber},{n:passRate+"%",l:"Pass rate",c:passRate===100?B.green:passRate>=80?B.amber:B.red}].map(function(s){
           return <div key={s.l} style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"10px",textAlign:"center"}}><div style={{fontSize:18,fontWeight:700,color:s.c,fontFamily:"monospace"}}>{s.n}</div><div style={{fontSize:10,color:B.textMut,marginTop:2}}>{s.l}</div></div>;
         })}
       </div>
-      {renderTable("Architecture", architectures)}
-      {renderTable("Provider", providers)}
+      <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+        <table style={{width:"100%",borderCollapse:"collapse"}}>
+          <thead>
+            <tr style={{background:B.bg3}}>
+              <th style={{padding:"7px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left"}}>Environment</th>
+              <th style={{padding:"7px 8px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"center"}}>Overall</th>
+              {k8s.map(function(v){return <th key={v} style={{padding:"7px 6px",fontSize:9,fontWeight:600,color:B.textMut,textAlign:"center",fontFamily:"monospace"}}>{v}</th>;})}
+            </tr>
+          </thead>
+          <tbody>
+            {results.map(function(r,ri){
+              return (
+                <tr key={r.env} style={{borderTop:"1px solid "+B.border,background:ri%2===0?B.bg2+"40":"transparent"}}>
+                  <td style={{padding:"8px 10px",fontSize:11,color:r.status==="n/a"?B.textMut:B.textPri,fontWeight:500}}>{r.env}</td>
+                  <td style={{textAlign:"center",padding:"8px 6px"}}><CIBadge s={r.status}/></td>
+                  {r.runs.length>0?r.runs.map(function(run){return <td key={run.v} style={{textAlign:"center",padding:"8px 6px"}}><CIBadge s={run.s}/></td>;}):k8s.map(function(v){return <td key={v} style={{textAlign:"center",padding:"8px 6px"}}><CIBadge s="n/a"/></td>;})}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{marginTop:8,fontSize:10,color:B.textMut,textAlign:"right"}}>Last run: 2026-03-12 · k0rdent v1.8.0</div>
     </div>
   );
 }
 
-function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
-  var ref = React.useRef<HTMLDivElement>(null);
-  useEffect(function(){
-    if (!ref.current) return;
-    var pres = ref.current.querySelectorAll("pre");
-    pres.forEach(function(pre:HTMLPreElement){
-      if (pre.querySelector(".copy-btn")) return;
-      pre.style.position = "relative";
-      pre.style.background = B.bg0;
-      pre.style.border = "1px solid " + B.border;
-      pre.style.borderRadius = "7px";
-      pre.style.padding = "12px 14px";
-      pre.style.fontSize = "11px";
-      pre.style.fontFamily = "monospace";
-      pre.style.lineHeight = "1.6";
-      pre.style.overflowX = "auto";
-      pre.style.whiteSpace = "pre";
-      pre.style.margin = "0 0 8px 0";
-      var btn = document.createElement("button");
-      btn.className = "copy-btn";
-      btn.textContent = "Copy";
-      btn.style.cssText = "position:absolute;top:6px;right:6px;background:"+B.bg2+";border:1px solid "+B.borderHi+";border-radius:5px;padding:2px 8px;font-size:9.5px;color:"+B.textSec+";cursor:pointer;font-family:inherit;";
-      btn.onclick = function(){
-        var code = pre.querySelector("code");
-        var text = code ? code.textContent || "" : pre.textContent || "";
-        if (navigator.clipboard) navigator.clipboard.writeText(text);
-        btn.textContent = "Copied";
-        btn.style.color = B.green;
-        btn.style.background = B.green + "30";
-        setTimeout(function(){ btn.textContent = "Copy"; btn.style.color = B.textSec; btn.style.background = B.bg2; }, 1500);
-      };
-      pre.appendChild(btn);
-    });
-    // Syntax highlighting
-    if ((window as any).hljs) {
-      ref.current.querySelectorAll("pre code").forEach(function(block:any){
-        delete block.dataset.highlighted;
-        (window as any).hljs.highlightElement(block);
-      });
-    }
-  }, [html]);
-  return <div ref={ref} style={style} dangerouslySetInnerHTML={{__html:html}}/>;
-}
-
-function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:string, setSelVer:any, k0rdentVer?:string }) {
-  var [installData, setInstallData] = useState<any>(null);
-  var [loading, setLoading] = useState(true);
-  var [error, setError] = useState("");
-
-  useEffect(function(){
-    setLoading(true);
-    setError("");
-    fetch(dataPrefix(k0rdentVer || "") + "apps/" + item.name + "/install.json?t=" + Date.now())
-      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(function(d){ setInstallData(d); setLoading(false); })
-      .catch(function(e){ setError(String(e)); setLoading(false); });
-  }, [item.name]);
-
-  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading install data...</div>;
-  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
-  if (!installData) return null;
-
-  var effectiveVer = selVer || (installData.versions[0] && installData.versions[0].version) || "";
-  var verData = installData.versions.find(function(v:any){ return v.version === effectiveVer; }) || installData.versions[0];
-
-  function stepBlock(n:number, title:string, html:string) {
-    if (!html) return null;
-    return (
-      <div key={n} style={{marginBottom:14}}>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
-          <div style={{width:20,height:20,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{n}</div>
-          <span style={{fontSize:12,fontWeight:600,color:B.textPri}}>{title}</span>
-        </div>
-        <HtmlWithCopy html={html} style={{paddingLeft:28,fontSize:12,color:B.textSec}}/>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
-        <span style={{fontSize:12,color:B.textSec}}>Version:</span>
-        <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
-          {item.versions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
-        </select>
-        {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
-      </div>
-      {stepBlock(1, "Prerequisites", installData.prerequisitesHtml)}
-      {verData && <div key={"install-"+effectiveVer}>{stepBlock(2, "Install template to k0rdent", verData.installHtml)}</div>}
-      {verData && <div key={"verify-"+effectiveVer}>{stepBlock(3, "Verify service template", verData.verifyHtml)}</div>}
-      {verData && <div key={"deploy-"+effectiveVer}>{stepBlock(4, "Deploy service template", verData.deployHtml)}</div>}
-      {installData.examples.length > 0 && (
-        <div style={{marginTop:20,borderTop:"1px solid "+B.border,paddingTop:16}}>
-          <div style={{fontSize:11,fontWeight:600,color:B.textPri,marginBottom:12,textTransform:"uppercase",letterSpacing:0.5}}>Examples</div>
-          {installData.examples.map(function(ex:any, i:number){
-            return (
-              <div key={i} style={{marginBottom:16,padding:14,background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
-                <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:8}}>{ex.title}</div>
-                {ex.contentHtml && <HtmlWithCopy html={ex.contentHtml} style={{fontSize:12,color:B.textSec}}/>}
-                {ex.installHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Install</div><HtmlWithCopy html={ex.installHtml} style={{fontSize:12,color:B.textSec}}/></div>}
-                {ex.verifyHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Verify</div><HtmlWithCopy html={ex.verifyHtml} style={{fontSize:12,color:B.textSec}}/></div>}
-                {ex.deployHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Deploy</div><HtmlWithCopy html={ex.deployHtml} style={{fontSize:12,color:B.textSec}}/></div>}
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer }:any) {
+function DetailPanel({ item, onClose }) {
+  var [tab, setTab] = useState("overview");
+  var [selVer, setSelVer] = useState(item.version);
   var eff = getEff(item);
   var ss = SUPPORT_STYLE[eff];
   var compTags = COMPLIANCE[item.name] || [];
@@ -465,9 +559,10 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
   var parts = item.name.replace(/-/g," ").split(" ");
   for (var pi=0;pi<Math.min(2,parts.length);pi++) initials += parts[pi][0].toUpperCase();
   var d = deployStats(item.name);
-  var maxD = 1;
-  for (var ri=0;ri<RAW.length;ri++){if((RAW[ri].pulls||0)>maxD)maxD=RAW[ri].pulls;}
-  var pct = maxD>0?Math.round((item.pulls||0)/maxD*100):0;
+  var maxD = 18420;
+  var pct = Math.round(d.deploys/maxD*100);
+  var k8s = K8S_COMPAT[eff] || K8S_COMPAT.community;
+  var clouds2 = CLOUD_COMPAT[eff] || CLOUD_COMPAT.community;
 
   useEffect(function(){
     var h = function(e){ if(e.key==="Escape") onClose(); };
@@ -479,27 +574,116 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
     return {padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
   }
 
-  var whyCopy = (function(){
-    var tg = item.tags[0]||"";
-    if(tg==="AI/ML") return "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models.";
-    if(tg==="Security") return "Security is non-negotiable in AI environments. This integration provides policy enforcement, secrets management, or runtime protection across multi-cluster deployments — essential for regulated industries running AI at scale.";
-    if(tg==="Monitoring") return "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health.";
-    if(tg==="Networking") return "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training.";
-    if(tg==="Storage") return "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases.";
-    if(tg==="Database") return "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database.";
-    if(tg==="CI/CD") return "Reliable AI delivery requires robust CI/CD and GitOps pipelines. This integration enables teams to manage cluster configuration and model deployments declaratively.";
-    if(tg==="Backup") return "Data protection is critical for AI workloads training on unique, hard-to-reproduce datasets. This ensures cluster state and persistent volumes can be recovered quickly.";
-    return "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters.";
-  })();
+  var WHY_COPY = {
+    "alloy": "Most observability stacks end up running three or four separate agents per node — one for metrics, one for logs, one for traces. Alloy collapses that into a single programmable collector with a component model that routes telemetry to any backend. For AI infrastructure teams that need consistent signal collection across GPU nodes, training clusters, and inference endpoints without bloating node overhead, it is the most practical path to a unified telemetry pipeline.",
+    "amd-gpu": "AMD Instinct GPUs are increasingly competitive for AI training workloads, but getting ROCm drivers, the device plugin, and node labels consistently deployed across a cluster has historically been a manual, error-prone process. The AMD GPU Operator handles every layer of that stack automatically, bringing AMD GPU nodes to production-ready state with the same single-Helm-install experience that the NVIDIA GPU Operator established as the standard.",
+    "apisix": "Most API gateways make you choose between performance and extensibility. APISIX handles millions of requests per second while supporting 80+ plugins for authentication, rate limiting, and traffic shaping — all configurable at runtime without restarts. For teams exposing AI inference APIs that need token-based rate limiting, JWT validation, and canary routing without rebuilding their gateway layer, it is a more capable alternative to ingress-only solutions.",
+    "arangodb": "Most AI applications eventually need to model relationships between entities — documents linked to authors, products connected to categories, knowledge graph nodes connected by semantic edges. ArangoDB handles all of that in a single engine without forcing a polyglot persistence architecture. Its integrated graph traversal and AQL query language make it particularly well-suited for knowledge graphs that power RAG systems and AI-driven recommendation engines.",
+    "argo-cd": "GitOps is the only sane way to manage AI platform components across multiple clusters at scale. Argo CD is the reference implementation — mature, CNCF graduated, with a rich UI, ApplicationSets for fleet-scale templating, and RBAC that satisfies enterprise security review. When a platform team needs to ensure that every cluster in a fleet is running exactly the right versions of GPU operators, serving frameworks, and observability components, Argo CD is the control plane that enforces it.",
+    "cadvisor": "Kubernetes gives you pod-level resource requests and limits, but cAdvisor gives you the actual runtime truth — real CPU consumption, memory working set, filesystem I/O, and network throughput at the individual container level. For AI workloads where a training job may be consuming far less GPU memory than allocated, or a serving container is quietly leaking memory, cAdvisor's granular signals are what feed the Prometheus alerts that catch problems before they become incidents.",
+    "ceph": "When you need block, object, and file storage simultaneously from a single cluster — and you need it to run on your own hardware rather than a cloud provider's storage service — Ceph is the answer the industry converged on. In k0rdent Enterprise deployments it provides the persistent, high-throughput storage backend that AI training pipelines need for checkpoints, vector databases need for index persistence, and object stores need for model artifact archiving, all without a cloud dependency.",
+    "cert-manager": "TLS certificates that expire unexpectedly are one of the most common causes of production outages, and manually rotating certificates across a multi-cluster AI platform is operationally untenable. cert-manager eliminates the problem entirely by automating issuance and renewal from any CA, ensuring mTLS between model serving components, feature stores, and databases is always current. It is a prerequisite for nearly every other security integration in this catalog.",
+    "cilium": "iptables-based networking does not scale to the traffic volumes and policy complexity of modern AI platforms. Cilium's eBPF dataplane enforces network policy at kernel speed, encrypts pod-to-pod traffic with WireGuard, and exposes per-flow observability through Hubble — all without sidecar proxies consuming GPU pod resources. For regulated AI deployments that need provable network isolation between tenant workloads, Cilium is the CNI that satisfies both the performance and compliance requirements simultaneously.",
+    "clearml": "Reproducing a training run six months later is harder than it sounds when you cannot remember which dataset version, hyperparameter combination, and code commit produced the model in production. ClearML automatically captures all of that — metrics, artifacts, environment, and code state — for every experiment, without requiring engineers to instrument their training scripts beyond a two-line import. Its model registry and remote execution agents turn ad-hoc notebook experiments into a governed, auditable ML pipeline.",
+    "cloudcasa": "Most Kubernetes backup solutions require you to operate the backup infrastructure yourself. CloudCasa flips that model — the control plane is managed SaaS, and only a lightweight Helm deployment runs in your cluster. For platform teams that need reliable backup and DR for AI workloads but do not want to own another stateful system, it delivers the operational simplicity of a managed service without routing your data through an external provider.",
+    "cluster-autoscaler": "GPU nodes are expensive. Keeping them running at full capacity twenty-four hours a day for batch training jobs that run for two hours and then sit idle is one of the most common sources of AI infrastructure waste. Cluster Autoscaler provisions GPU nodes when training jobs need them and removes them when they finish, turning a fixed infrastructure cost into a variable one that scales with actual usage. Combined with KEDA for workload-level scaling, it is the foundation of cost-efficient AI compute.",
+    "dapr": "Building distributed AI pipelines means connecting inference services, data processors, notification systems, and storage backends across cloud and on-premises environments. Dapr provides the building-block APIs — pub/sub, state management, service invocation, secrets, and workflows — that abstract away those infrastructure differences so application code stays portable. It is particularly valuable for event-driven inference pipelines where a model serving endpoint, a result processor, and an alerting service need to compose without tight coupling to a specific message broker or cloud service.",
+    "datadog": "Not every organization wants to operate their own observability stack. Datadog's Kubernetes integration auto-discovers pods and services, its GPU monitoring extension surfaces NVIDIA DCGM metrics per workload, and its unified platform correlates infrastructure metrics, APM traces, logs, and security signals in one place. For teams that want comprehensive AI infrastructure observability without the operational overhead of running Prometheus, Loki, Tempo, and Grafana themselves, Datadog is the verified partner alternative.",
+    "dell": "Enterprises running AI on Dell PowerStore, PowerFlex, or PowerScale arrays should not need to choose between their existing storage investments and cloud-native workload management. Dell CSM brings those arrays into the Kubernetes storage model as first-class CSI volumes with dynamic provisioning, snapshots, cloning, and QoS policies — letting AI teams consume enterprise storage with the same declarative API they use for everything else, without a forklift upgrade.",
+    "dex": "Every organization already has an identity provider — Active Directory, Okta, Google Workspace, or a SAML 2.0 IdP — and no one wants to maintain a separate user database for their AI platform tooling. Dex bridges those upstream identity sources to the OpenID Connect tokens that Kubernetes, Grafana, Argo CD, and JupyterHub expect, enabling single sign-on across the entire platform without modifying each application's authentication logic.",
+    "elasticsearch": "Full-text search and vector search are increasingly the same problem. Elasticsearch's kNN search API and dense vector field type let teams build hybrid retrieval systems that combine BM25 keyword matching with approximate nearest-neighbor embedding search in a single query — without operating a separate vector database alongside a separate search engine. For AI applications that need semantic search over enterprise document corpora, ECK-managed Elasticsearch is a compelling single-store solution.",
+    "envoy-gateway": "The Kubernetes Ingress API was never designed for the routing complexity of modern AI platforms — token-based rate limiting, model-version traffic splits, and cross-cluster service exposure all require annotations that are ingress-controller-specific and non-portable. Envoy Gateway implements the Kubernetes Gateway API standard, giving teams portable, vendor-neutral routing configuration that works identically across cloud providers and does not lock them into a specific controller's annotation dialect.",
+    "external-dns": "As AI inference endpoints proliferate across clusters and environments, manually maintaining DNS records becomes a reliability risk — a misconfigured or forgotten record means a model endpoint is unreachable. ExternalDNS watches Kubernetes Services and Ingresses and keeps DNS records in Route 53, Azure DNS, and 30+ other providers automatically synchronized with the cluster state, so new model deployments are publicly reachable within seconds of the Service being created.",
+    "external-secrets": "Storing API keys, database credentials, and signing certificates in Git — even encrypted — creates a secrets sprawl problem that is hard to audit and harder to rotate. External Secrets Operator keeps sensitive values in HashiCorp Vault, AWS Secrets Manager, or Azure Key Vault where they belong, and syncs them into Kubernetes Secrets on a schedule. AI workloads get the credentials they need through the standard Kubernetes Secret interface without the platform team ever committing a sensitive value to a repository.",
+    "falco": "Admission policies tell you what should not be deployed. Falco tells you what is actually happening at runtime — a model serving container opening a shell, a training pod making an unexpected outbound network connection, a process attempting privilege escalation inside a GPU workload. It uses eBPF probes and a rules engine to detect those behaviors in real time and generate structured alerts that feed SIEM systems. For HIPAA and FedRAMP workloads, runtime threat detection is not optional, and Falco is the CNCF-graduated implementation that satisfies that requirement.",
+    "finops-agent": "Cloud cost visibility tools tell you what you spent last month. FinOps Agent tells you what you are likely to spend next month, using time-series forecasting on Prometheus cost metrics to generate forward-looking estimates that teams can act on before the bill arrives. It is the k0rdent-native component that powers the catalog's FinOps dashboard and enables budget alerts and what-if modeling for GPU node pool scaling decisions — turning cost data from a retrospective report into a proactive planning signal.",
+    "fluentd": "Log data in a heterogeneous AI platform comes from dozens of sources in incompatible formats — container stdout, kernel logs, application-specific structured JSON, and vendor agent output. Fluentd's plugin ecosystem handles all of them through a unified pipeline with filtering, transformation, and multi-destination routing. Its CNCF graduation and decade of production use at petabyte scale make it a reliable foundation for teams that need flexible log collection without building custom parsing logic for each new component they add to the stack.",
+    "flux-operator": "The Flux Operator takes the operational complexity out of running Flux CD itself — handling installation, upgrades, health checks, and the coordination of Flux's multi-component architecture through a single FluxInstance CRD. For platform teams that have adopted GitOps as their delivery model, it is the recommended way to ensure Flux is running correctly on every k0rdent-managed cluster without treating the GitOps controller itself as a manually managed component.",
+    "gatekeeper": "Kyverno policies are YAML-native and approachable. OPA Gatekeeper policies are written in Rego and are more expressive for complex governance logic — multi-resource constraints, external data lookups, and hierarchical policy structures. For organizations with existing OPA investment or compliance requirements that demand policy-as-code with auditable, version-controlled Rego, Gatekeeper is the admission controller that delivers that model without requiring a complete policy rewrite.",
+    "gitlab": "Data sovereignty requirements and air-gap constraints mean many regulated organizations cannot use cloud-hosted CI/CD. Running GitLab on k0rdent gives those teams the complete DevSecOps lifecycle — source control, pipelines, container registry, dependency scanning, and deployment environments — on their own infrastructure, with full control over where code, model definitions, and deployment artifacts are stored. For AI teams in healthcare, finance, and government, self-hosted GitLab is often a compliance requirement, not just a preference.",
+    "grafana": "Metrics mean nothing without visualization, and Grafana is where every observability signal in the catalog ultimately surfaces — Prometheus metrics, Loki logs, Tempo traces, and cost data from OpenCost all rendered as unified dashboards. Its 150+ data source plugins and exemplar linking, which lets teams jump from a slow PromQL query directly to the distributed trace that explains it, make it the irreplaceable visualization layer for AI infrastructure observability regardless of which backends a team chooses.",
+    "harbor": "Pushing AI model images and Helm charts to a public registry creates audit gaps and potential data exposure. Harbor provides a private, on-premises registry with vulnerability scanning, content trust signing, replication, and RBAC that satisfies the artifact management requirements of regulated industries — all on infrastructure the organization controls. For teams that need an auditable chain of custody from model training artifact to deployed container image, Harbor is the registry layer that provides it.",
+    "harness": "Not every team wants to operate a full CI/CD platform on Kubernetes. Harness's SaaS-delivered pipelines, AI-assisted deployment verification, feature flags, and chaos engineering capabilities are all accessible from a single Delegate running inside the cluster — no inbound firewall ports, no infrastructure to manage. For organizations that want enterprise CD capabilities without the operational overhead of self-hosting Jenkins or GitLab, the Harness Delegate is the integration point that connects managed SaaS to k0rdent-managed clusters.",
+    "headlamp": "kubectl is powerful but inaccessible to the majority of an AI platform's stakeholders — data scientists, ML engineers, and application developers who need to inspect pod status, review resource allocations, and browse CRD state without a terminal. Headlamp's plugin architecture means platform teams can add custom views for their specific CRDs and internal tooling, making it a practical alternative to the Kubernetes Dashboard for organizations that want a graphical cluster interface they can extend.",
+    "hpe-csi": "Organizations running AI on HPE Nimble, Primera, Alletra, or MSA arrays should not need to abandon their storage investments when moving workloads to Kubernetes. The HPE CSI Driver brings those arrays into the Kubernetes storage model with dynamic provisioning, snapshots, cloning, and QoS settings — the same declarative storage API that cloud-native workloads expect, backed by the enterprise storage hardware the organization already owns and supports.",
+    "influxdb": "Relational databases and general-purpose time-series stores both struggle with the high-cardinality, high-frequency ingest patterns that IoT and operational AI systems produce. InfluxDB's columnar storage engine, native downsampling, and purpose-built query interfaces handle millions of data points per second without the schema management overhead of SQL. For AI applications that train predictive models on time-ordered operational data — sensor readings, performance counters, financial ticks — InfluxDB is the storage layer that keeps ingest and query performant as data volumes grow.",
+    "ingress-nginx": "The most widely deployed Kubernetes Ingress controller exists in this catalog because it is the lowest-friction path to exposing AI APIs and model endpoints to external traffic. Its annotation-based configuration, TLS termination, WebSocket passthrough, and rate limiting cover the requirements of most teams without introducing the complexity of a full service mesh or gateway API implementation. When teams are ready to graduate to more sophisticated routing, the other networking integrations in this catalog build naturally on top of it.",
+    "istio": "Once an AI platform reaches the complexity where dozens of microservices — model servers, feature pipelines, data preprocessors, and monitoring agents — are communicating with each other, you need transparent mTLS encryption, fine-grained traffic management, and per-request telemetry without instrumenting every application. Istio delivers all three through sidecar proxies that applications never need to know about. Its canary split capabilities are particularly valuable for model A/B testing where you need precise control over what percentage of inference traffic reaches a new model version.",
+    "istio-ambient": "Running Envoy sidecars alongside GPU workloads has a real cost — each sidecar consumes CPU and memory that could otherwise serve model requests. Istio ambient mode delivers the same mTLS guarantees and L7 traffic management through a per-node ztunnel and dedicated waypoint proxies, eliminating the sidecar overhead entirely. For inference-heavy deployments where every millicore counts, ambient mode is how you get the security and observability of a full service mesh without paying the resource tax.",
+    "jenkins": "Jenkins has been the backbone of CI/CD automation for fifteen years, and its 1,800+ plugin ecosystem means virtually any build, test, or deployment workflow can be expressed as a pipeline. Running it on Kubernetes with ephemeral pod-based agents means ML teams can execute GPU training jobs, data validation steps, and integration tests on dynamically provisioned nodes that terminate when the pipeline finishes — turning Jenkins into an on-demand ML compute scheduler, not just a code build system.",
+    "jupyterhub": "Data scientists should not need to provision their own Kubernetes infrastructure to run experiments. JupyterHub spawns isolated, authenticated notebook environments with configurable CPU, memory, and GPU resource profiles from a single multi-tenant deployment — giving researchers on-demand compute through a browser without granting them cluster access. Its KubeSpawner backend creates per-user pods with persistent volume mounts, making it the standard self-service compute surface for ML teams on Kubernetes.",
+    "kagent": "AI agents that can interact with Kubernetes APIs, call external tools, and take autonomous remediation actions represent a fundamentally new operations model — but running them reliably in production requires the same lifecycle management as any other workload. Kagent brings that to Kubernetes natively, defining agents as CRDs with configurable tool access, memory backends, and execution policies. For platform teams exploring AI-assisted operations — intelligent alert triage, self-healing workflows, policy-driven remediation — it is the integration point between the cluster and the agent runtime.",
+    "keda": "Keeping inference replicas running at all times when request volume is unpredictable wastes GPU capacity. Scaling based on CPU utilization reacts too slowly for bursty AI workloads. KEDA solves both problems by scaling deployments directly on the signals that actually matter — inference request queue depth, Kafka consumer lag, SQS queue length, or any custom Prometheus metric — and scaling to zero when those signals drop to zero. For AI APIs with uneven traffic patterns, KEDA is what makes autoscaling actually responsive rather than theoretically present.",
+    "keycloak": "Every organization's AI platform eventually needs a centralized identity layer — SSO for Grafana, Argo CD, JupyterHub, and internal tooling, with role-based access control that maps to the organization's existing group structure. Keycloak provides that in a self-hosted, data-sovereign package that supports LDAP, Active Directory, social login, and SAML 2.0 without routing authentication through an external SaaS provider. For regulated industries where user identity data cannot leave the organization's infrastructure, it is the IAM platform that satisfies both the technical and compliance requirements.",
+    "kgateway": "Standard Kubernetes Ingress controllers were not designed for the specific challenges of AI API traffic — token-based rate limiting for LLM endpoints, model failover routing when a backend becomes unhealthy, and prompt guard policies that inspect request payloads before they reach a model. kgateway's AI-native extensions address those requirements on top of an Envoy-powered Gateway API implementation, making it the most purpose-built ingress solution for teams exposing multiple model backends behind a single, policy-enforced API surface.",
+    "kiali": "When something goes wrong in an Istio service mesh — a model server timing out, a feature pipeline dropping requests, a circuit breaker tripping — diagnosing the problem from raw Envoy metrics requires expertise most teams do not have on call. Kiali translates that complexity into auto-generated topology graphs, real-time traffic flow animations, and configuration validation that make inter-service communication issues immediately visible. For AI platforms built on Istio, it is the operational interface that turns mesh observability data into actionable insights.",
+    "knative": "Inference endpoints that handle variable traffic need to scale down to zero when idle to avoid paying for GPU capacity that is not serving requests, and scale up quickly when demand returns. Knative's serving layer provides exactly that behavior — scale-to-zero, rapid scale-up, and traffic splitting for canary deployments — without requiring teams to implement their own autoscaling logic. Its eventing layer connects cloud events to workloads declaratively, enabling trigger-based inference pipelines where a document upload or database change automatically initiates a model run.",
+    "kserve": "Serving ML models in production involves far more than wrapping a model in a Flask endpoint. KServe handles the full serving lifecycle — canary rollouts, explainability, model monitoring, multi-model serving, GPU autoscaling, and a unified InferenceService API that works identically for TensorFlow, PyTorch, XGBoost, scikit-learn, and custom runtimes. It is the serving framework that CNCF, major cloud providers, and most AI platform teams converged on as the production standard, and it is why model serving in k0rdent stacks does not require bespoke infrastructure.",
+    "kube-prometheus-stack": "Setting up Prometheus, Alertmanager, Grafana, kube-state-metrics, node-exporter, recording rules, and dashboards individually takes days and produces a configuration that is hard to upgrade consistently. The kube-prometheus-stack bundles all of it into a single, well-tested Helm chart with pre-built NVIDIA DCGM dashboards included. It is in the catalog because it is the fastest path from a new cluster to end-to-end AI infrastructure observability, and because the vast majority of the monitoring integrations in this catalog are designed to work alongside it.",
+    "kubecost": "Cloud bills for AI infrastructure arrive after the GPU nodes have already run. Kubecost surfaces the same cost information in real time — per-namespace, per-deployment, per-label — so platform teams can see which training jobs, inference services, and data pipelines are consuming disproportionate budget before the month ends. Its rightsizing recommendations identify over-provisioned workloads that can be reduced without performance impact, making it the FinOps tool that pays for itself on the first oversized GPU job it catches.",
+    "kubeflow-spark-operator": "Apache Spark is the standard for large-scale data processing, but running it on Kubernetes without an operator means manually managing driver pods, executor lifecycles, retry logic, and resource cleanup. The Spark Operator handles all of that through a SparkApplication CRD, making large-scale feature engineering, dataset preprocessing, and batch scoring jobs first-class Kubernetes workloads. For ML teams whose pipelines span from raw data to trained model, it is the component that brings the data processing tier into the same declarative management model as everything else.",
+    "kuberay": "Ray is the distributed Python framework that the AI industry's most demanding workloads — large-scale model training, hyperparameter tuning, reinforcement learning, and distributed inference — are built on. KubeRay makes Ray a first-class Kubernetes citizen, provisioning clusters on demand, autoscaling workers based on task queue depth, and integrating with KServe for serving Ray Serve endpoints. For teams running the workloads that defined Ray's adoption, KubeRay is the operator that makes those workloads manageable at enterprise scale.",
+    "kyverno": "Security policies that exist only as documentation do not prevent misconfigured GPU workloads from running without resource limits, containers from running as root, or sensitive namespaces from being accessed by workloads that should not reach them. Kyverno enforces those policies at the admission webhook in YAML — no Rego required — blocking non-compliant resources before they are created, mutating resources to add required fields automatically, and generating dependent resources like NetworkPolicies. It is the policy engine that turns security requirements from a checklist into a technical control.",
+    "kyverno-guardrails": "Writing Kyverno policies from scratch for a new cluster requires security expertise, time, and knowledge of the specific CVEs and misconfigurations that policies should guard against. Kyverno Guardrails provides a ready-to-apply library of curated ClusterPolicies covering the Kubernetes security best practices that every cluster should enforce — blocking host-network access, requiring read-only root filesystems, mandating resource limits, and more. It is the fastest way to establish a meaningful security baseline on a new cluster without waiting for a custom policy library to be authored.",
+    "local-ai": "Sending inference requests to OpenAI or other cloud LLM providers is incompatible with air-gapped deployments, data sovereignty requirements, and the need to keep sensitive inputs — patient records, financial data, proprietary code — off external infrastructure. LocalAI provides a drop-in OpenAI API replacement that runs quantized models entirely on local hardware, supporting GGUF, GGML, and other efficient formats across CPU and GPU. For regulated industries and government deployments where data cannot leave the organization's control, it is the LLM runtime that makes self-hosted AI genuinely operational.",
+    "loki": "Storing full log content in Elasticsearch costs an order of magnitude more than it should because full-text indexing of log data at scale is expensive. Loki indexes only metadata labels and stores log streams in object storage, achieving the same queryability at a fraction of the cost. Its LogQL language is intentionally similar to PromQL, and its Grafana integration means teams can jump from a metric alert directly to the correlated log stream without switching tools — making it the natural log aggregation choice for stacks already built around the Prometheus ecosystem.",
+    "lws": "LLMs with 70 billion or more parameters cannot fit in the memory of a single GPU. Running multi-node distributed inference for those models on Kubernetes requires coordinated scheduling of leader and worker pods as a unit, graceful restarts that replace the entire group when any member fails, and gang scheduling semantics that ensure all nodes are available before the workload starts. LeaderWorkerSet provides exactly that API. Without it, serving large frontier models on Kubernetes requires bespoke operator logic that most teams should not need to write.",
+    "metallb": "Bare-metal and on-premises Kubernetes clusters do not have a cloud provider's load balancer controller to assign external IPs to Services of type LoadBalancer. Without MetalLB, those Services remain in a perpetual Pending state, and AI inference endpoints are only reachable through NodePort workarounds that expose node-level ports rather than stable service IPs. MetalLB solves this with either Layer 2 ARP announcements or BGP route advertisements, giving on-premises clusters the same LoadBalancer semantics that cloud clusters take for granted.",
+    "milvus": "Qdrant and Milvus occupy the same space — purpose-built vector databases for billion-scale similarity search — and the catalog includes both because the choice between them depends on deployment scale, operational preferences, and specific index requirements. Milvus's disaggregated storage-compute architecture handles the largest-scale deployments, its streaming ingestion pipeline handles high-throughput writes, and its GPU-accelerated distance computation handles queries over the largest indexes. For enterprise RAG systems at the upper end of the scale curve, Milvus is the vector store that does not become a bottleneck.",
+    "minio": "Every AI infrastructure stack needs somewhere to put datasets, model checkpoints, training artifacts, and log archives that is S3-compatible, high-performance, and not owned by a cloud provider. MinIO fills that role — delivering over 325 GiB/s read throughput on NVMe hardware with the full S3 API that MLflow, Loki, Velero, and virtually every other tool in this catalog can write to natively. It is the storage primitive that makes the rest of the stack cloud-agnostic.",
+    "mirantis-kyverno-guardrails": "The community Kyverno Guardrails library provides a strong security baseline. The Mirantis edition extends it with additional AI workload policies, CIS Kubernetes Benchmark controls, and compliance mappings for SOC 2, HIPAA, PCI DSS, and FedRAMP — backed by Mirantis 24x7 support that includes policy updates as new vulnerabilities and compliance requirements emerge. For organizations where the baseline is a starting point rather than a final state, and where a support SLA is required for the policy layer itself, this is the edition that satisfies both requirements.",
+    "mirantis-velero": "Velero is the right tool for Kubernetes backup and disaster recovery. The Mirantis edition exists because operating backup infrastructure at enterprise scale — with guaranteed compatibility across k0rdent versions, validated restore procedures, and an SLA that covers incident response when a restore is needed — requires more than open-source community support can provide. For organizations where data recovery is a contractual obligation rather than a best-effort practice, Mirantis Velero is the version that comes with accountability.",
+    "mlflow": "The ML experiment tracking problem has been solved, and MLflow solved it. Its automatic metric and parameter logging, centralized model registry with staging and production promotion, and integrations with PyTorch, TensorFlow, scikit-learn, and Hugging Face Transformers are the reason it became the industry standard that every other experiment tracker is measured against. For teams that need a governed, auditable ML pipeline from experiment to production model, it is the tool that provides the complete trail from hyperparameter sweep to deployed artifact.",
+    "mongodb": "Document databases fit the data shapes that AI applications naturally produce — nested objects, variable schemas, and semi-structured metadata that would require dozens of joined tables in a relational model. MongoDB's aggregation pipeline, flexible document model, and horizontal scalability make it a natural fit for AI application operational data — session state, user profiles, recommendation metadata, and event logs — where the schema evolves as the application matures. The Community Operator makes it a first-class Kubernetes workload with automated replica set management.",
+    "msr": "Organizations running Mirantis Kubernetes Engine already have a support relationship with Mirantis. MSR 4 extends that to the container registry layer — providing an enterprise Harbor distribution with Mirantis-managed installation, upgrades, and support, so the registry that stores AI model images and Helm charts is covered by the same SLA as the cluster infrastructure beneath it. For teams that want a single vendor relationship covering the full stack from cluster to registry, it eliminates the gap between the platform and the artifact store.",
+    "mysql": "MySQL InnoDB Cluster with Group Replication is a mature, battle-tested solution for high-availability relational data, and the MySQL Operator makes it a first-class Kubernetes workload with automated provisioning, failover, and rolling upgrades. For AI applications that are built on MySQL — whether legacy systems being modernized or new applications where the team's operational expertise is in MySQL rather than PostgreSQL — the operator brings enterprise HA semantics to the database tier without requiring a migration.",
+    "n8n": "Data labeling, ETL pipelines, and AI-triggered notification workflows share a common requirement: connecting dozens of APIs, databases, and services in sequences that change frequently as the AI application evolves. n8n's visual node editor and 400+ pre-built integrations make those connections fast to build and easy to modify, while its code nodes support arbitrary Python and JavaScript for logic that cannot be expressed visually. For data science teams that need workflow automation without writing and deploying a custom service for every new pipeline, it removes the infrastructure overhead from the iteration loop.",
+    "nats": "Message brokers for AI pipelines need to be fast, simple to operate, and capable of both real-time pub/sub and durable stream semantics depending on the use case. NATS delivers sub-millisecond latency from a 3 MB binary with no external dependencies, and JetStream adds durable streams, key-value storage, and object store capabilities in the same process. For event-driven inference pipelines where a message missed means a prediction not made, NATS provides the reliability guarantees without the operational complexity of running a full Kafka cluster for every lightweight messaging use case.",
+    "netapp": "Enterprises with NetApp ONTAP infrastructure — on-premises or in the cloud as Azure NetApp Files or FSx for NetApp ONTAP — have storage that can be consumed by Kubernetes workloads without buying additional hardware or migrating data. NetApp Trident's NVMe/TCP and NVMe/RoCE transport support delivers the sub-100µs latency that checkpoint-heavy training workloads need, while its snapshot and cloning capabilities let AI teams duplicate large training datasets for parallel experiments by referencing existing data rather than copying it.",
+    "nginx-ingress-f5": "The community ingress-nginx controller handles routing. The F5 NGINX Plus edition adds what regulated industries and security-conscious organizations need on top of routing: an integrated Web Application Firewall, JWT authentication, Active Health Checks, and support for NGINX App Protect policies that can inspect and block malicious requests before they reach a model endpoint. For teams that need proven WAF protection in front of AI APIs — not a separate WAF appliance bolted on afterward — it is the ingress controller that builds that capability in.",
+    "nirmata": "Kyverno policy authoring and multi-cluster policy distribution are engineering problems. Ensuring those policies map to SOC 2, HIPAA, PCI DSS, and FedRAMP controls and generating the compliance reports that auditors actually need is a different problem. Nirmata Enterprise solves the second problem with a management console, policy-as-code workflows, and compliance reporting dashboards that translate technical policy enforcement into the documentation that compliance and audit teams require — backed by commercial support from the team that maintains Kyverno upstream.",
+    "node-feature-discovery": "Scheduling a large language model training job onto a node without NVLink, or an RDMA-intensive workload onto a node without ConnectX NICs, wastes resources and produces incorrect behavior. Node Feature Discovery labels nodes with the hardware capabilities they actually have — GPU models, PCIe devices, CPU instruction sets, NUMA topology, and kernel features — so scheduler rules can target the specific hardware that each AI workload requires. It is the prerequisite that makes hardware-aware scheduling possible without maintaining a manual inventory of node capabilities.",
+    "nvidia": "Running NVIDIA GPUs in Kubernetes without the GPU Operator means manually installing drivers, the CUDA toolkit, the container runtime configuration, the device plugin, DCGM exporter, and MIG manager on every node — and keeping all of those components in sync across kernel updates and driver releases. The GPU Operator handles the entire stack automatically, ensuring every GPU node in a k0rdent cluster presents a consistent, monitored interface to AI workloads. It is the single most important infrastructure component for any organization running GPU-accelerated AI on Kubernetes.",
+    "nvidia-network-operator": "GPUDirect RDMA allows GPU memory on one node to transfer data directly to GPU memory on another node over InfiniBand or RoCE without involving the CPU — dramatically accelerating the all-reduce operations that dominate distributed training time for large models. The NVIDIA Network Operator automates the deployment of the full RDMA software stack required for that capability — Mellanox OFED drivers, SR-IOV device plugin, and RDMA device plugin — making high-speed GPU-to-GPU networking a declarative Kubernetes configuration rather than a manual node setup procedure.",
+    "ollama": "Self-hosted LLM inference should not require a serving framework, a model registry, and a GPU operator just to run a Llama model for development and testing. Ollama downloads models, manages GPU offloading, and serves an OpenAI-compatible API from a single process with a two-line Helm install. For RAG applications that need a local embedding model, development environments that need an LLM backend without cloud API costs, and air-gapped deployments that need self-contained inference, it is the lowest-friction path from zero to a running LLM.",
+    "open-webui": "Organizations deploying self-hosted LLMs for internal use need more than an API endpoint — they need a usable interface that non-technical users can actually interact with. Open WebUI provides multi-model switching, document upload for RAG, conversation history, user management, and a plugin system in a single container that works with Ollama and any OpenAI-compatible backend. It is the fastest way to give an organization's users a private ChatGPT-equivalent backed by models running entirely on their own infrastructure, without building a custom frontend.",
+    "opencost": "Cloud cost tools aggregate spend by account and service. OpenCost understands Kubernetes constructs — pods, namespaces, deployments, labels — and attributes shared node costs fairly across tenant workloads in real time using actual cloud pricing APIs. For AI platform teams managing multiple teams on shared GPU infrastructure, it provides the cost attribution granularity needed to implement chargeback, identify wasteful workloads, and make informed decisions about node pool sizing before the monthly bill arrives.",
+    "openfeature": "Releasing a new model version to 100% of production traffic immediately is a risk that most teams should not take. The OpenFeature Operator brings vendor-neutral feature flagging to Kubernetes, enabling runtime toggles that control what percentage of traffic reaches a new model, which users see experimental features, and whether a fallback model is active — without a code deployment. Its provider-agnostic SDK means teams can switch flag management backends without re-instrumenting applications, keeping the rollout control layer independent of the vendor relationship.",
+    "opentelemetry": "Instrumenting applications with vendor-specific tracing SDKs creates lock-in that is expensive to undo when observability backends change. OpenTelemetry provides the CNCF-standard, vendor-neutral instrumentation API and collector pipeline that receives traces, metrics, and logs from any instrumented application and exports them to any backend. Standardizing on OTel means teams can switch from Jaeger to Tempo or from a self-hosted Prometheus to Datadog without re-instrumenting a single service — the instrumentation investment is permanent regardless of which backends the organization chooses over time.",
+    "penpot": "AI platform teams building internal dashboards, admin UIs, and data visualization components need a design tool, but routing design files through Figma or Sketch means design assets live outside the organization's infrastructure. Penpot is fully self-hostable, browser-based, and produces design tokens and SVG assets that developers can consume directly. For regulated organizations where design artifacts contain sensitive product information, it provides the collaborative design environment they need without a cloud SaaS dependency.",
+    "postgresql": "PostgreSQL is the default relational database for AI platform infrastructure not because it is the most exotic choice, but because it is the most reliable one. MLflow, Argo CD, Keycloak, JupyterHub, and dozens of other catalog integrations use it as their metadata backend. Its pgvector extension adds embedding vector storage and kNN search, making it a hybrid store for applications that need relational data and vector search without operating a separate vector database for modest-scale retrieval workloads.",
+    "postgresql-operator": "A single PostgreSQL instance is not production. The Zalando Postgres Operator delivers HA PostgreSQL clusters on Kubernetes using Patroni for leader election, WAL-G for continuous archiving, and PgBouncer for connection pooling — all managed through a Postgresql CRD. For MLflow, Argo CD, and other stateful platform components that need a reliable relational backend without a managed cloud database, it provides database-as-a-service semantics on infrastructure the organization controls.",
+    "prometheus": "Prometheus is the monitoring substrate that every other observability integration in this catalog is built on top of. NVIDIA DCGM exports GPU metrics to it. kube-state-metrics exposes cluster state through it. Grafana visualizes it. KEDA scales workloads based on it. FinOps Agent forecasts costs from it. It is in the catalog not because it needs explanation but because no AI infrastructure stack is complete without it, and its PromQL query language and alert rule format have become the lingua franca of Kubernetes observability.",
+    "pure": "Pure Storage FlashArray and FlashBlade deliver the NVMe-over-Fabrics performance and sub-100µs latency that checkpoint-intensive training workloads require when writing model state to persistent storage. The Pure CSI driver brings those arrays into the Kubernetes storage model with dynamic provisioning, snapshots, cloning, and volume expansion through the CSI specification. For organizations with Pure Storage infrastructure, it is the integration that makes enterprise storage performance available to AI workloads without leaving the declarative Kubernetes management model.",
+    "pypiserver": "Data science teams that publish internal Python libraries — custom model utilities, preprocessing code, feature engineering packages — need a package server that pip can install from. pypiserver provides exactly that with minimal operational overhead: a single container, no database, no authentication complexity. It is the simplest possible solution to the problem of distributing internal Python packages across training and inference environments without publishing proprietary code to the public PyPI.",
+    "qdrant": "RAG applications live and die by vector search performance. Qdrant is written in Rust, consistently benchmarks faster than alternatives at equivalent recall rates, and supports HNSW indexing, payload filtering, sparse vectors, binary quantization, and named vectors per point through a clean REST and gRPC API. For teams building production RAG systems where query latency directly impacts user experience, it is the vector store that does not become the bottleneck — and its Kubernetes operator makes scaling that store as declarative as scaling any other workload.",
+    "rabbitmq": "Not every AI pipeline needs Kafka's partition model and consumer group semantics. RabbitMQ's AMQP-based routing exchanges, configurable durability, and dead-letter handling cover the requirements of task queues, work distribution patterns, and guaranteed-delivery notification workflows that represent the majority of asynchronous communication in AI applications. Its Kubernetes operator handles cluster formation, rolling upgrades, and topology-aware replication, making it the right choice for teams whose messaging patterns fit the queue model rather than the log model.",
+    "raw": "Helm is the deployment standard for Kubernetes applications, but not every resource a platform team needs to deploy has a Helm chart — some are one-off CRDs, ConfigMaps, operator configurations, or custom resources that do not belong in a full chart. The raw chart deploys arbitrary Kubernetes YAML through the Helm lifecycle, enabling versioning, values-based parameterization, rollback, and release tracking for manifests that would otherwise be applied with kubectl and then forgotten. It is a small utility with an outsized impact on operational consistency.",
+    "redis": "Semantic caching for LLM APIs — storing the responses to embeddings-similar queries and returning the cached result instead of making a new API call — can reduce inference costs by 40% or more for applications with repetitive query patterns. Redis is the implementation substrate for that pattern, and also for the feature stores, session management, and pub/sub messaging that AI applications need at sub-millisecond latency. Its data structure breadth — strings, hashes, sorted sets, streams, and geospatial indexes — means it solves multiple infrastructure problems that would otherwise require separate services.",
+    "runai-cp": "A GPU node running a single training job at 30% utilization is a GPU node wasting 70% of its value. NVIDIA Run:ai virtualizes GPU resources across teams and projects, enabling dynamic multi-tenancy where multiple workloads share physical GPUs with guaranteed quotas, fair-share scheduling, and over-provisioning policies that increase realized utilization significantly. For organizations where GPU infrastructure represents the largest line item in the AI budget, it is the platform that turns that investment from a cost center into a shared resource that delivers more output per dollar.",
+    "soperator": "The HPC community built Slurm over decades to schedule the kinds of jobs — MPI workloads, array jobs, resource reservations, and preemption — that AI training at scale still depends on. Soperator brings Slurm's mature batch scheduling to Kubernetes infrastructure managed by k0rdent, bridging the gap between traditional supercomputing workflows and cloud-native orchestration. For organizations migrating HPC workloads to Kubernetes who cannot or do not want to rewrite their Slurm-based pipeline tooling, it is the integration that makes that migration possible without abandoning the scheduler.",
+    "stacklight": "Building a production-grade LMA stack from individual components — configuring collectors, writing alert rules, building dashboards, wiring the log pipeline — takes weeks and produces a system that is fragile to upgrade. Mirantis StackLight delivers that complete stack pre-configured and production-hardened for k0rdent Enterprise clusters, with pre-built OpenStack and Kubernetes dashboards, curated alert rules, and a centralized log pipeline backed by Mirantis 24x7 support. For organizations that need observability on day one without a platform engineering sprint to build it, it is the managed alternative to assembling the stack yourself.",
+    "strimzi-kafka-operator": "Real-time feature pipelines for ML serving, continuous model input streaming, and audit trails for AI decision systems all share a common requirement: a high-throughput, durable, ordered event log that can replay history and handle the ingest volumes that operational AI systems produce. Kafka is the answer the industry converged on, and Strimzi makes Kafka a first-class Kubernetes workload with CRD-driven management of brokers, topics, users, and MirrorMaker 2 replication — all with TLS and SASL security built in.",
+    "teleport": "VPNs and bastion hosts give broad network access and generate audit logs that are hard to correlate with specific actions. Teleport gives engineers exactly the access they are authorized for — kubectl to specific clusters, SSH to specific nodes, queries to specific databases — through short-lived certificates with enforced MFA, and records every session in a tamper-evident audit log. For AI platform teams that need to demonstrate to auditors that access to training clusters and model databases is controlled, logged, and revocable, it is the zero-trust access layer that makes that demonstration straightforward.",
+    "tempo": "Distributed tracing data stored in Elasticsearch is expensive because trace data is high-cardinality and high-volume. Tempo stores traces in object storage — S3, GCS, or Azure Blob — with no index beyond trace IDs, achieving a cost reduction of one to two orders of magnitude compared to search-engine-based backends. Its Grafana integration and exemplar linking mean teams can jump from a slow Prometheus metric directly to the distributed trace that explains the latency spike in a model serving pipeline, without operating expensive search infrastructure to enable that navigation.",
+    "tetrate-istio": "Upstream Istio releases on a quarterly cadence that prioritizes new features over long-term stability. US Federal and regulated enterprise deployments need a service mesh with FIPS 140-2 validated cryptography, long-term support windows, security patches backported to stable releases, and a commercially accountable support chain. Tetrate Istio Distro provides all of that on top of upstream Istio, making it the service mesh of choice for organizations where the mesh is a compliance control, not just an infrastructure convenience.",
+    "tika": "Enterprise knowledge bases contain documents in dozens of formats — PDFs, Word documents, Excel spreadsheets, PowerPoint presentations, HTML pages, and more — that need to become clean text before they can be chunked, embedded, and inserted into a RAG vector store. Tika parses all of them through a unified API, handling character encoding, metadata extraction, and OCR for scanned documents. It is the ingestion layer that turns a file repository into a corpus that a retrieval-augmented generation system can actually search.",
+    "traefik": "Teams that want their ingress controller to discover services automatically — without writing Ingress resources or annotations for every new deployment — find Traefik's provider-based dynamic configuration model more ergonomic than NGINX's static configuration approach. Its middleware system handles rate limiting, circuit breaking, OAuth forwarding, and request mirroring, and its native Let's Encrypt integration automates TLS without cert-manager. For greenfield deployments where service discovery and automatic TLS are higher priorities than annotation-based routing control, it is the ingress controller worth evaluating.",
+    "valkey": "When Redis changed its license in 2024, the community forked it as Valkey under the Linux Foundation with BSD licensing and a governance model that ensures it remains genuinely open source. Valkey is fully API-compatible with Redis 7.2 — the same data structures, commands, persistence modes, and RESP3 protocol — so existing Redis workloads migrate without code changes. For organizations with open-source licensing requirements or concerns about Redis's licensing trajectory, it is the drop-in alternative that maintains compatibility without the license risk.",
+    "velero": "Kubernetes cluster state — etcd contents, persistent volumes, and custom resources — is not automatically backed up. A misconfigured deployment, a corrupted operator, or a failed upgrade can leave a platform team with a cluster that needs to be rebuilt from scratch, taking an AI platform offline for hours. Velero captures cluster resources and persistent volume snapshots to object storage on a schedule and replays them on demand, turning a potential multi-day recovery into a predictable restore procedure with a defined RTO.",
+    "victoriametrics": "Prometheus's local storage model does not scale to the metrics cardinality of large multi-cluster AI platforms — retention is limited, high-cardinality GPU metrics are expensive, and federation adds operational complexity. VictoriaMetrics is drop-in compatible with the Prometheus query API and remote write protocol, uses up to 7x less storage and 3x less RAM for the same data, and supports long-term retention natively. For organizations that have outgrown Prometheus's storage model but want to keep their existing PromQL dashboards and alerting rules, it is the upgrade path that changes the backend without changing anything else.",
+    "wandb": "LLM applications fail in ways that infrastructure metrics cannot detect — a model that produces grammatically correct but factually wrong responses, a prompt template that degrades in quality after a fine-tuning run, an embedding model whose retrieval recall drops after a version update. W&B Weave captures LLM call traces, token usage, latency, and evaluation scores, and provides evaluation pipelines and prompt version comparison tools to detect those quality regressions before they reach users. For the self-hosted edition, it runs as a Kubernetes operator so evaluation data stays inside the organization's infrastructure.",
+  };
+  var whyCopy = WHY_COPY[item.name] || "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters.";
 
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:1000,display:"flex",alignItems:"stretch",justifyContent:"flex-end"}}>
-      <div className="k0-backdrop" style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.7)"}}/>
-      <div className="k0-detail-panel" onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(680px,100vw)",background:B.bg1,borderLeft:"1px solid "+B.borderHi,display:"flex",flexDirection:"column",overflowY:"auto"}}>
+      <div style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.7)"}}/>
+      <div onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(680px,100vw)",background:B.bg1,borderLeft:"1px solid "+B.borderHi,display:"flex",flexDirection:"column",overflowY:"auto"}}>
         {eff==="mirantis-certified"&&<div style={{height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",flexShrink:0}}/>}
-        <div className="k0-detail-header" style={{padding:"18px 22px 0",flexShrink:0}}>
+        <div style={{padding:"18px 22px 0",flexShrink:0}}>
           <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:12}}>
-            <AppLogo name={item.name} size={44} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
+            <AppLogo name={item.name} size={44} accent={accent}/>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:4}}>
                 <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{item.name}</h2>
@@ -507,19 +691,20 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
               </div>
               <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
                 {item.tags.map(function(t){return <span key={t} style={{fontSize:9.5,padding:"1px 6px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),border:"1px solid "+tagAccent(t)+"25",fontWeight:500}}>{t}</span>;})}
+                {compTags.map(function(c){var cs=COMPLIANCE_STYLE[c];return <span key={c} style={{fontSize:9,padding:"1px 5px",borderRadius:3,background:cs.bg,color:cs.text,border:"1px solid "+cs.border,fontWeight:600}}>{c}</span>;})}
               </div>
             </div>
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
-          <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
-            {["overview","install","validation","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
+          <div style={{display:"flex",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22}}>
+            {["overview","install","compatibility","test results","cost"].map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
-            <div style={{flex:1,minWidth:20}}/>
-            {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:B.bg0,textDecoration:"none",background:B.teal,fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
+            <div style={{flex:1}}/>
+            <a href={item.docs} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:B.bg0,textDecoration:"none",background:B.teal,fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>
           </div>
         </div>
-        <div className="k0-detail-content" style={{padding:"18px 22px",flex:1}}>
+        <div style={{padding:"18px 22px",flex:1}}>
           {tab==="overview" && (
             <div>
               <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>
@@ -531,22 +716,29 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
                 </div>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
-                {[{l:"Latest version",v:item.version},{l:"Chart name",v:item.chartName},{l:"Support tier",v:SUPPORT_LABEL[eff]},{l:"CI validated",v:item.tested?"Yes":"Not yet"},{l:"Versions available",v:String(item.versions.length)},{l:"Last updated",v:item.created?item.created.slice(0,10):"—"}].map(function(r){
+                {[{l:"Latest version",v:item.version},{l:"Chart name",v:item.chartName},{l:"Support tier",v:SUPPORT_LABEL[eff]},{l:"CI validated",v:item.tested?"Yes":"Not yet"},{l:"Versions available",v:String(item.versions.length)},{l:"Last updated",v:"2026-03-12"}].map(function(r){
                   return <div key={r.l} style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}><div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}</div><div style={{fontSize:12.5,color:B.textPri,fontWeight:500,fontFamily:(r.l.includes("ersion")||r.l.includes("Chart"))?"monospace":"inherit"}}>{r.v}</div></div>;
                 })}
               </div>
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Deploy and usage signals</div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
-                  {[{l:"Total downloads",v:item.pulls>0?fmtNum(item.pulls):"—",c:B.teal,href:item.chartName?"https://github.com/k0rdent/catalog/pkgs/container/catalog%2Fcharts%2F"+encodeURIComponent(item.chartName):""},{l:"GitHub stars",v:item.stars>0?fmtNum(item.stars):"—",c:B.cyan,href:item.githubRepo?"https://github.com/"+item.githubRepo:""}].map(function(r:any){
-                    var box = <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border,cursor:r.href?"pointer":"default"}}><div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}{r.href&&<span style={{marginLeft:4,fontSize:8}}>↗</span>}</div><div style={{fontSize:12.5,color:r.c,fontWeight:600,fontFamily:"monospace"}}>{r.v}</div></div>;
-                    return r.href ? <a key={r.l} href={r.href} target="_blank" rel="noreferrer" style={{textDecoration:"none"}}>{box}</a> : <div key={r.l}>{box}</div>;
+                  {[{l:"Total deploys",v:fmtNum(d.deploys)+" clusters",c:B.teal},{l:"30-day growth",v:d.trend,c:B.green},{l:"GitHub stars",v:d.stars>0?fmtNum(d.stars):"Private",c:B.cyan},{l:"Trending",v:d.hot?"Hot right now":"Stable",c:d.hot?B.red:B.textSec}].map(function(r){
+                    return <div key={r.l} style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}><div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}</div><div style={{fontSize:12.5,color:r.c,fontWeight:600,fontFamily:"monospace"}}>{r.v}</div></div>;
                   })}
                 </div>
-                <div style={{fontSize:9.5,color:B.textMut,marginBottom:3}}>Popularity vs peak ({fmtNum(maxD)} pulls)</div>
+                <div style={{fontSize:9.5,color:B.textMut,marginBottom:3}}>Popularity vs peak ({fmtNum(maxD)} deploys)</div>
                 <div style={{height:5,background:B.bg3,borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",width:pct+"%",background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",borderRadius:3}}/></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:2}}><span style={{fontSize:9,color:B.textMut}}>0</span><span style={{fontSize:9,color:B.teal,fontWeight:600}}>{pct}%</span><span style={{fontSize:9,color:B.textMut}}>{fmtNum(maxD)}</span></div>
               </div>
+              {compTags.length>0&&(
+                <div>
+                  <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Compliance frameworks</div>
+                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                    {compTags.map(function(c){var cs=COMPLIANCE_STYLE[c];return <div key={c} style={{background:cs.bg,border:"1px solid "+cs.border,borderRadius:6,padding:"7px 12px"}}><div style={{fontSize:12,fontWeight:700,color:cs.text}}>{c}</div><div style={{fontSize:9.5,color:B.textSec,marginTop:2}}>{c==="SOC 2"?"Access controls & audit logging":c==="HIPAA"?"PHI data handling":c==="PCI DSS"?"Payment environments":"US Federal security"}</div></div>;})}
+                  </div>
+                </div>
+              )}
               <div style={{marginTop:16,padding:"11px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
                 <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
                 <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
@@ -554,9 +746,76 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             </div>
           )}
           {tab==="install" && (
-            <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
+            <div>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+                <span style={{fontSize:12,color:B.textSec}}>Version:</span>
+                <select value={selVer} onChange={function(e){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
+                  {item.versions.map(function(v){return <option key={v} value={v}>{v}</option>;})}
+                </select>
+                {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
+              </div>
+              {[{n:1,title:"Prerequisites",isText:true,content:"Deploy k0rdent v1.8.0 first."},{n:2,title:"Install template to k0rdent",isText:false,content:installCmd(item,selVer)},{n:3,title:"Verify service template",isText:false,content:verifyCmd(item,selVer)},{n:4,title:"Deploy service template",isText:false,content:deployYamlFn(item,selVer)}].map(function(step){
+                return (
+                  <div key={step.n} style={{marginBottom:14}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
+                      <div style={{width:20,height:20,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{step.n}</div>
+                      <span style={{fontSize:12,fontWeight:600,color:B.textPri}}>{step.title}</span>
+                    </div>
+                    <div style={{paddingLeft:28}}>
+                      {step.isText
+                        ? <p style={{fontSize:12,color:B.textSec,margin:0}}>{step.content} <a href="https://docs.k0rdent.io/v1.8.0/admin/installation/install-k0rdent/" target="_blank" rel="noreferrer" style={{color:B.teal}}>QuickStart</a></p>
+                        : <CodeBlock text={step.content}/>
+                      }
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           )}
-          {tab==="validation" && <TestResults item={item}/>}
+          {tab==="compatibility" && (
+            <div>
+              <div style={{marginBottom:16}}>
+                <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Kubernetes versions</div>
+                <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                  {K8S_VERS.map(function(v){var ok=k8s.indexOf(v)!==-1;return <span key={v} style={{fontSize:11,padding:"4px 12px",borderRadius:6,border:"1px solid "+(ok?B.teal+"40":B.border),background:ok?B.tealBg:B.bg2,color:ok?B.teal:B.textMut,fontFamily:"monospace",fontWeight:ok?600:400}}>{v} {ok?"✓":""}</span>;})}
+                </div>
+              </div>
+              <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Cloud providers</div>
+              <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+                <table style={{width:"100%",borderCollapse:"collapse"}}>
+                  <thead>
+                    <tr>
+                      <th style={{padding:"6px 10px 8px 0",color:B.textMut,fontSize:9.5,fontWeight:500,textAlign:"left"}}>Provider</th>
+                      {K8S_VERS.map(function(v){return <th key={v} style={{padding:"6px 7px 8px",color:k8s.indexOf(v)!==-1?B.teal:B.textMut,fontSize:9.5,fontFamily:"monospace",textAlign:"center",fontWeight:k8s.indexOf(v)!==-1?600:400}}>{v}</th>;})}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CLOUDS.map(function(c,ci){
+                      var cOk = clouds2.indexOf(c)!==-1;
+                      return (
+                        <tr key={c} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"40":"transparent"}}>
+                          <td style={{padding:"7px 10px 7px 0",fontSize:11.5,color:cOk?B.textPri:B.textMut,fontWeight:cOk?500:400}}>{c}</td>
+                          {K8S_VERS.map(function(v){
+                            var ok=cOk&&k8s.indexOf(v)!==-1;
+                            return <td key={v} style={{textAlign:"center",padding:"7px"}}>
+                              {ok
+                                ? <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill={B.teal} fillOpacity="0.2"/><path d="M3 6l2 2 4-4" stroke={B.teal} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
+                                : <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill={B.textMut} fillOpacity="0.15"/><path d="M3.5 6h5" stroke={B.textMut} strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
+                              }
+                            </td>;
+                          })}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <div style={{marginTop:10,padding:"9px 12px",background:B.bg2,borderRadius:7,border:"1px solid "+B.border,fontSize:12,color:item.tested?B.green:B.amber}}>
+                {item.tested?"CI-validated on k0rdent "+(eff==="mirantis-certified"?"Enterprise":"managed")+" clusters":"CI testing in progress — community contributions welcome"}
+              </div>
+            </div>
+          )}
+          {tab==="test results" && <TestResults item={item}/>}
           {tab==="cost" && (
             <div>
               <p style={{fontSize:12,color:B.textSec,lineHeight:1.7,marginTop:0,marginBottom:14}}>
@@ -588,7 +847,7 @@ function Card({ item, onOpen }) {
     >
       {isCert&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")"}}/>}
       <div style={{display:"flex",gap:9,alignItems:"flex-start"}}>
-        <AppLogo name={item.name} size={32} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
+        <AppLogo name={item.name} size={32} accent={accent}/>
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
             <span style={{fontWeight:600,fontSize:12.5,color:B.textPri}}>{item.name}</span>
@@ -598,6 +857,7 @@ function Card({ item, onOpen }) {
             {item.tags.slice(0,2).map(function(t){return <span key={t} style={{fontSize:9,padding:"1px 5px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),fontWeight:500,border:"1px solid "+tagAccent(t)+"25"}}>{t}</span>;})}
             <span style={{fontSize:8.5,color:B.textMut,fontFamily:"monospace"}}>{item.version}</span>
           </div>
+          {compTags.length>0&&<div style={{display:"flex",gap:3,marginTop:3,flexWrap:"wrap"}}>{compTags.map(function(c){var cs=COMPLIANCE_STYLE[c];return <span key={c} style={{fontSize:8,padding:"1px 4px",borderRadius:3,background:cs.bg,color:cs.text,border:"1px solid "+cs.border,fontWeight:600}}>{c}</span>;})}</div>}
         </div>
       </div>
       <p style={{fontSize:11,color:B.textSec,marginTop:8,lineHeight:1.55,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",flex:1}}>{item.desc}</p>
@@ -757,20 +1017,23 @@ function SolutionCard({ sol, onClick }) {
       <div style={{padding:"16px 18px"}}>
         <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:10,marginBottom:10}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
-            {sol.logo ? <AppLogo name={sol.appName||""} size={38} accent={bc} logo={sol.logo}/> : <div style={{width:38,height:38,borderRadius:9,background:bc+"18",border:"1px solid "+bc+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,color:bc,flexShrink:0}}>{sol.icon}</div>}
+            <div style={{width:38,height:38,borderRadius:9,background:bc+"18",border:"1px solid "+bc+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,color:bc,flexShrink:0}}>{sol.icon}</div>
             <div>
-              <div style={{fontSize:13.5,fontWeight:700,color:B.textPri}}>{sol.title}{sol.beta&&<span style={{fontSize:8,marginLeft:5,padding:"1px 4px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</div>
+              <div style={{fontSize:13.5,fontWeight:700,color:B.textPri}}>{sol.title}</div>
               <div style={{fontSize:10,color:B.textMut,marginTop:1}}>{sol.tagline}</div>
             </div>
           </div>
-          {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:4,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase",whiteSpace:"nowrap",flexShrink:0}}>{sol.badge}</span>}
+          <span style={{fontSize:8.5,padding:"2px 7px",borderRadius:4,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase",whiteSpace:"nowrap",flexShrink:0}}>{sol.badge}</span>
         </div>
         <p style={{fontSize:11.5,color:B.textSec,lineHeight:1.6,margin:"0 0 11px"}}>{sol.desc.slice(0,155)}...</p>
         <div style={{marginBottom:10}}>
           <div style={{fontSize:9,color:B.textMut,textTransform:"uppercase",marginBottom:5}}>Components</div>
           <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
             {sol.components.map(function(c){
-              return <span key={c.name} style={{fontSize:9.5,padding:"1px 7px",borderRadius:4,background:bc+"12",color:bc,border:"1px solid "+bc+"25",fontWeight:500,fontFamily:"monospace"}}>{c.name}</span>;
+              var app=null;
+              for(var ii=0;ii<RAW.length;ii++){if(RAW[ii].name===c.name){app=RAW[ii];break;}}
+              var ac=tagAccent(app?app.tags[0]:"Other");
+              return <span key={c.name} style={{fontSize:9.5,padding:"1px 7px",borderRadius:4,background:ac+"12",color:ac,border:"1px solid "+ac+"25",fontWeight:500,fontFamily:"monospace"}}>{c.name}</span>;
             })}
           </div>
         </div>
@@ -790,36 +1053,25 @@ function SolutionDetail({ sol, onClose }) {
   var bc = sol.badgeColor;
   var ss = SUPPORT_STYLE[sol.tier]||SUPPORT_STYLE.community;
   var [copied, setCopied] = useState(false);
-  var [detail, setDetail] = useState<any>(null);
-  var [detailLoading, setDetailLoading] = useState(true);
   useEffect(function(){
     var h=function(e){if(e.key==="Escape")onClose();};
     window.addEventListener("keydown",h);
     return function(){window.removeEventListener("keydown",h);};
   },[]);
-  useEffect(function(){
-    if (!sol.appName) { setDetailLoading(false); return; }
-    var solKey = sol.id.replace(sol.appName + "_", "");
-    fetch(dataPrefix("") + "apps/" + sol.appName + "/solution_" + solKey + ".json?t=" + Date.now())
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(d){ setDetail(d); setDetailLoading(false); })
-      .catch(function(){ setDetailLoading(false); });
-  },[sol.id]);
-  var deployYaml = detail ? detail.deployYaml : (sol.deployYaml || "");
-  function doCopy(){if(navigator.clipboard)navigator.clipboard.writeText(deployYaml);setCopied(true);setTimeout(function(){setCopied(false);},1500);}
+  function doCopy(){if(navigator.clipboard)navigator.clipboard.writeText(sol.deployYaml);setCopied(true);setTimeout(function(){setCopied(false);},1500);}
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:1000,display:"flex",alignItems:"stretch",justifyContent:"flex-end"}}>
-      <div className="k0-backdrop" style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.75)"}}/>
-      <div className="k0-detail-panel" onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(700px,100vw)",background:B.bg1,borderLeft:"1px solid "+B.borderHi,display:"flex",flexDirection:"column",overflowY:"auto"}}>
+      <div style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.75)"}}/>
+      <div onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(700px,100vw)",background:B.bg1,borderLeft:"1px solid "+B.borderHi,display:"flex",flexDirection:"column",overflowY:"auto"}}>
         <div style={{height:3,background:"linear-gradient(90deg,"+bc+","+bc+"50)",flexShrink:0}}/>
-        <div className="k0-detail-header" style={{padding:"20px 24px 0",flexShrink:0}}>
+        <div style={{padding:"20px 24px 0",flexShrink:0}}>
           <div style={{display:"flex",gap:12,alignItems:"flex-start",marginBottom:12}}>
-            {sol.logo ? <AppLogo name={sol.appName||""} size={48} accent={bc} logo={sol.logo}/> : <div style={{width:48,height:48,borderRadius:11,background:bc+"18",border:"1px solid "+bc+"35",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,color:bc,flexShrink:0}}>{sol.icon}</div>}
+            <div style={{width:48,height:48,borderRadius:11,background:bc+"18",border:"1px solid "+bc+"35",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,color:bc,flexShrink:0}}>{sol.icon}</div>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:3}}>
-                <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{sol.title}{sol.beta&&<span style={{fontSize:9,marginLeft:6,padding:"2px 5px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"middle"}}>Beta</span>}</h2>
-                {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase"}}>{sol.badge}</span>}
-                {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[sol.tier]}</span>}
+                <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{sol.title}</h2>
+                <span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:bc+"18",color:bc,border:"1px solid "+bc+"40",fontWeight:700,textTransform:"uppercase"}}>{sol.badge}</span>
+                <span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[sol.tier]}</span>
               </div>
               <div style={{fontSize:11.5,color:B.textMut}}>{sol.tagline}</div>
             </div>
@@ -827,7 +1079,7 @@ function SolutionDetail({ sol, onClose }) {
           </div>
           <p style={{fontSize:12.5,color:B.textSec,lineHeight:1.8,margin:"0 0 16px"}}>{sol.desc}</p>
         </div>
-        <div className="k0-detail-content" style={{padding:"0 24px 24px",flex:1}}>
+        <div style={{padding:"0 24px 24px",flex:1}}>
           <div style={{marginBottom:16}}>
             <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Use cases</div>
             {sol.useCases.map(function(u){return <div key={u} style={{display:"flex",gap:8,marginBottom:6}}><span style={{color:bc,fontSize:11,flexShrink:0}}>◈</span><span style={{fontSize:12,color:B.textSec,lineHeight:1.6}}>{u}</span></div>;})}
@@ -843,11 +1095,14 @@ function SolutionDetail({ sol, onClose }) {
                 </tr></thead>
                 <tbody>
                   {sol.components.map(function(c,ci){
+                    var app=null;
+                    for(var jj=0;jj<RAW.length;jj++){if(RAW[jj].name===c.name){app=RAW[jj];break;}}
+                    var ac=tagAccent(app?app.tags[0]:"Other");
                     return (
-                      <tr key={c.name+c.version} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"50":"transparent"}}>
-                        <td style={{padding:"8px 10px",whiteSpace:"nowrap"}}><span style={{fontSize:10.5,fontFamily:"monospace",fontWeight:600,color:bc}}>{c.name}</span><span style={{fontSize:8.5,color:B.textMut,marginLeft:4,fontFamily:"monospace"}}>{c.version}</span></td>
-                        <td style={{padding:"8px 10px",fontSize:11,color:c.role?bc:B.red,fontWeight:500,whiteSpace:"nowrap"}}>{c.role||"EMPTY"}</td>
-                        <td style={{padding:"8px 10px",fontSize:11,color:c.why?B.textSec:B.red,lineHeight:1.5}}>{c.why||"EMPTY"}</td>
+                      <tr key={c.name} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"50":"transparent"}}>
+                        <td style={{padding:"8px 10px",whiteSpace:"nowrap"}}><span style={{fontSize:10.5,fontFamily:"monospace",fontWeight:600,color:ac}}>{c.name}</span>{app&&app.version&&<span style={{fontSize:8.5,color:B.textMut,marginLeft:4,fontFamily:"monospace"}}>{app.version}</span>}</td>
+                        <td style={{padding:"8px 10px",fontSize:11,color:bc,fontWeight:500,whiteSpace:"nowrap"}}>{c.role}</td>
+                        <td style={{padding:"8px 10px",fontSize:11,color:B.textSec,lineHeight:1.5}}>{c.why}</td>
                       </tr>
                     );
                   })}
@@ -869,21 +1124,13 @@ function SolutionDetail({ sol, onClose }) {
               </div>
             </div>
           </div>
-          {detailLoading ? <div style={{padding:12}}><span style={{fontSize:11,color:B.textSec}}>Loading documentation...</span></div> : detail && detail.contentHtml ? (
-            <div style={{marginTop:16,borderTop:"1px solid "+B.border,paddingTop:16}}>
-              <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Documentation</div>
-              <HtmlWithCopy html={detail.contentHtml} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/>
+          <div>
+            <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Deploy this solution</div>
+            <div style={{position:"relative"}}>
+              <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:7,padding:"13px 15px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{sol.deployYaml}</pre>
+              <button onClick={doCopy} style={{position:"absolute",top:7,right:7,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 9px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
             </div>
-          ) : null}
-          {deployYaml && (
-            <div style={{marginTop:16,borderTop:"1px solid "+B.border,paddingTop:16}}>
-              <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Deploy this solution</div>
-              <div style={{position:"relative"}}>
-                <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:7,padding:"13px 15px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{deployYaml}</pre>
-                <button onClick={doCopy} style={{position:"absolute",top:7,right:7,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 9px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
-              </div>
-            </div>
-          )}
+          </div>
           <div style={{marginTop:12}}>
             <FinOpsEstimator stackItems={sol.components} defaultCloud="aws"/>
           </div>
@@ -893,55 +1140,30 @@ function SolutionDetail({ sol, onClose }) {
   );
 }
 
-function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, initScat?:string, k0rdentVer?:string }) {
-  var [selected, setSelected] = useState<any>(null);
-  var [catFilter, setCatFilter] = useState(initScat || "All");
+function SolutionsPage() {
+  var [selected, setSelected] = useState(null);
+  var [catFilter, setCatFilter] = useState("All");
   var cats=["All","AI/ML","Observability","Security"];
   var filtered=SOLUTIONS.filter(function(s){return catFilter==="All"||s.category===catFilter;});
-
-  // Restore selected solution from URL param
-  useEffect(function(){
-    if (initSolId && !selected) {
-      var found = SOLUTIONS.find(function(s:any){ return s.id === initSolId; });
-      if (found) setSelected(found);
-    }
-  }, [initSolId]);
-
-  function updateUrl(sol?:string, cat?:string) {
-    history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol||"",scat:cat||catFilter}, k0rdentVer));
-  }
-  function openSol(sol:any) {
-    setSelected(sol);
-    history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol.id,scat:catFilter}, k0rdentVer));
-  }
-  function closeSol() {
-    setSelected(null);
-    history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:catFilter}, k0rdentVer));
-  }
-  function changeCat(c:string) {
-    setCatFilter(c);
-    history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:c}, k0rdentVer));
-  }
-
   return (
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
       <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Validated · Composable · Production-ready</div>
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Solution bundles for <span style={{color:B.teal}}>AI infrastructure</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px",textAlign:"justify"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
+        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
-          {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){changeCat(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
+          {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){setCatFilter(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
           <span style={{marginLeft:"auto",fontSize:11,color:B.textMut}}>{filtered.length} bundles</span>
         </div>
       </div>
-      <div className="k0-sol-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(310px,1fr))",gap:13}}>
-        {filtered.map(function(sol){return <SolutionCard key={sol.id} sol={sol} onClick={function(){openSol(sol);}}/>;}) }
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(310px,1fr))",gap:13}}>
+        {filtered.map(function(sol){return <SolutionCard key={sol.id} sol={sol} onClick={function(){setSelected(sol);}}/>;}) }
       </div>
       <div style={{marginTop:28,padding:"16px 20px",background:B.bg2,border:"1px solid "+B.border,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
         <div><div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>Want to contribute a solution bundle?</div><div style={{fontSize:12,color:B.textSec}}>Open a PR with your bundle definition and component list.</div></div>
         <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.teal,color:B.bg0,borderRadius:6,fontSize:12,fontWeight:700,textDecoration:"none",whiteSpace:"nowrap"}}>Contribute a bundle</a>
       </div>
-      {selected!==null&&<SolutionDetail sol={selected} onClose={closeSol}/>}
+      {selected!==null&&<SolutionDetail sol={selected} onClose={function(){setSelected(null);}}/>}
     </div>
   );
 }
@@ -966,6 +1188,16 @@ var CONFIGURATOR_STEPS = [
       {id:"vsphere",label:"vSphere",icon:"◉",desc:"On-premises VMware infrastructure"},
       {id:"baremetal",label:"Bare Metal",icon:"◈",desc:"Direct on-prem or edge servers"},
       {id:"hybrid",label:"Hybrid",icon:"⬡",desc:"Multiple clouds and on-prem combined"},
+    ],
+  },
+  {
+    id:"compliance",label:"Compliance",question:"Do you have compliance requirements?",multi:true,
+    options:[
+      {id:"none",label:"None",icon:"◉",desc:"No specific framework required"},
+      {id:"soc2",label:"SOC 2",icon:"◈",desc:"Security controls and audit logging"},
+      {id:"hipaa",label:"HIPAA",icon:"⬡",desc:"Healthcare data protection"},
+      {id:"pci",label:"PCI DSS",icon:"◈",desc:"Payment card environments"},
+      {id:"fedramp",label:"FedRAMP",icon:"◉",desc:"US Federal security requirements"},
     ],
   },
   {
@@ -1144,8 +1376,8 @@ function ConfiguratorPage() {
       <div style={{marginBottom:24,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>AI-native · Validated · One-click deploy</div>
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Visual stack <span style={{color:B.teal}}>configurator</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px",textAlign:"justify"}}>
-          Answer three questions about your use case, infrastructure, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
+        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px"}}>
+          Answer four questions about your use case, infrastructure, compliance requirements, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
         </p>
       </div>
 
@@ -1284,277 +1516,83 @@ function ConfiguratorPage() {
 }
 
 function ContributePage() {
-  var [html, setHtml] = useState("");
-  var [loading, setLoading] = useState(true);
-  useEffect(function(){
-    fetch(BASE + "contribute.json?t=" + Date.now())
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(d){ if (d && d.contentHtml) setHtml(d.contentHtml); setLoading(false); })
-      .catch(function(){ setLoading(false); });
-  }, []);
+  var [copied, setCopied] = useState({});
+  function doCopy(key,text){
+    if(navigator.clipboard)navigator.clipboard.writeText(text);
+    setCopied(function(c){ var nx=Object.assign({},c); nx[key]=true; return nx; });
+    setTimeout(function(){setCopied(function(c){ var nx=Object.assign({},c); nx[key]=false; return nx; });},1500);
+  }
   return (
     <div style={{maxWidth:860,margin:"0 auto",padding:"30px 20px 0"}}>
-      {loading ? <div style={{color:B.textSec,fontSize:13}}>Loading...</div>
-        : html ? <HtmlWithCopy html={html} style={{fontSize:13,color:B.textSec,lineHeight:1.8}}/>
-        : <div style={{color:B.textMut,fontSize:13}}>Contribute page not available.</div>
-      }
-    </div>
-  );
-}
-
-function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChange }:any) {
-  function navTo(v:string) {
-    if (v === "catalog") { resetFilters(); }
-    setView(v);
-    if (v === "catalog") {
-      history.pushState(null, "", versionBase(k0rdentVer || ""));
-    } else {
-      history.pushState(null, "", versionBase(k0rdentVer || "") + v + "/");
-    }
-  }
-  var displayVer = k0rdentVer || versions.latest || "";
-  return (
-    <div style={{background:B.bg1,borderBottom:"1px solid "+B.border,padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
-      <div className="k0-nav-inner" style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
-        <div className="k0-nav-left" style={{display:"flex",alignItems:"center",gap:14}}>
-          <img onClick={function(){navTo("catalog");}} src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{cursor:"pointer",height:22}} />
-          {versions.versions.length > 0 && (
-            <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}} style={{padding:"3px 6px",fontSize:10,background:B.bg2,color:B.teal,border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",fontFamily:"monospace",outline:"none"}}>
-              {versions.versions.slice().reverse().map(function(v:string){
-                return <option key={v} value={v}>{v}{v===versions.latest?" (latest)":""}</option>;
-              })}
-            </select>
-          )}
-          <div className="k0-nav-tabs" style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
-            {["catalog","solutions","configurator"].map(function(v){
-              var active=view===v;
-              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}{v==="configurator"&&<span style={{fontSize:8,marginLeft:4,padding:"1px 4px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</button>;
-            })}
-          </div>
+      <div style={{marginBottom:24,paddingBottom:22,borderBottom:"1px solid "+B.border}}>
+        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>Open source · community driven</div>
+        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 9px"}}>Add your app to the <span style={{color:B.teal}}>k0rdent catalog</span></h1>
+        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:640,margin:"0 0 18px"}}>The k0rdent catalog is community-driven and open source. Every integration goes through validation, CI testing, and peer review before listing.</p>
+        <div style={{display:"flex",gap:9,flexWrap:"wrap"}}>
+          <a href="https://github.com/k0rdent/catalog/fork" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.teal,color:B.bg0,borderRadius:6,fontSize:12,fontWeight:700,textDecoration:"none"}}>Fork on GitHub</a>
+          <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.bg2,color:B.textSec,border:"1px solid "+B.border,borderRadius:6,fontSize:12,textDecoration:"none"}}>View repository</a>
         </div>
-        <div className="k0-nav-right" style={{display:"flex",gap:8,alignItems:"center"}}>
-          <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:11,color:B.textSec,textDecoration:"none",padding:"5px 11px",border:"1px solid "+B.border,borderRadius:6,background:B.bg2}}>GitHub</a>
-          <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",versionBase(k0rdentVer||"")+"contribute/");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>Contribute</a>
+      </div>
+      <div style={{marginBottom:20}}>
+        <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:12}}>Contribution process</div>
+        {CONTRIB_STEPS.map(function(s){return (
+          <div key={s.n} style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:9,overflow:"hidden",marginBottom:9}}>
+            <div style={{display:"flex",gap:12,padding:"13px 16px",alignItems:"flex-start"}}>
+              <div style={{width:26,height:26,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{s.n}</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:12.5,fontWeight:600,color:B.textPri,marginBottom:4}}>{s.title}</div>
+                <div style={{fontSize:11.5,color:B.textSec,lineHeight:1.7,marginBottom:8}}>{s.body}</div>
+                <div style={{position:"relative"}}>
+                  <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:6,padding:"10px 12px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.6,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{s.code}</pre>
+                  <button onClick={function(){doCopy(s.n,s.code);}} style={{position:"absolute",top:5,right:5,background:copied[s.n]?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 7px",fontSize:9,color:copied[s.n]?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied[s.n]?"Copied":"Copy"}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );})}
+      </div>
+      <div style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:9,padding:"14px 18px",marginBottom:18}}>
+        <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:9}}>Allowed tags</div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+          {ALLOWED_TAGS.map(function(t){return <span key={t} style={{fontSize:10.5,padding:"3px 9px",borderRadius:4,background:tagAccent(t)+"15",color:tagAccent(t),border:"1px solid "+tagAccent(t)+"30",fontWeight:500}}>{t}</span>;})}
         </div>
       </div>
     </div>
   );
 }
 
-// Detect base path and current k0rdent version from URL
-var BASE = (function(){
-  var b = document.querySelector("base");
-  if (b) return b.getAttribute("href") || "/";
-  var s = document.querySelector('script[src*="k0rdent_catalog"]');
-  if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
-  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/(contribute|solutions|configurator)\/?$/, "/").replace(/\/+$/, "/");
-  return p || "/";
-})();
-
-// Detect k0rdent version from URL path (e.g. /v1.7.0/ or /latest/)
-function detectUrlVersion(): string {
-  var m = window.location.pathname.match(/\/(v\d+\.\d+\.\d+)\//);
-  return m ? m[1] : "";
-}
-
-// Build data URL prefix for a given k0rdent version
-function dataPrefix(k0rdentVer: string): string {
-  if (!k0rdentVer) return BASE;
-  // If BASE already contains the version (e.g. /v1.7.0/), use it as-is
-  if (BASE.indexOf(k0rdentVer) !== -1) return BASE;
-  // Otherwise, insert version into the path: /latest/ -> /v1.7.0/
-  return BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + k0rdentVer + "/");
-}
-
-function readUrlParams() {
-  var p = new URLSearchParams(window.location.search);
-  var pathname = window.location.pathname;
-  // Parse app name from /apps/<name>/ path
-  var appMatch = pathname.match(/\/apps\/([^/]+)/);
-  var app = appMatch ? appMatch[1] : (p.get("app") || "");
-  // Detect /contribute/ path
-  var pathView = pathname.match(/\/(contribute|solutions|configurator)\/?$/);
-  return {
-    view: pathView ? pathView[1] : (p.get("view") || "catalog"),
-    search: p.get("q") || "",
-    tag: p.get("tag") || "All",
-    support: p.get("support") || "All",
-    sort: p.get("sort") || "A-Z",
-    compliance: p.get("compliance") || "All",
-    app: app,
-    dtab: p.get("dtab") || "overview",
-    ver: p.get("ver") || "",
-    sol: p.get("sol") || "",
-    scat: p.get("scat") || "All",
-  };
-}
-
-function versionBase(k0rdentVer:string):string {
-  if (!k0rdentVer) return BASE;
-  return BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + k0rdentVer + "/");
-}
-
-function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string):string {
-  var p = new URLSearchParams();
-  if (dtab && dtab !== "overview") p.set("dtab", dtab);
-  if (ver) p.set("ver", ver);
-  var qs = p.toString();
-  return versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : "");
-}
-
-function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
-  if (state.view === "contribute" || state.view === "solutions" || state.view === "configurator") {
-    var base = versionBase(k0rdentVer || "") + state.view + "/";
-    var sp = new URLSearchParams();
-    if (state.sol) sp.set("sol", state.sol);
-    if (state.scat && state.scat !== "All") sp.set("scat", state.scat);
-    var sqs = sp.toString();
-    return base + (sqs ? "?" + sqs : "");
-  }
-  var p = new URLSearchParams();
-  if (state.view !== "catalog") p.set("view", state.view);
-  if (state.search) p.set("q", state.search);
-  if (state.tag !== "All") p.set("tag", state.tag);
-  if (state.support !== "All") p.set("support", state.support);
-  if (state.sort !== "A-Z") p.set("sort", state.sort);
-  if (state.compliance !== "All") p.set("compliance", state.compliance);
-  if (state.sol) p.set("sol", state.sol);
-  if (state.scat && state.scat !== "All") p.set("scat", state.scat);
-  var qs = p.toString();
-  return versionBase(k0rdentVer || "") + (qs ? "?" + qs : "");
+function Nav({ view, setView }) {
+  return (
+    <div style={{background:B.bg1,borderBottom:"1px solid "+B.border,padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
+      <div style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <svg width="100" height="20" viewBox="0 0 100 20"><text x="0" y="16" fontFamily="monospace" fontSize="16" fontWeight="700" fill={B.teal} letterSpacing="-0.5">k0rdent</text></svg>
+          <div style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
+            {["catalog","solutions","configurator"].map(function(v){
+              var active=view===v;
+              return <button key={v} onClick={function(){setView(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}</button>;
+            })}
+          </div>
+        </div>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:11,color:B.textSec,textDecoration:"none",padding:"5px 11px",border:"1px solid "+B.border,borderRadius:6,background:B.bg2}}>GitHub</a>
+          <button onClick={function(){setView("contribute");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit"}}>Contribute</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function App() {
-  var initParams = useMemo(readUrlParams, []);
-  var [loading, setLoading] = useState(true);
-  var [loadError, setLoadError] = useState("");
-  var [k0rdentVer, setK0rdentVer] = useState(detectUrlVersion);
-  var [versions, setVersions] = useState<{versions:string[],latest:string}>({versions:[],latest:""});
-  var [view, setView] = useState(initParams.view);
-  var [search, setSearch] = useState(initParams.search);
-  var [tag, setTag] = useState(initParams.tag);
-  var [support, setSupport] = useState(initParams.support);
-  var [sort, setSort] = useState(initParams.sort);
-  var [compliance, setCompliance] = useState(initParams.compliance);
-  var [selected, setSelected] = useState<any>(null);
-  var [detailTab, setDetailTab] = useState(initParams.dtab);
-  var [detailVer, setDetailVer] = useState(initParams.ver);
-  var [sidebarOpen, setSidebarOpen] = useState(function(){ return window.innerWidth > 640; });
-
-  // Restore selected app from URL after data loads
-  useEffect(function(){
-    if (!loading && initParams.app && !selected) {
-      var found = RAW.find(function(i:any){ return i.name === initParams.app; });
-      if (found) {
-        setSelected(found);
-        if (initParams.ver) setDetailVer(initParams.ver);
-      }
-    }
-  }, [loading]);
-
-  // Handle browser back/forward
-  useEffect(function(){
-    function onPopState() {
-      var params = readUrlParams();
-      if (params.app) {
-        var found = RAW.find(function(i:any){ return i.name === params.app; });
-        if (found) {
-          setSelected(found);
-          setDetailTab(params.dtab);
-          setDetailVer(params.ver || found.version);
-          return;
-        }
-      }
-      setSelected(null);
-      setDetailTab("overview");
-      setDetailVer("");
-      // Restore catalog filters from URL
-      setView(params.view);
-      setSearch(params.search);
-      setTag(params.tag);
-      setSupport(params.support);
-      setSort(params.sort);
-      setCompliance(params.compliance);
-    }
-    window.addEventListener("popstate", onPopState);
-    return function(){ window.removeEventListener("popstate", onPopState); };
-  }, []);
-
-  // Sync URL when app detail tab/version changes (replaceState, no history entry)
-  useEffect(function(){
-    if (!loading && selected) {
-      history.replaceState(null, "", buildAppUrl(selected.name, detailTab, detailVer, k0rdentVer));
-    }
-  }, [detailTab, detailVer]);
-
-  // Sync catalog filters to URL (replaceState)
-  useEffect(function(){
-    // Don't overwrite /apps/<name>/ URL before the app is restored from URL
-    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/(contribute|solutions|configurator)\/?$/)) {
-      history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}, k0rdentVer));
-    }
-  }, [view, search, tag, support, sort, compliance, loading]);
-
-  function doLoad(ver?:string) {
-    var prefix = dataPrefix(ver || k0rdentVer);
-    setLoading(true);
-    setLoadError("");
-    _catalogLoaded = false;
-
-    // Fetch versions.json (once)
-    var versionsPromise = versions.versions.length > 0
-      ? Promise.resolve()
-      : fetch(BASE + "versions.json?t=" + Date.now())
-          .then(function(r){ return r.ok ? r.json() : null; })
-          .then(function(d:any){ if (d) setVersions(d); })
-          .catch(function(){});
-
-    // Fetch catalog data for the selected version
-    var catalogPromise = fetch(prefix + "catalog.json?t=" + Date.now())
-      .then(function(r){
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
-      .then(function(data:any){
-        var apps = Array.isArray(data) ? data : (data.apps || []);
-        var solutions = Array.isArray(data) ? [] : (data.solutions || []);
-        RAW.length = 0;
-        Array.prototype.push.apply(RAW, apps);
-        SOLUTIONS.length = 0;
-        Array.prototype.push.apply(SOLUTIONS, HARDCODED_SOLUTIONS);
-        Array.prototype.push.apply(SOLUTIONS, solutions);
-        ALL_TAGS.length = 0;
-        ALL_TAGS.push("All");
-        var seen:any = {};
-        for (var i = 0; i < RAW.length; i++) {
-          for (var j = 0; j < RAW[i].tags.length; j++) {
-            if (!seen[RAW[i].tags[j]]) { seen[RAW[i].tags[j]] = 1; ALL_TAGS.push(RAW[i].tags[j]); }
-          }
-        }
-        ALL_TAGS.sort(function(a:string,b:string){ return a==="All"?-1:b==="All"?1:a.localeCompare(b); });
-        _catalogLoaded = true;
-      });
-
-    Promise.all([versionsPromise, catalogPromise])
-      .then(function(){ setLoading(false); })
-      .catch(function(e:any){ setLoadError(String(e)); setLoading(false); });
-  }
-
-  function switchK0rdentVersion(newVer:string) {
-    setK0rdentVer(newVer);
-    setSelected(null);
-    setDetailTab("overview");
-    setDetailVer("");
-    // Navigate to the new version URL
-    var newBase = BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + newVer + "/");
-    history.pushState(null, "", newBase);
-    doLoad(newVer);
-  }
-
-  useEffect(function(){ doLoad(); }, []);
+  var [view, setView] = useState("catalog");
+  var [search, setSearch] = useState("");
+  var [tag, setTag] = useState("All");
+  var [support, setSupport] = useState("All");
+  var [sort, setSort] = useState("A-Z");
+  var [compliance, setCompliance] = useState("All");
+  var [selected, setSelected] = useState(null);
 
   var filtered = useMemo(function(){
-    if (loading) return [];
     var r=RAW.filter(function(i){
       return (tag==="All"||i.tags.indexOf(tag)!==-1)&&
              (support==="All"||getEff(i)===support)&&
@@ -1565,64 +1603,19 @@ export default function App() {
     if(sort==="Z-A") r.sort(function(a,b){return b.name.localeCompare(a.name);});
     if(sort==="Tested first") r.sort(function(a,b){return b.tested-a.tested;});
     if(sort==="Certified first") r.sort(function(a,b){return (getEff(b)==="mirantis-certified"?1:0)-(getEff(a)==="mirantis-certified"?1:0);});
-    if(sort==="Most popular") r.sort(function(a,b){return (b.pulls||0)-(a.pulls||0);});
-    if(sort==="By Newest") r.sort(function(a,b){return (b.created||"").localeCompare(a.created||"");});
+    if(sort==="Most popular") r.sort(function(a,b){return deployStats(b.name).deploys-deployStats(a.name).deploys;});
     return r;
-  },[loading,search,tag,support,sort,compliance]);
+  },[search,tag,support,sort,compliance]);
 
   var testedCount=0; var certCount=0;
-  if (!loading) {
-    for(var i=0;i<RAW.length;i++){if(RAW[i].tested)testedCount++;if(getEff(RAW[i])==="mirantis-certified")certCount++;}
-  }
-
-  if (loading || loadError) {
-    return (
-      <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
-        {loading && <span style={{color:B.teal,fontSize:16}}>Loading catalog...</span>}
-        {loadError && <>
-          <span style={{color:B.red,fontSize:14}}>{loadError}</span>
-          <button onClick={doLoad} style={{padding:"8px 20px",background:B.teal,color:B.bg0,border:"none",borderRadius:6,cursor:"pointer",fontWeight:600,fontSize:13}}>Retry</button>
-        </>}
-      </div>
-    );
-  }
+  for(var i=0;i<RAW.length;i++){if(RAW[i].tested)testedCount++;if(getEff(RAW[i])==="mirantis-certified")certCount++;}
 
   return (
     <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
-      <style>{`
-        @media (max-width: 640px) {
-          .k0-nav-inner { flex-wrap: wrap; height: auto !important; padding: 8px 0 !important; gap: 6px !important; }
-          .k0-nav-left { flex-wrap: wrap; gap: 8px !important; }
-          .k0-nav-tabs { height: 36px !important; }
-          .k0-nav-tabs button { padding: 0 8px !important; font-size: 11px !important; }
-          .k0-nav-right { display: none !important; }
-          .k0-backdrop { display: none !important; }
-          .k0-detail-panel { width: 100vw !important; border-left: none !important; }
-          .k0-detail-tabs { padding-left: 12px !important; margin-left: -12px !important; margin-right: -12px !important; }
-          .k0-detail-tabs button { padding: 6px 8px !important; font-size: 11px !important; white-space: nowrap !important; }
-          .k0-detail-content { padding: 12px 14px !important; }
-          .k0-detail-header { padding: 12px 14px 0 !important; }
-          .k0-card-grid { grid-template-columns: 1fr !important; }
-          .k0-sol-grid { grid-template-columns: 1fr !important; }
-          .k0-stats-row { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; }
-          .k0-stats-row > div { padding: 5px 7px !important; font-size: 9px !important; }
-          .k0-filter-row { flex-wrap: wrap !important; }
-          .k0-catalog-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
-          .k0-catalog-layout { flex-direction: column !important; }
-          .k0-sidebar { width: 100% !important; position: static !important; gap: 10px !important; }
-        }
-        @media (max-width: 400px) {
-          .k0-nav-tabs button { padding: 0 5px !important; font-size: 10px !important; }
-        }
-        .anchor-link { color: #3d4d6a; text-decoration: none; margin-left: 6px; opacity: 0; transition: opacity 0.15s; font-size: 0.8em; }
-        h1:hover .anchor-link, h2:hover .anchor-link, h3:hover .anchor-link, h4:hover .anchor-link { opacity: 1; }
-        a { color: #00c8c8; }
-        a:hover { color: #00e5ff; }
-      `}</style>
-      <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
+      <Nav view={view} setView={setView}/>
 
       {view==="contribute"&&<ContributePage/>}
-      {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} k0rdentVer={k0rdentVer}/>}
+      {view==="solutions"&&<SolutionsPage/>}
       {view==="configurator"&&<ConfiguratorPage/>}
 
       {view==="catalog"&&(
@@ -1632,11 +1625,11 @@ export default function App() {
               <span style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em"}}>Curated for AI-native Kubernetes</span>
             </div>
             <h1 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:"0 0 5px",letterSpacing:"-0.02em"}}>Best-in-class software for <span style={{color:B.teal}}>the AI infrastructure stack</span></h1>
-            <p style={{fontSize:12,color:B.textSec,margin:"0 0 10px",lineHeight:1.9,textAlign:"justify"}}>
+            <p style={{fontSize:12,color:B.textSec,margin:"0 0 10px",lineHeight:1.9}}>
               Every integration in this catalog sits at the intersection of <span style={{color:B.textPri,fontWeight:500}}>AI workloads</span> and <span style={{color:B.textPri,fontWeight:500}}>cloud-native Kubernetes infrastructure</span> — a deliberately narrow space defined by the real operational challenges of running AI in production: provisioning GPU nodes in minutes, serving models that scale to zero when idle and to hundreds of replicas under load, storing billion-scale vector embeddings with sub-10ms retrieval, and meeting the policy and audit requirements that regulated industries demand before a model touches sensitive data. A tool earns a place here by being production-hardened on real enterprise clusters, composable with the other integrations in the catalog, and relevant to the full AI infrastructure lifecycle — from raw compute and distributed training through model serving, RAG pipelines, observability, security, and FinOps. The result is not a directory of everything that exists, but a curated set of <span style={{color:B.teal,fontWeight:500}}>best-in-class integrations</span> that Mirantis platform engineers have validated, assembled into composable blueprints, and made deployable in minutes on any infrastructure.
             </p>
-            <div className="k0-stats-row" style={{display:"flex",gap:0,background:B.bg2,border:"1px solid "+B.border,borderRadius:8,overflow:"hidden",marginBottom:10}}>
-              {[{n:RAW.length,l:"Integrations",sub:"hand-selected",c:B.teal},{n:testedCount,l:"CI-validated",sub:"across 6 providers",c:B.green},{n:certCount,l:"Certified",sub:"Enterprise Support SLA",c:B.cyan},{n:"13",l:"Categories",sub:"GPU to GitOps",c:B.purple}].map(function(s,si,arr){
+            <div style={{display:"flex",gap:0,background:B.bg2,border:"1px solid "+B.border,borderRadius:8,overflow:"hidden",marginBottom:10}}>
+              {[{n:RAW.length,l:"Integrations",sub:"hand-selected",c:B.teal},{n:testedCount,l:"CI-validated",sub:"across 6 providers",c:B.green},{n:certCount,l:"Certified",sub:"enterprise 24x7 SLA",c:B.cyan},{n:"13",l:"Categories",sub:"GPU to GitOps",c:B.purple},{n:"4",l:"Compliance",sub:"SOC 2 · HIPAA · PCI · FedRAMP",c:B.amber}].map(function(s,si,arr){
                 return <div key={s.l} style={{flex:"1 1 0",padding:"9px 12px",borderRight:si<arr.length-1?"1px solid "+B.border:"none",minWidth:0}}><div style={{fontSize:16,fontWeight:700,color:s.c,fontFamily:"monospace",lineHeight:1}}>{s.n}</div><div style={{fontSize:10.5,color:B.textPri,fontWeight:500,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.l}</div><div style={{fontSize:9,color:B.textMut,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.sub}</div></div>;
               })}
             </div>
@@ -1645,27 +1638,30 @@ export default function App() {
                 var k=entry[0]; var desc=entry[1];
                 var ss=SUPPORT_STYLE[k];
                 var cnt=0; for(var ii=0;ii<RAW.length;ii++){if(getEff(RAW[ii])===k)cnt++;}
-                var isActive=support===k;
-                return <div key={k} style={{background:isActive?ss.bg:B.bg2,border:"1px solid "+(isActive?ss.text+"60":ss.border),borderLeft:"2px solid "+ss.text,borderRadius:7,padding:"9px 12px",display:"flex",gap:9,transition:"background 0.2s, border-color 0.2s"}}>
+                return <div key={k} style={{background:B.bg2,border:"1px solid "+ss.border,borderLeft:"2px solid "+ss.text,borderRadius:7,padding:"9px 12px",display:"flex",gap:9}}>
                   <span style={{width:7,height:7,borderRadius:"50%",background:ss.text,flexShrink:0,marginTop:3,display:"inline-block"}}/>
                   <div style={{flex:1}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:3}}>
                       <span style={{fontSize:10.5,fontWeight:700,color:ss.text}}>{SUPPORT_LABEL[k]}</span>
                       <span style={{fontSize:9,fontFamily:"monospace",color:B.textMut,background:B.bg3,border:"1px solid "+B.border,borderRadius:3,padding:"1px 5px"}}>{cnt}</span>
                     </div>
-                    <div style={{fontSize:10,color:B.textSec,lineHeight:1.55}}>{desc.indexOf("Mirantis Enterprise Support")!==-1?<>{desc.split("Mirantis Enterprise Support")[0]}<a href="https://www.mirantis.com/support/enterprise-support-options/" target="_blank" rel="noreferrer" style={{color:B.teal}}>Mirantis Enterprise Support</a>{desc.split("Mirantis Enterprise Support")[1]}</>:desc}</div>
+                    <div style={{fontSize:10,color:B.textSec,lineHeight:1.55}}>{desc}</div>
                   </div>
                 </div>;
               })}
             </div>
           </div>
 
-          <div className="k0-catalog-layout" style={{display:"flex",gap:13,alignItems:"flex-start"}}>
-            {sidebarOpen && <div className="k0-sidebar" style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
+          <div style={{display:"flex",gap:13,alignItems:"flex-start"}}>
+            <div style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
+              <div style={{position:"relative"}}>
+                <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
+                <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:6,paddingBottom:6,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,outline:"none",background:B.bg3,color:B.textPri}}/>
+              </div>
               <div>
                 <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Sort</div>
                 <select value={sort} onChange={function(e){setSort(e.target.value);}} style={{width:"100%",padding:"5px 7px",border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,background:B.bg3,color:B.textSec,outline:"none",cursor:"pointer"}}>
-                  <option>A-Z</option><option>Z-A</option><option>By Newest</option><option>Tested first</option><option>Certified first</option><option>Most popular</option>
+                  <option>A-Z</option><option>Z-A</option><option>Tested first</option><option>Certified first</option><option>Most popular</option>
                 </select>
               </div>
               <div>
@@ -1675,6 +1671,16 @@ export default function App() {
                     var active=support===s;
                     var color=s==="mirantis-certified"?B.teal:s==="partner"?B.green:B.textSec;
                     return <button key={s} onClick={function(){setSupport(s);}} style={{textAlign:"left",padding:"5px 9px",border:"1px solid "+(active?color+"60":B.border),borderRadius:5,fontSize:11,background:active?color+"15":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontWeight:active?600:400,fontFamily:"inherit"}}>{s==="All"?"All tiers":SUPPORT_LABEL[s]}</button>;
+                  })}
+                </div>
+              </div>
+              <div>
+                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Compliance</div>
+                <div style={{display:"flex",flexDirection:"column",gap:3}}>
+                  {["All","SOC 2","HIPAA","PCI DSS","FedRAMP"].map(function(c){
+                    var cs=c==="All"?null:COMPLIANCE_STYLE[c]; var active=compliance===c;
+                    var color=cs?cs.text:B.teal;
+                    return <button key={c} onClick={function(){setCompliance(c);}} style={{textAlign:"left",padding:"5px 9px",border:"1px solid "+(active?color+"60":B.border),borderRadius:5,fontSize:11,background:active?color+"15":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontWeight:active?600:400,fontFamily:"inherit"}}>{c==="All"?"All frameworks":c}</button>;
                   })}
                 </div>
               </div>
@@ -1689,24 +1695,14 @@ export default function App() {
                   })}
                 </div>
               </div>
-            </div>}
+              <div style={{fontSize:10,color:B.textMut,fontFamily:"monospace",paddingTop:4,borderTop:"1px solid "+B.border}}>{filtered.length} / {RAW.length}</div>
+            </div>
 
             <div style={{flex:1,minWidth:0}}>
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,flexWrap:"wrap"}}>
-                <button onClick={function(){setSidebarOpen(!sidebarOpen);}} style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",border:"1px solid "+B.border,borderRadius:5,fontSize:10,background:sidebarOpen?B.teal+"15":B.bg2,color:sidebarOpen?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
-                  <span style={{fontSize:12}}>{sidebarOpen?"◂":"▸"}</span> Filters
-                  {(tag!=="All"||support!=="All"||compliance!=="All")&&<span style={{width:6,height:6,borderRadius:"50%",background:B.teal,flexShrink:0}}/>}
-                </button>
-                <div style={{position:"relative",flex:1,minWidth:120}}>
-                  <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
-                  <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:5,paddingBottom:5,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11,outline:"none",background:B.bg3,color:B.textPri}}/>
-                </div>
-                <span style={{fontSize:10,color:B.textMut,fontFamily:"monospace",flexShrink:0}}>{filtered.length} / {RAW.length}</span>
-              </div>
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
-                :<div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildAppUrl(item.name,"overview","",k0rdentVer));}}/>;}) }
+                :<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);}}/>;}) }
                 </div>
               }
             </div>
@@ -1714,19 +1710,19 @@ export default function App() {
 
           <div style={{marginTop:28,paddingTop:18,borderTop:"1px solid "+B.border,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:9}}>
             <div style={{display:"flex",alignItems:"center",gap:9}}>
-              <img src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{height:15}} />
+              <svg width="70" height="15" viewBox="0 0 70 15"><text x="0" y="12" fontFamily="monospace" fontSize="12" fontWeight="700" fill={B.teal}>k0rdent</text></svg>
               <span style={{fontSize:9.5,color:B.textMut}}>Application Catalog v1.8.0 · originated by Mirantis</span>
             </div>
             <div style={{display:"flex",gap:14}}>
               <span style={{fontSize:9.5,color:B.textMut}}>Privacy Policy</span>
               <span style={{fontSize:9.5,color:B.textMut}}>Terms of Use</span>
-              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",versionBase(k0rdentVer||"")+"contribute/");}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500,textDecoration:"none"}}>Contribute</a>
+              <span onClick={function(){setView("contribute");}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500}}>Contribute</span>
             </div>
           </div>
         </div>
       )}
 
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
+      {selected&&<DetailPanel item={selected} onClose={function(){setSelected(null);}}/>}
     </div>
   );
 }
