@@ -1,0 +1,17 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: MultiClusterService
+metadata:
+  name: nvidia-dra
+spec:
+  clusterSelector:
+    matchLabels:
+      group: demo
+  serviceSpec:
+    services:
+    - template: nvidia-dra-driver-gpu-25-8-1
+      name: nvidia-dra-driver-gpu
+      namespace: nvidia-dra
+      values: |
+        resources:
+          gpus:
+            enabled: false
