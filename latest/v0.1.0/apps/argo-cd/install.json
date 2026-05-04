@@ -1,0 +1,33 @@
+{
+  "versions": [
+    {
+      "version": "9.4.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=argo-cd:9.4.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   argo-cd-9-4-1                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: argo-cd\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: argo-cd-9-4-1\n      name: argo-cd\n      namespace: argo-cd</code></pre>"
+    },
+    {
+      "version": "8.6.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=argo-cd:8.6.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   argo-cd-8-6-1                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: argo-cd\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: argo-cd-8-6-1\n      name: argo-cd\n      namespace: argo-cd</code></pre>"
+    },
+    {
+      "version": "7.8.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=argo-cd:7.8.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   argo-cd-7-8-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: argo-cd\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: argo-cd-7-8-0\n      name: argo-cd\n      namespace: argo-cd</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://argo-cd.readthedocs.io/en/stable/",
+  "examples": [
+    {
+      "title": "With Ingress",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install traefik oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=traefik:39.0.5\" \\\n  -n kcm-system\nhelm upgrade --install argo-cd oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=argo-cd:9.4.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   traefik-39-0-5                  true\n# kcm-system   argo-cd-9-4-1                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: argo-cd\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: traefik-39-0-5\n      name: traefik\n      namespace: argo-cd\n      values: |\n        traefik:\n          deployment:\n            kind: DaemonSet\n          ports:\n            web:\n              port: 8000\n              hostPort: 80\n            websecure:\n              port: 8443\n              hostPort: 443\n    - template: argo-cd-9-4-1\n      name: argo-cd\n      namespace: argo-cd\n      values: |\n        argo-cd:\n          global:\n            domain: ''\n          configs:\n            params:\n              server.insecure: true\n          server:\n            ingress:\n              enabled: true</code></pre>",
+      "contentHtml": "<h4>Install template to k0rdent</h4>\n<h4>Verify service template</h4>\n<h4>Deploy service template</h4>\n<h4>Testing in child cluster</h4>\nGet <code>admin</code> user password:\n<pre><code class=\"language-bash\">kubectl get secret argocd-initial-admin-secret -n argo-cd -o jsonpath=\"{.data.password}\" | base64 -d; echo</code></pre>\n<p>You can now access your ArgoCD web UI at <code>https://argocd.example.com</code>.</p>"
+    }
+  ]
+}

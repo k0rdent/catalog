@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "2.1.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install influxdb2 oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=influxdb2:2.1.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   influxdb2-2-1-2                 true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: influxdb\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: influxdb2-2-1-2\n      name: influxdb2\n      namespace: influxdb</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.influxdata.com/influxdb/v2/",
+  "examples": []
+}

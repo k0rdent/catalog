@@ -1,0 +1,30 @@
+{
+  "versions": [
+    {
+      "version": "1.20.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-dns:1.20.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-dns-1-20-0             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-dns\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-dns-1-20-0\n      name: external-dns\n      namespace: external-dns</code></pre>"
+    },
+    {
+      "version": "1.19.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-dns:1.19.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-dns-1-19-0             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-dns\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-dns-1-19-0\n      name: external-dns\n      namespace: external-dns</code></pre>"
+    },
+    {
+      "version": "1.15.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-dns oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-dns:1.15.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-dns-1-15-1             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-dns\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-dns-1-15-1\n      name: external-dns\n      namespace: external-dns</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.7.0: <a href=\"https://docs.k0rdent.io/v1.7.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://kubernetes-sigs.github.io/external-dns/latest/",
+  "examples": [
+    {
+      "title": "Cloudflare",
+      "contentHtml": "<p>Use ExternalDNS to leverage Cloudflare provider.</p>\n<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\n# kind: MultiClusterService\n...\n  serviceSpec:\n    services:\n      - template: external-dns-1-20-0\n        name: external-dns\n        namespace: external-dns\n        values: |\n          external-dns:\n            provider:\n              name: cloudflare\n            env:\n            - name: CF_API_TOKEN\n              valueFrom:\n                secretKeyRef:\n                  name: dns-tokens\n                  key: cloudflare</code></pre>\n<p>You need to have your DNS provider access secret in your managed cluster, e.g. for Cloudflare:\n<pre><code class=\"language-bash\">CF_API_TOKEN=&lt;your-cloudflare-api-token&gt;\nkubectl create secret generic dns-tokens --from-literal=cloudflare=${CF_API_TOKEN} -n external-dns</code></pre></p>"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "versions": [
+    {
+      "version": "4.3.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install jupyterhub oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=jupyterhub:4.3.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   jupyterhub-4-3-2                true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: jupyterhub\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: jupyterhub-4-3-2\n      name: jupyterhub\n      namespace: jupyterhub</code></pre>"
+    },
+    {
+      "version": "4.2.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install jupyterhub oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=jupyterhub:4.2.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   jupyterhub-4-2-0                true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: jupyterhub\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: jupyterhub-4-2-0\n      name: jupyterhub\n      namespace: jupyterhub</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.1.1: <a href=\"https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://z2jh.jupyter.org/en/stable/",
+  "examples": [
+    {
+      "title": "With Ingress",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install jupyterhub oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=jupyterhub:4.2.0\" \\\n  -n kcm-system\nhelm upgrade --install traefik oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=traefik:39.0.5\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   jupyterhub-4-2-0                true\n# kcm-system   traefik-39-0-5                  true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: jupyterhub\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: jupyterhub-4-2-0\n      name: jupyterhub\n      namespace: jupyterhub\n      values: |\n        jupyterhub:\n          ingress:\n            enabled: true\n            hosts: ['juphub.example.com']\n    - template: traefik-39-0-5\n      name: traefik\n      namespace: jupyterhub\n      values: |\n        traefik:\n          deployment:\n            kind: DaemonSet\n          ports:\n            web:\n              port: 8000\n              hostPort: 80\n            websecure:\n              port: 8443\n              hostPort: 443</code></pre>",
+      "contentHtml": "<h4>Install template to k0rdent</h4>\n<h4>Verify service template</h4>\n<h4>Deploy service template</h4>\n<p>Sign in using default login <code>admin:admin</code>.</p>"
+    }
+  ]
+}

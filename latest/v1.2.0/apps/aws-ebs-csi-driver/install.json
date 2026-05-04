@@ -1,0 +1,6 @@
+{
+  "versions": [],
+  "prerequisitesHtml": "Deploy k0rdent v1.2.0: <a href=\"https://docs.k0rdent.io/v1.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html",
+  "examples": []
+}

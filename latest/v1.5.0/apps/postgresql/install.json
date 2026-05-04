@@ -1,0 +1,27 @@
+{
+  "versions": [
+    {
+      "version": "18.3.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install postgresql oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=postgresql:18.3.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   postgresql-18-3-0               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: postgresql\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: postgresql-18-3-0\n      name: postgresql\n      namespace: postgresql\n      values: |\n        postgresql:\n          global:\n            security:\n              allowInsecureImages: true\n          image:\n            repository: bitnamilegacy/postgresql</code></pre>"
+    },
+    {
+      "version": "16.7.21",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install postgresql oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=postgresql:16.7.21\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   postgresql-16-7-21              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: postgresql\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: postgresql-16-7-21\n      name: postgresql\n      namespace: postgresql\n      values: |\n        postgresql:\n          global:\n            security:\n              allowInsecureImages: true\n          image:\n            repository: bitnamilegacy/postgresql</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://github.com/bitnami/charts/tree/main/bitnami/postgresql",
+  "examples": [
+    {
+      "title": "With Ingress",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install traefik oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=traefik:39.0.5\" \\\n  -n kcm-system\nhelm upgrade --install postgresql oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=postgresql:16.7.21\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   traefik-39-0-5                  true\n# kcm-system   postgresql-16-7-21              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: postgresql\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: traefik-39-0-5\n      name: traefik\n      namespace: postgresql\n      values: |\n        traefik:\n          deployment:\n            kind: DaemonSet\n          ports:\n            web:\n              port: 8000\n              hostPort: 80\n            websecure:\n              port: 8443\n              hostPort: 443\n            pg:\n              port: 5432\n              hostPort: 5432\n    - template: postgresql-16-7-21\n      name: postgresql\n      namespace: postgresql\n      values: |\n        postgresql:\n          global:\n            security:\n              allowInsecureImages: true\n          image:\n            repository: bitnamilegacy/postgresql\n          auth:\n            postgresPassword: pgpasswd\n            username: user\n            password: passwd\n            database: pgdb\n          readReplicas:\n            replicaCount: 2\n          extraDeploy:\n          - apiVersion: traefik.io/v1alpha1\n            kind: IngressRouteTCP\n            metadata:\n              name: pg\n              namespace: postgresql\n            spec:\n              entryPoints:\n                - pg\n              routes:\n                - match: HostSNI(<code>*</code>)\n                  services:\n                    - name: postgresql\n                      port: 5432</code></pre>",
+      "contentHtml": "<h4>Install template to k0rdent</h4>\n<h4>Verify service template</h4>\n<h4>Deploy service template</h4>\n<p>Access database using <code>5432</code> port to read/write operations.\n<pre><code class=\"language-bash\">PGPASSWORD=passwd psql -h &lt;ip-or-address&gt; -p 5432 -U user -d pgdb</code></pre></p>"
+    }
+  ]
+}

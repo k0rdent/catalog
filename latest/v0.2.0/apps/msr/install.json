@@ -1,0 +1,21 @@
+{
+  "versions": [
+    {
+      "version": "4.13.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install msr oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=msr:4.13.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   msr-4-13-2                      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: msr\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: msr-4-13-2\n      name: msr\n      namespace: msr</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.2.0: <a href=\"https://docs.k0rdent.io/v0.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.mirantis.com/msr/4.13/overview.html",
+  "examples": [
+    {
+      "title": "With Ingress",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install traefik oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=traefik:39.0.5\" \\\n  -n kcm-system\nhelm upgrade --install msr oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=msr:4.13.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   traefik-39-0-5                  true\n# kcm-system   msr-4-13-2                      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: msr\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: traefik-39-0-5\n      name: traefik\n      namespace: msr\n      values: |\n        traefik:\n          deployment:\n            kind: DaemonSet\n          ports:\n            web:\n              port: 8000\n              hostPort: 80\n            websecure:\n              port: 8443\n              hostPort: 443\n    - template: msr-4-13-2\n      name: msr\n      namespace: msr\n      values: |\n        msr:\n          expose:\n            type: ingress\n            tls:\n              enabled: true\n              certSource: secret\n              secret:\n                secretName: \"wildcard-tls\"\n            ingress:\n              controller: default\n              hosts:\n                core: msr4.example.url\n          externalURL: msr4.example.url</code></pre>",
+      "contentHtml": "<h4>Install template to k0rdent</h4>\n<h4>Verify service template</h4>\n<h4>Deploy service template</h4>\n<h4>Testing in child cluster</h4>\nGet <code>admin</code> user password:\n<pre><code class=\"language-bash\">kubectl get secret msr-harbor-core -n msr -o jsonpath=\"{.data.HARBOR_ADMIN_PASSWORD}\" | base64 -d; echo</code></pre>\n<p>You can now access your MSR web UI at <code>https://msr4.example.url</code>.</p>"
+    }
+  ]
+}

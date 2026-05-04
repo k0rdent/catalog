@@ -1,0 +1,37 @@
+{
+  "versions": [
+    {
+      "version": "4.15.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ingress-nginx:4.15.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ingress-nginx-4-15-1            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ingress-nginx\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ingress-nginx-4-15-1\n      name: ingress-nginx\n      namespace: ingress-nginx\n      values: |\n        ingress-nginx:\n          controller:\n            service:\n              annotations:\n                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz\n            hostPort:\n              enabled: true</code></pre>"
+    },
+    {
+      "version": "4.14.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ingress-nginx:4.14.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ingress-nginx-4-14-3            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ingress-nginx\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ingress-nginx-4-14-3\n      name: ingress-nginx\n      namespace: ingress-nginx\n      values: |\n        ingress-nginx:\n          controller:\n            service:\n              annotations:\n                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz\n            hostPort:\n              enabled: true</code></pre>"
+    },
+    {
+      "version": "4.13.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ingress-nginx:4.13.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ingress-nginx-4-13-2            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ingress-nginx\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ingress-nginx-4-13-2\n      name: ingress-nginx\n      namespace: ingress-nginx\n      values: |\n        ingress-nginx:\n          controller:\n            service:\n              annotations:\n                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz\n            hostPort:\n              enabled: true</code></pre>"
+    },
+    {
+      "version": "4.12.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ingress-nginx:4.12.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ingress-nginx-4-12-3            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ingress-nginx\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ingress-nginx-4-12-3\n      name: ingress-nginx\n      namespace: ingress-nginx\n      values: |\n        ingress-nginx:\n          controller:\n            service:\n              annotations:\n                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz\n            hostPort:\n              enabled: true</code></pre>"
+    },
+    {
+      "version": "4.11.5",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ingress-nginx oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ingress-nginx:4.11.5\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ingress-nginx-4-11-5            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ingress-nginx\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ingress-nginx-4-11-5\n      name: ingress-nginx\n      namespace: ingress-nginx\n      values: |\n        ingress-nginx:\n          controller:\n            service:\n              annotations:\n                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz\n            hostPort:\n              enabled: true</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://kubernetes.github.io/ingress-nginx/",
+  "examples": []
+}

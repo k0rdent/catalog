@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "v2.1.1",
+      "installHtml": "<pre><code class=\"language-bash\"># Install Gateway API CRDs\nkubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml\n<p># Install kgateway CRDs\nhelm upgrade --install kgateway-crds oci://ghcr.io/k0rdent/catalog/charts/kgst --set \"chart=kgateway-crds:v2.1.1\" -n kcm-system</p>\n<p># Install kgateway\nhelm upgrade --install kgateway oci://ghcr.io/k0rdent/catalog/charts/kgst --set \"chart=kgateway:v2.1.1\" -n kcm-system</code></pre></p>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kgateway-crds-v2-1-1            true\n# kcm-system   kgateway-v2-1-1                 true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: kgateway\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kgateway-crds-v2-1-1\n      name: kgateway-crds\n      namespace: kgateway-system\n    - template: kgateway-v2-1-1\n      name: kgateway\n      namespace: kgateway-system</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.2.0: <a href=\"https://docs.k0rdent.io/v0.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://kgateway.dev/docs/quickstart/",
+  "examples": []
+}

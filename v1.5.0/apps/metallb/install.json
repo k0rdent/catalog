@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "0.15.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install metallb oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=metallb:0.15.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   metallb-0-15-3                  true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: metallb\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: metallb-0-15-3\n      name: metallb\n      namespace: metallb</code></pre>"
+    },
+    {
+      "version": "0.14.7",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install metallb oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=metallb:0.14.7\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   metallb-0-14-7                  true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: metallb\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: metallb-0-14-7\n      name: metallb\n      namespace: metallb</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://metallb.io/",
+  "examples": []
+}

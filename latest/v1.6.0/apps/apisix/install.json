@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "2.13.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install apisix oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=apisix:2.13.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   apisix-2-13-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: apisix\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: apisix-2-13-0\n      name: apisix\n      namespace: apisix</code></pre>"
+    },
+    {
+      "version": "2.12.4",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install apisix oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=apisix:2.12.4\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   apisix-2-12-4                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: apisix\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: apisix-2-12-4\n      name: apisix\n      namespace: apisix</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.6.0: <a href=\"https://docs.k0rdent.io/v1.6.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://apisix.apache.org/docs/helm-chart/apisix/",
+  "examples": []
+}

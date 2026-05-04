@@ -1,0 +1,25 @@
+{
+  "versions": [
+    {
+      "version": "1.5.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install pelagia-ceph oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst \\\n  --set \"chart=pelagia-ceph:1.5.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   pelagia-ceph-1-5-0              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ceph\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: pelagia-ceph-1-5-0\n      name: pelagia-ceph\n      namespace: ceph-lcm-mirantis\n      values: |\n        pelagia-ceph:\n          rookConfig:\n            csiKubeletPath: /var/lib/k0s/kubelet</code></pre>"
+    },
+    {
+      "version": "1.1.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install pelagia-ceph oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst \\\n  --set \"chart=pelagia-ceph:1.1.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   pelagia-ceph-1-1-0              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ceph\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: pelagia-ceph-1-1-0\n      name: pelagia-ceph\n      namespace: ceph-lcm-mirantis\n      values: |\n        pelagia-ceph:\n          rookConfig:\n            csiKubeletPath: /var/lib/k0s/kubelet</code></pre>"
+    },
+    {
+      "version": "1.0.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install pelagia-ceph oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst \\\n  --set \"chart=pelagia-ceph:1.0.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   pelagia-ceph-1-0-0              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ceph\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: pelagia-ceph-1-0-0\n      name: pelagia-ceph\n      namespace: ceph-lcm-mirantis\n      values: |\n        pelagia-ceph:\n          rookConfig:\n            csiKubeletPath: /var/lib/k0s/kubelet</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "<h4>Prerequisites</h4>\n- k0rdent Enterprise",
+  "docLink": "https://www.mirantis.com/software/ceph/",
+  "examples": []
+}

@@ -1,0 +1,32 @@
+{
+  "versions": [
+    {
+      "version": "29.2.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install prometheus oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=prometheus:29.2.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   prometheus-29-2-1               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: prometheus\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: prometheus-29-2-1\n      name: prometheus\n      namespace: prometheus</code></pre>"
+    },
+    {
+      "version": "28.9.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install prometheus oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=prometheus:28.9.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   prometheus-28-9-0               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: prometheus\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: prometheus-28-9-0\n      name: prometheus\n      namespace: prometheus</code></pre>"
+    },
+    {
+      "version": "27.5.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install prometheus oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=prometheus:27.5.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   prometheus-27-5-1               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: prometheus\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: prometheus-27-5-1\n      name: prometheus\n      namespace: prometheus</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.3.1: <a href=\"https://docs.k0rdent.io/v1.3.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://prometheus.io/docs/introduction/overview/",
+  "examples": [
+    {
+      "title": "With Ingress",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install traefik oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=traefik:39.0.5\" \\\n  -n kcm-system\nhelm upgrade --install prometheus oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=prometheus:28.9.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   traefik-39-0-5                  true\n# kcm-system   prometheus-28-9-0               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: prometheus\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: traefik-39-0-5\n      name: traefik\n      namespace: prometheus\n      values: |\n        traefik:\n          deployment:\n            kind: DaemonSet\n          ports:\n            web:\n              port: 8000\n              hostPort: 80\n            websecure:\n              port: 8443\n              hostPort: 443\n    - template: prometheus-28-9-0\n      name: prometheus\n      namespace: prometheus\n      values: |\n        prometheus:\n          server:\n            ingress:\n              enabled: true\n              hosts: ['']\n            persistentVolume:\n              enabled: false</code></pre>"
+    }
+  ]
+}

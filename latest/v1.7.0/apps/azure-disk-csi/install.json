@@ -1,0 +1,6 @@
+{
+  "versions": [],
+  "prerequisitesHtml": "Deploy k0rdent v1.7.0: <a href=\"https://docs.k0rdent.io/v1.7.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi",
+  "examples": []
+}

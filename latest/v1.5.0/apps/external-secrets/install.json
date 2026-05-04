@@ -1,0 +1,37 @@
+{
+  "versions": [
+    {
+      "version": "2.4.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-secrets:2.4.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-secrets-2-4-0          true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-secrets\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-secrets-2-4-0\n      name: external-secrets\n      namespace: external-secrets</code></pre>"
+    },
+    {
+      "version": "2.3.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-secrets:2.3.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-secrets-2-3-0          true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-secrets\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-secrets-2-3-0\n      name: external-secrets\n      namespace: external-secrets</code></pre>"
+    },
+    {
+      "version": "2.0.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-secrets:2.0.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-secrets-2-0-0          true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-secrets\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-secrets-2-0-0\n      name: external-secrets\n      namespace: external-secrets</code></pre>"
+    },
+    {
+      "version": "1.2.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-secrets:1.2.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-secrets-1-2-1          true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-secrets\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-secrets-1-2-1\n      name: external-secrets\n      namespace: external-secrets</code></pre>"
+    },
+    {
+      "version": "0.18.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install external-secrets oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=external-secrets:0.18.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   external-secrets-0-18-2         true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: external-secrets\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: external-secrets-0-18-2\n      name: external-secrets\n      namespace: external-secrets</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://external-secrets.io/v0.18.2/",
+  "examples": []
+}

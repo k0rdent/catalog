@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "18.6.8",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install teleport-cluster oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=teleport-cluster:18.6.8\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   teleport-cluster-18-6-8         true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: teleport\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: teleport-cluster-18-6-8\n      name: teleport-cluster\n      namespace: teleport\n      values: |\n        teleport-cluster:\n          clusterName: teleport-cluster</code></pre>"
+    },
+    {
+      "version": "18.2.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install teleport-cluster oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=teleport-cluster:18.2.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   teleport-cluster-18-2-0         true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: teleport\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: teleport-cluster-18-2-0\n      name: teleport-cluster\n      namespace: teleport\n      values: |\n        teleport-cluster:\n          clusterName: teleport-cluster</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.7.0: <a href=\"https://docs.k0rdent.io/v1.7.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://goteleport.com/docs/installation/helm/",
+  "examples": []
+}

@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.5.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install fluentd oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=fluentd:0.5.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   fluentd-0-5-3                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: fluentd\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: fluentd-0-5-3\n      name: fluentd\n      namespace: fluentd</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.2.0: <a href=\"https://docs.k0rdent.io/v1.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.fluentd.org/",
+  "examples": []
+}
