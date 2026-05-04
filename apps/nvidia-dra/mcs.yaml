@@ -12,6 +12,7 @@ spec:
       name: nvidia-dra-driver-gpu
       namespace: nvidia-dra
       values: |
-        resources:
-          gpus:
-            enabled: false
+        nvidia-dra-driver-gpu:
+          resources:
+            gpus:
+              enabled: false
