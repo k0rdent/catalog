@@ -1,0 +1,5 @@
+nvidia-dra-driver-gpu:
+  nvidia-dra-driver-gpu:
+    resources:
+      gpus:
+        enabled: false
