@@ -22,7 +22,7 @@ description: |
   With the ability to acknowledge message delivery and to replicate messages across a cluster, you can
   ensure your messages are safe with RabbitMQ.
 
-why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
+why_in_catalog: "Standards-based message broker providing reliable async communication between AI pipeline stages — training, inference, and post-processing."
 support_link: https://www.rabbitmq.com/commercial-features
 
 doc_link: https://www.rabbitmq.com/docs

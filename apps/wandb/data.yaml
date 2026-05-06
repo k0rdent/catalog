@@ -15,7 +15,7 @@ description: |
   - Evaluation: Use custom or pre-built scorers alongside our comparison tools to systematically assess and enhance application performance.
   - Guardrails: Protect your application with safeguards for content moderation, prompt safety, and more.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "LLM observability and evaluation framework capturing call traces, token usage, and evaluation scores for deployed AI models."
 support_link: https://wandb.ai/site/support/
 support_type: Partner
 

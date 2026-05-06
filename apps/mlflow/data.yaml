@@ -25,7 +25,7 @@ description: |
     - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
     - **REST and Python APIs:** Access all MLflow components programmatically.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Industry-standard ML experiment tracking and model registry — managing the full lifecycle from training runs to production model deployment."
 # support_link: TODO
 
 doc_link: https://mlflow.org/docs/latest/

@@ -19,7 +19,7 @@ description: |
   - **Quantile Predictions**: Generates confidence intervals (P10, P50, P90) for risk assessment
   - **Cluster-aware**: Supports multi-cluster deployments with intelligent data aggregation
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "k0rdent-native cost intelligence agent that provides per-workload GPU and compute cost attribution using Prometheus metrics."
 deploy_code: |
   FinOps Agent assumes that:
   1. the user has kof installed with the k0rdent.

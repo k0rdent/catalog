@@ -21,7 +21,7 @@ description: |
     - Supports auto-upgrades and fault recovery
     - Ideal for multi-cluster setups managed by k0rdent
 
-why_in_catalog: "Reliable AI delivery requires robust CI/CD and GitOps pipelines. This integration enables teams to manage cluster configuration and model deployments declaratively."
+why_in_catalog: "Lightweight CI/CD delegate enabling automated, policy-driven deployments of AI model serving pipelines across k0rdent-managed clusters."
 support_link: https://www.harness.io/company/contact-sales
 support_type: Community
 

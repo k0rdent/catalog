@@ -36,7 +36,7 @@ description: |
     - Source code: [GitHub – jenkinsci/jenkins](https://github.com/jenkinsci/jenkins)  
     - Community & contribution guide: [Participate](https://www.jenkins.io/participate/)
 
-why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
+why_in_catalog: "Battle-tested automation server for building CI/CD pipelines that test, package, and deploy AI applications across k0rdent clusters."
 # support_link: TODO
 
 doc_link: https://www.jenkins.io/doc/

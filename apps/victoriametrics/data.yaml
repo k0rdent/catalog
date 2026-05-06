@@ -37,7 +37,7 @@ description: |
 
     For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
 
-why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
+why_in_catalog: "Drop-in Prometheus replacement using 7x less storage and 3x less RAM — a cost-efficient metrics backend for multi-cluster AI observability."
 prerequisites: |
     **Storage Requirements:**
 

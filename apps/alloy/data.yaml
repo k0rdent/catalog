@@ -34,7 +34,7 @@ description: |
   with Loki and Tempo deployments managed through the k0rdent catalog, forming a complete, multi-cluster
   observability stack.
 
-why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
+why_in_catalog: "Grafana Alloy unifies telemetry collection — Prometheus scraping, OTel pipelines, and log forwarding — into a single agent, reducing per-node overhead in GPU-dense AI clusters."
 doc_link: https://grafana.com/docs/alloy/latest/
 
 test_wait_for_pods: "alloy-"

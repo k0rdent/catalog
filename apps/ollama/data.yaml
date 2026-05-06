@@ -19,7 +19,7 @@ description: |
     -	Suitable for air-gapped, on-prem, and edge environments
     -	Can be deployed and managed across clusters with k0rdent
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Simplest way to run quantized LLMs on Kubernetes — one command to download and serve Llama, Mistral, or Gemma on GPU or CPU nodes."
 # support_link: TODO
 
 doc_link: https://docs.ollama.com/

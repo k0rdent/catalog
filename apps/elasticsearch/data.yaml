@@ -18,7 +18,7 @@ description: |
     * Application performance monitoring (APM)
     * Security logs
 
-why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
+why_in_catalog: "The ECK Operator automates Elasticsearch cluster lifecycle on Kubernetes — provisioning, scaling, upgrades, and TLS — for production search and analytics backends."
 support_link: https://www.elastic.co/contact
 
 doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart

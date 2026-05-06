@@ -18,7 +18,7 @@ description: |
     and scalable, and is suitable for small and large teams, academic courses, and large-scale
     infrastructure.
 
-why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
+why_in_catalog: "Spawns isolated Jupyter notebook environments for data scientists, providing shared GPU access and collaboration on k0rdent-managed clusters."
 # support_link:
 
 examples:

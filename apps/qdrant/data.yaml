@@ -17,7 +17,7 @@ description: |
 
     Qdrant is also available as a fully managed **[Qdrant Cloud](https://cloud.qdrant.io/)** ⛅ including a **free tier**.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "High-performance vector search engine written in Rust — purpose-built for production RAG with HNSW indexing and binary quantization."
 doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
 
 # test_wait_for_pods: "milvus-standalone-"

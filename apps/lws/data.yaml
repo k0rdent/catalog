@@ -25,7 +25,7 @@ description: |
   - **Topology-aware placement:** Opt-in support for pods in the same group to be co-located in the same topology.
   - **All-or-nothing restart for failure handling:** Opt-in support for all pods in the group to be recreated if one pod in the group failed or one container in the pods is restarted.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "LeaderWorkerSet API for orchestrating multi-node AI training and inference workloads that require coordinated pod groups across GPU nodes."
 doc_link: https://lws.sigs.k8s.io/docs/
 deploy_code: |
   ~~~yaml

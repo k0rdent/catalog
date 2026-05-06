@@ -13,7 +13,7 @@ description: |
     help you consistently and securely manage artifacts across cloud native compute platforms like
     Kubernetes and Docker.
 
-why_in_catalog: "Container registries are essential for storing and distributing the OCI artifacts and container images that AI workloads depend on."
+why_in_catalog: "CNCF container and artifact registry with vulnerability scanning, RBAC, and replication — securing the OCI artifacts that AI workloads depend on."
 # support_link: TODO
 
 doc_link: https://goharbor.io/docs/latest/install-config/harbor-ha-helm/

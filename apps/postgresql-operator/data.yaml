@@ -35,7 +35,7 @@ description: |
     * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
     * Includes popular PostgreSQL extensions
 
-why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
+why_in_catalog: "Automates PostgreSQL cluster provisioning with high availability, automated backups, and rolling upgrades for AI platform databases."
 # support_link:
 
 doc_link: https://postgres-operator.readthedocs.io/

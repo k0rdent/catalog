@@ -12,7 +12,7 @@ description: |
     layer (Postgres & Redis). Please check the link for more information on
     [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
 
-why_in_catalog: "Container registries are essential for storing and distributing the OCI artifacts and container images that AI workloads depend on."
+why_in_catalog: "Mirantis Secure Registry providing enterprise container image management with vulnerability scanning and compliance controls for AI artifacts."
 support_link: https://docs.mirantis.com/msr/4.13/get-support.html
 doc_link: https://docs.mirantis.com/msr/4.13/overview.html
 

@@ -20,7 +20,7 @@ description: |
   InfluxDB is optimized for scenarios where near real-time data monitoring is essential and queries 
   need to return quickly to support user experiences such as dashboards and interactive user interfaces.
 
-why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
+why_in_catalog: "Purpose-built time-series database for high-ingest workloads — sensor data, performance counters, and operational metrics that feed predictive AI models."
 # support_link: TODO
 
 doc_link: https://docs.influxdata.com/influxdb/v2/

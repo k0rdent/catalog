@@ -18,7 +18,7 @@ description: |
     This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
     and comprehensive observability for AI applications running on AMD hardware.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Automates the full AMD GPU software stack on Kubernetes — ROCm drivers, device plugin, and node labeling — so AI training nodes are ready in minutes instead of hours."
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
 deploy_code: |
     Tested `ClusterDeployment` in Azure:

@@ -13,7 +13,7 @@ description: |
     The broader open source community offers extensive knowledge and support, helping users get started, deepen their expertise,
     and stay connected.
 
-why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
+why_in_catalog: "The world's most advanced open-source relational database — the default backend for MLflow metadata, Airflow state, and AI application data."
 # support_link:
 
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql

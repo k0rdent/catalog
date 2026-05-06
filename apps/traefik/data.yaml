@@ -38,7 +38,7 @@ description: |
   Traefik can be configured to run as the default ingress controller for the cluster, allowing applications that create
   Ingress resources to be exposed automatically.
 
-why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
+why_in_catalog: "Cloud-native reverse proxy with automatic service discovery and Gateway API support — a flexible ingress option for AI serving endpoints."
 # support_link: TODO
 
 examples:

@@ -10,7 +10,7 @@ description: |
     features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,
     service-to-service authentication, and monitoring – with few or no service code changes.
 
-why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
+why_in_catalog: "CNCF service mesh providing transparent mTLS, traffic management, and per-request telemetry for securing communication between AI microservices."
 support_link: https://tetrate.io/
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/

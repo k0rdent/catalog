@@ -26,7 +26,7 @@ description: |
    - **Prometheus monitoring** - Built-in support for monitoring using Prometheus.
    - **Grafana Dashboards** - Built-in support for loading Grafana® dashboards via the grafana_sidecar
 
-why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
+why_in_catalog: "Manages Apache Kafka clusters on Kubernetes — providing the high-throughput event backbone for real-time AI feature pipelines and audit trails."
 # support_link: TODO
 
 doc_link: https://strimzi.io/documentation/

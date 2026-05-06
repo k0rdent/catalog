@@ -9,7 +9,7 @@ description: |
     Velero is an open source tool to safely backup and restore, perform disaster recovery,
     and migrate Kubernetes cluster resources and persistent volumes.
 
-why_in_catalog: "Data protection is critical for AI workloads training on unique, hard-to-reproduce datasets. This ensures cluster state and persistent volumes can be recovered quickly."
+why_in_catalog: "CNCF-standard backup and restore for Kubernetes — protecting AI platform state, vector databases, and model registries with scheduled snapshots."
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1

@@ -16,7 +16,7 @@ description: |
     GPUDirect RDMA on compatible systems, ensuring optimal data movement between GPUs 
     and network interfaces while reducing CPU overhead and improving application performance.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Automates RDMA networking stack deployment — Mellanox OFED, SR-IOV, and GPUDirect RDMA — for high-bandwidth distributed AI training."
 doc_link: https://docs.nvidia.com/networking/display/kubernetes2370/network+operator
 validated_amd64: 'y'
 validated_local: 'y'

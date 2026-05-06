@@ -35,7 +35,7 @@ description: |
     k0rdent-managed cluster that matches a label selector. Workloads then opt in by setting
     `schedulerName: volcano` on Pod templates, or by submitting `batch.volcano.sh/Job` CRs.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "CNCF batch scheduler optimized for high-performance AI training workloads with gang scheduling, fair-share queuing, and GPU-aware placement."
 doc_link: https://volcano.sh/en/docs/
 
 # test settings

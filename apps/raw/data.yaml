@@ -21,7 +21,7 @@ description: |
   configuration objects, or other Kubernetes manifests that do not require
   templating logic but should still be tracked and managed by Helm.
 
-why_in_catalog: "Hardware enablement drivers and plugins that expose specialized compute resources like GPUs and accelerators to Kubernetes workloads."
+why_in_catalog: "Utility chart rendering arbitrary Kubernetes manifests from Helm values — used for deploying custom CRDs and configurations alongside catalog apps."
 doc_link: https://github.com/bedag/helm-charts/tree/master/charts/raw
 
 test_wait_for_pods: "alpine-sleep"

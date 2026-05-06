@@ -22,7 +22,7 @@ description: |
     (e.g., canary rollouts), and security policies of applications running across the
     k0rdent-managed fleet from a single point of control.
 
-why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
+why_in_catalog: "Visual service mesh console showing real-time traffic topology, health monitoring, and routing validation for Istio-managed AI services."
 # support_link: TODO
 
 doc_link: https://kiali.io/docs/installation/installation-guide/install-with-helm/

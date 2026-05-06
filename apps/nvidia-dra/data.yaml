@@ -24,7 +24,7 @@ description: |
     reducing resource fragmentation, and improving overall workload density 
     in GPU-accelerated Kubernetes environments.
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Enables Kubernetes Dynamic Resource Allocation for fine-grained GPU sharing and scheduling across AI inference workloads."
 doc_link: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/dra-intro-install.html
 validated_amd64: 'y'
 validated_local: 'y'

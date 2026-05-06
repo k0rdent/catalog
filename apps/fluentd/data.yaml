@@ -35,7 +35,7 @@ description: |
   Fluentd is an essential building block for implementing observability and log aggregation in production-grade Kubernetes platforms.
 
 
-why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
+why_in_catalog: "CNCF-graduated log collector that aggregates and forwards logs from AI training runs and inference services to any backend."
 doc_link: https://docs.fluentd.org/
 
 test_wait_for_pods: "fluentd-"

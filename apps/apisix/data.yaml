@@ -15,7 +15,7 @@ description: |
     the ultimate performance, security, and scalable platform for all your APIs and microservices.
 
 
-why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
+why_in_catalog: "Provides high-performance API gateway capabilities for AI inference endpoints with dynamic routing, rate limiting, and support for gRPC, WebSocket, and HTTP/3."
 doc_link: https://apisix.apache.org/docs/helm-chart/apisix/
 
 test_wait_for_pods: "apisix-"

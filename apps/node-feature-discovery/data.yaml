@@ -11,7 +11,7 @@ description: |
     It detects hardware features available on each node in a Kubernetes cluster, and advertises those
     features using node labels and optionally node extended resources, annotations and node taints.
 
-why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
+why_in_catalog: "Detects GPU models, CPU features, and hardware capabilities on cluster nodes — enabling intelligent scheduling of AI workloads to appropriate hardware."
 support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=readme-ov-file
 
 doc_link: https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html

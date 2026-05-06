@@ -20,7 +20,7 @@ description: |
   - [Reports](https://clear.ml/docs/latest/docs/webapp/webapp_reports) - Create and share rich MarkDown documents supporting embeddable online content
   - [Orchestration Dashboard](https://clear.ml/docs/latest/docs/webapp/webapp_orchestration_dash/) - Live rich dashboard for your entire compute cluster (Cloud / Kubernetes / On-Prem)
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Open-source MLOps platform covering experiment tracking, data versioning, and pipeline orchestration for end-to-end ML lifecycle management."
 support_link: https://clear.ml/contact-us
 
 doc_link: https://clear.ml/docs/latest/docs/

@@ -14,7 +14,7 @@ description: |
   Penpot is available on browser and [self host](https://penpot.app/self-host). It's web-based and works with open standards
   (SVG, CSS and HTML). And last but not least, it's free!
 
-why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
+why_in_catalog: "Open-source design platform for teams building AI-powered application interfaces — browser-based, self-hosted, and SVG-native."
 support_link: https://penpot.app/talk-to-us
 
 doc_link: https://help.penpot.app/technical-guide/getting-started/kubernetes/#install-penpot-chart

@@ -8,7 +8,7 @@ created: "2025-03-12T20:16:05Z"
 description: |
     The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes.
 
-why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
+why_in_catalog: "Enables dynamic provisioning of AWS EBS volumes for stateful AI workloads requiring persistent block storage on EKS clusters."
 support_link: https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
 install_code: |
     ~~~bash

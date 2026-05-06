@@ -46,7 +46,7 @@ description: |
     - Please refer to the [Dell CSM official documentation](https://dell.github.io/csm-docs/docs/support/) for the helm install instructions.
     - The details of all possible values is available on the [helm-charts repository](https://github.com/dell/helm-charts/blob/main/installation-wizard/container-storage-modules/values.yaml).
 
-why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
+why_in_catalog: "Dell Container Storage Modules provide enterprise storage capabilities for AI workloads requiring high-throughput persistent volumes on Dell infrastructure."
 support_link: https://dell.github.io/csm-docs/docs/support/
 
 doc_link: https://dell.github.io/csm-docs/docs/

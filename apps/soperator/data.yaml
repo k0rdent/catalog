@@ -16,7 +16,7 @@ description: |
     1. Slurm Operator (soperator)
     2. Slurm Cluster 
 
-why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
+why_in_catalog: "Deploys and manages NVIDIA Slurm clusters on Kubernetes for HPC and large-scale distributed AI training workloads."
 support_link: https://github.com/nebius/soperator
 support_type: Partner
 

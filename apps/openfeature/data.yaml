@@ -30,7 +30,7 @@ description: |
     sidecar-based flag evaluation model.
 
 
-why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
+why_in_catalog: "CNCF feature flag framework enabling progressive rollouts of AI model versions and A/B testing across k0rdent-managed services."
 doc_link: https://openfeature.dev/docs/reference/intro
 
 test_wait_for_pods: "open-feature-operator-controller-manager-"

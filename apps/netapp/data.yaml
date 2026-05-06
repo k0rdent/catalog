@@ -10,7 +10,7 @@ description: |
     and consume storage resources. It's an open-source project that helps containerized
     applications meet their storage needs.
 
-why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
+why_in_catalog: "NetApp Trident CSI driver providing enterprise storage capabilities for AI workloads requiring high-throughput persistent volumes."
 support_link: https://docs.netapp.com/us-en/trident/get-help.html
 
 doc_link: https://docs.netapp.com/us-en/trident/index.html

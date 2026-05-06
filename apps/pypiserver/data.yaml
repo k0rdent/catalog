@@ -32,7 +32,7 @@ description: |
   - PyPI: <https://pypi.org/project/pypiserver/>
 
 
-why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
+why_in_catalog: "Self-hosted Python package index enabling air-gapped AI teams to distribute internal ML libraries and model packages."
 doc_link: https://community-charts.github.io/docs/category/pypiserver
 
 test_wait_for_pods: " pypiserver-"

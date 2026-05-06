@@ -18,7 +18,7 @@ description: |
     sticky sessions, and comprehensive metrics via Prometheus integration. The controller automatically
     discovers and configures routes based on Kubernetes Ingress and Gateway API resources.
 
-why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
+why_in_catalog: "Enterprise-grade ingress controller with advanced load balancing, rate limiting, and WAF capabilities for production AI inference endpoints."
 doc_link: https://www.haproxy.com/documentation/kubernetes-ingress/
 
 validated_amd64: 'y'

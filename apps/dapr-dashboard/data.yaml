@@ -14,7 +14,7 @@ description: |
     requiring kubectl access. It integrates with the Dapr control plane to display the state of all
     Dapr resources in the cluster.
 
-why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
+why_in_catalog: "Web UI for real-time visibility into Dapr sidecar status, component health, and configuration across k0rdent-managed namespaces."
 show_install_tab: true
 github_repo: dapr/dashboard
 
