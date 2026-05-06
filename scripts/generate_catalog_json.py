@@ -494,6 +494,7 @@ def process_app(app_name: str) -> dict | None:
         'stars': stars,
         'pulls': pulls,
         'showInstall': data.get('show_install_tab', True),
+        'whyInCatalog': data.get('why_in_catalog', ''),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
     }
 

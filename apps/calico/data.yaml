@@ -12,6 +12,8 @@ description: |
   approach, effectively managing network policies and providing robust security controls for cloud-native applications;
   essentially, it acts as a container network interface (CNI) plugin within Kubernetes to manage network connectivity between
   pods within a cluster.
+
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 support_link: https://www.tigera.io/customer-success/
 install_code: |
     ~~~bash

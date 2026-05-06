@@ -33,6 +33,7 @@ description: |
   clusters, enabling centralized observability in multi-cluster environments. It complements
   Prometheus-based metrics monitoring by providing unified log visibility at scale.
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 # support_link: TODO
 
 doc_link: https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/

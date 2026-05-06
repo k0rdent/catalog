@@ -9,6 +9,8 @@ description: |
     Pure Storage CSI is a plugin that allows Kubernetes to access storage on Pure Storage's FlashArray
     and FlashBlade devices. CSI stands for Container Storage Interface. It's a standard that enables
     storage systems to communicate with Kubernetes.
+
+why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
 support_link: https://support.purestorage.com/
 
 doc_link: https://github.com/purestorage/helm-charts

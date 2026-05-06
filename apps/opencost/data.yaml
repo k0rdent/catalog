@@ -10,6 +10,8 @@ description: |
     OpenCost is a vendor-neutral open-source project for measuring and allocating cloud infrastructure and container costs in real-time.
     It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how
     resources are being used.
+
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
 
 doc_link: https://opencost.io/

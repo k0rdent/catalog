@@ -16,6 +16,8 @@ description: |
     environments.
 
     A full working cluster example is available in examples/workload.yaml.
+
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 # support_link: https://nats.io/community/
 
 doc_link: https://docs.nats.io/running-a-nats-service/nats-kubernetes

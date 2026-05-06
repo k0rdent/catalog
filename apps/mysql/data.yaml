@@ -14,6 +14,8 @@ description: |
   policies across multiple clusters. This indirect integration streamlines the process of
   running and maintaining MySQL databases in containerized environments, providing a
   centralized control plane for managing the underlying Kubernetes infrastructure.
+
+why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
 support_link: https://www.mysql.com/about/contact/
 
 doc_link: https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html

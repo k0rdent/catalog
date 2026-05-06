@@ -12,6 +12,7 @@ description: |
   Built specifically for DevOps and platform engineers, Kagent enables AI agents to run directly in Kubernetes clusters
   to automate operations, troubleshoot issues, and solve complex cloud-native challenges.
 
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 support_link: https://kagent.dev
 doc_link: https://kagent.dev
 

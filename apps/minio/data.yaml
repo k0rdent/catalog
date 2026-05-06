@@ -9,6 +9,8 @@ description: |
   MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0.
   It is API compatible with Amazon S3 cloud storage service.
   Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads.
+
+why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
 # support_link:
 
 doc_link: https://min.io/docs/minio/kubernetes/upstream/index.html

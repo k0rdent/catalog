@@ -13,6 +13,8 @@ description: |
 
   Apache Tika, Tika, Apache, the Apache feather logo, and the Apache Tika project
   logo are trademarks of The Apache Software Foundation.
+
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 # support_link: TODO
 
 doc_link: https://tika.apache.org/

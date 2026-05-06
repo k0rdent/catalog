@@ -11,6 +11,8 @@ description: |
     of their running containers. It is a running daemon that collects, aggregates, processes, and exports information about
     running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage,
     histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.
+
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_link: https://ckotzbauer.github.io/helm-charts
 
 doc_link: https://github.com/google/cadvisor/blob/master/docs/storage/README.md

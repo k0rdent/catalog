@@ -27,6 +27,7 @@ description: |
     - Ensuring application availability during traffic spikes
     - Managing hybrid and multi-cloud environments
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_link: https://github.com/kubernetes/autoscaler/issues
 doc_link: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/README.md
 

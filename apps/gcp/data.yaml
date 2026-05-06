@@ -12,6 +12,8 @@ description: |
   - Centralized Multi-Cloud Management: Operate your Google Compute-based clusters from the k0rdent control plane alongside other cloud or on-prem clusters.
   - Flexible Resource Allocation: Optimize node sizing, regional placement, and scaling strategies with full control over VM-based infrastructure.
   - Security and IAM Integration: K0rdent integrates with Google Cloud IAM and supports configuring secure access, firewall rules, and identity-aware access policies for your Kubernetes workloads.
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters."
 support_link: https://cloud.google.com/support
 install_code: |
   ~~~yaml

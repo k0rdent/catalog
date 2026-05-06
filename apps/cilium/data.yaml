@@ -25,6 +25,8 @@ description: |
     integration points such as: network IO, application sockets, and tracepoints to
     implement security, networking and visibility logic. eBPF is highly efficient
     and flexible. To learn more about eBPF, visit [eBPF.io](https://eBPF.io){ target="_blank" }.
+
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 support_link: https://cilium.io/enterprise/
 exclude_versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1', 'v1.2.0', 'v1.3.1']
 deploy_code: |

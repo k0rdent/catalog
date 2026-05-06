@@ -7,6 +7,8 @@ created: "2025-03-28T14:40:08Z"
 github_repo: open-policy-agent/gatekeeper
 description: |
     A customizable cloud native policy controller that helps enforce policies and strengthen governance.
+
+why_in_catalog: "Security is non-negotiable in AI environments. This integration provides policy enforcement, secrets management, or runtime protection across multi-cluster deployments — essential for regulated industries running AI at scale."
 support_link: https://github.com/open-policy-agent/gatekeeper
 
 doc_link: https://open-policy-agent.github.io/gatekeeper/website/docs

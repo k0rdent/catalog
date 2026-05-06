@@ -12,6 +12,8 @@ description: |
     range of storage products from HPE, including Alletra Storage MP B10000 and Alletra 5000/6000/9000. Advanced data services are
     provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads running
     on Kubernetes.
+
+why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
 support_link: https://scod.hpedev.io/legal/support/
 
 doc_link: https://scod.hpedev.io/

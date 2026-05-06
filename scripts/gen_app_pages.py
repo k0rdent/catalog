@@ -15,7 +15,7 @@ allowed_fields = ['title', 'tags', 'summary', 'logo', 'logo_big', 'created', 'de
                   'test_deploy_multiclusterservice', 'test_wait_for_pods', 'test_wait_for_running', 'show_install_tab',
                   'examples', 'test_check_images', 'test_wait_for_creating',
                   'validated_amd64', 'validated_aws', 'validated_azure', 'validated_arm64', 'validated_local',
-                  'github_repo']
+                  'github_repo', 'why_in_catalog']
 allowed_tags = ['AI/Machine Learning', 'Application Runtime', 'Authentication', 'Backup and Recovery',
                 'CI/CD', 'Container Registry', 'Database', 'Developer Tools', 'Drivers and plugins',
                 'Monitoring', 'Networking', 'Security', 'Serverless', 'Storage']

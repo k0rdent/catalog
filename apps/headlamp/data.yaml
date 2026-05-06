@@ -14,6 +14,8 @@ description: |
 
     Headlamp can be used in-cluster, where it's accessed through a web browser, or as a desktop
     application (using the information defined in the user's kubeconfig).
+
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 # support_link:
 
 doc_link: https://headlamp.dev/docs/latest/

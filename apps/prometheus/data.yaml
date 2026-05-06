@@ -10,6 +10,7 @@ description: |
     Since its inception in 2012, many companies and organizations have adopted Prometheus, and
     the project has a very active developer and user community.
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 examples:
     with_ingress:
         title: With Ingress

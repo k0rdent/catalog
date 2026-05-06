@@ -9,6 +9,8 @@ description: |
     The Kube Prometheus Stack provides a collection of monitoring and alerting rules for Kubernetes clusters.
     It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
     It provides a collection of monitoring and alerting rules for Kubernetes clusters
+
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_link: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 doc_link: https://prometheus.io/community/

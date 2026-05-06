@@ -20,6 +20,7 @@ description: |
 
   [Official doc](https://docs.n8n.io/)
 
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 doc_link: https://docs.n8n.io/
 
 validated_amd64: 'y'

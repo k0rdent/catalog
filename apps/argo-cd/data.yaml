@@ -11,6 +11,8 @@ description: |
     - Centralized Management: Manage Argo CD instances and application deployments across multiple clusters from the K0rdent control plane. 
     - Simplified Deployment: k0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
     - Policy-Driven Deployments: Leverage k0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
+
+why_in_catalog: "Reliable AI delivery requires robust CI/CD and GitOps pipelines. This integration enables teams to manage cluster configuration and model deployments declaratively."
 support_link: https://akuity.io/security-hardened-argo-cd
 
 doc_link: https://argo-cd.readthedocs.io/en/stable/

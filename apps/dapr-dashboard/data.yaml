@@ -13,6 +13,8 @@ description: |
     workloads by showing sidecar injection status, component health, and configuration details without
     requiring kubectl access. It integrates with the Dapr control plane to display the state of all
     Dapr resources in the cluster.
+
+why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
 show_install_tab: true
 github_repo: dapr/dashboard
 

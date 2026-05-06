@@ -12,6 +12,8 @@ description: |
 
     ArangoDB is available in a community and a commercial edition. You can use it for on-premises
     deployments, as well as a fully managed cloud service, the ArangoGraph Insights Platform.
+
+why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
 support_link: https://arangodb.com/contact/
 doc_link: https://docs.arangodb.com/stable/
 

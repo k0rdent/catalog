@@ -10,6 +10,8 @@ description: |
   (Elevenlabs, Anthropic... ) API specifications for local AI inferencing. It allows you to run LLMs, generate images, audio (and not
   only) locally or on-prem with consumer grade hardware, supporting multiple model families. Does not require GPU. It is created and
   maintained by [Ettore Di Giacinto](https://github.com/mudler).
+
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 # support_link: TODO
 
 doc_link: https://localai.io/basics/kubernetes/

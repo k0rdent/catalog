@@ -19,6 +19,8 @@ description: |
   kgateway was launched in 2018 as Gloo. Since then, the project has steadily evolved to
   become the most trusted and feature-rich API gateway for Kubernetes, processing billions
   of API requests for many of the world's biggest companies.
+
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 install_code: |
   ~~~bash
   # Install Gateway API CRDs

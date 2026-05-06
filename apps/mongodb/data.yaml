@@ -10,6 +10,8 @@ description: |
     self-manage and host it locally or in the cloud. You can also develop with MongoDB
     Atlas for free in your local environment, including local experiences for full-text
     and vector search, as well as in the cloud.
+
+why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
 support_link: https://www.mongodb.com/services/support
 
 doc_link: https://www.mongodb.com/docs/

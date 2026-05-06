@@ -11,6 +11,8 @@ description: |
     including strings, hashes, lists, sets, and sorted sets. It's a drop-in replacement for
     Redis with enhanced features and performance optimizations. Valkey can be used as a
     database, cache, message broker, and streaming engine.
+
+why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
 # support_link: https://github.com/orgs/valkey-io/discussions
 
 doc_link: https://valkey.io/docs/

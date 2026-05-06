@@ -11,6 +11,8 @@ description: |
     in your Kubernetes clusters. It automates the deployment and configuration of all the necessary
     software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
     training and high-performance computing.
+
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
 deploy_code: |
     Tested `ClusterDeployment` in AWS:

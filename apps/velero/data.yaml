@@ -8,6 +8,8 @@ github_repo: vmware-tanzu/velero
 description: |
     Velero is an open source tool to safely backup and restore, perform disaster recovery,
     and migrate Kubernetes cluster resources and persistent volumes.
+
+why_in_catalog: "Data protection is critical for AI workloads training on unique, hard-to-reproduce datasets. This ensures cluster state and persistent volumes can be recovered quickly."
 deploy_code: |
     ~~~yaml
     apiVersion: k0rdent.mirantis.com/v1beta1

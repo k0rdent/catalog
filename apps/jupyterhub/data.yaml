@@ -17,6 +17,8 @@ description: |
     a pre-configured data science environment to any user in the world. It is customizable
     and scalable, and is suitable for small and large teams, academic courses, and large-scale
     infrastructure.
+
+why_in_catalog: "Developer productivity tools that accelerate building, debugging, and managing applications on k0rdent-managed Kubernetes clusters."
 # support_link:
 
 examples:

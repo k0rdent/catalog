@@ -20,6 +20,7 @@ description: |
   ingestion and analysis, often serving as the data backbone for observability and
   security platforms.
 
+why_in_catalog: "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases."
 doc_link: https://docs.opensearch.org/latest/
 
 test_wait_for_pods: "opensearch-cluster-master-0"

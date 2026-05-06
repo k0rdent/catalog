@@ -16,6 +16,8 @@ description: |
     - Image Verification: Verify the integrity and provenance of container images, ensuring that only trusted images are deployed. 
     - Resource Validation: Validate resource configurations against security and compliance standards, preventing misconfigurations. 
     - RBAC Integration: Integrates with Kubernetes RBAC to control who can create, modify, and apply policies.
+
+why_in_catalog: "Security is non-negotiable in AI environments. This integration provides policy enforcement, secrets management, or runtime protection across multi-cluster deployments — essential for regulated industries running AI at scale."
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 
 doc_link: https://kyverno.github.io/kyverno/

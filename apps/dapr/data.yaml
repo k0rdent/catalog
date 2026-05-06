@@ -21,6 +21,7 @@ description: |
 
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_link: https://www.diagrid.io/conductor
 doc_link: https://docs.dapr.io/
 github_repo: dapr/dapr

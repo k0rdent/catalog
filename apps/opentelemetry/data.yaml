@@ -15,6 +15,7 @@ description: |
     end users.
 
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 doc_link: https://opentelemetry.io/docs/platforms/kubernetes/helm/
 
 test_wait_for_pods: "opentelemetry-operator-"

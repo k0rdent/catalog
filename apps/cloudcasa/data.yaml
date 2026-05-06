@@ -22,6 +22,7 @@ description: |
 
     For other deployment options or editions, please get in touch with the CloudCasa team.
 
+why_in_catalog: "Data protection is critical for AI workloads training on unique, hard-to-reproduce datasets. This ensures cluster state and persistent volumes can be recovered quickly."
 support_type: Partner
 
 doc_link: https://docs.cloudcasa.io

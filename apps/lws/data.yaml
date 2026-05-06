@@ -24,6 +24,8 @@ description: |
   - **Rollout and Rolling update:** Supports performing rollout and rolling update at the group level, which means the groups are upgraded one by one as a unit (i.e. the pods within a group are updated together).
   - **Topology-aware placement:** Opt-in support for pods in the same group to be co-located in the same topology.
   - **All-or-nothing restart for failure handling:** Opt-in support for all pods in the group to be recreated if one pod in the group failed or one container in the pods is restarted.
+
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 doc_link: https://lws.sigs.k8s.io/docs/
 deploy_code: |
   ~~~yaml

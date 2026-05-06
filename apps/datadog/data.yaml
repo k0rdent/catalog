@@ -42,6 +42,7 @@ description: |
     performant** through unified metrics, logs, and traces.
 
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_type: Partner
 
 support_link: https://www.datadoghq.com/dg/monitor/free-trial/

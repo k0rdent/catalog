@@ -7,6 +7,8 @@ created: "2025-03-12T08:16:55Z"
 description: |
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on OpenStack,
     simplifying container orchestration in the cloud.
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters."
 support_link: https://www.mirantis.com/software/mirantis-openstack-for-kubernetes/
 install_code: |
     ~~~yaml

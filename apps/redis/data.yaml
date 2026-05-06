@@ -22,6 +22,7 @@ description: |
   - **Vector Store for GenAI:** Integrates with AI applications (e.g. LangGraph, mem0) for short-term memory, long-term memory, LLM response caching (semantic caching), and retrieval augmented generation (RAG).
   - **Real-Time Analytics:** Powers personalization, recommendations, fraud detection, and risk assessment.
 
+why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
 doc_link: https://redis.io/docs/latest/get-started/
 
 test_wait_for_pods: "redis-"

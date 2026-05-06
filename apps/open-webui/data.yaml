@@ -14,6 +14,7 @@ description: |
     ![](https://github.com/open-webui/open-webui/blob/6f1486ffd0cb288d0e21f41845361924e0d742b3/demo.gif?raw=true){ width="700" }
     </div>
 
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 doc_link: https://docs.openwebui.com/
 
 

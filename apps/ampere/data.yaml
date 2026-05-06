@@ -16,6 +16,8 @@ description: |
   Whether deploying traditional Kubernetes services or advanced AI-enhanced applications,
   Ampere’s balance of performance-per-watt and deterministic behavior makes it a solid
   platform for production-grade, multi-cluster k0rdent workloads.
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters."
 support_link: https://amperecomputing.com/company/contact-sales
 deploy_code: |
   ~~~yaml

@@ -16,6 +16,8 @@ description: |
     - Istio Gateway deployed in each cluster for mTLS-protected inter-cluster traffic.
     - Automatic mesh enrollment via the `k0rdent.mirantis.com/istio-role: member` label on `ClusterDeployment` resources.
     - Mesh isolation via the `k0rdent.mirantis.com/istio-mesh` label, supporting multiple independent meshes.
+
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 support_type: Community
 doc_link: https://github.com/k0rdent/istio/tree/main/docs
 deploy_code: |

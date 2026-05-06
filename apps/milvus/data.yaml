@@ -30,6 +30,8 @@ description: |
     The Milvus open-source project is
     under [LF AI & Data Foundation](https://lfaidata.foundation/projects/milvus/), distributed
     with [Apache 2.0](https://github.com/milvus-io/milvus/blob/master/LICENSE) License, with Zilliz as its major contributor.
+
+why_in_catalog: "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database."
 # support_link: TODO
 
 doc_link: https://milvus.io/docs/install_cluster-helm.md

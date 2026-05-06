@@ -27,6 +27,7 @@ description: |
   teams gain deep insight into application performance and system behavior.
 
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 examples:
   tracing:
       card_title: Distributed Tracing with Tempo and Istio

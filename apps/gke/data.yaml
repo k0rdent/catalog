@@ -12,6 +12,8 @@ description: |
   - Multi-Cluster Visibility: Monitor and control GKE clusters from the k0rdent platform alongside clusters from AWS, Azure, on-prem, or other clouds.
   - Enhanced Governance and Scaling: Apply policies, automate upgrades, and scale workloads across GKE clusters using k0rdent’s governance and automation features.
   - Secure Access and IAM: Leverage Google Cloud IAM and GKE’s built-in security features while applying k0rdent’s role-based access control (RBAC) and policy enforcement across environments.
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters."
 support_link: https://cloud.google.com/support
 install_code: |
   ~~~yaml

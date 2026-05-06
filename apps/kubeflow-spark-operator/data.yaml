@@ -30,6 +30,8 @@ description: |
     - Supports automatic application restart with a configurable restart policy.
     - Supports automatic retries of failed submissions with optional linear back-off.
     - Supports collecting and exporting application-level metrics and driver/executor metrics to Prometheus.
+
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 # support_link: TODO
 
 doc_link: https://github.com/kubeflow/spark-operator

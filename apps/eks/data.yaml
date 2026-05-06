@@ -6,6 +6,8 @@ type: infra
 created: "2025-03-12T20:16:05Z"
 description: |
   Amazon Elastic Kubernetes Service (EKS) is a managed Kubernetes service offered by AWS that streamlines the deployment, management, and scaling of containerized applications. By abstracting away the complexities of the Kubernetes control plane, EKS allows users to focus on building and deploying their applications while leveraging the robust infrastructure and security of AWS. 
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters."
 support_link: https://aws.amazon.com/eks/
 install_code: |
   ~~~yaml

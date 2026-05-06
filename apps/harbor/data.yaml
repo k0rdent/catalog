@@ -12,6 +12,8 @@ description: |
     Harbor, a CNCF Graduated project, delivers compliance, performance, and interoperability to
     help you consistently and securely manage artifacts across cloud native compute platforms like
     Kubernetes and Docker.
+
+why_in_catalog: "Container registries are essential for storing and distributing the OCI artifacts and container images that AI workloads depend on."
 # support_link: TODO
 
 doc_link: https://goharbor.io/docs/latest/install-config/harbor-ha-helm/

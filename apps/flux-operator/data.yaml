@@ -46,6 +46,7 @@ description: |
   as a single unit on self-service environments. For more information, please see the
   [ResourceSet documentation](https://fluxcd.control-plane.io/operator/resourcesets/introduction/).
 
+why_in_catalog: "Reliable AI delivery requires robust CI/CD and GitOps pipelines. This integration enables teams to manage cluster configuration and model deployments declaratively."
 support_link: https://fluxcd.control-plane.io/pricing/#support-services
 doc_link: https://fluxcd.control-plane.io/operator/
 

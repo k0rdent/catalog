@@ -24,6 +24,8 @@ description: |
     - **Project Packaging:** Standardized format for reproducible machine learning projects using conda or Docker environments.
     - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
     - **REST and Python APIs:** Access all MLflow components programmatically.
+
+why_in_catalog: "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models."
 # support_link: TODO
 
 doc_link: https://mlflow.org/docs/latest/

@@ -17,6 +17,7 @@ description: |
     define once, deploy everywhere — with support for external data sources like Prometheus, Loki, Tempo,
     and Mimir.
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 github_repo: grafana/grafana-operator
 
 doc_link: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/

@@ -12,6 +12,8 @@ description: |
   - Centralized Management: Manage your AWS-based Kubernetes clusters from the k0rdent control plane, along with clusters on other platforms.
   - Cost Optimization: k0rdent can provide insights into your AWS spending and help you optimize resource allocation for your Kubernetes deployments.
   - Security and Compliance: k0rdent integrates with AWS security services to ensure your Kubernetes clusters and applications are secure and compliant with industry standards.
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters."
 support_link: https://aws.amazon.com/contact-us/
 install_code: |
   ~~~yaml

@@ -11,6 +11,8 @@ description: |
     by Tetrate. It provides advanced networking, security, and observability features while being
     compatible with upstream Istio and Envoy APIs. This makes it ideal for multi-cluster Kubernetes
     environments, especially when paired with k0rdent for federated deployment and lifecycle management.
+
+why_in_catalog: "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training."
 support_link: https://tetrate.io/contact
 support_type: Partner
 

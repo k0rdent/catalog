@@ -479,17 +479,17 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
     return {padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
   }
 
-  var whyCopy = (function(){
+  var whyCopy = item.whyInCatalog || (function(){
     var tg = item.tags[0]||"";
-    if(tg==="AI/ML") return "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration. As AI workloads become the primary driver of infrastructure investment, tools like this represent the critical layer between raw compute and production models.";
-    if(tg==="Security") return "Security is non-negotiable in AI environments. This integration provides policy enforcement, secrets management, or runtime protection across multi-cluster deployments — essential for regulated industries running AI at scale.";
+    if(tg==="AI/ML") return "Selected for its role in the AI infrastructure stack — from model training and serving to MLOps and GPU orchestration.";
+    if(tg==="Security") return "Security is non-negotiable in AI environments. This integration provides policy enforcement, secrets management, or runtime protection across multi-cluster deployments.";
     if(tg==="Monitoring") return "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health.";
-    if(tg==="Networking") return "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities essential for distributed training.";
-    if(tg==="Storage") return "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities for model checkpointing, datasets, and vector databases.";
-    if(tg==="Database") return "Data is the foundation of AI. This database is relevant for AI workloads as a vector store for RAG pipelines, a feature store for ML, or a reliable operational database.";
-    if(tg==="CI/CD") return "Reliable AI delivery requires robust CI/CD and GitOps pipelines. This integration enables teams to manage cluster configuration and model deployments declaratively.";
-    if(tg==="Backup") return "Data protection is critical for AI workloads training on unique, hard-to-reproduce datasets. This ensures cluster state and persistent volumes can be recovered quickly.";
-    return "Carefully selected by Mirantis platform engineers for its production-grade quality, active community, and proven interoperability with k0rdent-managed clusters.";
+    if(tg==="Networking") return "Modern AI workloads demand high-throughput, low-latency networking. This integration was selected for cluster connectivity, traffic management, or service mesh capabilities.";
+    if(tg==="Storage") return "AI training and inference are storage-intensive. This integration provides persistent, high-throughput, or object storage capabilities.";
+    if(tg==="Database") return "Data is the foundation of AI. This database is relevant for AI workloads as a vector store, feature store, or operational database.";
+    if(tg==="CI/CD") return "Reliable AI delivery requires robust CI/CD and GitOps pipelines.";
+    if(tg==="Backup") return "Data protection is critical for AI workloads training on unique, hard-to-reproduce datasets.";
+    return "Carefully selected by Mirantis platform engineers for its production-grade quality and proven interoperability with k0rdent-managed clusters.";
   })();
 
   return (

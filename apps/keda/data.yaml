@@ -15,6 +15,7 @@ description: |
     function. This makes KEDA a flexible and safe option to run alongside any number of any other Kubernetes applications or
     frameworks.
 
+why_in_catalog: "Observability is the foundation of reliable AI infrastructure. This tool provides the metrics, logs, or traces needed to understand GPU utilization, model latency, and cluster health."
 support_link: https://keda.sh/enterprise/
 doc_link: https://keda.sh/docs/2.17/
 
