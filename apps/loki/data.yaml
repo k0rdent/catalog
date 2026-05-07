@@ -33,7 +33,7 @@ description: |
   clusters, enabling centralized observability in multi-cluster environments. It complements
   Prometheus-based metrics monitoring by providing unified log visibility at scale.
 
-why_in_catalog: "Horizontally scalable log aggregation system designed for cost-efficient storage — correlating logs with Prometheus metrics and Tempo traces in Grafana."
+why_in_catalog: "Storing full log content in Elasticsearch costs an order of magnitude more than it should because full-text indexing of log data at scale is expensive. Loki indexes only metadata labels and stores log streams in object storage, achieving the same queryability at a fraction of the cost. Its LogQL language is intentionally similar to PromQL, and its Grafana integration means teams can jump from a metric alert directly to the correlated log stream without switching tools — making it the natural log aggregation choice for stacks already built around the Prometheus ecosystem."
 # support_link: TODO
 
 doc_link: https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/

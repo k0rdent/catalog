@@ -10,7 +10,7 @@ description: |
     and FlashBlade devices. CSI stands for Container Storage Interface. It's a standard that enables
     storage systems to communicate with Kubernetes.
 
-why_in_catalog: "Pure Storage CSI driver for dynamic provisioning of high-performance block and file volumes for AI training datasets and model storage."
+why_in_catalog: "Pure Storage FlashArray and FlashBlade deliver the NVMe-over-Fabrics performance and sub-100µs latency that checkpoint-intensive training workloads require when writing model state to persistent storage. The Pure CSI driver brings those arrays into the Kubernetes storage model with dynamic provisioning, snapshots, cloning, and volume expansion through the CSI specification. For organizations with Pure Storage infrastructure, it is the integration that makes enterprise storage performance available to AI workloads without leaving the declarative Kubernetes management model."
 support_link: https://support.purestorage.com/
 
 doc_link: https://github.com/purestorage/helm-charts

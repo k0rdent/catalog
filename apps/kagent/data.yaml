@@ -12,7 +12,7 @@ description: |
   Built specifically for DevOps and platform engineers, Kagent enables AI agents to run directly in Kubernetes clusters
   to automate operations, troubleshoot issues, and solve complex cloud-native challenges.
 
-why_in_catalog: "Kubernetes-native agentic AI framework that lets teams build, deploy, and manage AI agents directly on k0rdent clusters."
+why_in_catalog: "AI agents that can interact with Kubernetes APIs, call external tools, and take autonomous remediation actions represent a fundamentally new operations model — but running them reliably in production requires the same lifecycle management as any other workload. Kagent brings that to Kubernetes natively, defining agents as CRDs with configurable tool access, memory backends, and execution policies. For platform teams exploring AI-assisted operations — intelligent alert triage, self-healing workflows, policy-driven remediation — it is the integration point between the cluster and the agent runtime."
 support_link: https://kagent.dev
 doc_link: https://kagent.dev
 

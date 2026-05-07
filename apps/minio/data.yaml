@@ -10,7 +10,7 @@ description: |
   It is API compatible with Amazon S3 cloud storage service.
   Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads.
 
-why_in_catalog: "High-performance S3-compatible object store for AI datasets, model checkpoints, and training artifacts — delivering 325+ GiB/s on NVMe hardware."
+why_in_catalog: "Every AI infrastructure stack needs somewhere to put datasets, model checkpoints, training artifacts, and log archives that is S3-compatible, high-performance, and not owned by a cloud provider. MinIO fills that role — delivering over 325 GiB/s read throughput on NVMe hardware with the full S3 API that MLflow, Loki, Velero, and virtually every other tool in this catalog can write to natively. It is the storage primitive that makes the rest of the stack cloud-agnostic."
 # support_link:
 
 doc_link: https://min.io/docs/minio/kubernetes/upstream/index.html

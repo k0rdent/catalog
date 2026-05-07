@@ -15,7 +15,7 @@ description: |
     function. This makes KEDA a flexible and safe option to run alongside any number of any other Kubernetes applications or
     frameworks.
 
-why_in_catalog: "Event-driven autoscaler that scales AI inference pods based on queue depth, HTTP request rate, or custom Prometheus metrics."
+why_in_catalog: "Keeping inference replicas running at all times when request volume is unpredictable wastes GPU capacity. Scaling based on CPU utilization reacts too slowly for bursty AI workloads. KEDA solves both problems by scaling deployments directly on the signals that actually matter — inference request queue depth, Kafka consumer lag, SQS queue length, or any custom Prometheus metric — and scaling to zero when those signals drop to zero. For AI APIs with uneven traffic patterns, KEDA is what makes autoscaling actually responsive rather than theoretically present."
 support_link: https://keda.sh/enterprise/
 doc_link: https://keda.sh/docs/2.17/
 

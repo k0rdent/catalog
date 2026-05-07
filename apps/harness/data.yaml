@@ -21,7 +21,7 @@ description: |
     - Supports auto-upgrades and fault recovery
     - Ideal for multi-cluster setups managed by k0rdent
 
-why_in_catalog: "Lightweight CI/CD delegate enabling automated, policy-driven deployments of AI model serving pipelines across k0rdent-managed clusters."
+why_in_catalog: "Not every team wants to operate a full CI/CD platform on Kubernetes. Harness's SaaS-delivered pipelines, AI-assisted deployment verification, feature flags, and chaos engineering capabilities are all accessible from a single Delegate running inside the cluster — no inbound firewall ports, no infrastructure to manage. For organizations that want enterprise CD capabilities without the operational overhead of self-hosting Jenkins or GitLab, the Harness Delegate is the integration point that connects managed SaaS to k0rdent-managed clusters."
 support_link: https://www.harness.io/company/contact-sales
 support_type: Community
 

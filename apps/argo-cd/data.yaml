@@ -12,7 +12,7 @@ description: |
     - Simplified Deployment: k0rdent can automate the deployment and configuration of Argo CD in your clusters, reducing manual effort.
     - Policy-Driven Deployments: Leverage k0rdent's policy engine to enforce security and compliance policies for your Argo CD deployments and application configurations.
 
-why_in_catalog: "The reference GitOps controller for Kubernetes, enabling declarative management of AI platform components across large cluster fleets with ApplicationSets."
+why_in_catalog: "GitOps is the only sane way to manage AI platform components across multiple clusters at scale. Argo CD is the reference implementation — mature, CNCF graduated, with a rich UI, ApplicationSets for fleet-scale templating, and RBAC that satisfies enterprise security review. When a platform team needs to ensure that every cluster in a fleet is running exactly the right versions of GPU operators, serving frameworks, and observability components, Argo CD is the control plane that enforces it."
 support_link: https://akuity.io/security-hardened-argo-cd
 
 doc_link: https://argo-cd.readthedocs.io/en/stable/

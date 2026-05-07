@@ -15,7 +15,7 @@ description: |
     end users.
 
 
-why_in_catalog: "CNCF-standard vendor-neutral telemetry pipeline receiving traces, metrics, and logs from AI applications — exportable to any observability backend."
+why_in_catalog: "Instrumenting applications with vendor-specific tracing SDKs creates lock-in that is expensive to undo when observability backends change. OpenTelemetry provides the CNCF-standard, vendor-neutral instrumentation API and collector pipeline that receives traces, metrics, and logs from any instrumented application and exports them to any backend. Standardizing on OTel means teams can switch from Jaeger to Tempo or from a self-hosted Prometheus to Datadog without re-instrumenting a single service — the instrumentation investment is permanent regardless of which backends the organization chooses over time."
 doc_link: https://opentelemetry.io/docs/platforms/kubernetes/helm/
 
 test_wait_for_pods: "opentelemetry-operator-"

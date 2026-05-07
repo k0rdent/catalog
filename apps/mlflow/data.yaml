@@ -25,7 +25,7 @@ description: |
     - **Model Deployment:** Simplified deployment to multiple platforms — local, Kubernetes, or cloud services.
     - **REST and Python APIs:** Access all MLflow components programmatically.
 
-why_in_catalog: "Industry-standard ML experiment tracking and model registry — managing the full lifecycle from training runs to production model deployment."
+why_in_catalog: "The ML experiment tracking problem has been solved, and MLflow solved it. Its automatic metric and parameter logging, centralized model registry with staging and production promotion, and integrations with PyTorch, TensorFlow, scikit-learn, and Hugging Face Transformers are the reason it became the industry standard that every other experiment tracker is measured against. For teams that need a governed, auditable ML pipeline from experiment to production model, it is the tool that provides the complete trail from hyperparameter sweep to deployed artifact."
 # support_link: TODO
 
 doc_link: https://mlflow.org/docs/latest/

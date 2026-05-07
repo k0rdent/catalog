@@ -30,7 +30,7 @@ description: |
     sidecar-based flag evaluation model.
 
 
-why_in_catalog: "CNCF feature flag framework enabling progressive rollouts of AI model versions and A/B testing across k0rdent-managed services."
+why_in_catalog: "Releasing a new model version to 100% of production traffic immediately is a risk that most teams should not take. The OpenFeature Operator brings vendor-neutral feature flagging to Kubernetes, enabling runtime toggles that control what percentage of traffic reaches a new model, which users see experimental features, and whether a fallback model is active — without a code deployment. Its provider-agnostic SDK means teams can switch flag management backends without re-instrumenting applications, keeping the rollout control layer independent of the vendor relationship."
 doc_link: https://openfeature.dev/docs/reference/intro
 
 test_wait_for_pods: "open-feature-operator-controller-manager-"

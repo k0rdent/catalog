@@ -14,7 +14,7 @@ description: |
   Penpot is available on browser and [self host](https://penpot.app/self-host). It's web-based and works with open standards
   (SVG, CSS and HTML). And last but not least, it's free!
 
-why_in_catalog: "Open-source design platform for teams building AI-powered application interfaces — browser-based, self-hosted, and SVG-native."
+why_in_catalog: "AI platform teams building internal dashboards, admin UIs, and data visualization components need a design tool, but routing design files through Figma or Sketch means design assets live outside the organization's infrastructure. Penpot is fully self-hostable, browser-based, and produces design tokens and SVG assets that developers can consume directly. For regulated organizations where design artifacts contain sensitive product information, it provides the collaborative design environment they need without a cloud SaaS dependency."
 support_link: https://penpot.app/talk-to-us
 
 doc_link: https://help.penpot.app/technical-guide/getting-started/kubernetes/#install-penpot-chart

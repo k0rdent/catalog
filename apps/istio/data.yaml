@@ -10,7 +10,7 @@ description: |
     features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing,
     service-to-service authentication, and monitoring – with few or no service code changes.
 
-why_in_catalog: "CNCF service mesh providing transparent mTLS, traffic management, and per-request telemetry for securing communication between AI microservices."
+why_in_catalog: "Once an AI platform reaches the complexity where dozens of microservices — model servers, feature pipelines, data preprocessors, and monitoring agents — are communicating with each other, you need transparent mTLS encryption, fine-grained traffic management, and per-request telemetry without instrumenting every application. Istio delivers all three through sidecar proxies that applications never need to know about. Its canary split capabilities are particularly valuable for model A/B testing where you need precise control over what percentage of inference traffic reaches a new model version."
 support_link: https://tetrate.io/
 
 doc_link: https://istio.io/latest/docs/ambient/install/helm/

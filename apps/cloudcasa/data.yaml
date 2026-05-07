@@ -22,7 +22,7 @@ description: |
 
     For other deployment options or editions, please get in touch with the CloudCasa team.
 
-why_in_catalog: "SaaS-delivered backup and disaster recovery purpose-built for Kubernetes, protecting AI workload state and persistent volumes across k0rdent-managed clusters."
+why_in_catalog: "Most Kubernetes backup solutions require you to operate the backup infrastructure yourself. CloudCasa flips that model — the control plane is managed SaaS, and only a lightweight Helm deployment runs in your cluster. For platform teams that need reliable backup and DR for AI workloads but do not want to own another stateful system, it delivers the operational simplicity of a managed service without routing your data through an external provider."
 support_type: Partner
 
 doc_link: https://docs.cloudcasa.io

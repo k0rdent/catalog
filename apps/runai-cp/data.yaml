@@ -14,7 +14,7 @@ description: |
 
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 
-why_in_catalog: "NVIDIA Run:ai compute orchestration providing GPU quota management, workload scheduling, and utilization analytics for shared AI clusters."
+why_in_catalog: "A GPU node running a single training job at 30% utilization is a GPU node wasting 70% of its value. NVIDIA Run:ai virtualizes GPU resources across teams and projects, enabling dynamic multi-tenancy where multiple workloads share physical GPUs with guaranteed quotas, fair-share scheduling, and over-provisioning policies that increase realized utilization significantly. For organizations where GPU infrastructure represents the largest line item in the AI budget, it is the platform that turns that investment from a cost center into a shared resource that delivers more output per dollar."
 support_link: https://www.nvidia.com/en-gb/software/run-ai/
 support_type: Enterprise
 

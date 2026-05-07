@@ -26,7 +26,7 @@ description: |
     implement security, networking and visibility logic. eBPF is highly efficient
     and flexible. To learn more about eBPF, visit [eBPF.io](https://eBPF.io){ target="_blank" }.
 
-why_in_catalog: "Replaces kube-proxy with an eBPF dataplane for kernel-speed network policy, WireGuard encryption, and per-flow observability — the preferred CNI for regulated AI environments."
+why_in_catalog: "iptables-based networking does not scale to the traffic volumes and policy complexity of modern AI platforms. Cilium's eBPF dataplane enforces network policy at kernel speed, encrypts pod-to-pod traffic with WireGuard, and exposes per-flow observability through Hubble — all without sidecar proxies consuming GPU pod resources. For regulated AI deployments that need provable network isolation between tenant workloads, Cilium is the CNI that satisfies both the performance and compliance requirements simultaneously."
 support_link: https://cilium.io/enterprise/
 exclude_versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v1.0.0', 'v1.1.0', 'v1.1.1', 'v1.2.0', 'v1.3.1']
 deploy_code: |

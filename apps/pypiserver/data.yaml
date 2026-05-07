@@ -32,7 +32,7 @@ description: |
   - PyPI: <https://pypi.org/project/pypiserver/>
 
 
-why_in_catalog: "Self-hosted Python package index enabling air-gapped AI teams to distribute internal ML libraries and model packages."
+why_in_catalog: "Data science teams that publish internal Python libraries — custom model utilities, preprocessing code, feature engineering packages — need a package server that pip can install from. pypiserver provides exactly that with minimal operational overhead: a single container, no database, no authentication complexity. It is the simplest possible solution to the problem of distributing internal Python packages across training and inference environments without publishing proprietary code to the public PyPI."
 doc_link: https://community-charts.github.io/docs/category/pypiserver
 
 test_wait_for_pods: " pypiserver-"

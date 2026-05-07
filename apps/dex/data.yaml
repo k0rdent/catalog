@@ -10,7 +10,7 @@ description: |
     Dex is an identity service that acts as a bridge between your Kubernetes cluster and various identity providers. 
     Think of it as a gatekeeper that verifies who you are before granting you access to your Kubernetes resources.
 
-why_in_catalog: "Federated OpenID Connect provider that bridges external identity systems (LDAP, SAML, GitHub) to Kubernetes RBAC for AI platform access control."
+why_in_catalog: "Every organization already has an identity provider — Active Directory, Okta, Google Workspace, or a SAML 2.0 IdP — and no one wants to maintain a separate user database for their AI platform tooling. Dex bridges those upstream identity sources to the OpenID Connect tokens that Kubernetes, Grafana, Argo CD, and JupyterHub expect, enabling single sign-on across the entire platform without modifying each application's authentication logic."
 support_link: https://dexidp.io/docs/guides/kubernetes/
 deploy_code: |
     ~~~yaml

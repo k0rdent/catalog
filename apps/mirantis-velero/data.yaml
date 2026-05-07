@@ -11,7 +11,7 @@ description: |
     Velero is an open source tool to safely backup and restore, perform disaster recovery,
     and migrate Kubernetes cluster resources and persistent volumes.
 
-why_in_catalog: "Enterprise-supported Velero distribution with Mirantis-tested backup procedures, guaranteed compatibility, and incident response SLA for k0rdent clusters."
+why_in_catalog: "Velero is the right tool for Kubernetes backup and disaster recovery. The Mirantis edition exists because operating backup infrastructure at enterprise scale — with guaranteed compatibility across k0rdent versions, validated restore procedures, and an SLA that covers incident response when a restore is needed — requires more than open-source community support can provide. For organizations where data recovery is a contractual obligation rather than a best-effort practice, Mirantis Velero is the version that comes with accountability."
 support_type: Enterprise
 
 deploy_code: |

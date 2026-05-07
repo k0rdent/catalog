@@ -14,7 +14,7 @@ description: |
   Apache Tika, Tika, Apache, the Apache feather logo, and the Apache Tika project
   logo are trademarks of The Apache Software Foundation.
 
-why_in_catalog: "Content extraction toolkit parsing 1,000+ file formats into clean text — the ingestion layer for RAG document pipelines and vector store loading."
+why_in_catalog: "Enterprise knowledge bases contain documents in dozens of formats — PDFs, Word documents, Excel spreadsheets, PowerPoint presentations, HTML pages, and more — that need to become clean text before they can be chunked, embedded, and inserted into a RAG vector store. Tika parses all of them through a unified API, handling character encoding, metadata extraction, and OCR for scanned documents. It is the ingestion layer that turns a file repository into a corpus that a retrieval-augmented generation system can actually search."
 # support_link: TODO
 
 doc_link: https://tika.apache.org/

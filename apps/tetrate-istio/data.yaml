@@ -12,7 +12,7 @@ description: |
     compatible with upstream Istio and Envoy APIs. This makes it ideal for multi-cluster Kubernetes
     environments, especially when paired with k0rdent for federated deployment and lifecycle management.
 
-why_in_catalog: "FIPS 140-2 validated Istio distribution with long-term support and enterprise SLA — the preferred service mesh for regulated AI deployments."
+why_in_catalog: "Upstream Istio releases on a quarterly cadence that prioritizes new features over long-term stability. US Federal and regulated enterprise deployments need a service mesh with FIPS 140-2 validated cryptography, long-term support windows, security patches backported to stable releases, and a commercially accountable support chain. Tetrate Istio Distro provides all of that on top of upstream Istio, making it the service mesh of choice for organizations where the mesh is a compliance control, not just an infrastructure convenience."
 support_link: https://tetrate.io/contact
 support_type: Partner
 

@@ -28,7 +28,7 @@ description: |
     KubeRay is compatible with k0rdent's multi-cluster model. You can deploy it using the MultiClusterService
     and manage Ray workloads declaratively across clusters.
 
-why_in_catalog: "Kubernetes operator for Ray clusters, enabling distributed PyTorch and TensorFlow training across GPU nodes managed by k0rdent."
+why_in_catalog: "Ray is the distributed Python framework that the AI industry's most demanding workloads — large-scale model training, hyperparameter tuning, reinforcement learning, and distributed inference — are built on. KubeRay makes Ray a first-class Kubernetes citizen, provisioning clusters on demand, autoscaling workers based on task queue depth, and integrating with KServe for serving Ray Serve endpoints. For teams running the workloads that defined Ray's adoption, KubeRay is the operator that makes those workloads manageable at enterprise scale."
 # support_link:
 doc_link: https://docs.ray.io/en/latest/
 

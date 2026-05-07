@@ -35,7 +35,7 @@ description: |
   Fluentd is an essential building block for implementing observability and log aggregation in production-grade Kubernetes platforms.
 
 
-why_in_catalog: "CNCF-graduated log collector that aggregates and forwards logs from AI training runs and inference services to any backend."
+why_in_catalog: "Log data in a heterogeneous AI platform comes from dozens of sources in incompatible formats — container stdout, kernel logs, application-specific structured JSON, and vendor agent output. Fluentd's plugin ecosystem handles all of them through a unified pipeline with filtering, transformation, and multi-destination routing. Its CNCF graduation and decade of production use at petabyte scale make it a reliable foundation for teams that need flexible log collection without building custom parsing logic for each new component they add to the stack."
 doc_link: https://docs.fluentd.org/
 
 test_wait_for_pods: "fluentd-"

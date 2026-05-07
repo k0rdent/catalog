@@ -16,7 +16,7 @@ description: |
     GPUDirect RDMA on compatible systems, ensuring optimal data movement between GPUs 
     and network interfaces while reducing CPU overhead and improving application performance.
 
-why_in_catalog: "Automates RDMA networking stack deployment — Mellanox OFED, SR-IOV, and GPUDirect RDMA — for high-bandwidth distributed AI training."
+why_in_catalog: "GPUDirect RDMA allows GPU memory on one node to transfer data directly to GPU memory on another node over InfiniBand or RoCE without involving the CPU — dramatically accelerating the all-reduce operations that dominate distributed training time for large models. The NVIDIA Network Operator automates the deployment of the full RDMA software stack required for that capability — Mellanox OFED drivers, SR-IOV device plugin, and RDMA device plugin — making high-speed GPU-to-GPU networking a declarative Kubernetes configuration rather than a manual node setup procedure."
 doc_link: https://docs.nvidia.com/networking/display/kubernetes2370/network+operator
 validated_amd64: 'y'
 validated_local: 'y'

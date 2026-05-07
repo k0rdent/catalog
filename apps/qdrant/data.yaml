@@ -17,7 +17,7 @@ description: |
 
     Qdrant is also available as a fully managed **[Qdrant Cloud](https://cloud.qdrant.io/)** ⛅ including a **free tier**.
 
-why_in_catalog: "High-performance vector search engine written in Rust — purpose-built for production RAG with HNSW indexing and binary quantization."
+why_in_catalog: "RAG applications live and die by vector search performance. Qdrant is written in Rust, consistently benchmarks faster than alternatives at equivalent recall rates, and supports HNSW indexing, payload filtering, sparse vectors, binary quantization, and named vectors per point through a clean REST and gRPC API. For teams building production RAG systems where query latency directly impacts user experience, it is the vector store that does not become the bottleneck — and its Kubernetes operator makes scaling that store as declarative as scaling any other workload."
 doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
 
 # test_wait_for_pods: "milvus-standalone-"

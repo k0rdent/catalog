@@ -12,7 +12,7 @@ description: |
     software components to enable GPUs, making it easier to run GPU-accelerated workloads like AI/ML
     training and high-performance computing.
 
-why_in_catalog: "Automates the complete NVIDIA GPU software stack — drivers, CUDA toolkit, container runtime, and DCGM exporter — on every GPU node in minutes."
+why_in_catalog: "Running NVIDIA GPUs in Kubernetes without the GPU Operator means manually installing drivers, the CUDA toolkit, the container runtime configuration, the device plugin, DCGM exporter, and MIG manager on every node — and keeping all of those components in sync across kernel updates and driver releases. The GPU Operator handles the entire stack automatically, ensuring every GPU node in a k0rdent cluster presents a consistent, monitored interface to AI workloads. It is the single most important infrastructure component for any organization running GPU-accelerated AI on Kubernetes."
 support_link: https://docs.nvidia.com/datacenter/cloud-native/partner-validated/latest/k0rdent.html
 deploy_code: |
     Tested `ClusterDeployment` in AWS:

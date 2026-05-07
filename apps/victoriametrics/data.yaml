@@ -37,7 +37,7 @@ description: |
 
     For additional configuration options including authentication, retention settings, and performance tuning, refer to the [official VictoriaMetrics Helm chart documentation](https://docs.victoriametrics.com/helm/victoriametrics-single/).
 
-why_in_catalog: "Drop-in Prometheus replacement using 7x less storage and 3x less RAM — a cost-efficient metrics backend for multi-cluster AI observability."
+why_in_catalog: "Prometheus's local storage model does not scale to the metrics cardinality of large multi-cluster AI platforms — retention is limited, high-cardinality GPU metrics are expensive, and federation adds operational complexity. VictoriaMetrics is drop-in compatible with the Prometheus query API and remote write protocol, uses up to 7x less storage and 3x less RAM for the same data, and supports long-term retention natively. For organizations that have outgrown Prometheus's storage model but want to keep their existing PromQL dashboards and alerting rules, it is the upgrade path that changes the backend without changing anything else."
 prerequisites: |
     **Storage Requirements:**
 

@@ -27,7 +27,7 @@ description: |
     - Ensuring application availability during traffic spikes
     - Managing hybrid and multi-cloud environments
 
-why_in_catalog: "Dynamically adjusts cluster size based on pending pod demands, ensuring GPU nodes scale up for training jobs and scale down when idle to control costs."
+why_in_catalog: "GPU nodes are expensive. Keeping them running at full capacity twenty-four hours a day for batch training jobs that run for two hours and then sit idle is one of the most common sources of AI infrastructure waste. Cluster Autoscaler provisions GPU nodes when training jobs need them and removes them when they finish, turning a fixed infrastructure cost into a variable one that scales with actual usage. Combined with KEDA for workload-level scaling, it is the foundation of cost-efficient AI compute."
 support_link: https://github.com/kubernetes/autoscaler/issues
 doc_link: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/README.md
 

@@ -12,7 +12,7 @@ description: |
     running containers. Specifically, for each container it keeps resource isolation parameters, historical resource usage,
     histograms of complete historical resource usage and network statistics. This data is exported by container and machine-wide.
 
-why_in_catalog: "Provides per-container resource usage metrics essential for understanding GPU memory consumption and compute utilization in AI training pods."
+why_in_catalog: "Kubernetes gives you pod-level resource requests and limits, but cAdvisor gives you the actual runtime truth — real CPU consumption, memory working set, filesystem I/O, and network throughput at the individual container level. For AI workloads where a training job may be consuming far less GPU memory than allocated, or a serving container is quietly leaking memory, cAdvisor's granular signals are what feed the Prometheus alerts that catch problems before they become incidents."
 support_link: https://ckotzbauer.github.io/helm-charts
 
 doc_link: https://github.com/google/cadvisor/blob/master/docs/storage/README.md

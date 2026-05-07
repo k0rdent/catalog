@@ -10,7 +10,7 @@ description: |
     and consume storage resources. It's an open-source project that helps containerized
     applications meet their storage needs.
 
-why_in_catalog: "NetApp Trident CSI driver providing enterprise storage capabilities for AI workloads requiring high-throughput persistent volumes."
+why_in_catalog: "Enterprises with NetApp ONTAP infrastructure — on-premises or in the cloud as Azure NetApp Files or FSx for NetApp ONTAP — have storage that can be consumed by Kubernetes workloads without buying additional hardware or migrating data. NetApp Trident's NVMe/TCP and NVMe/RoCE transport support delivers the sub-100µs latency that checkpoint-heavy training workloads need, while its snapshot and cloning capabilities let AI teams duplicate large training datasets for parallel experiments by referencing existing data rather than copying it."
 support_link: https://docs.netapp.com/us-en/trident/get-help.html
 
 doc_link: https://docs.netapp.com/us-en/trident/index.html

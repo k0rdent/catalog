@@ -17,7 +17,7 @@ description: |
 
     A full working cluster example is available in examples/workload.yaml.
 
-why_in_catalog: "Ultra-lightweight messaging system handling millions of messages per second — ideal for real-time feature pipelines and AI event streaming."
+why_in_catalog: "Message brokers for AI pipelines need to be fast, simple to operate, and capable of both real-time pub/sub and durable stream semantics depending on the use case. NATS delivers sub-millisecond latency from a 3 MB binary with no external dependencies, and JetStream adds durable streams, key-value storage, and object store capabilities in the same process. For event-driven inference pipelines where a message missed means a prediction not made, NATS provides the reliability guarantees without the operational complexity of running a full Kafka cluster for every lightweight messaging use case."
 # support_link: https://nats.io/community/
 
 doc_link: https://docs.nats.io/running-a-nats-service/nats-kubernetes

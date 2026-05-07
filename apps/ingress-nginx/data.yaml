@@ -15,7 +15,7 @@ description: |
     - Policy-Driven Ingress: Leverage K0rdent's policy engine to enforce security and compliance policies for your Ingress configurations, ensuring consistency and best practices.
     - Monitoring and Observability: K0rdent integrates with monitoring tools to provide insights into the performance and health of your NGINX Ingress Controllers and the applications they expose
 
-why_in_catalog: "The most widely deployed Kubernetes ingress controller, providing reliable HTTP/HTTPS routing for AI model serving endpoints and dashboards."
+why_in_catalog: "The most widely deployed Kubernetes Ingress controller exists in this catalog because it is the lowest-friction path to exposing AI APIs and model endpoints to external traffic. Its annotation-based configuration, TLS termination, WebSocket passthrough, and rate limiting cover the requirements of most teams without introducing the complexity of a full service mesh or gateway API implementation. When teams are ready to graduate to more sophisticated routing, the other networking integrations in this catalog build naturally on top of it."
 support_link: https://www.f5.com/products/nginx/nginx-ingress-controller
 
 doc_link: https://kubernetes.github.io/ingress-nginx/

@@ -10,7 +10,7 @@ description: |
     It is a fork of the Prometheus Operator and Grafana Operator, combined into a single operator.
     It provides a collection of monitoring and alerting rules for Kubernetes clusters
 
-why_in_catalog: "Deploys Prometheus, Alertmanager, and Grafana with pre-built dashboards — including NVIDIA DCGM GPU metrics — in a single Helm install."
+why_in_catalog: "Setting up Prometheus, Alertmanager, Grafana, kube-state-metrics, node-exporter, recording rules, and dashboards individually takes days and produces a configuration that is hard to upgrade consistently. The kube-prometheus-stack bundles all of it into a single, well-tested Helm chart with pre-built NVIDIA DCGM dashboards included. It is in the catalog because it is the fastest path from a new cluster to end-to-end AI infrastructure observability, and because the vast majority of the monitoring integrations in this catalog are designed to work alongside it."
 support_link: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 doc_link: https://prometheus.io/community/

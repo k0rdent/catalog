@@ -10,7 +10,7 @@ description: |
     In short, it allows you to create Kubernetes services of type LoadBalancer in clusters that don’t
     run on a cloud provider, and thus cannot simply hook into paid products to provide load balancers.
 
-why_in_catalog: "Kubernetes LoadBalancer implementation for bare-metal clusters, enabling external access to AI inference services without a cloud provider."
+why_in_catalog: "Bare-metal and on-premises Kubernetes clusters do not have a cloud provider's load balancer controller to assign external IPs to Services of type LoadBalancer. Without MetalLB, those Services remain in a perpetual Pending state, and AI inference endpoints are only reachable through NodePort workarounds that expose node-level ports rather than stable service IPs. MetalLB solves this with either Layer 2 ARP announcements or BGP route advertisements, giving on-premises clusters the same LoadBalancer semantics that cloud clusters take for granted."
 # support_link:
 
 doc_link: https://metallb.io/

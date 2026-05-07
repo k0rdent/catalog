@@ -15,7 +15,7 @@ description: |
     the ultimate performance, security, and scalable platform for all your APIs and microservices.
 
 
-why_in_catalog: "Provides high-performance API gateway capabilities for AI inference endpoints with dynamic routing, rate limiting, and support for gRPC, WebSocket, and HTTP/3."
+why_in_catalog: "Most API gateways make you choose between performance and extensibility. APISIX handles millions of requests per second while supporting 80+ plugins for authentication, rate limiting, and traffic shaping — all configurable at runtime without restarts. For teams exposing AI inference APIs that need token-based rate limiting, JWT validation, and canary routing without rebuilding their gateway layer, it is a more capable alternative to ingress-only solutions."
 doc_link: https://apisix.apache.org/docs/helm-chart/apisix/
 
 test_wait_for_pods: "apisix-"

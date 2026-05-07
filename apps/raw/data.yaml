@@ -21,7 +21,7 @@ description: |
   configuration objects, or other Kubernetes manifests that do not require
   templating logic but should still be tracked and managed by Helm.
 
-why_in_catalog: "Utility chart rendering arbitrary Kubernetes manifests from Helm values — used for deploying custom CRDs and configurations alongside catalog apps."
+why_in_catalog: "Helm is the deployment standard for Kubernetes applications, but not every resource a platform team needs to deploy has a Helm chart — some are one-off CRDs, ConfigMaps, operator configurations, or custom resources that do not belong in a full chart. The raw chart deploys arbitrary Kubernetes YAML through the Helm lifecycle, enabling versioning, values-based parameterization, rollback, and release tracking for manifests that would otherwise be applied with kubectl and then forgotten. It is a small utility with an outsized impact on operational consistency."
 doc_link: https://github.com/bedag/helm-charts/tree/master/charts/raw
 
 test_wait_for_pods: "alpine-sleep"

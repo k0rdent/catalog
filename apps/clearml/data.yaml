@@ -20,7 +20,7 @@ description: |
   - [Reports](https://clear.ml/docs/latest/docs/webapp/webapp_reports) - Create and share rich MarkDown documents supporting embeddable online content
   - [Orchestration Dashboard](https://clear.ml/docs/latest/docs/webapp/webapp_orchestration_dash/) - Live rich dashboard for your entire compute cluster (Cloud / Kubernetes / On-Prem)
 
-why_in_catalog: "Open-source MLOps platform covering experiment tracking, data versioning, and pipeline orchestration for end-to-end ML lifecycle management."
+why_in_catalog: "Reproducing a training run six months later is harder than it sounds when you cannot remember which dataset version, hyperparameter combination, and code commit produced the model in production. ClearML automatically captures all of that — metrics, artifacts, environment, and code state — for every experiment, without requiring engineers to instrument their training scripts beyond a two-line import. Its model registry and remote execution agents turn ad-hoc notebook experiments into a governed, auditable ML pipeline."
 support_link: https://clear.ml/contact-us
 
 doc_link: https://clear.ml/docs/latest/docs/

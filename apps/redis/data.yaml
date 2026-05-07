@@ -22,7 +22,7 @@ description: |
   - **Vector Store for GenAI:** Integrates with AI applications (e.g. LangGraph, mem0) for short-term memory, long-term memory, LLM response caching (semantic caching), and retrieval augmented generation (RAG).
   - **Real-Time Analytics:** Powers personalization, recommendations, fraud detection, and risk assessment.
 
-why_in_catalog: "In-memory data structure store serving as feature cache, session store, and pub/sub backbone for real-time AI applications."
+why_in_catalog: "Semantic caching for LLM APIs — storing the responses to embeddings-similar queries and returning the cached result instead of making a new API call — can reduce inference costs by 40% or more for applications with repetitive query patterns. Redis is the implementation substrate for that pattern, and also for the feature stores, session management, and pub/sub messaging that AI applications need at sub-millisecond latency. Its data structure breadth — strings, hashes, sorted sets, streams, and geospatial indexes — means it solves multiple infrastructure problems that would otherwise require separate services."
 doc_link: https://redis.io/docs/latest/get-started/
 
 test_wait_for_pods: "redis-"

@@ -10,7 +10,7 @@ description: |
   Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway.
   Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
 
-why_in_catalog: "Implements the Kubernetes Gateway API on Envoy proxy, providing advanced traffic routing for AI inference APIs with rate limiting and authentication."
+why_in_catalog: "The Kubernetes Ingress API was never designed for the routing complexity of modern AI platforms — token-based rate limiting, model-version traffic splits, and cross-cluster service exposure all require annotations that are ingress-controller-specific and non-portable. Envoy Gateway implements the Kubernetes Gateway API standard, giving teams portable, vendor-neutral routing configuration that works identically across cloud providers and does not lock them into a specific controller's annotation dialect."
 doc_link: https://gateway.envoyproxy.io/docs/install/install-helm/
 # support_link:
 

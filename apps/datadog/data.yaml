@@ -42,7 +42,7 @@ description: |
     performant** through unified metrics, logs, and traces.
 
 
-why_in_catalog: "Cloud-scale observability platform unifying metrics, traces, and logs with native Kubernetes and GPU monitoring for AI infrastructure teams."
+why_in_catalog: "Not every organization wants to operate their own observability stack. Datadog's Kubernetes integration auto-discovers pods and services, its GPU monitoring extension surfaces NVIDIA DCGM metrics per workload, and its unified platform correlates infrastructure metrics, APM traces, logs, and security signals in one place. For teams that want comprehensive AI infrastructure observability without the operational overhead of running Prometheus, Loki, Tempo, and Grafana themselves, Datadog is the verified partner alternative."
 support_type: Partner
 
 support_link: https://www.datadoghq.com/dg/monitor/free-trial/

@@ -12,7 +12,7 @@ description: |
     layer (Postgres & Redis). Please check the link for more information on
     [high-availability](https://docs.mirantis.com/msr/4.0/install/installation-with-high-availability.html){ target="_blank" .bold }.
 
-why_in_catalog: "Mirantis Secure Registry providing enterprise container image management with vulnerability scanning and compliance controls for AI artifacts."
+why_in_catalog: "Organizations running Mirantis Kubernetes Engine already have a support relationship with Mirantis. MSR 4 extends that to the container registry layer — providing an enterprise Harbor distribution with Mirantis-managed installation, upgrades, and support, so the registry that stores AI model images and Helm charts is covered by the same SLA as the cluster infrastructure beneath it. For teams that want a single vendor relationship covering the full stack from cluster to registry, it eliminates the gap between the platform and the artifact store."
 support_link: https://docs.mirantis.com/msr/4.13/get-support.html
 doc_link: https://docs.mirantis.com/msr/4.13/overview.html
 

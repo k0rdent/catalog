@@ -12,7 +12,7 @@ description: |
     tools — equaling 7x faster cycles, better developer productivity, reduced software spend,
     and more time to focus on the features that set your business apart.
 
-why_in_catalog: "Self-managed DevSecOps platform providing source control, CI/CD pipelines, and container registry for AI model development workflows."
+why_in_catalog: "Data sovereignty requirements and air-gap constraints mean many regulated organizations cannot use cloud-hosted CI/CD. Running GitLab on k0rdent gives those teams the complete DevSecOps lifecycle — source control, pipelines, container registry, dependency scanning, and deployment environments — on their own infrastructure, with full control over where code, model definitions, and deployment artifacts are stored. For AI teams in healthcare, finance, and government, self-hosted GitLab is often a compliance requirement, not just a preference."
 support_link: https://about.gitlab.com/enterprise/
 deploy_code: |
     In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:

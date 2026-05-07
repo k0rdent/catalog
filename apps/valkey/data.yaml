@@ -12,7 +12,7 @@ description: |
     Redis with enhanced features and performance optimizations. Valkey can be used as a
     database, cache, message broker, and streaming engine.
 
-why_in_catalog: "Open-source Redis-compatible in-memory store maintained by the Linux Foundation — a truly open alternative for caching and feature serving in AI workloads."
+why_in_catalog: "When Redis changed its license in 2024, the community forked it as Valkey under the Linux Foundation with BSD licensing and a governance model that ensures it remains genuinely open source. Valkey is fully API-compatible with Redis 7.2 — the same data structures, commands, persistence modes, and RESP3 protocol — so existing Redis workloads migrate without code changes. For organizations with open-source licensing requirements or concerns about Redis's licensing trajectory, it is the drop-in alternative that maintains compatibility without the license risk."
 # support_link: https://github.com/orgs/valkey-io/discussions
 
 doc_link: https://valkey.io/docs/

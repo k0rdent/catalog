@@ -18,7 +18,7 @@ description: |
     and scalable, and is suitable for small and large teams, academic courses, and large-scale
     infrastructure.
 
-why_in_catalog: "Spawns isolated Jupyter notebook environments for data scientists, providing shared GPU access and collaboration on k0rdent-managed clusters."
+why_in_catalog: "Data scientists should not need to provision their own Kubernetes infrastructure to run experiments. JupyterHub spawns isolated, authenticated notebook environments with configurable CPU, memory, and GPU resource profiles from a single multi-tenant deployment — giving researchers on-demand compute through a browser without granting them cluster access. Its KubeSpawner backend creates per-user pods with persistent volume mounts, making it the standard self-service compute surface for ML teams on Kubernetes."
 # support_link:
 
 examples:

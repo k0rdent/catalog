@@ -22,7 +22,7 @@ description: |
     (e.g., canary rollouts), and security policies of applications running across the
     k0rdent-managed fleet from a single point of control.
 
-why_in_catalog: "Visual service mesh console showing real-time traffic topology, health monitoring, and routing validation for Istio-managed AI services."
+why_in_catalog: "When something goes wrong in an Istio service mesh — a model server timing out, a feature pipeline dropping requests, a circuit breaker tripping — diagnosing the problem from raw Envoy metrics requires expertise most teams do not have on call. Kiali translates that complexity into auto-generated topology graphs, real-time traffic flow animations, and configuration validation that make inter-service communication issues immediately visible. For AI platforms built on Istio, it is the operational interface that turns mesh observability data into actionable insights."
 # support_link: TODO
 
 doc_link: https://kiali.io/docs/installation/installation-guide/install-with-helm/

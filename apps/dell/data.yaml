@@ -46,7 +46,7 @@ description: |
     - Please refer to the [Dell CSM official documentation](https://dell.github.io/csm-docs/docs/support/) for the helm install instructions.
     - The details of all possible values is available on the [helm-charts repository](https://github.com/dell/helm-charts/blob/main/installation-wizard/container-storage-modules/values.yaml).
 
-why_in_catalog: "Dell Container Storage Modules provide enterprise storage capabilities for AI workloads requiring high-throughput persistent volumes on Dell infrastructure."
+why_in_catalog: "Enterprises running AI on Dell PowerStore, PowerFlex, or PowerScale arrays should not need to choose between their existing storage investments and cloud-native workload management. Dell CSM brings those arrays into the Kubernetes storage model as first-class CSI volumes with dynamic provisioning, snapshots, cloning, and QoS policies — letting AI teams consume enterprise storage with the same declarative API they use for everything else, without a forklift upgrade."
 support_link: https://dell.github.io/csm-docs/docs/support/
 
 doc_link: https://dell.github.io/csm-docs/docs/

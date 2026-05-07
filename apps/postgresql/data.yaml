@@ -13,7 +13,7 @@ description: |
     The broader open source community offers extensive knowledge and support, helping users get started, deepen their expertise,
     and stay connected.
 
-why_in_catalog: "The world's most advanced open-source relational database — the default backend for MLflow metadata, Airflow state, and AI application data."
+why_in_catalog: "PostgreSQL is the default relational database for AI platform infrastructure not because it is the most exotic choice, but because it is the most reliable one. MLflow, Argo CD, Keycloak, JupyterHub, and dozens of other catalog integrations use it as their metadata backend. Its pgvector extension adds embedding vector storage and kNN search, making it a hybrid store for applications that need relational data and vector search without operating a separate vector database for modest-scale retrieval workloads."
 # support_link:
 
 doc_link: https://github.com/bitnami/charts/tree/main/bitnami/postgresql

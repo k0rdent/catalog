@@ -44,7 +44,7 @@ description: |
 
   [k0rdent Enterprise Required.](https://www.mirantis.com/software/mirantis-k0rdent-enterprise/)
 
-why_in_catalog: "Mirantis production-hardened observability stack providing logging, monitoring, and alerting pre-configured for k0rdent Enterprise clusters."
+why_in_catalog: "Building a production-grade LMA stack from individual components — configuring collectors, writing alert rules, building dashboards, wiring the log pipeline — takes weeks and produces a system that is fragile to upgrade. Mirantis StackLight delivers that complete stack pre-configured and production-hardened for k0rdent Enterprise clusters, with pre-built OpenStack and Kubernetes dashboards, curated alert rules, and a centralized log pipeline backed by Mirantis 24x7 support. For organizations that need observability on day one without a platform engineering sprint to build it, it is the managed alternative to assembling the stack yourself."
 support_link: https://www.mirantis.com/software/mcp/stacklight/
 support_type: Enterprise
 

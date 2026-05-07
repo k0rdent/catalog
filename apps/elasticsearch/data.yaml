@@ -18,7 +18,7 @@ description: |
     * Application performance monitoring (APM)
     * Security logs
 
-why_in_catalog: "The ECK Operator automates Elasticsearch cluster lifecycle on Kubernetes — provisioning, scaling, upgrades, and TLS — for production search and analytics backends."
+why_in_catalog: "Full-text search and vector search are increasingly the same problem. Elasticsearch's kNN search API and dense vector field type let teams build hybrid retrieval systems that combine BM25 keyword matching with approximate nearest-neighbor embedding search in a single query — without operating a separate vector database alongside a separate search engine. For AI applications that need semantic search over enterprise document corpora, ECK-managed Elasticsearch is a compelling single-store solution."
 support_link: https://www.elastic.co/contact
 
 doc_link: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart

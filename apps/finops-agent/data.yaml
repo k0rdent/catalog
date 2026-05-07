@@ -19,7 +19,7 @@ description: |
   - **Quantile Predictions**: Generates confidence intervals (P10, P50, P90) for risk assessment
   - **Cluster-aware**: Supports multi-cluster deployments with intelligent data aggregation
 
-why_in_catalog: "k0rdent-native cost intelligence agent that provides per-workload GPU and compute cost attribution using Prometheus metrics."
+why_in_catalog: "Cloud cost visibility tools tell you what you spent last month. FinOps Agent tells you what you are likely to spend next month, using time-series forecasting on Prometheus cost metrics to generate forward-looking estimates that teams can act on before the bill arrives. It is the k0rdent-native component that powers the catalog's FinOps dashboard and enables budget alerts and what-if modeling for GPU node pool scaling decisions — turning cost data from a retrospective report into a proactive planning signal."
 deploy_code: |
   FinOps Agent assumes that:
   1. the user has kof installed with the k0rdent.

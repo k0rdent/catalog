@@ -15,7 +15,7 @@ description: |
   - Evaluation: Use custom or pre-built scorers alongside our comparison tools to systematically assess and enhance application performance.
   - Guardrails: Protect your application with safeguards for content moderation, prompt safety, and more.
 
-why_in_catalog: "LLM observability and evaluation framework capturing call traces, token usage, and evaluation scores for deployed AI models."
+why_in_catalog: "LLM applications fail in ways that infrastructure metrics cannot detect — a model that produces grammatically correct but factually wrong responses, a prompt template that degrades in quality after a fine-tuning run, an embedding model whose retrieval recall drops after a version update. W&B Weave captures LLM call traces, token usage, latency, and evaluation scores, and provides evaluation pipelines and prompt version comparison tools to detect those quality regressions before they reach users. For the self-hosted edition, it runs as a Kubernetes operator so evaluation data stays inside the organization's infrastructure."
 support_link: https://wandb.ai/site/support/
 support_type: Partner
 

@@ -25,7 +25,7 @@ description: |
   - **Topology-aware placement:** Opt-in support for pods in the same group to be co-located in the same topology.
   - **All-or-nothing restart for failure handling:** Opt-in support for all pods in the group to be recreated if one pod in the group failed or one container in the pods is restarted.
 
-why_in_catalog: "LeaderWorkerSet API for orchestrating multi-node AI training and inference workloads that require coordinated pod groups across GPU nodes."
+why_in_catalog: "LLMs with 70 billion or more parameters cannot fit in the memory of a single GPU. Running multi-node distributed inference for those models on Kubernetes requires coordinated scheduling of leader and worker pods as a unit, graceful restarts that replace the entire group when any member fails, and gang scheduling semantics that ensure all nodes are available before the workload starts. LeaderWorkerSet provides exactly that API. Without it, serving large frontier models on Kubernetes requires bespoke operator logic that most teams should not need to write."
 doc_link: https://lws.sigs.k8s.io/docs/
 deploy_code: |
   ~~~yaml

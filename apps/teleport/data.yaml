@@ -15,7 +15,7 @@ description: |
     Kubernetes Service on a Linux server. For instructions on enrolling a Kubernetes cluster with Teleport, read
     the [Kubernetes Access](https://goteleport.com/docs/enroll-resources/kubernetes-access/introduction/) documentation..
 
-why_in_catalog: "Zero-trust infrastructure access with MFA, session recording, and audit logging — securing SSH and kubectl access to AI training clusters."
+why_in_catalog: "VPNs and bastion hosts give broad network access and generate audit logs that are hard to correlate with specific actions. Teleport gives engineers exactly the access they are authorized for — kubectl to specific clusters, SSH to specific nodes, queries to specific databases — through short-lived certificates with enforced MFA, and records every session in a tamper-evident audit log. For AI platform teams that need to demonstrate to auditors that access to training clusters and model databases is controlled, logged, and revocable, it is the zero-trust access layer that makes that demonstration straightforward."
 # support_link: TODO
 
 doc_link: https://goteleport.com/docs/installation/helm/

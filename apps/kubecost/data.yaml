@@ -11,7 +11,7 @@ description: |
     spending. It provides real-time visibility into the costs associated with your Kubernetes deployments, enabling you
     to understand where your money is going and identify opportunities for savings.
 
-why_in_catalog: "Real-time cost allocation and optimization showing per-namespace, per-workload GPU and compute spend across k0rdent clusters."
+why_in_catalog: "Cloud bills for AI infrastructure arrive after the GPU nodes have already run. Kubecost surfaces the same cost information in real time — per-namespace, per-deployment, per-label — so platform teams can see which training jobs, inference services, and data pipelines are consuming disproportionate budget before the month ends. Its rightsizing recommendations identify over-provisioned workloads that can be reduced without performance impact, making it the FinOps tool that pays for itself on the first oversized GPU job it catches."
 support_link: https://www.kubecost.com/
 doc_link: https://docs.kubecost.com/
 

@@ -31,7 +31,7 @@ description: |
     - Supports automatic retries of failed submissions with optional linear back-off.
     - Supports collecting and exporting application-level metrics and driver/executor metrics to Prometheus.
 
-why_in_catalog: "Manages Apache Spark applications on Kubernetes for large-scale data processing and feature engineering in AI training pipelines."
+why_in_catalog: "Apache Spark is the standard for large-scale data processing, but running it on Kubernetes without an operator means manually managing driver pods, executor lifecycles, retry logic, and resource cleanup. The Spark Operator handles all of that through a SparkApplication CRD, making large-scale feature engineering, dataset preprocessing, and batch scoring jobs first-class Kubernetes workloads. For ML teams whose pipelines span from raw data to trained model, it is the component that brings the data processing tier into the same declarative management model as everything else."
 # support_link: TODO
 
 doc_link: https://github.com/kubeflow/spark-operator

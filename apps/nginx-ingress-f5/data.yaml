@@ -23,7 +23,7 @@ description: |
 
   Ideal for use cases requiring sophisticated routing, protocol-level control, and enterprise support.
 
-why_in_catalog: "NGINX Plus-based ingress controller from F5 with advanced traffic management, JWT authentication, and WAF for securing AI endpoints."
+why_in_catalog: "The community ingress-nginx controller handles routing. The F5 NGINX Plus edition adds what regulated industries and security-conscious organizations need on top of routing: an integrated Web Application Firewall, JWT authentication, Active Health Checks, and support for NGINX App Protect policies that can inspect and block malicious requests before they reach a model endpoint. For teams that need proven WAF protection in front of AI APIs — not a separate WAF appliance bolted on afterward — it is the ingress controller that builds that capability in."
 support_link: https://www.f5.com/products/nginx/nginx-ingress-controller
 support_type: Partner
 

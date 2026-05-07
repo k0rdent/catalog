@@ -11,7 +11,7 @@ description: |
   only) locally or on-prem with consumer grade hardware, supporting multiple model families. Does not require GPU. It is created and
   maintained by [Ettore Di Giacinto](https://github.com/mudler).
 
-why_in_catalog: "Drop-in OpenAI API replacement running LLMs entirely on local infrastructure — enabling private, air-gapped AI deployments on k0rdent clusters."
+why_in_catalog: "Sending inference requests to OpenAI or other cloud LLM providers is incompatible with air-gapped deployments, data sovereignty requirements, and the need to keep sensitive inputs — patient records, financial data, proprietary code — off external infrastructure. LocalAI provides a drop-in OpenAI API replacement that runs quantized models entirely on local hardware, supporting GGUF, GGML, and other efficient formats across CPU and GPU. For regulated industries and government deployments where data cannot leave the organization's control, it is the LLM runtime that makes self-hosted AI genuinely operational."
 # support_link: TODO
 
 doc_link: https://localai.io/basics/kubernetes/

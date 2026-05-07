@@ -20,7 +20,7 @@ description: |
 
   [Official doc](https://docs.n8n.io/)
 
-why_in_catalog: "Self-hosted workflow automation platform connecting AI models with business systems through 400+ integrations and a visual canvas."
+why_in_catalog: "Data labeling, ETL pipelines, and AI-triggered notification workflows share a common requirement: connecting dozens of APIs, databases, and services in sequences that change frequently as the AI application evolves. n8n's visual node editor and 400+ pre-built integrations make those connections fast to build and easy to modify, while its code nodes support arbitrary Python and JavaScript for logic that cannot be expressed visually. For data science teams that need workflow automation without writing and deploying a custom service for every new pipeline, it removes the infrastructure overhead from the iteration loop."
 doc_link: https://docs.n8n.io/
 
 validated_amd64: 'y'

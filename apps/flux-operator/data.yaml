@@ -46,7 +46,7 @@ description: |
   as a single unit on self-service environments. For more information, please see the
   [ResourceSet documentation](https://fluxcd.control-plane.io/operator/resourcesets/introduction/).
 
-why_in_catalog: "Manages Flux CD installations for GitOps-driven delivery of AI platform configurations across k0rdent-managed clusters."
+why_in_catalog: "The Flux Operator takes the operational complexity out of running Flux CD itself — handling installation, upgrades, health checks, and the coordination of Flux's multi-component architecture through a single FluxInstance CRD. For platform teams that have adopted GitOps as their delivery model, it is the recommended way to ensure Flux is running correctly on every k0rdent-managed cluster without treating the GitOps controller itself as a manually managed component."
 support_link: https://fluxcd.control-plane.io/pricing/#support-services
 doc_link: https://fluxcd.control-plane.io/operator/
 

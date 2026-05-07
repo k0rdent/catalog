@@ -35,7 +35,7 @@ description: |
     * Point-In-Time-Recovery with pg_basebackup/WAL-E via Spilo
     * Includes popular PostgreSQL extensions
 
-why_in_catalog: "Automates PostgreSQL cluster provisioning with high availability, automated backups, and rolling upgrades for AI platform databases."
+why_in_catalog: "A single PostgreSQL instance is not production. The Zalando Postgres Operator delivers HA PostgreSQL clusters on Kubernetes using Patroni for leader election, WAL-G for continuous archiving, and PgBouncer for connection pooling — all managed through a Postgresql CRD. For MLflow, Argo CD, and other stateful platform components that need a reliable relational backend without a managed cloud database, it provides database-as-a-service semantics on infrastructure the organization controls."
 # support_link:
 
 doc_link: https://postgres-operator.readthedocs.io/

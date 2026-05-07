@@ -25,7 +25,7 @@ description: |
     > and managed via the community-maintained [Codecentric Helm chart](https://github.com/codecentric/helm-charts),
     > which tracks upstream Keycloak container images and follows recommended configuration practices.
 
-why_in_catalog: "Self-hosted identity and access management providing SSO, MFA, and identity federation for securing AI platform access."
+why_in_catalog: "Every organization's AI platform eventually needs a centralized identity layer — SSO for Grafana, Argo CD, JupyterHub, and internal tooling, with role-based access control that maps to the organization's existing group structure. Keycloak provides that in a self-hosted, data-sovereign package that supports LDAP, Active Directory, social login, and SAML 2.0 without routing authentication through an external SaaS provider. For regulated industries where user identity data cannot leave the organization's infrastructure, it is the IAM platform that satisfies both the technical and compliance requirements."
 doc_link: https://www.keycloak.org/documentation
 validated_amd64: 'y'
 validated_local: 'y'

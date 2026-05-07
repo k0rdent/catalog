@@ -27,7 +27,7 @@ description: |
   teams gain deep insight into application performance and system behavior.
 
 
-why_in_catalog: "Distributed tracing backend storing traces in object storage at minimal cost — integrated with Grafana for AI serving pipeline latency analysis."
+why_in_catalog: "Distributed tracing data stored in Elasticsearch is expensive because trace data is high-cardinality and high-volume. Tempo stores traces in object storage — S3, GCS, or Azure Blob — with no index beyond trace IDs, achieving a cost reduction of one to two orders of magnitude compared to search-engine-based backends. Its Grafana integration and exemplar linking mean teams can jump from a slow Prometheus metric directly to the distributed trace that explains the latency spike in a model serving pipeline, without operating expensive search infrastructure to enable that navigation."
 examples:
   tracing:
       card_title: Distributed Tracing with Tempo and Istio

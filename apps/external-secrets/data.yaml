@@ -11,7 +11,7 @@ description: |
     synchronize them. The controller fetches secrets from an external API and creates Kubernetes secrets. If the secret
     from the external API changes, the controller will reconcile the state in the cluster and update the secrets accordingly.
 
-why_in_catalog: "Synchronizes secrets from Vault, AWS Secrets Manager, and other providers into Kubernetes, securing API keys and credentials for AI model serving."
+why_in_catalog: "Storing API keys, database credentials, and signing certificates in Git — even encrypted — creates a secrets sprawl problem that is hard to audit and harder to rotate. External Secrets Operator keeps sensitive values in HashiCorp Vault, AWS Secrets Manager, or Azure Key Vault where they belong, and syncs them into Kubernetes Secrets on a schedule. AI workloads get the credentials they need through the standard Kubernetes Secret interface without the platform team ever committing a sensitive value to a repository."
 support_link: https://external-secrets.io/latest/introduction/stability-support/
 
 doc_link: https://external-secrets.io/v0.18.2/

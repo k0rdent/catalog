@@ -36,7 +36,7 @@ description: |
     - Source code: [GitHub – jenkinsci/jenkins](https://github.com/jenkinsci/jenkins)  
     - Community & contribution guide: [Participate](https://www.jenkins.io/participate/)
 
-why_in_catalog: "Battle-tested automation server for building CI/CD pipelines that test, package, and deploy AI applications across k0rdent clusters."
+why_in_catalog: "Jenkins has been the backbone of CI/CD automation for fifteen years, and its 1,800+ plugin ecosystem means virtually any build, test, or deployment workflow can be expressed as a pipeline. Running it on Kubernetes with ephemeral pod-based agents means ML teams can execute GPU training jobs, data validation steps, and integration tests on dynamically provisioned nodes that terminate when the pipeline finishes — turning Jenkins into an on-demand ML compute scheduler, not just a code build system."
 # support_link: TODO
 
 doc_link: https://www.jenkins.io/doc/

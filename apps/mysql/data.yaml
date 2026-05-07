@@ -15,7 +15,7 @@ description: |
   running and maintaining MySQL databases in containerized environments, providing a
   centralized control plane for managing the underlying Kubernetes infrastructure.
 
-why_in_catalog: "MySQL Operator automating InnoDB Cluster provisioning with high availability — a reliable relational backend for ML pipeline metadata."
+why_in_catalog: "MySQL InnoDB Cluster with Group Replication is a mature, battle-tested solution for high-availability relational data, and the MySQL Operator makes it a first-class Kubernetes workload with automated provisioning, failover, and rolling upgrades. For AI applications that are built on MySQL — whether legacy systems being modernized or new applications where the team's operational expertise is in MySQL rather than PostgreSQL — the operator brings enterprise HA semantics to the database tier without requiring a migration."
 support_link: https://www.mysql.com/about/contact/
 
 doc_link: https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html

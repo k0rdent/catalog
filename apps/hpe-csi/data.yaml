@@ -13,7 +13,7 @@ description: |
     provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads running
     on Kubernetes.
 
-why_in_catalog: "HPE CSI driver for dynamic provisioning of persistent volumes on HPE storage arrays — supporting AI workloads requiring high-throughput block storage."
+why_in_catalog: "Organizations running AI on HPE Nimble, Primera, Alletra, or MSA arrays should not need to abandon their storage investments when moving workloads to Kubernetes. The HPE CSI Driver brings those arrays into the Kubernetes storage model with dynamic provisioning, snapshots, cloning, and QoS settings — the same declarative storage API that cloud-native workloads expect, backed by the enterprise storage hardware the organization already owns and supports."
 support_link: https://scod.hpedev.io/legal/support/
 
 doc_link: https://scod.hpedev.io/

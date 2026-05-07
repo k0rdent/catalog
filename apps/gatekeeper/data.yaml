@@ -8,7 +8,7 @@ github_repo: open-policy-agent/gatekeeper
 description: |
     A customizable cloud native policy controller that helps enforce policies and strengthen governance.
 
-why_in_catalog: "OPA-based admission controller enforcing security policies, GPU resource quotas, and compliance guardrails across AI workloads."
+why_in_catalog: "Kyverno policies are YAML-native and approachable. OPA Gatekeeper policies are written in Rego and are more expressive for complex governance logic — multi-resource constraints, external data lookups, and hierarchical policy structures. For organizations with existing OPA investment or compliance requirements that demand policy-as-code with auditable, version-controlled Rego, Gatekeeper is the admission controller that delivers that model without requiring a complete policy rewrite."
 support_link: https://github.com/open-policy-agent/gatekeeper
 
 doc_link: https://open-policy-agent.github.io/gatekeeper/website/docs

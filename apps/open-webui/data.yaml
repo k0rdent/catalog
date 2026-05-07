@@ -14,7 +14,7 @@ description: |
     ![](https://github.com/open-webui/open-webui/blob/6f1486ffd0cb288d0e21f41845361924e0d742b3/demo.gif?raw=true){ width="700" }
     </div>
 
-why_in_catalog: "Self-hosted ChatGPT-equivalent interface supporting multiple LLM backends, RAG document upload, and conversation management."
+why_in_catalog: "Organizations deploying self-hosted LLMs for internal use need more than an API endpoint — they need a usable interface that non-technical users can actually interact with. Open WebUI provides multi-model switching, document upload for RAG, conversation history, user management, and a plugin system in a single container that works with Ollama and any OpenAI-compatible backend. It is the fastest way to give an organization's users a private ChatGPT-equivalent backed by models running entirely on their own infrastructure, without building a custom frontend."
 doc_link: https://docs.openwebui.com/
 
 

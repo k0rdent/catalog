@@ -18,7 +18,7 @@ description: |
     This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
     and comprehensive observability for AI applications running on AMD hardware.
 
-why_in_catalog: "Automates the full AMD GPU software stack on Kubernetes — ROCm drivers, device plugin, and node labeling — so AI training nodes are ready in minutes instead of hours."
+why_in_catalog: "AMD Instinct GPUs are increasingly competitive for AI training workloads, but getting ROCm drivers, the device plugin, and node labels consistently deployed across a cluster has historically been a manual, error-prone process. The AMD GPU Operator handles every layer of that stack automatically, bringing AMD GPU nodes to production-ready state with the same single-Helm-install experience that the NVIDIA GPU Operator established as the standard."
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
 deploy_code: |
     Tested `ClusterDeployment` in Azure:

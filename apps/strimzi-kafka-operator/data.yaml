@@ -26,7 +26,7 @@ description: |
    - **Prometheus monitoring** - Built-in support for monitoring using Prometheus.
    - **Grafana Dashboards** - Built-in support for loading Grafana® dashboards via the grafana_sidecar
 
-why_in_catalog: "Manages Apache Kafka clusters on Kubernetes — providing the high-throughput event backbone for real-time AI feature pipelines and audit trails."
+why_in_catalog: "Real-time feature pipelines for ML serving, continuous model input streaming, and audit trails for AI decision systems all share a common requirement: a high-throughput, durable, ordered event log that can replay history and handle the ingest volumes that operational AI systems produce. Kafka is the answer the industry converged on, and Strimzi makes Kafka a first-class Kubernetes workload with CRD-driven management of brokers, topics, users, and MirrorMaker 2 replication — all with TLS and SASL security built in."
 # support_link: TODO
 
 doc_link: https://strimzi.io/documentation/

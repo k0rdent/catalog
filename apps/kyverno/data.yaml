@@ -17,7 +17,7 @@ description: |
     - Resource Validation: Validate resource configurations against security and compliance standards, preventing misconfigurations. 
     - RBAC Integration: Integrates with Kubernetes RBAC to control who can create, modify, and apply policies.
 
-why_in_catalog: "Kubernetes-native policy engine that validates and mutates workload manifests — enforcing security baselines and resource constraints for AI deployments."
+why_in_catalog: "Security policies that exist only as documentation do not prevent misconfigured GPU workloads from running without resource limits, containers from running as root, or sensitive namespaces from being accessed by workloads that should not reach them. Kyverno enforces those policies at the admission webhook in YAML — no Rego required — blocking non-compliant resources before they are created, mutating resources to add required fields automatically, and generating dependent resources like NetworkPolicies. It is the policy engine that turns security requirements from a checklist into a technical control."
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 
 doc_link: https://kyverno.github.io/kyverno/

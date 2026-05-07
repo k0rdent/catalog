@@ -30,7 +30,7 @@ description: |
     
     By deploying KServe from the catalog, k0rdent enables users to build and scale ML inference services while leveraging Kubernetes-native infrastructure.
 
-why_in_catalog: "Kubernetes-native model inference platform with autoscaling, canary rollouts, and multi-framework support for production ML serving."
+why_in_catalog: "Serving ML models in production involves far more than wrapping a model in a Flask endpoint. KServe handles the full serving lifecycle — canary rollouts, explainability, model monitoring, multi-model serving, GPU autoscaling, and a unified InferenceService API that works identically for TensorFlow, PyTorch, XGBoost, scikit-learn, and custom runtimes. It is the serving framework that CNCF, major cloud providers, and most AI platform teams converged on as the production standard, and it is why model serving in k0rdent stacks does not require bespoke infrastructure."
 # support_link:
 
 doc_link: https://kserve.github.io/website/master/get_started/

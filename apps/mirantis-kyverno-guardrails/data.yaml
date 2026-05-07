@@ -12,7 +12,7 @@ prerequisites: |
 description: |
     Kyverno Guardrails is a set of best-practice Kyverno Cluster-wide policies that can be deployed to enforce security and compliance best practices in your Kubernetes cluster. These policies are designed to help you ensure that your cluster is secure, compliant, and well-configured.
 
-why_in_catalog: "Enterprise-hardened Kyverno policy collection validated and supported by Mirantis for production AI platform security enforcement."
+why_in_catalog: "The community Kyverno Guardrails library provides a strong security baseline. The Mirantis edition extends it with additional AI workload policies, CIS Kubernetes Benchmark controls, and compliance mappings for SOC 2, HIPAA, PCI DSS, and FedRAMP — backed by Mirantis 24x7 support that includes policy updates as new vulnerabilities and compliance requirements emerge. For organizations where the baseline is a starting point rather than a final state, and where a support SLA is required for the policy layer itself, this is the edition that satisfies both requirements."
 support_type: Enterprise
 
 doc_link: https://kyverno.io/policies/

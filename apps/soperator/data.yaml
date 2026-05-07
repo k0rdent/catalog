@@ -16,7 +16,7 @@ description: |
     1. Slurm Operator (soperator)
     2. Slurm Cluster 
 
-why_in_catalog: "Deploys and manages NVIDIA Slurm clusters on Kubernetes for HPC and large-scale distributed AI training workloads."
+why_in_catalog: "The HPC community built Slurm over decades to schedule the kinds of jobs — MPI workloads, array jobs, resource reservations, and preemption — that AI training at scale still depends on. Soperator brings Slurm's mature batch scheduling to Kubernetes infrastructure managed by k0rdent, bridging the gap between traditional supercomputing workflows and cloud-native orchestration. For organizations migrating HPC workloads to Kubernetes who cannot or do not want to rewrite their Slurm-based pipeline tooling, it is the integration that makes that migration possible without abandoning the scheduler."
 support_link: https://github.com/nebius/soperator
 support_type: Partner
 

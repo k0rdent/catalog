@@ -34,7 +34,7 @@ description: |
   with Loki and Tempo deployments managed through the k0rdent catalog, forming a complete, multi-cluster
   observability stack.
 
-why_in_catalog: "Grafana Alloy unifies telemetry collection — Prometheus scraping, OTel pipelines, and log forwarding — into a single agent, reducing per-node overhead in GPU-dense AI clusters."
+why_in_catalog: "Most observability stacks end up running three or four separate agents per node — one for metrics, one for logs, one for traces. Alloy collapses that into a single programmable collector with a component model that routes telemetry to any backend. For AI infrastructure teams that need consistent signal collection across GPU nodes, training clusters, and inference endpoints without bloating node overhead, it is the most practical path to a unified telemetry pipeline."
 doc_link: https://grafana.com/docs/alloy/latest/
 
 test_wait_for_pods: "alloy-"

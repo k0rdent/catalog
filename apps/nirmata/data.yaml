@@ -14,7 +14,7 @@ description: |
   - Kyverno & Kubernetes 2-year LTS
   - 0-CVE images with SLAs for critical fixes
 
-why_in_catalog: "Commercial Kyverno distribution providing enterprise support, policy management console, and compliance reporting for AI platform governance."
+why_in_catalog: "Kyverno policy authoring and multi-cluster policy distribution are engineering problems. Ensuring those policies map to SOC 2, HIPAA, PCI DSS, and FedRAMP controls and generating the compliance reports that auditors actually need is a different problem. Nirmata Enterprise solves the second problem with a management console, policy-as-code workflows, and compliance reporting dashboards that translate technical policy enforcement into the documentation that compliance and audit teams require — backed by commercial support from the team that maintains Kyverno upstream."
 support_link: https://nirmata.com/nirmata-enterprise-for-kyverno/
 support_type: Partner
 

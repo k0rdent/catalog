@@ -22,7 +22,7 @@ description: |
   With the ability to acknowledge message delivery and to replicate messages across a cluster, you can
   ensure your messages are safe with RabbitMQ.
 
-why_in_catalog: "Standards-based message broker providing reliable async communication between AI pipeline stages — training, inference, and post-processing."
+why_in_catalog: "Not every AI pipeline needs Kafka's partition model and consumer group semantics. RabbitMQ's AMQP-based routing exchanges, configurable durability, and dead-letter handling cover the requirements of task queues, work distribution patterns, and guaranteed-delivery notification workflows that represent the majority of asynchronous communication in AI applications. Its Kubernetes operator handles cluster formation, rolling upgrades, and topology-aware replication, making it the right choice for teams whose messaging patterns fit the queue model rather than the log model."
 support_link: https://www.rabbitmq.com/commercial-features
 
 doc_link: https://www.rabbitmq.com/docs

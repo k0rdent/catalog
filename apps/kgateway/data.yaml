@@ -20,7 +20,7 @@ description: |
   become the most trusted and feature-rich API gateway for Kubernetes, processing billions
   of API requests for many of the world's biggest companies.
 
-why_in_catalog: "Feature-rich Kubernetes Gateway API implementation with advanced routing, rate limiting, and security for AI service endpoints."
+why_in_catalog: "Standard Kubernetes Ingress controllers were not designed for the specific challenges of AI API traffic — token-based rate limiting for LLM endpoints, model failover routing when a backend becomes unhealthy, and prompt guard policies that inspect request payloads before they reach a model. kgateway's AI-native extensions address those requirements on top of an Envoy-powered Gateway API implementation, making it the most purpose-built ingress solution for teams exposing multiple model backends behind a single, policy-enforced API surface."
 install_code: |
   ~~~bash
   # Install Gateway API CRDs

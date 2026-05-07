@@ -12,7 +12,7 @@ description: |
 
     In a broader sense, ExternalDNS allows you to control DNS records dynamically via Kubernetes resources in a DNS provider-agnostic way.
 
-why_in_catalog: "Automatically manages DNS records for Kubernetes Services and Ingresses, ensuring AI endpoints are discoverable without manual DNS configuration."
+why_in_catalog: "As AI inference endpoints proliferate across clusters and environments, manually maintaining DNS records becomes a reliability risk — a misconfigured or forgotten record means a model endpoint is unreachable. ExternalDNS watches Kubernetes Services and Ingresses and keeps DNS records in Route 53, Azure DNS, and 30+ other providers automatically synchronized with the cluster state, so new model deployments are publicly reachable within seconds of the Service being created."
 examples:
     cloudflare:
         title: Cloudflare

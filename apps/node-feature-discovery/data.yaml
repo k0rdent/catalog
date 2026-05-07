@@ -11,7 +11,7 @@ description: |
     It detects hardware features available on each node in a Kubernetes cluster, and advertises those
     features using node labels and optionally node extended resources, annotations and node taints.
 
-why_in_catalog: "Detects GPU models, CPU features, and hardware capabilities on cluster nodes — enabling intelligent scheduling of AI workloads to appropriate hardware."
+why_in_catalog: "Scheduling a large language model training job onto a node without NVLink, or an RDMA-intensive workload onto a node without ConnectX NICs, wastes resources and produces incorrect behavior. Node Feature Discovery labels nodes with the hardware capabilities they actually have — GPU models, PCIe devices, CPU instruction sets, NUMA topology, and kernel features — so scheduler rules can target the specific hardware that each AI workload requires. It is the prerequisite that makes hardware-aware scheduling possible without maintaining a manual inventory of node capabilities."
 support_link: https://github.com/kubernetes-sigs/node-feature-discovery?tab=readme-ov-file
 
 doc_link: https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html

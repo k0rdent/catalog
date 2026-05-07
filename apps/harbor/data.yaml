@@ -13,7 +13,7 @@ description: |
     help you consistently and securely manage artifacts across cloud native compute platforms like
     Kubernetes and Docker.
 
-why_in_catalog: "CNCF container and artifact registry with vulnerability scanning, RBAC, and replication — securing the OCI artifacts that AI workloads depend on."
+why_in_catalog: "Pushing AI model images and Helm charts to a public registry creates audit gaps and potential data exposure. Harbor provides a private, on-premises registry with vulnerability scanning, content trust signing, replication, and RBAC that satisfies the artifact management requirements of regulated industries — all on infrastructure the organization controls. For teams that need an auditable chain of custody from model training artifact to deployed container image, Harbor is the registry layer that provides it."
 # support_link: TODO
 
 doc_link: https://goharbor.io/docs/latest/install-config/harbor-ha-helm/

@@ -11,7 +11,7 @@ description: |
     Atlas for free in your local environment, including local experiences for full-text
     and vector search, as well as in the cloud.
 
-why_in_catalog: "Document database with flexible schema and aggregation pipeline — commonly used for AI application metadata, session state, and event logs."
+why_in_catalog: "Document databases fit the data shapes that AI applications naturally produce — nested objects, variable schemas, and semi-structured metadata that would require dozens of joined tables in a relational model. MongoDB's aggregation pipeline, flexible document model, and horizontal scalability make it a natural fit for AI application operational data — session state, user profiles, recommendation metadata, and event logs — where the schema evolves as the application matures. The Community Operator makes it a first-class Kubernetes workload with automated replica set management."
 support_link: https://www.mongodb.com/services/support
 
 doc_link: https://www.mongodb.com/docs/

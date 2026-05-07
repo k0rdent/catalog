@@ -9,7 +9,7 @@ description: |
     Cert-manager is a Kubernetes add-on that automates the management of TLS certificates.
     It can issue, renew, and validate certificates from various sources, including public and private issuers.
 
-why_in_catalog: "Automates TLS certificate lifecycle across k0rdent clusters, ensuring mTLS between AI microservices stays current without manual intervention."
+why_in_catalog: "TLS certificates that expire unexpectedly are one of the most common causes of production outages, and manually rotating certificates across a multi-cluster AI platform is operationally untenable. cert-manager eliminates the problem entirely by automating issuance and renewal from any CA, ensuring mTLS between model serving components, feature stores, and databases is always current. It is a prerequisite for nearly every other security integration in this catalog."
 support_link: https://cert-manager.io/support/
 
 doc_link: https://cert-manager.io/docs/installation/helm/

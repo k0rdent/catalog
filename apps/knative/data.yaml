@@ -25,7 +25,7 @@ description: |
 
     By deploying the Knative Operator alongside Istio from the catalog, k0rdent enables users to build and scale event-driven applications while leveraging Kubernetes-native infrastructure.
 
-why_in_catalog: "Serverless framework enabling scale-to-zero AI inference endpoints and event-driven data processing pipelines on Kubernetes."
+why_in_catalog: "Inference endpoints that handle variable traffic need to scale down to zero when idle to avoid paying for GPU capacity that is not serving requests, and scale up quickly when demand returns. Knative's serving layer provides exactly that behavior — scale-to-zero, rapid scale-up, and traffic splitting for canary deployments — without requiring teams to implement their own autoscaling logic. Its eventing layer connects cloud events to workloads declaratively, enabling trigger-based inference pipelines where a document upload or database change automatically initiates a model run."
 support_link: https://knative.dev/community/
 
 doc_link: https://knative.dev/docs/install/operator/knative-with-operators/

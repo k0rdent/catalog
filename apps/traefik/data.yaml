@@ -38,7 +38,7 @@ description: |
   Traefik can be configured to run as the default ingress controller for the cluster, allowing applications that create
   Ingress resources to be exposed automatically.
 
-why_in_catalog: "Cloud-native reverse proxy with automatic service discovery and Gateway API support — a flexible ingress option for AI serving endpoints."
+why_in_catalog: "Teams that want their ingress controller to discover services automatically — without writing Ingress resources or annotations for every new deployment — find Traefik's provider-based dynamic configuration model more ergonomic than NGINX's static configuration approach. Its middleware system handles rate limiting, circuit breaking, OAuth forwarding, and request mirroring, and its native Let's Encrypt integration automates TLS without cert-manager. For greenfield deployments where service discovery and automatic TLS are higher priorities than annotation-based routing control, it is the ingress controller worth evaluating."
 # support_link: TODO
 
 examples:

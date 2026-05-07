@@ -31,7 +31,7 @@ description: |
     under [LF AI & Data Foundation](https://lfaidata.foundation/projects/milvus/), distributed
     with [Apache 2.0](https://github.com/milvus-io/milvus/blob/master/LICENSE) License, with Zilliz as its major contributor.
 
-why_in_catalog: "Cloud-native vector database designed for billion-scale similarity search — the backbone of production RAG pipelines and recommendation systems."
+why_in_catalog: "Qdrant and Milvus occupy the same space — purpose-built vector databases for billion-scale similarity search — and the catalog includes both because the choice between them depends on deployment scale, operational preferences, and specific index requirements. Milvus's disaggregated storage-compute architecture handles the largest-scale deployments, its streaming ingestion pipeline handles high-throughput writes, and its GPU-accelerated distance computation handles queries over the largest indexes. For enterprise RAG systems at the upper end of the scale curve, Milvus is the vector store that does not become a bottleneck."
 # support_link: TODO
 
 doc_link: https://milvus.io/docs/install_cluster-helm.md

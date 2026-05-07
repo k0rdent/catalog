@@ -21,7 +21,7 @@ description: |
 
     Observability: Offers built-in observability features, including tracing, metrics, and logging.
 
-why_in_catalog: "Provides portable building blocks for microservices — service invocation, state management, pub/sub — simplifying distributed AI application architectures."
+why_in_catalog: "Building distributed AI pipelines means connecting inference services, data processors, notification systems, and storage backends across cloud and on-premises environments. Dapr provides the building-block APIs — pub/sub, state management, service invocation, secrets, and workflows — that abstract away those infrastructure differences so application code stays portable. It is particularly valuable for event-driven inference pipelines where a model serving endpoint, a result processor, and an alerting service need to compose without tight coupling to a specific message broker or cloud service."
 support_link: https://www.diagrid.io/conductor
 doc_link: https://docs.dapr.io/
 github_repo: dapr/dapr

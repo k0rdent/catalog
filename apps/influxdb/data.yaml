@@ -20,7 +20,7 @@ description: |
   InfluxDB is optimized for scenarios where near real-time data monitoring is essential and queries 
   need to return quickly to support user experiences such as dashboards and interactive user interfaces.
 
-why_in_catalog: "Purpose-built time-series database for high-ingest workloads — sensor data, performance counters, and operational metrics that feed predictive AI models."
+why_in_catalog: "Relational databases and general-purpose time-series stores both struggle with the high-cardinality, high-frequency ingest patterns that IoT and operational AI systems produce. InfluxDB's columnar storage engine, native downsampling, and purpose-built query interfaces handle millions of data points per second without the schema management overhead of SQL. For AI applications that train predictive models on time-ordered operational data — sensor readings, performance counters, financial ticks — InfluxDB is the storage layer that keeps ingest and query performant as data volumes grow."
 # support_link: TODO
 
 doc_link: https://docs.influxdata.com/influxdb/v2/

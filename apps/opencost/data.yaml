@@ -11,7 +11,7 @@ description: |
     It's specifically designed for Kubernetes cost monitoring, providing visibility into your spending and helping you understand how
     resources are being used.
 
-why_in_catalog: "CNCF vendor-neutral cost allocation showing real-time per-workload compute and GPU spend — the foundation for AI infrastructure FinOps."
+why_in_catalog: "Cloud cost tools aggregate spend by account and service. OpenCost understands Kubernetes constructs — pods, namespaces, deployments, labels — and attributes shared node costs fairly across tenant workloads in real time using actual cloud pricing APIs. For AI platform teams managing multiple teams on shared GPU infrastructure, it provides the cost attribution granularity needed to implement chargeback, identify wasteful workloads, and make informed decisions about node pool sizing before the monthly bill arrives."
 support_link: https://www.kubecost.com/kubernetes-cost-optimization/kubecost-vs-opencost/
 
 doc_link: https://opencost.io/

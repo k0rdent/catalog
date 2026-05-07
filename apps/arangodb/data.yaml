@@ -13,7 +13,7 @@ description: |
     ArangoDB is available in a community and a commercial edition. You can use it for on-premises
     deployments, as well as a fully managed cloud service, the ArangoGraph Insights Platform.
 
-why_in_catalog: "Combines document, key-value, and graph models in one engine — well-suited for knowledge graphs and entity relationships that power RAG pipelines and recommendation systems."
+why_in_catalog: "Most AI applications eventually need to model relationships between entities — documents linked to authors, products connected to categories, knowledge graph nodes connected by semantic edges. ArangoDB handles all of that in a single engine without forcing a polyglot persistence architecture. Its integrated graph traversal and AQL query language make it particularly well-suited for knowledge graphs that power RAG systems and AI-driven recommendation engines."
 support_link: https://arangodb.com/contact/
 doc_link: https://docs.arangodb.com/stable/
 

@@ -10,7 +10,7 @@ description: |
     Since its inception in 2012, many companies and organizations have adopted Prometheus, and
     the project has a very active developer and user community.
 
-why_in_catalog: "The CNCF-standard metrics backend scraping GPU utilization, model latency, and cluster health from every component in the AI infrastructure stack."
+why_in_catalog: "Prometheus is the monitoring substrate that every other observability integration in this catalog is built on top of. NVIDIA DCGM exports GPU metrics to it. kube-state-metrics exposes cluster state through it. Grafana visualizes it. KEDA scales workloads based on it. FinOps Agent forecasts costs from it. It is in the catalog not because it needs explanation but because no AI infrastructure stack is complete without it, and its PromQL query language and alert rule format have become the lingua franca of Kubernetes observability."
 examples:
     with_ingress:
         title: With Ingress
