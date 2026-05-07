@@ -4,6 +4,7 @@ title: OpenTelemetry Collector
 summary: "High-quality, ubiquitous, and portable telemetry to enable effective observability."
 logo: "./assets/icon.svg" # https://techicons.dev/icons/opentelemetry
 created: "2025-12-09T00:00:00Z"
+github_repo: open-telemetry/opentelemetry-collector
 description: |
     OpenTelemetry, also known as OTel, is a vendor-neutral open source Observability
     framework for instrumenting, generating, collecting, and exporting telemetry data
