@@ -4,6 +4,7 @@ title: OpenSearch
 summary: "Open Source Search and Analytics Suite."
 logo: "./assets/icon.svg" # https://opensearch.org/trademark-brand-policy/
 created: "2025-12-02T00:00:00Z"
+github_repo: opensearch-project/OpenSearch
 description: |
   OpenSearch is a community-driven, open-source search and analytics suite derived from
   Elasticsearch and Kibana.
