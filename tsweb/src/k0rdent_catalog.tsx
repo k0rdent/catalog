@@ -503,7 +503,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <AppLogo name={item.name} size={44} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:4}}>
-                <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{item.name}</h2>
+                <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{item.title||item.name}</h2>
                 <span style={{fontSize:9,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[eff]}</span>
               </div>
               <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
@@ -609,7 +609,7 @@ function Card({ item, onOpen }) {
         <AppLogo name={item.name} size={32} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
-            <span style={{fontWeight:600,fontSize:12.5,color:B.textPri}}>{item.name}</span>
+            <span style={{fontWeight:600,fontSize:12.5,color:B.textPri}}>{item.title||item.name}</span>
             <span style={{fontSize:8.5,padding:"1px 5px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[eff]}</span>
           </div>
           <div style={{display:"flex",gap:4,marginTop:3,flexWrap:"wrap"}}>
