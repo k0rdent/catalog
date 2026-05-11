@@ -29,7 +29,7 @@ export default defineConfig({
             }
 
             // SPA fallback: rewrite /apps/<name>/, /contribute/, /solutions/, /configurator/ to /
-            if (cleanUrl.match(/^\/apps\/[^/]+\/?$/) || cleanUrl.match(/^\/(contribute|solutions|configurator)\/?$/)) {
+            if (cleanUrl.match(/^\/(apps|infra)\/[^/]+\/?$/) || cleanUrl.match(/^\/(contribute|solutions|infra|configurator)\/?$/)) {
               req.url = "/" + (req.url!.split("?")[1] ? "?" + req.url!.split("?")[1] : "");
               next();
               return;

@@ -112,7 +112,7 @@ jobs:
           echo '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>' > tsweb/deploy/index.html
 
           # SPA route stubs — place index.html at known SPA routes
-          for route in contribute solutions configurator; do
+          for route in contribute solutions infra configurator; do
             mkdir -p tsweb/deploy/latest/$route
             cp tsweb/dist/index.html tsweb/deploy/latest/$route/index.html
           done
@@ -139,7 +139,7 @@ jobs:
                   if os.path.exists(assets_src) and not os.path.exists(assets_dst):
                       shutil.copytree(assets_src, assets_dst)
                   # SPA route stubs for versioned paths
-                  for route in ['contribute', 'solutions', 'configurator']:
+                  for route in ['contribute', 'solutions', 'infra', 'configurator']:
                       route_dir = os.path.join(dst, route)
                       os.makedirs(route_dir, exist_ok=True)
                       shutil.copy2('tsweb/dist/index.html', os.path.join(route_dir, 'index.html'))

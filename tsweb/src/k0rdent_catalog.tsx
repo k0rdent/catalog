@@ -234,6 +234,7 @@ function CIBadge({ s }) {
 
 var RAW:any[] = [];
 var SOLUTIONS:any[] = [];
+var INFRA:any[] = [];
 var HARDCODED_SOLUTIONS:any[] = [
   {"id": "ai-inference-stack", "title": "AI Inference Stack", "category": "AI/ML", "tier": "mirantis-certified", "badge": "Production Ready", "badgeColor": "#00c8c8", "icon": "⬡", "tagline": "GPU-optimized inference serving at enterprise scale", "desc": "A fully integrated stack for deploying and serving LLMs and ML models in production. Combines GPU provisioning, model serving, observability, and autoscaling into a single validated blueprint for organizations running LLM inference and real-time prediction workloads.", "useCases": ["LLM inference endpoints (OpenAI-compatible)", "Embedding generation for RAG pipelines", "Real-time ML prediction serving", "Multi-model A/B testing and canary deployments"], "components": [{"name": "nvidia", "role": "GPU Operator", "why": "Automates GPU driver, CUDA, and device plugin deployment"}, {"name": "kserve", "role": "Model Serving", "why": "Kubernetes-native inference platform with autoscaling"}, {"name": "open-webui", "role": "LLM Interface", "why": "Self-hosted OpenAI-compatible UI for model interaction"}, {"name": "ollama", "role": "Local LLM Runtime", "why": "Lightweight LLM runtime for on-prem model hosting"}, {"name": "kube-prometheus-stack", "role": "GPU Observability", "why": "Pre-built DCGM dashboards for GPU utilization tracking"}, {"name": "keda", "role": "Event-driven Autoscaling", "why": "Scale inference pods based on request queue depth"}, {"name": "lws", "role": "Multi-node Inference", "why": "LeaderWorkerSet for large multi-GPU model deployments"}], "clouds": ["AWS EC2", "Azure VM", "Bare Metal"], "k8s": ["1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ai-inference-stack\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: ai-inference\n  serviceSpec:\n    services:\n    - template: gpu-operator-25-10-1\n      name: nvidia-gpu-operator\n      namespace: gpu-operator\n    - template: kserve-v0-15-0\n      name: kserve\n      namespace: kserve\n    - template: keda-2-19-0\n      name: keda\n      namespace: keda", "beta": true},
   {"id": "mlops-platform", "title": "MLOps Platform", "category": "AI/ML", "tier": "mirantis-certified", "badge": "Production Ready", "badgeColor": "#00c8c8", "icon": "◈", "tagline": "End-to-end ML lifecycle management on Kubernetes", "desc": "A complete MLOps platform for teams building, training, and deploying ML models. Covers the full lifecycle from experiment tracking and dataset versioning to distributed training and model registry, all running on k0rdent-managed Kubernetes with GitOps delivery.", "useCases": ["Experiment tracking and reproducibility", "Distributed model training on GPU clusters", "Model registry and versioning", "Automated ML pipeline orchestration"], "components": [{"name": "mlflow", "role": "Experiment Tracking", "why": "Industry-standard ML experiment and model registry"}, {"name": "kuberay", "role": "Distributed Training", "why": "Ray clusters for distributed PyTorch and TensorFlow"}, {"name": "kubeflow-spark-operator", "role": "Data Processing", "why": "Apache Spark for large-scale feature engineering"}, {"name": "minio", "role": "Artifact Storage", "why": "S3-compatible storage for datasets and model checkpoints"}, {"name": "jupyterhub", "role": "Notebook Environment", "why": "Shared Jupyter notebooks for data scientists"}, {"name": "postgresql", "role": "Metadata Store", "why": "Reliable backend for MLflow and pipeline metadata"}], "clouds": ["AWS EC2", "AWS EKS", "Azure VM", "Azure AKS", "Bare Metal"], "k8s": ["1.29", "1.30", "1.31", "1.32"], "deployYaml": "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mlops-platform\nspec:\n  clusterSelector:\n    matchLabels:\n      workload: mlops\n  serviceSpec:\n    services:\n    - template: mlflow-1-8-1\n      name: mlflow\n      namespace: mlops\n    - template: kuberay-operator-1-5-1\n      name: kuberay\n      namespace: kuberay\n    - template: minio-14-1-2\n      name: minio\n      namespace: minio", "beta": true},
@@ -425,17 +426,17 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
 
   return (
     <div>
-      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+      {item.versions && item.versions.length > 0 && <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
         <span style={{fontSize:12,color:B.textSec}}>Version:</span>
         <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
           {item.versions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
         </select>
         {item.tested&&<span style={{fontSize:9.5,color:B.green,background:B.green+"15",border:"1px solid "+B.green+"30",borderRadius:3,padding:"2px 7px"}}>CI-validated</span>}
-      </div>
+      </div>}
       {stepBlock(1, "Prerequisites", installData.prerequisitesHtml)}
       {verData && <div key={"install-"+effectiveVer}>{stepBlock(2, "Install template to k0rdent", verData.installHtml)}</div>}
-      {verData && <div key={"verify-"+effectiveVer}>{stepBlock(3, "Verify service template", verData.verifyHtml)}</div>}
-      {verData && <div key={"deploy-"+effectiveVer}>{stepBlock(4, "Deploy service template", verData.deployHtml)}</div>}
+      {verData && <div key={"verify-"+effectiveVer}>{stepBlock(3, "Verify "+(item.type==="infra"?"cluster":"service")+" template", verData.verifyHtml)}</div>}
+      {verData && <div key={"deploy-"+effectiveVer}>{stepBlock(4, "Deploy "+(item.type==="infra"?"cluster":"service")+" template", verData.deployHtml)}</div>}
       {installData.examples.length > 0 && (
         <div style={{marginTop:20,borderTop:"1px solid "+B.border,paddingTop:16}}>
           <div style={{fontSize:11,fontWeight:600,color:B.textPri,marginBottom:12,textTransform:"uppercase",letterSpacing:0.5}}>Examples</div>
@@ -512,7 +513,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
           <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
-            {["overview","install","validation","cost"].filter(function(t){ return t !== "install" || item.showInstall !== false; }).map(function(t){
+            {["overview","install","validation","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"))return false; return true; }).map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
@@ -520,7 +521,16 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
           </div>
         </div>
         <div className="k0-detail-content" style={{padding:"18px 22px",flex:1}}>
-          {tab==="overview" && (
+          {tab==="overview" && item.type==="infra" && (
+            <div>
+              {item.descriptionHtml ? <HtmlWithCopy html={item.descriptionHtml} style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}/> : <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>}
+              <div style={{marginTop:16,padding:"11px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
+                <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
+                <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
+              </div>
+            </div>
+          )}
+          {tab==="overview" && item.type!=="infra" && (
             <div>
               <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>
               <div style={{background:B.bg2,border:"1px solid "+B.borderHi,borderRadius:8,padding:"12px 14px",marginBottom:16,display:"flex",gap:10}}>
@@ -531,7 +541,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
                 </div>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
-                {[{l:"Latest version",v:item.version},{l:"Chart name",v:item.chartName},{l:"Support tier",v:SUPPORT_LABEL[eff]},{l:"CI validated",v:item.tested?"Yes":"Not yet"},{l:"Versions available",v:String(item.versions.length)},{l:"Last updated",v:item.created?item.created.slice(0,10):"—"}].map(function(r){
+                {[{l:"Latest version",v:item.version},{l:"Chart name",v:item.chartName},{l:"Support tier",v:SUPPORT_LABEL[eff]},{l:"CI validated",v:item.tested?"Yes":"Not yet"},{l:"Versions available",v:String(item.versions.length)},{l:"Last updated",v:item.lastUpdated?item.lastUpdated.slice(0,10):"—"}].map(function(r){
                   return <div key={r.l} style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}><div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}</div><div style={{fontSize:12.5,color:B.textPri,fontWeight:500,fontFamily:(r.l.includes("ersion")||r.l.includes("Chart"))?"monospace":"inherit"}}>{r.v}</div></div>;
                 })}
               </div>
@@ -602,7 +612,7 @@ function Card({ item, onOpen }) {
       </div>
       <p style={{fontSize:11,color:B.textSec,marginTop:8,lineHeight:1.55,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",flex:1}}>{item.desc}</p>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:8,paddingTop:7,borderTop:"1px solid "+B.border}}>
-        <span style={{fontSize:9.5,color:item.tested?B.green:B.amber}}>{item.tested?"✓ CI-validated":"⚠ Not tested"}</span>
+        {item.tested&&<span style={{fontSize:9.5,color:B.green}}>{"✓ CI-validated"}</span>}
         <span style={{fontSize:9.5,color:B.teal,fontWeight:500}}>View details</span>
       </div>
     </div>
@@ -1283,6 +1293,59 @@ function ConfiguratorPage() {
   );
 }
 
+function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string }) {
+  var [selected, setSelected] = useState<any>(null);
+  var [detailTab, setDetailTab] = useState(initDtab || "overview");
+  var [detailVer, setDetailVer] = useState("");
+
+  // Restore selected infra from URL
+  useEffect(function(){
+    if (initInfraApp && !selected) {
+      var found = INFRA.find(function(i:any){ return i.name === initInfraApp; });
+      if (found) setSelected(found);
+    }
+  }, [initInfraApp]);
+
+  // Sync detail tab to URL
+  useEffect(function(){
+    if (selected) {
+      var p = new URLSearchParams();
+      if (detailTab && detailTab !== "overview") p.set("dtab", detailTab);
+      var qs = p.toString();
+      history.replaceState(null, "", versionBase(k0rdentVer || "") + "infra/" + selected.name + "/" + (qs ? "?" + qs : ""));
+    }
+  }, [detailTab]);
+
+  function openInfra(item:any) {
+    setSelected(item);
+    setDetailTab("overview");
+    setDetailVer("");
+    history.pushState(null, "", versionBase(k0rdentVer || "") + "infra/" + item.name + "/");
+  }
+  function closeInfra() {
+    setSelected(null);
+    setDetailTab("overview");
+    setDetailVer("");
+    history.pushState(null, "", versionBase(k0rdentVer || "") + "infra/");
+  }
+
+  return (
+    <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
+      <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
+        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Multi-cloud · On-premises · Edge</div>
+        <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Deploy Kubernetes Clusters <span style={{color:B.teal}}>Anywhere</span></h1>
+        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px",textAlign:"justify"}}>k0rdent is designed to be a versatile and adaptable multi-cluster Kubernetes management system that can deploy and manage Kubernetes clusters across a wide range of infrastructure environments.</p>
+      </div>
+      <div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
+        {INFRA.map(function(item:any){
+          return <Card key={item.name} item={item} onOpen={function(){openInfra(item);}}/>;
+        })}
+      </div>
+      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} onClose={closeInfra}/>}
+    </div>
+  );
+}
+
 function ContributePage() {
   var [html, setHtml] = useState("");
   var [loading, setLoading] = useState(true);
@@ -1326,9 +1389,10 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
             </select>
           )}
           <div className="k0-nav-tabs" style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
-            {["catalog","solutions","configurator"].map(function(v){
+            {["catalog","infra","solutions","configurator"].map(function(v){
               var active=view===v;
-              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{v}{v==="configurator"&&<span style={{fontSize:8,marginLeft:4,padding:"1px 4px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</button>;
+              var label=v==="infra"?"Infrastructure":v;
+              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{label}{v==="configurator"&&<span style={{fontSize:8,marginLeft:4,padding:"1px 4px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</button>;
             })}
           </div>
         </div>
@@ -1347,7 +1411,7 @@ var BASE = (function(){
   if (b) return b.getAttribute("href") || "/";
   var s = document.querySelector('script[src*="k0rdent_catalog"]');
   if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
-  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/(contribute|solutions|configurator)\/?$/, "/").replace(/\/+$/, "/");
+  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/infra\/[^/]+\/?$/, "/").replace(/\/(contribute|solutions|infra|configurator)\/?$/, "/").replace(/\/+$/, "/");
   return p || "/";
 })();
 
@@ -1372,10 +1436,13 @@ function readUrlParams() {
   // Parse app name from /apps/<name>/ path
   var appMatch = pathname.match(/\/apps\/([^/]+)/);
   var app = appMatch ? appMatch[1] : (p.get("app") || "");
-  // Detect /contribute/ path
-  var pathView = pathname.match(/\/(contribute|solutions|configurator)\/?$/);
+  // Parse infra name from /infra/<name>/ path
+  var infraMatch = pathname.match(/\/infra\/([^/]+)/);
+  var infraApp = infraMatch ? infraMatch[1] : "";
+  // Detect view from path
+  var pathView = infraMatch ? "infra" : (pathname.match(/\/(contribute|solutions|infra|configurator)\/?$/) || [null,null])[1];
   return {
-    view: pathView ? pathView[1] : (p.get("view") || "catalog"),
+    view: pathView || (p.get("view") || "catalog"),
     search: p.get("q") || "",
     tag: p.get("tag") || "All",
     support: p.get("support") || "All",
@@ -1386,6 +1453,7 @@ function readUrlParams() {
     ver: p.get("ver") || "",
     sol: p.get("sol") || "",
     scat: p.get("scat") || "All",
+    infraApp: infraApp,
   };
 }
 
@@ -1403,7 +1471,7 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
 }
 
 function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
-  if (state.view === "contribute" || state.view === "solutions" || state.view === "configurator") {
+  if (state.view === "contribute" || state.view === "solutions" || state.view === "infra" || state.view === "configurator") {
     var base = versionBase(k0rdentVer || "") + state.view + "/";
     var sp = new URLSearchParams();
     if (state.sol) sp.set("sol", state.sol);
@@ -1490,7 +1558,7 @@ export default function App() {
   // Sync catalog filters to URL (replaceState)
   useEffect(function(){
     // Don't overwrite /apps/<name>/ URL before the app is restored from URL
-    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/(contribute|solutions|configurator)\/?$/)) {
+    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/infra\/[^/]+/) && !window.location.pathname.match(/\/(contribute|solutions|infra|configurator)\/?$/)) {
       history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}, k0rdentVer));
     }
   }, [view, search, tag, support, sort, compliance, loading]);
@@ -1518,11 +1586,14 @@ export default function App() {
       .then(function(data:any){
         var apps = Array.isArray(data) ? data : (data.apps || []);
         var solutions = Array.isArray(data) ? [] : (data.solutions || []);
+        var infraData = Array.isArray(data) ? [] : (data.infra || []);
         RAW.length = 0;
         Array.prototype.push.apply(RAW, apps);
         SOLUTIONS.length = 0;
         Array.prototype.push.apply(SOLUTIONS, HARDCODED_SOLUTIONS);
         Array.prototype.push.apply(SOLUTIONS, solutions);
+        INFRA.length = 0;
+        Array.prototype.push.apply(INFRA, infraData);
         ALL_TAGS.length = 0;
         ALL_TAGS.push("All");
         var seen:any = {};
@@ -1623,6 +1694,7 @@ export default function App() {
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} k0rdentVer={k0rdentVer}/>}
+      {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab}/>}
       {view==="configurator"&&<ConfiguratorPage/>}
 
       {view==="catalog"&&(

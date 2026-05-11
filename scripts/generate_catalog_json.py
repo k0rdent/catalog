@@ -382,15 +382,24 @@ def generate_install_json(app_name: str, data: dict, app_path: str):
     versions_data = []
     charts = data.get('charts', [])
     all_versions = charts[0]['versions'] if charts else []
-    for ver in all_versions[:5]:
-        install_md = generate_install_code(data, ver)
-        verify_md = generate_verify_code(data, ver)
-        deploy_md = generate_deploy_code(data, ver)
+    if all_versions:
+        for ver in all_versions[:5]:
+            install_md = generate_install_code(data, ver)
+            verify_md = generate_verify_code(data, ver)
+            deploy_md = generate_deploy_code(data, ver)
+            versions_data.append({
+                'version': ver,
+                'installHtml': md_to_html(install_md) if install_md else '',
+                'verifyHtml': md_to_html(verify_md) if verify_md else '',
+                'deployHtml': md_to_html(deploy_md) if deploy_md else '',
+            })
+    elif data.get('install_code') or data.get('verify_code') or data.get('deploy_code'):
+        # Apps with custom install/verify/deploy code but no chart versions (e.g. infra)
         versions_data.append({
-            'version': ver,
-            'installHtml': md_to_html(install_md) if install_md else '',
-            'verifyHtml': md_to_html(verify_md) if verify_md else '',
-            'deployHtml': md_to_html(deploy_md) if deploy_md else '',
+            'version': '',
+            'installHtml': md_to_html(data.get('install_code', '')) if data.get('install_code') else '',
+            'verifyHtml': md_to_html(data.get('verify_code', '')) if data.get('verify_code') else '',
+            'deployHtml': md_to_html(data.get('deploy_code', '')) if data.get('deploy_code') else '',
         })
 
     # Prerequisites
@@ -417,6 +426,7 @@ def generate_install_json(app_name: str, data: dict, app_path: str):
     return install_data
 
 
+
 def process_app(app_name: str) -> dict | None:
     app_path = os.path.join(APPS_DIR, app_name)
     data_file = os.path.join(app_path, 'data.yaml')
@@ -430,9 +440,6 @@ def process_app(app_name: str) -> dict | None:
         data = yaml.safe_load(rendered)
 
     if data is None:
-        return None
-
-    if data.get('type') == 'infra':
         return None
 
     utils.try_add_charts_data(app_name, data)
@@ -490,9 +497,11 @@ def process_app(app_name: str) -> dict | None:
         'brandColor': brand_color,
         'doc_link': data.get('doc_link', ''),
         'created': data.get('created', ''),
+        'lastUpdated': data.get('created', ''),
         'githubRepo': github_repo,
         'stars': stars,
         'pulls': pulls,
+        'descriptionHtml': md_to_html(data.get('description', '')),
         'showInstall': data.get('show_install_tab', True),
         'whyInCatalog': data.get('why_in_catalog', ''),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
@@ -676,24 +685,28 @@ def build_version(version: str, output_dir: str):
     os.makedirs(output_dir, exist_ok=True)
 
     catalog = []
+    infra = []
     install_count = 0
     for app_name in sorted(os.listdir(APPS_DIR)):
         entry = process_app(app_name)
         if entry:
-            catalog.append(entry)
-            if os.path.exists(os.path.join(output_dir, 'apps', app_name, 'install.json')):
-                install_count += 1
+            if entry.get('type') == 'infra':
+                infra.append(entry)
+            else:
+                catalog.append(entry)
+                if os.path.exists(os.path.join(output_dir, 'apps', app_name, 'install.json')):
+                    install_count += 1
 
     solutions = extract_solutions(output_dir)
 
-    # Write catalog.json as nested format with solutions
+    # Write catalog.json as nested format with solutions and infra
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump({'apps': catalog, 'solutions': solutions}, f, indent=2, ensure_ascii=False)
+        json.dump({'apps': catalog, 'solutions': solutions, 'infra': infra}, f, indent=2, ensure_ascii=False)
 
     generate_fetched_metadata(catalog, output_dir)
     generate_contribute_html(output_dir)
 
-    print(f"  {version}: {len(catalog)} apps, {len(solutions)} solutions, {install_count} install.json files")
+    print(f"  {version}: {len(catalog)} apps, {len(infra)} infra, {len(solutions)} solutions, {install_count} install.json files")
 
 
 def load_versions() -> dict:
