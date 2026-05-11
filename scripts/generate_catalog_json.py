@@ -496,6 +496,7 @@ def process_app(app_name: str) -> dict | None:
         'logo': logo,
         'brandColor': brand_color,
         'doc_link': data.get('doc_link', ''),
+        'supportLink': data.get('support_link', ''),
         'created': data.get('created', ''),
         'lastUpdated': data.get('created', ''),
         'githubRepo': github_repo,

@@ -528,6 +528,10 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
                 <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
                 <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
               </div>
+              {item.supportLink&&<div style={{marginTop:8,padding:"11px 14px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
+                <span style={{fontSize:12,color:B.textSec}}>Looking for Commercial Support?</span>
+                <a href={item.supportLink} target="_blank" rel="noreferrer" style={{fontSize:12,color:B.teal,fontWeight:700,textDecoration:"none",textTransform:"uppercase",letterSpacing:"0.05em"}}>Learn more</a>
+              </div>}
             </div>
           )}
           {tab==="overview" && item.type!=="infra" && (
@@ -561,6 +565,10 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
                 <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
                 <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
               </div>
+              {item.supportLink&&<div style={{marginTop:8,padding:"11px 14px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
+                <span style={{fontSize:12,color:B.textSec}}>Looking for Commercial Support?</span>
+                <a href={item.supportLink} target="_blank" rel="noreferrer" style={{fontSize:12,color:B.teal,fontWeight:700,textDecoration:"none",textTransform:"uppercase",letterSpacing:"0.05em"}}>Learn more</a>
+              </div>}
             </div>
           )}
           {tab==="install" && (
