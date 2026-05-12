@@ -436,7 +436,7 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
       {stepBlock(1, "Prerequisites", installData.prerequisitesHtml)}
       {verData && <div key={"install-"+effectiveVer}>{stepBlock(2, "Install template to k0rdent", verData.installHtml)}</div>}
       {verData && <div key={"verify-"+effectiveVer}>{stepBlock(3, "Verify "+(item.type==="infra"?"cluster":"service")+" template", verData.verifyHtml)}</div>}
-      {verData && <div key={"deploy-"+effectiveVer}>{stepBlock(4, "Deploy "+(item.type==="infra"?"cluster":"service")+" template", verData.deployHtml)}</div>}
+      {verData && <div key={"deploy-"+effectiveVer}>{stepBlock(4, "Deploy "+(item.type==="infra"?"cluster":"service"), verData.deployHtml)}</div>}
       {installData.examples.length > 0 && (
         <div style={{marginTop:20,borderTop:"1px solid "+B.border,paddingTop:16}}>
           <div style={{fontSize:11,fontWeight:600,color:B.textPri,marginBottom:12,textTransform:"uppercase",letterSpacing:0.5}}>Examples</div>
