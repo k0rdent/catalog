@@ -427,6 +427,22 @@ def generate_install_json(app_name: str, data: dict, app_path: str):
 
 
 
+def get_last_updated(app_name: str) -> str:
+    """Get latest 'generated' timestamp from Chart.lock files as YYYY-MM-DD. Returns '' if none found."""
+    import glob
+    from datetime import datetime, timezone
+    locks = glob.glob(f'apps/{app_name}/charts/*/Chart.lock')
+    dates = []
+    for lf in locks:
+        with open(lf) as f:
+            data = yaml.safe_load(f)
+        gen = data.get('generated', '')
+        if gen:
+            dt = datetime.fromisoformat(str(gen).replace('Z', '+00:00'))
+            dates.append(dt.astimezone(timezone.utc))
+    return max(dates).strftime('%Y-%m-%d') if dates else ''
+
+
 def process_app(app_name: str) -> dict | None:
     app_path = os.path.join(APPS_DIR, app_name)
     data_file = os.path.join(app_path, 'data.yaml')
@@ -498,7 +514,7 @@ def process_app(app_name: str) -> dict | None:
         'doc_link': data.get('doc_link', ''),
         'supportLink': data.get('support_link', ''),
         'created': data.get('created', ''),
-        'lastUpdated': data.get('created', ''),
+        'lastUpdated': get_last_updated(app_name) or data.get('created', ''),
         'githubRepo': github_repo,
         'stars': stars,
         'pulls': pulls,
