@@ -2,5 +2,5 @@ charts:
   cadvisor:
   - version: 2.3.3
     appVersion: 0.49.1
-  - version: 2.4.1
+  - version: 2.4.3
     appVersion: 0.52.1
