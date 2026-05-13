@@ -7,7 +7,16 @@ import pathlib
 import re
 import json
 import sys
+import shutil
 import utils
+
+
+def _semver_parts(version: str):
+    """Return (major, minor, patch) as ints, or None if not semver."""
+    parts = version.lstrip('v').split('.')
+    if len(parts) >= 3 and all(p.isdigit() for p in parts[:3]):
+        return (int(parts[0]), int(parts[1]), int(parts[2]))
+    return None
 
 
 chart_app_tpl = """apiVersion: v2
@@ -127,9 +136,39 @@ def write_charts_info(app: str, s: str) -> dict:
         file.write(s)
 
 
+def prune_old_patches(app: str, charts: list) -> list:
+    """Keep only the latest patch per (dep_name, major, minor). Remove chart dirs for pruned versions."""
+    best = {}
+    for chart in charts:
+        sv = _semver_parts(chart['version'])
+        if sv is None:
+            continue
+        key = (chart['dep_name'], sv[0], sv[1])
+        if key not in best or sv[2] > _semver_parts(best[key]['version'])[2]:
+            best[key] = chart
+
+    pruned = []
+    for chart in charts:
+        sv = _semver_parts(chart['version'])
+        if sv is None:
+            pruned.append(chart)
+            continue
+        key = (chart['dep_name'], sv[0], sv[1])
+        if chart is best[key]:
+            pruned.append(chart)
+        else:
+            print(f"Pruning superseded patch version: {chart['dep_name']} {chart['version']}")
+            chart_dir = f"apps/{app}/charts/{chart['name']}-{chart['version']}"
+            if os.path.isdir(chart_dir):
+                shutil.rmtree(chart_dir)
+                print(f"  Removed {chart_dir}")
+    return pruned
+
+
 def update_charts_cfg(args: str, updates_list: list, cfg: dict):
     if len(updates_list) > 0 and args.update_cfg:
         cfg['st-charts'].extend(updates_list)
+        cfg['st-charts'] = prune_old_patches(args.app, cfg['st-charts'])
         output = yaml.dump(cfg, sort_keys=False)
         print(output)
         write_charts_cfg(args.app, output)
