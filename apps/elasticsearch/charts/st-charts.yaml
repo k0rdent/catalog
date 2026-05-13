@@ -7,3 +7,7 @@ st-charts:
   dep_name: eck-operator
   version: 3.3.0
   repository: https://helm.elastic.co
+- name: eck-operator
+  dep_name: eck-operator
+  version: 3.4.0
+  repository: https://helm.elastic.co
