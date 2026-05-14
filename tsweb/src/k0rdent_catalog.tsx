@@ -1427,6 +1427,11 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
               })}
             </select>
           )}
+          <div className="k0-nav-actions" style={{display:"none",gap:5,alignItems:"center"}}>
+            <button onClick={toggleTheme} title={dark?"Switch to light theme":"Switch to dark theme"} style={{width:34,height:20,borderRadius:10,border:"1px solid #555760",background:"#000000",cursor:"pointer",position:"relative",padding:0,flexShrink:0}}><span style={{position:"absolute",top:2,left:dark?2:"auto",right:dark?"auto":2,width:14,height:14,borderRadius:"50%",background:"#f1f4fb",display:"flex",alignItems:"center",justifyContent:"center",fontSize:8}}>{dark?"\u263E":"\u2600"}</span></button>
+            <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:10,color:"#ffffff",textDecoration:"none",padding:"3px 10px",border:"1px solid #ffffff",borderRadius:999,background:"transparent"}}>G</a>
+            <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:10,color:"#000000",padding:"3px 10px",borderRadius:999,background:"#35db78",fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>C</a>
+          </div>
           <div className="k0-nav-tabs" style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
             {["catalog","infra","solutions","configurator"].map(function(v){
               var active=view===v;
@@ -1722,6 +1727,7 @@ export default function App() {
           .k0-nav-tabs { height: 36px !important; }
           .k0-nav-tabs button { padding: 0 8px !important; font-size: 11px !important; }
           .k0-nav-right { display: none !important; }
+          .k0-nav-actions { display: flex !important; }
           .k0-backdrop { display: none !important; }
           .k0-detail-panel { width: 100vw !important; border-left: none !important; }
           .k0-detail-tabs { padding-left: 12px !important; margin-left: -12px !important; margin-right: -12px !important; }
