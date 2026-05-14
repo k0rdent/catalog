@@ -4,8 +4,8 @@ type: application
 version: 1.0.0
 dependencies:
   - name: jupyterhub
-    version: 4.2.0
+    version: 4.3.5
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: traefik
-    version: 39.0.5
+    version: 39.0.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
