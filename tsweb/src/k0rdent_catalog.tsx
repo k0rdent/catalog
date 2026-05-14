@@ -508,7 +508,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
   },[]);
 
   function tabStyle(active) {
-    return {padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
+    return {padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
   }
 
   var whyCopy = item.whyInCatalog || (function(){
@@ -529,26 +529,26 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
       <div className="k0-backdrop" style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.7)"}}/>
       <div className="k0-detail-panel" onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(680px,100vw)",background:B.bg1,borderLeft:"1px solid "+B.borderHi,display:"flex",flexDirection:"column",overflowY:"auto"}}>
         {eff==="mirantis-certified"&&<div style={{height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",flexShrink:0}}/>}
-        <div className="k0-detail-header" style={{padding:"18px 22px 0",flexShrink:0}}>
+        <div className="k0-detail-header" style={{padding:"18px 22px 0",flexShrink:0,background:"#000000"}}>
           <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:12}}>
             <AppLogo name={item.name} size={44} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:4}}>
-                <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{item.title||item.name}</h2>
+                <h2 style={{fontSize:19,fontWeight:700,color:"#ffffff",margin:0}}>{item.title||item.name}</h2>
                 <span style={{fontSize:9,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[eff]}</span>
               </div>
               <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
                 {item.tags.map(function(t){return <span key={t} style={{fontSize:9.5,padding:"1px 6px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),border:"1px solid "+tagAccent(t)+"25",fontWeight:500}}>{t}</span>;})}
               </div>
             </div>
-            <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
+            <button onClick={onClose} style={{background:"transparent",border:"1px solid #555760",borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:"#ffffff",cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
-          <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid "+B.border,marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
+          <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid #555760",marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
             {["overview","install","validation","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"))return false; return true; }).map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
-            {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:B.bg0,textDecoration:"none",background:B.teal,fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
+            {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:"#000000",textDecoration:"none",background:"#35db78",fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
           </div>
         </div>
         <div className="k0-detail-content" style={{padding:"18px 22px",flex:1}}>
