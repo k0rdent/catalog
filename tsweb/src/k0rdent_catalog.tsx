@@ -1,12 +1,36 @@
 import React, { useState, useMemo, useEffect } from "react";
 
-var B = {
+var DARK = {
   bg0:"#0a0e1a",bg1:"#0f1424",bg2:"#151b2e",bg3:"#1c2540",
   border:"#1e2d4a",borderHi:"#2a3f6a",
   teal:"#00c8c8",tealBg:"#00c8c810",cyan:"#00e5ff",
   textPri:"#e8edf8",textSec:"#7a8aaa",textMut:"#3d4d6a",
   green:"#00d48a",amber:"#f5a623",red:"#ff4d6a",purple:"#a78bfa",
+  code:"#7dd3fc",
 };
+var LIGHT = {
+  bg0:"#f0f4f8",bg1:"#ffffff",bg2:"#e8edf5",bg3:"#dce3ee",
+  border:"#c8d3e6",borderHi:"#a0b0cc",
+  teal:"#0097a7",tealBg:"#0097a710",cyan:"#0077b6",
+  textPri:"#0f1e3a",textSec:"#4a5a78",textMut:"#8a9ab8",
+  green:"#00875a",amber:"#b45309",red:"#c0162e",purple:"#6d28d9",
+  code:"#0550ae",
+};
+var B = Object.assign({}, DARK) as Record<string,string>;
+var IS_DARK = true;
+function applyTheme(dark:boolean) {
+  IS_DARK = dark;
+  var src = dark ? DARK : LIGHT;
+  Object.keys(src).forEach(function(k){ (B as any)[k] = (src as any)[k]; });
+  var hljsLink = document.getElementById("hljs-theme") as HTMLLinkElement|null;
+  if (hljsLink) hljsLink.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/" + (dark ? "github-dark" : "github") + ".min.css";
+  document.body.style.background = B.bg0;
+}
+function appendTheme(url:string):string {
+  if (IS_DARK) return url;
+  var sep = url.indexOf("?") >= 0 ? "&" : "?";
+  return url + sep + "theme=light";
+}
 
 var CLOUDS = ["AWS EC2","AWS EKS","Azure VM","Azure AKS","vSphere","OpenStack","Bare Metal","GCP GKE"];
 var K8S_VERS = ["1.28","1.29","1.30","1.31","1.32"];
@@ -281,7 +305,7 @@ function CodeBlock({ text }) {
   }
   return (
     <div style={{position:"relative",marginBottom:8}}>
-      <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:7,padding:"12px 14px",fontSize:11,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.6,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{text}</pre>
+      <pre style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:7,padding:"12px 14px",fontSize:11,color:B.code,fontFamily:"monospace",lineHeight:1.6,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{text}</pre>
       <button onClick={doCopy} style={{position:"absolute",top:6,right:6,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:5,padding:"2px 8px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
     </div>
   );
@@ -352,9 +376,8 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
     if (!ref.current) return;
     var pres = ref.current.querySelectorAll("pre");
     pres.forEach(function(pre:HTMLPreElement){
-      if (pre.querySelector(".copy-btn")) return;
       pre.style.position = "relative";
-      pre.style.background = B.bg0;
+      pre.style.background = B.bg2;
       pre.style.border = "1px solid " + B.border;
       pre.style.borderRadius = "7px";
       pre.style.padding = "12px 14px";
@@ -364,6 +387,14 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
       pre.style.overflowX = "auto";
       pre.style.whiteSpace = "pre";
       pre.style.margin = "0 0 8px 0";
+      // Update existing copy button styles or create new one
+      var existingBtn = pre.querySelector(".copy-btn") as HTMLButtonElement|null;
+      if (existingBtn) {
+        existingBtn.style.background = B.bg2;
+        existingBtn.style.borderColor = B.borderHi;
+        existingBtn.style.color = B.textSec;
+        return;
+      }
       var btn = document.createElement("button");
       btn.className = "copy-btn";
       btn.textContent = "Copy";
@@ -386,7 +417,7 @@ function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
         (window as any).hljs.highlightElement(block);
       });
     }
-  }, [html]);
+  }, [html, IS_DARK]);
   return <div ref={ref} style={style} dangerouslySetInnerHTML={{__html:html}}/>;
 }
 
@@ -897,7 +928,7 @@ function SolutionDetail({ sol, onClose }) {
             <div style={{marginTop:16,borderTop:"1px solid "+B.border,paddingTop:16}}>
               <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Deploy this solution</div>
               <div style={{position:"relative"}}>
-                <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:7,padding:"13px 15px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{deployYaml}</pre>
+                <pre style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:7,padding:"13px 15px",fontSize:10.5,color:B.code,fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre"}}>{deployYaml}</pre>
                 <button onClick={doCopy} style={{position:"absolute",top:7,right:7,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:4,padding:"2px 9px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
               </div>
             </div>
@@ -1278,7 +1309,7 @@ function ConfiguratorPage() {
             <div style={{position:"sticky",top:70}}>
               <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:12}}>Generated deployment manifest</div>
               <div style={{position:"relative"}}>
-                <pre style={{background:B.bg0,border:"1px solid "+B.border,borderRadius:8,padding:"14px 16px",fontSize:10.5,color:"#7dd3fc",fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre",maxHeight:480,overflowY:"auto"}}>{yaml}</pre>
+                <pre style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"14px 16px",fontSize:10.5,color:B.code,fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre",maxHeight:480,overflowY:"auto"}}>{yaml}</pre>
                 <button onClick={doCopy} style={{position:"absolute",top:8,right:8,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:5,padding:"3px 10px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
               </div>
               <div style={{marginTop:10,padding:"10px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,fontSize:11.5,color:B.textSec,lineHeight:1.65}}>
@@ -1320,7 +1351,7 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
       var p = new URLSearchParams();
       if (detailTab && detailTab !== "overview") p.set("dtab", detailTab);
       var qs = p.toString();
-      history.replaceState(null, "", versionBase(k0rdentVer || "") + "infra/" + selected.name + "/" + (qs ? "?" + qs : ""));
+      history.replaceState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/" + selected.name + "/" + (qs ? "?" + qs : "")));
     }
   }, [detailTab]);
 
@@ -1328,13 +1359,13 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
     setSelected(item);
     setDetailTab("overview");
     setDetailVer("");
-    history.pushState(null, "", versionBase(k0rdentVer || "") + "infra/" + item.name + "/");
+    history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/" + item.name + "/"));
   }
   function closeInfra() {
     setSelected(null);
     setDetailTab("overview");
     setDetailVer("");
-    history.pushState(null, "", versionBase(k0rdentVer || "") + "infra/");
+    history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/"));
   }
 
   return (
@@ -1373,14 +1404,14 @@ function ContributePage() {
   );
 }
 
-function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChange }:any) {
+function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChange, dark, toggleTheme }:any) {
   function navTo(v:string) {
     if (v === "catalog") { resetFilters(); }
     setView(v);
     if (v === "catalog") {
-      history.pushState(null, "", versionBase(k0rdentVer || ""));
+      history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "")));
     } else {
-      history.pushState(null, "", versionBase(k0rdentVer || "") + v + "/");
+      history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + v + "/"));
     }
   }
   var displayVer = k0rdentVer || versions.latest || "";
@@ -1388,7 +1419,7 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
     <div style={{background:B.bg1,borderBottom:"1px solid "+B.border,padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
       <div className="k0-nav-inner" style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
         <div className="k0-nav-left" style={{display:"flex",alignItems:"center",gap:14}}>
-          <img onClick={function(){navTo("catalog");}} src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{cursor:"pointer",height:22}} />
+          <img onClick={function(){navTo("catalog");}} src={BASE+(dark?"k0rdent-logo.svg":"k0rdent-logo-dark.svg")} alt="k0rdent" style={{cursor:"pointer",height:22}} />
           {versions.versions.length > 0 && (
             <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}} style={{padding:"3px 6px",fontSize:10,background:B.bg2,color:B.teal,border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",fontFamily:"monospace",outline:"none"}}>
               {versions.versions.slice().reverse().map(function(v:string){
@@ -1405,8 +1436,9 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
           </div>
         </div>
         <div className="k0-nav-right" style={{display:"flex",gap:8,alignItems:"center"}}>
+          <button onClick={toggleTheme} title={dark?"Switch to light theme":"Switch to dark theme"} style={{width:40,height:24,borderRadius:12,border:"1px solid "+B.border,background:dark?B.bg3:B.teal,cursor:"pointer",position:"relative",padding:0,flexShrink:0,transition:"background 0.2s"}}><span style={{position:"absolute",top:2,left:dark?2:"auto",right:dark?"auto":2,width:18,height:18,borderRadius:"50%",background:dark?"#e8edf8":"#ffffff",transition:"left 0.2s,right 0.2s",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10}}>{dark?"\u263E":"\u2600"}</span></button>
           <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:11,color:B.textSec,textDecoration:"none",padding:"5px 11px",border:"1px solid "+B.border,borderRadius:6,background:B.bg2}}>GitHub</a>
-          <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",versionBase(k0rdentVer||"")+"contribute/");}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>Contribute</a>
+          <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:11,color:B.bg0,padding:"5px 11px",borderRadius:6,background:B.teal,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>Contribute</a>
         </div>
       </div>
     </div>
@@ -1462,6 +1494,7 @@ function readUrlParams() {
     sol: p.get("sol") || "",
     scat: p.get("scat") || "All",
     infraApp: infraApp,
+    theme: p.get("theme") || "",
   };
 }
 
@@ -1475,7 +1508,7 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
   if (dtab && dtab !== "overview") p.set("dtab", dtab);
   if (ver) p.set("ver", ver);
   var qs = p.toString();
-  return versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : "");
+  return appendTheme(versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : ""));
 }
 
 function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
@@ -1485,7 +1518,7 @@ function buildCatalogUrl(state:{view:string, search:string, tag:string, support:
     if (state.sol) sp.set("sol", state.sol);
     if (state.scat && state.scat !== "All") sp.set("scat", state.scat);
     var sqs = sp.toString();
-    return base + (sqs ? "?" + sqs : "");
+    return appendTheme(base + (sqs ? "?" + sqs : ""));
   }
   var p = new URLSearchParams();
   if (state.view !== "catalog") p.set("view", state.view);
@@ -1497,11 +1530,24 @@ function buildCatalogUrl(state:{view:string, search:string, tag:string, support:
   if (state.sol) p.set("sol", state.sol);
   if (state.scat && state.scat !== "All") p.set("scat", state.scat);
   var qs = p.toString();
-  return versionBase(k0rdentVer || "") + (qs ? "?" + qs : "");
+  return appendTheme(versionBase(k0rdentVer || "") + (qs ? "?" + qs : ""));
 }
 
 export default function App() {
   var initParams = useMemo(readUrlParams, []);
+  var [renderKey, setRenderKey] = useState(0);
+  var [dark, setDark] = useState(initParams.theme !== "light");
+  function toggleTheme() {
+    var next = !dark;
+    applyTheme(next);
+    setDark(next);
+    setRenderKey(function(k:number){ return k + 1; });
+    // Update theme in current URL
+    var u = new URL(window.location.href);
+    if (next) { u.searchParams.delete("theme"); } else { u.searchParams.set("theme", "light"); }
+    history.replaceState(null, "", u.pathname + (u.search || ""));
+  }
+  applyTheme(dark);
   var [loading, setLoading] = useState(true);
   var [loadError, setLoadError] = useState("");
   var [k0rdentVer, setK0rdentVer] = useState(detectUrlVersion);
@@ -1699,7 +1745,7 @@ export default function App() {
         a { color: #00c8c8; }
         a:hover { color: #00e5ff; }
       `}</style>
-      <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
+      <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} dark={dark} toggleTheme={toggleTheme} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} k0rdentVer={k0rdentVer}/>}
@@ -1795,13 +1841,13 @@ export default function App() {
 
           <div style={{marginTop:28,paddingTop:18,borderTop:"1px solid "+B.border,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:9}}>
             <div style={{display:"flex",alignItems:"center",gap:9}}>
-              <img src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{height:15}} />
+              <img src={BASE+(dark?"k0rdent-logo.svg":"k0rdent-logo-dark.svg")} alt="k0rdent" style={{height:15}} />
               <span style={{fontSize:9.5,color:B.textMut}}>Application Catalog v1.8.0 · originated by Mirantis</span>
             </div>
             <div style={{display:"flex",gap:14}}>
               <span style={{fontSize:9.5,color:B.textMut}}>Privacy Policy</span>
               <span style={{fontSize:9.5,color:B.textMut}}>Terms of Use</span>
-              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",versionBase(k0rdentVer||"")+"contribute/");}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500,textDecoration:"none"}}>Contribute</a>
+              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500,textDecoration:"none"}}>Contribute</a>
             </div>
           </div>
         </div>
