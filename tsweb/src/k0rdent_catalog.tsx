@@ -155,7 +155,7 @@ function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:n
   if (logo) {
     var logoSrc = logo.startsWith("http") ? logo : BASE + logo;
     return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
+      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:"#ffffff",border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
         <img src={logoSrc} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
       </div>
     );
@@ -186,7 +186,7 @@ function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:n
 
   if (svgContent && !failed) {
     return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?7:5,boxSizing:"border-box"}}
+      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:"#ffffff",border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?7:5,boxSizing:"border-box"}}
         dangerouslySetInnerHTML={{__html:svgContent.replace(/width="[^"]*"/, 'width="'+(sz-10)+'"').replace(/height="[^"]*"/, 'height="'+(sz-10)+'"')}}
       />
     );
