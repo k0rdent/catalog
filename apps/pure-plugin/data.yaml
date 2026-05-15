@@ -3,7 +3,7 @@ tags:
   - Drivers and plugins
 title: "Pure Kubernetes Plugin"
 summary: "Storage service."
-logo: "https://raw.githubusercontent.com/purestorage/helm-charts/master/pure-csi/pure-storage.png"
+logo: ./assets/icon.svg # https://worldvectorlogo.com/logo/pure-storage/downloaded
 created: "2025-03-12T08:16:55Z"
 github_repo: purestorage/helm-charts
 description: |
