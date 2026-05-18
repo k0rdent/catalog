@@ -143,19 +143,20 @@ function getLogoUrl(name) {
   return "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/" + slug + ".svg";
 }
 
-function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:number, accent?:string, logo?:string, brandColor?:string }) {
+function AppLogo({ name, size, accent, logo, brandColor, isInfra }:{ name:string, size?:number, accent?:string, logo?:string, brandColor?:string, isInfra?:boolean }) {
   var sz = size || 32;
   var [svgContent, setSvgContent] = React.useState(LOGO_CACHE[name] || null);
   var [failed, setFailed] = React.useState(false);
   var color = brandColor || BRAND_COLORS[name] || accent || "#7a8aaa";
-  var bg = color + "18";
+  var bg = "#ffffff";
+  var logoBorder = isInfra && brandColor ? "2px solid " + brandColor : "none";
   var border = color + "30";
 
   // If catalog data provides a logo URL, use it directly as an <img>
   if (logo) {
     var logoSrc = logo.startsWith("http") ? logo : BASE + logo;
     return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:"#ffffff",border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
+      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:logoBorder,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?5:3,boxSizing:"border-box"}}>
         <img src={logoSrc} alt={name} style={{width:sz-10,height:sz-10,objectFit:"contain"}} />
       </div>
     );
@@ -186,14 +187,14 @@ function AppLogo({ name, size, accent, logo, brandColor }:{ name:string, size?:n
 
   if (svgContent && !failed) {
     return (
-      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:"#ffffff",border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?7:5,boxSizing:"border-box"}}
+      <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:logoBorder,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,padding:sz>36?7:5,boxSizing:"border-box"}}
         dangerouslySetInnerHTML={{__html:svgContent.replace(/width="[^"]*"/, 'width="'+(sz-10)+'"').replace(/height="[^"]*"/, 'height="'+(sz-10)+'"')}}
       />
     );
   }
 
   return (
-    <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:"1px solid "+border,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:sz>36?13:11,fontWeight:700,color:color,fontFamily:"monospace"}}>
+    <div style={{width:sz,height:sz,borderRadius:sz>36?9:7,background:bg,border:logoBorder,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:sz>36?13:11,fontWeight:700,color:color,fontFamily:"monospace"}}>
       {initials}
     </div>
   );
@@ -1431,7 +1432,7 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer
                     <div style={{height:3,background:"linear-gradient(90deg,"+accent+","+accent+"60)"}}/>
                     <div style={{padding:"14px 16px"}}>
                       <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:10}}>
-                        <AppLogo name={item.name} size={40} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
+                        <AppLogo name={item.name} size={40} accent={accent} logo={item.logo} brandColor={item.brandColor} isInfra/>
                         <div style={{flex:1}}>
                           <div style={{fontSize:15,fontWeight:700,color:B.textPri,marginBottom:3}}>{item.title||item.name}</div>
                           <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
