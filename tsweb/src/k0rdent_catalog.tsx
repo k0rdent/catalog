@@ -1335,11 +1335,11 @@ function ConfiguratorPage() {
 var INFRA_FILTERS = [{key:"All",label:"All"},{key:"public",label:"Public Cloud"},{key:"private",label:"Private Cloud / On-premises"}];
 var INFRA_GROUPS = [{key:"public",label:"Public Cloud",color:"#00c8c8"},{key:"private",label:"Private Cloud / On-premises",color:"#a78bfa"}];
 
-function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string }) {
+function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string, initIgrp?:string }) {
   var [selected, setSelected] = useState<any>(null);
   var [detailTab, setDetailTab] = useState(initDtab || "overview");
   var [detailVer, setDetailVer] = useState("");
-  var [infraFilter, setInfraFilter] = useState("All");
+  var [infraFilter, setInfraFilter] = useState(initIgrp || "All");
 
   // Restore selected infra from URL
   useEffect(function(){
@@ -1352,24 +1352,39 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
   // Sync detail tab to URL
   useEffect(function(){
     if (selected) {
-      var p = new URLSearchParams();
-      if (detailTab && detailTab !== "overview") p.set("dtab", detailTab);
-      var qs = p.toString();
-      history.replaceState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/" + selected.name + "/" + (qs ? "?" + qs : "")));
+      var dtabParam:Record<string,string> = {};
+      if (detailTab && detailTab !== "overview") dtabParam["dtab"] = detailTab;
+      history.replaceState(null, "", infraUrl(selected.name + "/", dtabParam));
     }
   }, [detailTab]);
+
+  function infraUrl(suffix?:string, params?:Record<string,string>) {
+    var p = new URLSearchParams();
+    if (infraFilter !== "All") p.set("igrp", infraFilter);
+    if (params) Object.keys(params).forEach(function(k){ if(params[k]) p.set(k, params[k]); });
+    var qs = p.toString();
+    return appendTheme(versionBase(k0rdentVer || "") + "infra/" + (suffix || "") + (qs ? "?" + qs : ""));
+  }
+
+  function changeFilter(f:string) {
+    setInfraFilter(f);
+    var p = new URLSearchParams();
+    if (f !== "All") p.set("igrp", f);
+    var qs = p.toString();
+    history.replaceState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/" + (qs ? "?" + qs : "")));
+  }
 
   function openInfra(item:any) {
     setSelected(item);
     setDetailTab("overview");
     setDetailVer("");
-    history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/" + item.name + "/"));
+    history.pushState(null, "", infraUrl(item.name + "/"));
   }
   function closeInfra() {
     setSelected(null);
     setDetailTab("overview");
     setDetailVer("");
-    history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/"));
+    history.pushState(null, "", infraUrl());
   }
 
 
@@ -1384,7 +1399,7 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
         <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
           {INFRA_FILTERS.map(function(f){
             var active=infraFilter===f.key;
-            return <button key={f.key} onClick={function(){setInfraFilter(f.key);}} style={{padding:"5px 12px",fontSize:11,fontWeight:600,borderRadius:5,border:"1px solid "+(active?B.textPri:B.border),background:active?B.teal+"15":B.bg2,color:active?B.textPri:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{f.label}</button>;
+            return <button key={f.key} onClick={function(){changeFilter(f.key);}} style={{padding:"5px 12px",fontSize:11,fontWeight:600,borderRadius:5,border:"1px solid "+(active?B.textPri:B.border),background:active?B.teal+"15":B.bg2,color:active?B.textPri:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{f.label}</button>;
           })}
         </div>
       </div>
@@ -1525,6 +1540,7 @@ function readUrlParams() {
     sol: p.get("sol") || "",
     scat: p.get("scat") || "All",
     infraApp: infraApp,
+    igrp: p.get("igrp") || "All",
     theme: p.get("theme") || "",
   };
 }
@@ -1781,7 +1797,7 @@ export default function App() {
 
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} k0rdentVer={k0rdentVer}/>}
-      {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab}/>}
+      {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
       {view==="configurator"&&<ConfiguratorPage/>}
 
       {view==="catalog"&&(
