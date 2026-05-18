@@ -8,125 +8,147 @@ logo_big: ./assets/amd-logo-big.svg # https://en.m.wikipedia.org/wiki/File:AMD_L
 created: "2025-05-05T11:25:39Z"
 github_repo: ROCm/gpu-operator
 description: |
-    k0rdent operates in conjunction with the AMD GPU Operator by providing a higher-level orchestration layer for Kubernetes
-    clusters equipped with AMD GPUs.
+  k0rdent operates in conjunction with the AMD GPU Operator by providing a higher-level orchestration layer for Kubernetes
+  clusters equipped with AMD GPUs.
 
-    While the AMD GPU Operator focuses on the intricacies within a single cluster—managing the GPU drivers, device plugins,
-    and necessary configurations — k0rdent extends this management across multiple clusters. It leverages tools like
-    Cluster API to simplify the creation and management of these GPU-enabled Kubernetes environments.
+  While the AMD GPU Operator focuses on the intricacies within a single cluster—managing the GPU drivers, device plugins,
+  and necessary configurations — k0rdent extends this management across multiple clusters. It leverages tools like
+  Cluster API to simplify the creation and management of these GPU-enabled Kubernetes environments.
 
-    This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
-    and comprehensive observability for AI applications running on AMD hardware.
+  This synergy allows for efficient utilization of distributed GPU resources, centralized policy enforcement,
+  and comprehensive observability for AI applications running on AMD hardware.
 
 why_in_catalog: "AMD Instinct GPUs are increasingly competitive for AI training workloads, but getting ROCm drivers, the device plugin, and node labels consistently deployed across a cluster has historically been a manual, error-prone process. The AMD GPU Operator handles every layer of that stack automatically, bringing AMD GPU nodes to production-ready state with the same single-Helm-install experience that the NVIDIA GPU Operator established as the standard."
 support_link: https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html
 deploy_code: |
-    Tested `ClusterDeployment` in Azure:
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    metadata:
-      name: aws-example-cluster
-      namespace: kcm-system
-      labels:
+  Tested `ClusterDeployment` in Azure:
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: ClusterDeployment
+  metadata:
+    name: aws-example-cluster
+    namespace: kcm-system
+    labels:
+      group: demo
+  spec:
+    template: {{ azure_standalone_cp }}
+    credential: azure-credential
+    config:
+      controlPlaneNumber: 1
+      workersNumber: 1 
+      location: "westus"
+      subscriptionID: SUBSCRIPTION_ID # Enter the Subscription ID
+      controlPlane:
+        vmSize: Standard_A4_v2
+      worker:
+        image:
+          marketplace:
+            publisher: "microsoft-dsvm"
+            offer: "ubuntu-hpc"
+            sku: "2204-rocm" # Ubuntu 22.04 with AMD driver pre-installed
+            version: "22.04.2025041101"
+        rootVolumeSize: 500 # Big disk needed for testing images
+        # 8x AMD Instinct MI300 GPUs (expensive!)
+        vmSize: Standard_ND96is_MI300X_v5
+  ~~~
+
+  Operator deployment:
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: amd-gpu
+  spec:
+    clusterSelector:
+      matchLabels:
         group: demo
-    spec:
-      template: {{ azure_standalone_cp }}
-      credential: azure-credential
-      config:
-        controlPlaneNumber: 1
-        workersNumber: 1 
-        location: "westus"
-        subscriptionID: SUBSCRIPTION_ID # Enter the Subscription ID
-        controlPlane:
-          vmSize: Standard_A4_v2
-        worker:
-          image:
-            marketplace:
-              publisher: "microsoft-dsvm"
-              offer: "ubuntu-hpc"
-              sku: "2204-rocm" # Ubuntu 22.04 with AMD driver pre-installed
-              version: "22.04.2025041101"
-          rootVolumeSize: 500 # Big disk needed for testing images
-          # 8x AMD Instinct MI300 GPUs (expensive!)
-          vmSize: Standard_ND96is_MI300X_v5
-    ~~~
+    serviceSpec:
+      services:
+      - template: cert-manager-1-18-2
+        name: cert-manager
+        namespace: cert-manager
+        values: |
+          cert-manager:
+            crds:
+              enabled: true
+      - template: amd-gpu-operator-v1-4-1
+        name: amd-gpu-operator
+        namespace: kube-amd-gpu
+  ~~~
 
-    Operator deployment:
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: amd-gpu
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: cert-manager-1-18-2
-          name: cert-manager
-          namespace: cert-manager
-          values: |
-            cert-manager:
-              crds:
-                enabled: true
-        - template: amd-gpu-operator-v1-4-1
-          name: amd-gpu-operator
-          namespace: kube-amd-gpu
-    ~~~
+  Manually create AMD GPU `DeviceConfig` CRD in the child cluster:
+  ~~~yaml
+  apiVersion: amd.com/v1beta1
+  kind: DeviceConfig
+  metadata:
+    name: amd-gpu-operator
+    namespace: kube-amd-gpu
+  spec:
+    driver:
+      enable: false
+    devicePlugin:
+      devicePluginImage: rocm/k8s-device-plugin:latest
+      nodeLabellerImage: rocm/k8s-device-plugin:labeller-latest
+      enableNodeLabeller: true
+    selector:
+      feature.node.kubernetes.io/amd-vgpu: "true"
+  ~~~
 
-    Manually create AMD GPU `DeviceConfig` CRD in the child cluster:
-    ~~~yaml
-    apiVersion: amd.com/v1beta1
-    kind: DeviceConfig
-    metadata:
-      name: amd-gpu-operator
-      namespace: kube-amd-gpu
-    spec:
-      driver:
-        enable: false
-      devicePlugin:
-        devicePluginImage: rocm/k8s-device-plugin:latest
-        nodeLabellerImage: rocm/k8s-device-plugin:labeller-latest
-        enableNodeLabeller: true
-      selector:
-        feature.node.kubernetes.io/amd-vgpu: "true"
-    ~~~
-
-    Verification: Manually create a testing pod in child cluster:
-    ~~~yaml
-    apiVersion: v1
-    kind: Pod
-    metadata:
+  Verification: Manually create a testing pod in child cluster:
+  ~~~yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+   name: amd-smi
+  spec:
+   containers:
+   - image: docker.io/rocm/pytorch:latest # 20GB image !
      name: amd-smi
-    spec:
-     containers:
-     - image: docker.io/rocm/pytorch:latest # 20GB image !
-       name: amd-smi
-       command: ["/bin/bash"]
-       args: ["-c","amd-smi version && amd-smi monitor -ptum"]
-       resources:
-          limits:
-            amd.com/gpu: 1
-          requests:
-            amd.com/gpu: 1
-     restartPolicy: Never
-    ~~~
+     command: ["/bin/bash"]
+     args: ["-c","amd-smi version && amd-smi monitor -ptum"]
+     resources:
+        limits:
+          amd.com/gpu: 1
+        requests:
+          amd.com/gpu: 1
+   restartPolicy: Never
+  ~~~
 
-    Expected testing pod output (log):
-    ~~~
-    AMDSMI Tool: 25.3.0+ede62f2 | AMDSMI Library version: 25.3.0 | ROCm version: 6.4.0 | amdgpu version: 6.8.5 | amd_hsmp version: N/A
-    GPU  POWER   GPU_T   MEM_T   GFX_CLK   GFX%   MEM%  MEM_CLOCK
-      0  150 W   41 °C   33 °C   376 MHz    2 %    0 %   1177 MHz
-    ~~~
+  Expected testing pod output (log):
+  ~~~
+  AMDSMI Tool: 25.3.0+ede62f2 | AMDSMI Library version: 25.3.0 | ROCm version: 6.4.0 | amdgpu version: 6.8.5 | amd_hsmp version: N/A
+  GPU  POWER   GPU_T   MEM_T   GFX_CLK   GFX%   MEM%  MEM_CLOCK
+    0  150 W   41 °C   33 °C   376 MHz    2 %    0 %   1177 MHz
+  ~~~
+
+examples:
+  ai_inference:
+    card_title: AI Inference Stack (AMD)
+    card_summary: | 
+      A fully integrated stack for deploying and serving LLMs and ML models in production. Combines GPU provisioning, model serving,
+      observability, and autoscaling into a single validated blueprint for organizations running LLM inference and real-time
+      prediction workloads.
+    title: AI Inference Stack (AMD)
+    type: solution
+    tagline: AMD GPU-optimized inference serving at enterprise scale
+    category: AI/ML
+    badge: Validated
+    tier: community
+    use_cases:
+      - Air-gapped enterprise chatbots running private LLMs on local infrastructure
+      - Custom model serving for domain-specific AI assistants and real-time inference workloads
+      - AI image generation and multimodal pipelines with scalable GPU-backed inference
+    clouds: ["Azure VM", "OpenStack", "vSphere", "Bare Metal"]
+    k8s: ["1.30", "1.31", "1.32"]
+    chart_folder: example_inference
+    content_template_file: example_inference/doc.md
 
 # test settings
 test_deploy_chart: false
 test_wait_for_pods: "amd-gpu-operator-gpu-operator-charts-controller-manager-"
 
-validated_amd64: 'y'
-validated_aws: 'y'
-validated_azure: 'y'
-validated_arm64: 'n' # t4g.medium - exec /usr/local/bin/manager: exec format error
-validated_local: 'y'
+validated_amd64: "y"
+validated_aws: "y"
+validated_azure: "y"
+validated_arm64: "n" # t4g.medium - exec /usr/local/bin/manager: exec format error
+validated_local: "y"
