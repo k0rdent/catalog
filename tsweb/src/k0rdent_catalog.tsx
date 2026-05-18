@@ -1392,14 +1392,24 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer
 
   return (
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
-      <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Multi-cloud · On-premises · Edge</div>
-        <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Deploy Kubernetes Clusters <span style={{color:B.teal}}>Anywhere</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px",textAlign:"justify"}}>k0rdent is designed to be a versatile and adaptable multi-cluster Kubernetes management system that can deploy and manage Kubernetes clusters across a wide range of infrastructure environments.</p>
-        <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+      <div style={{marginBottom:24,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
+        <div style={{fontSize:10,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Cloud · On-premises · Hybrid</div>
+        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 10px"}}>Target <span style={{color:B.teal}}>infrastructure</span></h1>
+        <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,maxWidth:720,margin:"0 0 16px"}}>k0rdent deploys and manages catalog integrations across public cloud, private cloud, and bare metal environments from a single management cluster. Every integration is validated against one or more of the target environments below.</p>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:8,marginBottom:16}}>
+          {[{n:String(INFRA.length),l:"Target environments",c:B.teal},{n:String(INFRA.filter(function(i:any){return i.infraGroup==="public";}).length),l:"Public cloud providers",c:B.cyan},{n:String(INFRA.filter(function(i:any){return i.infraGroup==="private";}).length),l:"Private cloud / on-premises",c:B.purple}].map(function(s:any){
+            return <div key={s.l} style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"10px 14px"}}>
+              <div style={{fontSize:22,fontWeight:700,color:s.c,fontFamily:"monospace"}}>{s.n}</div>
+              <div style={{fontSize:12,color:B.textSec,marginTop:2}}>{s.l}</div>
+            </div>;
+          })}
+        </div>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
           {INFRA_FILTERS.map(function(f){
             var active=infraFilter===f.key;
-            return <button key={f.key} onClick={function(){changeFilter(f.key);}} style={{padding:"5px 12px",fontSize:11,fontWeight:600,borderRadius:5,border:"1px solid "+(active?B.textPri:B.border),background:active?B.teal+"15":B.bg2,color:active?B.textPri:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{f.label}</button>;
+            var grp=INFRA_GROUPS.find(function(g){return g.key===f.key;});
+            var color=grp?grp.color:B.teal;
+            return <button key={f.key} onClick={function(){changeFilter(f.key);}} style={{padding:"4px 13px",border:"1px solid "+(active?color+"60":B.border),borderRadius:20,fontSize:12,background:active?color+"15":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{f.label}</button>;
           })}
         </div>
       </div>
