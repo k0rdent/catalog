@@ -4,7 +4,7 @@ var DARK = {
   bg0:"#0a0e1a",bg1:"#0f1424",bg2:"#151b2e",bg3:"#1c2540",
   border:"#1e2d4a",borderHi:"#2a3f6a",
   teal:"#00c8c8",tealBg:"#00c8c810",cyan:"#00e5ff",
-  textPri:"#e8edf8",textSec:"#7a8aaa",textMut:"#3d4d6a",
+  textPri:"#e8edf8",textSec:"#7a8aaa",textMut:"#8e94a5",
   green:"#00d48a",amber:"#f5a623",red:"#ff4d6a",purple:"#a78bfa",
   code:"#7dd3fc",
 };
