@@ -3,7 +3,7 @@ tags:
   - Drivers and plugins
 title: "NVIDIA GPU Operator"
 summary: "The NVIDIA GPU Operator automates the complete software stack required to use NVIDIA GPUs in Kubernetes: drivers, CUDA toolkit, container runtime, device plugin, DCGM exporter, MIG manager, and GPU Feature Discovery. A single Helm install replaces days of manual node configuration and ensures every GPU node in a k0rdent cluster presents a consistent, monitored interface to AI workloads."
-logo: "./assets/GPUoperator-cropped.png"
+logo: "./assets/icon.svg" # https://www.svgrepo.com/svg/373541/cuda
 created: "2025-03-12T08:16:55Z"
 github_repo: NVIDIA/gpu-operator
 description: |
@@ -112,6 +112,28 @@ deploy_code: |
                   honorLabels: true
                   additionalLabels: {}
     ~~~
+
+examples:
+  ai_inference:
+    card_title: AI Inference Stack (NVIDIA)
+    card_summary: | 
+      A fully integrated stack for deploying and serving LLMs and ML models in production. Combines GPU provisioning, model serving,
+      observability, and autoscaling into a single validated blueprint for organizations running LLM inference and real-time
+      prediction workloads.
+    title: AI Inference Stack (NVIDIA)
+    type: solution
+    tagline: NVIDIA GPU-optimized inference serving at enterprise scale
+    category: AI/ML
+    badge: Validated
+    tier: community
+    use_cases:
+      - Air-gapped enterprise chatbots running private LLMs on local infrastructure
+      - Custom model serving for domain-specific AI assistants and real-time inference workloads
+      - AI image generation and multimodal pipelines with scalable GPU-backed inference
+    clouds: ["Azure VM", "OpenStack", "vSphere", "Bare Metal"]
+    k8s: ["1.30", "1.31", "1.32"]
+    chart_folder: example_inference
+    content_template_file: example_inference/doc.md
 
 validated_amd64: 'y'
 validated_aws: 'y'
