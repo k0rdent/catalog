@@ -1,0 +1,25 @@
+{
+  "versions": [
+    {
+      "version": "1.54.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ollama oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ollama:1.54.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ollama-1-54-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ollama\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ollama-1-54-0\n      name: ollama\n      namespace: ollama</code></pre>"
+    },
+    {
+      "version": "1.42.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ollama oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ollama:1.42.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ollama-1-42-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ollama\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ollama-1-42-0\n      name: ollama\n      namespace: ollama</code></pre>"
+    },
+    {
+      "version": "1.40.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install ollama oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=ollama:1.40.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   ollama-1-40-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: ollama\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: ollama-1-40-0\n      name: ollama\n      namespace: ollama</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.3.0: <a href=\"https://docs.k0rdent.io/v0.3.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.ollama.com/",
+  "examples": []
+}

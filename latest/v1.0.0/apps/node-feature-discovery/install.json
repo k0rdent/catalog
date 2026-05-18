@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "0.18.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install node-feature-discovery oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=node-feature-discovery:0.18.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   node-feature-discovery-0-18-3   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: node-feature-discovery\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: node-feature-discovery-0-18-3\n      name: node-feature-discovery\n      namespace: node-feature-discovery</code></pre>"
+    },
+    {
+      "version": "0.16.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install node-feature-discovery oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=node-feature-discovery:0.16.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   node-feature-discovery-0-16-1   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: node-feature-discovery\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: node-feature-discovery-0-16-1\n      name: node-feature-discovery\n      namespace: node-feature-discovery</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.0.0: <a href=\"https://docs.k0rdent.io/v1.0.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://kubernetes-sigs.github.io/node-feature-discovery/v0.17/get-started/index.html",
+  "examples": []
+}

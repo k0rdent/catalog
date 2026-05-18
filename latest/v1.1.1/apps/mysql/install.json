@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "2.2.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install mysql-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=mysql-operator:2.2.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   mysql-operator-2-2-3            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mysql\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: mysql-operator-2-2-3\n      name: mysql-operator\n      namespace: mysql</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.1.1: <a href=\"https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-installation-helm.html",
+  "examples": []
+}

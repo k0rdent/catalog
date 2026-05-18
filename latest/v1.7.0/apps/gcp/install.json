@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent v1.7.0 includes the template for Google Computer Engine out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get clustertemplate -n kcm-system\n# NAME                            VALID\n# gcp-standalone-cp-1-0-18         true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-gcp-clusterdeployment1\n  namespace: kcm-system\nspec:\n  template: gcp-standalone-cp-1-0-18\n  credential: gcp-credential\n  config:\n    project: PROJECT_NAME # Your project name\n    region: us-east4 # Select your desired GCP region (find it via <code>gcloud compute regions list</code>)\n    network:\n      name: default # Select your desired network name (select new network name to create or find it via <code>gcloud compute networks list --format=\"value(name)\"</code>)\n    controlPlane:\n      instanceType: n1-standard-2 # Select your desired instance type (find it via <code>gcloud compute machine-types list | grep REGION</code>)\n      image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213 # Select image (find it via <code>gcloud compute images list --uri</code>)\n      publicIP: true\n    worker:\n      instanceType: n1-standard-2 \n      image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213\n      publicIP: true</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.7.0: <a href=\"https://docs.k0rdent.io/v1.7.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://cloud.google.com/compute/docs",
+  "examples": []
+}

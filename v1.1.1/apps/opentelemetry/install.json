@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "0.105.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install opentelemetry-collector oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=opentelemetry-collector:0.145.0\" \\\n  -n kcm-system\nhelm upgrade --install opentelemetry-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=opentelemetry-operator:0.105.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   opentelemetry-collector-0-145-0 true\n# kcm-system   opentelemetry-operator-0-105-1  true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: opentelemetry\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: opentelemetry-collector-0-145-0\n      name: opentelemetry-collector\n      namespace: opentelemetry\n      values: |\n        opentelemetry-collector:\n          image:\n            repository: \"otel/opentelemetry-collector-k8s\"\n          mode: daemonset # &lt;daemonset|deployment|statefulset&gt;\n    - template: opentelemetry-operator-0-105-1\n      name: opentelemetry-operator\n      namespace: opentelemetry\n      values: |\n        opentelemetry-operator:\n          manager:\n            collectorImage:\n              repository: \"otel/opentelemetry-collector-k8s\"\n          admissionWebhooks:\n            certManager:\n              enabled: false\n            autoGenerateCert:\n              enabled: true</code></pre>"
+    },
+    {
+      "version": "0.99.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install opentelemetry-collector oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=opentelemetry-collector:0.145.0\" \\\n  -n kcm-system\nhelm upgrade --install opentelemetry-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=opentelemetry-operator:0.99.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   opentelemetry-collector-0-145-0 true\n# kcm-system   opentelemetry-operator-0-99-2   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: opentelemetry\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: opentelemetry-collector-0-145-0\n      name: opentelemetry-collector\n      namespace: opentelemetry\n      values: |\n        opentelemetry-collector:\n          image:\n            repository: \"otel/opentelemetry-collector-k8s\"\n          mode: daemonset # &lt;daemonset|deployment|statefulset&gt;\n    - template: opentelemetry-operator-0-99-2\n      name: opentelemetry-operator\n      namespace: opentelemetry\n      values: |\n        opentelemetry-operator:\n          manager:\n            collectorImage:\n              repository: \"otel/opentelemetry-collector-k8s\"\n          admissionWebhooks:\n            certManager:\n              enabled: false\n            autoGenerateCert:\n              enabled: true</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.1.1: <a href=\"https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://opentelemetry.io/docs/platforms/kubernetes/helm/",
+  "examples": []
+}

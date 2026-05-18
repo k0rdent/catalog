@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "5.9.9",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install jenkins oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=jenkins:5.9.9\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   jenkins-5-9-9                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: jenkins\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: jenkins-5-9-9\n      name: jenkins\n      namespace: jenkins</code></pre>"
+    },
+    {
+      "version": "5.8.139",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install jenkins oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=jenkins:5.8.139\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   jenkins-5-8-139                 true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: jenkins\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: jenkins-5-8-139\n      name: jenkins\n      namespace: jenkins</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://www.jenkins.io/doc/",
+  "examples": []
+}

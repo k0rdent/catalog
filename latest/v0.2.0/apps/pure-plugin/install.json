@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "2.7.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install pure-k8s-plugin oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=pure-k8s-plugin:2.7.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   pure-k8s-plugin-2-7-1           true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: pure-plugin\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: pure-k8s-plugin-2-7-1\n      name: pure-k8s-plugin\n      namespace: pure-plugin</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.2.0: <a href=\"https://docs.k0rdent.io/v0.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://github.com/purestorage/helm-charts",
+  "examples": []
+}

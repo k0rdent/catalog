@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.1.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install kyverno oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kyverno:3.5.2\" \\\n  -n kcm-system</code></pre>\n<pre><code class=\"language-bash\">helm upgrade --install kyverno-guardrails oci://registry.mirantis.com/k0rdent-enterprise-catalog/kgst \\\n  --set \"chart=kyverno-guardrails:0.1.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kyverno-3-5-2                   true\n# kcm-system   kyverno-guardrails-0-1-0        true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mirantis-kyverno-guardrails\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kyverno-3-5-2\n      name: kyverno\n      namespace: kyverno\n    - template: kyverno-guardrails-0-1-0\n      name: kyverno-guardrails\n      namespace: kyverno</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "<h4>Prerequisites</h4>\n- k0rdent Enterprise\n- Kyverno must be installed in the cluster: <a href=\"../../../v1.1.1/apps/kyverno/#install\" target=\"_blank\">Kyverno Install</a>",
+  "docLink": "https://kyverno.io/policies/",
+  "examples": []
+}

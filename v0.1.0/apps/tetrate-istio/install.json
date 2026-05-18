@@ -1,0 +1,25 @@
+{
+  "versions": [
+    {
+      "version": "1.28.20000",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install tetrate-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-base:1.28.20000\" \\\n  -n kcm-system\nhelm upgrade --install tetrate-istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-istiod:1.28.20000\" \\\n  -n kcm-system\nhelm upgrade --install tetrate-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-gateway:1.28.20000\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   tetrate-base-1-28-20000         true\n# kcm-system   tetrate-istiod-1-28-20000       true\n# kcm-system   tetrate-gateway-1-28-20000      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: tetrate-istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: tetrate-base-1-28-20000\n      name: tetrate-base\n      namespace: istio-system\n    - template: tetrate-istiod-1-28-20000\n      name: tetrate-istiod\n      namespace: istio-system\n      dependsOn:\n      - name: tetrate-base\n        namespace: istio-system\n    - template: tetrate-gateway-1-28-20000\n      name: tetrate-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: tetrate-istiod\n        namespace: istio-system</code></pre>"
+    },
+    {
+      "version": "1.27.10003",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install tetrate-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-base:1.27.10003\" \\\n  -n kcm-system\nhelm upgrade --install tetrate-istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-istiod:1.27.10003\" \\\n  -n kcm-system\nhelm upgrade --install tetrate-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-gateway:1.27.10003\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   tetrate-base-1-27-10003         true\n# kcm-system   tetrate-istiod-1-27-10003       true\n# kcm-system   tetrate-gateway-1-27-10003      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: tetrate-istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: tetrate-base-1-27-10003\n      name: tetrate-base\n      namespace: istio-system\n    - template: tetrate-istiod-1-27-10003\n      name: tetrate-istiod\n      namespace: istio-system\n      dependsOn:\n      - name: tetrate-base\n        namespace: istio-system\n    - template: tetrate-gateway-1-27-10003\n      name: tetrate-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: tetrate-istiod\n        namespace: istio-system</code></pre>"
+    },
+    {
+      "version": "1.26.20002",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install tetrate-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-base:1.26.20002\" \\\n  -n kcm-system\nhelm upgrade --install tetrate-istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-istiod:1.26.20002\" \\\n  -n kcm-system\nhelm upgrade --install tetrate-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tetrate-gateway:1.26.20002\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   tetrate-base-1-26-20002         true\n# kcm-system   tetrate-istiod-1-26-20002       true\n# kcm-system   tetrate-gateway-1-26-20002      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: tetrate-istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: tetrate-base-1-26-20002\n      name: tetrate-base\n      namespace: istio-system\n    - template: tetrate-istiod-1-26-20002\n      name: tetrate-istiod\n      namespace: istio-system\n      dependsOn:\n      - name: tetrate-base\n        namespace: istio-system\n    - template: tetrate-gateway-1-26-20002\n      name: tetrate-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: tetrate-istiod\n        namespace: istio-system</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.tetrate.io/istio-subscription/installation/install-helm",
+  "examples": []
+}

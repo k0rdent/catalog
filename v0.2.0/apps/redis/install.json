@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.2.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install redis oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=redis:0.2.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   redis-0-2-0                     true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: redis\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: redis-0-2-0\n      name: redis\n      namespace: redis</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.2.0: <a href=\"https://docs.k0rdent.io/v0.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://redis.io/docs/latest/get-started/",
+  "examples": []
+}

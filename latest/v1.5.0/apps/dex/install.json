@@ -1,0 +1,25 @@
+{
+  "versions": [
+    {
+      "version": "0.24.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install dex oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=dex:0.24.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   dex-0-24-0                      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\n# kind: MultiClusterService\n...\nserviceSpec:\n    services:\n      - template: dex-0-24-0\n        name: dex\n        namespace: dex\n        values: |\n          dex:\n            config:\n              issuer: https://dex.tunnelto.dev/dex\n              storage:\n                type: memory\n              connectors:\n                - type: mockCallback\n                  id: mock\n                  name: Example</code></pre>"
+    },
+    {
+      "version": "0.23.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install dex oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=dex:0.23.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   dex-0-23-0                      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\n# kind: MultiClusterService\n...\nserviceSpec:\n    services:\n      - template: dex-0-23-0\n        name: dex\n        namespace: dex\n        values: |\n          dex:\n            config:\n              issuer: https://dex.tunnelto.dev/dex\n              storage:\n                type: memory\n              connectors:\n                - type: mockCallback\n                  id: mock\n                  name: Example</code></pre>"
+    },
+    {
+      "version": "0.19.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install dex oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=dex:0.19.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   dex-0-19-1                      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\n# kind: MultiClusterService\n...\nserviceSpec:\n    services:\n      - template: dex-0-19-1\n        name: dex\n        namespace: dex\n        values: |\n          dex:\n            config:\n              issuer: https://dex.tunnelto.dev/dex\n              storage:\n                type: memory\n              connectors:\n                - type: mockCallback\n                  id: mock\n                  name: Example</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://dexidp.io/docs/",
+  "examples": []
+}

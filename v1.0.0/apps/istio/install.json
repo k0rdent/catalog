@@ -1,0 +1,31 @@
+{
+  "versions": [
+    {
+      "version": "1.29.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install istio-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-base:1.29.2\" \\\n  -n kcm-system\nhelm upgrade --install istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istiod:1.29.2\" \\\n  -n kcm-system\nhelm upgrade --install istio-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-gateway:1.29.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   istio-base-1-29-2               true\n# kcm-system   istiod-1-29-2                   true\n# kcm-system   istio-gateway-1-29-2            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: istio-base-1-29-2\n      name: istio-base\n      namespace: istio-system\n    - template: istiod-1-29-2\n      name: istiod\n      namespace: istio-system\n      dependsOn:\n      - name: istio-base\n        namespace: istio-system\n    - template: istio-gateway-1-29-2\n      name: istio-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: istiod\n        namespace: istio-system</code></pre>"
+    },
+    {
+      "version": "1.28.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install istio-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-base:1.28.3\" \\\n  -n kcm-system\nhelm upgrade --install istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istiod:1.28.3\" \\\n  -n kcm-system\nhelm upgrade --install istio-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-gateway:1.28.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   istio-base-1-28-3               true\n# kcm-system   istiod-1-28-3                   true\n# kcm-system   istio-gateway-1-28-3            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: istio-base-1-28-3\n      name: istio-base\n      namespace: istio-system\n    - template: istiod-1-28-3\n      name: istiod\n      namespace: istio-system\n      dependsOn:\n      - name: istio-base\n        namespace: istio-system\n    - template: istio-gateway-1-28-3\n      name: istio-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: istiod\n        namespace: istio-system</code></pre>"
+    },
+    {
+      "version": "1.27.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install istio-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-base:1.27.1\" \\\n  -n kcm-system\nhelm upgrade --install istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istiod:1.27.1\" \\\n  -n kcm-system\nhelm upgrade --install istio-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-gateway:1.27.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   istio-base-1-27-1               true\n# kcm-system   istiod-1-27-1                   true\n# kcm-system   istio-gateway-1-27-1            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: istio-base-1-27-1\n      name: istio-base\n      namespace: istio-system\n    - template: istiod-1-27-1\n      name: istiod\n      namespace: istio-system\n      dependsOn:\n      - name: istio-base\n        namespace: istio-system\n    - template: istio-gateway-1-27-1\n      name: istio-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: istiod\n        namespace: istio-system</code></pre>"
+    },
+    {
+      "version": "1.24.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install istio-base oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-base:1.24.3\" \\\n  -n kcm-system\nhelm upgrade --install istiod oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istiod:1.24.3\" \\\n  -n kcm-system\nhelm upgrade --install istio-gateway oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=istio-gateway:1.24.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   istio-base-1-24-3               true\n# kcm-system   istiod-1-24-3                   true\n# kcm-system   istio-gateway-1-24-3            true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: istio\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: istio-base-1-24-3\n      name: istio-base\n      namespace: istio-system\n    - template: istiod-1-24-3\n      name: istiod\n      namespace: istio-system\n      dependsOn:\n      - name: istio-base\n        namespace: istio-system\n    - template: istio-gateway-1-24-3\n      name: istio-gateway\n      namespace: istio-system\n      dependsOn:\n      - name: istiod\n        namespace: istio-system</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.0.0: <a href=\"https://docs.k0rdent.io/v1.0.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://istio.io/latest/docs/ambient/install/helm/",
+  "examples": []
+}
