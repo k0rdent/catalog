@@ -4,6 +4,7 @@ summary: "Self-managed Kubernetes on GCP virtual machines. Full control over nod
 logo: ./assets/gce_logo.svg # https://www.svgrepo.com/svg/375397/compute-engine
 type: infra
 infra_group: public
+brand_color: "#34A853"
 created: "2025-04-03T09:22:55Z"
 description: |
   K0rdent supports deploying and managing Kubernetes clusters directly on Google Compute Engine (GCE) virtual machines, offering full lifecycle control without relying on GKE. Here’s how k0rdent integrates with Google Cloud’s compute infrastructure:
