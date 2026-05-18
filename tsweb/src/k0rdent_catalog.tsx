@@ -1415,7 +1415,7 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer
         </div>
       </div>
       {INFRA_GROUPS.filter(function(g){ return infraFilter === "All" || g.key === infraFilter; }).map(function(group){
-        var groupItems = INFRA.filter(function(i:any){ return i.infraGroup === group.key; });
+        var groupItems = INFRA.filter(function(i:any){ return i.infraGroup === group.key; }).sort(function(a:any,b:any){ return (a.title||a.name).localeCompare(b.title||b.name); });
         if (groupItems.length === 0) return null;
         return (
           <div key={group.key} style={{marginBottom:20}}>
