@@ -1332,10 +1332,13 @@ function ConfiguratorPage() {
   );
 }
 
+var INFRA_FILTERS = [{key:"All",label:"All"},{key:"public",label:"Public Cloud"},{key:"private",label:"Private Cloud / On-premises"}];
+
 function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string }) {
   var [selected, setSelected] = useState<any>(null);
   var [detailTab, setDetailTab] = useState(initDtab || "overview");
   var [detailVer, setDetailVer] = useState("");
+  var [infraFilter, setInfraFilter] = useState("All");
 
   // Restore selected infra from URL
   useEffect(function(){
@@ -1368,15 +1371,24 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
     history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/"));
   }
 
+  var filtered = infraFilter === "All" ? INFRA : INFRA.filter(function(i:any){ return i.infraGroup === infraFilter; });
+
+
   return (
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
       <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Multi-cloud · On-premises · Edge</div>
         <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Deploy Kubernetes Clusters <span style={{color:B.teal}}>Anywhere</span></h1>
         <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px",textAlign:"justify"}}>k0rdent is designed to be a versatile and adaptable multi-cluster Kubernetes management system that can deploy and manage Kubernetes clusters across a wide range of infrastructure environments.</p>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+          {INFRA_FILTERS.map(function(f){
+            var active=infraFilter===f.key;
+            return <button key={f.key} onClick={function(){setInfraFilter(f.key);}} style={{padding:"5px 12px",fontSize:11,fontWeight:600,borderRadius:5,border:"1px solid "+(active?B.textPri:B.border),background:active?B.teal+"15":B.bg2,color:active?B.textPri:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{f.label}</button>;
+          })}
+        </div>
       </div>
       <div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-        {INFRA.map(function(item:any){
+        {filtered.map(function(item:any){
           return <Card key={item.name} item={item} onOpen={function(){openInfra(item);}}/>;
         })}
       </div>
