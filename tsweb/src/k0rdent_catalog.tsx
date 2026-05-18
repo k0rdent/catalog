@@ -1413,9 +1413,29 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer
               <span style={{fontSize:14,fontWeight:700,color:B.textPri}}>{group.label}</span>
               <span style={{fontSize:11,color:B.textMut}}>{groupItems.length} provider{groupItems.length>1?"s":""}</span>
             </div>
-            <div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
+            <div className="k0-infra-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))",gap:10}}>
               {groupItems.map(function(item:any){
-                return <Card key={item.name} item={item} onOpen={function(){openInfra(item);}}/>;
+                var accent = item.brandColor || group.color;
+                return (
+                  <div key={item.name} onClick={function(){openInfra(item);}} style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,overflow:"hidden",cursor:"pointer",transition:"border-color 0.15s"}}>
+                    <div style={{height:3,background:"linear-gradient(90deg,"+accent+","+accent+"60)"}}/>
+                    <div style={{padding:"14px 16px"}}>
+                      <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:10}}>
+                        <AppLogo name={item.name} size={40} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:15,fontWeight:700,color:B.textPri,marginBottom:3}}>{item.title||item.name}</div>
+                          <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                            {(item.tags||[]).map(function(t:string){return <span key={t} style={{fontSize:9,padding:"1px 6px",borderRadius:3,background:accent+"12",color:accent,border:"1px solid "+accent+"25",fontWeight:500}}>{t}</span>;})}
+                          </div>
+                        </div>
+                      </div>
+                      <p style={{fontSize:13,color:B.textSec,margin:"0 0 10px",lineHeight:1.65}}>{item.desc}</p>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end"}}>
+                        <span style={{fontSize:10.5,color:B.teal,fontWeight:500}}>View details →</span>
+                      </div>
+                    </div>
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -1777,6 +1797,7 @@ export default function App() {
           .k0-detail-content { padding: 12px 14px !important; }
           .k0-detail-header { padding: 12px 14px 0 !important; }
           .k0-card-grid { grid-template-columns: 1fr !important; }
+          .k0-infra-grid { grid-template-columns: 1fr !important; }
           .k0-sol-grid { grid-template-columns: 1fr !important; }
           .k0-stats-row { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; }
           .k0-stats-row > div { padding: 5px 7px !important; font-size: 9px !important; }
