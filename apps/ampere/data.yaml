@@ -3,6 +3,7 @@ title: "Ampere"
 summary: "Scalable, low-power ARM64 infrastructure for Kubernetes at the edge."
 logo: ./assets/ampere.svg # https://commons.wikimedia.org/wiki/File:Ampere_Computing_LLC_Logo.svg
 type: infra
+infra_group: private
 created: "2025-07-07T08:16:55Z"
 description: |
   Ampere Altra-based platforms are now supported for use with k0rdent child clusters.

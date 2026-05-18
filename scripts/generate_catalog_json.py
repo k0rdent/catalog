@@ -509,6 +509,7 @@ def process_app(app_name: str) -> dict | None:
         'versions': versions[:5],
         'chartName': chart_name,
         'type': data.get('type', 'app'),
+        'infraGroup': data.get('infra_group', ''),
         'logo': logo,
         'brandColor': brand_color,
         'doc_link': data.get('doc_link', ''),
