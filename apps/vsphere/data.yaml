@@ -1,6 +1,6 @@
 tags: []
 title: "VMware vSphere"
-summary: "Deploy kubernetes clusters with k0rdent on VMware vSphere infrastructure."
+summary: "Deploy on VMware vSphere infrastructure using the vSphere provider. Enables enterprises to run AI workloads on existing on-premises VMware investments with full k0rdent lifecycle management."
 logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
 type: infra
 infra_group: private

@@ -1,6 +1,6 @@
 tags: []
 title: "Azure Compute Services"
-summary: "Deploy kubernetes clusters with k0rdent on Azure infrastructure."
+summary: "Self-managed Kubernetes on Azure VMs. Supports NC, ND, and NV series GPU instances for AI training and inference workloads alongside standard compute."
 logo: "./assets/logo.svg" # https://commons.wikimedia.org/wiki/File:Microsoft_Azure.svg
 type: infra
 infra_group: public

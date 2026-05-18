@@ -1,6 +1,6 @@
 tags: []
 title: "Ampere"
-summary: "Scalable, low-power ARM64 infrastructure for Kubernetes at the edge."
+summary: "Maximum performance for GPU-intensive AI workloads. Run directly on physical servers without hypervisor overhead, enabling GPUDirect RDMA, NVLink, and InfiniBand at full hardware capability."
 logo: ./assets/ampere.svg # https://commons.wikimedia.org/wiki/File:Ampere_Computing_LLC_Logo.svg
 type: infra
 infra_group: private

@@ -1,6 +1,6 @@
 tags: []
 title: "Amazon Elastic Kubernetes Service"
-summary: "Deploy kubernetes clusters with k0rdent on Amazon Elastic Kubernetes Service"
+summary: "Managed Kubernetes on AWS. EKS handles the control plane while k0rdent manages workload deployment across node groups. Ideal for teams that want AWS-managed Kubernetes with k0rdent's multi-cluster orchestration."
 logo: "https://cdn.prod.website-files.com/64902e94cf962d0707c23165/64f20142e6b212d8af65e59f_amazon-eks.911x1024.webp"
 type: infra
 infra_group: public
