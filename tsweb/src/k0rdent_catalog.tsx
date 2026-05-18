@@ -450,7 +450,7 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
           <div style={{width:20,height:20,borderRadius:"50%",background:B.tealBg,border:"1px solid "+B.teal+"40",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:B.teal,flexShrink:0}}>{n}</div>
           <span style={{fontSize:12,fontWeight:600,color:B.textPri}}>{title}</span>
         </div>
-        <HtmlWithCopy html={html} style={{paddingLeft:28,fontSize:12,color:B.textSec}}/>
+        <HtmlWithCopy html={html} style={{paddingLeft:28,fontSize:13,color:B.textSec}}/>
       </div>
     );
   }
@@ -508,7 +508,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
   },[]);
 
   function tabStyle(active) {
-    return {padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
+    return {padding:"8px 14px",fontSize:13,fontWeight:active?600:400,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
   }
 
   var whyCopy = item.whyInCatalog || (function(){
@@ -554,7 +554,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
         <div className="k0-detail-content" style={{padding:"18px 22px",flex:1}}>
           {tab==="overview" && item.type==="infra" && (
             <div>
-              {item.descriptionHtml ? <HtmlWithCopy html={item.descriptionHtml} style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}/> : <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>}
+              {item.descriptionHtml ? <HtmlWithCopy html={item.descriptionHtml} style={{fontSize:14,color:B.textSec,lineHeight:1.8,marginTop:0}}/> : <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>}
               <div style={{marginTop:16,padding:"11px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
                 <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
                 <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
@@ -567,12 +567,12 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
           )}
           {tab==="overview" && item.type!=="infra" && (
             <div>
-              <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>
+              <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>
               <div style={{background:B.bg2,border:"1px solid "+B.borderHi,borderRadius:8,padding:"12px 14px",marginBottom:16,display:"flex",gap:10}}>
                 <span style={{fontSize:16,color:B.teal,flexShrink:0}}>◈</span>
                 <div>
                   <div style={{fontSize:10,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:4}}>Why this is in the catalog</div>
-                  <div style={{fontSize:12,color:B.textSec,lineHeight:1.7}}>{whyCopy}</div>
+                  <div style={{fontSize:13,color:B.textSec,lineHeight:1.7}}>{whyCopy}</div>
                 </div>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
@@ -640,7 +640,7 @@ function Card({ item, onOpen }) {
         <AppLogo name={item.name} size={32} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
-            <span style={{fontWeight:600,fontSize:12.5,color:B.textPri}}>{item.title||item.name}</span>
+            <span style={{fontWeight:600,fontSize:14,color:B.textPri}}>{item.title||item.name}</span>
             <span style={{fontSize:8.5,padding:"1px 5px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[eff]}</span>
           </div>
           <div style={{display:"flex",gap:4,marginTop:3,flexWrap:"wrap"}}>
@@ -649,7 +649,7 @@ function Card({ item, onOpen }) {
           </div>
         </div>
       </div>
-      <p style={{fontSize:11,color:B.textSec,marginTop:8,lineHeight:1.55,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",flex:1}}>{item.desc}</p>
+      <p style={{fontSize:13,color:B.textSec,marginTop:8,paddingBottom:2,lineHeight:1.6,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",flex:1,textAlign:"justify"}}>{item.desc}</p>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:8,paddingTop:7,borderTop:"1px solid "+B.border}}>
         {item.tested&&<span style={{fontSize:9.5,color:B.green}}>{"✓ CI-validated"}</span>}
         <span style={{fontSize:9.5,color:B.teal,fontWeight:500}}>View details</span>
@@ -874,12 +874,12 @@ function SolutionDetail({ sol, onClose }) {
             </div>
             <button onClick={onClose} style={{background:"transparent",border:"1px solid "+B.border,borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:B.textSec,cursor:"pointer",fontSize:13,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
-          <p style={{fontSize:12.5,color:B.textSec,lineHeight:1.8,margin:"0 0 16px"}}>{sol.desc}</p>
+          <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,margin:"0 0 16px"}}>{sol.desc}</p>
         </div>
         <div className="k0-detail-content" style={{padding:"0 24px 24px",flex:1}}>
           <div style={{marginBottom:16}}>
             <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Use cases</div>
-            {sol.useCases.map(function(u){return <div key={u} style={{display:"flex",gap:8,marginBottom:6}}><span style={{color:bc,fontSize:11,flexShrink:0}}>◈</span><span style={{fontSize:12,color:B.textSec,lineHeight:1.6}}>{u}</span></div>;})}
+            {sol.useCases.map(function(u){return <div key={u} style={{display:"flex",gap:8,marginBottom:6}}><span style={{color:bc,fontSize:11,flexShrink:0}}>◈</span><span style={{fontSize:13,color:B.textSec,lineHeight:1.6}}>{u}</span></div>;})}
           </div>
           <div style={{marginBottom:16}}>
             <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:8}}>Components</div>
@@ -976,8 +976,8 @@ function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, 
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
       <div style={{marginBottom:22,paddingBottom:18,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:7}}>Validated · Composable · Production-ready</div>
-        <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Solution bundles for <span style={{color:B.teal}}>AI infrastructure</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:680,margin:"0 0 14px",textAlign:"justify"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
+        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Solution bundles for <span style={{color:B.teal}}>AI infrastructure</span></h1>
+        <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,maxWidth:720,margin:"0 0 14px",textAlign:"justify"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
           {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){changeCat(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
           <span style={{marginLeft:"auto",fontSize:11,color:B.textMut}}>{filtered.length} bundles</span>
@@ -1192,7 +1192,7 @@ function ConfiguratorPage() {
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
       <div style={{marginBottom:24,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
         <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>AI-native · Validated · One-click deploy</div>
-        <h1 style={{fontSize:23,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Visual stack <span style={{color:B.teal}}>configurator</span></h1>
+        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Visual stack <span style={{color:B.teal}}>configurator</span></h1>
         <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px",textAlign:"justify"}}>
           Answer three questions about your use case, infrastructure, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
         </p>
@@ -1468,7 +1468,7 @@ function ContributePage() {
   return (
     <div style={{maxWidth:860,margin:"0 auto",padding:"30px 20px 0"}}>
       {loading ? <div style={{color:B.textSec,fontSize:13}}>Loading...</div>
-        : html ? <HtmlWithCopy html={html} style={{fontSize:13,color:B.textSec,lineHeight:1.8}}/>
+        : html ? <HtmlWithCopy html={html} style={{fontSize:14,color:B.textSec,lineHeight:1.8}}/>
         : <div style={{color:B.textMut,fontSize:13}}>Contribute page not available.</div>
       }
     </div>
@@ -1837,8 +1837,8 @@ export default function App() {
             <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:5}}>
               <span style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em"}}>Curated for AI-native Kubernetes</span>
             </div>
-            <h1 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:"0 0 5px",letterSpacing:"-0.02em"}}>Best-in-class software for <span style={{color:B.teal}}>the AI infrastructure stack</span></h1>
-            <p style={{fontSize:12,color:B.textSec,margin:"0 0 10px",lineHeight:1.9,textAlign:"justify"}}>
+            <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 8px",letterSpacing:"-0.02em"}}>Best-in-class software for <span style={{color:B.teal}}>the AI infrastructure stack</span></h1>
+            <p style={{fontSize:14,color:B.textSec,margin:"0 0 10px",lineHeight:1.8,textAlign:"justify"}}>
               Every integration sits at the intersection of <span style={{color:B.textPri,fontWeight:500}}>AI workloads</span> and <span style={{color:B.textPri,fontWeight:500}}>cloud-native Kubernetes infrastructure</span> — production-hardened on real enterprise clusters, composable by design, and relevant across the full AI lifecycle from GPU provisioning through model serving, RAG pipelines, observability, security, and FinOps. Not a directory of everything that exists, but a curated set of <span style={{color:B.teal,fontWeight:500}}>best-in-class integrations</span> validated by Mirantis platform engineers and deployable in minutes on any infrastructure.
             </p>
             <div className="k0-stats-row" style={{display:"flex",gap:0,background:B.bg2,border:"1px solid "+B.border,borderRadius:8,overflow:"hidden",marginBottom:10}}>
