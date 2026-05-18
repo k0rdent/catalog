@@ -1333,6 +1333,7 @@ function ConfiguratorPage() {
 }
 
 var INFRA_FILTERS = [{key:"All",label:"All"},{key:"public",label:"Public Cloud"},{key:"private",label:"Private Cloud / On-premises"}];
+var INFRA_GROUPS = [{key:"public",label:"Public Cloud",color:"#00c8c8"},{key:"private",label:"Private Cloud / On-premises",color:"#a78bfa"}];
 
 function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string }) {
   var [selected, setSelected] = useState<any>(null);
@@ -1371,7 +1372,7 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
     history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + "infra/"));
   }
 
-  var filtered = infraFilter === "All" ? INFRA : INFRA.filter(function(i:any){ return i.infraGroup === infraFilter; });
+
 
 
   return (
@@ -1387,11 +1388,24 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab }:{ k0rdentVer?:string, 
           })}
         </div>
       </div>
-      <div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-        {filtered.map(function(item:any){
-          return <Card key={item.name} item={item} onOpen={function(){openInfra(item);}}/>;
-        })}
-      </div>
+      {INFRA_GROUPS.filter(function(g){ return infraFilter === "All" || g.key === infraFilter; }).map(function(group){
+        var groupItems = INFRA.filter(function(i:any){ return i.infraGroup === group.key; });
+        if (groupItems.length === 0) return null;
+        return (
+          <div key={group.key} style={{marginBottom:20}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10,paddingBottom:8,borderBottom:"1px solid "+B.border}}>
+              <div style={{width:12,height:12,borderRadius:3,background:group.color}}/>
+              <span style={{fontSize:14,fontWeight:700,color:B.textPri}}>{group.label}</span>
+              <span style={{fontSize:11,color:B.textMut}}>{groupItems.length} provider{groupItems.length>1?"s":""}</span>
+            </div>
+            <div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
+              {groupItems.map(function(item:any){
+                return <Card key={item.name} item={item} onOpen={function(){openInfra(item);}}/>;
+              })}
+            </div>
+          </div>
+        );
+      })}
       {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} onClose={closeInfra}/>}
     </div>
   );
