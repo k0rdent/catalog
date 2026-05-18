@@ -1,6 +1,6 @@
 tags: []
 title: "Azure Kubernetes Service"
-summary: "Deploy kubernetes clusters with k0rdent on Azure Kubernetes Service."
+summary: "Microsoft's managed Kubernetes offering. k0rdent deploys and manages service templates on AKS clusters, with native integration for Azure AD, Azure Monitor, and GPU node pools."
 logo: "https://azure.microsoft.com/svghandler/kubernetes-service/?width=600&height=315"
 type: infra
 infra_group: public

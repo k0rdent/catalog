@@ -1,6 +1,6 @@
 tags: []
 title: "Google Kubernetes Engine"
-summary: "Deploy kubernetes clusters with k0rdent on Google Kubernetes Engine."
+summary: "Google's managed Kubernetes platform. Deploy k0rdent service templates on GKE clusters including Autopilot and Standard modes, with access to A100, H100, and TPU accelerators."
 logo: ./assets/gke_logo.svg # https://www.svgrepo.com/svg/375441/google-kubernetes-engine
 type: infra
 infra_group: public

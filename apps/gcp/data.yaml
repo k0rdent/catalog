@@ -1,6 +1,6 @@
 tags: []
 title: "Google Compute Engine"
-summary: "Deploy kubernetes clusters with k0rdent on GCP infrastructure."
+summary: "Self-managed Kubernetes on GCP virtual machines. Full control over node configuration including A100, H100, and L4 GPU instances, TPU v4 pods, and custom machine types for AI workloads."
 logo: ./assets/gce_logo.svg # https://www.svgrepo.com/svg/375397/compute-engine
 type: infra
 infra_group: public

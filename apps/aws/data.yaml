@@ -1,6 +1,6 @@
 tags: []
 title: "Amazon EC2"
-summary: "Deploy kubernetes clusters with k0rdent on AWS infrastructure."
+summary: "Deploy on self-managed Kubernetes clusters running on Amazon EC2 instances. Supports all instance families including GPU-optimized P4, P5, and G5 instances for AI workloads."
 logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
 type: infra
 infra_group: public

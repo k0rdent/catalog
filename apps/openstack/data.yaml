@@ -1,6 +1,6 @@
 tags: []
 title: "OpenStack"
-summary: "Deploy kubernetes clusters with k0rdent on OpenStack infrastructure."
+summary: "Run k0rdent-managed clusters on OpenStack private cloud. Supports Nova compute, Cinder block storage, and Neutron networking for flexible on-premises AI infrastructure."
 logo: "https://avatars.githubusercontent.com/u/324574?s=200&v=4"
 type: infra
 infra_group: private
