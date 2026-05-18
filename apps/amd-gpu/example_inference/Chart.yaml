@@ -1,0 +1,30 @@
+apiVersion: v2
+name: example
+type: application
+version: v1.3.0
+dependencies:
+  - name: cert-manager
+    version: 1.18.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Certificate Management
+    solution_why: Automated TLS certificate provisioning for secure service communication
+  - name: amd-gpu-operator
+    version: v1.4.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: GPU Operator
+    solution_why: Automates AMD GPU driver and device plugin deployment on Kubernetes nodes
+  - name: raw
+    version: 2.0.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Raw Resources
+    solution_why: Deploys custom Kubernetes resources not covered by other charts
+  - name: open-webui
+    version: 14.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: LLM Interface
+    solution_why: Self-hosted OpenAI-compatible UI for model interaction and testing
+  - name: traefik
+    version: 39.0.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    solution_role: Ingress Controller
+    solution_why: Routes external traffic to model serving endpoints with TLS termination
