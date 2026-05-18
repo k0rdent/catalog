@@ -4,6 +4,7 @@ summary: "Microsoft's managed Kubernetes offering. k0rdent deploys and manages s
 logo: "https://azure.microsoft.com/svghandler/kubernetes-service/?width=600&height=315"
 type: infra
 infra_group: public
+brand_color: "#0078D4"
 created: "2025-03-12T20:16:05Z"
 description: |
     Azure Kubernetes Service (AKS) is a managed Kubernetes service that simplifies the deployment and management of containerized applications in the Azure cloud. k0rdent can create and maage clusters with AKS.

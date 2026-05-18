@@ -467,9 +467,10 @@ def process_app(app_name: str) -> dict | None:
     # Handle logo: copy local files, keep remote URLs as-is
     logo_raw = data.get('logo', '')
     logo = logo_raw
-    brand_color = None
+    brand_color = data.get('brand_color', None)
     if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
-        brand_color = extract_brand_color(app_name, logo_raw)
+        if not brand_color:
+            brand_color = extract_brand_color(app_name, logo_raw)
         logo = copy_local_logo(app_name, logo_raw)
 
     # Read API data from stars.yaml / pulls.yaml (populated by update_api_data.py)

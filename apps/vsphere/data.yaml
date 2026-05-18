@@ -4,6 +4,7 @@ summary: "Deploy on VMware vSphere infrastructure using the vSphere provider. En
 logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/VMware-vSphere-7.jpg"
 type: infra
 infra_group: private
+brand_color: "#607078"
 created: "2025-03-12T08:16:55Z"
 description: |
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on VMware vSphere,

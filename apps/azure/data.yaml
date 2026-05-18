@@ -4,6 +4,7 @@ summary: "Self-managed Kubernetes on Azure VMs. Supports NC, ND, and NV series G
 logo: "./assets/logo.svg" # https://commons.wikimedia.org/wiki/File:Microsoft_Azure.svg
 type: infra
 infra_group: public
+brand_color: "#0078D4"
 created: "2025-03-12T08:16:55Z"
 description: |
     K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on Microsoft Azure, simplifying container orchestration in the cloud. Here's how it works:

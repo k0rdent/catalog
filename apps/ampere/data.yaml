@@ -4,6 +4,7 @@ summary: "Maximum performance for GPU-intensive AI workloads. Run directly on ph
 logo: ./assets/ampere.svg # https://commons.wikimedia.org/wiki/File:Ampere_Computing_LLC_Logo.svg
 type: infra
 infra_group: private
+brand_color: "#00c8c8"
 created: "2025-07-07T08:16:55Z"
 description: |
   Ampere Altra-based platforms are now supported for use with k0rdent child clusters.
