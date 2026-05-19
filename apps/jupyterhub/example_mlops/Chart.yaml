@@ -1,0 +1,58 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: traefik
+    version: 39.0.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: traefik
+    solution_role: Ingress Controller
+    solution_why: Routes external traffic to Kubernetes services with TLS support
+  - name: jupyterhub
+    version: 4.3.5
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
+    mcs_namespace: jupyterhub
+    solution_role: Data Science Platform
+    solution_why: Multi-user Jupyter notebook environment for AI and ML workloads
+  - name: ollama
+    version: 1.54.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: ollama
+    solution_role: LLM Runtime
+    solution_why: Runs and serves open-source AI models on Kubernetes
+  - name: cert-manager
+    version: 1.20.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: cert-manager
+    solution_role: Certificate Management
+    solution_why: Automated TLS certificate provisioning for secure service communication
+  - name: kserve-crd
+    version: v0.18.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 3
+    mcs_namespace: kserve
+    solution_role: Model Serving CRDs
+    solution_why: Custom resource definitions for KServe inference services
+  - name: kserve-resources
+    version: v0.18.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 4
+    mcs_namespace: kserve
+    solution_role: Model Serving
+    solution_why: Kubernetes-native inference platform with autoscaling and canary rollouts
+  - name: kserve-runtime-configs
+    version: v0.18.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 5
+    mcs_namespace: kserve
+    solution_role: Serving Runtimes
+    solution_why: Pre-configured model runtime templates for common ML frameworks
+  - name: raw
+    version: 2.0.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 6
+    mcs_namespace: kserve
+    solution_role: Raw Resources
+    solution_why: Deploys custom Kubernetes resources not covered by other charts

@@ -22,10 +22,29 @@ why_in_catalog: "Data scientists should not need to provision their own Kubernet
 # support_link:
 
 examples:
-    with_ingress:
-        title: With Ingress
-        chart_folder: example_ingress
-        content_template_file: example_ingress/content.tpl.md
+  with_ingress:
+     title: With Ingress
+     chart_folder: example_ingress
+     content_template_file: example_ingress/content.tpl.md
+  mlops:
+    card_title: MLOps Platform
+    card_summary: |
+      A validated Kubernetes platform for AI development, fine-tuning, and LLM inference. Combines JupyterHub workspaces,
+      GPU acceleration, Ollama model serving, ingress, and scalable operations into a production-ready MLOps solution.
+    title: MLOps Platform
+    type: solution
+    tagline: Enterprise AI development, fine-tuning, and inference on Kubernetes
+    category: AI/ML
+    badge: Validated
+    tier: community
+    use_cases:
+      - JupyterHub-based AI and data science environments for model development, experimentation, and validation
+      - Ollama-powered private LLM platforms for enterprise chatbots, RAG, and inference workloads
+      - Production-grade MLOps pipelines for fine-tuning, serving, and scaling GPU-accelerated AI models
+    clouds: ["AWS", "Azure VM", "OpenStack", "vSphere", "Bare Metal"]
+    k8s: ["1.30", "1.31", "1.32"]
+    chart_folder: example_mlops
+    content_template_file: example_mlops/doc.md
 
 doc_link: https://z2jh.jupyter.org/en/stable/
 
