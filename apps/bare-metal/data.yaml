@@ -1,0 +1,250 @@
+tags: []
+title: "Bare Metal"
+summary: "Maximum performance for GPU-intensive AI workloads. Run directly on physical servers without hypervisor overhead, enabling GPUDirect RDMA, NVLink, and InfiniBand at full hardware capability."
+logo: "./assets/icon.svg"
+type: infra
+infra_group: private
+brand_color: "#546E7A"
+created: "2025-05-19T08:16:55Z"
+prerequisites: |
+  - k0rdent Enterprise
+description: |
+    K0rdent streamlines the deployment, management, and monitoring of Kubernetes clusters on bare metal infrastructure,
+    enabling efficient orchestration of physical servers for cloud-native and AI workloads.
+
+why_in_catalog: "Carefully selected by Mirantis platform engineers for its production-grade quality, flexibility, and proven interoperability with k0rdent-managed clusters."
+support_link: https://www.mirantis.com/software/ceph/
+support_type: Enterprise
+install_code: |
+    Follow k0rdent Enterprise [Bare Metal installation instructions](https://docs.mirantis.com/k0rdent-enterprise/latest/admin/installation/prepare-mgmt-cluster/bare-metal/#prerequisites)
+verify_code: |
+    ~~~yaml
+    kubectl get clustertemplate -n kcm-system
+    # NAME                           VALID
+    # capm3-standalone-cp-0-5-0      true
+    # capm3-hosted-cp-0-5-0          true
+    ~~~
+deploy_code: |
+    Standalone control plane Bare Metal cluster example:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: capm3-example
+      namespace: <NAMESPACE>
+    spec:
+      template: capm3-standalone-cp-0-5-0
+      credential: capm3-stub-credential
+      dryRun: false
+      config:
+        clusterAnnotations: {}
+        clusterLabels: {}
+        clusterNetwork:
+          pods:
+            cidrBlocks:
+              - 10.243.0.0/16
+          services:
+            cidrBlocks:
+              - 10.95.0.0/16
+        controlPlane:
+          # Available since 0.4.0
+          # Automated node cleaning mode: 'metadata' or 'disabled'
+          automatedCleaningMode: metadata
+          # Available since 0.4.0
+          # Re-use the same BaremetalHosts during deprovisioning and provisioning
+          nodeReuse: false
+          # Default target OS image
+          checksum: f0a5da9499adaaca6249792df25032430f33f0130eddf39433782b5362057b99
+          image: http://<IRONIC_HTTP_ENDPOINT>:6180/images/ubuntu-24.04-server-cloudimg-20251118-amd64.img
+          keepalived:
+            authPass: <VRRP_PASSWORD> # optional, from 4 to 8 letters
+            enabled: true
+            virtualIP: <CLUSTER_API_VIP>/<SUBNET_PREFIX>  # e.g., 10.0.1.70/24. must match k0s.api.externalAddress
+          preStartCommands:
+            - sudo useradd -G sudo -s /bin/bash -d /home/user1 -p $(openssl passwd -1 myuserpass) user1 # define your user here. it can be used e.g. for debugging.
+            #- sudo apt update # for Ubuntu
+            #- sudo dnf makecache # for RedHat
+            # apt/dnf commands is used here just for illustration purposes
+          files:
+            - path: /home/user1/.ssh/authorized_keys
+              permissions: "0644"
+              content: "<SSH_PUBLIC_KEY>"
+        controlPlaneNumber: 1
+        dataTemplate:
+          metaData:
+            ipAddressesFromIPPool:
+              - key: provisioningIP
+                name: pool-pxe
+            objectNames:
+              - key: name
+                object: machine
+              - key: local-hostname
+                object: machine
+              - key: local_hostname
+                object: machine
+            prefixesFromIPPool:
+              - key: provisioningCIDR
+                name: pool-pxe
+          networkData:
+            links:
+              ethernets:
+                - id: <INTERFACE_NAME>  # e.g., ens3
+                  type: phy
+                  macAddress:
+                    fromHostInterface: <INTERFACE_NAME>
+            networks:
+              ipv4:
+                - id: pxe
+                  ipAddressFromIPPool: pool-pxe
+                  link: <INTERFACE_NAME>
+                  routes:
+                  - gateway:
+                      fromIPPool: pool-pxe
+                    network: 0.0.0.0
+                    prefix: 0
+            services:
+              dns:
+                - <DNS_SERVER_IP>   # e.g., 8.8.8.8
+        ipPools:
+          - name: pool-pxe
+            pools:
+              - end: <IP_POOL_END>      # e.g., 10.0.1.65
+                gateway: <GATEWAY_IP>   # e.g., 10.0.1.1
+                prefix: <SUBNET_PREFIX> # e.g, 24
+                start: <IP_POOL_START>  # e.g., 10.0.1.61
+        k0s:
+          api:
+            externalAddress: <CLUSTER_API_VIP>  # e.g., 10.0.1.70
+          telemetry:
+            enabled: false
+          version: v1.34.4+k0s.0
+        worker:
+          # Available since 0.4.0
+          # Automated node cleaning mode: 'metadata' or 'disabled'
+          automatedCleaningMode: metadata
+          # Available since 0.4.0
+          # Re-use the same BaremetalHosts during deprovisioning and provisioning
+          nodeReuse: false   
+          # Default target OS image
+          checksum: f0a5da9499adaaca6249792df25032430f33f0130eddf39433782b5362057b99
+          image: http://<IRONIC_HTTP_ENDPOINT>:6180/images/ubuntu-24.04-server-cloudimg-20251118-amd64.img
+          preStartCommands:
+            - sudo useradd -G sudo -s /bin/bash -d /home/user1 -p $(openssl passwd -1 myuserpass) user1 # define your user here. it can be used e.g. for debugging.
+            #- sudo apt update # for Ubuntu
+            #- sudo dnf makecache # for RedHat
+            # apt/dnf commands is used here just for illustration purposes
+          files:
+            - path: /home/user1/.ssh/authorized_keys
+              permissions: "0644"
+              content: "<SSH_PUBLIC_KEY>"
+        workersNumber: 2
+    ~~~
+
+    Hosted control plane Bare Metal cluster example:
+    ~~~yaml
+    apiVersion: k0rdent.mirantis.com/v1beta1
+    kind: ClusterDeployment
+    metadata:
+      name: capm3-hosted-example
+      namespace: <NAMESPACE>
+    spec:
+      template: capm3-hosted-cp-0-5-0
+      credential: capm3-stub-credential
+      dryRun: false
+      config:
+        clusterAnnotations: {}
+        clusterLabels: {}
+        clusterNetwork:
+          pods:
+            cidrBlocks:
+              - 10.243.0.0/16
+          services:
+            cidrBlocks:
+              - 10.95.0.0/16
+        controlPlaneNumber: 1
+        dataTemplate:
+          metaData:
+            ipAddressesFromIPPool:
+              - key: provisioningIP
+                name: pool-pxe
+            objectNames:
+              - key: name
+                object: machine
+              - key: local-hostname
+                object: machine
+              - key: local_hostname
+                object: machine
+            prefixesFromIPPool:
+              - key: provisioningCIDR
+                name: pool-pxe
+          networkData:
+            links:
+              ethernets:
+                - id: <INTERFACE_NAME>  # e.g., ens3
+                  type: phy
+                  macAddress:
+                    fromHostInterface: <INTERFACE_NAME>
+            networks:
+              ipv4:
+                - id: pxe
+                  ipAddressFromIPPool: pool-pxe
+                  link: <INTERFACE_NAME>
+                  routes:
+                  - gateway:
+                      fromIPPool: pool-pxe
+                    network: 0.0.0.0
+                    prefix: 0
+            services:
+              dns:
+                - <DNS_SERVER_IP>   # e.g., 8.8.8.8
+        ipPools:
+          - name: pool-pxe
+            pools:
+              - end: <IP_POOL_END>      # e.g., 10.0.1.65
+                gateway: <GATEWAY_IP>   # e.g., 10.0.1.1
+                prefix: <SUBNET_PREFIX> # e.g, 24
+                start: <IP_POOL_START>  # e.g., 10.0.1.61
+        k0s:
+          api:
+            externalAddress: <CLUSTER_API_VIP>  # e.g., 10.0.1.70
+          telemetry:
+            enabled: false
+          version: v1.34.4+k0s.0
+    
+      k0smotron:
+        service: # Use LoadBalancer to expose Kubernetes API endpoint
+          type: LoadBalancer
+          apiPort: 6443
+          konnectivityPort: 8132
+      # Alternatively, use an ingress controller to expose Kubernetes API endpoint, see k0smotron documentation: https://docs.k0smotron.io/head/ingress-support/
+      #    k0smotron:
+      #      ingress:
+      #        apiHost: kube-api.ingress
+      #        konnectivityHost: konnectivity.ingress
+      #        className: haproxy
+      #        annotations:
+      #          haproxy.org/ssl-passthrough: "true"
+      #          ingress.kubernetes.io/ssl-passthrough: "true"   
+      worker:
+        # Available since 0.4.0
+        # Automated node cleaning mode: 'metadata' or 'disabled'
+        automatedCleaningMode: metadata
+        # Available since 0.4.0
+        # Re-use the same BaremetalHosts during deprovisioning and provisioning
+        nodeReuse: false   
+        # Default target OS image
+        checksum: f0a5da9499adaaca6249792df25032430f33f0130eddf39433782b5362057b99
+        image: http://<IRONIC_HTTP_ENDPOINT>:6180/images/ubuntu-24.04-server-cloudimg-20251118-amd64.img
+        preStartCommands:
+          - sudo useradd -G sudo -s /bin/bash -d /home/user1 -p $(openssl passwd -1 myuserpass) user1 # define your user here. it can be used e.g. for debugging.
+          #- sudo apt update # for Ubuntu
+          #- sudo dnf makecache # for RedHat
+          # apt/dnf commands is used here just for illustration purposes
+        files:
+          - path: /home/user1/.ssh/authorized_keys
+            permissions: "0644"
+            content: "<SSH_PUBLIC_KEY>"
+      workersNumber: 3
+    ~~~
+
+doc_link: https://docs.mirantis.com/k0rdent-enterprise/latest/admin/installation/prepare-mgmt-cluster/bare-metal/
