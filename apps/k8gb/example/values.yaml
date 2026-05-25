@@ -1,0 +1,18 @@
+k8gb:
+  k8gb:
+    k8gb:
+      dnsZones:
+        - parentZone: "example.com"
+          loadBalancedZone: "cloud.example.com"
+          dnsZoneNegTTL: 30
+      edgeDNSServers:
+        - "1.1.1.1"
+      clusterGeoTag: "us-east-1"
+      extGslbClustersGeoTags: "eu-west-1"
+      log:
+        level: info
+      exposeMetrics: true
+      serviceMonitor:
+        enabled: false
+    extdns:
+      enabled: false
