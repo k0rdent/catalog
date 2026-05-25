@@ -1,0 +1,103 @@
+tags:
+  - Networking
+title: "k8gb"
+summary: "DNS-based global load balancer for resilient multi-cluster Kubernetes services."
+logo: ./assets/k8gb-icon-color.svg
+logo_big: ./assets/k8gb-icon-color.svg
+created: "2026-05-25T00:00:00Z"
+description: |
+  k8gb is an open-source Global Server Load Balancer (GSLB) for Kubernetes.
+  It watches application health across clusters, publishes DNS answers through CoreDNS,
+  and supports traffic steering strategies such as failover and round-robin.
+
+  The chart can also deploy ExternalDNS, allowing k0rdent-managed clusters to publish
+  delegation and endpoint records into providers such as Route53, Cloudflare, Infoblox,
+  and RFC2136-compatible DNS servers. Use k8gb when applications need deterministic
+  traffic steering, per-cluster geotags, or delegated load-balanced zones without
+  proprietary load-balancing appliances.
+support_type: Community
+support_link: https://github.com/k8gb-io/k8gb/discussions
+doc_link: https://www.k8gb.io/docs/
+github_repo: k8gb-io/k8gb
+why_in_catalog: |
+  k8gb gives k0rdent users a Kubernetes-native GSLB option for applications that must
+  remain reachable across multiple managed clusters. It keeps traffic policy close to
+  the application and uses DNS provider integrations that cluster operators already
+  manage through Kubernetes.
+prerequisites: |
+  - A delegated DNS zone for k8gb to manage.
+  - Network access from each target cluster to the parent DNS resolver.
+  - DNS provider credentials when enabling the bundled ExternalDNS integration.
+install_code: |
+  ~~~bash
+  # Publish the k8gb service template inside the k0rdent control plane.
+  helm upgrade --install k8gb oci://ghcr.io/k0rdent/catalog/charts/kgst \
+    --set "chart=k8gb:v0.19.0" \
+    -n kcm-system
+
+  # Create DNS provider credentials in each target cluster when ExternalDNS is enabled.
+  kubectl create namespace k8gb --dry-run=client -o yaml | kubectl apply -f -
+  kubectl -n k8gb create secret generic dns-credentials \
+    --from-literal=CF_API_TOKEN="${CF_API_TOKEN}"
+  ~~~
+deploy_code: |
+  ~~~yaml
+  apiVersion: k0rdent.mirantis.com/v1beta1
+  kind: MultiClusterService
+  metadata:
+    name: k8gb
+  spec:
+    clusterSelector:
+      matchLabels:
+        group: demo
+    serviceSpec:
+      services:
+        - template: k8gb-v0-19-0
+          name: k8gb
+          namespace: k8gb
+          values: |
+            k8gb:
+              k8gb:
+                dnsZones:
+                  - parentZone: example.com
+                    loadBalancedZone: cloud.example.com
+                    dnsZoneNegTTL: 30
+                edgeDNSServers:
+                  - 1.1.1.1
+                clusterGeoTag: us-east-1
+                extGslbClustersGeoTags: eu-west-1
+                reconcileRequeueSeconds: 30
+              extdns:
+                enabled: true
+                provider:
+                  name: cloudflare
+                domainFilters:
+                  - example.com
+                txtPrefix: k8gb-us-east-1-
+                txtOwnerId: k8gb-cloud-example-us-east-1
+                env:
+                  - name: CF_API_TOKEN
+                    valueFrom:
+                      secretKeyRef:
+                        name: dns-credentials
+                        key: CF_API_TOKEN
+  ~~~
+examples:
+  route53_failover:
+    title: "Route53-backed multi-region failover"
+    content: |
+      1. Bootstrap two clusters (e.g. EKS in `eu-west-1` and `us-east-1`) and federate them with k0rdent.
+      2. Reuse the sample values from `docs/examples/route53/k8gb/` to set `dnsZones`,
+         `edgeDNSServers`, and IRSA annotations for ExternalDNS.
+      3. Apply the Route53 example Gslb (`docs/examples/route53/k8gb/gslb-failover.yaml`) to each cluster
+         and watch `kubectl -n test-gslb get gslb` report which region is active.
+      4. Scale the frontend deployment in the primary region to zero and verify traffic fails over by
+         curling the delegated FQDN (see `docs/deploy_route53.md` for command snippets).
+test_namespace: k8gb
+test_wait_for_pods: "k8gb-"
+test_wait_for_running: true
+validated_amd64: '-'
+validated_aws: '-'
+validated_azure: '-'
+validated_arm64: '-'
+validated_local: '-'
