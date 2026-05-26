@@ -6,11 +6,13 @@ on:
       - '**'
     paths:
       - apps/*/charts/**
+      - scripts/**
       - .github/workflows/helm-chart-build.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - apps/*/charts/**
+      - scripts/**
       - .github/workflows/helm-chart-build.yml
 
 permissions:

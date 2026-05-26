@@ -10,9 +10,7 @@ on:
       - apps/*/charts/**
       - k0rdent_catalog.tsx
       - tsweb/**
-      - scripts/generate_catalog_json.py
-      - scripts/generate_html_pages.py
-      - scripts/utils.py
+      - scripts/**
       - .github/workflows/gh-pages-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
@@ -22,9 +20,7 @@ on:
       - apps/*/charts/**
       - k0rdent_catalog.tsx
       - tsweb/**
-      - scripts/generate_catalog_json.py
-      - scripts/generate_html_pages.py
-      - scripts/utils.py
+      - scripts/**
       - .github/workflows/gh-pages-deploy.yml
 
 permissions:
