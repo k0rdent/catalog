@@ -22,11 +22,13 @@ on:
       - '**'
     paths:
       - apps/*/example/**
+      - scripts/**
       - .github/workflows/helm-app-deploy.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - apps/*/example/**
+      - scripts/**
       - .github/workflows/helm-app-deploy.yml
 
 jobs:
