@@ -2,3 +2,5 @@ charts:
   keycloakx:
   - version: 7.1.8
     appVersion: 26.5.3
+  - version: 7.2.0
+    appVersion: 26.6.2
