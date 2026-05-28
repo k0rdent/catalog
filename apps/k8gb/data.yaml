@@ -16,8 +16,8 @@ description: |
   traffic steering, per-cluster geotags, or delegated load-balanced zones without
   proprietary load-balancing appliances.
 support_type: Community
-support_link: https://github.com/k8gb-io/k8gb/discussions
-doc_link: https://www.k8gb.io/docs/
+support_link: https://0ttl.ai/#contact
+doc_link: https://www.k8gb.io/latest/
 github_repo: k8gb-io/k8gb
 why_in_catalog: |
   k8gb gives k0rdent users a Kubernetes-native GSLB option for applications that must
