@@ -1,12 +1,15 @@
 charts:
   kserve-crd:
   - version: v0.15.0
-    appVersion: v0.15.0
+    appVersion: ''
   - version: v0.18.0
     appVersion: v0.18.0
   kserve:
   - version: v0.15.0
-    appVersion: v0.15.0
+    appVersion: ''
   kserve-resources:
+  - version: v0.18.0
+    appVersion: v0.18.0
+  kserve-runtime-configs:
   - version: v0.18.0
     appVersion: v0.18.0

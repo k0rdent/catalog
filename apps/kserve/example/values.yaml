@@ -1,11 +1,19 @@
-kserve-resources:
-  kserve-resources:
-    controller:
-      deploymentMode: Standard # Knative
-    modelmesh:
-      enabled: false
-
 cert-manager:
   cert-manager:
     crds:
       enabled: true
+
+kserve-resources:
+  kserve-resources:
+    kserve:
+      controller:
+        deploymentMode: Standard # Knative
+        gateway:
+          disableIstioVirtualHost: true
+          disableIngressCreation: true
+
+kserve-runtime-configs:
+  kserve-runtime-configs:
+    kserve:
+      servingruntime:
+        enabled: true
