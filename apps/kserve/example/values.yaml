@@ -1,7 +1,7 @@
-kserve:
-  kserve:
+kserve-resources:
+  kserve-resources:
     controller:
-      deploymentMode: RawDeployment # Serverless
+      deploymentMode: Standard # Knative
     modelmesh:
       enabled: false
 

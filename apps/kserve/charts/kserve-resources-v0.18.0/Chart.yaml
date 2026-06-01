@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kserve-resources
+description: A Helm chart that references the official "kserve-resources" Helm chart.
+type: application
+version: v0.18.0
+dependencies:
+  - name: kserve-resources
+    version: v0.18.0
+    repository: oci://ghcr.io/kserve/charts

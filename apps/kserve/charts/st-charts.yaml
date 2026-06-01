@@ -7,3 +7,11 @@ st-charts:
   dep_name: kserve
   version: v0.15.0
   repository: oci://ghcr.io/kserve/charts
+- name: kserve-crd
+  dep_name: kserve-crd
+  version: v0.18.0
+  repository: oci://ghcr.io/kserve/charts
+- name: kserve-resources
+  dep_name: kserve-resources
+  version: v0.18.0
+  repository: oci://ghcr.io/kserve/charts
