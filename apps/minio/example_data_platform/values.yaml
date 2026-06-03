@@ -1,0 +1,35 @@
+minio:
+  minio:
+    global:
+      security:
+        allowInsecureImages: true
+    image:
+      repository: bitnamilegacy/minio
+
+milvus:
+  milvus:
+    image:
+      all:
+        tag: v2.6.0
+    cluster:
+      enabled: false
+    pulsarv3:
+      enabled: false
+    standalone:
+      messageQueue: woodpecker
+    woodpecker:
+      enabled: true
+    streaming:
+      enabled: true
+
+strimzi-kafka-operator:
+  strimzi-kafka-operator:
+    revisionHistoryLimit: 4
+
+postgresql:
+  postgresql:
+    global:
+      security:
+        allowInsecureImages: true
+    image:
+      repository: bitnamilegacy/postgresql

@@ -1,0 +1,41 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: minio
+    version: 14.1.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: minio
+    solution_role: Object Storage
+    solution_why: S3-compatible storage for raw datasets and model artifacts
+  - name: milvus
+    version: 5.0.14
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: milvus
+    solution_role: Vector Store
+    solution_why: Store and query high-dimensional embeddings at scale
+  - name: strimzi-kafka-operator
+    version: 0.47.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: kafka
+    solution_role: Data Streaming
+    solution_why: Real-time event streaming for continuous ML pipelines
+  - name: postgresql
+    version: 18.3.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: postgresql
+    solution_role: Structured Data
+    solution_why: Relational store for feature metadata and labels
+  - name: redis
+    version: 0.2.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: redis
+    solution_role: Feature Cache
+    solution_why: Low-latency feature serving for real-time ML inference
+  - name: influxdb2
+    version: 2.1.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: influxdb
+    solution_role: Time-Series Store
+    solution_why: Metrics and sensor data for IoT and predictive AI models
