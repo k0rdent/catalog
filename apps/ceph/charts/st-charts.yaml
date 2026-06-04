@@ -12,3 +12,7 @@ st-charts:
   dep_name: pelagia-ceph
   version: 1.5.0
   repository: oci://registry.mirantis.com/pelagia
+- name: pelagia-ceph
+  dep_name: pelagia-ceph
+  version: 1.7.0
+  repository: oci://registry.mirantis.com/pelagia
