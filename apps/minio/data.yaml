@@ -20,3 +20,26 @@ validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'y'
 validated_local: 'y'
+
+examples:
+  data_platform:
+    card_title: AI Data Platform
+    card_summary: |
+      A composable data platform for AI teams needing reliable storage, messaging,
+      and workflow orchestration for training pipelines. Supports the full data lifecycle
+      from ingestion to model-ready datasets.
+    title: AI Data Platform
+    type: solution
+    tagline: Scalable data infrastructure for AI training pipelines
+    category: AI/ML
+    badge: Validated
+    tier: community
+    use_cases:
+      - Training data ingestion and preprocessing pipelines
+      - Feature store for real-time ML serving
+      - Workflow automation for data labeling
+      - Multi-modal data management (text, image, audio)
+    clouds: ["AWS", "Azure", "GCP", "OpenStack", "vSphere", "Bare Metal"]
+    k8s: ["1.30", "1.31", "1.32"]
+    chart_folder: example_data_platform
+    content_template_file: example_data_platform/doc.md
