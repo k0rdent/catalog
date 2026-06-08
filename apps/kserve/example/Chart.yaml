@@ -15,7 +15,3 @@ dependencies:
     version: v0.18.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 1
-  - name: kserve-runtime-configs
-    version: v0.18.0
-    repository: oci://ghcr.io/k0rdent/catalog/charts
-    mcs_dep_index: 2
