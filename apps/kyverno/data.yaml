@@ -26,3 +26,26 @@ validated_aws: 'y'
 validated_azure: 'y'
 validated_arm64: 'y' # aws t4g.medium
 validated_local: 'y'
+
+examples:
+  secure_ai:
+    card_title: Secure AI Platform
+    card_summary: |
+      A hardened security stack for organizations running AI in regulated environments.
+      Combines policy enforcement, secrets management, runtime threat detection, and
+      audit logging to meet SOC 2, HIPAA, and FedRAMP requirements.
+    title: Secure AI Platform
+    type: solution
+    tagline: Zero-trust security for regulated AI deployments
+    category: Security
+    badge: Enterprise
+    tier: mirantis-certified
+    use_cases:
+      - HIPAA-compliant AI workloads in healthcare
+      - FedRAMP-authorized government AI deployments
+      - Financial services AI with PCI DSS requirements
+      - Zero-trust access to ML training infrastructure
+    clouds: ["AWS", "Azure", "GCP", "OpenStack", "vSphere", "Bare Metal"]
+    k8s: ["1.30", "1.31", "1.32"]
+    chart_folder: example_secure_ai
+    content_template_file: example_secure_ai/doc.md

@@ -1,0 +1,8 @@
+teleport-cluster:
+  teleport-cluster:
+    clusterName: teleport-cluster
+
+cert-manager:
+  cert-manager:
+    crds:
+      enabled: true
