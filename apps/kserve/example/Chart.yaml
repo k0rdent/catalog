@@ -6,6 +6,7 @@ dependencies:
   - name: cert-manager
     version: 1.20.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: cert-manager
   - name: kserve-crd
     version: v0.18.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
