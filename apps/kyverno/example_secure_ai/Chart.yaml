@@ -1,0 +1,41 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: kyverno
+    version: 3.8.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: kyverno
+    solution_role: Policy Engine
+    solution_why: Validates every AI workload manifest against security policies
+  - name: falco
+    version: 8.0.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: falco
+    solution_role: Runtime Security
+    solution_why: Real-time threat detection for GPU pods and ML pipelines
+  - name: external-secrets
+    version: 2.4.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: external-secrets
+    solution_role: Secrets Management
+    solution_why: Sync API keys from Vault and AWS securely
+  - name: teleport-cluster
+    version: 18.6.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: teleport
+    solution_role: Zero-Trust Access
+    solution_why: MFA-gated access to AI training clusters with audit logs
+  - name: cert-manager
+    version: 1.20.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: cert-manager
+    solution_role: Certificate Automation
+    solution_why: Automated mTLS between model serving components
+  - name: gatekeeper
+    version: 3.21.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: gatekeeper
+    solution_role: Admission Control
+    solution_why: OPA policies to enforce GPU resource quotas and labels
