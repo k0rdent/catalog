@@ -1,0 +1,43 @@
+traefik:
+  traefik:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        port: 8000
+        hostPort: 80
+      websecure:
+        port: 8443
+        hostPort: 443
+
+kube-prometheus-stack:
+  kube-prometheus-stack:
+    prometheus:
+      prometheusSpec:
+        maximumStartupDurationSeconds: 300
+        additionalScrapeConfigs:
+          - job_name: opencost
+            honor_labels: true
+            dns_sd_configs:
+              - names: ['opencost.opencost']
+                type: 'A'
+                port: 9003
+    grafana:
+      ingress:
+        enabled: true
+        hosts: ['grafana.example.com']
+
+opencost:
+  opencost:
+    opencost:
+      prometheus:
+        internal:
+          namespaceName: monitoring
+          serviceName: monitoring-kube-prometheus-prometheus
+          port: 9090
+      ui:
+        ingress:
+          enabled: true
+          hosts:
+            - host: ''
+              paths: ['/']

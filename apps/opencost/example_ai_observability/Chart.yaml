@@ -1,0 +1,23 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: traefik
+    version: 39.0.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: traefik
+    solution_role: Ingress Controller
+    solution_why: Exposes Grafana and OpenCost dashboards for external access
+  - name: kube-prometheus-stack
+    version: 81.6.3
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: monitoring
+    solution_role: Metrics, Alerting, and Visualization
+    solution_why: Prometheus metrics with DCGM GPU dashboards and Grafana visualization in one stack
+  - name: opencost
+    version: 2.5.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: opencost
+    solution_role: Cost Attribution
+    solution_why: Per-workload GPU and compute cost allocation using Prometheus metrics
