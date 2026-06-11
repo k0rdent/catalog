@@ -94,6 +94,7 @@ var TAG_ACCENTS = {
   "Database":"#34d399","Storage":"#f59e0b","CI/CD":"#f472b6","Backup":"#fb923c",
   "Auth":"#818cf8","Autoscaling":"#6ee7b7","Serverless":"#67e8f9","Runtime":"#a3e635",
   "Drivers":"#94a3b8","Registry":"#e879f9","Developer Tools":"#fbbf24","Other":"#7a8aaa",
+  "Observability":"#00e5ff",
 };
 function tagAccent(t) { return TAG_ACCENTS[t] || "#7a8aaa"; }
 
@@ -791,7 +792,7 @@ function FinOpsEstimator({ stackItems, defaultCloud }) {
 }
 
 function SolutionCard({ sol, onClick }) {
-  var bc = sol.badgeColor;
+  var bc = tagAccent(sol.category);
   return (
     <div onClick={onClick}
       onMouseEnter={function(e){e.currentTarget.style.boxShadow="0 0 20px "+bc+"28";e.currentTarget.style.transform="translateY(-2px)";}}
@@ -832,7 +833,7 @@ function SolutionCard({ sol, onClick }) {
 }
 
 function SolutionDetail({ sol, onClose }) {
-  var bc = sol.badgeColor;
+  var bc = tagAccent(sol.category);
   var ss = SUPPORT_STYLE[sol.tier]||SUPPORT_STYLE.community;
   var [copied, setCopied] = useState(false);
   var [detail, setDetail] = useState<any>(null);
