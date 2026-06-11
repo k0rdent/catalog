@@ -1,0 +1,37 @@
+apiVersion: v2
+name: example
+type: application
+version: 1.0.0
+dependencies:
+  - name: traefik
+    version: 39.0.8
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: traefik
+    solution_role: Ingress Controller
+    solution_why: Exposes Open WebUI for external access
+  - name: raw
+    version: 2.0.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: open-webui
+    solution_role: Raw Resources
+    solution_why: Deploys custom Kubernetes configs using raw manifests
+  - name: opensearch
+    version: 3.3.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: open-webui
+    mcs_dep_index: 1
+    solution_role: Search and Analytics
+    solution_why: Full-text and vector search engine for RAG document retrieval
+  - name: tika
+    version: 3.2.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: tika
+    solution_role: Document Processing
+    solution_why: Extract text from PDFs, Office docs, and 1000+ formats for ingestion
+  - name: open-webui
+    version: 14.1.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: open-webui
+    mcs_dep_index: 1
+    solution_role: RAG Interface
+    solution_why: Self-hosted AI chat with built-in RAG support and document upload

@@ -1,0 +1,71 @@
+traefik:
+  traefik:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        port: 8000
+        hostPort: 80
+      websecure:
+        port: 8443
+        hostPort: 443
+
+raw:
+  raw:
+    resources:
+    - apiVersion: v1
+      kind: Secret
+      metadata:
+        name: opensearch-auth
+        namespace: open-webui
+      type: Opaque
+      stringData:
+        password: InitPass.123
+
+opensearch:
+  opensearch:
+    singleNode: true
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 500m
+    extraEnvs:
+      - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: opensearch-auth
+            key: password
+
+open-webui:
+  open-webui:
+    ollama:
+      ollama:
+        models:
+          pull: [gemma3:1b]
+          run: [gemma3:1b]
+    ingress:
+      enabled: true
+      host: ''
+
+    extraEnvVars:
+      - name: VECTOR_DB
+        value: opensearch
+      - name: OPENSEARCH_URI
+        value: https://opensearch-cluster-master.open-webui:9200
+      - name: OPENSEARCH_USERNAME
+        value: admin
+      - name: OPENSEARCH_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: opensearch-auth
+            key: password
+      - name: OPENSEARCH_SSL
+        value: "True"
+      - name: OPENSEARCH_CERT_VERIFY
+        value: "False"
+      - name: CONTENT_EXTRACTION_ENGINE
+        value: tika
+      - name: TIKA_SERVER_URL
+        value: http://tika.tika:9998
+      - name: ENABLE_PERSISTENT_CONFIG
+        value: "False"
