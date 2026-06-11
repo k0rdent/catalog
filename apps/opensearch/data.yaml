@@ -24,6 +24,27 @@ description: |
 why_in_catalog: "Open-source search and analytics suite for log aggregation, full-text search, and security analytics in AI infrastructure."
 doc_link: https://docs.opensearch.org/latest/
 
+examples:
+    rag:
+        card_title: RAG and Vector Search Stack
+        card_summary: A curated stack for building Retrieval-Augmented Generation applications
+        title: RAG and Vector Search Stack
+        type: solution
+        tagline: Production RAG pipelines with vector search and LLM serving
+        category: AI/ML
+        badge: Validated
+        tier: community
+        use_cases:
+            - Enterprise knowledge base search
+            - Document Q&A and summarization
+            - Semantic search over large corpora
+            - Real-time recommendation systems
+        clouds: ["AWS", "Azure", "GCP", "OpenStack", "vSphere", "Bare Metal"]
+        k8s: ["1.29", "1.30", "1.31", "1.32"]
+        chart_folder: example_rag
+        content_template_file: example_rag/doc.md
+
+
 test_wait_for_pods: "opensearch-cluster-master-0"
 
 validated_amd64: 'y'
