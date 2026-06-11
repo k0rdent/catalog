@@ -28,4 +28,4 @@ opencost:
       ui:
         ingress:
           enabled: true
-          hosts: [{ host: 'opencost.example.com', paths: ['/'] }]
+          hosts: [{ host: '', paths: ['/'] }]
