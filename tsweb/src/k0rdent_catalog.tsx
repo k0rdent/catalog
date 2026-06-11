@@ -970,7 +970,7 @@ function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, 
         <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 7px"}}>Solution bundles for <span style={{color:B.teal}}>AI infrastructure</span></h1>
         <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,maxWidth:720,margin:"0 0 14px",textAlign:"justify"}}>Named solution bundles are curated sets of applications forming fully functional, production-ready configurations for AI and cloud-native use cases. Each bundle is a validated combination of interoperable components with predefined deployment templates.</p>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
-          {cats.map(function(c){var active=catFilter===c;return <button key={c} onClick={function(){changeCat(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:20,fontSize:11,background:active?B.teal+"15":B.bg2,color:active?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
+          {cats.map(function(c){var active=catFilter===c;var ac=c==="All"?B.teal:tagAccent(c);return <button key={c} onClick={function(){changeCat(c);}} style={{padding:"4px 13px",border:"1px solid "+(active?ac+"60":B.border),borderRadius:20,fontSize:11,background:active?ac+"15":B.bg2,color:active?ac:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{c}</button>;})}
           <span style={{marginLeft:"auto",fontSize:11,color:B.textMut}}>{filtered.length} bundles</span>
         </div>
       </div>
