@@ -90,11 +90,11 @@ var COMPLIANCE_STYLE = {
   "FedRAMP":{bg:"#00d48a12",text:"#00d48a",border:"#00d48a30"},
 };
 var TAG_ACCENTS = {
-  "AI/ML":"#38bdf8","AI/Machine Learning":"#38bdf8","Monitoring":"#00e5ff","Security":"#a78bfa","Networking":"#38bdf8",
-  "Database":"#34d399","Storage":"#f59e0b","CI/CD":"#f472b6","Backup":"#fb923c",
+  "AI/ML":"#38bdf8","AI/Machine Learning":"#38bdf8","Monitoring":"#f59e0b","Security":"#a78bfa","Networking":"#38bdf8",
+  "Database":"#34d399","Storage":"#00e5ff","CI/CD":"#f472b6","Backup":"#fb923c",
   "Auth":"#818cf8","Autoscaling":"#6ee7b7","Serverless":"#67e8f9","Runtime":"#a3e635",
   "Drivers":"#94a3b8","Registry":"#e879f9","Developer Tools":"#fbbf24","Other":"#7a8aaa",
-  "Observability":"#00e5ff",
+  "Observability":"#f59e0b",
 };
 function tagAccent(t) { return TAG_ACCENTS[t] || "#7a8aaa"; }
 
