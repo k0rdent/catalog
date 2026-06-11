@@ -4,7 +4,7 @@ type: application
 version: 1.0.0
 dependencies:
   - name: traefik
-    version: 39.0.5
+    version: 39.0.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: prometheus
     version: 27.5.1
