@@ -90,7 +90,7 @@ var COMPLIANCE_STYLE = {
   "FedRAMP":{bg:"#00d48a12",text:"#00d48a",border:"#00d48a30"},
 };
 var TAG_ACCENTS = {
-  "AI/ML":"#00c8c8","Monitoring":"#00e5ff","Security":"#a78bfa","Networking":"#38bdf8",
+  "AI/ML":"#38bdf8","AI/Machine Learning":"#38bdf8","Monitoring":"#00e5ff","Security":"#a78bfa","Networking":"#38bdf8",
   "Database":"#34d399","Storage":"#f59e0b","CI/CD":"#f472b6","Backup":"#fb923c",
   "Auth":"#818cf8","Autoscaling":"#6ee7b7","Serverless":"#67e8f9","Runtime":"#a3e635",
   "Drivers":"#94a3b8","Registry":"#e879f9","Developer Tools":"#fbbf24","Other":"#7a8aaa",
@@ -1110,7 +1110,7 @@ function generateDeployYaml(stack) {
 }
 
 var LAYER_COLORS = {
-  "Infrastructure":B.teal,"AI/ML":"#00c8c8","Database":"#34d399","Storage":"#f59e0b",
+  "Infrastructure":B.teal,"AI/ML":"#38bdf8","Database":"#34d399","Storage":"#f59e0b",
   "Monitoring":"#00e5ff","Security":"#a78bfa","Networking":"#38bdf8","CI/CD":"#f472b6",
   "Runtime":"#6ee7b7","Backup":"#fb923c","Developer Tools":"#fbbf24",
 };
