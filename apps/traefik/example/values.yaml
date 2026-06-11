@@ -1,0 +1,11 @@
+traefik:
+  traefik:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        port: 8000
+        hostPort: 80
+      websecure:
+        port: 8443
+        hostPort: 443
