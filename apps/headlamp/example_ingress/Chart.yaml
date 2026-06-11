@@ -4,8 +4,16 @@ type: application
 version: 1.0.0
 dependencies:
   - name: traefik
-    version: 39.0.5
+    version: 39.0.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: traefik
   - name: headlamp
     version: 0.40.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: headlamp
+    mcs_dep_index: 0
+  - name: raw
+    version: 2.0.2
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: headlamp
+    mcs_dep_index: 1
