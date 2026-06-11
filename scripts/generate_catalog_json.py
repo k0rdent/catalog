@@ -211,16 +211,16 @@ def md_to_html(text: str) -> str:
     html = re.sub(r'^#{2}\s+(.+)$', r'<h2>\1</h2>', html, flags=re.MULTILINE)
     html = re.sub(r'^#{1}\s+(.+)$', r'<h1>\1</h1>', html, flags=re.MULTILINE)
 
-    # Restore <pre> blocks
-    for key, val in pre_blocks.items():
-        html = html.replace(key, val)
-
-    # Split into blocks by double newlines
+    # Split into blocks by double newlines (pre blocks are still placeholders)
     parts = re.split(r'\n\n+', html)
     result = []
     for part in parts:
         part = part.strip()
         if not part:
+            continue
+        # Pre block placeholder — pass through as-is
+        if re.match(r'^__PRE_\d+__$', part):
+            result.append(part)
             continue
         # Already block-level elements
         if re.match(r'^<(?:pre|h[1-6]|table|img|div|ul|ol)', part):
@@ -239,7 +239,12 @@ def md_to_html(text: str) -> str:
             continue
         # Regular paragraph
         result.append(f'<p>{part}</p>')
-    return '\n'.join(result)
+    html = '\n'.join(result)
+
+    # Restore <pre> blocks after all processing
+    for key, val in pre_blocks.items():
+        html = html.replace(key, val)
+    return html
 
 
 ## --- Install code generation (from gen_app_pages.py logic) ---
@@ -360,6 +365,15 @@ def extract_examples(app_name: str, metadata: dict, app_path: str) -> list:
                     merged = dict(BASE_METADATA)
                     merged.update(metadata)
                     merged.update(item)
+                    # Generate install/verify/deploy for content template
+                    chart_folder_path = os.path.join(app_path, item['chart_folder']) if 'chart_folder' in item else None
+                    if chart_folder_path:
+                        chart_file_path = os.path.join(chart_folder_path, 'Chart.yaml')
+                        if os.path.exists(chart_file_path):
+                            chart_dict = utils.read_yaml_file(chart_file_path)
+                            merged['install_code'] = utils.chart_2_install_code(chart_dict)
+                            merged['verify_code'] = utils.charts_2_verify_code(chart_dict['dependencies'])
+                            merged['deploy_code'] = utils.chart_2_deploy_code(chart_dict, chart_folder_path, app_name, merged)
                     example['contentHtml'] = md_to_html(tpl.render(**merged))
         elif 'content' in item:
             example['contentHtml'] = md_to_html(item['content'])
