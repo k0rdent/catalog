@@ -473,9 +473,9 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
               <div key={i} style={{marginBottom:16,padding:14,background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
                 <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:8}}>{ex.title}</div>
                 {ex.contentHtml && <HtmlWithCopy html={ex.contentHtml} style={{fontSize:12,color:B.textSec}}/>}
-                {ex.installHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Install</div><HtmlWithCopy html={ex.installHtml} style={{fontSize:12,color:B.textSec}}/></div>}
-                {ex.verifyHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Verify</div><HtmlWithCopy html={ex.verifyHtml} style={{fontSize:12,color:B.textSec}}/></div>}
-                {ex.deployHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Deploy</div><HtmlWithCopy html={ex.deployHtml} style={{fontSize:12,color:B.textSec}}/></div>}
+                {!ex.contentHtml && ex.installHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Install</div><HtmlWithCopy html={ex.installHtml} style={{fontSize:12,color:B.textSec}}/></div>}
+                {!ex.contentHtml && ex.verifyHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Verify</div><HtmlWithCopy html={ex.verifyHtml} style={{fontSize:12,color:B.textSec}}/></div>}
+                {!ex.contentHtml && ex.deployHtml && <div style={{marginTop:8}}><div style={{fontSize:10,color:B.textMut,marginBottom:4}}>Deploy</div><HtmlWithCopy html={ex.deployHtml} style={{fontSize:12,color:B.textSec}}/></div>}
               </div>
             );
           })}
