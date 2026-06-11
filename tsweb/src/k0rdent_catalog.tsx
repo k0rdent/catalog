@@ -808,6 +808,7 @@ function SolutionCard({ sol, onClick }) {
             <div>
               <div style={{fontSize:13.5,fontWeight:700,color:B.textPri}}>{sol.title}{sol.beta&&<span style={{fontSize:8,marginLeft:5,padding:"1px 4px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</div>
               <div style={{fontSize:10,color:B.textMut,marginTop:1}}>{sol.tagline}</div>
+              <div style={{marginTop:3}}><span style={{fontSize:9,padding:"1px 5px",borderRadius:3,background:bc+"15",color:bc,fontWeight:500,border:"1px solid "+bc+"25"}}>{sol.category}</span></div>
             </div>
           </div>
           {!sol.beta&&<span style={{fontSize:9.5,color:badgeC,whiteSpace:"nowrap",flexShrink:0}}>{"✓ "+sol.badge}</span>}
