@@ -38,8 +38,8 @@ examples:
     type: solution
     tagline: Zero-trust security for regulated AI deployments
     category: Security
-    badge: Enterprise
-    tier: mirantis-certified
+    badge: Validated
+    tier: community
     use_cases:
       - HIPAA-compliant AI workloads in healthcare
       - FedRAMP-authorized government AI deployments
