@@ -24,7 +24,7 @@ opencost:
     opencost:
       prometheus:
         internal:
-          namespaceName: opencost
+          namespaceName: prometheus
       ui:
         ingress:
           enabled: true
