@@ -1,0 +1,8 @@
+grafana:
+  grafana:
+    grafana.ini:
+      auth.anonymous:
+        enabled: true
+        org_role: Viewer
+      auth:
+        disable_login_form: true
