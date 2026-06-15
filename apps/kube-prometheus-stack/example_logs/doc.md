@@ -66,6 +66,12 @@ spec:
       values: |
         kube-prometheus-stack:
           grafana:
+            grafana.ini:
+              auth.anonymous:
+                enabled: true
+                org_role: Viewer
+              auth:
+                disable_login_form: true
             ingress:
               enabled: true
               hosts: ['']

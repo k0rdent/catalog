@@ -4,8 +4,8 @@ type: application
 version: 1.0.0
 dependencies:
   - name: traefik
-    version: 39.0.5
+    version: 39.0.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: kube-prometheus-stack
-    version: 81.6.3
+    version: 84.2.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
