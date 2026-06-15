@@ -6,6 +6,9 @@ dependencies:
   - name: prometheus
     version: 27.5.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_namespace: prometheus
   - name: opencost
     version: 2.5.8
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
+    mcs_namespace: opencost
