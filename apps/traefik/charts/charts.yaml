@@ -2,3 +2,5 @@ charts:
   traefik:
   - version: 39.0.8
     appVersion: v3.6.13
+  - version: 40.3.0
+    appVersion: v3.7.4
