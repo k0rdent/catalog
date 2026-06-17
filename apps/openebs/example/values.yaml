@@ -1,0 +1,20 @@
+openebs:
+  openebs:
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: false
+    loki:
+      enabled: false
+    alloy:
+      enabled: false
+
+    localpv-provisioner:
+      hostpathClass:
+        enabled: true
+        isDefaultClass: true

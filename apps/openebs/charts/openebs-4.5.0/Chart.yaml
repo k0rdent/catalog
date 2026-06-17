@@ -1,0 +1,9 @@
+apiVersion: v2
+name: openebs
+description: A Helm chart that references the official "openebs" Helm chart.
+type: application
+version: 4.5.0
+dependencies:
+  - name: openebs
+    version: 4.5.0
+    repository: https://openebs.github.io/openebs
