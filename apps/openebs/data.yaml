@@ -1,0 +1,25 @@
+tags:
+  - Storage
+title: "OpenEBS"
+summary: "OpenEBS is a CNCF-graduated container-native storage solution that turns local disks on Kubernetes nodes into dynamically provisioned persistent volumes. It provides multiple storage engines — Local PV HostPath, Local PV LVM, Local PV ZFS, and Mayastor for replicated storage — letting platform teams match the right engine to each workload's durability and performance requirements without external storage arrays."
+logo: ./assets/icon.svg
+created: "2026-06-15T00:00:00Z"
+github_repo: openebs/openebs
+description: |
+    OpenEBS provides container-attached and container-native storage for Kubernetes.
+    It includes multiple storage engines: Local PV for direct node-local storage,
+    LVM and ZFS LocalPV for volume management on local disks, and Mayastor for
+    replicated, highly available storage using NVMe-oF.
+
+why_in_catalog: "AI workloads on Kubernetes need persistent storage for model checkpoints, training datasets, and database state — but not every workload needs the same kind. OpenEBS provides a menu of storage engines from simple hostpath volumes for ephemeral caches to replicated NVMe-backed volumes for production databases, all provisioned dynamically from local node disks without external storage infrastructure. For bare metal and on-prem AI clusters where cloud-managed disks are unavailable, OpenEBS is the standard way to get production-grade persistent volumes."
+support_link: https://openebs.io/commercial-support
+
+doc_link: https://openebs.io/docs
+
+test_wait_for_pods: "openebs-localpv-provisioner-"
+
+validated_amd64: 'y'
+validated_aws: ''
+validated_azure: ''
+validated_arm64: ''
+validated_local: 'y'
