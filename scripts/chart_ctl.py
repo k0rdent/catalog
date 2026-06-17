@@ -221,7 +221,7 @@ def generate_charts_info(app: str, cfg: dict, rewrite: bool):
         repo = data['dep_name']
         if data['repository'].startswith("http") and data['repository'] not in repos:
             repo_name = repo
-            subprocess.run(["helm", "repo", "add", repo_name, data['repository']], check=True)
+            subprocess.run(["helm", "repo", "add", "--force-update", repo_name, data['repository']], check=True)
             subprocess.run(["helm", "repo", "update"], check=True)
             repos[data['repository']] = repo_name
         elif data['repository'].startswith("oci"):
