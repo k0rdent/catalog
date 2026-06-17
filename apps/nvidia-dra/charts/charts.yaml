@@ -2,3 +2,5 @@ charts:
   nvidia-dra-driver-gpu:
   - version: 25.8.1
     appVersion: 25.8.1
+  - version: 25.12.0
+    appVersion: 25.12.0

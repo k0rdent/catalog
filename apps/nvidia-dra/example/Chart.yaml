@@ -4,5 +4,5 @@ type: application
 version: 25.8.1
 dependencies:
   - name: nvidia-dra-driver-gpu
-    version: 25.8.1
+    version: 25.12.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
