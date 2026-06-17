@@ -4,5 +4,5 @@ type: application
 version: 25.10.0
 dependencies:
   - name: network-operator
-    version: 25.10.0
+    version: 26.4.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
