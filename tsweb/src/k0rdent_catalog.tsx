@@ -1108,183 +1108,53 @@ function filterMcsYaml(yaml:string, hiddenNames:any):string {
   return resultDocs.join("\n---\n");
 }
 
-var CONFIGURATOR_STEPS = [
-  {
-    id:"usecase",label:"Use Case",question:"What are you building?",
-    options:[
-      {id:"llm-inference",label:"LLM Inference",icon:"⬡",desc:"Serve LLMs and embedding models at scale"},
-      {id:"mlops",label:"MLOps Platform",icon:"◈",desc:"Train, track, and deploy ML models"},
-      {id:"rag",label:"RAG / Vector Search",icon:"✦",desc:"Build retrieval-augmented AI applications"},
-      {id:"ai-data",label:"AI Data Pipeline",icon:"◉",desc:"Ingest, process, and store training data"},
-      {id:"observability",label:"AI Observability",icon:"⬡",desc:"Monitor GPU utilization, cost, and model health"},
-      {id:"platform",label:"Internal Dev Platform",icon:"◈",desc:"GitOps-driven developer platform with guardrails"},
-    ],
-  },
-  {
-    id:"cloud",label:"Infrastructure",question:"Where are you deploying?",
-    options:[
-      {id:"aws",label:"AWS",icon:"☁",desc:"EC2 or EKS managed clusters"},
-      {id:"azure",label:"Azure",icon:"☁",desc:"VMs or AKS managed clusters"},
-      {id:"vsphere",label:"vSphere",icon:"◉",desc:"On-premises VMware infrastructure"},
-      {id:"baremetal",label:"Bare Metal",icon:"◈",desc:"Direct on-prem or edge servers"},
-      {id:"hybrid",label:"Hybrid",icon:"⬡",desc:"Multiple clouds and on-prem combined"},
-    ],
-  },
-  {
-    id:"scale",label:"Scale",question:"What is your expected cluster scale?",
-    options:[
-      {id:"small",label:"Small",icon:"◈",desc:"1-5 clusters, dev/test or startup"},
-      {id:"medium",label:"Medium",icon:"⬡",desc:"5-50 clusters, growing production"},
-      {id:"large",label:"Large",icon:"◉",desc:"50+ clusters, enterprise scale"},
-    ],
-  },
-];
-
-function buildStack(selections) {
-  var usecase   = selections.usecase   || "";
-  var compliance= selections.compliance|| [];
-  var scale     = selections.scale     || "";
-  var needsCompliance = compliance.length > 0 && compliance.indexOf("none") === -1;
-  var stack = [];
-
-  if (usecase === "llm-inference") {
-    stack.push({name:"nvidia",reason:"GPU provisioning — automates CUDA, drivers, and device plugins",layer:"Infrastructure"});
-    stack.push({name:"kserve",reason:"Model serving — Kubernetes-native inference with autoscaling",layer:"AI/ML"});
-    stack.push({name:"ollama",reason:"LLM runtime — lightweight self-hosted model execution",layer:"AI/ML"});
-    stack.push({name:"open-webui",reason:"LLM interface — OpenAI-compatible UI with RAG support",layer:"AI/ML"});
-    stack.push({name:"keda",reason:"Event-driven autoscaling — scale inference pods on queue depth",layer:"Runtime"});
-    stack.push({name:"lws",reason:"Multi-node inference — LeaderWorkerSet for large multi-GPU models",layer:"AI/ML"});
-  } else if (usecase === "mlops") {
-    stack.push({name:"nvidia",reason:"GPU provisioning for training workloads",layer:"Infrastructure"});
-    stack.push({name:"mlflow",reason:"Experiment tracking and model registry",layer:"AI/ML"});
-    stack.push({name:"kuberay",reason:"Distributed training — Ray clusters for PyTorch and TensorFlow",layer:"AI/ML"});
-    stack.push({name:"kubeflow-spark-operator",reason:"Data processing — Spark for large-scale feature engineering",layer:"AI/ML"});
-    stack.push({name:"minio",reason:"Artifact storage — S3-compatible for datasets and model checkpoints",layer:"Storage"});
-    stack.push({name:"jupyterhub",reason:"Shared notebooks for data scientists",layer:"Developer Tools"});
-  } else if (usecase === "rag") {
-    stack.push({name:"qdrant",reason:"Primary vector DB — billion-scale similarity search",layer:"Database"});
-    stack.push({name:"milvus",reason:"Alternative vector DB — distributed embeddings at scale",layer:"Database"});
-    stack.push({name:"ollama",reason:"LLM backend — self-hosted embedding and generation",layer:"AI/ML"});
-    stack.push({name:"open-webui",reason:"RAG interface — document upload, retrieval, and chat UI",layer:"AI/ML"});
-    stack.push({name:"tika",reason:"Document processing — extract text from PDFs and Office files",layer:"AI/ML"});
-    stack.push({name:"redis",reason:"Semantic cache — reduce LLM API costs with query caching",layer:"Database"});
-  } else if (usecase === "ai-data") {
-    stack.push({name:"minio",reason:"Object storage — S3-compatible for datasets and model artifacts",layer:"Storage"});
-    stack.push({name:"milvus",reason:"Vector store — high-dimensional embedding storage",layer:"Database"});
-    stack.push({name:"strimzi-kafka-operator",reason:"Data streaming — real-time events for ML pipelines",layer:"Networking"});
-    stack.push({name:"postgresql",reason:"Metadata store — feature metadata, labels, and pipeline state",layer:"Database"});
-    stack.push({name:"redis",reason:"Feature cache — low-latency serving for real-time inference",layer:"Database"});
-    stack.push({name:"n8n",reason:"Workflow automation — visual pipelines for ETL and data labeling",layer:"AI/ML"});
-  } else if (usecase === "observability") {
-    stack.push({name:"kube-prometheus-stack",reason:"Metrics and alerting — GPU DCGM metrics and pre-built dashboards",layer:"Monitoring"});
-    stack.push({name:"grafana",reason:"Visualization — GPU utilization, cost, and model dashboards",layer:"Monitoring"});
-    stack.push({name:"loki",reason:"Log aggregation — correlated logs for training and inference",layer:"Monitoring"});
-    stack.push({name:"tempo",reason:"Distributed tracing — end-to-end traces across serving pipelines",layer:"Monitoring"});
-    stack.push({name:"opencost",reason:"Cost attribution — per-workload GPU and compute allocation",layer:"Monitoring"});
-    stack.push({name:"finops-agent",reason:"Cost forecasting — AI-powered spend forecasting from Prometheus",layer:"AI/ML"});
-  } else if (usecase === "platform") {
-    stack.push({name:"argo-cd",reason:"GitOps delivery — declarative cluster and app lifecycle management",layer:"CI/CD"});
-    stack.push({name:"kyverno",reason:"Policy engine — enforce guardrails and golden paths",layer:"Security"});
-    stack.push({name:"ingress-nginx",reason:"Ingress controller — external HTTP/S access to services",layer:"Networking"});
-    stack.push({name:"cert-manager",reason:"TLS automation — automated certificate issuance and renewal",layer:"Security"});
-    stack.push({name:"keda",reason:"Event-driven autoscaling — scale workloads on external events",layer:"Runtime"});
-    stack.push({name:"external-secrets",reason:"Secrets management — sync from Vault and cloud secret stores",layer:"Security"});
-  }
-
-  if (usecase !== "observability") {
-    stack.push({name:"kube-prometheus-stack",reason:"Baseline observability — cluster health metrics and alerting",layer:"Monitoring"});
-  }
-  if (needsCompliance) {
-    stack.push({name:"falco",reason:"Runtime security — real-time threat detection required for compliance",layer:"Security"});
-    stack.push({name:"kyverno",reason:"Policy enforcement — admission control for compliance guardrails",layer:"Security"});
-  }
-  if (compliance.indexOf("hipaa") !== -1 || compliance.indexOf("fedramp") !== -1) {
-    stack.push({name:"teleport",reason:"Zero-trust access — MFA-gated cluster access with full audit logging",layer:"Security"});
-  }
-  if (compliance.indexOf("soc2") !== -1 || compliance.indexOf("pci") !== -1) {
-    stack.push({name:"external-secrets",reason:"Secrets management — centralized, audited secrets for compliance",layer:"Security"});
-  }
-  if (scale === "large" || scale === "medium") {
-    stack.push({name:"cluster-autoscaler",reason:"Cluster autoscaling — right-size nodes across large fleets",layer:"Runtime"});
-    stack.push({name:"velero",reason:"Backup and DR — protect cluster state across environments",layer:"Backup"});
-  }
-  if (scale === "large") {
-    stack.push({name:"opencost",reason:"FinOps — cost attribution at scale across many clusters",layer:"Monitoring"});
-  }
-
-  var seen = {}; var out = [];
-  for (var i=0;i<stack.length;i++) {
-    if (!seen[stack[i].name]) { seen[stack[i].name]=1; out.push(stack[i]); }
-  }
-  return out;
-}
-
-function generateDeployYaml(stack) {
-  var services = "";
-  for (var i=0;i<stack.length;i++) {
-    var app = null;
-    for (var j=0;j<RAW.length;j++){if(RAW[j].name===stack[i].name){app=RAW[j];break;}}
-    if (!app) continue;
-    var slug = (app.chartName+"-"+app.version).replace(/\./g,"-");
-    services += "    - template: "+slug+"\n      name: "+app.name+"\n      namespace: "+app.name+"\n";
-  }
-  return "apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: custom-stack\n  namespace: kcm-system\nspec:\n  clusterSelector:\n    matchLabels:\n      stack: custom\n  serviceSpec:\n    services:\n"+services;
-}
-
-var LAYER_COLORS = {
-  "Infrastructure":B.teal,"AI/ML":"#38bdf8","Database":"#34d399","Storage":"#f59e0b",
-  "Monitoring":"#00e5ff","Security":"#a78bfa","Networking":"#38bdf8","CI/CD":"#f472b6",
-  "Runtime":"#6ee7b7","Backup":"#fb923c","Developer Tools":"#fbbf24",
+var CLOUD_META:any = {
+  "aws":{label:"AWS",icon:"☁",desc:"EC2 clusters"},
+  "azure":{label:"Azure",icon:"☁",desc:"VMs clusters"},
+  "gcp":{label:"GCP",icon:"☁",desc:"GCE clusters"},
+  "vsphere":{label:"vSphere",icon:"◉",desc:"On-premises VMware infrastructure"},
+  "baremetal":{label:"Bare Metal",icon:"◈",desc:"Direct on-prem or edge servers"},
+  "openstack":{label:"OpenStack",icon:"◉",desc:"On-premises OpenStack infrastructure"},
+  "hybrid":{label:"Hybrid",icon:"⬡",desc:"Multiple clouds and on-prem combined"},
+};
+var SCALE_META:any = {
+  "small":{label:"Small",icon:"◈",desc:"Basic 2 nodes cluster, dev/test or startup"},
+  "medium":{label:"Medium",icon:"⬡",desc:"Medium 5+ nodes cluster, growing production"},
+  "large":{label:"Large",icon:"◉",desc:"Big 10+ nodes cluster, enterprise scale"},
 };
 
 function ConfiguratorPage() {
-  var [step, setStep] = useState(0);
-  var [selections, setSelections] = useState({});
-  var [done, setDone] = useState(false);
+  var [step, setStep] = useState(0); // 0=solution, 1=cloud, 2=scale
+  var [selectedSol, setSelectedSol] = useState<any>(null);
+  var [cloud, setCloud] = useState("");
+  var [scale, setScale] = useState("");
   var [copied, setCopied] = useState(false);
+  var [resultTab, setResultTab] = useState("cluster"); // "cluster" or "services"
+  var [solDetail, setSolDetail] = useState<any>(null);
+  var [solDetailLoading, setSolDetailLoading] = useState(false);
 
-  var currentStep = CONFIGURATOR_STEPS[step];
+  var configSolutions = SOLUTIONS.filter(function(s:any){ return s.configurator; });
 
-  function select(optId) {
-    var cur = CONFIGURATOR_STEPS[step];
-    if (cur.multi) {
-      var prev = selections[cur.id] || [];
-      var next;
-      if (optId === "none") {
-        next = ["none"];
-      } else {
-        var without = prev.filter(function(x){return x!=="none";});
-        var idx = without.indexOf(optId);
-        if (idx === -1) next = without.concat([optId]);
-        else { next = without.slice(); next.splice(idx,1); }
-        if (next.length===0) next=["none"];
-      }
-      setSelections(function(s){ var nx=Object.assign({},s); nx[cur.id]=next; return nx; });
-    } else {
-      setSelections(function(s){ var nx=Object.assign({},s); nx[cur.id]=optId; return nx; });
-      if (step < CONFIGURATOR_STEPS.length-1) {
-        setTimeout(function(){ setStep(function(s){return s+1;}); }, 200);
-      } else {
-        setDone(true);
-      }
-    }
-  }
+  function selectSolution(sol:any) { setSelectedSol(sol); setCloud(""); setScale(""); setResultTab("cluster"); setTimeout(function(){ setStep(1); }, 200); }
+  function selectCloud(id:string) { setCloud(id); setScale(""); setTimeout(function(){ setStep(2); }, 200); }
+  function selectScale(id:string) { setScale(id); }
+  function back() { if(step===2){setStep(1);setScale("");} else if(step===1){setStep(0);setCloud("");setScale("");} }
+  function reset() { setStep(0); setSelectedSol(null); setCloud(""); setScale(""); setSolDetail(null); }
 
-  function next() {
-    if (step < CONFIGURATOR_STEPS.length-1) setStep(step+1);
-    else setDone(true);
-  }
-  function back() { if(step>0){setStep(step-1); setDone(false);} }
-  function reset() { setStep(0); setSelections({}); setDone(false); }
+  // Fetch solution detail for Services tab
+  useEffect(function(){
+    if (!selectedSol || !selectedSol.appName) { setSolDetail(null); return; }
+    setSolDetail(null); setSolDetailLoading(true);
+    var solKey = selectedSol.id.replace(selectedSol.appName + "_", "");
+    fetch(dataPrefix("") + "apps/" + selectedSol.appName + "/solution_" + solKey + ".json?t=" + Date.now())
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ setSolDetail(d); setSolDetailLoading(false); })
+      .catch(function(){ setSolDetailLoading(false); });
+  }, [selectedSol ? selectedSol.id : ""]);
 
-  function isSelected(optId) {
-    var val = selections[currentStep.id];
-    if (currentStep.multi) return (val||[]).indexOf(optId)!==-1;
-    return val===optId;
-  }
-
-  var resultStack = done ? buildStack(selections) : [];
-  var yaml = done ? generateDeployYaml(resultStack) : "";
+  var cloudKeys = selectedSol && selectedSol.configurator ? Object.keys(selectedSol.configurator) : [];
+  var scaleKeys = selectedSol && selectedSol.configurator && cloud ? Object.keys(selectedSol.configurator[cloud]||{}) : [];
+  var yaml = selectedSol && selectedSol.configurator && cloud && scale && selectedSol.configurator[cloud] ? (selectedSol.configurator[cloud][scale]||"") : "";
 
   function doCopy() {
     if(navigator.clipboard) navigator.clipboard.writeText(yaml);
@@ -1292,153 +1162,180 @@ function ConfiguratorPage() {
     setTimeout(function(){setCopied(false);},1500);
   }
 
-  var layers = {};
-  for(var ri=0;ri<resultStack.length;ri++){
-    var l=resultStack[ri].layer;
-    if(!layers[l]) layers[l]=[];
-    layers[l].push(resultStack[ri]);
-  }
-
-  var cloudKey = selections.cloud==="aws"?"aws":selections.cloud==="azure"?"azure":selections.cloud==="vsphere"?"vsphere":selections.cloud==="baremetal"?"baremetal":"hybrid";
+  var stepLabels = [
+    {label:"Solution", value:selectedSol?selectedSol.title:null},
+    {label:"Infrastructure", value:cloud?(CLOUD_META[cloud]||{}).label||cloud:null},
+    {label:"Scale", value:scale?(SCALE_META[scale]||{}).label||scale:null},
+  ];
 
   return (
     <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
       <div style={{marginBottom:24,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>AI-native · Validated · One-click deploy</div>
-        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Visual stack <span style={{color:B.teal}}>configurator</span></h1>
+        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>Validated · Composable · One-click deploy</div>
+        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Stack <span style={{color:B.teal}}>configurator</span></h1>
         <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px",textAlign:"justify"}}>
-          Answer three questions about your use case, infrastructure, and scale. Get a validated MultiClusterService manifest you can apply directly to your k0rdent management cluster.
+          Choose a solution, target infrastructure, and scale to get a validated ClusterDeployment manifest you can apply directly to your k0rdent management cluster.
         </p>
       </div>
 
-      {!done && (
+      {/* Progress bar */}
+      <div style={{display:"flex",gap:0,marginBottom:28,background:B.bg2,borderRadius:8,overflow:"hidden",border:"1px solid "+B.border,maxWidth:720,margin:"0 auto 28px"}}>
+        {stepLabels.map(function(s,si){
+          var isActive=si===step;
+          var isDone=si<step||(si===2&&!!scale);
+          return (
+            <div key={s.label} onClick={function(){if(si<step){setStep(si);}}} style={{flex:1,padding:"10px 12px",background:isActive?B.teal+"18":isDone?B.bg3:"transparent",borderRight:si<stepLabels.length-1?"1px solid "+B.border:"none",cursor:si<step?"pointer":"default"}}>
+              <div style={{fontSize:9,fontWeight:600,color:isActive?B.teal:isDone?B.green:B.textMut,textTransform:"uppercase",marginBottom:2}}>{si+1}. {s.label}</div>
+              <div style={{fontSize:10,color:isActive?B.textPri:isDone?B.textSec:B.textMut}}>
+                {isDone && s.value ? s.value : (si===0?"Choose a solution":si===1?"Where are you deploying?":"Select cluster scale")}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Step 0: Pick solution */}
+      {step===0 && (
         <div style={{maxWidth:720,margin:"0 auto"}}>
-          <div style={{display:"flex",gap:0,marginBottom:28,background:B.bg2,borderRadius:8,overflow:"hidden",border:"1px solid "+B.border}}>
-            {CONFIGURATOR_STEPS.map(function(s,si){
-              var isActive=si===step;
-              var isDone=si<step;
+          <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What are you building?</h2>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
+            {configSolutions.map(function(sol:any){
               return (
-                <div key={s.id} onClick={function(){if(si<=step){setStep(si);setDone(false);}}} style={{flex:1,padding:"10px 12px",background:isActive?B.teal+"18":isDone?B.bg3:"transparent",borderRight:si<CONFIGURATOR_STEPS.length-1?"1px solid "+B.border:"none",cursor:si<=step?"pointer":"default"}}>
-                  <div style={{fontSize:9,fontWeight:600,color:isActive?B.teal:isDone?B.green:B.textMut,textTransform:"uppercase",marginBottom:2}}>{si+1}. {s.label}</div>
-                  <div style={{fontSize:10,color:isActive?B.textPri:isDone?B.textSec:B.textMut}}>
-                    {isDone && selections[s.id] ? (Array.isArray(selections[s.id])?selections[s.id].join(", "):selections[s.id]) : s.question}
+                <div key={sol.id} onClick={function(){selectSolution(sol);}}
+                  onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}
+                  onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}
+                  style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
+                >
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+                    {sol.logo ? <AppLogo name={sol.appName||""} size={24} accent={B.teal} logo={sol.logo}/> : <span style={{fontSize:16,color:B.textMut}}>{sol.icon||"◈"}</span>}
                   </div>
+                  <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>{sol.title}</div>
+                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{sol.tagline}</div>
                 </div>
               );
             })}
           </div>
+          {configSolutions.length===0&&<div style={{padding:20,textAlign:"center",color:B.textMut,fontSize:12}}>No solutions with configurator metadata found.</div>}
+        </div>
+      )}
 
-          <div style={{marginBottom:24}}>
-            <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>{currentStep.question}</h2>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
-              {currentStep.options.map(function(opt){
-                var active=isSelected(opt.id);
-                return (
-                  <div key={opt.id} onClick={function(){select(opt.id);}}
-                    onMouseEnter={function(e){if(!active){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}}
-                    onMouseLeave={function(e){if(!active){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}}
-                    style={{background:active?B.teal+"18":B.bg1,border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:10,padding:"14px 16px",cursor:"pointer",boxShadow:active?"0 0 14px "+B.teal+"20":"none",transition:"all 0.15s"}}
-                  >
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
-                      <span style={{fontSize:16,color:active?B.teal:B.textMut}}>{opt.icon}</span>
-                      {active&&<span style={{width:14,height:14,borderRadius:"50%",background:B.teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:B.bg0,fontWeight:700}}>✓</span>}
-                    </div>
-                    <div style={{fontSize:13,fontWeight:600,color:active?B.teal:B.textPri,marginBottom:3}}>{opt.label}</div>
-                    <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{opt.desc}</div>
+      {/* Step 1: Pick infrastructure */}
+      {step===1 && (
+        <div style={{maxWidth:720,margin:"0 auto"}}>
+          <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>Where are you deploying?</h2>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
+            {cloudKeys.map(function(key){
+              var meta=CLOUD_META[key]||{label:key,icon:"☁",desc:""};
+              var active=cloud===key;
+              return (
+                <div key={key} onClick={function(){selectCloud(key);}}
+                  onMouseEnter={function(e){if(!active){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}}
+                  onMouseLeave={function(e){if(!active){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}}
+                  style={{background:active?B.teal+"18":B.bg1,border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
+                >
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+                    <span style={{fontSize:16,color:active?B.teal:B.textMut}}>{meta.icon}</span>
+                    {active&&<span style={{width:14,height:14,borderRadius:"50%",background:B.teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:B.bg0,fontWeight:700}}>✓</span>}
                   </div>
-                );
-              })}
-            </div>
+                  <div style={{fontSize:13,fontWeight:600,color:active?B.teal:B.textPri,marginBottom:3}}>{meta.label}</div>
+                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{meta.desc}</div>
+                </div>
+              );
+            })}
           </div>
-
-          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <button onClick={back} style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,cursor:step>0?"pointer":"default",opacity:step>0?1:0.4,fontFamily:"inherit"}}>Back</button>
-            <span style={{fontSize:11,color:B.textMut}}>Step {step+1} of {CONFIGURATOR_STEPS.length}</span>
-            {currentStep.multi
-              ? <button onClick={next} style={{padding:"8px 20px",background:B.teal,border:"none",borderRadius:7,fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>{step===CONFIGURATOR_STEPS.length-1?"Build my stack":"Next"}</button>
-              : <div style={{width:80}}/>
-            }
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:20}}>
+            <button onClick={back} style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>Back</button>
+            <span style={{fontSize:11,color:B.textMut}}>Step 2 of 3</span>
+            <div style={{width:80}}/>
           </div>
         </div>
       )}
 
-      {done && (
+      {/* Step 2: Pick scale */}
+      {step===2 && !scale && (
+        <div style={{maxWidth:720,margin:"0 auto"}}>
+          <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What is your expected cluster scale?</h2>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
+            {scaleKeys.map(function(key){
+              var meta=SCALE_META[key]||{label:key,icon:"◈",desc:""};
+              return (
+                <div key={key} onClick={function(){selectScale(key);}}
+                  onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}
+                  onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}
+                  style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
+                >
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+                    <span style={{fontSize:16,color:B.textMut}}>{meta.icon}</span>
+                  </div>
+                  <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>{meta.label}</div>
+                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{meta.desc}</div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:20}}>
+            <button onClick={back} style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>Back</button>
+            <span style={{fontSize:11,color:B.textMut}}>Step 3 of 3</span>
+            <div style={{width:80}}/>
+          </div>
+        </div>
+      )}
+
+      {/* Result */}
+      {scale && selectedSol && (
         <div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12,marginBottom:20}}>
             <div>
-              <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 4px"}}>Your custom stack <span style={{color:B.teal}}>({resultStack.length} apps)</span></h2>
-              <div style={{fontSize:12,color:B.textSec}}>Based on your selections — validated for k0rdent {selections.cloud||""} deployment</div>
+              <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 4px"}}>{selectedSol.title} <span style={{color:B.teal}}>— {(CLOUD_META[cloud]||{}).label||cloud} / {(SCALE_META[scale]||{}).label||scale}</span></h2>
+              <div style={{fontSize:12,color:B.textSec}}>Validated deployment for k0rdent</div>
             </div>
             <div style={{display:"flex",gap:8}}>
               <button onClick={reset} style={{padding:"7px 16px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>Start over</button>
-              <button onClick={function(){setStep(CONFIGURATOR_STEPS.length-1);setDone(false);}} style={{padding:"7px 16px",background:B.bg2,border:"1px solid "+B.borderHi,borderRadius:7,fontSize:12,color:B.textPri,cursor:"pointer",fontFamily:"inherit"}}>Refine</button>
             </div>
           </div>
 
           <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:20}}>
-            {CONFIGURATOR_STEPS.map(function(s){
-              var val=selections[s.id];
-              if(!val) return null;
-              var label=Array.isArray(val)?val.join(", "):val;
-              return <div key={s.id} style={{display:"flex",alignItems:"center",gap:6,background:B.bg2,border:"1px solid "+B.teal+"40",borderRadius:20,padding:"4px 12px"}}><span style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",fontWeight:600}}>{s.label}</span><span style={{fontSize:11,color:B.teal,fontWeight:500}}>{label}</span></div>;
+            {stepLabels.map(function(s){return s.value?<div key={s.label} style={{display:"flex",alignItems:"center",gap:6,background:B.bg2,border:"1px solid "+B.teal+"40",borderRadius:20,padding:"4px 12px"}}><span style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",fontWeight:600}}>{s.label}</span><span style={{fontSize:11,color:B.teal,fontWeight:500}}>{s.value}</span></div>:null;})}
+          </div>
+
+          {/* Tabs */}
+          <div style={{display:"flex",gap:0,marginBottom:20,borderBottom:"1px solid "+B.border}}>
+            {[{id:"cluster",label:"Cluster deployment"},{id:"services",label:"Services deployment"}].map(function(tab){
+              var active=resultTab===tab.id;
+              return <button key={tab.id} onClick={function(){setResultTab(tab.id);}} style={{padding:"8px 18px",fontSize:12,color:active?B.teal:B.textSec,background:"transparent",border:"none",borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400}}>{tab.label}</button>;
             })}
           </div>
 
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,alignItems:"start"}}>
+          {/* Cluster deployment tab */}
+          {resultTab==="cluster" && (
             <div>
-              <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:12}}>Stack composition</div>
-              {Object.entries(layers).map(function(entry){
-                var layerName=entry[0]; var apps=entry[1];
-                var lc=LAYER_COLORS[layerName]||B.textSec;
-                return (
-                  <div key={layerName} style={{marginBottom:12}}>
-                    <div style={{fontSize:10,fontWeight:600,color:lc,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:6,display:"flex",alignItems:"center",gap:6}}>
-                      <span style={{width:6,height:6,borderRadius:"50%",background:lc,display:"inline-block"}}/>
-                      {layerName}
-                    </div>
-                    {apps.map(function(item){
-                      var app=null;
-                      for(var ii=0;ii<RAW.length;ii++){if(RAW[ii].name===item.name){app=RAW[ii];break;}}
-                      return (
-                        <div key={item.name} style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:7,padding:"9px 12px",marginBottom:6,display:"flex",gap:10,alignItems:"flex-start"}}>
-                          <div style={{width:28,height:28,borderRadius:6,background:lc+"18",border:"1px solid "+lc+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:700,color:lc,flexShrink:0,fontFamily:"monospace"}}>
-                            {item.name.slice(0,2).toUpperCase()}
-                          </div>
-                          <div style={{flex:1,minWidth:0}}>
-                            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
-                              <span style={{fontSize:11.5,fontWeight:600,color:B.textPri,fontFamily:"monospace"}}>{item.name}</span>
-                              {app&&<span style={{fontSize:9,color:B.textMut,fontFamily:"monospace"}}>{app.version}</span>}
-                            </div>
-                            <div style={{fontSize:10.5,color:B.textSec,lineHeight:1.5}}>{item.reason}</div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div style={{position:"sticky",top:70}}>
-              <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:12}}>Generated deployment manifest</div>
               <div style={{position:"relative"}}>
-                <pre style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"14px 16px",fontSize:10.5,color:B.code,fontFamily:"monospace",lineHeight:1.7,overflowX:"auto",margin:0,whiteSpace:"pre",maxHeight:480,overflowY:"auto"}}>{yaml}</pre>
-                <button onClick={doCopy} style={{position:"absolute",top:8,right:8,background:copied?B.green+"30":B.bg2,border:"1px solid "+B.borderHi,borderRadius:5,padding:"3px 10px",fontSize:9.5,color:copied?B.green:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>{copied?"Copied":"Copy"}</button>
+                {yaml ? <HtmlWithCopy html={'<pre><code class="language-yaml">'+yaml.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</code></pre>'} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/> : <div style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"14px 16px",fontSize:11,color:B.textMut}}>No manifest available for this combination.</div>}
               </div>
               <div style={{marginTop:10,padding:"10px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,fontSize:11.5,color:B.textSec,lineHeight:1.65}}>
                 <span style={{color:B.teal,fontWeight:600}}>Next step: </span>
-                Apply this manifest to your k0rdent management cluster to deploy all {resultStack.length} components simultaneously.
-              </div>
-              <div style={{marginTop:8,display:"flex",gap:8,flexWrap:"wrap"}}>
-                <a href="https://docs.k0rdent.io/v1.8.0/admin/installation/install-k0rdent/" target="_blank" rel="noreferrer" style={{padding:"7px 14px",background:B.teal,color:B.bg0,borderRadius:6,fontSize:11.5,fontWeight:700,textDecoration:"none"}}>Deploy with k0rdent</a>
-                <a href="https://catalog.k0rdent.io/latest/" target="_blank" rel="noreferrer" style={{padding:"7px 14px",background:B.bg2,color:B.textSec,border:"1px solid "+B.border,borderRadius:6,fontSize:11.5,textDecoration:"none"}}>Browse all apps</a>
+                Apply this ClusterDeployment manifest to your k0rdent management cluster to provision the infrastructure.
               </div>
             </div>
-          </div>
+          )}
 
-          <div style={{marginTop:20}}>
-            <FinOpsEstimator stackItems={resultStack} defaultCloud={cloudKey}/>
-          </div>
+          {/* Services deployment tab */}
+          {resultTab==="services" && (
+            <div>
+              {solDetailLoading ? <div style={{padding:12}}><span style={{fontSize:11,color:B.textSec}}>Loading solution documentation...</span></div> : solDetail && solDetail.contentHtml ? (function(){
+                // Extract only install, verify, and MCS pre blocks
+                var blocks = solDetail.contentHtml.match(/<pre>[\s\S]*?<\/pre>/g) || [];
+                var parts:string[] = [];
+                for (var bi=0;bi<blocks.length;bi++) {
+                  var text = blocks[bi].replace(/<[^>]+>/g,"");
+                  if (text.indexOf("helm upgrade --install") !== -1) { parts.push('<div style="margin-bottom:16px"><div style="font-size:9.5px;font-weight:600;color:'+B.textMut+';text-transform:uppercase;margin-bottom:7px">Install service templates</div>'+blocks[bi]+'</div>'); }
+                  else if (text.indexOf("kubectl get servicetemplates") !== -1) { parts.push('<div style="margin-bottom:16px"><div style="font-size:9.5px;font-weight:600;color:'+B.textMut+';text-transform:uppercase;margin-bottom:7px">Verify service templates</div>'+blocks[bi]+'</div>'); }
+                  else if (text.indexOf("MultiClusterService") !== -1) { parts.push('<div style="margin-bottom:16px"><div style="font-size:9.5px;font-weight:600;color:'+B.textMut+';text-transform:uppercase;margin-bottom:7px">Deploy MultiClusterService</div>'+blocks[bi]+'</div>'); }
+                }
+                return parts.length > 0 ? <HtmlWithCopy html={parts.join("")} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/> : <div style={{padding:12,fontSize:11,color:B.textMut}}>No service deployment snippets found.</div>;
+              })() : <div style={{padding:12,fontSize:11,color:B.textMut}}>No documentation available for this solution.</div>}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -1620,7 +1517,7 @@ function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChang
             {["catalog","infra","solutions","configurator"].map(function(v){
               var active=view===v;
               var label=v==="infra"?"Infrastructure":v;
-              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{label}{v==="configurator"&&<span style={{fontSize:8,marginLeft:4,padding:"1px 4px",borderRadius:3,background:"#fae40020",color:"#fae400",fontWeight:700,textTransform:"uppercase",verticalAlign:"super"}}>Beta</span>}</button>;
+              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{label}</button>;
             })}
           </div>
         </div>

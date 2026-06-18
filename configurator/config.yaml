@@ -1,0 +1,8 @@
+aws:
+  small: clds/aws-cld-small.yaml
+  medium: clds/aws-cld-medium.yaml
+  large: clds/aws-cld-large.yaml
+azure:
+  small: clds/azure-cld-small.yaml
+  medium: clds/azure-cld-medium.yaml
+  large: clds/azure-cld-large.yaml

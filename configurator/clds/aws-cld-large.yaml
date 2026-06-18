@@ -1,0 +1,21 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: aws-demo-cluster
+  namespace: kcm-system
+  labels:
+    type: aws
+    group: demo
+spec:
+  template: {{ aws_standalone_cp }}
+  credential: aws-credential
+  config:
+    controlPlane:
+      instanceType: c5.medium
+    controlPlaneNumber: 7
+    publicIP: false
+    region: eu-central-1
+    worker:
+      instanceType: c5.xlarge
+      rootVolumeSize: 512
+    workersNumber: 16
