@@ -833,26 +833,42 @@ function SolutionCard({ sol, onClick }) {
   );
 }
 
-function SolutionDetail({ sol, onClose }) {
+function SolutionDetail({ sol, onClose, initShide, onShideChange }) {
   var bc = tagAccent(sol.category);
   var badgeC = sol.badge==="Validated"?B.green:bc;
   var ss = SUPPORT_STYLE[sol.tier]||SUPPORT_STYLE.community;
   var [copied, setCopied] = useState(false);
   var [detail, setDetail] = useState<any>(null);
   var [detailLoading, setDetailLoading] = useState(true);
+  var [hiddenApps, setHiddenApps] = useState<any>(function(){
+    if (!initShide) return {};
+    var h={}; initShide.split(",").forEach(function(n){ if(n) h[n]=true; }); return h;
+  });
   useEffect(function(){
     var h=function(e){if(e.key==="Escape")onClose();};
     window.addEventListener("keydown",h);
     return function(){window.removeEventListener("keydown",h);};
   },[]);
+  var solIdRef = React.useRef(sol.id);
   useEffect(function(){
     if (!sol.appName) { setDetailLoading(false); return; }
+    if (solIdRef.current !== sol.id) { setHiddenApps({}); solIdRef.current = sol.id; }
     var solKey = sol.id.replace(sol.appName + "_", "");
     fetch(dataPrefix("") + "apps/" + sol.appName + "/solution_" + solKey + ".json?t=" + Date.now())
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(d){ setDetail(d); setDetailLoading(false); })
       .catch(function(){ setDetailLoading(false); });
   },[sol.id]);
+  function toggleApp(name:string) {
+    setHiddenApps(function(prev:any){
+      var nx=Object.assign({},prev); if(nx[name]) delete nx[name]; else nx[name]=true;
+      if (onShideChange) {
+        var names=Object.keys(nx).filter(function(k){return nx[k];});
+        onShideChange(names.join(","));
+      }
+      return nx;
+    });
+  }
   var deployYaml = detail ? detail.deployYaml : (sol.deployYaml || "");
   function doCopy(){if(navigator.clipboard)navigator.clipboard.writeText(deployYaml);setCopied(true);setTimeout(function(){setCopied(false);},1500);}
   return (
@@ -885,17 +901,25 @@ function SolutionDetail({ sol, onClose }) {
             <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
               <table style={{width:"100%",borderCollapse:"collapse"}}>
                 <thead><tr style={{background:B.bg3}}>
+                  <th style={{padding:"6px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left",width:30}}/>
                   <th style={{padding:"6px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left"}}>App</th>
                   <th style={{padding:"6px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left"}}>Role</th>
                   <th style={{padding:"6px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"left"}}>Why included</th>
+                  <th style={{padding:"6px 10px",fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",textAlign:"center",width:40}}>Include</th>
                 </tr></thead>
                 <tbody>
                   {sol.components.map(function(c,ci){
+                    var hidden=!!hiddenApps[c.name];
+                    var app=null;
+                    for(var ii=0;ii<RAW.length;ii++){if(RAW[ii].chartName===c.name||RAW[ii].name===c.name){app=RAW[ii];break;}}
+                    if(!app){for(var ii2=0;ii2<RAW.length;ii2++){if(c.name.indexOf(RAW[ii2].name)===0){app=RAW[ii2];break;}}}
                     return (
-                      <tr key={c.name+c.version} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"50":"transparent"}}>
-                        <td style={{padding:"8px 10px",whiteSpace:"nowrap"}}><span style={{fontSize:10.5,fontFamily:"monospace",fontWeight:600,color:bc}}>{c.name}</span><span style={{fontSize:8.5,color:B.textMut,marginLeft:4,fontFamily:"monospace"}}>{c.version}</span></td>
-                        <td style={{padding:"8px 10px",fontSize:11,color:c.role?bc:B.red,fontWeight:500,whiteSpace:"nowrap"}}>{c.role||"EMPTY"}</td>
+                      <tr key={c.name+c.version} style={{borderTop:"1px solid "+B.border,background:ci%2===0?B.bg2+"50":"transparent",opacity:hidden?0.4:1,transition:"opacity 0.15s"}}>
+                        <td style={{padding:"6px 10px"}}>{app && app.logo ? <AppLogo name={app.name} size={22} accent={bc} logo={app.logo} brandColor={app.brandColor}/> : <div style={{width:22,height:22,borderRadius:5,background:bc+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,fontWeight:700,color:bc,fontFamily:"monospace"}}>{c.name.slice(0,2).toUpperCase()}</div>}</td>
+                        <td style={{padding:"8px 10px",whiteSpace:"nowrap"}}><span style={{fontSize:10.5,fontFamily:"monospace",fontWeight:600,color:hidden?B.textMut:bc}}>{c.name}</span><span style={{fontSize:8.5,color:B.textMut,marginLeft:4,fontFamily:"monospace"}}>{c.version}</span></td>
+                        <td style={{padding:"8px 10px",fontSize:11,color:c.role?(hidden?B.textMut:bc):B.red,fontWeight:500,whiteSpace:"nowrap"}}>{c.role||"EMPTY"}</td>
                         <td style={{padding:"8px 10px",fontSize:11,color:c.why?B.textSec:B.red,lineHeight:1.5}}>{c.why||"EMPTY"}</td>
+                        <td style={{padding:"8px 10px",textAlign:"center"}}><input type="checkbox" checked={!hidden} onChange={function(){toggleApp(c.name);}} style={{accentColor:B.teal,cursor:"pointer",width:14,height:14}}/></td>
                       </tr>
                     );
                   })}
@@ -920,11 +944,11 @@ function SolutionDetail({ sol, onClose }) {
           {detailLoading ? <div style={{padding:12}}><span style={{fontSize:11,color:B.textSec}}>Loading documentation...</span></div> : detail && detail.contentHtml ? (
             <div style={{marginTop:16,borderTop:"1px solid "+B.border,paddingTop:16}}>
               <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",marginBottom:7}}>Documentation</div>
-              <HtmlWithCopy html={detail.contentHtml} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/>
+              <HtmlWithCopy html={filterContentHtml(detail.contentHtml, hiddenApps)} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/>
             </div>
           ) : null}
           <div style={{marginTop:12}}>
-            <FinOpsEstimator stackItems={sol.components} defaultCloud="aws"/>
+            <FinOpsEstimator stackItems={sol.components.filter(function(c){return !hiddenApps[c.name];})} defaultCloud="aws"/>
           </div>
         </div>
       </div>
@@ -932,9 +956,10 @@ function SolutionDetail({ sol, onClose }) {
   );
 }
 
-function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, initScat?:string, k0rdentVer?:string }) {
+function SolutionsPage({ initSolId, initScat, initShide, k0rdentVer }:{ initSolId?:string, initScat?:string, initShide?:string, k0rdentVer?:string }) {
   var [selected, setSelected] = useState<any>(null);
   var [catFilter, setCatFilter] = useState(initScat || "All");
+  var [shide, setShide] = useState(initShide || "");
   var cats=["All","AI/ML","Observability","Security"];
   var filtered=SOLUTIONS.filter(function(s){return catFilter==="All"||s.category===catFilter;});
 
@@ -946,16 +971,22 @@ function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, 
     }
   }, [initSolId]);
 
-  function updateUrl(sol?:string, cat?:string) {
-    history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol||"",scat:cat||catFilter}, k0rdentVer));
+  function updateUrl(sol?:string, cat?:string, hide?:string) {
+    history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol||"",scat:cat||catFilter,shide:hide||""}, k0rdentVer));
   }
   function openSol(sol:any) {
     setSelected(sol);
+    setShide("");
     history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol.id,scat:catFilter}, k0rdentVer));
   }
   function closeSol() {
     setSelected(null);
+    setShide("");
     history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:catFilter}, k0rdentVer));
+  }
+  function onShideChange(newShide:string) {
+    setShide(newShide);
+    updateUrl(selected?selected.id:"", catFilter, newShide);
   }
   function changeCat(c:string) {
     setCatFilter(c);
@@ -980,9 +1011,101 @@ function SolutionsPage({ initSolId, initScat, k0rdentVer }:{ initSolId?:string, 
         <div><div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>Want to contribute a solution bundle?</div><div style={{fontSize:12,color:B.textSec}}>Open a PR with your bundle definition and component list.</div></div>
         <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{padding:"8px 16px",background:B.teal,color:B.bg0,borderRadius:6,fontSize:12,fontWeight:700,textDecoration:"none",whiteSpace:"nowrap"}}>Contribute a bundle</a>
       </div>
-      {selected!==null&&<SolutionDetail sol={selected} onClose={closeSol}/>}
+      {selected!==null&&<SolutionDetail sol={selected} onClose={closeSol} initShide={shide} onShideChange={onShideChange}/>}
     </div>
   );
+}
+
+function filterVerifyBash(text:string, hiddenNames:any):string {
+  if (!text) return text;
+  var lines = text.split("\n");
+  var filtered = lines.filter(function(line) {
+    var m = line.match(/^#\s+kcm-system\s+(\S+)/);
+    if (!m) return true;
+    return !templateMatchesHidden(m[1], hiddenNames);
+  });
+  return filtered.join("\n");
+}
+
+function filterContentHtml(contentHtml:string, hiddenNames:any):string {
+  if (!contentHtml) return contentHtml;
+  var hasHidden = false;
+  for (var k in hiddenNames) { if (hiddenNames[k]) { hasHidden = true; break; } }
+  if (!hasHidden) return contentHtml;
+  return contentHtml.replace(/<pre>[\s\S]*?<\/pre>/g, function(block) {
+    var text = block.replace(/<[^>]+>/g, "").replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,"\"").replace(/&#39;/g,"'");
+    if (text.indexOf("helm upgrade --install") !== -1) {
+      var filtered = filterInstallBash(text.trim(), hiddenNames);
+      return '<pre><code class="language-bash">' + filtered.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</code></pre>';
+    }
+    if (text.indexOf("kubectl get servicetemplates") !== -1) {
+      var filtered2 = filterVerifyBash(text.trim(), hiddenNames);
+      return '<pre><code class="language-bash">' + filtered2.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</code></pre>';
+    }
+    if (text.indexOf("MultiClusterService") !== -1) {
+      var filtered3 = filterMcsYaml(text.trim(), hiddenNames);
+      return '<pre><code class="language-yaml">' + filtered3.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</code></pre>';
+    }
+    return block;
+  });
+}
+
+function filterInstallBash(bash:string, hiddenNames:any):string {
+  if (!bash) return bash;
+  var cmds = bash.split(/(?=helm upgrade --install )/);
+  var filtered = cmds.filter(function(cmd) {
+    var m = cmd.match(/chart=([^:]+):/);
+    if (!m) return !!cmd.trim();
+    return !hiddenNames[m[1]];
+  });
+  return filtered.join("").trim();
+}
+
+function templateMatchesHidden(templateSlug:string, hiddenNames:any):boolean {
+  for (var name in hiddenNames) {
+    if (hiddenNames[name] && templateSlug.indexOf(name+"-") === 0) return true;
+  }
+  return false;
+}
+
+function removeDependsOnRefs(block:string, removedNames:any):string {
+  if (block.indexOf("dependsOn") === -1) return block;
+  var result = block.replace(/^      - name: (\S+)\n(?:        namespace: \S+\n)?/gm, function(match, refName) {
+    return removedNames[refName] ? "" : match;
+  });
+  result = result.replace(/^      dependsOn:\n(?=      [a-z]|    - template:|\s*$)/gm, "");
+  return result;
+}
+
+function filterMcsYaml(yaml:string, hiddenNames:any):string {
+  if (!yaml) return yaml;
+  var docs = yaml.split(/^---$/m);
+  var resultDocs:string[] = [];
+  for (var di=0;di<docs.length;di++) {
+    var doc = docs[di];
+    var servicesIdx = doc.indexOf("    - template:");
+    if (servicesIdx === -1) { if(doc.trim()) resultDocs.push(doc); continue; }
+    var header = doc.slice(0, servicesIdx);
+    var rest = doc.slice(servicesIdx);
+    var blocks = rest.split(/(?=    - template:)/);
+    var removedNames = {};
+    for (var bi=0;bi<blocks.length;bi++) {
+      var tm = blocks[bi].match(/template:\s+(\S+)/);
+      if (tm && templateMatchesHidden(tm[1], hiddenNames)) {
+        var nm = blocks[bi].match(/\n\s+name:\s+(\S+)/);
+        if (nm) removedNames[nm[1]] = true;
+      }
+    }
+    var filtered = blocks.filter(function(block) {
+      var m = block.match(/template:\s+(\S+)/);
+      if (!m) return true;
+      return !templateMatchesHidden(m[1], hiddenNames);
+    }).map(function(block) {
+      return removeDependsOnRefs(block, removedNames);
+    });
+    if (filtered.length > 0) resultDocs.push(header + filtered.join(""));
+  }
+  return resultDocs.join("\n---\n");
 }
 
 var CONFIGURATOR_STEPS = [
@@ -1559,6 +1682,7 @@ function readUrlParams() {
     ver: p.get("ver") || "",
     sol: p.get("sol") || "",
     scat: p.get("scat") || "All",
+    shide: p.get("shide") || "",
     infraApp: infraApp,
     igrp: p.get("igrp") || "All",
     theme: p.get("theme") || "",
@@ -1578,12 +1702,13 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
   return appendTheme(versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : ""));
 }
 
-function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string}, k0rdentVer?:string):string {
+function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string, shide?:string}, k0rdentVer?:string):string {
   if (state.view === "contribute" || state.view === "solutions" || state.view === "infra" || state.view === "configurator") {
     var base = versionBase(k0rdentVer || "") + state.view + "/";
     var sp = new URLSearchParams();
     if (state.sol) sp.set("sol", state.sol);
     if (state.scat && state.scat !== "All") sp.set("scat", state.scat);
+    if (state.shide) sp.set("shide", state.shide);
     var sqs = sp.toString();
     return appendTheme(base + (sqs ? "?" + sqs : ""));
   }
@@ -1818,7 +1943,7 @@ export default function App() {
       <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} dark={dark} toggleTheme={toggleTheme} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
       {view==="contribute"&&<ContributePage/>}
-      {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} k0rdentVer={k0rdentVer}/>}
+      {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer}/>}
       {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
       {view==="configurator"&&<ConfiguratorPage/>}
 
