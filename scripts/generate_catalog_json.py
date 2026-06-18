@@ -27,6 +27,12 @@ def get_base_metadata(version: str) -> dict:
     return base
 
 BASE_METADATA = get_base_metadata(VERSION)
+# Default configurator config
+CONFIGURATOR_DIR = os.path.join(CATALOG_ROOT, 'configurator')
+CONFIGURATOR_DEFAULT = {}
+_cfg_path = os.path.join(CONFIGURATOR_DIR, 'config.yaml')
+if os.path.exists(_cfg_path):
+    CONFIGURATOR_DEFAULT = utils.read_yaml_file(_cfg_path)
 # OUTPUT_DIR can be overridden for Docker builds where repo is read-only
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'public'))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'catalog.json')
@@ -643,6 +649,23 @@ def extract_solutions(output_dir: str) -> list:
                 'clouds': ex.get('clouds', []),
                 'k8s': ex.get('k8s', []),
             }
+            # Embed configurator data with file contents
+            # Use solution-specific configurator if set, otherwise default
+            configurator_meta = ex.get('configurator') or CONFIGURATOR_DEFAULT
+            if configurator_meta:
+                base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
+                configurator_data = {}
+                for cloud_key, scales in configurator_meta.items():
+                    configurator_data[cloud_key] = {}
+                    for scale_key, file_path in scales.items():
+                        full_path = os.path.join(base_dir, file_path)
+                        if os.path.exists(full_path):
+                            with open(full_path, 'r', encoding='utf-8') as cf:
+                                tpl = jinja2.Template(cf.read())
+                                configurator_data[cloud_key][scale_key] = tpl.render(**BASE_METADATA)
+                        else:
+                            configurator_data[cloud_key][scale_key] = f"# File not found: {file_path}"
+                sol_entry['configurator'] = configurator_data
             solutions.append(sol_entry)
 
             # Generate per-solution detail JSON (deploy YAML + rendered content)
