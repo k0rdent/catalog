@@ -1,0 +1,25 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: gcp-demo-cluster
+  namespace: kcm-system
+  labels:
+    type: gcp
+    group: demo
+spec:
+  template: {{ gcp_standalone_cp }}
+  credential: gcp-credential
+  config:
+    project: "GCP_PROJECT"
+    region: "us-west1"
+    controlPlane:
+      instanceType: "e2-medium"
+      image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213
+      publicIP: true
+    controlPlaneNumber: 7
+    worker:
+      instanceType: "e2-standard-4"
+      image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213
+      publicIP: true
+      rootVolumeSize: 512
+    workersNumber: 16
