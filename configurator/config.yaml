@@ -6,3 +6,7 @@ azure:
   small: clds/azure-cld-small.yaml
   medium: clds/azure-cld-medium.yaml
   large: clds/azure-cld-large.yaml
+gcp:
+  small: clds/gcp-cld-small.yaml
+  medium: clds/gcp-cld-medium.yaml
+  large: clds/gcp-cld-large.yaml
