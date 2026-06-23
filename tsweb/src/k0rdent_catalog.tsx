@@ -1197,7 +1197,7 @@ var SCALE_META:any = {
   "large":{label:"Large",icon:"◉",desc:"Big 10+ nodes cluster, enterprise scale"},
 };
 
-function ConfiguratorPage() {
+function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ initCsol?:string, initCcloud?:string, initCscale?:string, k0rdentVer?:string }) {
   var [step, setStep] = useState(0); // 0=solution, 1=cloud, 2=scale
   var [selectedSol, setSelectedSol] = useState<any>(null);
   var [cloud, setCloud] = useState("");
@@ -1209,11 +1209,28 @@ function ConfiguratorPage() {
 
   var configSolutions = SOLUTIONS.filter(function(s:any){ return s.configurator; });
 
-  function selectSolution(sol:any) { setSelectedSol(sol); setCloud(""); setScale(""); setResultTab("cluster"); setTimeout(function(){ setStep(1); }, 200); }
-  function selectCloud(id:string) { setCloud(id); setScale(""); setTimeout(function(){ setStep(2); }, 200); }
-  function selectScale(id:string) { setScale(id); }
-  function back() { if(step===2){setStep(1);setScale("");} else if(step===1){setStep(0);setCloud("");setScale("");} }
-  function reset() { setStep(0); setSelectedSol(null); setCloud(""); setScale(""); setSolDetail(null); }
+  // Restore state from URL params
+  useEffect(function(){
+    if (initCsol && !selectedSol) {
+      var found = SOLUTIONS.find(function(s:any){ return s.id === initCsol; });
+      if (found) {
+        setSelectedSol(found);
+        if (initCcloud) { setCloud(initCcloud); setStep(initCscale ? 2 : 2); }
+        else { setStep(1); }
+        if (initCscale) setScale(initCscale);
+      }
+    }
+  }, [initCsol]);
+
+  function updateUrl(solId?:string, cl?:string, sc?:string) {
+    history.replaceState(null, "", buildCatalogUrl({view:"configurator",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",csol:solId||"",ccloud:cl||"",cscale:sc||""}, k0rdentVer));
+  }
+
+  function selectSolution(sol:any) { setSelectedSol(sol); setCloud(""); setScale(""); setResultTab("cluster"); updateUrl(sol.id); setTimeout(function(){ setStep(1); }, 200); }
+  function selectCloud(id:string) { setCloud(id); setScale(""); updateUrl(selectedSol?selectedSol.id:"",id); setTimeout(function(){ setStep(2); }, 200); }
+  function selectScale(id:string) { setScale(id); updateUrl(selectedSol?selectedSol.id:"",cloud,id); }
+  function back() { if(step===2){setStep(1);setScale("");updateUrl(selectedSol?selectedSol.id:"",cloud);} else if(step===1){setStep(0);setCloud("");setScale("");updateUrl();} }
+  function reset() { setStep(0); setSelectedSol(null); setCloud(""); setScale(""); setSolDetail(null); updateUrl(); }
 
   // Fetch solution detail for Services tab
   useEffect(function(){
@@ -1674,6 +1691,9 @@ function readUrlParams() {
     sol: p.get("sol") || "",
     scat: p.get("scat") || "All",
     shide: p.get("shide") || "",
+    csol: p.get("csol") || "",
+    ccloud: p.get("ccloud") || "",
+    cscale: p.get("cscale") || "",
     infraApp: infraApp,
     igrp: p.get("igrp") || "All",
     theme: p.get("theme") || "",
@@ -1693,13 +1713,16 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
   return appendTheme(versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : ""));
 }
 
-function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string, shide?:string}, k0rdentVer?:string):string {
+function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string, shide?:string, csol?:string, ccloud?:string, cscale?:string}, k0rdentVer?:string):string {
   if (state.view === "contribute" || state.view === "solutions" || state.view === "infra" || state.view === "configurator") {
     var base = versionBase(k0rdentVer || "") + state.view + "/";
     var sp = new URLSearchParams();
     if (state.sol) sp.set("sol", state.sol);
     if (state.scat && state.scat !== "All") sp.set("scat", state.scat);
     if (state.shide) sp.set("shide", state.shide);
+    if (state.csol) sp.set("csol", state.csol);
+    if (state.ccloud) sp.set("ccloud", state.ccloud);
+    if (state.cscale) sp.set("cscale", state.cscale);
     var sqs = sp.toString();
     return appendTheme(base + (sqs ? "?" + sqs : ""));
   }
@@ -1936,7 +1959,7 @@ export default function App() {
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer}/>}
       {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
-      {view==="configurator"&&<ConfiguratorPage/>}
+      {view==="configurator"&&<ConfiguratorPage initCsol={initParams.csol} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
 
       {view==="catalog"&&(
         <div style={{maxWidth:1140,margin:"0 auto",padding:"18px 20px 0"}}>
