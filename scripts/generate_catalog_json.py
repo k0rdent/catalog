@@ -649,22 +649,30 @@ def extract_solutions(output_dir: str) -> list:
                 'clouds': ex.get('clouds', []),
                 'k8s': ex.get('k8s', []),
             }
-            # Embed configurator data with file contents
+            # Embed configurator data with file contents and cost info
             # Use solution-specific configurator if set, otherwise default
             configurator_meta = ex.get('configurator') or CONFIGURATOR_DEFAULT
             if configurator_meta:
                 base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
                 configurator_data = {}
-                for cloud_key, scales in configurator_meta.items():
-                    configurator_data[cloud_key] = {}
-                    for scale_key, file_path in scales.items():
+                for cloud_key, cloud_cfg in configurator_meta.items():
+                    # Support both old flat format and new {cld, cost} format
+                    cld_section = cloud_cfg.get('cld', cloud_cfg) if isinstance(cloud_cfg, dict) and 'cld' in cloud_cfg else cloud_cfg
+                    cost_section = cloud_cfg.get('cost', {}) if isinstance(cloud_cfg, dict) else {}
+                    cld_data = {}
+                    for scale_key, file_path in cld_section.items():
+                        if not isinstance(file_path, str):
+                            continue
                         full_path = os.path.join(base_dir, file_path)
                         if os.path.exists(full_path):
                             with open(full_path, 'r', encoding='utf-8') as cf:
                                 tpl = jinja2.Template(cf.read())
-                                configurator_data[cloud_key][scale_key] = tpl.render(**BASE_METADATA)
+                                cld_data[scale_key] = tpl.render(**BASE_METADATA)
                         else:
-                            configurator_data[cloud_key][scale_key] = f"# File not found: {file_path}"
+                            cld_data[scale_key] = f"# File not found: {file_path}"
+                    configurator_data[cloud_key] = {'cld': cld_data}
+                    if cost_section:
+                        configurator_data[cloud_key]['cost'] = cost_section
                 sol_entry['configurator'] = configurator_data
             solutions.append(sol_entry)
 

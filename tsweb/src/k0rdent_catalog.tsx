@@ -1108,6 +1108,80 @@ function filterMcsYaml(yaml:string, hiddenNames:any):string {
   return resultDocs.join("\n---\n");
 }
 
+function CldCostEstimator({ costItems, cloudLabel }:{ costItems:any[], cloudLabel:string }) {
+  var [clusters, setClusters] = useState(1);
+  var [hoursPerMonth, setHoursPerMonth] = useState(730);
+
+  var totalHr = 0;
+  for (var i=0;i<costItems.length;i++) totalHr += costItems[i].priceHr * costItems[i].count;
+  var totalMo = totalHr * hoursPerMonth * clusters;
+  var annual = totalMo * 12;
+  var perCluster = totalMo / Math.max(1, clusters);
+
+  return (
+    <div style={{marginTop:20,background:B.bg1,border:"1px solid "+B.border,borderRadius:10,overflow:"hidden"}}>
+      <div style={{padding:"12px 16px",background:B.bg2,borderBottom:"1px solid "+B.border,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8}}>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:14,color:B.amber}}>◈</span>
+          <span style={{fontSize:12.5,fontWeight:600,color:B.textPri}}>FinOps Cost Estimator</span>
+          <span style={{fontSize:9.5,padding:"1px 7px",borderRadius:10,background:B.amber+"18",color:B.amber,border:"1px solid "+B.amber+"30",fontWeight:500}}>Estimated</span>
+        </div>
+        <div style={{display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
+          <div style={{display:"flex",alignItems:"center",gap:5}}>
+            <span style={{fontSize:10,color:B.textMut}}>Clusters</span>
+            <input type="number" min={1} max={100} value={clusters} onChange={function(e:any){setClusters(Math.max(1,parseInt(e.target.value)||1));}} style={{width:52,padding:"3px 7px",border:"1px solid "+B.borderHi,borderRadius:5,fontSize:11,background:B.bg3,color:B.textPri,outline:"none",textAlign:"center"}}/>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:5}}>
+            <span style={{fontSize:10,color:B.textMut}}>Hrs/mo</span>
+            <input type="number" min={1} max={730} value={hoursPerMonth} onChange={function(e:any){setHoursPerMonth(Math.max(1,Math.min(730,parseInt(e.target.value)||730)));}} style={{width:52,padding:"3px 7px",border:"1px solid "+B.borderHi,borderRadius:5,fontSize:11,background:B.bg3,color:B.textPri,outline:"none",textAlign:"center"}}/>
+          </div>
+        </div>
+      </div>
+      <div style={{display:"flex",gap:0,borderBottom:"1px solid "+B.border}}>
+        {[
+          {l:"Monthly estimate",v:fmt$(totalMo),sub:cloudLabel,c:B.amber},
+          {l:"Annual estimate",v:fmt$(annual),sub:"12 months",c:B.teal},
+          {l:"Per cluster/mo",v:fmt$(perCluster),sub:clusters+" cluster"+(clusters>1?"s":""),c:B.cyan},
+        ].map(function(s,si,arr){
+          return (
+            <div key={s.l} style={{flex:"1 1 0",padding:"12px 14px",borderRight:si<arr.length-1?"1px solid "+B.border:"none"}}>
+              <div style={{fontSize:10,color:B.textMut,marginBottom:2}}>{s.l}</div>
+              <div style={{fontSize:17,fontWeight:700,color:s.c,fontFamily:"monospace",lineHeight:1}}>{s.v}</div>
+              <div style={{fontSize:9.5,color:B.textMut,marginTop:2}}>{s.sub}</div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{padding:"12px 16px"}}>
+        <div style={{fontSize:9.5,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:10}}>Cost breakdown by node role</div>
+        <div style={{display:"flex",flexDirection:"column",gap:6}}>
+          {costItems.map(function(item:any){
+            var itemMo = item.priceHr * item.count * hoursPerMonth * clusters;
+            var barPct = totalMo > 0 ? Math.round(itemMo/totalMo*100) : 0;
+            return (
+              <div key={item.role}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:3}}>
+                  <div style={{display:"flex",alignItems:"center",gap:6}}>
+                    <span style={{fontSize:10.5,fontFamily:"monospace",color:B.textPri,fontWeight:500}}>{item.role}</span>
+                    <span style={{fontSize:9.5,color:B.textMut}}>{item.count}× {item.type} · ${item.priceHr}/hr each</span>
+                  </div>
+                  <span style={{fontSize:11,fontFamily:"monospace",color:B.amber,fontWeight:600}}>{fmt$(itemMo)}<span style={{fontSize:9,color:B.textMut,fontWeight:400}}>/mo</span></span>
+                </div>
+                <div style={{height:5,background:B.bg3,borderRadius:3,overflow:"hidden"}}>
+                  <div style={{height:"100%",width:barPct+"%",background:"linear-gradient(90deg,"+B.amber+","+B.amber+"90)",borderRadius:3,transition:"width 0.3s"}}/>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{marginTop:12,padding:"8px 12px",background:B.bg3,borderRadius:6,fontSize:10,color:B.textMut,lineHeight:1.6}}>
+          Estimates are indicative only, based on on-demand list pricing for {cloudLabel}. Actual costs vary with reserved instances, spot pricing, and provider discounts.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 var CLOUD_META:any = {
   "aws":{label:"AWS",icon:"☁",desc:"EC2 clusters"},
   "azure":{label:"Azure",icon:"☁",desc:"VMs clusters"},
@@ -1153,8 +1227,11 @@ function ConfiguratorPage() {
   }, [selectedSol ? selectedSol.id : ""]);
 
   var cloudKeys = selectedSol && selectedSol.configurator ? Object.keys(selectedSol.configurator) : [];
-  var scaleKeys = selectedSol && selectedSol.configurator && cloud ? Object.keys(selectedSol.configurator[cloud]||{}) : [];
-  var yaml = selectedSol && selectedSol.configurator && cloud && scale && selectedSol.configurator[cloud] ? (selectedSol.configurator[cloud][scale]||"") : "";
+  var cloudCfg = selectedSol && selectedSol.configurator && cloud ? (selectedSol.configurator[cloud]||{}) : {};
+  var cldData = cloudCfg.cld || cloudCfg; // support both new {cld,cost} and old flat format
+  var costData = cloudCfg.cost || {};
+  var scaleKeys = cloud ? Object.keys(cldData).filter(function(k){return typeof cldData[k]==="string";}) : [];
+  var yaml = scale ? (cldData[scale]||"") : "";
 
   function doCopy() {
     if(navigator.clipboard) navigator.clipboard.writeText(yaml);
@@ -1307,7 +1384,22 @@ function ConfiguratorPage() {
           </div>
 
           {/* Cluster deployment tab */}
-          {resultTab==="cluster" && (
+          {resultTab==="cluster" && (function(){
+            // Parse CLD YAML for cost estimation
+            var costItems:any[] = [];
+            if (yaml && Object.keys(costData).length > 0) {
+              // Extract controlPlane instanceType/vmSize/flavor and count
+              var cpType = (yaml.match(/controlPlane:[\s\S]*?(?:instanceType|vmSize|flavor):\s*"?([^\s"]+)"?/) || [])[1];
+              var cpCount = parseInt((yaml.match(/controlPlaneNumber:\s*(\d+)/) || [])[1] || "1");
+              // Extract worker instanceType/vmSize/flavor and count
+              var wType = (yaml.match(/worker:[\s\S]*?(?:instanceType|vmSize|flavor):\s*"?([^\s"]+)"?/) || [])[1];
+              var wCount = parseInt((yaml.match(/workersNumber:\s*(\d+)/) || [])[1] || "1");
+              if (cpType && costData[cpType]) costItems.push({role:"Control plane", type:cpType, count:cpCount, priceHr:costData[cpType]});
+              if (wType && costData[wType]) costItems.push({role:"Worker", type:wType, count:wCount, priceHr:costData[wType]});
+            }
+            var totalHr = 0; for(var ci2=0;ci2<costItems.length;ci2++) totalHr += costItems[ci2].priceHr * costItems[ci2].count;
+            var totalMo = totalHr * 730;
+            return (
             <div>
               <div style={{position:"relative"}}>
                 {yaml ? <HtmlWithCopy html={'<pre><code class="language-yaml">'+yaml.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</code></pre>'} style={{fontSize:12,color:B.textSec,lineHeight:1.8}}/> : <div style={{background:B.bg2,border:"1px solid "+B.border,borderRadius:8,padding:"14px 16px",fontSize:11,color:B.textMut}}>No manifest available for this combination.</div>}
@@ -1316,8 +1408,10 @@ function ConfiguratorPage() {
                 <span style={{color:B.teal,fontWeight:600}}>Next step: </span>
                 Apply this ClusterDeployment manifest to your k0rdent management cluster to provision the infrastructure.
               </div>
+              {costItems.length > 0 && <CldCostEstimator costItems={costItems} cloudLabel={(CLOUD_META[cloud]||{}).label||cloud}/>}
             </div>
-          )}
+            );
+          })()}
 
           {/* Services deployment tab */}
           {resultTab==="services" && (
