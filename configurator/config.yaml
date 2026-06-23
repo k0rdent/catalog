@@ -10,3 +10,7 @@ gcp:
   small: clds/gcp-cld-small.yaml
   medium: clds/gcp-cld-medium.yaml
   large: clds/gcp-cld-large.yaml
+openstack:
+  small: clds/openstack-cld-small.yaml
+  medium: clds/openstack-cld-medium.yaml
+  large: clds/openstack-cld-large.yaml

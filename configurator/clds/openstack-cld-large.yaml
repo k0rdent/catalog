@@ -1,0 +1,31 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: openstack-demo-cluster
+  namespace: kcm-system
+  labels:
+    type: openstack
+    group: demo
+spec:
+  template: {{ openstack_standalone_cp }}
+  credential: openstack-credential
+  config:
+    controlPlaneNumber: 7
+    workersNumber: 16
+    controlPlane:
+      sshPublicKey: my-public-key
+      flavor: m1.large
+      image:
+        filter:
+          name: ubuntu-22.04-x86_64
+    worker:
+      sshPublicKey: my-public-key
+      flavor: m1.xlarge
+      image:
+        filter:
+          name: ubuntu-22.04-x86_64
+    authURL: https://my-keystone-openstack-url.com
+    identityRef:
+      name: openstack-cloud-config
+      cloudName: openstack
+      region: RegionOne
