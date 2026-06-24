@@ -11,11 +11,11 @@ spec:
   credential: aws-credential
   config:
     controlPlane:
-      instanceType: c5.medium
+      instanceType: t3.medium
     controlPlaneNumber: 3
     publicIP: false
     region: eu-central-1
     worker:
-      instanceType: c5.xlarge
+      instanceType: t3.xlarge
       rootVolumeSize: 128
     workersNumber: 2

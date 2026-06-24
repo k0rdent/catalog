@@ -44,12 +44,11 @@ infra:
     icon: "☁"
     id: aws
     cost:
-      c5.small: 0.042
-      c5.medium: 0.085
-      c5.large: 0.085
-      c5.xlarge: 0.170
-      c5.2xlarge: 0.340
-      c5.4xlarge: 0.680
+      t3.small: 0.0208
+      t3.medium: 0.0416
+      t3.large: 0.0832
+      t3.xlarge: 0.1664
+      t3.2xlarge: 0.3328
       g4dn.xlarge: 0.526
     clds:
       - id: small

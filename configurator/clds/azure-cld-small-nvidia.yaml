@@ -1,0 +1,21 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterDeployment
+metadata:
+  name: azure-demo-cluster
+  namespace: kcm-system
+  labels:
+    type: azure
+    group: demo
+spec:
+  template: {{ azure_standalone_cp }}
+  credential: azure-credential
+  config:
+    controlPlaneNumber: 1
+    location: "westus"
+    subscriptionID: AZURE_SUB_ID
+    controlPlane:
+      vmSize: Standard_A4_v2
+    worker:
+      vmSize: Standard_A4_v2
+      rootVolumeSize: 16
+    workersNumber: 1

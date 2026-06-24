@@ -11,7 +11,7 @@ spec:
   credential: aws-credential
   config:
     controlPlane:
-      instanceType: c5.small
+      instanceType: t3.small
     controlPlaneNumber: 1
     publicIP: false
     region: eu-central-1
