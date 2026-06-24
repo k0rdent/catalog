@@ -1243,7 +1243,7 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
   var selectedInfra:any = cloud ? infraList.find(function(p:any){return p.id===cloud;}) || null : null;
   var costData = selectedInfra ? (selectedInfra.cost||{}) : {};
   var cldsList:any[] = selectedInfra ? (selectedInfra.clds||[]) : [];
-  var selectedCld:any = scale ? cldsList.find(function(c:any){return slugify(c.title)===scale;}) || null : null;
+  var selectedCld:any = scale ? cldsList.find(function(c:any){return (c.id||slugify(c.title))===scale;}) || null : null;
   var yaml = selectedCld ? (selectedCld.cld||"") : "";
 
   function doCopy() {
@@ -1352,9 +1352,9 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
           <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What is your expected cluster scale?</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
             {cldsList.map(function(cldItem:any){
-              var cldSlug=slugify(cldItem.title);
+              var cldId=cldItem.id||slugify(cldItem.title);
               return (
-                <div key={cldSlug} onClick={function(){selectScale(cldSlug);}}
+                <div key={cldId} onClick={function(){selectScale(cldId);}}
                   onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}
                   onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}
                   style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
