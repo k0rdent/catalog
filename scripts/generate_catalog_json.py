@@ -649,30 +649,38 @@ def extract_solutions(output_dir: str) -> list:
                 'clouds': ex.get('clouds', []),
                 'k8s': ex.get('k8s', []),
             }
-            # Embed configurator data with file contents and cost info
-            # Use solution-specific configurator if set, otherwise default infra section
-            configurator_meta = ex.get('configurator') or CONFIGURATOR_DEFAULT.get('infra', CONFIGURATOR_DEFAULT)
-            if configurator_meta:
+            # Embed configurator infra data with rendered CLD file contents
+            infra_cfg = ex.get('configurator') or CONFIGURATOR_DEFAULT.get('infra', [])
+            if infra_cfg and isinstance(infra_cfg, list):
                 base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
-                configurator_data = {}
-                for cloud_key, cloud_cfg in configurator_meta.items():
-                    # Support both old flat format and new {cld, cost} format
-                    cld_section = cloud_cfg.get('cld', cloud_cfg) if isinstance(cloud_cfg, dict) and 'cld' in cloud_cfg else cloud_cfg
-                    cost_section = cloud_cfg.get('cost', {}) if isinstance(cloud_cfg, dict) else {}
-                    cld_data = {}
-                    for scale_key, file_path in cld_section.items():
-                        if not isinstance(file_path, str):
-                            continue
+                configurator_data = []
+                for provider in infra_cfg:
+                    entry = {
+                        'title': provider.get('title', ''),
+                        'subtitle': provider.get('subtitle', ''),
+                        'icon': provider.get('icon', '☁'),
+                        'id': provider.get('id', ''),
+                    }
+                    if provider.get('cost'):
+                        entry['cost'] = provider['cost']
+                    clds_out = []
+                    for cld_item in provider.get('clds', []):
+                        file_path = cld_item.get('cld', '')
                         full_path = os.path.join(base_dir, file_path)
                         if os.path.exists(full_path):
                             with open(full_path, 'r', encoding='utf-8') as cf:
                                 tpl = jinja2.Template(cf.read())
-                                cld_data[scale_key] = tpl.render(**BASE_METADATA)
+                                rendered = tpl.render(**BASE_METADATA)
                         else:
-                            cld_data[scale_key] = f"# File not found: {file_path}"
-                    configurator_data[cloud_key] = {'cld': cld_data}
-                    if cost_section:
-                        configurator_data[cloud_key]['cost'] = cost_section
+                            rendered = f"# File not found: {file_path}"
+                        clds_out.append({
+                            'title': cld_item.get('title', ''),
+                            'subtitle': cld_item.get('subtitle', ''),
+                            'icon': cld_item.get('icon', '◈'),
+                            'cld': rendered,
+                        })
+                    entry['clds'] = clds_out
+                    configurator_data.append(entry)
                 sol_entry['configurator'] = configurator_data
             solutions.append(sol_entry)
 

@@ -25,11 +25,10 @@ use_cases:
     example: kyverno.secure_ai
 
 infra:
-  aws:
-    cld:
-      small: clds/aws-cld-small.yaml
-      medium: clds/aws-cld-medium.yaml
-      large: clds/aws-cld-large.yaml
+  - title: AWS
+    subtitle: EC2 or EKS managed clusters
+    icon: "☁"
+    id: aws
     cost:
       c5.small: 0.042
       c5.medium: 0.085
@@ -37,34 +36,83 @@ infra:
       c5.xlarge: 0.170
       c5.2xlarge: 0.340
       c5.4xlarge: 0.680
+    clds:
+      - title: Small
+        subtitle: Basic 2 nodes cluster, dev/test or startup
+        icon: "◈"
+        cld: clds/aws-cld-small.yaml
+      - title: Medium
+        subtitle: Medium 5+ nodes cluster, growing production
+        icon: "⬡"
+        cld: clds/aws-cld-medium.yaml
+      - title: Large
+        subtitle: Big 10+ nodes cluster, enterprise scale
+        icon: "◉"
+        cld: clds/aws-cld-large.yaml
 
-  azure:
-    cld:
-      small: clds/azure-cld-small.yaml
-      medium: clds/azure-cld-medium.yaml
-      large: clds/azure-cld-large.yaml
+  - title: Azure
+    subtitle: VMs or AKS managed clusters
+    icon: "☁"
+    id: azure
     cost:
       Standard_A4_v2: 0.191
       Standard_A8_v2: 0.382
       Standard_A16_v2: 0.764
+    clds:
+      - title: Small
+        subtitle: Basic 2 nodes cluster, dev/test or startup
+        icon: "◈"
+        cld: clds/azure-cld-small.yaml
+      - title: Medium
+        subtitle: Medium 5+ nodes cluster, growing production
+        icon: "⬡"
+        cld: clds/azure-cld-medium.yaml
+      - title: Large
+        subtitle: Big 10+ nodes cluster, enterprise scale
+        icon: "◉"
+        cld: clds/azure-cld-large.yaml
 
-  gcp:
-    cld:
-      small: clds/gcp-cld-small.yaml
-      medium: clds/gcp-cld-medium.yaml
-      large: clds/gcp-cld-large.yaml
+  - title: GCP
+    subtitle: GCE or GKE managed clusters
+    icon: "☁"
+    id: gcp
     cost:
       e2-small: 0.017
       e2-medium: 0.034
       e2-standard-4: 0.134
       e2-standard-8: 0.268
+    clds:
+      - title: Small
+        subtitle: Basic 2 nodes cluster, dev/test or startup
+        icon: "◈"
+        cld: clds/gcp-cld-small.yaml
+      - title: Medium
+        subtitle: Medium 5+ nodes cluster, growing production
+        icon: "⬡"
+        cld: clds/gcp-cld-medium.yaml
+      - title: Large
+        subtitle: Big 10+ nodes cluster, enterprise scale
+        icon: "◉"
+        cld: clds/gcp-cld-large.yaml
 
-  openstack:
-    cld:
-      small: clds/openstack-cld-small.yaml
-      medium: clds/openstack-cld-medium.yaml
-      large: clds/openstack-cld-large.yaml
+  - title: OpenStack
+    subtitle: On-premises OpenStack infrastructure
+    icon: "◉"
+    id: openstack
     cost:
       m1.medium: 0.020
       m1.large: 0.040
       m1.xlarge: 0.080
+    clds:
+      - title: Small
+        subtitle: Basic 2 nodes cluster, dev/test or startup
+        icon: "◈"
+        cld: clds/openstack-cld-small.yaml
+      - title: Medium
+        subtitle: Medium 5+ nodes cluster, growing production
+        icon: "⬡"
+        cld: clds/openstack-cld-medium.yaml
+      - title: Large
+        subtitle: Big 10+ nodes cluster, enterprise scale
+        icon: "◉"
+        cld: clds/openstack-cld-large.yaml
