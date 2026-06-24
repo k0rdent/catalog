@@ -15,7 +15,11 @@ use_cases:
     - id: azure
       clds:
         - id: small
+          cld: clds/azure-cld-small-nvidia.yaml
         - id: medium
+          cld: clds/azure-cld-small-nvidia.yaml
+        - id: large
+          cld: clds/azure-cld-large-nvidia.yaml
 
   - icon: "◈"
     title: MLOps Platform
@@ -75,6 +79,7 @@ infra:
       Standard_A4_v2: 0.191
       Standard_A8_v2: 0.382
       Standard_A16_v2: 0.764
+      Standard_NC4as_T4_v3: 0.526
     clds:
       - id: small
         title: Small
