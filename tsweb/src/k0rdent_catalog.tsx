@@ -261,6 +261,7 @@ function CIBadge({ s }) {
 var RAW:any[] = [];
 var SOLUTIONS:any[] = [];
 var INFRA:any[] = [];
+var CONFIGURATOR_SOLUTIONS:any[] = [];
 var HARDCODED_SOLUTIONS:any[] = [
 ];
 var _catalogLoaded = false;
@@ -1197,7 +1198,9 @@ var SCALE_META:any = {
   "large":{label:"Large",icon:"◉",desc:"Big 10+ nodes cluster, enterprise scale"},
 };
 
-function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ initCsol?:string, initCcloud?:string, initCscale?:string, k0rdentVer?:string }) {
+function slugify(s:string):string { return (s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+
+function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ initUsecase?:string, initCcloud?:string, initCscale?:string, k0rdentVer?:string }) {
   var [step, setStep] = useState(0); // 0=solution, 1=cloud, 2=scale
   var [selectedSol, setSelectedSol] = useState<any>(null);
   var [cloud, setCloud] = useState("");
@@ -1207,29 +1210,35 @@ function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ ini
   var [solDetail, setSolDetail] = useState<any>(null);
   var [solDetailLoading, setSolDetailLoading] = useState(false);
 
-  var configSolutions = SOLUTIONS.filter(function(s:any){ return s.configurator; });
+  // Use configurator solutions list from config.yaml, resolve full solution data by solId
+  var configSolutions = CONFIGURATOR_SOLUTIONS.map(function(cs:any){
+    var sol = SOLUTIONS.find(function(s:any){ return s.id === cs.solId; });
+    return sol ? Object.assign({}, sol, {cfgIcon:cs.icon, cfgTitle:cs.title, cfgSubtitle:cs.subtitle}) : null;
+  }).filter(Boolean);
 
-  // Restore state from URL params
+  // Restore state from URL params — match by slugified title
   useEffect(function(){
-    if (initCsol && !selectedSol) {
-      var found = SOLUTIONS.find(function(s:any){ return s.id === initCsol; });
+    if (initUsecase && !selectedSol) {
+      var found = configSolutions.find(function(s:any){ return slugify(s.cfgTitle||s.title) === initUsecase; });
       if (found) {
         setSelectedSol(found);
-        if (initCcloud) { setCloud(initCcloud); setStep(initCscale ? 2 : 2); }
+        if (initCcloud) { setCloud(initCcloud); setStep(2); }
         else { setStep(1); }
         if (initCscale) setScale(initCscale);
       }
     }
-  }, [initCsol]);
+  }, [initUsecase, configSolutions.length]);
 
-  function updateUrl(solId?:string, cl?:string, sc?:string) {
-    history.replaceState(null, "", buildCatalogUrl({view:"configurator",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",csol:solId||"",ccloud:cl||"",cscale:sc||""}, k0rdentVer));
+  function solSlug(sol:any):string { return slugify(sol?sol.cfgTitle||sol.title:""); }
+
+  function updateUrl(sol?:any, cl?:string, sc?:string) {
+    history.replaceState(null, "", buildCatalogUrl({view:"configurator",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",usecase:sol?solSlug(sol):"",ccloud:cl||"",cscale:sc||""}, k0rdentVer));
   }
 
-  function selectSolution(sol:any) { setSelectedSol(sol); setCloud(""); setScale(""); setResultTab("cluster"); updateUrl(sol.id); setTimeout(function(){ setStep(1); }, 200); }
-  function selectCloud(id:string) { setCloud(id); setScale(""); updateUrl(selectedSol?selectedSol.id:"",id); setTimeout(function(){ setStep(2); }, 200); }
-  function selectScale(id:string) { setScale(id); updateUrl(selectedSol?selectedSol.id:"",cloud,id); }
-  function back() { if(step===2){setStep(1);setScale("");updateUrl(selectedSol?selectedSol.id:"",cloud);} else if(step===1){setStep(0);setCloud("");setScale("");updateUrl();} }
+  function selectSolution(sol:any) { setSelectedSol(sol); setCloud(""); setScale(""); setResultTab("cluster"); updateUrl(sol); setTimeout(function(){ setStep(1); }, 200); }
+  function selectCloud(id:string) { setCloud(id); setScale(""); updateUrl(selectedSol,id); setTimeout(function(){ setStep(2); }, 200); }
+  function selectScale(id:string) { setScale(id); updateUrl(selectedSol,cloud,id); }
+  function back() { if(step===2){setStep(1);setScale("");updateUrl(selectedSol,cloud);} else if(step===1){setStep(0);setCloud("");setScale("");updateUrl();} }
   function reset() { setStep(0); setSelectedSol(null); setCloud(""); setScale(""); setSolDetail(null); updateUrl(); }
 
   // Fetch solution detail for Services tab
@@ -1257,7 +1266,7 @@ function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ ini
   }
 
   var stepLabels = [
-    {label:"Solution", value:selectedSol?selectedSol.title:null},
+    {label:"Use Case", value:selectedSol?(selectedSol.cfgTitle||selectedSol.title):null},
     {label:"Infrastructure", value:cloud?(CLOUD_META[cloud]||{}).label||cloud:null},
     {label:"Scale", value:scale?(SCALE_META[scale]||{}).label||scale:null},
   ];
@@ -1281,7 +1290,7 @@ function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ ini
             <div key={s.label} onClick={function(){if(si<step){setStep(si);}}} style={{flex:1,padding:"10px 12px",background:isActive?B.teal+"18":isDone?B.bg3:"transparent",borderRight:si<stepLabels.length-1?"1px solid "+B.border:"none",cursor:si<step?"pointer":"default"}}>
               <div style={{fontSize:9,fontWeight:600,color:isActive?B.teal:isDone?B.green:B.textMut,textTransform:"uppercase",marginBottom:2}}>{si+1}. {s.label}</div>
               <div style={{fontSize:10,color:isActive?B.textPri:isDone?B.textSec:B.textMut}}>
-                {isDone && s.value ? s.value : (si===0?"Choose a solution":si===1?"Where are you deploying?":"Select cluster scale")}
+                {isDone && s.value ? s.value : (si===0?"What are you building?":si===1?"Where are you deploying?":"Select cluster scale")}
               </div>
             </div>
           );
@@ -1292,6 +1301,7 @@ function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ ini
       {step===0 && (
         <div style={{maxWidth:720,margin:"0 auto"}}>
           <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What are you building?</h2>
+
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
             {configSolutions.map(function(sol:any){
               return (
@@ -1301,15 +1311,20 @@ function ConfiguratorPage({ initCsol, initCcloud, initCscale, k0rdentVer }:{ ini
                   style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
                 >
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
-                    {sol.logo ? <AppLogo name={sol.appName||""} size={24} accent={B.teal} logo={sol.logo}/> : <span style={{fontSize:16,color:B.textMut}}>{sol.icon||"◈"}</span>}
+                    <span style={{fontSize:16,color:B.textMut}}>{sol.cfgIcon||sol.icon||"◈"}</span>
                   </div>
-                  <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>{sol.title}</div>
-                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{sol.tagline}</div>
+                  <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>{sol.cfgTitle||sol.title}</div>
+                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{sol.cfgSubtitle||sol.tagline}</div>
                 </div>
               );
             })}
           </div>
           {configSolutions.length===0&&<div style={{padding:20,textAlign:"center",color:B.textMut,fontSize:12}}>No solutions with configurator metadata found.</div>}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:20}}>
+            <button style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,opacity:0.4,cursor:"default",fontFamily:"inherit"}}>Back</button>
+            <span style={{fontSize:11,color:B.textMut}}>Step 1 of 3</span>
+            <div style={{width:80}}/>
+          </div>
         </div>
       )}
 
@@ -1691,7 +1706,7 @@ function readUrlParams() {
     sol: p.get("sol") || "",
     scat: p.get("scat") || "All",
     shide: p.get("shide") || "",
-    csol: p.get("csol") || "",
+    usecase: p.get("usecase") || "",
     ccloud: p.get("ccloud") || "",
     cscale: p.get("cscale") || "",
     infraApp: infraApp,
@@ -1713,14 +1728,14 @@ function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string
   return appendTheme(versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : ""));
 }
 
-function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string, shide?:string, csol?:string, ccloud?:string, cscale?:string}, k0rdentVer?:string):string {
+function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string, shide?:string, usecase?:string, ccloud?:string, cscale?:string}, k0rdentVer?:string):string {
   if (state.view === "contribute" || state.view === "solutions" || state.view === "infra" || state.view === "configurator") {
     var base = versionBase(k0rdentVer || "") + state.view + "/";
     var sp = new URLSearchParams();
     if (state.sol) sp.set("sol", state.sol);
     if (state.scat && state.scat !== "All") sp.set("scat", state.scat);
     if (state.shide) sp.set("shide", state.shide);
-    if (state.csol) sp.set("csol", state.csol);
+    if (state.usecase) sp.set("usecase", state.usecase);
     if (state.ccloud) sp.set("ccloud", state.ccloud);
     if (state.cscale) sp.set("cscale", state.cscale);
     var sqs = sp.toString();
@@ -1855,6 +1870,9 @@ export default function App() {
         SOLUTIONS.sort(function(a:any,b:any){ return (a.title||"").localeCompare(b.title||""); });
         INFRA.length = 0;
         Array.prototype.push.apply(INFRA, infraData);
+        CONFIGURATOR_SOLUTIONS.length = 0;
+        var cfgSols = Array.isArray(data) ? [] : (data.configuratorSolutions || []);
+        Array.prototype.push.apply(CONFIGURATOR_SOLUTIONS, cfgSols);
         ALL_TAGS.length = 0;
         ALL_TAGS.push("All");
         var seen:any = {};
@@ -1959,7 +1977,7 @@ export default function App() {
       {view==="contribute"&&<ContributePage/>}
       {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer}/>}
       {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
-      {view==="configurator"&&<ConfiguratorPage initCsol={initParams.csol} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
+      {view==="configurator"&&<ConfiguratorPage initUsecase={initParams.usecase} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
 
       {view==="catalog"&&(
         <div style={{maxWidth:1140,margin:"0 auto",padding:"18px 20px 0"}}>

@@ -650,8 +650,8 @@ def extract_solutions(output_dir: str) -> list:
                 'k8s': ex.get('k8s', []),
             }
             # Embed configurator data with file contents and cost info
-            # Use solution-specific configurator if set, otherwise default
-            configurator_meta = ex.get('configurator') or CONFIGURATOR_DEFAULT
+            # Use solution-specific configurator if set, otherwise default infra section
+            configurator_meta = ex.get('configurator') or CONFIGURATOR_DEFAULT.get('infra', CONFIGURATOR_DEFAULT)
             if configurator_meta:
                 base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
                 configurator_data = {}
@@ -763,9 +763,21 @@ def build_version(version: str, output_dir: str):
 
     solutions = extract_solutions(output_dir)
 
+    # Build configurator use cases list from config.yaml
+    configurator_solutions = []
+    for item in CONFIGURATOR_DEFAULT.get('use_cases', []):
+        # Map example "jupyterhub.mlops" to solution ID "jupyterhub_mlops"
+        sol_id = item.get('example', '').replace('.', '_')
+        configurator_solutions.append({
+            'icon': item.get('icon', '◈'),
+            'title': item.get('title', ''),
+            'subtitle': item.get('subtitle', ''),
+            'solId': sol_id,
+        })
+
     # Write catalog.json as nested format with solutions and infra
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump({'apps': catalog, 'solutions': solutions, 'infra': infra}, f, indent=2, ensure_ascii=False)
+        json.dump({'apps': catalog, 'solutions': solutions, 'infra': infra, 'configuratorSolutions': configurator_solutions}, f, indent=2, ensure_ascii=False)
 
     generate_fetched_metadata(catalog, output_dir)
     generate_contribute_html(output_dir)

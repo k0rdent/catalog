@@ -1,43 +1,70 @@
-aws:
-  cld:
-    small: clds/aws-cld-small.yaml
-    medium: clds/aws-cld-medium.yaml
-    large: clds/aws-cld-large.yaml
-  cost:
-    c5.small: 0.042
-    c5.medium: 0.085
-    c5.large: 0.085
-    c5.xlarge: 0.170
-    c5.2xlarge: 0.340
-    c5.4xlarge: 0.680
+use_cases:
+  - icon: "⬡"
+    title: LLM Inference
+    subtitle: Serve LLMs and embedding models at scale
+    example: nvidia.ai_inference
+  - icon: "◈"
+    title: MLOps Platform
+    subtitle: Train, track, and deploy ML models
+    example: jupyterhub.mlops
+  - icon: "✦"
+    title: RAG / Vector Search
+    subtitle: Build retrieval-augmented AI applications
+    example: opensearch.rag
+  - icon: "◉"
+    title: AI Data Pipeline
+    subtitle: Ingest, process, and store training data
+    example: minio.data_platform
+  - icon: "⬡"
+    title: AI Observability
+    subtitle: Monitor GPU utilization, cost, and model health
+    example: opencost.ai_observability
+  - icon: "◈"
+    title: Internal Dev Platform
+    subtitle: GitOps-driven developer platform with guardrails
+    example: kyverno.secure_ai
 
-azure:
-  cld:
-    small: clds/azure-cld-small.yaml
-    medium: clds/azure-cld-medium.yaml
-    large: clds/azure-cld-large.yaml
-  cost:
-    Standard_A4_v2: 0.191
-    Standard_A8_v2: 0.382
-    Standard_A16_v2: 0.764
+infra:
+  aws:
+    cld:
+      small: clds/aws-cld-small.yaml
+      medium: clds/aws-cld-medium.yaml
+      large: clds/aws-cld-large.yaml
+    cost:
+      c5.small: 0.042
+      c5.medium: 0.085
+      c5.large: 0.085
+      c5.xlarge: 0.170
+      c5.2xlarge: 0.340
+      c5.4xlarge: 0.680
 
-gcp:
-  cld:
-    small: clds/gcp-cld-small.yaml
-    medium: clds/gcp-cld-medium.yaml
-    large: clds/gcp-cld-large.yaml
-  cost:
-    e2-small: 0.017
-    e2-medium: 0.034
-    e2-standard-4: 0.134
-    e2-standard-8: 0.268
+  azure:
+    cld:
+      small: clds/azure-cld-small.yaml
+      medium: clds/azure-cld-medium.yaml
+      large: clds/azure-cld-large.yaml
+    cost:
+      Standard_A4_v2: 0.191
+      Standard_A8_v2: 0.382
+      Standard_A16_v2: 0.764
 
-openstack:
-  cld:
-    small: clds/openstack-cld-small.yaml
-    medium: clds/openstack-cld-medium.yaml
-    large: clds/openstack-cld-large.yaml
-  cost:
-    m1.medium: 0.020
-    m1.large: 0.040
-    m1.xlarge: 0.080
+  gcp:
+    cld:
+      small: clds/gcp-cld-small.yaml
+      medium: clds/gcp-cld-medium.yaml
+      large: clds/gcp-cld-large.yaml
+    cost:
+      e2-small: 0.017
+      e2-medium: 0.034
+      e2-standard-4: 0.134
+      e2-standard-8: 0.268
+
+  openstack:
+    cld:
+      small: clds/openstack-cld-small.yaml
+      medium: clds/openstack-cld-medium.yaml
+      large: clds/openstack-cld-large.yaml
+    cost:
+      m1.medium: 0.020
+      m1.large: 0.040
+      m1.xlarge: 0.080
