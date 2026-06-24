@@ -16,6 +16,13 @@ spec:
     controlPlane:
       vmSize: Standard_A4_v2
     worker:
-      vmSize: Standard_A16_v2
-      rootVolumeSize: 512
+      image:
+        marketplace:
+          publisher: "Canonical"
+          offer: "0001-com-ubuntu-minimal-jammy"
+          sku: "minimal-22_04-lts"
+          version: "22.04.202502270"
+      rootVolumeSize: 32
+      # Small Azure instance with NVIDIA GPU
+      vmSize: Standard_NC4as_T4_v3
     workersNumber: 16
