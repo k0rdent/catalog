@@ -2,6 +2,7 @@
 
 import os
 import re
+import json
 import argparse
 
 def main():
@@ -18,11 +19,7 @@ def main():
             name_without_ext = filename[:-5]  # remove ".yaml"
             key = match.group(1).replace("-", "_")
             result[key] = name_without_ext
-
-    print("{")
-    for k, v in sorted(result.items()):
-        print(f'    "{k}": "{v}",')
-    print("}")
+    print(json.dumps(result, sort_keys=True))
 
 if __name__ == "__main__":
     main()
