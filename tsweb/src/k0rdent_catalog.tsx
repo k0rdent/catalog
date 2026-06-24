@@ -1183,20 +1183,6 @@ function CldCostEstimator({ costItems, cloudLabel }:{ costItems:any[], cloudLabe
   );
 }
 
-var CLOUD_META:any = {
-  "aws":{label:"AWS",icon:"☁",desc:"EC2 clusters"},
-  "azure":{label:"Azure",icon:"☁",desc:"VMs clusters"},
-  "gcp":{label:"GCP",icon:"☁",desc:"GCE clusters"},
-  "vsphere":{label:"vSphere",icon:"◉",desc:"On-premises VMware infrastructure"},
-  "baremetal":{label:"Bare Metal",icon:"◈",desc:"Direct on-prem or edge servers"},
-  "openstack":{label:"OpenStack",icon:"◉",desc:"On-premises OpenStack infrastructure"},
-  "hybrid":{label:"Hybrid",icon:"⬡",desc:"Multiple clouds and on-prem combined"},
-};
-var SCALE_META:any = {
-  "small":{label:"Small",icon:"◈",desc:"Basic 2 nodes cluster, dev/test or startup"},
-  "medium":{label:"Medium",icon:"⬡",desc:"Medium 5+ nodes cluster, growing production"},
-  "large":{label:"Large",icon:"◉",desc:"Big 10+ nodes cluster, enterprise scale"},
-};
 
 function slugify(s:string):string { return (s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
 
@@ -1252,12 +1238,13 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
       .catch(function(){ setSolDetailLoading(false); });
   }, [selectedSol ? selectedSol.id : ""]);
 
-  var cloudKeys = selectedSol && selectedSol.configurator ? Object.keys(selectedSol.configurator) : [];
-  var cloudCfg = selectedSol && selectedSol.configurator && cloud ? (selectedSol.configurator[cloud]||{}) : {};
-  var cldData = cloudCfg.cld || cloudCfg; // support both new {cld,cost} and old flat format
-  var costData = cloudCfg.cost || {};
-  var scaleKeys = cloud ? Object.keys(cldData).filter(function(k){return typeof cldData[k]==="string";}) : [];
-  var yaml = scale ? (cldData[scale]||"") : "";
+  // configurator is now an array of infra providers
+  var infraList:any[] = selectedSol && Array.isArray(selectedSol.configurator) ? selectedSol.configurator : [];
+  var selectedInfra:any = cloud ? infraList.find(function(p:any){return p.id===cloud;}) || null : null;
+  var costData = selectedInfra ? (selectedInfra.cost||{}) : {};
+  var cldsList:any[] = selectedInfra ? (selectedInfra.clds||[]) : [];
+  var selectedCld:any = scale ? cldsList.find(function(c:any){return slugify(c.title)===scale;}) || null : null;
+  var yaml = selectedCld ? (selectedCld.cld||"") : "";
 
   function doCopy() {
     if(navigator.clipboard) navigator.clipboard.writeText(yaml);
@@ -1267,8 +1254,8 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
 
   var stepLabels = [
     {label:"Use Case", value:selectedSol?(selectedSol.cfgTitle||selectedSol.title):null},
-    {label:"Infrastructure", value:cloud?(CLOUD_META[cloud]||{}).label||cloud:null},
-    {label:"Scale", value:scale?(SCALE_META[scale]||{}).label||scale:null},
+    {label:"Infrastructure", value:selectedInfra?selectedInfra.title:null},
+    {label:"Scale", value:selectedCld?selectedCld.title:null},
   ];
 
   return (
@@ -1333,21 +1320,20 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
         <div style={{maxWidth:720,margin:"0 auto"}}>
           <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>Where are you deploying?</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
-            {cloudKeys.map(function(key){
-              var meta=CLOUD_META[key]||{label:key,icon:"☁",desc:""};
-              var active=cloud===key;
+            {infraList.map(function(provider:any){
+              var active=cloud===provider.id;
               return (
-                <div key={key} onClick={function(){selectCloud(key);}}
+                <div key={provider.id} onClick={function(){selectCloud(provider.id);}}
                   onMouseEnter={function(e){if(!active){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}}
                   onMouseLeave={function(e){if(!active){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}}
                   style={{background:active?B.teal+"18":B.bg1,border:"1px solid "+(active?B.teal+"60":B.border),borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
                 >
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
-                    <span style={{fontSize:16,color:active?B.teal:B.textMut}}>{meta.icon}</span>
+                    <span style={{fontSize:16,color:active?B.teal:B.textMut}}>{provider.icon}</span>
                     {active&&<span style={{width:14,height:14,borderRadius:"50%",background:B.teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:B.bg0,fontWeight:700}}>✓</span>}
                   </div>
-                  <div style={{fontSize:13,fontWeight:600,color:active?B.teal:B.textPri,marginBottom:3}}>{meta.label}</div>
-                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{meta.desc}</div>
+                  <div style={{fontSize:13,fontWeight:600,color:active?B.teal:B.textPri,marginBottom:3}}>{provider.title}</div>
+                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{provider.subtitle}</div>
                 </div>
               );
             })}
@@ -1365,19 +1351,19 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
         <div style={{maxWidth:720,margin:"0 auto"}}>
           <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What is your expected cluster scale?</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
-            {scaleKeys.map(function(key){
-              var meta=SCALE_META[key]||{label:key,icon:"◈",desc:""};
+            {cldsList.map(function(cldItem:any){
+              var cldSlug=slugify(cldItem.title);
               return (
-                <div key={key} onClick={function(){selectScale(key);}}
+                <div key={cldSlug} onClick={function(){selectScale(cldSlug);}}
                   onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}
                   onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}
                   style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
                 >
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
-                    <span style={{fontSize:16,color:B.textMut}}>{meta.icon}</span>
+                    <span style={{fontSize:16,color:B.textMut}}>{cldItem.icon}</span>
                   </div>
-                  <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>{meta.label}</div>
-                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{meta.desc}</div>
+                  <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:3}}>{cldItem.title}</div>
+                  <div style={{fontSize:11,color:B.textSec,lineHeight:1.5}}>{cldItem.subtitle}</div>
                 </div>
               );
             })}
@@ -1395,7 +1381,7 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
         <div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12,marginBottom:20}}>
             <div>
-              <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 4px"}}>{selectedSol.title} <span style={{color:B.teal}}>— {(CLOUD_META[cloud]||{}).label||cloud} / {(SCALE_META[scale]||{}).label||scale}</span></h2>
+              <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 4px"}}>{selectedSol.cfgTitle||selectedSol.title} <span style={{color:B.teal}}>— {selectedInfra?selectedInfra.title:cloud} / {selectedCld?selectedCld.title:scale}</span></h2>
               <div style={{fontSize:12,color:B.textSec}}>Validated deployment for k0rdent</div>
             </div>
             <div style={{display:"flex",gap:8}}>
@@ -1440,7 +1426,7 @@ function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ 
                 <span style={{color:B.teal,fontWeight:600}}>Next step: </span>
                 Apply this ClusterDeployment manifest to your k0rdent management cluster to provision the infrastructure.
               </div>
-              {costItems.length > 0 && <CldCostEstimator costItems={costItems} cloudLabel={(CLOUD_META[cloud]||{}).label||cloud}/>}
+              {costItems.length > 0 && <CldCostEstimator costItems={costItems} cloudLabel={selectedInfra?selectedInfra.title:cloud}/>}
             </div>
             );
           })()}
