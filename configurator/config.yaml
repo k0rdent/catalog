@@ -3,6 +3,16 @@ use_cases:
     title: LLM Inference
     subtitle: Serve LLMs and embedding models at scale
     example: nvidia.ai_inference
+    infra:
+    - id: aws
+      clds:
+        - id: medium
+        - id: large
+    - id: azure
+      clds:
+        - id: small
+        - id: medium
+
   - icon: "◈"
     title: MLOps Platform
     subtitle: Train, track, and deploy ML models
@@ -37,15 +47,18 @@ infra:
       c5.2xlarge: 0.340
       c5.4xlarge: 0.680
     clds:
-      - title: Small
+      - id: small
+        title: Small
         subtitle: Basic 2 nodes cluster, dev/test or startup
         icon: "◈"
         cld: clds/aws-cld-small.yaml
-      - title: Medium
+      - id: medium
+        title: Medium
         subtitle: Medium 5+ nodes cluster, growing production
         icon: "⬡"
         cld: clds/aws-cld-medium.yaml
-      - title: Large
+      - id: large
+        title: Large
         subtitle: Big 10+ nodes cluster, enterprise scale
         icon: "◉"
         cld: clds/aws-cld-large.yaml
@@ -59,15 +72,18 @@ infra:
       Standard_A8_v2: 0.382
       Standard_A16_v2: 0.764
     clds:
-      - title: Small
+      - id: small
+        title: Small
         subtitle: Basic 2 nodes cluster, dev/test or startup
         icon: "◈"
         cld: clds/azure-cld-small.yaml
-      - title: Medium
+      - id: medium
+        title: Medium
         subtitle: Medium 5+ nodes cluster, growing production
         icon: "⬡"
         cld: clds/azure-cld-medium.yaml
-      - title: Large
+      - id: large
+        title: Large
         subtitle: Big 10+ nodes cluster, enterprise scale
         icon: "◉"
         cld: clds/azure-cld-large.yaml
@@ -82,15 +98,18 @@ infra:
       e2-standard-4: 0.134
       e2-standard-8: 0.268
     clds:
-      - title: Small
+      - id: small
+        title: Small
         subtitle: Basic 2 nodes cluster, dev/test or startup
         icon: "◈"
         cld: clds/gcp-cld-small.yaml
-      - title: Medium
+      - id: medium
+        title: Medium
         subtitle: Medium 5+ nodes cluster, growing production
         icon: "⬡"
         cld: clds/gcp-cld-medium.yaml
-      - title: Large
+      - id: large
+        title: Large
         subtitle: Big 10+ nodes cluster, enterprise scale
         icon: "◉"
         cld: clds/gcp-cld-large.yaml
@@ -104,15 +123,18 @@ infra:
       m1.large: 0.040
       m1.xlarge: 0.080
     clds:
-      - title: Small
+      - id: small
+        title: Small
         subtitle: Basic 2 nodes cluster, dev/test or startup
         icon: "◈"
         cld: clds/openstack-cld-small.yaml
-      - title: Medium
+      - id: medium
+        title: Medium
         subtitle: Medium 5+ nodes cluster, growing production
         icon: "⬡"
         cld: clds/openstack-cld-medium.yaml
-      - title: Large
+      - id: large
+        title: Large
         subtitle: Big 10+ nodes cluster, enterprise scale
         icon: "◉"
         cld: clds/openstack-cld-large.yaml

@@ -581,6 +581,44 @@ def generate_fetched_metadata(catalog: list, output_dir: str):
         json.dump(items, f, indent=2, ensure_ascii=False)
 
 
+def _merge_infra(global_infra: list, override: list | None) -> list:
+    """Merge use_case infra overrides with global infra defaults.
+
+    If override is None, return global_infra as-is.
+    Otherwise, for each entry in override (matched by 'id'):
+    - Provider-level fields (title, subtitle, icon, cost) inherit from global if not set
+    - clds: if override provides clds, filter global clds to only those with matching ids,
+      then merge each cld entry's fields (title, subtitle, icon, cld) from global if not set
+    - Only providers listed in override are included in the result
+    """
+    if not override:
+        return global_infra
+    # Build lookup of global providers and their clds by id
+    g_providers = {p['id']: p for p in global_infra if 'id' in p}
+    result = []
+    for ov_provider in override:
+        pid = ov_provider.get('id', '')
+        g_prov = g_providers.get(pid, {})
+        # Merge provider-level fields
+        merged = dict(g_prov)
+        for k, v in ov_provider.items():
+            if k != 'clds':
+                merged[k] = v
+        # Merge clds
+        if 'clds' in ov_provider:
+            g_clds = {c.get('id', ''): c for c in g_prov.get('clds', []) if 'id' in c}
+            merged_clds = []
+            for ov_cld in ov_provider['clds']:
+                cld_id = ov_cld.get('id', '')
+                g_cld = g_clds.get(cld_id, {})
+                m = dict(g_cld)
+                m.update({k: v for k, v in ov_cld.items() if v is not None})
+                merged_clds.append(m)
+            merged['clds'] = merged_clds
+        result.append(merged)
+    return result
+
+
 def extract_solutions(output_dir: str) -> list:
     """Extract solution data from all apps and generate per-solution detail JSON files."""
     solutions = []
@@ -650,7 +688,14 @@ def extract_solutions(output_dir: str) -> list:
                 'k8s': ex.get('k8s', []),
             }
             # Embed configurator infra data with rendered CLD file contents
-            infra_cfg = ex.get('configurator') or CONFIGURATOR_DEFAULT.get('infra', [])
+            # Merge use_case infra overrides with global infra defaults
+            global_infra = CONFIGURATOR_DEFAULT.get('infra', [])
+            _use_case_infra = None
+            for _uc in CONFIGURATOR_DEFAULT.get('use_cases', []):
+                if _uc.get('example', '').replace('.', '_') == sol_id:
+                    _use_case_infra = _uc.get('infra')
+                    break
+            infra_cfg = ex.get('configurator') or _merge_infra(global_infra, _use_case_infra)
             if infra_cfg and isinstance(infra_cfg, list):
                 base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
                 configurator_data = []
@@ -674,6 +719,7 @@ def extract_solutions(output_dir: str) -> list:
                         else:
                             rendered = f"# File not found: {file_path}"
                         clds_out.append({
+                            'id': cld_item.get('id', ''),
                             'title': cld_item.get('title', ''),
                             'subtitle': cld_item.get('subtitle', ''),
                             'icon': cld_item.get('icon', '◈'),
