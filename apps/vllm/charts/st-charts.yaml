@@ -1,0 +1,5 @@
+st-charts:
+- name: vllm-stack
+  dep_name: vllm-stack
+  version: 0.1.11
+  repository: https://vllm-project.github.io/production-stack

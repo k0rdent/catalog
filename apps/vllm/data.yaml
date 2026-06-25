@@ -1,0 +1,23 @@
+tags:
+  - AI/Machine Learning
+title: "vLLM Production Stack"
+summary: "vLLM Production Stack is a reference implementation for building distributed LLM inference systems on Kubernetes. It combines the high-throughput vLLM serving engine with intelligent request routing, automatic model scaling, KV cache-aware load balancing, and built-in Prometheus/Grafana observability — providing a production-grade serving layer for deploying multiple LLM models behind a unified OpenAI-compatible API."
+logo: ./assets/icon.svg # https://github.com/vllm-project/media-kit/blob/main/vLLM-Logo.svg
+created: "2026-06-25T00:00:00Z"
+github_repo: vllm-project/production-stack
+description: |
+    vLLM Production Stack provides a complete distributed inference platform for serving large language models
+    at scale on Kubernetes. It includes request routing with KV cache awareness, multi-model serving,
+    automatic scaling, and observability with Prometheus and Grafana dashboards.
+
+why_in_catalog: "Running a single vLLM instance is straightforward, but operating it in production across multiple models, replicas, and GPU nodes requires request routing, health checks, autoscaling, and observability. The vLLM Production Stack packages all of this into a single Helm chart that deploys behind an OpenAI-compatible API, with KV cache-aware load balancing that routes requests to the replica most likely to have relevant context cached — reducing time-to-first-token and GPU memory waste at scale."
+
+doc_link: https://docs.vllm.ai/projects/production-stack/en/latest/
+
+test_wait_for_pods: "vllm-stack-deployment-router-"
+
+validated_amd64: 'y'
+validated_aws: ''
+validated_azure: ''
+validated_arm64: ''
+validated_local: 'y'
