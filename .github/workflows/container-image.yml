@@ -6,15 +6,15 @@ on:
       - '**'
     paths:
       - scripts/container/**
+      - scripts/web/**
       - tsweb/**
-      - scripts/**
       - .github/workflows/container-image.yml
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - scripts/container/**
+      - scripts/web/**
       - tsweb/**
-      - scripts/**
       - .github/workflows/container-image.yml
 
 permissions:

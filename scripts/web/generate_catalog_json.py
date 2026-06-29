@@ -12,10 +12,10 @@ import shutil
 import sys
 import yaml
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import utils
 
-CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
 VERSIONS_FILE = os.path.join(CATALOG_ROOT, 'versions.yaml')
 VERSION = os.environ.get('VERSION', 'v1.8.0')

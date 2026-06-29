@@ -8,14 +8,14 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$ROOT_DIR"
 
 export OUTPUT_DIR="${OUTPUT_DIR:-tsweb/public}"
 mkdir -p "$OUTPUT_DIR"
 
 echo "==> Generating catalog data for all versions..."
-python3 scripts/generate_catalog_json.py --all-versions
+python3 scripts/web/generate_catalog_json.py --all-versions
 
 echo "==> Generating index.json for all versions..."
 python3 -c "
@@ -25,7 +25,7 @@ with open('versions.yaml') as f:
     cfg = yaml.safe_load(f)
 
 for v in cfg['versions']:
-    subprocess.run(['python3', 'scripts/generate_index.py'], env={**os.environ, 'VERSION': v}, check=True)
+    subprocess.run(['python3', 'scripts/web/generate_index.py'], env={**os.environ, 'VERSION': v}, check=True)
     dst = os.path.join('$OUTPUT_DIR', v)
     os.makedirs(dst, exist_ok=True)
     shutil.copy2('tsweb/md/index.json', os.path.join(dst, 'index.json'))
