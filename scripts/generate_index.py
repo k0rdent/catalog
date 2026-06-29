@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 # Constants
 CATALOG_ROOT = Path(__file__).parent.parent
 APPS_DIR = CATALOG_ROOT / "apps"
-SCHEMA_FILE = CATALOG_ROOT / "mkdocs" / "schema" / "index.json"
-INDEX_FILE = CATALOG_ROOT / "mkdocs" / "index.json"
+SCHEMA_FILE = CATALOG_ROOT / "tsweb" / "md" / "schema" / "index.json"
+INDEX_FILE = CATALOG_ROOT / "tsweb" / "md" / "index.json"
 VERSION = os.getenv("VERSION", "v1.5.0")
 SITE_URL = os.getenv("SITE_URL", "https://catalog.k0rdent.io")
 BASE_URL = f"{SITE_URL.rstrip('/')}/{VERSION}"

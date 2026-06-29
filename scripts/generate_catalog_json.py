@@ -774,14 +774,14 @@ def extract_solutions(output_dir: str) -> list:
 
 
 def generate_contribute_html(output_dir: str):
-    """Convert mkdocs/contribute.md to HTML and write as contribute.json."""
+    """Convert tsweb/md/contribute.md to HTML and write as contribute.json."""
     import markdown
-    contribute_md = os.path.join(CATALOG_ROOT, 'mkdocs', 'contribute.md')
+    contribute_md = os.path.join(CATALOG_ROOT, 'tsweb', 'md', 'contribute.md')
     if not os.path.exists(contribute_md):
         return
     with open(contribute_md, 'r', encoding='utf-8') as f:
         content = f.read()
-    # Strip MkDocs-specific attributes like { target="_blank" } and { #id }
+    # Strip markdown attributes like { target="_blank" } and { #id }
     content = re.sub(r'\{[^}]*target="_blank"[^}]*\}', '', content)
     content = re.sub(r'\[\]\(\)\{[^}]*\}', '', content)
     content = re.sub(r'\{[^}]*#[a-z-]+[^}]*\}', '', content)

@@ -28,10 +28,10 @@ for v in cfg['versions']:
     subprocess.run(['python3', 'scripts/generate_index.py'], env={**os.environ, 'VERSION': v}, check=True)
     dst = os.path.join('$OUTPUT_DIR', v)
     os.makedirs(dst, exist_ok=True)
-    shutil.copy2('mkdocs/index.json', os.path.join(dst, 'index.json'))
+    shutil.copy2('tsweb/md/index.json', os.path.join(dst, 'index.json'))
     os.makedirs(os.path.join(dst, 'schema'), exist_ok=True)
-    if os.path.exists('mkdocs/schema/index.json'):
-        shutil.copy2('mkdocs/schema/index.json', os.path.join(dst, 'schema/index.json'))
+    if os.path.exists('tsweb/md/schema/index.json'):
+        shutil.copy2('tsweb/md/schema/index.json', os.path.join(dst, 'schema/index.json'))
 
 print(f'Generated index.json for {len(cfg[\"versions\"])} versions')
 "

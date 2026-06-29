@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "⏳ Running spell check for *.md files in 'mkdocs' folder"
+echo "⏳ Running spell check for data.yaml files"
 cat apps/*/hunspell_dict.txt hunspell_dict.txt > hunspell_dict_all.txt
 app="${1:-*}" # allow to specify a single app, by default check all apps
 for file in apps/${app}/data.yaml; do
