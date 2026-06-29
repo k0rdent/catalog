@@ -240,7 +240,8 @@ def md_to_html(text: str) -> str:
             continue
         # Ordered list: lines starting with 1. 2. etc
         if all(re.match(r'^\d+\.\s', ln.strip()) for ln in lines if ln.strip()):
-            items = [f'<li>{re.sub(r"^[0-9]+[.]\\s*", "", ln.strip())}</li>' for ln in lines if ln.strip()]
+            ol_pat = re.compile(r'^[0-9]+[.]\s*')
+            items = ['<li>' + ol_pat.sub('', ln.strip()) + '</li>' for ln in lines if ln.strip()]
             result.append('<ol>' + ''.join(items) + '</ol>')
             continue
         # Regular paragraph
