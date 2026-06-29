@@ -1,0 +1,16 @@
+image:
+  repository: ghcr.io/k0rdent/k0rdent-catalog-web
+  tag: sha-a5e742d
+  pullPolicy: IfNotPresent
+
+replicas: 1
+
+service:
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  host: ""
+  annotations: {}
+  tls: []

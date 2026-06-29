@@ -1,0 +1,5 @@
+apiVersion: v2
+name: k0rdent-catalog-web
+description: k0rdent Catalog Web UI
+type: application
+version: 0.0.1
