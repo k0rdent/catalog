@@ -4,18 +4,15 @@ The k0rdent Catalog Repo is a central repository and discovery platform designed
 ## Repository structure
 - `.github/workflows` - GitHub scripts for automatical testing.
 - `apps` - Catalog Applications metadata, resource files, Helm charts, and testing config files.
-- `docs` - Additional repo documentation files
-- `mkdocs` - [MkDocs](https://www.mkdocs.org/) source files for the Catalog web site.
-  - [Apps testing guide](mkdocs/testing_guide.md)
-  - [Testing methodology](mkdocs/testing_methodology.md)
-- `overrides` - Catalog HTML files (MkDocs customization files).
+- `md` - Documentation files.
+  - [Apps testing guide](md/testing_guide.md)
+  - [Testing methodology](md/testing_methodology.md)
 - `scripts` - Tools for testing and contributing services to k0rdent.
-- `mkdocs.yml` - MkDocs main config file to generate the Catalog web site.
+- `tsweb` - Catalog web UI source (React SPA).
 
 ## Useful links
 - [Catalog Web](https://catalog.k0rdent.io/) - Public web UI of the k0rdent catalog, listing all available applications and their metadata.
-- [Applications Testing Guide](mkdocs/testing_guide.md) - Guide describing how applications are tested and validated before being added to the catalog.
-- [Previewing Docs](mkdocs/dev.md) - Instructions for building and previewing the catalog documentation locally during development.
+- [Applications Testing Guide](md/testing_guide.md) - Guide describing how applications are tested and validated before being added to the catalog.
 - [Contribution guide](https://catalog.k0rdent.io/latest/contribute/) - How to contribute new applications or updates to the catalog, including style and review guidelines.
 - [Catalog Index](https://catalog.k0rdent.io/latest/index.json) - Machine-readable index of all catalog entries, used by k0rdent UI and related tooling.
 - [Catalog Index Schema](https://catalog.k0rdent.io/latest/schema/index.json) - JSON Schema describing the structure of the catalog index, useful for validation and automation.
