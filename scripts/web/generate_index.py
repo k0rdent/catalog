@@ -10,7 +10,7 @@ import jsonschema
 import os
 from packaging.version import Version
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import utils
 
 # Configure logging
@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Constants
-CATALOG_ROOT = Path(__file__).parent.parent
+CATALOG_ROOT = Path(__file__).parent.parent.parent
 APPS_DIR = CATALOG_ROOT / "apps"
 SCHEMA_FILE = CATALOG_ROOT / "tsweb" / "md" / "schema" / "index.json"
 INDEX_FILE = CATALOG_ROOT / "tsweb" / "md" / "index.json"

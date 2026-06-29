@@ -5,8 +5,8 @@ services:
     command: >
       sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
              pip install -r /repo/scripts/requirements.txt --quiet --break-system-packages &&
-             cd /repo && OUTPUT_DIR=/app/public python3 scripts/generate_catalog_json.py --all-versions &&
-             python3 scripts/generate_index.py &&
+             cd /repo && OUTPUT_DIR=/app/public python3 scripts/web/generate_catalog_json.py --all-versions &&
+             python3 scripts/web/generate_index.py &&
              mkdir -p /app/public/schema &&
              cp tsweb/md/index.json /app/public/index.json &&
              cp tsweb/md/schema/index.json /app/public/schema/index.json 2>/dev/null || true &&
@@ -31,8 +31,8 @@ services:
     command: >
       sh -c "apk add --no-cache python3 py3-pip > /dev/null 2>&1 &&
              pip install -r /repo/scripts/requirements.txt --quiet --break-system-packages &&
-             cd /repo && OUTPUT_DIR=/app/public python3 scripts/generate_catalog_json.py --all-versions &&
-             python3 scripts/generate_index.py &&
+             cd /repo && OUTPUT_DIR=/app/public python3 scripts/web/generate_catalog_json.py --all-versions &&
+             python3 scripts/web/generate_index.py &&
              mkdir -p /app/public/schema &&
              cp tsweb/md/index.json /app/public/index.json &&
              cp tsweb/md/schema/index.json /app/public/schema/index.json 2>/dev/null || true &&
