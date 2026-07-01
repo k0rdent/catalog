@@ -512,6 +512,9 @@ def process_app(app_name: str) -> dict | None:
     # Generate per-app install.json
     generate_install_json(app_name, data, app_path)
 
+    # Generate per-app scan.json from trivy reports (if available)
+    has_scan = generate_scan_json(app_name, OUTPUT_DIR)
+
     entry = {
         'name': app_name,
         'title': data.get('title', app_name),
@@ -545,6 +548,7 @@ def process_app(app_name: str) -> dict | None:
         'showInstall': data.get('show_install_tab', True),
         'whyInCatalog': data.get('why_in_catalog', ''),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
+        'hasScan': has_scan,
     }
 
     return entry
@@ -771,6 +775,40 @@ def extract_solutions(output_dir: str) -> list:
                 json.dump(detail, f, indent=2, ensure_ascii=False)
 
     return solutions
+
+
+def generate_scan_json(app_name: str, output_dir: str) -> bool:
+    """Read trivy scan report and generate a compact scan.json for the frontend."""
+    report_path = os.path.join(CATALOG_ROOT, 'scan-reports', app_name, 'trivy-report.json')
+    if not os.path.exists(report_path):
+        return False
+
+    with open(report_path, 'r', encoding='utf-8') as f:
+        results = json.load(f)
+
+    images = {}
+    for r in results:
+        img = r.get('Image', r.get('Target', 'unknown'))
+        if img not in images:
+            images[img] = {'image': img, 'critical': 0, 'high': 0, 'medium': 0, 'low': 0, 'total': 0}
+        for v in r.get('Vulnerabilities') or []:
+            sev = v.get('Severity', 'UNKNOWN').lower()
+            if sev in images[img]:
+                images[img][sev] += 1
+            images[img]['total'] += 1
+
+    scan_data = {
+        'images': list(images.values()),
+        'totalImages': len(images),
+        'totalVulnerabilities': sum(img['total'] for img in images.values()),
+    }
+
+    out_dir = os.path.join(output_dir, 'apps', app_name)
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, 'scan.json'), 'w', encoding='utf-8') as f:
+        json.dump(scan_data, f, indent=2, ensure_ascii=False)
+
+    return True
 
 
 def generate_contribute_html(output_dir: str):
