@@ -1,0 +1,68 @@
+name: Scan apps
+
+on:
+  workflow_dispatch:
+    inputs:
+      find_args:
+        description: 'Specify apps to scan, e.g., "alloy cilium". Leave empty to scan all.'
+        required: false
+        default: ''
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC daily
+
+permissions:
+  contents: read
+
+jobs:
+  detect-apps:
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.get-apps.outputs.apps }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Get apps to scan
+        id: get-apps
+        run: |
+          if [[ -n "${{ github.event.inputs.find_args }}" ]]; then
+            apps=$(echo "${{ github.event.inputs.find_args }}" | tr ' ' '\n' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          else
+            apps=$(find apps -maxdepth 1 -mindepth 1 -type d -not -name k0rdent-utils -exec basename {} \; | sort | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          fi
+          echo "Apps to scan: $apps"
+          echo "apps=$apps" >> "$GITHUB_OUTPUT"
+
+  scan-app:
+    needs: detect-apps
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect-apps.outputs.apps != '[]' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.detect-apps.outputs.apps) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Install Python dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Scan app
+        run: python3 scripts/scan_app.py "${{ matrix.app }}"
+
+      - name: Upload scan report
+        uses: actions/upload-artifact@v7
+        with:
+          name: scan-report-${{ matrix.app }}
+          path: scan-reports/${{ matrix.app }}/trivy-report.json
+          retention-days: 30
