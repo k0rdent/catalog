@@ -367,18 +367,17 @@ function TestResults({ item }) {
   );
 }
 
-function ImagesTab({ item, k0rdentVer }:{ item:any, k0rdentVer?:string }) {
+function ImagesTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:string, setSelVer:any, k0rdentVer?:string }) {
   var [scanData, setScanData] = useState<any>(null);
   var [loading, setLoading] = useState(true);
   var [error, setError] = useState("");
-  var [selVer, setSelVer] = useState("");
 
   useEffect(function(){
     setLoading(true);
     setError("");
     fetch(dataPrefix(k0rdentVer || "") + "apps/" + item.name + "/scan.json?t=" + Date.now())
       .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(function(d){ setScanData(d); setSelVer(""); setLoading(false); })
+      .then(function(d){ setScanData(d); setLoading(false); })
       .catch(function(e){ setError(String(e)); setLoading(false); });
   }, [item.name]);
 
@@ -709,7 +708,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
           )}
           {tab==="validation" && <TestResults item={item}/>}
-          {tab==="images" && <ImagesTab item={item} k0rdentVer={k0rdentVer}/>}
+          {tab==="images" && <ImagesTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>}
           {tab==="cost" && (
             <div>
               <p style={{fontSize:12,color:B.textSec,lineHeight:1.7,marginTop:0,marginBottom:14}}>
