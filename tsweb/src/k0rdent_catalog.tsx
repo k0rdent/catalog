@@ -367,6 +367,63 @@ function TestResults({ item }) {
   );
 }
 
+function ImagesTab({ item, k0rdentVer }:{ item:any, k0rdentVer?:string }) {
+  var [scanData, setScanData] = useState<any>(null);
+  var [loading, setLoading] = useState(true);
+  var [error, setError] = useState("");
+
+  useEffect(function(){
+    setLoading(true);
+    setError("");
+    fetch(dataPrefix(k0rdentVer || "") + "apps/" + item.name + "/scan.json?t=" + Date.now())
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(d){ setScanData(d); setLoading(false); })
+      .catch(function(e){ setError(String(e)); setLoading(false); });
+  }, [item.name]);
+
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading scan data...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+  if (!scanData) return null;
+
+  function sevColor(sev:string) {
+    if (sev === "critical") return "#ff4d6a";
+    if (sev === "high") return "#ff8c00";
+    if (sev === "medium") return "#ffcc00";
+    return B.textMut;
+  }
+
+  return (
+    <div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
+        <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
+          <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Images scanned</div>
+          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{scanData.totalImages}</div>
+        </div>
+        <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
+          <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Total vulnerabilities</div>
+          <div style={{fontSize:14,color:scanData.totalVulnerabilities > 0 ? "#ff8c00" : B.green,fontWeight:600}}>{scanData.totalVulnerabilities}</div>
+        </div>
+      </div>
+      {scanData.images.map(function(img:any, i:number){
+        return (
+          <div key={i} style={{marginBottom:10,padding:"12px 14px",background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
+            <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:6,fontFamily:"monospace",wordBreak:"break-all"}}>{img.image}</div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {[["critical",img.critical],["high",img.high],["medium",img.medium],["low",img.low]].map(function(pair:any){
+                var label = pair[0], count = pair[1];
+                if (count === 0) return null;
+                var c = sevColor(label);
+                return <span key={label} style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:c+"18",color:c,border:"1px solid "+c+"30",fontWeight:600}}>{count} {label.toUpperCase()}</span>;
+              })}
+              {img.total === 0 && <span style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:B.green+"18",color:B.green,border:"1px solid "+B.green+"30",fontWeight:600}}>No vulnerabilities</span>}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function HtmlWithCopy({ html, style }:{ html:string, style?:any }) {
   var ref = React.useRef<HTMLDivElement>(null);
   useEffect(function(){
@@ -541,7 +598,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <button onClick={onClose} style={{background:"transparent",border:"1px solid #555760",borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:"#ffffff",cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
           <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid #555760",marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
-            {["overview","install","validation","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"))return false; return true; }).map(function(t){
+            {["overview","install","validation","images","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"||t==="images"))return false; if(t==="images"&&!item.hasScan)return false; return true; }).map(function(t){
               return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
@@ -603,6 +660,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
           )}
           {tab==="validation" && <TestResults item={item}/>}
+          {tab==="images" && <ImagesTab item={item} k0rdentVer={k0rdentVer}/>}
           {tab==="cost" && (
             <div>
               <p style={{fontSize:12,color:B.textSec,lineHeight:1.7,marginTop:0,marginBottom:14}}>
