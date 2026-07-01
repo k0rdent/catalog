@@ -656,30 +656,76 @@ def _summarize_scan_results(results: list) -> dict:
     }
 
 
+def _build_scan_detail(results: list) -> dict:
+    """Build detailed per-image vulnerability and package data from trivy results."""
+    images = {}
+    for r in results:
+        img = r.get('Image', r.get('Target', 'unknown'))
+        if img not in images:
+            images[img] = {'vulnerabilities': [], 'packages': []}
+
+        for v in r.get('Vulnerabilities') or []:
+            images[img]['vulnerabilities'].append({
+                'id': v.get('VulnerabilityID', ''),
+                'severity': v.get('Severity', 'UNKNOWN'),
+                'package': v.get('PkgName', ''),
+                'installed': v.get('InstalledVersion', ''),
+                'fixed': v.get('FixedVersion', ''),
+            })
+
+        for p in r.get('Packages') or []:
+            pkg_name = p.get('Name', '')
+            if not pkg_name or '..' in pkg_name:
+                continue
+            images[img]['packages'].append({
+                'name': pkg_name,
+                'version': p.get('Version', ''),
+            })
+
+    # Deduplicate packages per image
+    for img_data in images.values():
+        seen = set()
+        deduped = []
+        for p in img_data['packages']:
+            key = (p['name'], p['version'])
+            if key not in seen:
+                seen.add(key)
+                deduped.append(p)
+        img_data['packages'] = sorted(deduped, key=lambda p: p['name'])
+        # Sort vulns by severity
+        sev_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'UNKNOWN': 4}
+        img_data['vulnerabilities'].sort(key=lambda v: sev_order.get(v['severity'], 4))
+
+    return {'images': images}
+
+
+def _parse_scan_filename(fname: str):
+    """Parse 'cert-manager-1.20.2.json' -> ('cert-manager', '1.20.2') or None."""
+    if not fname.endswith('.json'):
+        return None
+    base = fname[:-5]
+    parts = base.split('-')
+    for i in range(len(parts) - 1, 0, -1):
+        if parts[i] and parts[i][0].isdigit():
+            return '-'.join(parts[:i]), '-'.join(parts[i:])
+    return None
+
+
 def generate_scan_json(app_name: str, output_dir: str) -> bool:
-    """Read per-chart-version trivy reports and generate scan.json for the frontend."""
+    """Read per-chart-version trivy reports and generate scan.json + detail files."""
     scan_dir = os.path.join(CATALOG_ROOT, 'scan-reports', app_name)
     if not os.path.isdir(scan_dir):
         return False
 
-    # Read all {chartName}-{version}.json files
+    out_dir = os.path.join(output_dir, 'apps', app_name)
+    os.makedirs(out_dir, exist_ok=True)
+
     charts = {}
     for fname in sorted(os.listdir(scan_dir)):
-        if not fname.endswith('.json'):
+        parsed = _parse_scan_filename(fname)
+        if not parsed:
             continue
-        # Parse "cert-manager-1.20.2.json" -> chart="cert-manager", version="1.20.2"
-        base = fname[:-5]  # strip .json
-        # Version is the last dash-separated segment that starts with a digit
-        parts = base.split('-')
-        version_idx = None
-        for i in range(len(parts) - 1, 0, -1):
-            if parts[i] and parts[i][0].isdigit():
-                version_idx = i
-                break
-        if version_idx is None:
-            continue
-        chart_name = '-'.join(parts[:version_idx])
-        version = '-'.join(parts[version_idx:])
+        chart_name, version = parsed
 
         with open(os.path.join(scan_dir, fname), 'r', encoding='utf-8') as f:
             results = json.load(f)
@@ -689,6 +735,12 @@ def generate_scan_json(app_name: str, output_dir: str) -> bool:
         charts[chart_name]['versions'].append(version)
         charts[chart_name]['scans'][version] = _summarize_scan_results(results)
 
+        # Write detail file for this chart+version
+        detail = _build_scan_detail(results)
+        detail_file = os.path.join(out_dir, f'scan-detail-{chart_name}-{version}.json')
+        with open(detail_file, 'w', encoding='utf-8') as f:
+            json.dump(detail, f, ensure_ascii=False)
+
     if not charts:
         return False
 
@@ -696,12 +748,8 @@ def generate_scan_json(app_name: str, output_dir: str) -> bool:
     for chart_data in charts.values():
         chart_data['versions'].sort(key=lambda v: [int(x) if x.isdigit() else x for x in v.split('.')], reverse=True)
 
-    scan_data = {'charts': charts}
-
-    out_dir = os.path.join(output_dir, 'apps', app_name)
-    os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, 'scan.json'), 'w', encoding='utf-8') as f:
-        json.dump(scan_data, f, indent=2, ensure_ascii=False)
+        json.dump({'charts': charts}, f, indent=2, ensure_ascii=False)
 
     return True
 
