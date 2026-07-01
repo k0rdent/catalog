@@ -395,7 +395,7 @@ function ImageDetail({ imageName, chartName, version, k0rdentVer, appName, subTa
   if (!imgData) return <div style={{padding:20,color:B.textMut,fontSize:12}}>No detail data for this image.</div>;
 
   var vulns = imgData.vulnerabilities || [];
-  var pkgs = imgData.packages || [];
+  var pkgs = (imgData.packages || []).filter(function(p:any){ return p.name && p.name.indexOf("..") === -1; });
 
   var thStyle:any = {padding:"7px 10px",fontSize:10,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.05em",textAlign:"left",borderBottom:"1px solid "+B.border,background:B.bg2};
   var tdStyle:any = {padding:"6px 10px",fontSize:11,color:B.textPri,borderBottom:"1px solid "+B.border};
@@ -523,7 +523,7 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailIm
           {allVersions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
         </select>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:16}}>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Images scanned</div>
           <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{totalImages}</div>
@@ -531,6 +531,10 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailIm
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Total vulnerabilities</div>
           <div style={{fontSize:14,color:totalVulns > 0 ? "#ff8c00" : B.green,fontWeight:600}}>{totalVulns}</div>
+        </div>
+        <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
+          <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Last scan</div>
+          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{scanData.lastScan || "—"}</div>
         </div>
       </div>
       {chartNames.map(function(chartName:string){

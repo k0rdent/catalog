@@ -862,13 +862,18 @@ def generate_scan_json(app_name: str, output_dir: str) -> bool:
     os.makedirs(out_dir, exist_ok=True)
 
     charts = {}
+    latest_mtime = 0
     for fname in sorted(os.listdir(scan_dir)):
         parsed = _parse_scan_filename(fname)
         if not parsed:
             continue
         chart_name, version = parsed
 
-        with open(os.path.join(scan_dir, fname), 'r', encoding='utf-8') as f:
+        fpath = os.path.join(scan_dir, fname)
+        mtime = os.path.getmtime(fpath)
+        if mtime > latest_mtime:
+            latest_mtime = mtime
+        with open(fpath, 'r', encoding='utf-8') as f:
             results = json.load(f)
 
         if chart_name not in charts:
@@ -889,8 +894,11 @@ def generate_scan_json(app_name: str, output_dir: str) -> bool:
     for chart_data in charts.values():
         chart_data['versions'].sort(key=lambda v: [int(x) if x.isdigit() else x for x in v.split('.')], reverse=True)
 
+    from datetime import datetime
+    last_scan = datetime.fromtimestamp(latest_mtime).strftime('%Y-%m-%d %H:%M') if latest_mtime else ''
+
     with open(os.path.join(out_dir, 'scan.json'), 'w', encoding='utf-8') as f:
-        json.dump({'charts': charts}, f, indent=2, ensure_ascii=False)
+        json.dump({'charts': charts, 'lastScan': last_scan}, f, indent=2, ensure_ascii=False)
 
     return True
 
