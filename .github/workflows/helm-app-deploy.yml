@@ -38,7 +38,7 @@ jobs:
       changed_folders: ${{ steps.get-tested-apps.outputs.folders }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0  # Ensure full commit history
 
@@ -78,7 +78,7 @@ jobs:
     
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0  # Ensure full commit history
 
