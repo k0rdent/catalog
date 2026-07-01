@@ -367,7 +367,107 @@ function TestResults({ item }) {
   );
 }
 
-function ImagesTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:string, setSelVer:any, k0rdentVer?:string }) {
+function sevColor(sev:string) {
+  if (sev === "critical" || sev === "CRITICAL") return "#ff4d6a";
+  if (sev === "high" || sev === "HIGH") return "#ff8c00";
+  if (sev === "medium" || sev === "MEDIUM") return "#ffcc00";
+  return B.textMut;
+}
+
+function ImageDetail({ imageName, chartName, version, k0rdentVer, appName, subTab, setSubTab }:{ imageName:string, chartName:string, version:string, k0rdentVer?:string, appName:string, subTab:string, setSubTab:any }) {
+  var [detail, setDetail] = useState<any>(null);
+  var [loading, setLoading] = useState(true);
+  var [error, setError] = useState("");
+
+  useEffect(function(){
+    setLoading(true);
+    setError("");
+    fetch(dataPrefix(k0rdentVer || "") + "apps/" + appName + "/scan-detail-" + chartName + "-" + version + ".json?t=" + Date.now())
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(d){ setDetail(d); setLoading(false); })
+      .catch(function(e){ setError(String(e)); setLoading(false); });
+  }, [appName, chartName, version]);
+
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading image details...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+
+  var imgData = detail && detail.images ? detail.images[imageName] : null;
+  if (!imgData) return <div style={{padding:20,color:B.textMut,fontSize:12}}>No detail data for this image.</div>;
+
+  var vulns = imgData.vulnerabilities || [];
+  var pkgs = imgData.packages || [];
+
+  var thStyle:any = {padding:"7px 10px",fontSize:10,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.05em",textAlign:"left",borderBottom:"1px solid "+B.border,background:B.bg2};
+  var tdStyle:any = {padding:"6px 10px",fontSize:11,color:B.textPri,borderBottom:"1px solid "+B.border};
+
+  return (
+    <div>
+      <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:12,fontFamily:"monospace",wordBreak:"break-all"}}>{imageName}</div>
+      <div style={{display:"flex",gap:0,borderBottom:"1px solid "+B.border,marginBottom:14}}>
+        {["vulnerabilities","packages"].map(function(t){
+          var active = subTab===t;
+          var label = t === "vulnerabilities" ? "Vulnerabilities (" + vulns.length + ")" : "Packages (" + pkgs.length + ")";
+          return <button key={t} onClick={function(){setSubTab(t);}} style={{padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",fontFamily:"inherit"}}>{label}</button>;
+        })}
+      </div>
+      {subTab==="vulnerabilities" && (
+        vulns.length === 0 ? <div style={{fontSize:11,color:B.green,padding:10}}>No vulnerabilities found.</div> :
+        <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+          <table style={{width:"100%",borderCollapse:"collapse"}}>
+            <thead>
+              <tr>
+                <th style={thStyle}>ID</th>
+                <th style={thStyle}>Severity</th>
+                <th style={thStyle}>Package</th>
+                <th style={thStyle}>Installed</th>
+                <th style={thStyle}>Fixed</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vulns.map(function(v:any, i:number){
+                var sc = sevColor(v.severity);
+                return (
+                  <tr key={i} style={{background:i%2===0?"transparent":B.bg2+"40"}}>
+                    <td style={tdStyle}>{v.id && v.id.startsWith("CVE-") ? <a href={"https://www.cve.org/CVERecord?id="+v.id} target="_blank" rel="noreferrer" style={{color:B.cyan,textDecoration:"none",fontSize:11}}>{v.id}</a> : v.id}</td>
+                    <td style={tdStyle}><span style={{fontSize:9.5,padding:"2px 6px",borderRadius:3,background:sc+"18",color:sc,border:"1px solid "+sc+"30",fontWeight:600}}>{v.severity}</span></td>
+                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{v.package}</td>
+                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{v.installed}</td>
+                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{v.fixed || <span style={{color:B.textMut}}>—</span>}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {subTab==="packages" && (
+        pkgs.length === 0 ? <div style={{fontSize:11,color:B.textMut,padding:10}}>No packages found.</div> :
+        <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+          <table style={{width:"100%",borderCollapse:"collapse"}}>
+            <thead>
+              <tr>
+                <th style={thStyle}>Name</th>
+                <th style={thStyle}>Version</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pkgs.map(function(p:any, i:number){
+                return (
+                  <tr key={i} style={{background:i%2===0?"transparent":B.bg2+"40"}}>
+                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{p.name}</td>
+                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{p.version}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailImg, detailImgChart, setDetailImgChart, detailImgSub, setDetailImgSub }:any) {
   var [scanData, setScanData] = useState<any>(null);
   var [loading, setLoading] = useState(true);
   var [error, setError] = useState("");
@@ -385,15 +485,7 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:st
   if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
   if (!scanData || !scanData.charts) return null;
 
-  function sevColor(sev:string) {
-    if (sev === "critical") return "#ff4d6a";
-    if (sev === "high") return "#ff8c00";
-    if (sev === "medium") return "#ffcc00";
-    return B.textMut;
-  }
-
   var chartNames = Object.keys(scanData.charts);
-  // Collect all unique versions across charts, sorted descending
   var allVersions:string[] = [];
   for (var ci=0;ci<chartNames.length;ci++){
     var vs = scanData.charts[chartNames[ci]].versions;
@@ -412,7 +504,11 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:st
 
   var effectiveVer = selVer || allVersions[0] || "";
 
-  // Compute totals for selected version
+  // If image detail is selected, show it
+  if (detailImg) {
+    return <ImageDetail imageName={detailImg} chartName={detailImgChart} version={effectiveVer} k0rdentVer={k0rdentVer} appName={item.name} subTab={detailImgSub || "vulnerabilities"} setSubTab={setDetailImgSub}/>;
+  }
+
   var totalImages = 0, totalVulns = 0;
   for (var ci2=0;ci2<chartNames.length;ci2++){
     var scan = (scanData.charts[chartNames[ci2]].scans || {})[effectiveVer];
@@ -451,8 +547,8 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:st
             <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div>
             {scan.images.map(function(img:any, i:number){
               return (
-                <div key={i} style={{marginBottom:10,padding:"12px 14px",background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
-                  <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:6,fontFamily:"monospace",wordBreak:"break-all"}}>{img.image}</div>
+                <div key={i} onClick={function(){setDetailImg(img.image);setDetailImgChart(chartName);setDetailImgSub("");}} style={{marginBottom:10,padding:"12px 14px",background:B.bg2,borderRadius:8,border:"1px solid "+B.border,cursor:"pointer",transition:"border-color 0.15s"}} onMouseEnter={function(e:any){e.currentTarget.style.borderColor=B.teal;}} onMouseLeave={function(e:any){e.currentTarget.style.borderColor=B.border;}}>
+                  <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:6,fontFamily:"monospace",wordBreak:"break-all"}}>{img.image} <span style={{fontSize:9,color:B.textMut,fontFamily:"inherit"}}>→</span></div>
                   <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
                     {[["critical",img.critical],["high",img.high],["medium",img.medium],["low",img.low]].map(function(pair:any){
                       var label = pair[0], count = pair[1];
@@ -590,7 +686,8 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
   );
 }
 
-function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer }:any) {
+function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer, detailImg, setDetailImg, detailImgChart, setDetailImgChart, detailImgSub, setDetailImgSub }:any) {
+  var [imagesKey, setImagesKey] = useState(0);
   var eff = getEff(item);
   var ss = SUPPORT_STYLE[eff];
   var compTags = COMPLIANCE[item.name] || [];
@@ -647,7 +744,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
           </div>
           <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid #555760",marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
             {["overview","install","validation","images","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"||t==="images"))return false; if(t==="images"&&!item.hasScan)return false; return true; }).map(function(t){
-              return <button key={t} onClick={function(){setTab(t);}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
+              return <button key={t} onClick={function(){setTab(t);if(t==="images"){setImagesKey(function(k){return k+1;});setDetailImg("");setDetailImgChart("");setDetailImgSub("");}}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
             {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:"#000000",textDecoration:"none",background:"#35db78",fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
@@ -708,7 +805,7 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
           )}
           {tab==="validation" && <TestResults item={item}/>}
-          {tab==="images" && <ImagesTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>}
+          {tab==="images" && <ImagesTab key={imagesKey} item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart} setDetailImgChart={setDetailImgChart} detailImgSub={detailImgSub} setDetailImgSub={setDetailImgSub}/>}
           {tab==="cost" && (
             <div>
               <p style={{fontSize:12,color:B.textSec,lineHeight:1.7,marginTop:0,marginBottom:14}}>
@@ -1679,7 +1776,7 @@ function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer
           </div>
         );
       })}
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} onClose={closeInfra}/>}
+      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} detailImg="" setDetailImg={function(){}} detailImgChart="" setDetailImgChart={function(){}} detailImgSub="" setDetailImgSub={function(){}} onClose={closeInfra}/>}
     </div>
   );
 }
@@ -1803,6 +1900,9 @@ function readUrlParams() {
     cscale: p.get("cscale") || "",
     infraApp: infraApp,
     igrp: p.get("igrp") || "All",
+    img: p.get("img") || "",
+    imgChart: p.get("imgChart") || "",
+    imgSub: p.get("imgSub") || "",
     theme: p.get("theme") || "",
   };
 }
@@ -1812,10 +1912,13 @@ function versionBase(k0rdentVer:string):string {
   return BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + k0rdentVer + "/");
 }
 
-function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string):string {
+function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?:string, img?:string, imgChart?:string, imgSub?:string):string {
   var p = new URLSearchParams();
   if (dtab && dtab !== "overview") p.set("dtab", dtab);
   if (ver) p.set("ver", ver);
+  if (img) p.set("img", img);
+  if (imgChart) p.set("imgChart", imgChart);
+  if (imgSub) p.set("imgSub", imgSub);
   var qs = p.toString();
   return appendTheme(versionBase(k0rdentVer || "") + "apps/" + appName + "/" + (qs ? "?" + qs : ""));
 }
@@ -1874,6 +1977,9 @@ export default function App() {
   var [selected, setSelected] = useState<any>(null);
   var [detailTab, setDetailTab] = useState(initParams.dtab);
   var [detailVer, setDetailVer] = useState(initParams.ver);
+  var [detailImg, setDetailImg] = useState(initParams.img);
+  var [detailImgChart, setDetailImgChart] = useState(initParams.imgChart);
+  var [detailImgSub, setDetailImgSub] = useState(initParams.imgSub);
   var [sidebarOpen, setSidebarOpen] = useState(function(){ return window.innerWidth > 640; });
 
   // Restore selected app from URL after data loads
@@ -1897,12 +2003,18 @@ export default function App() {
           setSelected(found);
           setDetailTab(params.dtab);
           setDetailVer(params.ver || found.version);
+          setDetailImg(params.img || "");
+          setDetailImgChart(params.imgChart || "");
+          setDetailImgSub(params.imgSub || "");
           return;
         }
       }
       setSelected(null);
       setDetailTab("overview");
       setDetailVer("");
+      setDetailImg("");
+      setDetailImgChart("");
+      setDetailImgSub("");
       // Restore catalog filters from URL
       setView(params.view);
       setSearch(params.search);
@@ -1918,9 +2030,9 @@ export default function App() {
   // Sync URL when app detail tab/version changes (replaceState, no history entry)
   useEffect(function(){
     if (!loading && selected) {
-      history.replaceState(null, "", buildAppUrl(selected.name, detailTab, detailVer, k0rdentVer));
+      history.replaceState(null, "", buildAppUrl(selected.name, detailTab, detailVer, k0rdentVer, detailImg, detailImgChart, detailImgSub));
     }
-  }, [detailTab, detailVer]);
+  }, [detailTab, detailVer, detailImg, detailImgChart, detailImgSub]);
 
   // Sync catalog filters to URL (replaceState)
   useEffect(function(){
@@ -2152,7 +2264,7 @@ export default function App() {
               {filtered.length===0
                 ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
                 :<div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildAppUrl(item.name,"overview","",k0rdentVer));}}/>;}) }
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");setDetailImg("");setDetailImgChart("");setDetailImgSub("");history.pushState(null,"",buildAppUrl(item.name,"overview","",k0rdentVer));}}/>;}) }
                 </div>
               }
             </div>
@@ -2172,7 +2284,7 @@ export default function App() {
         </div>
       )}
 
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
+      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart} setDetailImgChart={setDetailImgChart} detailImgSub={detailImgSub} setDetailImgSub={setDetailImgSub} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");setDetailImg("");setDetailImgChart("");setDetailImgSub("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
     </div>
   );
 }
