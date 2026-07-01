@@ -636,15 +636,8 @@ def extract_solutions(output_dir: str) -> list:
     return solutions
 
 
-def generate_scan_json(app_name: str, output_dir: str) -> bool:
-    """Read trivy scan report and generate a compact scan.json for the frontend."""
-    report_path = os.path.join(CATALOG_ROOT, 'scan-reports', app_name, 'trivy-report.json')
-    if not os.path.exists(report_path):
-        return False
-
-    with open(report_path, 'r', encoding='utf-8') as f:
-        results = json.load(f)
-
+def _summarize_scan_results(results: list) -> dict:
+    """Summarize trivy scan results into compact image-level data."""
     images = {}
     for r in results:
         img = r.get('Image', r.get('Target', 'unknown'))
@@ -655,12 +648,55 @@ def generate_scan_json(app_name: str, output_dir: str) -> bool:
             if sev in images[img]:
                 images[img][sev] += 1
             images[img]['total'] += 1
-
-    scan_data = {
-        'images': list(images.values()),
-        'totalImages': len(images),
-        'totalVulnerabilities': sum(img['total'] for img in images.values()),
+    img_list = list(images.values())
+    return {
+        'images': img_list,
+        'totalImages': len(img_list),
+        'totalVulnerabilities': sum(i['total'] for i in img_list),
     }
+
+
+def generate_scan_json(app_name: str, output_dir: str) -> bool:
+    """Read per-chart-version trivy reports and generate scan.json for the frontend."""
+    scan_dir = os.path.join(CATALOG_ROOT, 'scan-reports', app_name)
+    if not os.path.isdir(scan_dir):
+        return False
+
+    # Read all {chartName}-{version}.json files
+    charts = {}
+    for fname in sorted(os.listdir(scan_dir)):
+        if not fname.endswith('.json'):
+            continue
+        # Parse "cert-manager-1.20.2.json" -> chart="cert-manager", version="1.20.2"
+        base = fname[:-5]  # strip .json
+        # Version is the last dash-separated segment that starts with a digit
+        parts = base.split('-')
+        version_idx = None
+        for i in range(len(parts) - 1, 0, -1):
+            if parts[i] and parts[i][0].isdigit():
+                version_idx = i
+                break
+        if version_idx is None:
+            continue
+        chart_name = '-'.join(parts[:version_idx])
+        version = '-'.join(parts[version_idx:])
+
+        with open(os.path.join(scan_dir, fname), 'r', encoding='utf-8') as f:
+            results = json.load(f)
+
+        if chart_name not in charts:
+            charts[chart_name] = {'versions': [], 'scans': {}}
+        charts[chart_name]['versions'].append(version)
+        charts[chart_name]['scans'][version] = _summarize_scan_results(results)
+
+    if not charts:
+        return False
+
+    # Sort versions descending (latest first)
+    for chart_data in charts.values():
+        chart_data['versions'].sort(key=lambda v: [int(x) if x.isdigit() else x for x in v.split('.')], reverse=True)
+
+    scan_data = {'charts': charts}
 
     out_dir = os.path.join(output_dir, 'apps', app_name)
     os.makedirs(out_dir, exist_ok=True)
