@@ -43,3 +43,5 @@ tsweb/public/catalog.json
 tsweb/public/v*/
 tsweb/md/index.json
 tsweb/md/schema/
+
+scan-reports/
