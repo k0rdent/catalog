@@ -371,19 +371,20 @@ function ImagesTab({ item, k0rdentVer }:{ item:any, k0rdentVer?:string }) {
   var [scanData, setScanData] = useState<any>(null);
   var [loading, setLoading] = useState(true);
   var [error, setError] = useState("");
+  var [selVer, setSelVer] = useState("");
 
   useEffect(function(){
     setLoading(true);
     setError("");
     fetch(dataPrefix(k0rdentVer || "") + "apps/" + item.name + "/scan.json?t=" + Date.now())
       .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(function(d){ setScanData(d); setLoading(false); })
+      .then(function(d){ setScanData(d); setSelVer(""); setLoading(false); })
       .catch(function(e){ setError(String(e)); setLoading(false); });
   }, [item.name]);
 
   if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading scan data...</div>;
   if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
-  if (!scanData) return null;
+  if (!scanData || !scanData.charts) return null;
 
   function sevColor(sev:string) {
     if (sev === "critical") return "#ff4d6a";
@@ -392,31 +393,79 @@ function ImagesTab({ item, k0rdentVer }:{ item:any, k0rdentVer?:string }) {
     return B.textMut;
   }
 
+  var chartNames = Object.keys(scanData.charts);
+  // Collect all unique versions across charts, sorted descending
+  var allVersions:string[] = [];
+  for (var ci=0;ci<chartNames.length;ci++){
+    var vs = scanData.charts[chartNames[ci]].versions;
+    for (var vi=0;vi<vs.length;vi++){
+      if (allVersions.indexOf(vs[vi]) === -1) allVersions.push(vs[vi]);
+    }
+  }
+  allVersions.sort(function(a,b){
+    var pa=a.split("."), pb=b.split(".");
+    for(var i=0;i<Math.max(pa.length,pb.length);i++){
+      var na=parseInt(pa[i]||"0"), nb=parseInt(pb[i]||"0");
+      if(na!==nb) return nb-na;
+    }
+    return 0;
+  });
+
+  var effectiveVer = selVer || allVersions[0] || "";
+
+  // Compute totals for selected version
+  var totalImages = 0, totalVulns = 0;
+  for (var ci2=0;ci2<chartNames.length;ci2++){
+    var scan = (scanData.charts[chartNames[ci2]].scans || {})[effectiveVer];
+    if (scan) { totalImages += scan.totalImages; totalVulns += scan.totalVulnerabilities; }
+  }
+
   return (
     <div>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+        <span style={{fontSize:12,color:B.textSec}}>Version:</span>
+        <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
+          {allVersions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
+        </select>
+      </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Images scanned</div>
-          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{scanData.totalImages}</div>
+          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{totalImages}</div>
         </div>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Total vulnerabilities</div>
-          <div style={{fontSize:14,color:scanData.totalVulnerabilities > 0 ? "#ff8c00" : B.green,fontWeight:600}}>{scanData.totalVulnerabilities}</div>
+          <div style={{fontSize:14,color:totalVulns > 0 ? "#ff8c00" : B.green,fontWeight:600}}>{totalVulns}</div>
         </div>
       </div>
-      {scanData.images.map(function(img:any, i:number){
+      {chartNames.map(function(chartName:string){
+        var chartData = scanData.charts[chartName];
+        var scan = (chartData.scans || {})[effectiveVer];
+        if (!scan) return (
+          <div key={chartName} style={{marginBottom:16}}>
+            <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div>
+            <div style={{fontSize:11,color:B.textMut,fontStyle:"italic"}}>No scan data for version {effectiveVer}</div>
+          </div>
+        );
         return (
-          <div key={i} style={{marginBottom:10,padding:"12px 14px",background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
-            <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:6,fontFamily:"monospace",wordBreak:"break-all"}}>{img.image}</div>
-            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-              {[["critical",img.critical],["high",img.high],["medium",img.medium],["low",img.low]].map(function(pair:any){
-                var label = pair[0], count = pair[1];
-                if (count === 0) return null;
-                var c = sevColor(label);
-                return <span key={label} style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:c+"18",color:c,border:"1px solid "+c+"30",fontWeight:600}}>{count} {label.toUpperCase()}</span>;
-              })}
-              {img.total === 0 && <span style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:B.green+"18",color:B.green,border:"1px solid "+B.green+"30",fontWeight:600}}>No vulnerabilities</span>}
-            </div>
+          <div key={chartName} style={{marginBottom:16}}>
+            <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div>
+            {scan.images.map(function(img:any, i:number){
+              return (
+                <div key={i} style={{marginBottom:10,padding:"12px 14px",background:B.bg2,borderRadius:8,border:"1px solid "+B.border}}>
+                  <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:6,fontFamily:"monospace",wordBreak:"break-all"}}>{img.image}</div>
+                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                    {[["critical",img.critical],["high",img.high],["medium",img.medium],["low",img.low]].map(function(pair:any){
+                      var label = pair[0], count = pair[1];
+                      if (count === 0) return null;
+                      var c = sevColor(label);
+                      return <span key={label} style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:c+"18",color:c,border:"1px solid "+c+"30",fontWeight:600}}>{count} {label.toUpperCase()}</span>;
+                    })}
+                    {img.total === 0 && <span style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:B.green+"18",color:B.green,border:"1px solid "+B.green+"30",fontWeight:600}}>No vulnerabilities</span>}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         );
       })}

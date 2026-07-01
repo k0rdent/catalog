@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Scan container images of catalog apps for vulnerabilities using Trivy.
 
-Extracts images from each app's example Helm chart and runs Trivy on each.
+Scans every chart at every version listed in apps/{app}/charts/charts.yaml.
 
 Usage:
     python3 scripts/scan_app.py cert-manager          # scan a single app
@@ -21,6 +21,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 ROOT_DIR = Path(__file__).parent.parent
 APPS_DIR = ROOT_DIR / "apps"
 OUTPUT_DIR = Path(os.environ.get("OUTPUT_DIR", "scan-reports"))
@@ -30,18 +32,44 @@ def run(cmd, **kwargs):
     return subprocess.run(cmd, capture_output=True, text=True, **kwargs)
 
 
-def extract_images(app: str) -> list[str]:
-    example_chart = APPS_DIR / app / "example"
-    if not example_chart.is_dir():
+def get_charts(app: str) -> list[dict]:
+    """Read charts.yaml, return [{name, version}, ...]."""
+    charts_file = APPS_DIR / app / "charts" / "charts.yaml"
+    if not charts_file.exists():
+        return []
+    with open(charts_file) as f:
+        data = yaml.safe_load(f)
+    result = []
+    for name, versions in (data.get("charts") or {}).items():
+        for v in versions:
+            result.append({"name": name, "version": v["version"]})
+    return result
+
+
+def extract_images(chart_dir: Path) -> list[str]:
+    """Template a chart directory and extract image references."""
+    if not chart_dir.is_dir():
         return []
 
-    # Build helm dependencies
-    run(["helm", "dependency", "build", str(example_chart), "--skip-refresh"])
+    # Add helm repos required by chart dependencies
+    chart_yaml = chart_dir / "Chart.yaml"
+    if chart_yaml.exists():
+        with open(chart_yaml) as f:
+            chart_data = yaml.safe_load(f)
+        for dep in chart_data.get("dependencies", []):
+            repo = dep.get("repository", "")
+            if repo and not repo.startswith("oci://"):
+                repo_name = repo.rstrip("/").rsplit("/", 1)[-1]
+                run(["helm", "repo", "add", repo_name, repo])
 
-    # Render templates and extract image references
-    result = run(["helm", "template", "chart", str(example_chart)])
+    res = run(["helm", "dependency", "build", str(chart_dir)])
+    if res.returncode != 0:
+        print(f"  Warning: helm dependency build failed for {chart_dir}")
+        return []
+
+    result = run(["helm", "template", "chart", str(chart_dir)])
     if result.returncode != 0:
-        print(f"  Warning: helm template failed for {app}")
+        print(f"  Warning: helm template failed for {chart_dir}")
         return []
 
     images = set()
@@ -60,20 +88,19 @@ def scan_image(image: str) -> dict | None:
     return json.loads(result.stdout)
 
 
-def scan_app(app: str):
-    print(f"==> Scanning {app}...")
+def scan_chart(app: str, chart_name: str, version: str, app_dir: Path):
+    """Scan a single chart version and write {chartName}-{version}.json."""
+    chart_dir = APPS_DIR / app / "charts" / f"{chart_name}-{version}"
+    print(f"  Chart: {chart_name}-{version}")
 
-    images = extract_images(app)
+    images = extract_images(chart_dir)
     if not images:
-        print("  No images found, skipping")
+        print("    No images found, skipping")
         return
-
-    app_dir = OUTPUT_DIR / app
-    app_dir.mkdir(parents=True, exist_ok=True)
 
     all_results = []
     for image in images:
-        print(f"  Scanning: {image}")
+        print(f"    Scanning: {image}")
         report = scan_image(image)
         if report is None:
             continue
@@ -81,27 +108,29 @@ def scan_app(app: str):
             r["Image"] = image
             all_results.append(r)
 
-    # Write report
-    report_path = app_dir / "trivy-report.json"
+    report_path = app_dir / f"{chart_name}-{version}.json"
     with open(report_path, "w") as f:
         json.dump(all_results, f, indent=2)
 
-    # Print summary
-    scanned_images = {r.get("Image") for r in all_results}
-    by_severity = {}
-    total = 0
-    for r in all_results:
-        for v in r.get("Vulnerabilities") or []:
-            total += 1
-            s = v.get("Severity", "UNKNOWN")
-            by_severity[s] = by_severity.get(s, 0) + 1
+    # Summary
+    total = sum(len(r.get("Vulnerabilities") or []) for r in all_results)
+    scanned = len({r.get("Image") for r in all_results})
+    print(f"    {scanned} images, {total} CVEs → {report_path}")
 
-    print(f"  Images scanned: {len(scanned_images)}")
-    print(f"  Total CVEs: {total}")
-    for s in ["CRITICAL", "HIGH", "MEDIUM", "LOW", "UNKNOWN"]:
-        if s in by_severity:
-            print(f"    {s}: {by_severity[s]}")
-    print(f"  Report: {report_path}")
+
+def scan_app(app: str):
+    print(f"==> Scanning {app}...")
+
+    charts = get_charts(app)
+    if not charts:
+        print("  No charts found, skipping")
+        return
+
+    app_dir = OUTPUT_DIR / app
+    app_dir.mkdir(parents=True, exist_ok=True)
+
+    for chart in charts:
+        scan_chart(app, chart["name"], chart["version"], app_dir)
 
 
 def get_all_apps() -> list[str]:
