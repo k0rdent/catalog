@@ -64,5 +64,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: scan-report-${{ matrix.app }}
-          path: scan-reports/${{ matrix.app }}/trivy-report.json
+          path: scan-reports/${{ matrix.app }}/
           retention-days: 30
