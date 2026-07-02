@@ -4,13 +4,17 @@ Copies local logo files to the output directory so they can be served as static 
 """
 
 import colorsys
+import copy
+import glob
 import jinja2
 import json
+import markdown
 import os
 import re
 import shutil
 import sys
 import yaml
+from datetime import datetime, timezone
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import utils
@@ -18,41 +22,68 @@ import utils
 CATALOG_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APPS_DIR = os.path.join(CATALOG_ROOT, 'apps')
 VERSIONS_FILE = os.path.join(CATALOG_ROOT, 'versions.yaml')
+
+# Mutable build context — set per-version by build_version()
 VERSION = os.environ.get('VERSION', 'v1.8.0')
+BASE_METADATA = {}
+OUTPUT_DIR = ''
+OUTPUT_FILE = ''
 
-def get_base_metadata(version: str) -> dict:
-    """Build the Jinja2 template context for rendering data.yaml files."""
-    base = {"version": version}
-    base.update(utils.version2template_names(version))
-    return base
-
-BASE_METADATA = get_base_metadata(VERSION)
-# Default configurator config
+# Loaded once at import
 CONFIGURATOR_DIR = os.path.join(CATALOG_ROOT, 'configurator')
 CONFIGURATOR_DEFAULT = {}
 _cfg_path = os.path.join(CONFIGURATOR_DIR, 'config.yaml')
 if os.path.exists(_cfg_path):
     CONFIGURATOR_DEFAULT = utils.read_yaml_file(_cfg_path)
-# OUTPUT_DIR can be overridden for Docker builds where repo is read-only
-OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.join(CATALOG_ROOT, 'tsweb', 'public'))
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'catalog.json')
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def get_base_metadata(version: str) -> dict:
+    base = {"version": version}
+    base.update(utils.version2template_names(version))
+    return base
 
 
 def get_tested(data: dict) -> bool:
-    for key in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local']:
-        if data.get(key) == 'y':
-            return True
-    return False
+    return any(data.get(k) == 'y' for k in
+               ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local'])
 
 
 def get_support_tier(data: dict) -> str:
     st = data.get('support_type', 'Community').lower()
-    if st == 'enterprise':
-        return 'enterprise'
-    if st == 'partner':
-        return 'partner'
+    if st in ('enterprise', 'partner'):
+        return st
     return 'community'
 
+
+def read_app_data(app_name: str) -> dict | None:
+    """Read and render an app's data.yaml, returning None if missing."""
+    data_file = os.path.join(APPS_DIR, app_name, 'data.yaml')
+    if not os.path.exists(data_file):
+        return None
+    with open(data_file, 'r', encoding='utf-8') as f:
+        rendered = jinja2.Template(f.read()).render(**BASE_METADATA)
+    return yaml.safe_load(rendered)
+
+
+def read_yaml(path: str) -> dict | None:
+    if not os.path.exists(path):
+        return None
+    return utils.read_yaml_file(path)
+
+
+def write_json(path: str, data, indent: int = None):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=indent, ensure_ascii=False)
+
+
+# ---------------------------------------------------------------------------
+# Color extraction
+# ---------------------------------------------------------------------------
 
 def hex_to_rgb(h: str) -> tuple:
     h = h.lstrip('#')
@@ -62,32 +93,15 @@ def hex_to_rgb(h: str) -> tuple:
 
 
 def is_boring_color(r, g, b) -> bool:
-    """Filter out near-white, near-black, and very desaturated colors."""
     if r > 220 and g > 220 and b > 220:
         return True
     if r < 30 and g < 30 and b < 30:
         return True
     _, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
-    if s < 0.1 and v > 0.5:
-        return True  # grayish
-    return False
+    return s < 0.1 and v > 0.5
 
 
-def extract_color_from_svg(filepath: str) -> str | None:
-    """Extract the dominant non-boring color from an SVG file."""
-    try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
-            content = f.read()
-    except Exception:
-        return None
-
-    # Find all hex colors in fill, stroke, stop-color, and style attributes
-    hex_colors = re.findall(r'(?:fill|stroke|stop-color|color)\s*[:=]\s*["\']?\s*(#[0-9a-fA-F]{3,6})\b', content)
-    # Also find hex colors in style blocks
-    hex_colors += re.findall(r'#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b', content)
-    hex_colors = ['#' + c.lstrip('#') for c in hex_colors]
-
-    # Count occurrences, filter boring colors
+def _count_colors(hex_colors: list) -> dict:
     counts = {}
     for c in hex_colors:
         try:
@@ -98,16 +112,23 @@ def extract_color_from_svg(filepath: str) -> str | None:
             continue
         normalized = f"#{r:02x}{g:02x}{b:02x}"
         counts[normalized] = counts.get(normalized, 0) + 1
+    return counts
 
-    if not counts:
+
+def extract_color_from_svg(filepath: str) -> str | None:
+    try:
+        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+    except Exception:
         return None
-
-    # Return the most frequent non-boring color
-    return max(counts, key=counts.get)
+    hex_colors = re.findall(r'(?:fill|stroke|stop-color|color)\s*[:=]\s*["\']?\s*(#[0-9a-fA-F]{3,6})\b', content)
+    hex_colors += ['#' + c for c in re.findall(r'#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b', content)]
+    hex_colors = ['#' + c.lstrip('#') for c in hex_colors]
+    counts = _count_colors(hex_colors)
+    return max(counts, key=counts.get) if counts else None
 
 
 def extract_color_from_png(filepath: str) -> str | None:
-    """Extract dominant color from a PNG by sampling pixels using Pillow."""
     try:
         from PIL import Image
     except ImportError:
@@ -115,28 +136,21 @@ def extract_color_from_png(filepath: str) -> str | None:
     try:
         img = Image.open(filepath).convert('RGBA')
         img = img.resize((32, 32), Image.LANCZOS)
-        counts = {}
+        hex_colors = []
         for pixel in img.getdata():
             r, g, b, a = pixel
             if a < 128:
-                continue  # skip transparent
-            if is_boring_color(r, g, b):
                 continue
-            # Quantize to reduce unique colors
             qr, qg, qb = (r // 16) * 16, (g // 16) * 16, (b // 16) * 16
-            key = f"#{qr:02x}{qg:02x}{qb:02x}"
-            counts[key] = counts.get(key, 0) + 1
-        if not counts:
-            return None
-        return max(counts, key=counts.get)
+            hex_colors.append(f"#{qr:02x}{qg:02x}{qb:02x}")
+        counts = _count_colors(hex_colors)
+        return max(counts, key=counts.get) if counts else None
     except Exception:
         return None
 
 
 def extract_brand_color(app_name: str, logo_path: str) -> str | None:
-    """Extract brand color from a local logo file."""
-    rel_path = logo_path.lstrip('./')
-    filepath = os.path.join(APPS_DIR, app_name, rel_path)
+    filepath = os.path.join(APPS_DIR, app_name, logo_path.lstrip('./'))
     if not os.path.exists(filepath):
         return None
     if filepath.lower().endswith('.svg'):
@@ -147,23 +161,45 @@ def extract_brand_color(app_name: str, logo_path: str) -> str | None:
 
 
 def copy_local_logo(app_name: str, logo_path: str) -> str:
-    """Copy a local logo file to OUTPUT_DIR/logos/<app>/<filename> and return the public URL path."""
-    # Strip leading ./
     rel_path = logo_path.lstrip('./')
     src = os.path.join(APPS_DIR, app_name, rel_path)
     if not os.path.exists(src):
         print(f"  Warning: logo not found: {src}")
         return logo_path
-
     filename = os.path.basename(rel_path)
     dst_dir = os.path.join(OUTPUT_DIR, 'logos', app_name)
     os.makedirs(dst_dir, exist_ok=True)
-    dst = os.path.join(dst_dir, filename)
-    shutil.copy2(src, dst)
+    shutil.copy2(src, os.path.join(dst_dir, filename))
     return f"logos/{app_name}/{filename}"
 
 
-## --- Markdown to HTML conversion ---
+def resolve_logo(app_name: str, data: dict) -> tuple[str, str | None]:
+    """Return (logo_url, brand_color) handling local vs remote logos."""
+    logo_raw = data.get('logo', '')
+    brand_color = data.get('brand_color', None)
+    if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
+        if not brand_color:
+            brand_color = extract_brand_color(app_name, logo_raw)
+        return copy_local_logo(app_name, logo_raw), brand_color
+    return logo_raw, brand_color
+
+
+def read_api_stats(app_path: str) -> tuple[int, int]:
+    stars = pulls = 0
+    for fname, key in [('stars.yaml', 'gh_stars'), ('pulls.yaml', 'gh_pulls')]:
+        fpath = os.path.join(app_path, fname)
+        if os.path.exists(fpath):
+            val = (yaml.safe_load(open(fpath)) or {}).get(key, 0)
+            if key == 'gh_stars':
+                stars = val
+            else:
+                pulls = val
+    return stars, pulls
+
+
+# ---------------------------------------------------------------------------
+# Markdown to HTML
+# ---------------------------------------------------------------------------
 
 def md_code_to_html(text: str) -> str:
     def replace_block(m):
@@ -177,33 +213,22 @@ def md_code_to_html(text: str) -> str:
 def md_to_html(text: str) -> str:
     if not text:
         return ''
-    # Code blocks first (must be before other processing)
     html = md_code_to_html(text)
 
-    # Images: ![alt](src){ width="600" } or ![alt](src)
-    # Strip MkDocs-style attributes like { align="right", width="600" }
-    # Skip images with empty src
     def img_replace(m):
         src = m.group(2).strip()
         if not src:
             return ''
         alt = m.group(1)
         width = m.group(3)
-        if width:
-            return f'<img src="{src}" alt="{alt}" style="max-width:{width}px" />'
-        return f'<img src="{src}" alt="{alt}" style="max-width:100%" />'
+        style = f'max-width:{width}px' if width else 'max-width:100%'
+        return f'<img src="{src}" alt="{alt}" style="{style}" />'
     html = re.sub(r'!\[([^\]]*)\]\(([^)]*)\)(?:\{[^}]*width="(\d+)"[^}]*\})?(?:\{[^}]*\})?', img_replace, html)
 
-    # Links: [text](url){ target="_blank" } or [text](url)
     html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)(?:\{[^}]*\})?', r'<a href="\2" target="_blank">\1</a>', html)
-
-    # Bold
     html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html)
-
-    # Inline code
     html = re.sub(r'`([^`]+)`', r'<code>\1</code>', html)
 
-    # Protect <pre> blocks from heading conversion
     pre_blocks = {}
     def stash_pre(m):
         key = f'__PRE_{len(pre_blocks)}__'
@@ -211,50 +236,55 @@ def md_to_html(text: str) -> str:
         return key
     html = re.sub(r'<pre>.*?</pre>', stash_pre, html, flags=re.DOTALL)
 
-    # Headings: # h1, ## h2, ... #### h4
-    html = re.sub(r'^#{4}\s+(.+)$', r'<h4>\1</h4>', html, flags=re.MULTILINE)
-    html = re.sub(r'^#{3}\s+(.+)$', r'<h3>\1</h3>', html, flags=re.MULTILINE)
-    html = re.sub(r'^#{2}\s+(.+)$', r'<h2>\1</h2>', html, flags=re.MULTILINE)
-    html = re.sub(r'^#{1}\s+(.+)$', r'<h1>\1</h1>', html, flags=re.MULTILINE)
+    for level in range(4, 0, -1):
+        html = re.sub(rf'^#{{{level}}}\s+(.+)$', rf'<h{level}>\1</h{level}>', html, flags=re.MULTILINE)
 
-    # Split into blocks by double newlines (pre blocks are still placeholders)
     parts = re.split(r'\n\n+', html)
     result = []
     for part in parts:
         part = part.strip()
         if not part:
             continue
-        # Pre block placeholder — pass through as-is
-        if re.match(r'^__PRE_\d+__$', part):
+        if re.match(r'^__PRE_\d+__$', part) or re.match(r'^<(?:pre|h[1-6]|table|img|div|ul|ol)', part):
             result.append(part)
             continue
-        # Already block-level elements
-        if re.match(r'^<(?:pre|h[1-6]|table|img|div|ul|ol)', part):
-            result.append(part)
-            continue
-        # Unordered list: lines starting with -
         lines = part.split('\n')
-        if all(ln.strip().startswith('- ') or ln.strip().startswith('* ') for ln in lines if ln.strip()):
+        if all(ln.strip().startswith(('- ', '* ')) for ln in lines if ln.strip()):
             items = [f'<li>{ln.strip().lstrip("-* ").strip()}</li>' for ln in lines if ln.strip()]
             result.append('<ul>' + ''.join(items) + '</ul>')
             continue
-        # Ordered list: lines starting with 1. 2. etc
         if all(re.match(r'^\d+\.\s', ln.strip()) for ln in lines if ln.strip()):
             ol_pat = re.compile(r'^[0-9]+[.]\s*')
             items = ['<li>' + ol_pat.sub('', ln.strip()) + '</li>' for ln in lines if ln.strip()]
             result.append('<ol>' + ''.join(items) + '</ol>')
             continue
-        # Regular paragraph
         result.append(f'<p>{part}</p>')
     html = '\n'.join(result)
 
-    # Restore <pre> blocks after all processing
     for key, val in pre_blocks.items():
         html = html.replace(key, val)
     return html
 
 
-## --- Install code generation (from gen_app_pages.py logic) ---
+# ---------------------------------------------------------------------------
+# Install code generation
+# ---------------------------------------------------------------------------
+
+def _load_example_chart(metadata: dict) -> dict | None:
+    path = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
+    return read_yaml(path)
+
+
+def _substitute_versions(chart_dict: dict, metadata: dict, version: str) -> dict:
+    """Deep-copy chart_dict and override versions for the app's own charts."""
+    chart_dict = copy.deepcopy(chart_dict)
+    if version and metadata.get('charts'):
+        app_chart_names = {c['name'] for c in metadata['charts']}
+        for dep in chart_dict.get('dependencies', []):
+            if dep['name'] in app_chart_names:
+                dep['version'] = version
+    return chart_dict
+
 
 def kgst_install(chart_name: str, chart_version: str, enterprise: bool) -> str:
     kgst = 'oci://ghcr.io/k0rdent/catalog/charts/kgst'
@@ -266,27 +296,15 @@ def kgst_install(chart_name: str, chart_version: str, enterprise: bool) -> str:
 def generate_install_code(metadata: dict, version: str) -> str | None:
     if 'install_code' in metadata:
         return metadata['install_code']
-    # Prefer example/Chart.yaml dependencies (includes all needed charts like cert-manager)
-    example_chart = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
-    if os.path.exists(example_chart):
-        chart_dict = utils.read_yaml_file(example_chart)
-        if 'dependencies' in chart_dict:
-            import copy
-            chart_dict = copy.deepcopy(chart_dict)
-            # Substitute version for the app's own charts
-            if version and metadata.get('charts'):
-                app_chart_names = {c['name'] for c in metadata['charts']}
-                for dep in chart_dict['dependencies']:
-                    if dep['name'] in app_chart_names:
-                        dep['version'] = version
-            return utils.chart_2_install_code(chart_dict)
-    # Fallback to charts from charts.yaml
+    chart_dict = _load_example_chart(metadata)
+    if chart_dict and 'dependencies' in chart_dict:
+        return utils.chart_2_install_code(_substitute_versions(chart_dict, metadata, version))
     if 'charts' not in metadata:
         return None
     lines = ['~~~bash']
+    enterprise = metadata.get('support_type') == 'Enterprise'
     for chart in metadata['charts']:
-        enterprise = metadata.get('support_type') == 'Enterprise'
-        ver = version if version else chart['versions'][0]
+        ver = version or chart['versions'][0]
         lines.append(kgst_install(chart['name'], ver, enterprise))
     lines.append('~~~')
     return '\n'.join(lines)
@@ -295,27 +313,12 @@ def generate_install_code(metadata: dict, version: str) -> str | None:
 def generate_verify_code(metadata: dict, version: str) -> str | None:
     if 'verify_code' in metadata:
         return metadata['verify_code']
-    # Prefer example/Chart.yaml dependencies
-    example_chart = os.path.join(metadata.get('app_path', ''), 'example', 'Chart.yaml')
-    if os.path.exists(example_chart):
-        chart_dict = utils.read_yaml_file(example_chart)
-        if 'dependencies' in chart_dict:
-            import copy
-            deps = copy.deepcopy(chart_dict['dependencies'])
-            # Substitute version for the app's own charts
-            if version and metadata.get('charts'):
-                app_chart_names = {c['name'] for c in metadata['charts']}
-                for dep in deps:
-                    if dep['name'] in app_chart_names:
-                        dep['version'] = version
-            return utils.charts_2_verify_code(deps)
-    # Fallback to charts from charts.yaml
+    chart_dict = _load_example_chart(metadata)
+    if chart_dict and 'dependencies' in chart_dict:
+        return utils.charts_2_verify_code(_substitute_versions(chart_dict, metadata, version)['dependencies'])
     if 'charts' not in metadata:
         return None
-    charts = []
-    for chart in metadata['charts']:
-        ver = version if version else chart['versions'][0]
-        charts.append({'name': chart['name'], 'version': ver})
+    charts = [{'name': c['name'], 'version': version or c['versions'][0]} for c in metadata['charts']]
     return utils.charts_2_verify_code(charts)
 
 
@@ -323,31 +326,43 @@ def generate_deploy_code(metadata: dict, version: str = None) -> str | None:
     if 'deploy_code' in metadata:
         deploy_md = metadata['deploy_code']
         if version and metadata.get('charts'):
-            # For manual deploy_code, substitute template version strings
             for chart in metadata['charts']:
                 default_ver = chart['versions'][0]
-                old_slug = chart['name'] + '-' + default_ver.replace('.', '-')
-                new_slug = chart['name'] + '-' + version.replace('.', '-')
-                deploy_md = deploy_md.replace(old_slug, new_slug)
+                deploy_md = deploy_md.replace(
+                    chart['name'] + '-' + default_ver.replace('.', '-'),
+                    chart['name'] + '-' + version.replace('.', '-'))
         return deploy_md
     chart_folder = os.path.join(metadata.get('app_path', ''), 'example')
-    if not os.path.exists(chart_folder):
+    chart_dict = read_yaml(os.path.join(chart_folder, 'Chart.yaml'))
+    if not chart_dict:
         return None
-    chart_file = os.path.join(chart_folder, 'Chart.yaml')
-    if not os.path.exists(chart_file):
-        return None
-    chart_dict = utils.read_yaml_file(chart_file)
     if version and 'dependencies' in chart_dict:
-        # Override dependency versions for version-specific deploy code
-        import copy
-        chart_dict = copy.deepcopy(chart_dict)
-        for dep in chart_dict['dependencies']:
-            if metadata.get('charts'):
-                for mc in metadata['charts']:
-                    if dep['name'] == mc['name']:
-                        dep['version'] = version
-                        break
+        chart_dict = _substitute_versions(chart_dict, metadata, version)
     return utils.chart_2_deploy_code(chart_dict, chart_folder, metadata['app'], metadata)
+
+
+def _render_version_data(data: dict, ver: str) -> dict:
+    return {
+        'version': ver,
+        'installHtml': md_to_html(generate_install_code(data, ver) or ''),
+        'verifyHtml': md_to_html(generate_verify_code(data, ver) or ''),
+        'deployHtml': md_to_html(generate_deploy_code(data, ver) or ''),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Examples and install.json
+# ---------------------------------------------------------------------------
+
+def _render_chart_codes(chart_folder: str, app_name: str, metadata: dict) -> dict:
+    chart_dict = read_yaml(os.path.join(chart_folder, 'Chart.yaml'))
+    if not chart_dict:
+        return {}
+    return {
+        'install_code': utils.chart_2_install_code(chart_dict),
+        'verify_code': utils.charts_2_verify_code(chart_dict['dependencies']),
+        'deploy_code': utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, metadata),
+    }
 
 
 def extract_examples(app_name: str, metadata: dict, app_path: str) -> list:
@@ -356,32 +371,25 @@ def extract_examples(app_name: str, metadata: dict, app_path: str) -> list:
         if item.get('type') == 'solution':
             continue
         example = {'title': item.get('title', key)}
-        if 'chart_folder' in item:
-            chart_folder = os.path.join(app_path, item['chart_folder'])
-            chart_file = os.path.join(chart_folder, 'Chart.yaml')
-            if os.path.exists(chart_file):
-                chart_dict = utils.read_yaml_file(chart_file)
+        chart_folder = os.path.join(app_path, item['chart_folder']) if 'chart_folder' in item else None
+
+        if chart_folder:
+            chart_dict = read_yaml(os.path.join(chart_folder, 'Chart.yaml'))
+            if chart_dict:
                 example['installHtml'] = md_to_html(utils.chart_2_install_code(chart_dict))
                 example['verifyHtml'] = md_to_html(utils.charts_2_verify_code(chart_dict['dependencies']))
                 example['deployHtml'] = md_to_html(utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, metadata))
+
         if 'content_template_file' in item:
             file_path = os.path.join(app_path, item['content_template_file'])
             if os.path.exists(file_path):
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    tpl = jinja2.Template(f.read())
                     merged = dict(BASE_METADATA)
                     merged.update(metadata)
                     merged.update(item)
-                    # Generate install/verify/deploy for content template
-                    chart_folder_path = os.path.join(app_path, item['chart_folder']) if 'chart_folder' in item else None
-                    if chart_folder_path:
-                        chart_file_path = os.path.join(chart_folder_path, 'Chart.yaml')
-                        if os.path.exists(chart_file_path):
-                            chart_dict = utils.read_yaml_file(chart_file_path)
-                            merged['install_code'] = utils.chart_2_install_code(chart_dict)
-                            merged['verify_code'] = utils.charts_2_verify_code(chart_dict['dependencies'])
-                            merged['deploy_code'] = utils.chart_2_deploy_code(chart_dict, chart_folder_path, app_name, merged)
-                    example['contentHtml'] = md_to_html(tpl.render(**merged))
+                    if chart_folder:
+                        merged.update(_render_chart_codes(chart_folder, app_name, merged))
+                    example['contentHtml'] = md_to_html(jinja2.Template(f.read()).render(**merged))
         elif 'content' in item:
             example['contentHtml'] = md_to_html(item['content'])
         examples.append(example)
@@ -389,93 +397,56 @@ def extract_examples(app_name: str, metadata: dict, app_path: str) -> list:
 
 
 def generate_install_json(app_name: str, data: dict, app_path: str):
-    """Generate per-app install.json with HTML install content."""
     data['app'] = app_name
     data['app_path'] = app_path
     data['test_namespace'] = data.get('test_namespace', app_name)
     data.update(BASE_METADATA)
 
-    show_install = data.get('show_install_tab', True)
-    if not show_install:
+    if not data.get('show_install_tab', True):
         return None
 
-    # Generate install/verify/deploy for each chart version
-    versions_data = []
     charts = data.get('charts', [])
     all_versions = charts[0]['versions'] if charts else []
-    if all_versions:
-        for ver in all_versions[:5]:
-            install_md = generate_install_code(data, ver)
-            verify_md = generate_verify_code(data, ver)
-            deploy_md = generate_deploy_code(data, ver)
-            versions_data.append({
-                'version': ver,
-                'installHtml': md_to_html(install_md) if install_md else '',
-                'verifyHtml': md_to_html(verify_md) if verify_md else '',
-                'deployHtml': md_to_html(deploy_md) if deploy_md else '',
-            })
-    elif data.get('install_code') or data.get('verify_code') or data.get('deploy_code'):
-        # Apps with custom install/verify/deploy code but no chart versions (e.g. infra)
-        versions_data.append({
-            'version': '',
-            'installHtml': md_to_html(data.get('install_code', '')) if data.get('install_code') else '',
-            'verifyHtml': md_to_html(data.get('verify_code', '')) if data.get('verify_code') else '',
-            'deployHtml': md_to_html(data.get('deploy_code', '')) if data.get('deploy_code') else '',
-        })
 
-    # Prerequisites
+    if all_versions:
+        versions_data = [_render_version_data(data, ver) for ver in all_versions[:5]]
+    elif data.get('install_code') or data.get('verify_code') or data.get('deploy_code'):
+        versions_data = [_render_version_data(data, '')]
+    else:
+        versions_data = []
+
     prereq = data.get('prerequisites', '')
     default_prereq = f'Deploy k0rdent {VERSION}: <a href="https://docs.k0rdent.io/{VERSION}/admin/installation/install-k0rdent/" target="_blank">QuickStart</a>'
-
-    # Examples
-    examples = extract_examples(app_name, data, app_path)
 
     install_data = {
         'versions': versions_data,
         'prerequisitesHtml': md_to_html(prereq) if prereq else default_prereq,
         'docLink': data.get('doc_link', ''),
-        'examples': examples,
+        'examples': extract_examples(app_name, data, app_path),
     }
 
-    # Write to per-app directory
-    out_dir = os.path.join(OUTPUT_DIR, 'apps', app_name)
-    os.makedirs(out_dir, exist_ok=True)
-    out_file = os.path.join(out_dir, 'install.json')
-    with open(out_file, 'w', encoding='utf-8') as f:
-        json.dump(install_data, f, indent=2, ensure_ascii=False)
-
+    write_json(os.path.join(OUTPUT_DIR, 'apps', app_name, 'install.json'), install_data, indent=2)
     return install_data
 
 
+# ---------------------------------------------------------------------------
+# App processing
+# ---------------------------------------------------------------------------
 
 def get_last_updated(app_name: str) -> str:
-    """Get latest 'generated' timestamp from Chart.lock files as YYYY-MM-DD. Returns '' if none found."""
-    import glob
-    from datetime import datetime, timezone
     locks = glob.glob(f'apps/{app_name}/charts/*/Chart.lock')
     dates = []
     for lf in locks:
         with open(lf) as f:
-            data = yaml.safe_load(f)
-        gen = data.get('generated', '')
+            gen = yaml.safe_load(f).get('generated', '')
         if gen:
-            dt = datetime.fromisoformat(str(gen).replace('Z', '+00:00'))
-            dates.append(dt.astimezone(timezone.utc))
+            dates.append(datetime.fromisoformat(str(gen).replace('Z', '+00:00')).astimezone(timezone.utc))
     return max(dates).strftime('%Y-%m-%d') if dates else ''
 
 
 def process_app(app_name: str) -> dict | None:
     app_path = os.path.join(APPS_DIR, app_name)
-    data_file = os.path.join(app_path, 'data.yaml')
-
-    if not os.path.isdir(app_path) or not os.path.exists(data_file):
-        return None
-
-    with open(data_file, 'r', encoding='utf-8') as f:
-        tpl = jinja2.Template(f.read())
-        rendered = tpl.render(**BASE_METADATA)
-        data = yaml.safe_load(rendered)
-
+    data = read_app_data(app_name)
     if data is None:
         return None
 
@@ -485,47 +456,19 @@ def process_app(app_name: str) -> dict | None:
     versions = charts[0]['versions'] if charts else []
     chart_name = charts[0]['name'] if charts else app_name
 
-    # Handle logo: copy local files, keep remote URLs as-is
-    logo_raw = data.get('logo', '')
-    logo = logo_raw
-    brand_color = data.get('brand_color', None)
-    if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
-        if not brand_color:
-            brand_color = extract_brand_color(app_name, logo_raw)
-        logo = copy_local_logo(app_name, logo_raw)
+    logo, brand_color = resolve_logo(app_name, data)
+    stars, pulls = read_api_stats(app_path)
 
-    # Read API data from stars.yaml / pulls.yaml (populated by update_api_data.py)
-    github_repo = data.get('github_repo', '')
-    stars_file = os.path.join(app_path, 'stars.yaml')
-    pulls_file = os.path.join(app_path, 'pulls.yaml')
-    stars_data = {}
-    pulls_data = {}
-    if os.path.exists(stars_file):
-        with open(stars_file) as f:
-            stars_data = yaml.safe_load(f) or {}
-    if os.path.exists(pulls_file):
-        with open(pulls_file) as f:
-            pulls_data = yaml.safe_load(f) or {}
-    stars = stars_data.get('gh_stars', 0)
-    pulls = pulls_data.get('gh_pulls', 0)
-
-    # Generate per-app install.json
     generate_install_json(app_name, data, app_path)
 
-    entry = {
+    return {
         'name': app_name,
         'title': data.get('title', app_name),
         'desc': data.get('summary', ''),
         'description': data.get('description', ''),
         'support': get_support_tier(data),
         'tested': get_tested(data),
-        'validated': {
-            'amd64': data.get('validated_amd64', '-'),
-            'arm64': data.get('validated_arm64', '-'),
-            'aws': data.get('validated_aws', '-'),
-            'azure': data.get('validated_azure', '-'),
-            'local': data.get('validated_local', '-'),
-        },
+        'validated': {k: data.get(f'validated_{k}', '-') for k in ['amd64', 'arm64', 'aws', 'azure', 'local']},
         'tags': data.get('tags', []),
         'version': versions[0] if versions else '',
         'versions': versions[:5],
@@ -538,7 +481,7 @@ def process_app(app_name: str) -> dict | None:
         'supportLink': data.get('support_link', ''),
         'created': data.get('created', ''),
         'lastUpdated': get_last_updated(app_name) or data.get('created', ''),
-        'githubRepo': github_repo,
+        'githubRepo': data.get('github_repo', ''),
         'stars': stars,
         'pulls': pulls,
         'descriptionHtml': md_to_html(data.get('description', '')),
@@ -547,22 +490,18 @@ def process_app(app_name: str) -> dict | None:
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
     }
 
-    return entry
 
+# ---------------------------------------------------------------------------
+# Metadata and contribute page
+# ---------------------------------------------------------------------------
 
 def generate_fetched_metadata(catalog: list, output_dir: str):
-    """Generate fetched_metadata.json for backward compatibility with MkDocs frontend."""
     site_url = os.environ.get('SITE_URL', 'https://catalog.k0rdent.io')
     base_url = f"{site_url.rstrip('/')}/{VERSION}"
     items = []
     for app in catalog:
         support = app.get('support', 'community')
-        if support == 'enterprise':
-            support_type = 'Enterprise'
-        elif support == 'partner':
-            support_type = 'Enterprise'
-        else:
-            support_type = 'Community'
+        support_type = 'Enterprise' if support in ('enterprise', 'partner') else 'Community'
         logo = app.get('logo', '')
         if logo and not logo.startswith('http'):
             logo = f"{base_url}/{logo}"
@@ -577,99 +516,153 @@ def generate_fetched_metadata(catalog: list, output_dir: str):
             'support_type': support_type,
             'appDir': app['name'],
         })
-    out_file = os.path.join(output_dir, 'fetched_metadata.json')
-    with open(out_file, 'w', encoding='utf-8') as f:
-        json.dump(items, f, indent=2, ensure_ascii=False)
+    write_json(os.path.join(output_dir, 'fetched_metadata.json'), items, indent=2)
 
+
+def generate_contribute_html(output_dir: str):
+    contribute_md = os.path.join(CATALOG_ROOT, 'tsweb', 'md', 'contribute.md')
+    if not os.path.exists(contribute_md):
+        return
+    with open(contribute_md, 'r', encoding='utf-8') as f:
+        content = f.read()
+    content = re.sub(r'\{[^}]*target="_blank"[^}]*\}', '', content)
+    content = re.sub(r'\[\]\(\)\{[^}]*\}', '', content)
+    content = re.sub(r'\{[^}]*#[a-z-]+[^}]*\}', '', content)
+    html = markdown.markdown(content, extensions=['fenced_code', 'tables', 'toc'],
+                             extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor-link'}})
+    html = html.replace('<a href="http', '<a target="_blank" rel="noreferrer" style="color:#00c8c8" href="http')
+    write_json(os.path.join(output_dir, 'contribute.json'), {'contentHtml': html})
+
+
+# ---------------------------------------------------------------------------
+# Solutions
+# ---------------------------------------------------------------------------
 
 def _merge_infra(global_infra: list, override: list | None) -> list:
-    """Merge use_case infra overrides with global infra defaults.
-
-    If override is None, return global_infra as-is.
-    Otherwise, for each entry in override (matched by 'id'):
-    - Provider-level fields (title, subtitle, icon, cost) inherit from global if not set
-    - clds: if override provides clds, filter global clds to only those with matching ids,
-      then merge each cld entry's fields (title, subtitle, icon, cld) from global if not set
-    - Only providers listed in override are included in the result
-    """
     if not override:
         return global_infra
-    # Build lookup of global providers and their clds by id
     g_providers = {p['id']: p for p in global_infra if 'id' in p}
     result = []
     for ov_provider in override:
-        pid = ov_provider.get('id', '')
-        g_prov = g_providers.get(pid, {})
-        # Merge provider-level fields
+        g_prov = g_providers.get(ov_provider.get('id', ''), {})
         merged = dict(g_prov)
         for k, v in ov_provider.items():
             if k != 'clds':
                 merged[k] = v
-        # Merge clds
         if 'clds' in ov_provider:
             g_clds = {c.get('id', ''): c for c in g_prov.get('clds', []) if 'id' in c}
-            merged_clds = []
+            merged['clds'] = []
             for ov_cld in ov_provider['clds']:
-                cld_id = ov_cld.get('id', '')
-                g_cld = g_clds.get(cld_id, {})
-                m = dict(g_cld)
+                m = dict(g_clds.get(ov_cld.get('id', ''), {}))
                 m.update({k: v for k, v in ov_cld.items() if v is not None})
-                merged_clds.append(m)
-            merged['clds'] = merged_clds
+                merged['clds'].append(m)
         result.append(merged)
     return result
 
 
+def _build_solution_configurator(sol_id: str, ex: dict, chart_folder: str) -> list | None:
+    global_infra = CONFIGURATOR_DEFAULT.get('infra', [])
+    use_case_infra = None
+    for uc in CONFIGURATOR_DEFAULT.get('use_cases', []):
+        if uc.get('example', '').replace('.', '_') == sol_id:
+            use_case_infra = uc.get('infra')
+            break
+
+    infra_cfg = ex.get('configurator') or _merge_infra(global_infra, use_case_infra)
+    if not infra_cfg or not isinstance(infra_cfg, list):
+        return None
+
+    base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
+    configurator_data = []
+    for provider in infra_cfg:
+        entry = {
+            'title': provider.get('title', ''),
+            'subtitle': provider.get('subtitle', ''),
+            'icon': provider.get('icon', '☁'),
+            'id': provider.get('id', ''),
+        }
+        if provider.get('cost'):
+            entry['cost'] = provider['cost']
+        clds_out = []
+        for cld_item in provider.get('clds', []):
+            file_path = cld_item.get('cld', '')
+            full_path = os.path.join(base_dir, file_path)
+            if os.path.exists(full_path):
+                with open(full_path, 'r', encoding='utf-8') as cf:
+                    rendered = jinja2.Template(cf.read()).render(**BASE_METADATA)
+            else:
+                rendered = f"# File not found: {file_path}"
+            clds_out.append({
+                'id': cld_item.get('id', ''),
+                'title': cld_item.get('title', ''),
+                'subtitle': cld_item.get('subtitle', ''),
+                'icon': cld_item.get('icon', '◈'),
+                'cld': rendered,
+            })
+        entry['clds'] = clds_out
+        configurator_data.append(entry)
+    return configurator_data
+
+
+def _build_solution_detail(ex: dict, app_name: str, app_path: str, chart_folder: str, data: dict) -> dict:
+    detail = {}
+    chart_dict = read_yaml(os.path.join(chart_folder, 'Chart.yaml'))
+
+    if chart_dict:
+        ctx = {'app': app_name, 'app_path': app_path,
+               'test_namespace': data.get('test_namespace', app_name), **BASE_METADATA}
+        detail['deployHtml'] = md_to_html(utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, ctx))
+        detail['deployYaml'] = utils.chart_2_mcs_str(chart_dict, chart_folder, app_name, ctx)
+
+    if ex.get('content_template_file'):
+        content_path = os.path.join(app_path, ex['content_template_file'])
+        if os.path.exists(content_path):
+            with open(content_path, 'r', encoding='utf-8') as f:
+                merged = dict(BASE_METADATA)
+                merged.update(data)
+                merged.update(ex)
+                if chart_dict:
+                    merged.update(_render_chart_codes(chart_folder, app_name, merged))
+                detail['contentHtml'] = md_to_html(jinja2.Template(f.read()).render(**merged))
+
+    return detail
+
+
 def extract_solutions(output_dir: str) -> list:
-    """Extract solution data from all apps and generate per-solution detail JSON files."""
     solutions = []
     for app_name in sorted(os.listdir(APPS_DIR)):
         app_path = os.path.join(APPS_DIR, app_name)
-        data_file = os.path.join(app_path, 'data.yaml')
-        if not os.path.isdir(app_path) or not os.path.exists(data_file):
-            continue
-        with open(data_file, 'r', encoding='utf-8') as f:
-            tpl = jinja2.Template(f.read())
-            rendered = tpl.render(**BASE_METADATA)
-            data = yaml.safe_load(rendered)
+        data = read_app_data(app_name)
         if not data or not data.get('examples'):
             continue
 
-        # Get app logo for the solution card
         logo_raw = data.get('logo', '')
-        logo = logo_raw
         if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
-            filename = os.path.basename(logo_raw.lstrip('./'))
-            logo = f"logos/{app_name}/{filename}"
+            logo = f"logos/{app_name}/{os.path.basename(logo_raw.lstrip('./'))}"
+        else:
+            logo = logo_raw
 
         for key, ex in data['examples'].items():
             if ex.get('type') != 'solution':
                 continue
             chart_folder = os.path.join(app_path, ex.get('chart_folder', ''))
-            chart_file = os.path.join(chart_folder, 'Chart.yaml')
 
-            # Extract unique components from Chart.yaml dependencies (by name+version, ordered)
             components = []
-            seen_components = set()
-            if os.path.exists(chart_file):
-                chart_dict = utils.read_yaml_file(chart_file)
+            seen = set()
+            chart_dict = read_yaml(os.path.join(chart_folder, 'Chart.yaml'))
+            if chart_dict:
                 for dep in chart_dict.get('dependencies', []):
                     comp_key = (dep['name'], dep['version'])
-                    if comp_key not in seen_components:
-                        seen_components.add(comp_key)
+                    if comp_key not in seen:
+                        seen.add(comp_key)
                         components.append({
-                            'name': dep['name'],
-                            'version': dep['version'],
-                            'role': dep.get('solution_role', ''),
-                            'why': dep.get('solution_why', ''),
+                            'name': dep['name'], 'version': dep['version'],
+                            'role': dep.get('solution_role', ''), 'why': dep.get('solution_why', ''),
                         })
 
             sol_id = f"{app_name}_{key}"
-            badge_color = {
-                'community': '#00d48a',
-                'partner': '#00c8c8',
-                'mirantis-certified': '#00c8c8',
-            }.get(ex.get('tier', 'community'), '#00d48a')
+            badge_color = {'community': '#00d48a', 'partner': '#00c8c8', 'mirantis-certified': '#00c8c8'
+                           }.get(ex.get('tier', 'community'), '#00d48a')
 
             sol_entry = {
                 'id': sol_id,
@@ -688,114 +681,24 @@ def extract_solutions(output_dir: str) -> list:
                 'clouds': ex.get('clouds', []),
                 'k8s': ex.get('k8s', []),
             }
-            # Embed configurator infra data with rendered CLD file contents
-            # Merge use_case infra overrides with global infra defaults
-            global_infra = CONFIGURATOR_DEFAULT.get('infra', [])
-            _use_case_infra = None
-            for _uc in CONFIGURATOR_DEFAULT.get('use_cases', []):
-                if _uc.get('example', '').replace('.', '_') == sol_id:
-                    _use_case_infra = _uc.get('infra')
-                    break
-            infra_cfg = ex.get('configurator') or _merge_infra(global_infra, _use_case_infra)
-            if infra_cfg and isinstance(infra_cfg, list):
-                base_dir = chart_folder if ex.get('configurator') else CONFIGURATOR_DIR
-                configurator_data = []
-                for provider in infra_cfg:
-                    entry = {
-                        'title': provider.get('title', ''),
-                        'subtitle': provider.get('subtitle', ''),
-                        'icon': provider.get('icon', '☁'),
-                        'id': provider.get('id', ''),
-                    }
-                    if provider.get('cost'):
-                        entry['cost'] = provider['cost']
-                    clds_out = []
-                    for cld_item in provider.get('clds', []):
-                        file_path = cld_item.get('cld', '')
-                        full_path = os.path.join(base_dir, file_path)
-                        if os.path.exists(full_path):
-                            with open(full_path, 'r', encoding='utf-8') as cf:
-                                tpl = jinja2.Template(cf.read())
-                                rendered = tpl.render(**BASE_METADATA)
-                        else:
-                            rendered = f"# File not found: {file_path}"
-                        clds_out.append({
-                            'id': cld_item.get('id', ''),
-                            'title': cld_item.get('title', ''),
-                            'subtitle': cld_item.get('subtitle', ''),
-                            'icon': cld_item.get('icon', '◈'),
-                            'cld': rendered,
-                        })
-                    entry['clds'] = clds_out
-                    configurator_data.append(entry)
-                sol_entry['configurator'] = configurator_data
+
+            configurator = _build_solution_configurator(sol_id, ex, chart_folder)
+            if configurator:
+                sol_entry['configurator'] = configurator
+
             solutions.append(sol_entry)
 
-            # Generate per-solution detail JSON (deploy YAML + rendered content)
-            detail = {}
-            if os.path.exists(chart_file):
-                chart_dict = utils.read_yaml_file(chart_file)
-                deploy_md = utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, {
-                    'app': app_name, 'app_path': app_path,
-                    'test_namespace': data.get('test_namespace', app_name),
-                    **BASE_METADATA
-                })
-                detail['deployHtml'] = md_to_html(deploy_md)
-                # Raw YAML for copy button
-                detail['deployYaml'] = utils.chart_2_mcs_str(chart_dict, chart_folder, app_name, {
-                    'app': app_name, 'app_path': app_path,
-                    'test_namespace': data.get('test_namespace', app_name),
-                    **BASE_METADATA
-                })
-
-            if ex.get('content_template_file'):
-                content_path = os.path.join(app_path, ex['content_template_file'])
-                if os.path.exists(content_path):
-                    with open(content_path, 'r', encoding='utf-8') as f:
-                        content_tpl = jinja2.Template(f.read())
-                        merged = dict(BASE_METADATA)
-                        merged.update(data)
-                        merged.update(ex)
-                        # Generate install/verify/deploy for content template
-                        if os.path.exists(chart_file):
-                            chart_dict = utils.read_yaml_file(chart_file)
-                            merged['install_code'] = utils.chart_2_install_code(chart_dict)
-                            merged['verify_code'] = utils.charts_2_verify_code(chart_dict['dependencies'])
-                            merged['deploy_code'] = utils.chart_2_deploy_code(chart_dict, chart_folder, app_name, merged)
-                        detail['contentHtml'] = md_to_html(content_tpl.render(**merged))
-
-            sol_detail_dir = os.path.join(output_dir, 'apps', app_name)
-            os.makedirs(sol_detail_dir, exist_ok=True)
-            sol_detail_file = os.path.join(sol_detail_dir, f'solution_{key}.json')
-            with open(sol_detail_file, 'w', encoding='utf-8') as f:
-                json.dump(detail, f, indent=2, ensure_ascii=False)
+            detail = _build_solution_detail(ex, app_name, app_path, chart_folder, data)
+            write_json(os.path.join(output_dir, 'apps', app_name, f'solution_{key}.json'), detail, indent=2)
 
     return solutions
 
 
-def generate_contribute_html(output_dir: str):
-    """Convert tsweb/md/contribute.md to HTML and write as contribute.json."""
-    import markdown
-    contribute_md = os.path.join(CATALOG_ROOT, 'tsweb', 'md', 'contribute.md')
-    if not os.path.exists(contribute_md):
-        return
-    with open(contribute_md, 'r', encoding='utf-8') as f:
-        content = f.read()
-    # Strip markdown attributes like { target="_blank" } and { #id }
-    content = re.sub(r'\{[^}]*target="_blank"[^}]*\}', '', content)
-    content = re.sub(r'\[\]\(\)\{[^}]*\}', '', content)
-    content = re.sub(r'\{[^}]*#[a-z-]+[^}]*\}', '', content)
-    html = markdown.markdown(content, extensions=['fenced_code', 'tables', 'toc'],
-                             extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor-link'}})
-    # Make all links open in new tab and style them
-    html = html.replace('<a href="http', '<a target="_blank" rel="noreferrer" style="color:#00c8c8" href="http')
-    out_file = os.path.join(output_dir, 'contribute.json')
-    with open(out_file, 'w', encoding='utf-8') as f:
-        json.dump({'contentHtml': html}, f, ensure_ascii=False)
-
+# ---------------------------------------------------------------------------
+# Build pipeline
+# ---------------------------------------------------------------------------
 
 def build_version(version: str, output_dir: str):
-    """Build catalog.json, install.json, and solution files for a single version."""
     global VERSION, BASE_METADATA, OUTPUT_DIR, OUTPUT_FILE
     VERSION = version
     BASE_METADATA = get_base_metadata(version)
@@ -803,41 +706,49 @@ def build_version(version: str, output_dir: str):
     OUTPUT_FILE = os.path.join(output_dir, 'catalog.json')
     os.makedirs(output_dir, exist_ok=True)
 
-    catalog = []
-    infra = []
-    install_count = 0
+    catalog, infra, install_count = [], [], 0
     for app_name in sorted(os.listdir(APPS_DIR)):
         entry = process_app(app_name)
-        if entry:
-            if entry.get('type') == 'infra':
-                infra.append(entry)
-            else:
-                catalog.append(entry)
-                if os.path.exists(os.path.join(output_dir, 'apps', app_name, 'install.json')):
-                    install_count += 1
+        if not entry:
+            continue
+        if entry.get('type') == 'infra':
+            infra.append(entry)
+        else:
+            catalog.append(entry)
+            if os.path.exists(os.path.join(output_dir, 'apps', app_name, 'install.json')):
+                install_count += 1
 
     solutions = extract_solutions(output_dir)
 
-    # Build configurator use cases list from config.yaml
-    configurator_solutions = []
-    for item in CONFIGURATOR_DEFAULT.get('use_cases', []):
-        # Map example "jupyterhub.mlops" to solution ID "jupyterhub_mlops"
-        sol_id = item.get('example', '').replace('.', '_')
-        configurator_solutions.append({
-            'icon': item.get('icon', '◈'),
-            'title': item.get('title', ''),
-            'subtitle': item.get('subtitle', ''),
-            'solId': sol_id,
-        })
+    configurator_solutions = [
+        {'icon': item.get('icon', '◈'), 'title': item.get('title', ''),
+         'subtitle': item.get('subtitle', ''), 'solId': item.get('example', '').replace('.', '_')}
+        for item in CONFIGURATOR_DEFAULT.get('use_cases', [])
+    ]
 
-    # Write catalog.json as nested format with solutions and infra
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump({'apps': catalog, 'solutions': solutions, 'infra': infra, 'configuratorSolutions': configurator_solutions}, f, indent=2, ensure_ascii=False)
+    write_json(OUTPUT_FILE, {
+        'apps': catalog, 'solutions': solutions, 'infra': infra,
+        'configuratorSolutions': configurator_solutions,
+    }, indent=2)
 
     generate_fetched_metadata(catalog, output_dir)
     generate_contribute_html(output_dir)
-
     print(f"  {version}: {len(catalog)} apps, {len(infra)} infra, {len(solutions)} solutions, {install_count} install.json files")
+
+
+def _copy_latest_to_root(base_output: str, latest: str):
+    latest_dir = os.path.join(base_output, latest)
+    for fname in ['catalog.json', 'fetched_metadata.json']:
+        src = os.path.join(latest_dir, fname)
+        if os.path.exists(src):
+            shutil.copy2(src, os.path.join(base_output, fname))
+    for subdir in ['apps', 'logos']:
+        src = os.path.join(latest_dir, subdir)
+        dst = os.path.join(base_output, subdir)
+        if os.path.exists(src):
+            if os.path.exists(dst):
+                shutil.rmtree(dst)
+            shutil.copytree(src, dst)
 
 
 def load_versions() -> dict:
@@ -853,48 +764,20 @@ def main():
         versions = versions_config['versions']
         latest = versions_config['latest']
 
-        # Write versions.json for the SPA
-        versions_json = os.path.join(base_output, 'versions.json')
         os.makedirs(base_output, exist_ok=True)
-        with open(versions_json, 'w') as f:
-            json.dump(versions_config, f, indent=2)
-        print(f"Generated {versions_json}")
+        write_json(os.path.join(base_output, 'versions.json'), versions_config, indent=2)
+        print(f"Generated {base_output}/versions.json")
 
-        # Build each version into its own subdirectory
         for v in versions:
-            ver_output = os.path.join(base_output, v)
-            build_version(v, ver_output)
+            build_version(v, os.path.join(base_output, v))
 
-        # Copy latest version data to root (for backward compat / default)
-        latest_dir = os.path.join(base_output, latest)
-        for fname in ['catalog.json', 'fetched_metadata.json']:
-            src = os.path.join(latest_dir, fname)
-            dst = os.path.join(base_output, fname)
-            if os.path.exists(src):
-                shutil.copy2(src, dst)
-        # Copy latest apps/ install.json files to root
-        latest_apps = os.path.join(latest_dir, 'apps')
-        root_apps = os.path.join(base_output, 'apps')
-        if os.path.exists(latest_apps):
-            if os.path.exists(root_apps):
-                shutil.rmtree(root_apps)
-            shutil.copytree(latest_apps, root_apps)
-        # Copy latest logos to root
-        latest_logos = os.path.join(latest_dir, 'logos')
-        root_logos = os.path.join(base_output, 'logos')
-        if os.path.exists(latest_logos):
-            if os.path.exists(root_logos):
-                shutil.rmtree(root_logos)
-            shutil.copytree(latest_logos, root_logos)
-
+        _copy_latest_to_root(base_output, latest)
         print(f"Built {len(versions)} versions, latest={latest}")
     else:
-        # Single version mode (backward compat)
         version = os.environ.get('VERSION', 'v1.8.0')
         build_version(version, base_output)
         print(f"Generated {base_output}/catalog.json")
 
 
 if __name__ == '__main__':
-    import sys
     main()
