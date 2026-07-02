@@ -41,3 +41,5 @@ tsweb/public/schema/
 tsweb/public/versions.json
 tsweb/public/catalog.json
 tsweb/public/v*/
+tsweb/md/index.json
+tsweb/md/schema/
