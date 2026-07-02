@@ -512,6 +512,9 @@ def process_app(app_name: str) -> dict | None:
     # Generate per-app install.json
     generate_install_json(app_name, data, app_path)
 
+    # Generate per-app scan.json from trivy reports (if available)
+    has_scan = generate_scan_json(app_name, OUTPUT_DIR)
+
     entry = {
         'name': app_name,
         'title': data.get('title', app_name),
@@ -545,6 +548,7 @@ def process_app(app_name: str) -> dict | None:
         'showInstall': data.get('show_install_tab', True),
         'whyInCatalog': data.get('why_in_catalog', ''),
         'docs': f"https://catalog.k0rdent.io/{VERSION}/apps/{app_name}/",
+        'hasScan': has_scan,
     }
 
     return entry
@@ -771,6 +775,140 @@ def extract_solutions(output_dir: str) -> list:
                 json.dump(detail, f, indent=2, ensure_ascii=False)
 
     return solutions
+
+
+def _summarize_scan_results(results: list) -> dict:
+    """Summarize trivy scan results into compact image-level data."""
+    images = {}
+    pkg_sets = {}  # track unique packages per image
+    for r in results:
+        img = r.get('Image', r.get('Target', 'unknown'))
+        if img not in images:
+            images[img] = {'image': img, 'critical': 0, 'high': 0, 'medium': 0, 'low': 0, 'unknown': 0, 'total': 0}
+            pkg_sets[img] = set()
+        for v in r.get('Vulnerabilities') or []:
+            sev = v.get('Severity', 'UNKNOWN').lower()
+            if sev in images[img]:
+                images[img][sev] += 1
+            images[img]['total'] += 1
+        for p in r.get('Packages') or []:
+            pkg_name = p.get('Name', '')
+            if pkg_name and '..' not in pkg_name:
+                pkg_sets[img].add((pkg_name, p.get('Version', '')))
+    for img, pkgs in pkg_sets.items():
+        images[img]['packages'] = len(pkgs)
+    img_list = list(images.values())
+    return {
+        'images': img_list,
+        'totalImages': len(img_list),
+        'totalVulnerabilities': sum(i['total'] for i in img_list),
+    }
+
+
+def _build_scan_detail(results: list) -> dict:
+    """Build detailed per-image vulnerability and package data from trivy results."""
+    images = {}
+    for r in results:
+        img = r.get('Image', r.get('Target', 'unknown'))
+        if img not in images:
+            images[img] = {'vulnerabilities': [], 'packages': []}
+
+        for v in r.get('Vulnerabilities') or []:
+            images[img]['vulnerabilities'].append({
+                'id': v.get('VulnerabilityID', ''),
+                'severity': v.get('Severity', 'UNKNOWN'),
+                'package': v.get('PkgName', ''),
+                'installed': v.get('InstalledVersion', ''),
+                'fixed': v.get('FixedVersion', ''),
+            })
+
+        for p in r.get('Packages') or []:
+            pkg_name = p.get('Name', '')
+            if not pkg_name or '..' in pkg_name:
+                continue
+            images[img]['packages'].append({
+                'name': pkg_name,
+                'version': p.get('Version', ''),
+            })
+
+    # Deduplicate packages per image
+    for img_data in images.values():
+        seen = set()
+        deduped = []
+        for p in img_data['packages']:
+            key = (p['name'], p['version'])
+            if key not in seen:
+                seen.add(key)
+                deduped.append(p)
+        img_data['packages'] = sorted(deduped, key=lambda p: p['name'])
+        # Sort vulns by severity
+        sev_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'UNKNOWN': 4}
+        img_data['vulnerabilities'].sort(key=lambda v: sev_order.get(v['severity'], 4))
+
+    return {'images': images}
+
+
+def _parse_scan_filename(fname: str):
+    """Parse 'cert-manager-1.20.2.json' -> ('cert-manager', '1.20.2') or None."""
+    if not fname.endswith('.json'):
+        return None
+    base = fname[:-5]
+    parts = base.split('-')
+    for i in range(len(parts) - 1, 0, -1):
+        if parts[i] and parts[i][0].isdigit():
+            return '-'.join(parts[:i]), '-'.join(parts[i:])
+    return None
+
+
+def generate_scan_json(app_name: str, output_dir: str) -> bool:
+    """Read per-chart-version trivy reports and generate scan.json + detail files."""
+    scan_dir = os.path.join(CATALOG_ROOT, 'scan-reports', app_name)
+    if not os.path.isdir(scan_dir):
+        return False
+
+    out_dir = os.path.join(output_dir, 'apps', app_name)
+    os.makedirs(out_dir, exist_ok=True)
+
+    charts = {}
+    latest_mtime = 0
+    for fname in sorted(os.listdir(scan_dir)):
+        parsed = _parse_scan_filename(fname)
+        if not parsed:
+            continue
+        chart_name, version = parsed
+
+        fpath = os.path.join(scan_dir, fname)
+        mtime = os.path.getmtime(fpath)
+        if mtime > latest_mtime:
+            latest_mtime = mtime
+        with open(fpath, 'r', encoding='utf-8') as f:
+            results = json.load(f)
+
+        if chart_name not in charts:
+            charts[chart_name] = {'versions': [], 'scans': {}}
+        charts[chart_name]['versions'].append(version)
+        charts[chart_name]['scans'][version] = _summarize_scan_results(results)
+
+        # Write detail file for this chart+version
+        detail = _build_scan_detail(results)
+        detail_file = os.path.join(out_dir, f'scan-detail-{chart_name}-{version}.json')
+        with open(detail_file, 'w', encoding='utf-8') as f:
+            json.dump(detail, f, ensure_ascii=False)
+
+    if not charts:
+        return False
+
+    # Sort versions descending (latest first)
+    for chart_data in charts.values():
+        chart_data['versions'].sort(key=lambda v: [int(x) if x.isdigit() else x for x in v.split('.')], reverse=True)
+
+    from datetime import datetime
+    last_scan = datetime.fromtimestamp(latest_mtime).strftime('%Y-%m-%d %H:%M') if latest_mtime else ''
+
+    with open(os.path.join(out_dir, 'scan.json'), 'w', encoding='utf-8') as f:
+        json.dump({'charts': charts, 'lastScan': last_scan}, f, indent=2, ensure_ascii=False)
+
+    return True
 
 
 def generate_contribute_html(output_dir: str):
