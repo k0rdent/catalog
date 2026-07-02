@@ -374,126 +374,31 @@ function sevColor(sev:string) {
   return B.textMut;
 }
 
-function ImageDetail({ imageName, chartName, version, k0rdentVer, appName, subTab, setSubTab }:{ imageName:string, chartName:string, version:string, k0rdentVer?:string, appName:string, subTab:string, setSubTab:any }) {
-  var [detail, setDetail] = useState<any>(null);
-  var [loading, setLoading] = useState(true);
-  var [error, setError] = useState("");
-
-  useEffect(function(){
-    setLoading(true);
-    setError("");
-    fetch(dataPrefix(k0rdentVer || "") + "apps/" + appName + "/scan-detail-" + chartName + "-" + version + ".json?t=" + Date.now())
-      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(function(d){ setDetail(d); setLoading(false); })
-      .catch(function(e){ setError(String(e)); setLoading(false); });
-  }, [appName, chartName, version]);
-
-  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading image details...</div>;
-  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
-
-  var imgData = detail && detail.images ? detail.images[imageName] : null;
-  if (!imgData) return <div style={{padding:20,color:B.textMut,fontSize:12}}>No detail data for this image.</div>;
-
-  var vulns = imgData.vulnerabilities || [];
-  var pkgs = (imgData.packages || []).filter(function(p:any){ return p.name && p.name.indexOf("..") === -1; });
-
-  var thStyle:any = {padding:"7px 10px",fontSize:10,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.05em",textAlign:"left",borderBottom:"1px solid "+B.border,background:B.bg2};
-  var tdStyle:any = {padding:"6px 10px",fontSize:11,color:B.textPri,borderBottom:"1px solid "+B.border};
-
-  return (
-    <div>
-      <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:12,fontFamily:"monospace",wordBreak:"break-all"}}>{imageName}</div>
-      <div style={{display:"flex",gap:0,borderBottom:"1px solid "+B.border,marginBottom:14}}>
-        {["vulnerabilities","packages"].map(function(t){
-          var active = subTab===t;
-          var label = t === "vulnerabilities" ? "Vulnerabilities (" + vulns.length + ")" : "Packages (" + pkgs.length + ")";
-          return <button key={t} onClick={function(){setSubTab(t);}} style={{padding:"8px 14px",fontSize:12,fontWeight:active?600:400,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",fontFamily:"inherit"}}>{label}</button>;
-        })}
-      </div>
-      {subTab==="vulnerabilities" && (
-        vulns.length === 0 ? <div style={{fontSize:11,color:B.green,padding:10}}>No vulnerabilities found.</div> :
-        <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
-          <table style={{width:"100%",borderCollapse:"collapse"}}>
-            <thead>
-              <tr>
-                <th style={thStyle}>ID</th>
-                <th style={thStyle}>Severity</th>
-                <th style={thStyle}>Package</th>
-                <th style={thStyle}>Installed</th>
-                <th style={thStyle}>Fixed</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vulns.map(function(v:any, i:number){
-                var sc = sevColor(v.severity);
-                return (
-                  <tr key={i} style={{background:i%2===0?"transparent":B.bg2+"40"}}>
-                    <td style={tdStyle}>{v.id && v.id.startsWith("CVE-") ? <a href={"https://www.cve.org/CVERecord?id="+v.id} target="_blank" rel="noreferrer" style={{color:B.cyan,textDecoration:"none",fontSize:11}}>{v.id}</a> : v.id}</td>
-                    <td style={tdStyle}><span style={{fontSize:9.5,padding:"2px 6px",borderRadius:3,background:sc+"18",color:sc,border:"1px solid "+sc+"30",fontWeight:600}}>{v.severity}</span></td>
-                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{v.package}</td>
-                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{v.installed}</td>
-                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{v.fixed || <span style={{color:B.textMut}}>—</span>}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-      {subTab==="packages" && (
-        pkgs.length === 0 ? <div style={{fontSize:11,color:B.textMut,padding:10}}>No packages found.</div> :
-        <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
-          <table style={{width:"100%",borderCollapse:"collapse"}}>
-            <thead>
-              <tr>
-                <th style={thStyle}>Name</th>
-                <th style={thStyle}>Version</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pkgs.map(function(p:any, i:number){
-                return (
-                  <tr key={i} style={{background:i%2===0?"transparent":B.bg2+"40"}}>
-                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{p.name}</td>
-                    <td style={{...tdStyle,fontFamily:"monospace",fontSize:10}}>{p.version}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailImg, detailImgChart, setDetailImgChart, detailImgSub, setDetailImgSub }:any) {
+function useScanData(itemName:string, k0rdentVer?:string) {
   var [scanData, setScanData] = useState<any>(null);
   var [loading, setLoading] = useState(true);
   var [error, setError] = useState("");
-
   useEffect(function(){
-    setLoading(true);
-    setError("");
-    fetch(dataPrefix(k0rdentVer || "") + "apps/" + item.name + "/scan.json?t=" + Date.now())
+    setLoading(true); setError("");
+    fetch(dataPrefix(k0rdentVer || "") + "apps/" + itemName + "/scan.json?t=" + Date.now())
       .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(function(d){ setScanData(d); setLoading(false); })
       .catch(function(e){ setError(String(e)); setLoading(false); });
-  }, [item.name]);
+  }, [itemName]);
+  return {scanData, loading, error};
+}
 
-  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading scan data...</div>;
-  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
-  if (!scanData || !scanData.charts) return null;
-
+function scanVersions(scanData:any) {
+  if (!scanData || !scanData.charts) return [];
   var chartNames = Object.keys(scanData.charts);
-  var allVersions:string[] = [];
+  var all:string[] = [];
   for (var ci=0;ci<chartNames.length;ci++){
     var vs = scanData.charts[chartNames[ci]].versions;
     for (var vi=0;vi<vs.length;vi++){
-      if (allVersions.indexOf(vs[vi]) === -1) allVersions.push(vs[vi]);
+      if (all.indexOf(vs[vi]) === -1) all.push(vs[vi]);
     }
   }
-  allVersions.sort(function(a,b){
+  all.sort(function(a,b){
     var pa=a.split("."), pb=b.split(".");
     for(var i=0;i<Math.max(pa.length,pb.length);i++){
       var na=parseInt(pa[i]||"0"), nb=parseInt(pb[i]||"0");
@@ -501,33 +406,186 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailIm
     }
     return 0;
   });
+  return all;
+}
 
+function ScanVersionPicker({ allVersions, effectiveVer, setSelVer, lastScan }:any) {
+  return (
+    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+      <span style={{fontSize:12,color:B.textSec}}>Version:</span>
+      <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
+        {allVersions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
+      </select>
+      {lastScan && <span style={{fontSize:10,color:B.textMut,marginLeft:"auto"}}>Last scan: {lastScan}</span>}
+    </div>
+  );
+}
+
+var scanThStyle:any = {padding:"7px 10px",fontSize:10,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.05em",textAlign:"left",borderBottom:"1px solid "+B.border,background:B.bg2};
+var scanTdStyle:any = {padding:"6px 10px",fontSize:11,color:B.textPri,borderBottom:"1px solid "+B.border};
+
+function ImagePackagesDetail({ imageName, chartName, version, k0rdentVer, appName }:any) {
+  var [detail, setDetail] = useState<any>(null);
+  var [loading, setLoading] = useState(true);
+  var [error, setError] = useState("");
+  useEffect(function(){
+    setLoading(true); setError("");
+    fetch(dataPrefix(k0rdentVer || "") + "apps/" + appName + "/scan-detail-" + chartName + "-" + version + ".json?t=" + Date.now())
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(d){ setDetail(d); setLoading(false); })
+      .catch(function(e){ setError(String(e)); setLoading(false); });
+  }, [appName, chartName, version]);
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading packages...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+  var imgData = detail && detail.images ? detail.images[imageName] : null;
+  if (!imgData) return <div style={{padding:20,color:B.textMut,fontSize:12}}>No data for this image.</div>;
+  var pkgs = (imgData.packages || []).filter(function(p:any){ return p.name && p.name.indexOf("..") === -1; });
+  return (
+    <div>
+      <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:12,fontFamily:"monospace",wordBreak:"break-all"}}>{imageName}</div>
+      {pkgs.length === 0 ? <div style={{fontSize:11,color:B.textMut,padding:10}}>No packages found.</div> :
+      <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+        <table style={{width:"100%",borderCollapse:"collapse"}}>
+          <thead><tr><th style={scanThStyle}>Name</th><th style={scanThStyle}>Version</th></tr></thead>
+          <tbody>
+            {pkgs.map(function(p:any, i:number){
+              return <tr key={i} style={{background:i%2===0?"transparent":B.bg2+"40"}}><td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{p.name}</td><td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{p.version}</td></tr>;
+            })}
+          </tbody>
+        </table>
+      </div>}
+    </div>
+  );
+}
+
+function ImageVulnsDetail({ imageName, chartName, version, k0rdentVer, appName }:any) {
+  var [detail, setDetail] = useState<any>(null);
+  var [loading, setLoading] = useState(true);
+  var [error, setError] = useState("");
+  useEffect(function(){
+    setLoading(true); setError("");
+    fetch(dataPrefix(k0rdentVer || "") + "apps/" + appName + "/scan-detail-" + chartName + "-" + version + ".json?t=" + Date.now())
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(d){ setDetail(d); setLoading(false); })
+      .catch(function(e){ setError(String(e)); setLoading(false); });
+  }, [appName, chartName, version]);
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading vulnerabilities...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+  var imgData = detail && detail.images ? detail.images[imageName] : null;
+  if (!imgData) return <div style={{padding:20,color:B.textMut,fontSize:12}}>No data for this image.</div>;
+  var vulns = imgData.vulnerabilities || [];
+  return (
+    <div>
+      <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:12,fontFamily:"monospace",wordBreak:"break-all"}}>{imageName}</div>
+      {vulns.length === 0 ? <div style={{fontSize:11,color:B.green,padding:10}}>No vulnerabilities found.</div> :
+      <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+        <table style={{width:"100%",borderCollapse:"collapse"}}>
+          <thead><tr><th style={scanThStyle}>ID</th><th style={scanThStyle}>Severity</th><th style={scanThStyle}>Package</th><th style={scanThStyle}>Installed</th><th style={scanThStyle}>Fixed</th></tr></thead>
+          <tbody>
+            {vulns.map(function(v:any, i:number){
+              var sc = sevColor(v.severity);
+              return (
+                <tr key={i} style={{background:i%2===0?"transparent":B.bg2+"40"}}>
+                  <td style={scanTdStyle}>{v.id && v.id.startsWith("CVE-") ? <a href={"https://www.cve.org/CVERecord?id="+v.id} target="_blank" rel="noreferrer" style={{color:B.cyan,textDecoration:"none",fontSize:11}}>{v.id}</a> : v.id}</td>
+                  <td style={scanTdStyle}><span style={{fontSize:9.5,padding:"2px 6px",borderRadius:3,background:sc+"18",color:sc,border:"1px solid "+sc+"30",fontWeight:600}}>{v.severity}</span></td>
+                  <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{v.package}</td>
+                  <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{v.installed}</td>
+                  <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{v.fixed || <span style={{color:B.textMut}}>—</span>}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>}
+    </div>
+  );
+}
+
+function imgShortName(full:string) {
+  // "quay.io/jetstack/cert-manager-cainjector:v1.20.2" -> "cert-manager-cainjector"
+  var noTag = full.split(":")[0];
+  var parts = noTag.split("/");
+  return parts[parts.length - 1];
+}
+
+function ScanImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailImg, detailImgChart, setDetailImgChart }:any) {
+  var {scanData, loading, error} = useScanData(item.name, k0rdentVer);
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading scan data...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+  if (!scanData || !scanData.charts) return null;
+
+  var allVersions = scanVersions(scanData);
+  var chartNames = Object.keys(scanData.charts);
   var effectiveVer = selVer || allVersions[0] || "";
 
-  // If image detail is selected, show it
   if (detailImg) {
-    return <ImageDetail imageName={detailImg} chartName={detailImgChart} version={effectiveVer} k0rdentVer={k0rdentVer} appName={item.name} subTab={detailImgSub || "vulnerabilities"} setSubTab={setDetailImgSub}/>;
-  }
-
-  var totalImages = 0, totalVulns = 0;
-  for (var ci2=0;ci2<chartNames.length;ci2++){
-    var scan = (scanData.charts[chartNames[ci2]].scans || {})[effectiveVer];
-    if (scan) { totalImages += scan.totalImages; totalVulns += scan.totalVulnerabilities; }
+    return <ImagePackagesDetail imageName={detailImg} chartName={detailImgChart} version={effectiveVer} k0rdentVer={k0rdentVer} appName={item.name}/>;
   }
 
   return (
     <div>
-      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
-        <span style={{fontSize:12,color:B.textSec}}>Version:</span>
-        <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
-          {allVersions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
-        </select>
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:16}}>
+      <ScanVersionPicker allVersions={allVersions} effectiveVer={effectiveVer} setSelVer={setSelVer} lastScan={scanData.lastScan}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
-          <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Images scanned</div>
-          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{totalImages}</div>
+          <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Images</div>
+          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{(function(){ var t=0; for(var c=0;c<chartNames.length;c++){var s=(scanData.charts[chartNames[c]].scans||{})[effectiveVer]; if(s)t+=s.totalImages;} return t; })()}</div>
         </div>
+        <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
+          <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Last scan</div>
+          <div style={{fontSize:14,color:B.textPri,fontWeight:600}}>{scanData.lastScan || "—"}</div>
+        </div>
+      </div>
+      {chartNames.map(function(chartName:string){
+        var scan = (scanData.charts[chartName].scans || {})[effectiveVer];
+        if (!scan) return <div key={chartName} style={{marginBottom:16}}><div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div><div style={{fontSize:11,color:B.textMut,fontStyle:"italic"}}>No scan data for version {effectiveVer}</div></div>;
+        return (
+          <div key={chartName} style={{marginBottom:16}}>
+            <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div>
+            <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+              <table style={{width:"100%",borderCollapse:"collapse"}}>
+                <thead><tr><th style={scanThStyle}>Image ID</th><th style={scanThStyle}>Name</th><th style={scanThStyle}>Packages</th></tr></thead>
+                <tbody>
+                  {scan.images.map(function(img:any, i:number){
+                    return <tr key={i} onClick={function(){setDetailImg(img.image);setDetailImgChart(chartName);}} style={{cursor:"pointer",background:i%2===0?"transparent":B.bg2+"40"}} onMouseEnter={function(e:any){e.currentTarget.style.background=B.bg3;}} onMouseLeave={function(e:any){e.currentTarget.style.background=i%2===0?"transparent":B.bg2+"40";}}>
+                      <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10,fontWeight:500}}>{img.image}</td>
+                      <td style={{...scanTdStyle,fontWeight:500}}>{imgShortName(img.image)}</td>
+                      <td style={{...scanTdStyle,textAlign:"center"}}>{img.packages || 0}</td>
+                    </tr>;
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ScanVulnsTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailImg, detailImgChart, setDetailImgChart }:any) {
+  var {scanData, loading, error} = useScanData(item.name, k0rdentVer);
+  if (loading) return <div style={{padding:20,color:B.textSec,fontSize:12}}>Loading scan data...</div>;
+  if (error) return <div style={{padding:20,color:B.red,fontSize:12}}>{error}</div>;
+  if (!scanData || !scanData.charts) return null;
+
+  var allVersions = scanVersions(scanData);
+  var chartNames = Object.keys(scanData.charts);
+  var effectiveVer = selVer || allVersions[0] || "";
+
+  if (detailImg) {
+    return <ImageVulnsDetail imageName={detailImg} chartName={detailImgChart} version={effectiveVer} k0rdentVer={k0rdentVer} appName={item.name}/>;
+  }
+
+  var totalVulns = 0;
+  for (var ci=0;ci<chartNames.length;ci++){
+    var scan = (scanData.charts[chartNames[ci]].scans || {})[effectiveVer];
+    if (scan) totalVulns += scan.totalVulnerabilities;
+  }
+
+  return (
+    <div>
+      <ScanVersionPicker allVersions={allVersions} effectiveVer={effectiveVer} setSelVer={setSelVer} lastScan={scanData.lastScan}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Total vulnerabilities</div>
           <div style={{fontSize:14,color:totalVulns > 0 ? "#ff8c00" : B.green,fontWeight:600}}>{totalVulns}</div>
@@ -538,33 +596,28 @@ function ImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetailIm
         </div>
       </div>
       {chartNames.map(function(chartName:string){
-        var chartData = scanData.charts[chartName];
-        var scan = (chartData.scans || {})[effectiveVer];
-        if (!scan) return (
-          <div key={chartName} style={{marginBottom:16}}>
-            <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div>
-            <div style={{fontSize:11,color:B.textMut,fontStyle:"italic"}}>No scan data for version {effectiveVer}</div>
-          </div>
-        );
+        var scan = (scanData.charts[chartName].scans || {})[effectiveVer];
+        if (!scan) return <div key={chartName} style={{marginBottom:16}}><div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div><div style={{fontSize:11,color:B.textMut,fontStyle:"italic"}}>No scan data for version {effectiveVer}</div></div>;
         return (
           <div key={chartName} style={{marginBottom:16}}>
             <div style={{fontSize:13,fontWeight:600,color:B.textPri,marginBottom:8,borderBottom:"1px solid "+B.border,paddingBottom:6}}>{chartName}</div>
-            {scan.images.map(function(img:any, i:number){
-              return (
-                <div key={i} onClick={function(){setDetailImg(img.image);setDetailImgChart(chartName);setDetailImgSub("");}} style={{marginBottom:10,padding:"12px 14px",background:B.bg2,borderRadius:8,border:"1px solid "+B.border,cursor:"pointer",transition:"border-color 0.15s"}} onMouseEnter={function(e:any){e.currentTarget.style.borderColor=B.teal;}} onMouseLeave={function(e:any){e.currentTarget.style.borderColor=B.border;}}>
-                  <div style={{fontSize:12,fontWeight:600,color:B.textPri,marginBottom:6,fontFamily:"monospace",wordBreak:"break-all"}}>{img.image} <span style={{fontSize:9,color:B.textMut,fontFamily:"inherit"}}>→</span></div>
-                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                    {[["critical",img.critical],["high",img.high],["medium",img.medium],["low",img.low]].map(function(pair:any){
-                      var label = pair[0], count = pair[1];
-                      if (count === 0) return null;
-                      var c = sevColor(label);
-                      return <span key={label} style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:c+"18",color:c,border:"1px solid "+c+"30",fontWeight:600}}>{count} {label.toUpperCase()}</span>;
-                    })}
-                    {img.total === 0 && <span style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:B.green+"18",color:B.green,border:"1px solid "+B.green+"30",fontWeight:600}}>No vulnerabilities</span>}
-                  </div>
-                </div>
-              );
-            })}
+            <div style={{border:"1px solid "+B.border,borderRadius:8,overflow:"hidden"}}>
+              <table style={{width:"100%",borderCollapse:"collapse"}}>
+                <thead><tr><th style={scanThStyle}>Image ID</th><th style={{...scanThStyle,textAlign:"center"}}>Critical</th><th style={{...scanThStyle,textAlign:"center"}}>High</th><th style={{...scanThStyle,textAlign:"center"}}>Medium</th><th style={{...scanThStyle,textAlign:"center"}}>Low</th><th style={{...scanThStyle,textAlign:"center"}}>Unknown</th></tr></thead>
+                <tbody>
+                  {scan.images.map(function(img:any, i:number){
+                    return <tr key={i} onClick={function(){setDetailImg(img.image);setDetailImgChart(chartName);}} style={{cursor:"pointer",background:i%2===0?"transparent":B.bg2+"40"}} onMouseEnter={function(e:any){e.currentTarget.style.background=B.bg3;}} onMouseLeave={function(e:any){e.currentTarget.style.background=i%2===0?"transparent":B.bg2+"40";}}>
+                      <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{img.image}</td>
+                      <td style={{...scanTdStyle,textAlign:"center",color:img.critical>0?sevColor("critical"):B.textMut}}>{img.critical||0}</td>
+                      <td style={{...scanTdStyle,textAlign:"center",color:img.high>0?sevColor("high"):B.textMut}}>{img.high||0}</td>
+                      <td style={{...scanTdStyle,textAlign:"center",color:img.medium>0?sevColor("medium"):B.textMut}}>{img.medium||0}</td>
+                      <td style={{...scanTdStyle,textAlign:"center",color:img.low>0?B.textSec:B.textMut}}>{img.low||0}</td>
+                      <td style={{...scanTdStyle,textAlign:"center",color:B.textMut}}>{img.unknown||0}</td>
+                    </tr>;
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         );
       })}
@@ -692,6 +745,17 @@ function InstallTab({ item, selVer, setSelVer, k0rdentVer }:{ item:any, selVer:s
 
 function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer, detailImg, setDetailImg, detailImgChart, setDetailImgChart, detailImgSub, setDetailImgSub }:any) {
   var [imagesKey, setImagesKey] = useState(0);
+  var {scanData: _scanData} = useScanData(item.hasScan ? item.name : "", k0rdentVer);
+  var _scanCounts = {images:0, vulns:0};
+  if (_scanData && _scanData.charts) {
+    var _chartNames = Object.keys(_scanData.charts);
+    var _allVers = scanVersions(_scanData);
+    var _ev = selVer || _allVers[0] || "";
+    for (var _ci=0;_ci<_chartNames.length;_ci++){
+      var _s = (_scanData.charts[_chartNames[_ci]].scans || {})[_ev];
+      if (_s) { _scanCounts.images += _s.totalImages; _scanCounts.vulns += _s.totalVulnerabilities; }
+    }
+  }
   var eff = getEff(item);
   var ss = SUPPORT_STYLE[eff];
   var compTags = COMPLIANCE[item.name] || [];
@@ -747,8 +811,11 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <button onClick={onClose} style={{background:"transparent",border:"1px solid #555760",borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:"#ffffff",cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
           <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid #555760",marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
-            {["overview","install","validation","images","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"||t==="images"))return false; if(t==="images"&&!item.hasScan)return false; return true; }).map(function(t){
-              return <button key={t} onClick={function(){setTab(t);if(t==="images"){setImagesKey(function(k){return k+1;});setDetailImg("");setDetailImgChart("");setDetailImgSub("");}}} style={tabStyle(tab===t)}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>;
+            {["overview","install","validation","images","vulnerabilities","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"||t==="images"||t==="vulnerabilities"))return false; if((t==="images"||t==="vulnerabilities")&&!item.hasScan)return false; return true; }).map(function(t){
+              var tLabel = t.charAt(0).toUpperCase()+t.slice(1);
+              var tCount = t==="images"?_scanCounts.images:t==="vulnerabilities"?_scanCounts.vulns:-1;
+              var tActive = tab===t;
+              return <button key={t} onClick={function(){setTab(t);if(t==="images"||t==="vulnerabilities"){setImagesKey(function(k){return k+1;});setDetailImg("");setDetailImgChart("");setDetailImgSub("");}}} style={tabStyle(tActive)}>{tLabel}{tCount>=0&&<span style={{marginLeft:6,fontSize:10,padding:"1px 6px",borderRadius:10,background:tActive?"#35db78":"#ffffff",color:tActive?"#000000":"#000000",fontWeight:700}}>{tCount}</span>}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
             {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:"#000000",textDecoration:"none",background:"#35db78",fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
@@ -809,7 +876,8 @@ function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0rdentVer
             <InstallTab item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer}/>
           )}
           {tab==="validation" && <TestResults item={item}/>}
-          {tab==="images" && <ImagesTab key={imagesKey} item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart} setDetailImgChart={setDetailImgChart} detailImgSub={detailImgSub} setDetailImgSub={setDetailImgSub}/>}
+          {tab==="images" && <ScanImagesTab key={"img"+imagesKey} item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart} setDetailImgChart={setDetailImgChart}/>}
+          {tab==="vulnerabilities" && <ScanVulnsTab key={"vul"+imagesKey} item={item} selVer={selVer} setSelVer={setSelVer} k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart} setDetailImgChart={setDetailImgChart}/>}
           {tab==="cost" && (
             <div>
               <p style={{fontSize:12,color:B.textSec,lineHeight:1.7,marginTop:0,marginBottom:14}}>
