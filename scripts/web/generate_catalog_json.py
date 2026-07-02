@@ -3,7 +3,6 @@
 Copies local logo files to the output directory so they can be served as static assets.
 """
 
-import colorsys
 import copy
 import glob
 import jinja2
@@ -79,53 +78,6 @@ def write_json(path: str, data, indent: int = None):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=indent, ensure_ascii=False)
-
-
-# ---------------------------------------------------------------------------
-# Color extraction
-# ---------------------------------------------------------------------------
-
-def hex_to_rgb(h: str) -> tuple:
-    h = h.lstrip('#')
-    if len(h) == 3:
-        h = h[0]*2 + h[1]*2 + h[2]*2
-    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
-
-
-def is_boring_color(r, g, b) -> bool:
-    if r > 220 and g > 220 and b > 220:
-        return True
-    if r < 30 and g < 30 and b < 30:
-        return True
-    _, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
-    return s < 0.1 and v > 0.5
-
-
-def _count_colors(hex_colors: list) -> dict:
-    counts = {}
-    for c in hex_colors:
-        try:
-            r, g, b = hex_to_rgb(c)
-        except (ValueError, IndexError):
-            continue
-        if is_boring_color(r, g, b):
-            continue
-        normalized = f"#{r:02x}{g:02x}{b:02x}"
-        counts[normalized] = counts.get(normalized, 0) + 1
-    return counts
-
-
-def extract_color_from_svg(filepath: str) -> str | None:
-    try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
-            content = f.read()
-    except Exception:
-        return None
-    hex_colors = re.findall(r'(?:fill|stroke|stop-color|color)\s*[:=]\s*["\']?\s*(#[0-9a-fA-F]{3,6})\b', content)
-    hex_colors += ['#' + c for c in re.findall(r'#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b', content)]
-    hex_colors = ['#' + c.lstrip('#') for c in hex_colors]
-    counts = _count_colors(hex_colors)
-    return max(counts, key=counts.get) if counts else None
 
 
 def copy_local_logo(app_name: str, logo_path: str) -> str:
