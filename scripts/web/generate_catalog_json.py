@@ -84,8 +84,7 @@ def copy_local_logo(app_name: str, logo_path: str) -> str:
     rel_path = logo_path.lstrip('./')
     src = os.path.join(APPS_DIR, app_name, rel_path)
     if not os.path.exists(src):
-        print(f"  Warning: logo not found: {src}")
-        return logo_path
+        raise FileNotFoundError(f"Logo not found: {src}")
     filename = os.path.basename(rel_path)
     dst_dir = os.path.join(OUTPUT_DIR, 'logos', app_name)
     os.makedirs(dst_dir, exist_ok=True)
@@ -104,14 +103,14 @@ def resolve_logo(app_name: str, data: dict) -> tuple[str, str | None]:
 
 def read_api_stats(app_path: str) -> tuple[int, int]:
     stars = pulls = 0
-    for fname, key in [('stars.yaml', 'gh_stars'), ('pulls.yaml', 'gh_pulls')]:
-        fpath = os.path.join(app_path, fname)
-        if os.path.exists(fpath):
-            val = (yaml.safe_load(open(fpath)) or {}).get(key, 0)
-            if key == 'gh_stars':
-                stars = val
-            else:
-                pulls = val
+    stars_path = os.path.join(app_path, 'stars.yaml')
+    if os.path.exists(stars_path):
+        with open(stars_path) as f:
+            stars = (yaml.safe_load(f) or {}).get('gh_stars', 0)
+    pulls_path = os.path.join(app_path, 'pulls.yaml')
+    if os.path.exists(pulls_path):
+        with open(pulls_path) as f:
+            pulls = (yaml.safe_load(f) or {}).get('gh_pulls', 0)
     return stars, pulls
 
 
@@ -409,17 +408,19 @@ def process_app(app_name: str) -> dict | None:
     }
 
 
-# ---------------------------------------------------------------------------
-# Metadata and contribute page
-# ---------------------------------------------------------------------------
-
 def generate_fetched_metadata(catalog: list, output_dir: str):
+    """Generate fetched_metadata.json for backward compatibility with MkDocs frontend."""
     site_url = os.environ.get('SITE_URL', 'https://catalog.k0rdent.io')
     base_url = f"{site_url.rstrip('/')}/{VERSION}"
     items = []
     for app in catalog:
         support = app.get('support', 'community')
-        support_type = 'Enterprise' if support in ('enterprise', 'partner') else 'Community'
+        if support == 'enterprise':
+            support_type = 'Enterprise'
+        elif support == 'partner':
+            support_type = 'Enterprise'
+        else:
+            support_type = 'Community'
         logo = app.get('logo', '')
         if logo and not logo.startswith('http'):
             logo = f"{base_url}/{logo}"
@@ -434,13 +435,19 @@ def generate_fetched_metadata(catalog: list, output_dir: str):
             'support_type': support_type,
             'appDir': app['name'],
         })
-    write_json(os.path.join(output_dir, 'fetched_metadata.json'), items, indent=2)
+    out_file = os.path.join(output_dir, 'fetched_metadata.json')
+    with open(out_file, 'w', encoding='utf-8') as f:
+        json.dump(items, f, indent=2, ensure_ascii=False)
 
+
+# ---------------------------------------------------------------------------
+# Metadata and contribute page
+# ---------------------------------------------------------------------------
 
 def generate_contribute_html(output_dir: str):
     contribute_md = os.path.join(CATALOG_ROOT, 'tsweb', 'md', 'contribute.md')
     if not os.path.exists(contribute_md):
-        return
+        raise FileNotFoundError(f"Contribute file not found: {contribute_md}")
     with open(contribute_md, 'r', encoding='utf-8') as f:
         content = f.read()
     content = re.sub(r'\{[^}]*target="_blank"[^}]*\}', '', content)
@@ -505,11 +512,10 @@ def _build_solution_configurator(sol_id: str, ex: dict, chart_folder: str) -> li
         for cld_item in provider.get('clds', []):
             file_path = cld_item.get('cld', '')
             full_path = os.path.join(base_dir, file_path)
-            if os.path.exists(full_path):
-                with open(full_path, 'r', encoding='utf-8') as cf:
-                    rendered = jinja2.Template(cf.read()).render(**BASE_METADATA)
-            else:
-                rendered = f"# File not found: {file_path}"
+            if not os.path.exists(full_path):
+                raise FileNotFoundError(f"CLD file not found: {full_path}")
+            with open(full_path, 'r', encoding='utf-8') as cf:
+                rendered = jinja2.Template(cf.read()).render(**BASE_METADATA)
             clds_out.append({
                 'id': cld_item.get('id', ''),
                 'title': cld_item.get('title', ''),
