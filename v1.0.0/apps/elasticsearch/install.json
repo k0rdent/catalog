@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "3.3.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install eck-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=eck-operator:3.3.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   eck-operator-3-3-0              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: elasticsearch\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: eck-operator-3-3-0\n      name: eck-operator\n      namespace: elasticsearch</code></pre>"
+    },
+    {
+      "version": "3.1.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install eck-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=eck-operator:3.1.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   eck-operator-3-1-0              true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: elasticsearch\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: eck-operator-3-1-0\n      name: eck-operator\n      namespace: elasticsearch</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.0.0: <a href=\"https://docs.k0rdent.io/v1.0.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart",
+  "examples": []
+}

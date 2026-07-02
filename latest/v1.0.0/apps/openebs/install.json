@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "4.5.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install openebs oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=openebs:4.5.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   openebs-4-5-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: openebs\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: openebs-4-5-0\n      name: openebs\n      namespace: openebs\n      values: |\n        openebs:\n          engines:\n            local:\n              lvm:\n                enabled: false\n              zfs:\n                enabled: false\n            replicated:\n              mayastor:\n                enabled: false\n          loki:\n            enabled: false\n          alloy:\n            enabled: false\n    \n          localpv-provisioner:\n            hostpathClass:\n              enabled: true\n              isDefaultClass: true</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.0.0: <a href=\"https://docs.k0rdent.io/v1.0.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://openebs.io/docs",
+  "examples": []
+}

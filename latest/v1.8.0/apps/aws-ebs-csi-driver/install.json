@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-bash\"># k0rdent includes the template for Amazon EBS CSI driver out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\"># Built in to k0rdent</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\"># k0rdent will automatically install the Amazon EBS CSI driver when creating cluster on AWS iaas or AWS EKS</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.8.0: <a href=\"https://docs.k0rdent.io/v1.8.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html",
+  "examples": []
+}

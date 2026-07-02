@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-bash\"># k0rdent includes the template for Azure Disk CSI driver out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\"># Built in to k0rdent</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\"># k0rdent will automatically install the Azure Disk CSI driver when creating cluster on Azure iaas or Azure AKS</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.0.0: <a href=\"https://docs.k0rdent.io/v1.0.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi",
+  "examples": []
+}

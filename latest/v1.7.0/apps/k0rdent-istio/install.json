@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.4.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=cert-manager:1.18.2\" \\\n  -n kcm-system\nhelm upgrade --install k0rdent-istio oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=k0rdent-istio:0.4.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   cert-manager-1-18-2             true\n# kcm-system   k0rdent-istio-0-4-0             true</code></pre>",
+      "deployHtml": "<p>Tested <code>ClusterDeployment</code> in AWS:\n<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: k0rdent-istio-demo\n  namespace: kcm-system\n  labels:\n    # Label to automatically enroll this cluster into the Istio mesh\n    k0rdent.mirantis.com/istio-role: member\n    # Optional label to deploy an Istio Gateway in this cluster for inter-cluster communication\n    k0rdent.mirantis.com/istio-gateway: \"true\"\n    # Optional label to assign this cluster to a specific mesh (clusters with the same mesh label value will be in the same mesh)\n    k0rdent.mirantis.com/istio-mesh: demo-mesh\nspec:\n  template: aws-cluster-template\n  credential: aws-credential\n  config:\n    clusterIdentity:\n      name: aws-credential-identity\n      namespace: kcm-system\n    region: us-east-2\n    controlPlaneNumber: 1\n    controlPlane:\n      instanceType: t3.large\n    workersNumber: 3\n    worker:\n      instanceType: t3.medium</code></pre></p>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.7.0: <a href=\"https://docs.k0rdent.io/v1.7.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://github.com/k0rdent/istio/tree/main/docs",
+  "examples": []
+}

@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent includes the template for Azure out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get clustertemplate -n kcm-system\n# NAME                            VALID\n# azure-standalone-cp-1-0-20       true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-azure-clusterdeployment1\n  namespace: kcm-system\n  labels:\n    group: demo\nspec:\n  template: azure-standalone-cp-1-0-20 # name of the clustertemplate\n  credential: azure-cluster-identity-cred\n  config:\n    location: \"AZURE_LOCATION\" # Select your desired Azure Location\n    subscriptionID: SUBSCRIPTION_ID_SUBSCRIPTION_ID # Enter the Subscription ID used earlier\n    controlPlane:\n      vmSize: Standard_A4_v2\n    worker:\n      vmSize: Standard_A4_v2</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.6.0: <a href=\"https://docs.k0rdent.io/v1.6.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.k0rdent.io/v1.6.0/admin/installation/prepare-mgmt-cluster/azure/",
+  "examples": []
+}

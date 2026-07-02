@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.1.11",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install vllm-stack oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=vllm-stack:0.1.11\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   vllm-stack-0-1-11               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: vllm\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: vllm-stack-0-1-11\n      name: vllm-stack\n      namespace: vllm\n      values: |\n        servingEngineSpec:\n          runtimeClassName: \"\"\n          modelSpec:\n          - name: \"opt125m\"\n            repository: \"vllm/vllm-openai\"\n            tag: \"latest\"\n            modelURL: \"facebook/opt-125m\"\n            replicaCount: 1\n            requestCPU: 6\n            requestMemory: \"16Gi\"\n            requestGPU: 1</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.2.0: <a href=\"https://docs.k0rdent.io/v0.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.vllm.ai/projects/production-stack/en/latest/",
+  "examples": []
+}

@@ -1,0 +1,37 @@
+{
+  "versions": [
+    {
+      "version": "1.20.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=cert-manager:1.20.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   cert-manager-1-20-2             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: cert-manager\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: cert-manager-1-20-2\n      name: cert-manager\n      namespace: cert-manager\n      values: |\n        cert-manager:\n          crds:\n            enabled: false  # default</code></pre>"
+    },
+    {
+      "version": "1.19.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=cert-manager:1.19.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   cert-manager-1-19-3             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: cert-manager\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: cert-manager-1-19-3\n      name: cert-manager\n      namespace: cert-manager\n      values: |\n        cert-manager:\n          crds:\n            enabled: false  # default</code></pre>"
+    },
+    {
+      "version": "1.18.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=cert-manager:1.18.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   cert-manager-1-18-2             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: cert-manager\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: cert-manager-1-18-2\n      name: cert-manager\n      namespace: cert-manager\n      values: |\n        cert-manager:\n          crds:\n            enabled: false  # default</code></pre>"
+    },
+    {
+      "version": "1.17.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=cert-manager:1.17.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   cert-manager-1-17-2             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: cert-manager\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: cert-manager-1-17-2\n      name: cert-manager\n      namespace: cert-manager\n      values: |\n        cert-manager:\n          crds:\n            enabled: false  # default</code></pre>"
+    },
+    {
+      "version": "1.16.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install cert-manager oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=cert-manager:1.16.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   cert-manager-1-16-2             true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: cert-manager\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: cert-manager-1-16-2\n      name: cert-manager\n      namespace: cert-manager\n      values: |\n        cert-manager:\n          crds:\n            enabled: false  # default</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.3.0: <a href=\"https://docs.k0rdent.io/v0.3.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://cert-manager.io/docs/installation/helm/",
+  "examples": []
+}

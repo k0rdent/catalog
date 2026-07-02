@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "",
+      "verifyHtml": "",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-azure-clusterdeployment1\n  namespace: kcm-system\n  labels:\n    group: demo\nspec:\n  template: azure-standalone-cp-0-1-0\n  credential: azure-credential\n  config:\n    controlPlaneNumber: 1\n    workersNumber: 1\n    location: \"eastus\"\n    subscriptionID: AZURE_SUB_ID\n    controlPlane:\n      vmSize: Standard_D2ps_v5\n      image:\n        marketplace:\n          publisher: \"Canonical\"\n          offer: \"0001-com-ubuntu-server-jammy\"\n          sku: \"22_04-lts-arm64\"\n          version: \"22.04.202505160\"\n    worker:\n      vmSize: Standard_D2ps_v5\n      image:\n        marketplace:\n          publisher: \"Canonical\"\n          offer: \"0001-com-ubuntu-server-jammy\"\n          sku: \"22_04-lts-arm64\"\n          version: \"22.04.202505160\"</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://amperecomputing.com/company/contact-sales",
+  "examples": []
+}
