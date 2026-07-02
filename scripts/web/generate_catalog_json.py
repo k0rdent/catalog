@@ -780,15 +780,23 @@ def extract_solutions(output_dir: str) -> list:
 def _summarize_scan_results(results: list) -> dict:
     """Summarize trivy scan results into compact image-level data."""
     images = {}
+    pkg_sets = {}  # track unique packages per image
     for r in results:
         img = r.get('Image', r.get('Target', 'unknown'))
         if img not in images:
-            images[img] = {'image': img, 'critical': 0, 'high': 0, 'medium': 0, 'low': 0, 'total': 0}
+            images[img] = {'image': img, 'critical': 0, 'high': 0, 'medium': 0, 'low': 0, 'unknown': 0, 'total': 0}
+            pkg_sets[img] = set()
         for v in r.get('Vulnerabilities') or []:
             sev = v.get('Severity', 'UNKNOWN').lower()
             if sev in images[img]:
                 images[img][sev] += 1
             images[img]['total'] += 1
+        for p in r.get('Packages') or []:
+            pkg_name = p.get('Name', '')
+            if pkg_name and '..' not in pkg_name:
+                pkg_sets[img].add((pkg_name, p.get('Version', '')))
+    for img, pkgs in pkg_sets.items():
+        images[img]['packages'] = len(pkgs)
     img_list = list(images.values())
     return {
         'images': img_list,
