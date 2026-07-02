@@ -128,38 +128,6 @@ def extract_color_from_svg(filepath: str) -> str | None:
     return max(counts, key=counts.get) if counts else None
 
 
-def extract_color_from_png(filepath: str) -> str | None:
-    try:
-        from PIL import Image
-    except ImportError:
-        return None
-    try:
-        img = Image.open(filepath).convert('RGBA')
-        img = img.resize((32, 32), Image.LANCZOS)
-        hex_colors = []
-        for pixel in img.getdata():
-            r, g, b, a = pixel
-            if a < 128:
-                continue
-            qr, qg, qb = (r // 16) * 16, (g // 16) * 16, (b // 16) * 16
-            hex_colors.append(f"#{qr:02x}{qg:02x}{qb:02x}")
-        counts = _count_colors(hex_colors)
-        return max(counts, key=counts.get) if counts else None
-    except Exception:
-        return None
-
-
-def extract_brand_color(app_name: str, logo_path: str) -> str | None:
-    filepath = os.path.join(APPS_DIR, app_name, logo_path.lstrip('./'))
-    if not os.path.exists(filepath):
-        return None
-    if filepath.lower().endswith('.svg'):
-        return extract_color_from_svg(filepath)
-    if filepath.lower().endswith('.png'):
-        return extract_color_from_png(filepath)
-    return None
-
-
 def copy_local_logo(app_name: str, logo_path: str) -> str:
     rel_path = logo_path.lstrip('./')
     src = os.path.join(APPS_DIR, app_name, rel_path)
@@ -178,8 +146,6 @@ def resolve_logo(app_name: str, data: dict) -> tuple[str, str | None]:
     logo_raw = data.get('logo', '')
     brand_color = data.get('brand_color', None)
     if logo_raw.startswith('./') or (logo_raw and not logo_raw.startswith('http')):
-        if not brand_color:
-            brand_color = extract_brand_color(app_name, logo_raw)
         return copy_local_logo(app_name, logo_raw), brand_color
     return logo_raw, brand_color
 
