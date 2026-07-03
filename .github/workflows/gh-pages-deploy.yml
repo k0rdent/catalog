@@ -24,7 +24,9 @@ on:
       - .github/workflows/gh-pages-deploy.yml
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -79,14 +81,12 @@ jobs:
         if: github.repository == 'k0rdent/catalog'
         run: echo "catalog.k0rdent.io" > tsweb/deploy/CNAME
 
-      - name: Deploy to gh-pages (push only)
+      - name: Upload Pages artifact
         if: github.event_name == 'push'
-        uses: peaceiris/actions-gh-pages@v4
+        uses: actions/upload-pages-artifact@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: tsweb/deploy
-          publish_branch: gh-pages
-          force_orphan: true
-          user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_message: "Deploy catalog from ${{ github.sha }}"
+          path: tsweb/deploy
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        uses: actions/deploy-pages@v5
