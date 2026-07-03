@@ -10,3 +10,5 @@ charts:
     appVersion: 1.17.1
   - version: 12.0.3
     appVersion: 1.18.1
+  - version: 12.1.0
+    appVersion: 1.18.1
