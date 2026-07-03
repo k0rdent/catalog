@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "2.4.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install kubeflow-spark-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kubeflow-spark-operator:2.4.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kubeflow-spark-operator-2-4-0   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: kubeflow-spark-operator\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kubeflow-spark-operator-2-4-0\n      name: kubeflow-spark-operator\n      namespace: kubeflow-spark-operator\n      values: |\n        spark-operator:\n          controller:\n            uiIngress:\n              enable: true</code></pre>"
+    },
+    {
+      "version": "2.3.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install kubeflow-spark-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kubeflow-spark-operator:2.3.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kubeflow-spark-operator-2-3-0   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: kubeflow-spark-operator\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kubeflow-spark-operator-2-3-0\n      name: kubeflow-spark-operator\n      namespace: kubeflow-spark-operator\n      values: |\n        spark-operator:\n          controller:\n            uiIngress:\n              enable: true</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://github.com/kubeflow/spark-operator",
+  "examples": []
+}

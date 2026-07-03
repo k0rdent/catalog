@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.1.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install grafana-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=grafana-operator:v5.20.0\" \\\n  -n kcm-system\nhelm upgrade --install finops-agent-kof oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=finops-agent-kof:0.1.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   grafana-operator-v5-20-0        true\n# kcm-system   finops-agent-kof-0-1-3          true</code></pre>",
+      "deployHtml": "<p>FinOps Agent assumes that:\n1. the user has kof installed with the k0rdent.\n2. the Grafana instance deployed with kof having Infinity plugin(v3.4.1) installed.\nMultiClusterService to deploy Finops Agent tested with kof v1.3.0:\n<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: finops-agent\nspec:\n  clusterSelector:\n    matchLabels:\n      k0rdent.mirantis.com/management-cluster: \"true\"\n      sveltos-agent: present\n  serviceSpec:\n    services:\n    - template: finops-agent-kof-0-1-3\n      name: finops-agent-kof\n      namespace: finops</code></pre>\nVerify the services are deployed:\n- Verify the FinOps Agent is deployed\n  ``<code>bash\n  kubectl get pod -n finops\n  </code>`<code>\n- Verify that the Grafana resources are available\n  </code>`<code>bash\n  kubectl get grafanadashboard -n kof\n  kubectl get grafanadatasource -n finops\n  </code>``</p>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.2.0: <a href=\"https://docs.k0rdent.io/v1.2.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://github.com/Mirantis/finops-agent/blob/main/README.md",
+  "examples": []
+}

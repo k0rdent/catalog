@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "3.3.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install opensearch oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=opensearch:3.3.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   opensearch-3-3-2                true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: opensearch\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: opensearch-3-3-2\n      name: opensearch\n      namespace: opensearch\n      values: |\n        opensearch:\n          persistence:\n            enabled: false\n          extraEnvs:\n            - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD\n              value: xyIah87x!xzQ\n          singleNode: true</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.6.0: <a href=\"https://docs.k0rdent.io/v1.6.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.opensearch.org/latest/",
+  "examples": []
+}

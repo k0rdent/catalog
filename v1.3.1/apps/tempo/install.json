@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "1.24.4",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install tempo oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=tempo:1.24.4\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   tempo-1-24-4                    true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: tempo\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: tempo-1-24-4\n      name: tempo\n      namespace: tempo</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.3.1: <a href=\"https://docs.k0rdent.io/v1.3.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://grafana.com/docs/tempo/latest/",
+  "examples": []
+}

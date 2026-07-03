@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-bash\"># Configured by default in k0rdent managed clusters (AWS, AZURE, OpenStack, vSphere)</code></pre>",
+      "verifyHtml": "<p>Here is how to check CNI configuration in managed AWS cluster:\n<pre><code class=\"language-bash\">kubectl get awscluster -A -n kcm-system -o yaml | grep cni -A 3</code></pre>\nExpected output:\n<pre><code class=\"language-\">cni:\n    cniIngressRules:\n    - description: bgp (calico)\n      fromPort: 179\n      protocol: tcp</code></pre></p>",
+      "deployHtml": ""
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.3.0: <a href=\"https://docs.k0rdent.io/v0.3.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.tigera.io/calico",
+  "examples": []
+}

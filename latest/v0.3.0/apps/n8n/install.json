@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "1.0.15",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install n8n oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=n8n:1.0.15\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   n8n-1-0-15                      true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: n8n\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: n8n-1-0-15\n      name: n8n\n      namespace: n8n\n      values: |-\n        n8n:\n          main:\n            config:\n              n8n:\n                hide_usage_page: true\n            secret:\n              n8n:\n                encryption_key: \"&lt;your-secure-encryption-key&gt;\"\n            resources:\n              limits:\n                memory: 2048Mi\n              requests:\n                memory: 512Mi\n            service:\n              type: NodePort\n              port: 5678</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.3.0: <a href=\"https://docs.k0rdent.io/v0.3.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.n8n.io/",
+  "examples": []
+}

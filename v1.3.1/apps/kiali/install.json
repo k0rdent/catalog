@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "2.21.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install kiali-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kiali-operator:2.21.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kiali-operator-2-21-0           true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: kiali\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kiali-operator-2-21-0\n      name: kiali-operator\n      namespace: kiali</code></pre>"
+    },
+    {
+      "version": "2.19.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install kiali-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kiali-operator:2.19.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kiali-operator-2-19-0           true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: kiali\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kiali-operator-2-19-0\n      name: kiali-operator\n      namespace: kiali</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.3.1: <a href=\"https://docs.k0rdent.io/v1.3.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://kiali.io/docs/installation/installation-guide/install-with-helm/",
+  "examples": []
+}

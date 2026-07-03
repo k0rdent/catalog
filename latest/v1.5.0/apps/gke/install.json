@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent v1.5.0 includes the template for Google Kubernetes Engine out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get clustertemplate -n kcm-system\n# NAME                VALID\n# gcp-gke-1-0-6       true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-gcp-clusterdeployment1\n  namespace: kcm-system\n  labels:\n    group: demo\nspec:\n  template: gcp-gke-1-0-6\n  credential: gcp-credential\n  propagateCredentials: false\n  config:\n    version: '1.32.9-gke.1330000'\n    # workersNumber should be divisible by the number of zones in machines.nodeLocations.\n    # If nodeLocations is not specified, must be divisible by the number of zones in this region (default: 3)\n    workersNumber: 3\n    clusterAnnotations: {}\n    project: PROJECT_NAME # Your project name\n    region: us-east4 # Select your desired GCP region (find it via <code>gcloud compute regions list</code>)\n    network:\n      name: default # Select your desired network name (select new network name to create or find it via <code>gcloud compute networks list --format=\"value(name)\"</code>)</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.k0rdent.io/v1.5.0/reference/template/template-gcp/#gke-managed-machines-parameters",
+  "examples": []
+}

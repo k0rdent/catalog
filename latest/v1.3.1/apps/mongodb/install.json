@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "0.13.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install mongodb-community-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=mongodb-community-operator:0.13.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   mongodb-community-operator-0-13-0true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mongodb\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: mongodb-community-operator-0-13-0\n      name: mongodb-community-operator\n      namespace: mongodb</code></pre>"
+    },
+    {
+      "version": "0.12.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install mongodb-community-operator oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=mongodb-community-operator:0.12.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   mongodb-community-operator-0-12-0true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: mongodb\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: mongodb-community-operator-0-12-0\n      name: mongodb-community-operator\n      namespace: mongodb</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.3.1: <a href=\"https://docs.k0rdent.io/v1.3.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://www.mongodb.com/docs/",
+  "examples": []
+}

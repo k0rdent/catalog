@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "3.21.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install gatekeeper oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=gatekeeper:3.21.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   gatekeeper-3-21-1               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: gatekeeper\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: gatekeeper-3-21-1\n      name: gatekeeper\n      namespace: gatekeeper</code></pre>"
+    },
+    {
+      "version": "3.17.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install gatekeeper oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=gatekeeper:3.17.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   gatekeeper-3-17-1               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: gatekeeper\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: gatekeeper-3-17-1\n      name: gatekeeper\n      namespace: gatekeeper</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://open-policy-agent.github.io/gatekeeper/website/docs",
+  "examples": []
+}

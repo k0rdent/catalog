@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent includes the template for Amazon Elastic Kubernetes Service out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get clustertemplate -n kcm-system\n# NAME                            VALID\n# aws-eks-0-1-0                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: aws-eks-example\n  namespace: kcm-system\n  labels:\n    type: aws\n    group: demo\nspec:\n  template: aws-eks-0-1-0\n  credential: aws-credential\n  config:\n    region: eu-central-1\n    controlPlane:\n      instanceType: t3.small\n      rootVolumeSize: 32\n    worker:\n      instanceType: t3.medium\n      rootVolumeSize: 32</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.1.0: <a href=\"https://docs.k0rdent.io/v0.1.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.k0rdent.io/v0.1.0/admin/installation/prepare-mgmt-cluster/aws/",
+  "examples": []
+}

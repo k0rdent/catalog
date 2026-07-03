@@ -1,0 +1,52 @@
+{
+  "versions": [
+    {
+      "version": "14.1.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=open-webui:14.1.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   open-webui-14-1-0               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-14-1-0\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          pipelines:\n            enabled: false\n          persistence:\n            enabled: false</code></pre>"
+    },
+    {
+      "version": "10.2.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=open-webui:10.2.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   open-webui-10-2-1               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-10-2-1\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          pipelines:\n            enabled: false\n          persistence:\n            enabled: false</code></pre>"
+    },
+    {
+      "version": "8.12.3",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=open-webui:8.12.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   open-webui-8-12-3               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-8-12-3\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          pipelines:\n            enabled: false\n          persistence:\n            enabled: false</code></pre>"
+    },
+    {
+      "version": "8.10.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=open-webui:8.10.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   open-webui-8-10-0               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-8-10-0\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          pipelines:\n            enabled: false\n          persistence:\n            enabled: false</code></pre>"
+    },
+    {
+      "version": "6.20.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=open-webui:6.20.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   open-webui-6-20-0               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-6-20-0\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          pipelines:\n            enabled: false\n          persistence:\n            enabled: false</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.1.1: <a href=\"https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.openwebui.com/",
+  "examples": [
+    {
+      "title": "With Ingress",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install traefik oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=traefik:39.0.5\" \\\n  -n kcm-system\nhelm upgrade --install open-webui oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=open-webui:8.12.3\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   traefik-39-0-5                  true\n# kcm-system   open-webui-8-12-3               true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: traefik-39-0-5\n      name: traefik\n      namespace: open-webui\n      values: |\n        traefik:\n          deployment:\n            kind: DaemonSet\n          ports:\n            web:\n              port: 8000\n              hostPort: 80\n            websecure:\n              port: 8443\n              hostPort: 443\n    - template: open-webui-8-12-3\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          ingress:\n            enabled: true\n            host: 'openwebui.example.com'</code></pre>"
+    },
+    {
+      "title": "With GPU",
+      "contentHtml": "<p>This setup requires corresponding cluster setup, see <a href=\"../../../v1.1.1/apps/nvidia/#install\" target=\"_blank\">NVIDIA GPU Operator</a></p>\n<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\nname: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-8-12-3\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          ollama:\n            ollama:\n              gpu:\n                enabled: true\n                type: 'nvidia'\n                number: 1\n              models:\n                pull: [llama3.2:3b]\n                run: [llama3.2:3b]\n          ingress:\n            enabled: true\n            host: 'openwebui.example.com'</code></pre>"
+    },
+    {
+      "title": "Without GPU",
+      "contentHtml": "<p>Tested on worker <code>instanceType: t3.xlarge</code> and <code>rootVolumeSize: 32</code>:\n<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: aws-example\nspec:\n  template: aws-standalone-cp-1-0-10\n  credential: aws-credential\n  config:\n    ...\n    worker:\n      instanceType: t3.xlarge\n      rootVolumeSize: 32\n    workersNumber: 1</code></pre></p>\n<p>Tested service configuration:\n<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: open-webui\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: open-webui-8-12-3\n      name: open-webui\n      namespace: open-webui\n      values: |\n        open-webui:\n          ollama:\n            ollama:\n              models:\n                pull: [smollm:135m]\n                run: [smollm:135m]\n          ingress:\n            enabled: true\n            host: 'openwebui.example.com'</code></pre></p>"
+    }
+  ]
+}

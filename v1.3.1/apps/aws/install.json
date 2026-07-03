@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent includes the template for Amazon IAAS out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get clustertemplate -n kcm-system\n# NAME                            VALID\n# aws-standalone-cp-1-0-12         true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-aws-clusterdeployment1\n  namespace: kcm-system\n  labels:\n    group: demo\nspec:\n  template: aws-standalone-cp-1-0-12\n  credential: aws-cluster-identity-cred\n  config:\n    region: us-east-2\n    controlPlane:\n      instanceType: t3.small\n      rootVolumeSize: 32\n    worker:\n      instanceType: t3.small\n      rootVolumeSize: 32</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.3.1: <a href=\"https://docs.k0rdent.io/v1.3.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.k0rdent.io/v1.3.1/admin/installation/prepare-mgmt-cluster/aws/",
+  "examples": []
+}

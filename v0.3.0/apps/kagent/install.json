@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "0.3.13",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install kagent-crds oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kagent-crds:0.3.13\" \\\n  -n kcm-system\nhelm upgrade --install kagent oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=kagent:0.3.13\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   kagent-crds-0-3-13              true\n# kcm-system   kagent-0-3-13                   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: kagent\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: kagent-crds-0-3-13\n      name: kagent-crds\n      namespace: kagent\n    - template: kagent-0-3-13\n      name: kagent\n      namespace: kagent\n      dependsOn:\n      - name: kagent-crds\n        namespace: kagent</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v0.3.0: <a href=\"https://docs.k0rdent.io/v0.3.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://kagent.dev",
+  "examples": []
+}

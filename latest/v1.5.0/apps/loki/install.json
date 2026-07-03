@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "6.53.0",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install loki oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=loki:6.53.0\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   loki-6-53-0                     true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: loki\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: loki-6-53-0\n      name: loki\n      namespace: loki\n      values: |\n        loki:\n          deploymentMode: SingleBinary\n          loki:\n            auth_enabled: false\n            commonConfig:\n              replication_factor: 1\n            storage:\n              type: filesystem\n            schemaConfig:\n              configs:\n                - from: 2024-01-01\n                  store: tsdb\n                  object_store: filesystem\n                  schema: v13\n                  index:\n                    prefix: index_\n                    period: 24h\n            storage_config:\n              filesystem:\n                directory: /var/loki/chunks\n            compactor:\n              working_directory: /var/loki/compactor\n            limits_config:\n              allow_structured_metadata: true\n              volume_enabled: true\n          singleBinary:\n            replicas: 1\n          read:\n            replicas: 0\n          write:\n            replicas: 0\n          backend:\n            replicas: 0\n          persistence:\n            enabled: true\n            size: 3Gi</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.5.0: <a href=\"https://docs.k0rdent.io/v1.5.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/",
+  "examples": []
+}

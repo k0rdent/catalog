@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent includes the template for vSphere out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-yaml\">kubectl get clustertemplate -n kcm-system\n# NAME                            VALID\n# vsphere-hosted-cp-1-0-8         true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-vsphere-clusterdeployment1\n  namespace: kcm-system\n  labels:\n    group: demo\nspec:\n  template: vsphere-hosted-cp-1-0-8\n  credential: vsphere-credential\n  config:\n    vsphere:\n      server: vcenter.example.com\n      thumbprint: \"00:00:00\"\n      datacenter: \"DC\"\n      datastore: \"/DC/datastore/DC\"\n      resourcePool: \"/DC/host/vCluster/Resources/ResPool\"\n      folder: \"/DC/vm/example\"\n    controlPlaneEndpointIP: \"&lt;VSPHERE_SERVER&gt;\"\n    ssh:\n      user: ubuntu\n      publicKey: |\n        ssh-rsa AAA...\n    rootVolumeSize: 50\n    cpus: 2\n    memory: 4096\n    vmTemplate: \"/DC/vm/template\"\n    network: \"/DC/network/Net\"\n    k0smotron:\n      service:\n        annotations:\n          kube-vip.io/loadbalancerIPs: \"&lt;VSPHERE_LOADBALANCER_IP&gt;\"</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.1.1: <a href=\"https://docs.k0rdent.io/v1.1.1/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.k0rdent.io/v1.1.1/admin/installation/prepare-mgmt-cluster/vmware/",
+  "examples": []
+}

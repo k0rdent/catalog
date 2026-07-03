@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "version": "3.170.1",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install datadog oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=datadog:3.170.1\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   datadog-3-170-1                 true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: datadog\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: datadog-3-170-1\n      name: datadog\n      namespace: datadog\n      values: |\n        datadog:\n          datadog:\n            apiKey: my-datadog-api-key\n            clusterName: my.datadog.cluster\n            site: datadoghq.com</code></pre>"
+    },
+    {
+      "version": "3.149.2",
+      "installHtml": "<pre><code class=\"language-bash\">helm upgrade --install datadog oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=datadog:3.149.2\" \\\n  -n kcm-system</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   datadog-3-149-2                 true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: datadog\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n    - template: datadog-3-149-2\n      name: datadog\n      namespace: datadog\n      values: |\n        datadog:\n          datadog:\n            apiKey: my-datadog-api-key\n            clusterName: my.datadog.cluster\n            site: datadoghq.com</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.0.0: <a href=\"https://docs.k0rdent.io/v1.0.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.datadoghq.com/containers/kubernetes/",
+  "examples": []
+}

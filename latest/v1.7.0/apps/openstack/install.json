@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "",
+      "installHtml": "<pre><code class=\"language-yaml\"># k0rdent includes the template for OpenStack out of the box</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-yaml\">kubectl get clustertemplate -n kcm-system\n# NAME                            VALID\n# openstack-standalone-cp-1-0-22   true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: ClusterDeployment\nmetadata:\n  name: my-openstack-cluster-deployment\n  namespace: kcm-system\n  labels:\n    group: demo\nspec:\n  template: openstack-standalone-cp-1-0-22\n  credential: openstack-cluster-identity-cred\n  config:\n    controlPlaneNumber: 1\n    workersNumber: 1\n    controlPlane:\n      sshPublicKey: my-public-key\n      flavor: m1.medium\n      image:\n        filter:\n          name: ubuntu-22.04-x86_64\n    worker:\n      sshPublicKey: my-public-key\n      flavor: m1.medium\n      image:\n        filter:\n          name: ubuntu-22.04-x86_64\n    authURL: https://my-keystone-openstack-url.com\n    identityRef:\n      name: openstack-cloud-config\n      cloudName: openstack\n      region: RegionOne</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "Deploy k0rdent v1.7.0: <a href=\"https://docs.k0rdent.io/v1.7.0/admin/installation/install-k0rdent/\" target=\"_blank\">QuickStart</a>",
+  "docLink": "https://docs.k0rdent.io/v1.7.0/admin/installation/prepare-mgmt-cluster/openstack/",
+  "examples": []
+}

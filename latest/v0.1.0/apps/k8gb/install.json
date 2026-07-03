@@ -1,0 +1,18 @@
+{
+  "versions": [
+    {
+      "version": "v0.19.0",
+      "installHtml": "<pre><code class=\"language-bash\"># Publish the k8gb service template inside the k0rdent control plane.\nhelm upgrade --install k8gb oci://ghcr.io/k0rdent/catalog/charts/kgst \\\n  --set \"chart=k8gb:v0.19.0\" \\\n  -n kcm-system\n\n# Create DNS provider credentials in each target cluster when ExternalDNS is enabled.\nkubectl create namespace k8gb --dry-run=client -o yaml | kubectl apply -f -\nkubectl -n k8gb create secret generic dns-credentials \\\n  --from-literal=CF_API_TOKEN=\"${CF_API_TOKEN}\"</code></pre>",
+      "verifyHtml": "<pre><code class=\"language-bash\">kubectl get servicetemplates -A\n# NAMESPACE    NAME                            VALID\n# kcm-system   k8gb-v0-19-0                    true</code></pre>",
+      "deployHtml": "<pre><code class=\"language-yaml\">apiVersion: k0rdent.mirantis.com/v1beta1\nkind: MultiClusterService\nmetadata:\n  name: k8gb\nspec:\n  clusterSelector:\n    matchLabels:\n      group: demo\n  serviceSpec:\n    services:\n      - template: k8gb-v0-19-0\n        name: k8gb\n        namespace: k8gb\n        values: |\n          k8gb:\n            k8gb:\n              dnsZones:\n                - parentZone: example.com\n                  loadBalancedZone: cloud.example.com\n                  dnsZoneNegTTL: 30\n              edgeDNSServers:\n                - 1.1.1.1\n              clusterGeoTag: us-east-1\n              extGslbClustersGeoTags: eu-west-1\n              reconcileRequeueSeconds: 30\n            extdns:\n              enabled: true\n              provider:\n                name: cloudflare\n              domainFilters:\n                - example.com\n              txtPrefix: k8gb-us-east-1-\n              txtOwnerId: k8gb-cloud-example-us-east-1\n              env:\n                - name: CF_API_TOKEN\n                  valueFrom:\n                    secretKeyRef:\n                      name: dns-credentials\n                      key: CF_API_TOKEN</code></pre>"
+    }
+  ],
+  "prerequisitesHtml": "<ul><li>A delegated DNS zone for k8gb to manage.</li><li>Network access from each target cluster to the parent DNS resolver.</li><li>DNS provider credentials when enabling the bundled ExternalDNS integration.</li></ul>",
+  "docLink": "https://www.k8gb.io/latest/",
+  "examples": [
+    {
+      "title": "Route53-backed multi-region failover",
+      "contentHtml": "<p>1. Bootstrap two clusters (e.g. EKS in <code>eu-west-1</code> and <code>us-east-1</code>) and federate them with k0rdent.\n2. Reuse the sample values from <code>docs/examples/route53/k8gb/</code> to set <code>dnsZones</code>,\n   <code>edgeDNSServers</code>, and IRSA annotations for ExternalDNS.\n3. Apply the Route53 example Gslb (<code>docs/examples/route53/k8gb/gslb-failover.yaml</code>) to each cluster\n   and watch <code>kubectl -n test-gslb get gslb</code> report which region is active.\n4. Scale the frontend deployment in the primary region to zero and verify traffic fails over by\n   curling the delegated FQDN (see <code>docs/deploy_route53.md</code> for command snippets).</p>"
+    }
+  ]
+}
