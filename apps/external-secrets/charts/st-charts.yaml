@@ -27,3 +27,7 @@ st-charts:
   dep_name: external-secrets
   version: 2.6.0
   repository: https://charts.external-secrets.io
+- name: external-secrets
+  dep_name: external-secrets
+  version: 2.7.0
+  repository: https://charts.external-secrets.io
