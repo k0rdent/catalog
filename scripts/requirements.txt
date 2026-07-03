@@ -4,5 +4,4 @@ MarkupSafe==3.0.2
 PyYAML==6.0.2
 jsonschema==4.24.0
 packaging==25.0
-ruff==0.15.1
 ruyaml==0.91.0
