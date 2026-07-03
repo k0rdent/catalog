@@ -17,5 +17,5 @@ st-charts:
   repository: https://charts.jetstack.io
 - name: cert-manager
   dep_name: cert-manager
-  version: 1.20.2
+  version: 1.20.3
   repository: https://charts.jetstack.io
