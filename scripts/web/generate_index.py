@@ -16,7 +16,7 @@ import json
 import os
 import sys
 import yaml
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -274,7 +274,7 @@ def build_version(version: str, output_dir: str):
 
     index = {
         "metadata": {
-            "generated": datetime.utcnow().isoformat(),
+            "generated": datetime.now(timezone.utc).isoformat(),
             "version": version.replace('v', '')
         },
         "addons": sorted(addons, key=lambda x: x["name"])
