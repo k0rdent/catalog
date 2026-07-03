@@ -12,8 +12,10 @@ Produces:
     tsweb/deploy/ - complete deployment directory
 """
 
+import json
 import os
 import shutil
+import subprocess
 import yaml
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -108,6 +110,13 @@ def assemble_latest_data(cfg: dict):
         shutil.copytree(logos_src, os.path.join(latest_deploy, 'logos'), dirs_exist_ok=True)
 
 
+def add_git_sha():
+    """Write current git commit SHA to deploy directory."""
+    sha = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, check=True).stdout.strip()
+    with open(os.path.join(DEPLOY_DIR, 'sha.json'), 'w') as f:
+        json.dump({'sha': sha[:8]}, f)
+
+
 def main():
     os.chdir(ROOT_DIR)
 
@@ -122,6 +131,7 @@ def main():
     assemble_latest()
     assemble_versions(cfg)
     assemble_latest_data(cfg)
+    add_git_sha()
 
     print(f"  Assembled {len(cfg['versions'])} versions, latest={cfg['latest']}")
     print("==> Deploy folder assembled.")
