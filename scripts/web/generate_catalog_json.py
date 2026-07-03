@@ -58,20 +58,32 @@ def get_support_tier(data: dict) -> str:
     return 'community'
 
 
+_app_template_cache = {}  # app_name -> jinja2.Template
+_yaml_cache = {}  # path -> dict
+
+
 def read_app_data(app_name: str) -> dict | None:
     """Read and render an app's data.yaml, returning None if missing."""
-    data_file = os.path.join(APPS_DIR, app_name, 'data.yaml')
-    if not os.path.exists(data_file):
+    if app_name not in _app_template_cache:
+        data_file = os.path.join(APPS_DIR, app_name, 'data.yaml')
+        if not os.path.exists(data_file):
+            _app_template_cache[app_name] = None
+            return None
+        with open(data_file, 'r', encoding='utf-8') as f:
+            _app_template_cache[app_name] = jinja2.Template(f.read())
+    tpl = _app_template_cache[app_name]
+    if tpl is None:
         return None
-    with open(data_file, 'r', encoding='utf-8') as f:
-        rendered = jinja2.Template(f.read()).render(**BASE_METADATA)
-    return yaml.safe_load(rendered)
+    return yaml.safe_load(tpl.render(**BASE_METADATA))
 
 
 def read_yaml(path: str) -> dict | None:
-    if not os.path.exists(path):
-        return None
-    return utils.read_yaml_file(path)
+    if path not in _yaml_cache:
+        if not os.path.exists(path):
+            _yaml_cache[path] = None
+        else:
+            _yaml_cache[path] = utils.read_yaml_file(path)
+    return _yaml_cache[path]
 
 
 def write_json(path: str, data, indent: int = None):
