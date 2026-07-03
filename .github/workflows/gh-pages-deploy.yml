@@ -65,7 +65,7 @@ jobs:
       - name: Generate catalog data for all versions
         env:
           SITE_URL: ${{ steps.base.outputs.site_url }}
-        run: bash scripts/web/build-catalog-data.sh
+        run: python3 scripts/web/build_catalog_data.py
 
       - name: Build SPA
         env:
@@ -73,7 +73,7 @@ jobs:
         run: bash scripts/web/build-spa.sh
 
       - name: Assemble deploy folder
-        run: bash scripts/web/assemble-deploy.sh
+        run: python3 scripts/web/assemble_deploy.py
 
       - name: Add CNAME for custom domain (main repo only)
         if: github.repository == 'k0rdent/catalog'

@@ -15,14 +15,14 @@ RUN pip3 install --break-system-packages -r scripts/requirements.txt
 COPY . .
 
 # Generate catalog data for all versions
-RUN bash scripts/web/build-catalog-data.sh
+RUN python3 scripts/web/build_catalog_data.py
 
 # Build the React SPA
 ENV BASE_PATH=/latest/
 RUN bash scripts/web/build-spa.sh
 
 # Assemble the deploy directory
-RUN bash scripts/web/assemble-deploy.sh
+RUN python3 scripts/web/assemble_deploy.py
 
 # Stage 2: Serve
 FROM nginx:alpine
