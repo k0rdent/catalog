@@ -67,7 +67,6 @@ def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
 def chart_2_mcs_str(chart_dict: dict, chart_folder: str, app_name: str, app_metadata: dict):
     template = Template(mcs_tpl)
     chart_values_data = get_chart_values_data(chart_folder)
-    print(f"Chart folder: {chart_folder}")
     namespace = app_metadata.get('test_namespace', app_name)
     mcs_services = get_mcs_services(namespace, chart_dict, chart_values_data)
     data = {"app": app_name, "services": mcs_services}

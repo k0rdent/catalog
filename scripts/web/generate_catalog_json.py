@@ -641,6 +641,7 @@ def build_version(version: str, output_dir: str):
     OUTPUT_DIR = output_dir
     OUTPUT_FILE = os.path.join(output_dir, 'catalog.json')
     os.makedirs(output_dir, exist_ok=True)
+    print(f"  {version}: building...")
 
     catalog, infra, install_count = [], [], 0
     for app_name in sorted(os.listdir(APPS_DIR)):
@@ -669,7 +670,7 @@ def build_version(version: str, output_dir: str):
 
     generate_fetched_metadata(catalog, output_dir)
     generate_contribute_html(output_dir)
-    print(f"  {version}: {len(catalog)} apps, {len(infra)} infra, {len(solutions)} solutions, {install_count} install.json files")
+    print(f"  {version}: {len(catalog)} apps, {len(infra)} infra, {len(solutions)} solutions")
 
 
 def _copy_latest_to_root(base_output: str, latest: str):
