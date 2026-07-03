@@ -1,35 +1,68 @@
 #!/usr/bin/env python3
+"""Generate index.json with catalog schema and metadata.
 
+Usage:
+    python3 scripts/web/generate_index.py                  # single version from VERSION env
+    python3 scripts/web/generate_index.py --all-versions   # all versions from versions.yaml
+
+Environment variables:
+    VERSION    - catalog version (default: v1.5.0)
+    SITE_URL   - site URL for absolute links (default: https://catalog.k0rdent.io)
+    OUTPUT_DIR - output directory (default: tsweb/public)
+"""
+
+import copy
 import json
+import os
+import sys
 import yaml
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
-import logging
+
 import jsonschema
-import os
 from packaging.version import Version
-import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import utils
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-# Constants
 CATALOG_ROOT = Path(__file__).parent.parent.parent
 APPS_DIR = CATALOG_ROOT / "apps"
-SCHEMA_FILE = CATALOG_ROOT / "tsweb" / "md" / "schema" / "index.json"
-INDEX_FILE = CATALOG_ROOT / "tsweb" / "md" / "index.json"
-VERSION = os.getenv("VERSION", "v1.5.0")
+VERSIONS_FILE = CATALOG_ROOT / "versions.yaml"
 SITE_URL = os.getenv("SITE_URL", "https://catalog.k0rdent.io")
-BASE_URL = f"{SITE_URL.rstrip('/')}/{VERSION}"
+
 DEFAULT_CHART_REPOS = {
     "community": "oci://ghcr.io/k0rdent/catalog/charts",
     "enterprise": "oci://registry.mirantis.com/k0rdent-enterprise-catalog",
     "partner": "oci://ghcr.io/k0rdent/catalog/charts",
 }
+
+# Cache: app_name -> raw yaml dict (before charts enrichment)
+_data_cache = {}
+# Cache: app_name -> charts data from utils.try_add_charts_data
+_charts_cache = {}
+
+
+def _load_app_data(app_name: str) -> Optional[dict]:
+    """Load and cache app data.yaml with charts enrichment."""
+    if app_name not in _data_cache:
+        data_yaml = APPS_DIR / app_name / "data.yaml"
+        if not data_yaml.exists():
+            _data_cache[app_name] = None
+            return None
+        with open(data_yaml, 'r', encoding='utf-8') as f:
+            _data_cache[app_name] = yaml.safe_load(f)
+    data = _data_cache[app_name]
+    if data is None:
+        return None
+    # Deep copy so mutations don't affect cache
+    data = copy.deepcopy(data)
+    if app_name not in _charts_cache:
+        utils.try_add_charts_data(app_name, data)
+        _charts_cache[app_name] = data.get('charts', [])
+    else:
+        data['charts'] = _charts_cache[app_name]
+    return data
 
 
 def addons_items(version: str):
@@ -57,14 +90,12 @@ def addons_items(version: str):
         required_names.append("latestVersion")
         props["latestVersion"] = {
             "type": "string",
-            "description": "DEPRECATED, use 'charts' field - Latest version of the add-on (e.g. '27.5.1')",
+            "description": "DEPRECATED, use 'charts' field - Latest version of the add-on",
         }
         required_names.append("versions")
         props["versions"] = {
             "type": "array",
-            "items": {
-                "type": "string",
-            },
+            "items": {"type": "string"},
             "description": "DEPRECATED, use 'charts' field - List of available versions",
             "minItems": 1
         }
@@ -72,7 +103,7 @@ def addons_items(version: str):
         props["chartUrl"] = {
             "type": "string",
             "format": "uri",
-            "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart's st-charts.yaml or tarball"
+            "description": "DEPRECATED, adopt kgst approach - Absolute URL to the chart"
         }
     required_names.append("docsUrl")
     props["docsUrl"] = {
@@ -95,32 +126,22 @@ def addons_items(version: str):
     chart_props = dict()
     chart_required_props = []
     chart_required_props.append("name")
-    chart_props["name"] = {
-        "type": "string",
-        "description": "Chart name"
-    }
+    chart_props["name"] = {"type": "string", "description": "Chart name"}
     chart_required_props.append("versions")
     chart_props["versions"] = {
         "type": "array",
-        "items": {
-            "type": "string"
-        },
+        "items": {"type": "string"},
         "description": "List of chart versions"
     }
     chart_required_props.append("appVersions")
     chart_props["appVersions"] = {
         "type": "array",
-        "items": {
-            "type": "string"
-        },
+        "items": {"type": "string"},
         "description": "List of chart appVersions"
     }
     if Version(version) > Version("v1.0.0"):
         chart_required_props.append("repository")
-        chart_props["repository"] = {
-            "type": "string",
-            "description": "Chart repository"
-        }
+        chart_props["repository"] = {"type": "string", "description": "Chart repository"}
     props["charts"] = {
         "type": "array",
         "items": {
@@ -133,40 +154,15 @@ def addons_items(version: str):
     props["metadata"] = {
         "type": "object",
         "properties": {
-            "owner": {
-                "type": "string",
-                "description": "Team or individual responsible for the add-on"
-            },
-            "lastUpdated": {
-                "type": "string",
-                "format": "date",
-                "description": "Last update date of the add-on"
-            },
-            "dependencies": {
-                "type": "array",
-                "items": {
-                    "type": "string"
-                },
-                "description": "List of add-on dependencies"
-            },
-            "tags": {
-                "type": "array",
-                "items": {
-                    "type": "string"
-                },
-                "description": "Categories and labels for the add-on"
-            },
+            "owner": {"type": "string", "description": "Team or individual responsible"},
+            "lastUpdated": {"type": "string", "format": "date", "description": "Last update date"},
+            "dependencies": {"type": "array", "items": {"type": "string"}, "description": "Dependencies"},
+            "tags": {"type": "array", "items": {"type": "string"}, "description": "Categories and labels"},
             "quality": {
                 "type": "object",
                 "properties": {
-                    "tested": {
-                        "type": "boolean",
-                        "description": "Whether the add-on has been tested"
-                    },
-                    "securityScanned": {
-                        "type": "boolean",
-                        "description": "Whether the add-on has been security scanned"
-                    }
+                    "tested": {"type": "boolean", "description": "Whether tested"},
+                    "securityScanned": {"type": "boolean", "description": "Whether security scanned"}
                 }
             }
         }
@@ -174,9 +170,8 @@ def addons_items(version: str):
     return required_names, props
 
 
-def generate_schema() -> Dict:
-    """Generate the JSON schema for the catalog index."""
-    required_names, props = addons_items(VERSION)
+def generate_schema(version: str) -> Dict:
+    required_names, props = addons_items(version)
     return {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -186,15 +181,8 @@ def generate_schema() -> Dict:
                 "type": "object",
                 "required": ["generated", "version"],
                 "properties": {
-                    "generated": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "When this index was generated"
-                    },
-                    "version": {
-                        "type": "string",
-                        "description": "Version of the index schema"
-                    }
+                    "generated": {"type": "string", "format": "date-time", "description": "When this index was generated"},
+                    "version": {"type": "string", "description": "Version of the index schema"}
                 }
             },
             "addons": {
@@ -208,147 +196,124 @@ def generate_schema() -> Dict:
         }
     }
 
-def get_chart_url(app_name: str, version: str) -> str:
-    """Generate the chart URL for a specific version."""
-    return f"{BASE_URL}/apps/{app_name}/charts/{app_name}-service-template-{version}/st-charts.yaml"
 
-def get_docs_url(app_name: str) -> str:
-    """Generate the documentation URL for an add-on."""
-    return f"{BASE_URL}/apps/{app_name}/"
+def get_tested(data: dict) -> bool:
+    return any(data.get(k) == 'y' for k in
+               ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local'])
 
-def get_support_type(data: dict) -> str:
-    return data.get("support_type", "community").lower()
 
 def get_charts(data: dict, version: str) -> list:
-    charts = data["charts"]
+    """Build charts list with repository info. Returns new list (no mutation)."""
+    charts = copy.deepcopy(data.get('charts', []))
     if Version(version) >= Version("v1.0.0"):
-        support_type = get_support_type(data)
-        default_repo = DEFAULT_CHART_REPOS[support_type]
+        support_type = data.get("support_type", "community").lower()
+        default_repo = DEFAULT_CHART_REPOS.get(support_type, DEFAULT_CHART_REPOS["community"])
         for chart in charts:
             chart["repository"] = chart.get("repository", default_repo)
     return charts
 
-def get_tested(data: dict) -> bool:
-    if data.get("validated_amd64") == 'y':
-        return True
-    if data.get("validated_arm64") == 'y':
-        return True
-    if data.get("validated_aws") == 'y':
-        return True
-    if data.get("validated_azure") == 'y':
-        return True
-    if data.get("validated_local") == 'y':
-        return True
-    return False
 
-def normalize_logo_url(logo: str, app_name: str) -> str:
-    """Convert relative logo paths to absolute URLs."""
-    if logo.startswith(('http://', 'https://')):
-        return logo
-    # Local logos are served from logos/<app>/<filename>
-    filename = os.path.basename(logo.lstrip('./'))
-    return f"{BASE_URL}/logos/{app_name}/{filename}"
-
-def process_addon(app_dir: Path, version: str) -> Optional[Dict]:
-    """Process a single add-on directory and extract its metadata."""
-    app_name = app_dir.name
-    data_yaml = app_dir / "data.yaml"
-    
-    if not data_yaml.exists():
-        print(f"No data.yaml found for {app_name}, skipped.")
+def process_addon(app_name: str, version: str, base_url: str) -> Optional[Dict]:
+    app_dir = APPS_DIR / app_name
+    data = _load_app_data(app_name)
+    if data is None or data.get('type') == 'infra':
         return None
 
-    with open(data_yaml, 'r', encoding='utf-8') as f:
-        data = yaml.safe_load(f)
-
-    if data.get('type') == 'infra':
+    if not data.get('charts'):
         return None
 
-    utils.try_add_charts_data(app_name, data)
-
-    if len(data.get('charts', [])) == 0:
-        print(f"No charts found for {app_name}, skipped.")
-        return None
-
-    # Get available versions
     versions = data['charts'][0]['versions']
     latest_version = versions[0]
 
-    # Extract metadata
-    addon = dict()
-    addon["name"] = app_name
-    addon["description"] = data.get("description", "").split('\n')[0].strip()  # First line only
-    addon["logo"] = normalize_logo_url(data.get("logo", ""), app_name)
+    logo = data.get("logo", "")
+    if logo.startswith(('http://', 'https://')):
+        logo_url = logo
+    else:
+        filename = os.path.basename(logo.lstrip('./'))
+        logo_url = f"{base_url}/logos/{app_name}/{filename}"
+
+    addon = {
+        "name": app_name,
+        "description": data.get("description", "").split('\n')[0].strip(),
+        "logo": logo_url,
+        "docsUrl": f"{base_url}/apps/{app_name}/",
+        "supportType": data.get("support_type", "community").lower(),
+        "deprecated": data.get("deprecated", False),
+        "charts": get_charts(data, version),
+        "metadata": {
+            "owner": data.get("owner", "k0rdent-team"),
+            "lastUpdated": datetime.fromtimestamp(app_dir.stat().st_mtime).strftime('%Y-%m-%d'),
+            "dependencies": data.get("dependencies", []),
+            "tags": data.get("tags", []),
+            "quality": {
+                "tested": get_tested(data),
+                "securityScanned": data.get("security_scanned", False)
+            }
+        }
+    }
+
     if Version(version) <= Version("v1.0.0"):
         addon["latestVersion"] = latest_version
         addon["versions"] = versions
-        addon["chartUrl"] = get_chart_url(app_name, latest_version)
-    addon["docsUrl"] = get_docs_url(app_name)
-    addon["supportType"] = get_support_type(data)
-    addon["deprecated"] = data.get("deprecated", False)
-    addon["charts"] = get_charts(data, version)
-    addon["metadata"] = {
-        "owner": data.get("owner", "k0rdent-team"),
-        "lastUpdated": datetime.fromtimestamp(app_dir.stat().st_mtime).strftime('%Y-%m-%d'),
-        "dependencies": data.get("dependencies", []),
-        "tags": data.get("tags", []),
-        "quality": {
-            "tested": get_tested(data),
-            "securityScanned": data.get("security_scanned", False)
-        }
-    }
+        addon["chartUrl"] = f"{base_url}/apps/{app_name}/charts/{app_name}-service-template-{latest_version}/st-charts.yaml"
+
     return addon
 
-def generate_index(schema: dict) -> None:
-    """Generate the catalog index file."""
+
+def build_version(version: str, output_dir: str):
+    """Build index.json and schema for a single version."""
+    base_url = f"{SITE_URL.rstrip('/')}/{version}"
+
     addons = []
-    
-    # Process each add-on directory
-    for app_dir in APPS_DIR.iterdir():
+    for app_dir in sorted(APPS_DIR.iterdir()):
         if not app_dir.is_dir() or app_dir.name.startswith('.'):
             continue
-
-        logger.info(f"Processing {app_dir.name}")
-        addon = process_addon(app_dir, VERSION)
+        addon = process_addon(app_dir.name, version, base_url)
         if addon:
             addons.append(addon)
 
-    # Create the index
     index = {
         "metadata": {
             "generated": datetime.utcnow().isoformat(),
-            "version": VERSION.replace('v', '') # remove 'v' prefix to keep format
+            "version": version.replace('v', '')
         },
         "addons": sorted(addons, key=lambda x: x["name"])
     }
 
-    # Write the index file
-    with open(INDEX_FILE, 'w', encoding='utf-8') as f:
-        json.dump(index, f, indent=2, ensure_ascii=False)
-    logger.info(f"Index generated successfully at {INDEX_FILE}")
-    validate_index(schema)
+    schema = generate_schema(version)
 
-
-def validate_index(schema: dict) -> bool:
-    """Validate the generated index against the schema."""
-
-    with open(INDEX_FILE, 'r', encoding='utf-8') as f:
-        index = json.load(f)
+    # Validate
     jsonschema.validate(instance=index, schema=schema)
-    logger.info("Index validation successful")
 
+    # Write index
+    index_path = os.path.join(output_dir, 'index.json')
+    os.makedirs(os.path.dirname(index_path), exist_ok=True)
+    with open(index_path, 'w', encoding='utf-8') as f:
+        json.dump(index, f, indent=2, ensure_ascii=False)
 
-def generate_schema_file() -> dict:
-    """Generate the schema file for external use."""
-    schema = generate_schema()
-    
-    # Ensure schema directory exists
-    SCHEMA_FILE.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(SCHEMA_FILE, 'w', encoding='utf-8') as f:
+    # Write schema
+    schema_dir = os.path.join(output_dir, 'schema')
+    os.makedirs(schema_dir, exist_ok=True)
+    with open(os.path.join(schema_dir, 'index.json'), 'w', encoding='utf-8') as f:
         json.dump(schema, f, indent=2, ensure_ascii=False)
-    logger.info(f"Schema generated successfully at {SCHEMA_FILE}")
-    return schema
 
-schema = generate_schema_file()
-generate_index(schema)
+    print(f"  {version}: index.json ({len(addons)} addons)")
+
+
+def main():
+    os.chdir(CATALOG_ROOT)
+
+    if '--all-versions' in sys.argv:
+        output_dir = os.environ.get('OUTPUT_DIR', 'tsweb/public')
+        with open(VERSIONS_FILE) as f:
+            cfg = yaml.safe_load(f)
+        for v in cfg['versions']:
+            build_version(v, os.path.join(output_dir, v))
+    else:
+        version = os.getenv("VERSION", "v1.5.0")
+        output_dir = os.environ.get('OUTPUT_DIR', str(CATALOG_ROOT / "tsweb" / "md"))
+        build_version(version, output_dir)
+
+
+if __name__ == '__main__':
+    main()
