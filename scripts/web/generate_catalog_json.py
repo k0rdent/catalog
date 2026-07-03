@@ -100,7 +100,9 @@ def copy_local_logo(app_name: str, logo_path: str) -> str:
     filename = os.path.basename(rel_path)
     dst_dir = os.path.join(OUTPUT_DIR, 'logos', app_name)
     os.makedirs(dst_dir, exist_ok=True)
-    shutil.copy2(src, os.path.join(dst_dir, filename))
+    dst = os.path.join(dst_dir, filename)
+    if not os.path.exists(dst):
+        shutil.copy2(src, dst)
     return f"logos/{app_name}/{filename}"
 
 
