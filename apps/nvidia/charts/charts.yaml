@@ -6,5 +6,5 @@ charts:
     appVersion: v25.3.0
   - version: v25.10.1
     appVersion: v25.10.1
-  - version: v26.3.2
-    appVersion: v26.3.2
+  - version: v26.3.3
+    appVersion: v26.3.3
