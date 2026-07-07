@@ -36,7 +36,7 @@ def create_spa_stubs(target_dir: str):
         shutil.copy2(index_html, os.path.join(route_dir, 'index.html'))
 
 
-def assemble_latest():
+def add_latest():
     """Copy SPA bundle into /latest/ with 404 fallbacks and route stubs."""
     latest_dir = os.path.join(DEPLOY_DIR, 'latest')
     os.makedirs(latest_dir, exist_ok=True)
@@ -67,7 +67,7 @@ def assemble_latest():
         shutil.copy2(versions_json, os.path.join(latest_dir, 'versions.json'))
 
 
-def assemble_versions(cfg: dict):
+def add_versions(cfg: dict):
     """Copy versioned data and create SPA stubs per version."""
     index_html = os.path.join(DIST_DIR, 'index.html')
     versions_json = os.path.join(PUBLIC_DIR, 'versions.json')
@@ -96,7 +96,7 @@ def assemble_versions(cfg: dict):
             shutil.copy2(versions_json, os.path.join(dst, 'versions.json'))
 
 
-def assemble_latest_data(cfg: dict):
+def add_latest_data(cfg: dict):
     """/latest/ gets the latest version's data and logos."""
     latest = cfg['latest']
     latest_src = os.path.join(PUBLIC_DIR, latest)
@@ -128,9 +128,9 @@ def main():
     with open(VERSIONS_FILE) as f:
         cfg = yaml.safe_load(f)
 
-    assemble_latest()
-    assemble_versions(cfg)
-    assemble_latest_data(cfg)
+    add_latest()
+    add_versions(cfg)
+    add_latest_data(cfg)
     add_git_sha()
 
     print(f"  Assembled {len(cfg['versions'])} versions, latest={cfg['latest']}")
