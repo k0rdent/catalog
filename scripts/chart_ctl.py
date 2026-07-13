@@ -233,7 +233,7 @@ def generate_charts_info(app: str, cfg: dict, rewrite: bool):
         up_to_date_chart = yaml.safe_load(result.stdout)
         name = data['name']
         out_chart = dict(
-            version=up_to_date_chart.get('version', ''),
+            version=str(data['version']),
             appVersion=up_to_date_chart.get('appVersion', '')
         )
         print(out_chart)
