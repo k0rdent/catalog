@@ -409,14 +409,13 @@ function scanVersions(scanData:any) {
   return all;
 }
 
-function ScanVersionPicker({ allVersions, effectiveVer, setSelVer, lastScan }:any) {
+function ScanVersionPicker({ allVersions, effectiveVer, setSelVer }:any) {
   return (
     <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
       <span style={{fontSize:12,color:B.textSec}}>Version:</span>
       <select value={effectiveVer} onChange={function(e:any){setSelVer(e.target.value);}} style={{padding:"5px 9px",border:"1px solid "+B.borderHi,borderRadius:5,background:B.bg3,color:B.textPri,fontSize:12,outline:"none",cursor:"pointer",fontFamily:"monospace"}}>
         {allVersions.map(function(v:string){return <option key={v} value={v}>{v}</option>;})}
       </select>
-      {lastScan && <span style={{fontSize:10,color:B.textMut,marginLeft:"auto"}}>Last scan: {lastScan}</span>}
     </div>
   );
 }
@@ -529,7 +528,7 @@ function ScanImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDeta
 
   return (
     <div>
-      <ScanVersionPicker allVersions={allVersions} effectiveVer={effectiveVer} setSelVer={setSelVer} lastScan={scanData.lastScan}/>
+      <ScanVersionPicker allVersions={allVersions} effectiveVer={effectiveVer} setSelVer={setSelVer} />
       <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Images</div>
@@ -589,7 +588,7 @@ function ScanVulnsTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetai
 
   return (
     <div>
-      <ScanVersionPicker allVersions={allVersions} effectiveVer={effectiveVer} setSelVer={setSelVer} lastScan={scanData.lastScan}/>
+      <ScanVersionPicker allVersions={allVersions} effectiveVer={effectiveVer} setSelVer={setSelVer} />
       <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8,marginBottom:16}}>
         <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}>
           <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>Total vulnerabilities</div>
