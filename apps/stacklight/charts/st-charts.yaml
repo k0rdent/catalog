@@ -3,8 +3,8 @@ st-charts:
 - name: stacklight-operator
   dep_name: stacklight-operator
   version: 0.1.0-mcp-16
-  repository: https://binary.mirantis.com/stacklight/helm/
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: stacklight-operator
   dep_name: stacklight-operator
   version: 1.0.0
-  repository: oci://registry.mirantis.com/stacklight
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
