@@ -91,11 +91,19 @@ def _template_chart(chart_dir: Path) -> str | None:
     return res.stdout
 
 
+def _is_valid_image_ref(ref: str) -> bool:
+    """Check if a string looks like a valid container image reference (not a bare name)."""
+    if "{{" in ref:
+        return False
+    # Must contain at least a slash (registry/repo) or dot (domain)
+    return "/" in ref or "." in ref
+
+
 def _parse_images(rendered_yaml: str) -> list[str]:
     """Extract unique image references from rendered Helm YAML."""
     images = set()
     for match in re.findall(r'image:\s*["\']?([^"\'\s]+)', rendered_yaml):
-        if "{{" not in match:
+        if _is_valid_image_ref(match):
             images.add(match)
     return sorted(images)
 
