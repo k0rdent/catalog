@@ -501,9 +501,14 @@ function ImageVulnsDetail({ imageName, chartName, version, k0rdentVer, appName }
   );
 }
 
+function imgStripSha(full:string) {
+  // "registry.io/app@sha256:abc123..." -> "registry.io/app"
+  return full.split("@")[0];
+}
+
 function imgShortName(full:string) {
   // "quay.io/jetstack/cert-manager-cainjector:v1.20.2" -> "cert-manager-cainjector"
-  var noTag = full.split(":")[0];
+  var noTag = imgStripSha(full).split(":")[0];
   var parts = noTag.split("/");
   return parts[parts.length - 1];
 }
@@ -547,7 +552,7 @@ function ScanImagesTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDeta
                 <tbody>
                   {scan.images.map(function(img:any, i:number){
                     return <tr key={i} onClick={function(){setDetailImg(img.image);setDetailImgChart(chartName);}} style={{cursor:"pointer",background:i%2===0?"transparent":B.bg2+"40"}} onMouseEnter={function(e:any){e.currentTarget.style.background=B.bg3;}} onMouseLeave={function(e:any){e.currentTarget.style.background=i%2===0?"transparent":B.bg2+"40";}}>
-                      <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10,fontWeight:500}}>{img.image}</td>
+                      <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10,fontWeight:500}}>{imgStripSha(img.image)}</td>
                       <td style={{...scanTdStyle,fontWeight:500}}>{imgShortName(img.image)}</td>
                       <td style={{...scanTdStyle,textAlign:"center"}}>{img.packages || 0}</td>
                     </tr>;
@@ -607,7 +612,7 @@ function ScanVulnsTab({ item, selVer, setSelVer, k0rdentVer, detailImg, setDetai
                 <tbody>
                   {scan.images.map(function(img:any, i:number){
                     return <tr key={i} onClick={function(){setDetailImg(img.image);setDetailImgChart(chartName);}} style={{cursor:"pointer",background:i%2===0?"transparent":B.bg2+"40"}} onMouseEnter={function(e:any){e.currentTarget.style.background=B.bg3;}} onMouseLeave={function(e:any){e.currentTarget.style.background=i%2===0?"transparent":B.bg2+"40";}}>
-                      <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{img.image}</td>
+                      <td style={{...scanTdStyle,fontFamily:"monospace",fontSize:10}}>{imgStripSha(img.image)}</td>
                       <td style={{...scanTdStyle,textAlign:"center",color:img.critical>0?sevColor("critical"):B.textMut}}>{img.critical||0}</td>
                       <td style={{...scanTdStyle,textAlign:"center",color:img.high>0?sevColor("high"):B.textMut}}>{img.high||0}</td>
                       <td style={{...scanTdStyle,textAlign:"center",color:img.medium>0?sevColor("medium"):B.textMut}}>{img.medium||0}</td>
