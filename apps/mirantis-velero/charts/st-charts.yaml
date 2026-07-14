@@ -3,8 +3,12 @@ st-charts:
 - name: velero
   dep_name: velero
   version: 8.1.0
-  repository: https://vmware-tanzu.github.io/helm-charts/
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: velero
   dep_name: velero
   version: 11.1.0
-  repository: https://vmware-tanzu.github.io/helm-charts/
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
+- name: velero
+  dep_name: velero
+  version: 12.1.0
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
