@@ -707,14 +707,23 @@ def _build_scan_detail(results: list) -> dict:
     return {'images': images}
 
 
+def _is_version_segment(s: str) -> bool:
+    """Check if a string looks like the start of a version (e.g. '1.2.3' or 'v1.2.3')."""
+    if not s:
+        return False
+    if s[0].isdigit():
+        return True
+    return s[0] == 'v' and len(s) > 1 and s[1].isdigit()
+
+
 def _parse_scan_filename(fname: str):
-    """Parse 'cert-manager-1.20.2.json' -> ('cert-manager', '1.20.2') or None."""
+    """Parse 'cert-manager-1.20.2.json' or 'amd-gpu-operator-v1.2.2.json' -> (name, version) or None."""
     if not fname.endswith('.json'):
         return None
     base = fname[:-5]
     parts = base.split('-')
     for i in range(len(parts) - 1, 0, -1):
-        if parts[i] and parts[i][0].isdigit():
+        if _is_version_segment(parts[i]):
             return '-'.join(parts[:i]), '-'.join(parts[i:])
     return None
 
