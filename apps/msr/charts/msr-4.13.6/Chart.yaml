@@ -1,0 +1,9 @@
+apiVersion: v2
+name: msr
+description: A Helm chart that references the official "msr" Helm chart.
+type: application
+version: 4.13.6
+dependencies:
+  - name: msr
+    version: 4.13.6
+    repository: oci://registry.mirantis.com/harbor/helm

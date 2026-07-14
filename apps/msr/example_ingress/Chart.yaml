@@ -7,5 +7,5 @@ dependencies:
     version: 39.0.5
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: msr
-    version: 4.13.2
+    version: 4.13.6
     repository: oci://ghcr.io/k0rdent/catalog/charts
