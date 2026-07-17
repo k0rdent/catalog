@@ -1,4 +1,4 @@
 import { createRoot } from "react-dom/client";
-import App from "./k0rdent_catalog.tsx";
+import App from "./components/App.tsx";
 
 createRoot(document.getElementById("root")!).render(<App />);
