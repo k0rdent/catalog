@@ -25,15 +25,17 @@ def run(cmd: list[str]) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, text=True)
 
 
-def get_latest_scan_run(repo: str) -> str | None:
-    """Find the latest successful run ID of helm-app-scan.yml."""
+def get_latest_scan_run(repo: str) -> dict | None:
+    """Find the latest successful run of helm-app-scan.yml. Returns {id, created_at} or None."""
     res = run(["gh", "api",
                f"repos/{repo}/actions/workflows/helm-app-scan.yml/runs?status=success&per_page=1",
-               "--jq", ".workflow_runs[0].id"])
-    if res.returncode != 0:
+               "--jq", '.workflow_runs[0] | {id: .id, created_at: .created_at}'])
+    if res.returncode != 0 or not res.stdout.strip():
         return None
-    run_id = res.stdout.strip()
-    return run_id if run_id and run_id != "null" else None
+    data = json.loads(res.stdout.strip())
+    if not data.get("id"):
+        return None
+    return data
 
 
 def list_scan_artifacts(repo: str, run_id: str) -> list[dict]:
@@ -75,7 +77,42 @@ def download_artifact(repo: str, artifact: dict, output_dir: str):
 
     subprocess.run(["unzip", "-o", tmp.name, "-d", app_dir], capture_output=True)
     os.unlink(tmp.name)
-    print(f"  Downloaded: {app}")
+
+    summarize_app(app, app_dir)
+
+
+def summarize_app(app: str, app_dir: str):
+    """Print scan report files and CVE summary for an app."""
+    files = sorted(f for f in os.listdir(app_dir) if f.endswith(".json"))
+    if not files:
+        print(f"  {app}: (empty)")
+        return
+
+    total_images = 0
+    total_cves = 0
+    by_severity = {}
+
+    for fname in files:
+        with open(os.path.join(app_dir, fname)) as f:
+            results = json.load(f)
+        images = set()
+        file_cves = 0
+        for r in results:
+            images.add(r.get("Image", ""))
+            for v in r.get("Vulnerabilities") or []:
+                file_cves += 1
+                sev = v.get("Severity", "UNKNOWN")
+                by_severity[sev] = by_severity.get(sev, 0) + 1
+        total_images += len(images)
+        total_cves += file_cves
+        print(f"  {app}/{fname} ({len(images)} images, {file_cves} CVEs)")
+
+    sev_parts = []
+    for sev in ["CRITICAL", "HIGH", "MEDIUM", "LOW", "UNKNOWN"]:
+        if sev in by_severity:
+            sev_parts.append(f"{sev}: {by_severity[sev]}")
+    summary = ", ".join(sev_parts) if sev_parts else "no CVEs"
+    print(f"  {app}: total {total_images} images, {total_cves} CVEs ({summary})")
 
 
 def main():
@@ -91,13 +128,13 @@ def main():
     output_dir = os.environ.get("OUTPUT_DIR", "scan-reports")
 
     print("==> Downloading latest scan reports...")
-    run_id = get_latest_scan_run(repo)
-    if not run_id:
+    scan_run = get_latest_scan_run(repo)
+    if not scan_run:
         print("  No successful scan workflow run found, skipping")
         return
 
-    print(f"  Run ID: {run_id}")
-    artifacts = list_scan_artifacts(repo, run_id)
+    print(f"  Run ID: {scan_run['id']} ({scan_run.get('created_at', 'unknown')})")
+    artifacts = list_scan_artifacts(repo, str(scan_run["id"]))
     if not artifacts:
         print("  No scan artifacts found")
         return
@@ -105,7 +142,7 @@ def main():
     for artifact in artifacts:
         download_artifact(repo, artifact, output_dir)
 
-    print(f"  Downloaded {len(artifacts)} scan reports")
+    print(f"==> Downloaded {len(artifacts)} scan reports")
 
 
 if __name__ == "__main__":
