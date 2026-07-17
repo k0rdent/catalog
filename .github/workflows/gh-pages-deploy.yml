@@ -68,27 +68,8 @@ jobs:
       - name: Download latest scan reports
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          RUN_ID=$(gh api \
-            "repos/${{ github.repository }}/actions/workflows/helm-app-scan.yml/runs?status=success&per_page=1" \
-            --jq '.workflow_runs[0].id' 2>/dev/null || true)
-          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
-            echo "No successful scan workflow run found, skipping"
-            exit 0
-          fi
-          echo "Downloading scan artifacts from run $RUN_ID"
-          gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/artifacts?per_page=100" \
-            --jq '.artifacts[] | select(.name | startswith("scan-report-")) | "\(.name) \(.id)"' | \
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            NAME=$(echo "$line" | awk '{print $1}')
-            ID=$(echo "$line" | awk '{print $2}')
-            APP=${NAME#scan-report-}
-            mkdir -p "scan-reports/$APP"
-            gh api "repos/${{ github.repository }}/actions/artifacts/$ID/zip" > "/tmp/$NAME.zip"
-            unzip -o "/tmp/$NAME.zip" -d "scan-reports/$APP/"
-            echo "  Downloaded: $APP"
-          done
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 scripts/web/download_scan_reports.py
 
       - name: Generate catalog data for all versions
         env:
