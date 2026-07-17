@@ -66,6 +66,7 @@ jobs:
           fi
 
       - name: Download latest scan reports
+        if: vars.ENABLE_SCAN == '1'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

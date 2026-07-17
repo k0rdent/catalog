@@ -16,6 +16,7 @@ permissions:
 jobs:
   detect-apps:
     runs-on: ubuntu-latest
+    if: ${{ vars.ENABLE_SCAN == '1' || github.event_name == 'workflow_dispatch' }}
     outputs:
       apps: ${{ steps.get-apps.outputs.apps }}
     steps:
