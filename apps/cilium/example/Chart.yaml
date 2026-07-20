@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: cilium
-    version: 1.19.5
+    version: 1.19.6
     repository: oci://ghcr.io/k0rdent/catalog/charts

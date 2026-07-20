@@ -2,5 +2,5 @@ charts:
   cilium:
   - version: 1.18.2
     appVersion: 1.18.2
-  - version: 1.19.5
-    appVersion: 1.19.5
+  - version: 1.19.6
+    appVersion: 1.19.6
