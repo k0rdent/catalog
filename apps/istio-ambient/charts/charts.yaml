@@ -8,6 +8,8 @@ charts:
     appVersion: 1.28.3
   - version: 1.29.2
     appVersion: 1.29.2
+  - version: 1.30.3
+    appVersion: 1.30.3
   istio-cni:
   - version: 1.24.3
     appVersion: 1.24.3
@@ -17,3 +19,5 @@ charts:
     appVersion: 1.28.3
   - version: 1.29.2
     appVersion: 1.29.2
+  - version: 1.30.3
+    appVersion: 1.30.3
