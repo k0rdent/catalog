@@ -1,5 +1,5 @@
 st-charts:
 - name: openebs
   dep_name: openebs
-  version: 4.5.0
+  version: 4.5.1
   repository: https://openebs.github.io/openebs

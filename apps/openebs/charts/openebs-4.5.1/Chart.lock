@@ -1,0 +1,6 @@
+dependencies:
+- name: openebs
+  repository: https://openebs.github.io/openebs
+  version: 4.5.1
+digest: sha256:fde02c5c6498d81914deaf8c9108a24b2bb6b847f9cc9adcbca3f94335d1359f
+generated: "2026-07-30T11:45:55.890534224Z"
