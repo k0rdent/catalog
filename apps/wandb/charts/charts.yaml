@@ -1,4 +1,4 @@
 charts:
   wandb-operator:
-  - version: 1.4.1
+  - version: 1.4.9
     appVersion: 1.0.0

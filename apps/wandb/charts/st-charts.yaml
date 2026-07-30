@@ -1,5 +1,5 @@
 st-charts:
 - name: wandb-operator
   dep_name: operator
-  version: 1.4.1
+  version: 1.4.9
   repository: https://charts.wandb.ai
