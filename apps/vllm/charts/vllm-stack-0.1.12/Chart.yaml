@@ -2,8 +2,8 @@ apiVersion: v2
 name: vllm-stack
 description: A Helm chart that references the official "vllm-stack" Helm chart.
 type: application
-version: 0.1.11
+version: 0.1.12
 dependencies:
   - name: vllm-stack
-    version: 0.1.11
+    version: 0.1.12
     repository: https://vllm-project.github.io/production-stack
