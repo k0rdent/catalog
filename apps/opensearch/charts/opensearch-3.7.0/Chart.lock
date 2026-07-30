@@ -1,0 +1,6 @@
+dependencies:
+- name: opensearch
+  repository: https://opensearch-project.github.io/helm-charts
+  version: 3.7.0
+digest: sha256:fefd901fe54bd37e7db3abf0aa2f4d1b663de5f39b03ef246d2eed36ecd2f605
+generated: "2026-07-30T11:45:53.276417014Z"
