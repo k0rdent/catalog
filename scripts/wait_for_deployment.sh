@@ -37,11 +37,17 @@ while (( SECONDS < TIMEOUT )); do
 
         name=$(_jq '.metadata.name')
         status=$(_jq '.status.phase')
+        pod_reason=$(_jq '.status.reason')
         reason=$(_jq '.status.containerStatuses[]?.state.waiting.reason')
         ready_containers=$(_jq 'if .status.containerStatuses != null then [.status.containerStatuses[] | select(.ready == true)] | length else 0 end')
         total_containers=$(_jq 'if .status.containerStatuses != null then .status.containerStatuses | length else 0 end')
 
         if [[ "$status" == "Succeeded" ]]; then
+            continue
+        elif [[ "$status" == "Failed" && "$pod_reason" == "Evicted" ]]; then
+            # Node-pressure (e.g. transient DiskPressure) leaves terminal Evicted
+            # pods behind; the controller reschedules replacements, so these stale
+            # pods do not reflect the workload's health.
             continue
         elif [[ "$status" == "Running" ]]; then
             if [[ "$ready_containers" -ne "$total_containers" ]]; then

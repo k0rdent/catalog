@@ -1,14 +1,47 @@
 #!/bin/bash
 set -euo pipefail
 
-if kind get clusters | grep "k0rdent"; then
-    echo "k0rdent kind cluster already exists"
+if docker ps --filter name='^k0rdent$' -q | grep -q .; then
+    echo "k0rdent cluster already exists"
 else
-    kind create cluster --config ./scripts/config/kind-k0rdent-cluster.yaml
+    docker run -d --name k0rdent --hostname k0rdent \
+        -v /var/lib/k0s -v /var/log/pods `# this is where k0s stores its data` \
+        --tmpfs /run `# this is where k0s stores runtime data` \
+        --privileged `# this is the easiest way to enable container-in-container workloads` \
+        -p 6443:6443 `# publish the Kubernetes API server port` \
+        -p 60080:80 `# additional ports - for web` \
+        -p 60443:443 \
+        docker.io/k0sproject/k0s:v1.36.3-k0s.0
+
+    echo "Waiting for kubeconfig..."
+    until docker exec k0rdent k0s kubeconfig admin > kcfg_k0rdent 2>/dev/null; do
+        sleep 2
+    done
+
+    docker exec k0rdent k0s kubeconfig admin > kcfg_k0rdent
+    sed -i.bak '5s#.*#    server: https://127.0.0.1:6443#' kcfg_k0rdent # replace docker internal ip
+    chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
 fi
 
-kind get kubeconfig -n "k0rdent" > "kcfg_k0rdent"
-chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
+# Use the k0rdent cluster kubeconfig for all subsequent kubectl/helm calls.
+# Unlike kind, k0s-in-docker does not merge into ~/.kube/config, so this must be
+# set before the wait loops below (otherwise kubectl targets the wrong cluster).
+export KUBECONFIG=kcfg_k0rdent
+
+echo "Waiting for kube-system pods..."
+until kubectl get pods -n kube-system --no-headers 2>/dev/null | grep -q .; do
+    kubectl get pods -n kube-system || true
+    sleep 2
+done
+
+echo "Waiting for kube-system pods to become Ready..."
+until kubectl wait -n kube-system --for=condition=Ready pod --all --timeout=2s 2>/dev/null; do
+    kubectl get pods -n kube-system
+    sleep 2
+done
+
+# Allow workloads in cp node
+kubectl taint nodes k0rdent node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
 
 if [[ ${DEBUG:-} == "true" ]]; then
   HELM_EXTRA_FLAGS="--debug"
@@ -16,7 +49,7 @@ else
   HELM_EXTRA_FLAGS=""
 fi
 
-if helm get notes kcm -n kcm-system; then
+if helm get notes kcm -n kcm-system >/dev/null 2>&1; then
     echo "k0rdent chart (kcm) already installed"
 elif [[ -z "${HELM_VALUES:-}" ]]; then
     echo "Installing kcm with default values"
@@ -36,4 +69,9 @@ fi
 
 if kubectl get ns | grep "projectsveltos"; then
     TEST_MODE="k0rdent" NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
+fi
+
+# Optionally give the k0rdent cluster a default StorageClass (openebs hostpath).
+if [[ "${INSTALL_OPENEBS:-}" == "true" ]]; then
+    TEST_MODE=k0rdent ./scripts/install_openebs.sh
 fi

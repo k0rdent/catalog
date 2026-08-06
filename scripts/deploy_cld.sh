@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+# Credential and ClusterDeployment operations always target the k0rdent
+# management cluster. Unlike kind, k0s-in-docker keeps its kubeconfig in a
+# standalone file instead of merging into ~/.kube/config.
+export KUBECONFIG=kcfg_k0rdent
+
 ./scripts/setup_provider_credential.sh
 
 if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
@@ -25,17 +30,62 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     cld_name="$TEST_MODE-example-$USER"
 elif [[ "$TEST_MODE" == adopted ]]; then
     cld_name="adopted"
-    if kind get clusters | grep "$cld_name"; then
-        echo "Adopted kind cluster already exists"
+
+    # The adopted cluster shares a Docker network with the k0rdent cluster so
+    # that the k0rdent controllers can reach the adopted API server directly.
+    docker network create k0rdent-net 2>/dev/null || true
+    docker network connect k0rdent-net k0rdent 2>/dev/null || true
+
+    if docker ps --filter name='^adopted$' -q | grep -q .; then
+        echo "Adopted cluster already exists"
     else
-        k0rdent_ctx=$(kubectl config current-context)
-        kind create cluster --config ./scripts/config/kind-adopted-cluster.yaml
-        kubectl config use-context "$k0rdent_ctx"
+        # Publish the same host ports the kind adopted cluster used
+        # (50080/40080 http, 50443/40443 https, 55432 postgres) plus the API port.
+        docker run -d --name adopted --hostname adopted \
+            --network k0rdent-net `# shared network with the k0rdent cluster` \
+            -v /var/lib/k0s -v /var/log/pods `# this is where k0s stores its data` \
+            --tmpfs /run `# this is where k0s stores runtime data` \
+            --privileged `# this is the easiest way to enable container-in-container workloads` \
+            -p 6444:6443 `# publish the Kubernetes API server port` \
+            -p 50080:80 `# web (ingress http)` \
+            -p 40080:30080 `# NodePort http` \
+            -p 50443:443 `# web (ingress https)` \
+            -p 40443:30443 `# NodePort https` \
+            -p 55432:5432 `# postgres` \
+            docker.io/k0sproject/k0s:v1.36.3-k0s.0
+
+        echo "Waiting for adopted kubeconfig..."
+        until docker exec adopted k0s kubeconfig admin > kcfg_adopted 2>/dev/null; do
+            sleep 2
+        done
     fi
 
-    ADOPTED_KUBECONFIG=$(kind get kubeconfig --internal -n adopted | openssl base64 -A)
+    # Local kubeconfig for host access via the published API port. k0s already
+    # includes 127.0.0.1 in the API certificate SANs, so TLS stays valid. Using
+    # 127.0.0.1 (not the container IP) keeps this working on macOS too, where
+    # container IPs are not routable from the host.
+    docker exec adopted k0s kubeconfig admin > kcfg_adopted
+    sed -i.bak 's#server:.*#server: https://127.0.0.1:6444#' kcfg_adopted
+    chmod 0600 kcfg_adopted
+
+    echo "Waiting for adopted kube-system pods to become Ready..."
+    until KUBECONFIG=kcfg_adopted kubectl wait -n kube-system --for=condition=Ready pod --all --timeout=2s 2>/dev/null; do
+        KUBECONFIG=kcfg_adopted kubectl get pods -n kube-system || true
+        sleep 2
+    done
+
+    # Allow workloads on the single control-plane node.
+    KUBECONFIG=kcfg_adopted kubectl taint nodes adopted node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
+
+    # Give the adopted cluster a default StorageClass (openebs hostpath); k0s
+    # ships none out of the box.
+    TEST_MODE=adopted ./scripts/install_openebs.sh
+
+    # Internal kubeconfig handed to k0rdent: k0s sets the server to the
+    # container's Docker-network IP, which is reachable from the k0rdent
+    # controllers and is present in the API certificate SANs.
+    ADOPTED_KUBECONFIG=$(docker exec adopted k0s kubeconfig admin | openssl base64 -A)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'"$ADOPTED_KUBECONFIG"'"}}'
-    kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
     kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
 else
     echo "Unsupported TEST_MODE: '$TEST_MODE'. Allowed values: aws, azure, gcp, adopted"
@@ -45,18 +95,11 @@ fi
 CLDNAME=$cld_name ./scripts/wait_for_cld.sh
 
 if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
-    # Store kubeconfig file for managed AWS cluster
+    # Store kubeconfig file for managed cluster
     kubectl get secret "$cld_name"-kubeconfig -n kcm-system -o jsonpath='{.data.value}' | base64 -d > "kcfg_$TEST_MODE"
-else
-    # store adopted cluster kubeconfig
-    kind get kubeconfig -n adopted > "kcfg_adopted"
-    helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
-    helm repo update
-    KUBECONFIG=kcfg_adopted helm install metrics-server metrics-server/metrics-server \
-        -n kube-system --create-namespace \
-        --set "args={--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP,Hostname}"
-    NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
 fi
+# For adopted the kubeconfig (kcfg_adopted) is already written above, and k0s
+# ships metrics-server in kube-system, so no extra setup is needed here.
 chmod 0600 "kcfg_$TEST_MODE" # set minimum attributes to kubeconfig (owner read/write)
 
 if kubectl get ns | grep "projectsveltos"; then

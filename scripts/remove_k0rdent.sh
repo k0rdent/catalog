@@ -1,9 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-if kind get clusters | grep "k0rdent"; then
-    kind delete cluster -n "k0rdent"
+if docker ps --filter name='^k0rdent$' -q | grep -q .; then
+    docker rm -vf k0rdent
 else
     echo "k0rdent cluster not found"
 fi
-rm "kcfg_k0rdent"
+# Remove the shared network with the adopted cluster (no-op if still in use or absent).
+docker network rm k0rdent-net 2>/dev/null || true
+rm -rf ./kcfg_k0rdent ./kcfg_k0rdent.bak
