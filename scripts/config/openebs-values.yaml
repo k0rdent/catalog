@@ -1,0 +1,21 @@
+# Minimal OpenEBS values: hostpath localpv as the default StorageClass.
+# All other engines (lvm, zfs, mayastor) and observability side-cars are
+# disabled to keep the footprint small for k0s-in-docker test clusters.
+openebs:
+  engines:
+    local:
+      lvm:
+        enabled: false
+      zfs:
+        enabled: false
+    replicated:
+      mayastor:
+        enabled: false
+  loki:
+    enabled: false
+  alloy:
+    enabled: false
+  localpv-provisioner:
+    hostpathClass:
+      enabled: true
+      isDefaultClass: true

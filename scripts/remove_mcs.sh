@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# The MultiClusterService lives in the k0rdent management cluster; per-cluster
+# checks below override KUBECONFIG explicitly with kcfg_$TEST_MODE.
+export KUBECONFIG=kcfg_k0rdent
+
 kubectl delete mcs "$APP" --wait=false
 
 ns=$(./scripts/get_mcs_namespace.sh)

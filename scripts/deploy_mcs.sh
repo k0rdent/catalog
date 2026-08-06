@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# The MultiClusterService lives in the k0rdent management cluster; per-cluster
+# checks below override KUBECONFIG explicitly with kcfg_$test_mode.
+export KUBECONFIG=kcfg_k0rdent
+
 ./scripts/ensure_mcs_config.sh
 
 kubectl apply -f apps/"$APP"/mcs.yaml
