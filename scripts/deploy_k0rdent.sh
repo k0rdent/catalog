@@ -9,8 +9,6 @@ else
         --tmpfs /run `# this is where k0s stores runtime data` \
         --privileged `# this is the easiest way to enable container-in-container workloads` \
         -p 6443:6443 `# publish the Kubernetes API server port` \
-        -p 60080:80 `# additional ports - for web` \
-        -p 60443:443 \
         docker.io/k0sproject/k0s:v1.36.3-k0s.0
 
     echo "Waiting for kubeconfig..."
