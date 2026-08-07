@@ -19,3 +19,12 @@ openebs:
     hostpathClass:
       enabled: true
       isDefaultClass: true
+  # Don't install the CSI VolumeSnapshot CRDs. The hostpath localpv provisioner
+  # doesn't need them, and owning them makes helm reject other charts that ship
+  # the same CRDs (e.g. pelagia-ceph fails with "cannot be imported into the
+  # current release ... current value is openebs"). Leave them to whoever needs
+  # them.
+  openebs-crds:
+    csi:
+      volumeSnapshots:
+        enabled: false
