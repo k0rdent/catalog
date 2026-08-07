@@ -4,8 +4,7 @@ velero:
     snapshotsEnabled: true
     deployNodeAgent: true
     nodeAgent:
-      podVolumePath: /var/lib/kubelet/pods # config for kind cluster used in CI
-      # podVolumePath: /var/lib/k0s/kubelet/pods # for k0s
+      podVolumePath: /var/lib/k0s/kubelet/pods # for k0s
     initContainers:
       - name: velero-plugin-for-aws
         image: velero/velero-plugin-for-aws:latest
