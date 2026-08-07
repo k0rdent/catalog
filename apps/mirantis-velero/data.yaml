@@ -14,58 +14,6 @@ description: |
 why_in_catalog: "Velero is the right tool for Kubernetes backup and disaster recovery. The Mirantis edition exists because operating backup infrastructure at enterprise scale — with guaranteed compatibility across k0rdent versions, validated restore procedures, and an SLA that covers incident response when a restore is needed — requires more than open-source community support can provide. For organizations where data recovery is a contractual obligation rather than a best-effort practice, Mirantis Velero is the version that comes with accountability."
 support_type: Enterprise
 
-deploy_code: |
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    metadata:
-      name: mirantis-velero
-    spec:
-      clusterSelector:
-        matchLabels:
-          group: demo
-      serviceSpec:
-        services:
-        - template: velero-11-1-0
-          name: velero
-          namespace: velero
-          values: |
-            velero:
-              backupsEnabled: true
-              snapshotsEnabled: true
-              deployNodeAgent: true
-              nodeAgent:
-                # podVolumePath: /var/lib/kubelet/pods # config for kind cluster used in CI
-                podVolumePath: /var/lib/k0s/kubelet/pods # for k0s
-              initContainers:
-                - name: velero-plugin-for-aws
-                  image: velero/velero-plugin-for-aws:latest
-                  imagePullPolicy: IfNotPresent
-                  volumeMounts:
-                    - mountPath: /target
-                      name: plugins
-              configuration:
-                uploaderType: kopia
-                backupStorageLocation:
-                  - name: velero-backup-storage-location
-                    provider: aws
-                    bucket: velero-backups-xx
-                    default: true
-                    config:
-                      region: us-east-2
-                volumeSnapshotLocation:
-                  - name: velero-volume-storage-location
-                    provider: aws
-                    config:
-                      region: us-east-2
-              credentials:
-                useSecret: true
-                secretContents:
-                  cloud: |
-                    [default]
-                    aws_access_key_id = xx
-                    aws_secret_access_key = xx
-    ~~~
 doc_link: https://vmware-tanzu.github.io/helm-charts/
 
 # test settings
