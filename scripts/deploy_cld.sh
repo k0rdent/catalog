@@ -36,16 +36,16 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     if docker ps --filter name='^adopted$' -q | grep -q .; then
         echo "Adopted cluster already exists"
     else
-        # Publish only the ports the harness uses (ingress 50080/50443 + API);
-        # extra ephemeral-range ports intermittently clash on CI runners.
+        port_args=(-p 6444:6443)
+        if [[ "${ADOPTED_EXPOSE_PORTS:-0}" == "1" ]]; then  # Avoid ephemeral port range conflicts in CI.
+            port_args+=(-p 50080:80 -p 50443:443)
+        fi
         docker run -d --name adopted --hostname adopted \
             --network k0rdent-net \
             -v /var/lib/k0s -v /var/log/pods \
             --tmpfs /run \
             --privileged \
-            -p 6444:6443 \
-            -p 50080:80 \
-            -p 50443:443 \
+            "${port_args[@]}" \
             docker.io/k0sproject/k0s:v1.36.3-k0s.0
 
         echo "Waiting for adopted kubeconfig..."
