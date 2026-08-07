@@ -23,9 +23,7 @@ else
     chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
 fi
 
-# Use the k0rdent cluster kubeconfig for all subsequent kubectl/helm calls.
-# Unlike kind, k0s-in-docker does not merge into ~/.kube/config, so this must be
-# set before the wait loops below (otherwise kubectl targets the wrong cluster).
+# Must be set before the wait loops (k0s-in-docker doesn't merge into ~/.kube/config).
 export KUBECONFIG=kcfg_k0rdent
 
 echo "Waiting for kube-system pods..."
@@ -67,11 +65,8 @@ if kubectl get ns | grep "kcm-system"; then
     TEST_MODE="k0rdent" NAMESPACE=kcm-system ./scripts/wait_for_deployment.sh
 fi
 
-# kcm reconciles its components (kcm -> capi -> projectsveltos) in stages with
-# gaps in between, so the cluster can momentarily look settled before the
-# projectsveltos provider is even deployed. Gate on the Management's Ready
-# condition, which only flips true once every component is installed and
-# healthy, so the projectsveltos wait below sees the complete set of pods.
+# Gate on Management Ready (kcm->capi->projectsveltos reconcile in stages, so it
+# can look settled mid-way) before waiting on projectsveltos pods below.
 if kubectl get management kcm >/dev/null 2>&1; then
     echo "Waiting for Management 'kcm' to become Ready..."
     mgmt_timeout=$((25 * 60))

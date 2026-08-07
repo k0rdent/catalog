@@ -1,9 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# Service templates are installed into the k0rdent management cluster, whose
-# kubeconfig lives in a standalone file (k0s-in-docker does not merge into
-# ~/.kube/config the way kind did).
+# Service templates target the k0rdent management cluster.
 export KUBECONFIG=kcfg_k0rdent
 
 echo "Checking already installed"

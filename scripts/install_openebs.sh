@@ -1,14 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Installs OpenEBS into the cluster identified by TEST_MODE (uses kcfg_$TEST_MODE).
-# Configures the hostpath localpv provisioner as the default StorageClass and
-# disables the heavier engines/side-cars (see scripts/config/openebs-values.yaml).
-#
-# Standalone and reusable: called for the adopted cluster from deploy_cld.sh and
-# can also be invoked for the k0rdent cluster, e.g.:
-#   TEST_MODE=adopted  ./scripts/install_openebs.sh
-#   TEST_MODE=k0rdent  ./scripts/install_openebs.sh
+# Install OpenEBS (hostpath localpv default StorageClass) into kcfg_$TEST_MODE.
+# Usage: TEST_MODE=adopted|k0rdent ./scripts/install_openebs.sh
 
 TEST_MODE="${TEST_MODE:?TEST_MODE must be set (e.g. adopted, k0rdent)}"
 KCFG="kcfg_$TEST_MODE"

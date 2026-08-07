@@ -1,8 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# ClusterDeployment / credential operations target the k0rdent management
-# cluster, whose kubeconfig lives in a standalone file (see deploy_cld.sh).
+# ClusterDeployment/credential ops target the k0rdent management cluster.
 export KUBECONFIG=kcfg_k0rdent
 
 ./scripts/check_test_mode.sh

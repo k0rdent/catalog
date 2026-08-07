@@ -1,17 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-# k0s generates the kube-apiserver serving certificate with a SAN list that
-# includes the trailing-dot FQDN "kubernetes.default.svc.<clusterDomain>." .
-# Go's FIPS-mode x509 parser rejects that as a malformed dNSName, so FIPS-only
-# workloads (e.g. flux-operator) crash-loop with
-#   tls: failed to parse certificate from server: x509: SAN dNSName is malformed
-# when they talk to the in-cluster API.
-#
-# Regenerate the serving cert (signed by the existing k0s CA, reusing the same
-# key) with the trailing-dot SAN dropped, then restart kube-apiserver. The CA is
-# untouched, so existing kubeconfigs keep working; only the leaf SANs change.
-#
+# Regenerate the k0s kube-apiserver cert without the trailing-dot SAN
+# "kubernetes.default.svc.<domain>." that FIPS-only clients (flux-operator)
+# reject as malformed. Signed by the existing CA (kubeconfigs keep working).
 # Usage: ./scripts/fix_adopted_cert_sans.sh [container]   (default: adopted)
 
 CONTAINER="${1:-adopted}"
@@ -25,8 +17,7 @@ docker cp "$CONTAINER:$PKI/ca.key" "$workdir/ca.key"
 docker cp "$CONTAINER:$PKI/server.key" "$workdir/server.key"
 docker cp "$CONTAINER:$PKI/server.crt" "$workdir/server.crt"
 
-# Current SANs; drop any DNS entry that ends with a dot (the malformed FQDN).
-# Parse from -text (portable across OpenSSL and macOS LibreSSL, which lacks -ext).
+# Read SANs via -text (portable; macOS LibreSSL lacks -ext).
 sans=$(openssl x509 -in "$workdir/server.crt" -noout -text \
     | awk '/Subject Alternative Name/{getline; print}' \
     | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
@@ -69,8 +60,7 @@ docker cp "$workdir/server.new.crt" "$CONTAINER:$PKI/server.crt"
 docker exec "$CONTAINER" chown kube-apiserver "$PKI/server.crt"
 docker exec "$CONTAINER" chmod 0644 "$PKI/server.crt"
 
-# Restart just kube-apiserver (the k0s supervisor brings it back with the new
-# cert); a full container restart would make k0s regenerate the cert.
+# Restart only kube-apiserver (a full container restart would regenerate the cert).
 docker exec "$CONTAINER" pkill -f kube-apiserver || true
 
 echo "Regenerated $CONTAINER kube-apiserver cert without the trailing-dot SAN; waiting for API to come back..."
