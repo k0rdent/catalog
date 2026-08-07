@@ -25,7 +25,11 @@ jobs:
           python-version: '3.x'
 
       - name: Install Ruff
-        run: pip install ruff
+        # Pin ruff: 0.16.0 expanded the default rule set, which flags a lot of
+        # pre-existing repo-wide issues unrelated to any given change. Pin to the
+        # last 0.15 release the repo lints clean against; bumping is a separate,
+        # deliberate cleanup.
+        run: pip install ruff==0.15.22
 
       - name: Run Ruff
         run: ruff check .

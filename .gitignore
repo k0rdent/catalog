@@ -20,6 +20,10 @@ apps/*/mcs.y*ml
 spellcheck_detected.txt
 site/
 
+# python test tooling
+.venv-test/
+.pytest_cache/
+
 mkdocs/validation_matrix.md
 
 /*.yaml
