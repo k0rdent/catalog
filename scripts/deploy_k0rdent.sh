@@ -4,13 +4,15 @@ set -euo pipefail
 if docker ps --filter name='^k0rdent$' -q | grep -q .; then
     echo "k0rdent cluster already exists"
 else
+    port_args=(-p 6443:6443)
+    if [[ "${K0RDENT_EXPOSE_PORTS:-0}" == "1" ]]; then  # Avoid ephemeral port range conflicts in CI.
+        port_args+=(-p 60080:80 -p 60443:443)
+    fi
     docker run -d --name k0rdent --hostname k0rdent \
-        -v /var/lib/k0s -v /var/log/pods `# this is where k0s stores its data` \
-        --tmpfs /run `# this is where k0s stores runtime data` \
-        --privileged `# this is the easiest way to enable container-in-container workloads` \
-        -p 6443:6443 `# publish the Kubernetes API server port` \
-        -p 60080:80 `# additional ports - for web` \
-        -p 60443:443 \
+        -v /var/lib/k0s -v /var/log/pods \
+        --tmpfs /run \
+        --privileged \
+        "${port_args[@]}" \
         docker.io/k0sproject/k0s:v1.36.3-k0s.0
 
     echo "Waiting for kubeconfig..."

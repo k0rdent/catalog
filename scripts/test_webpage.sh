@@ -27,6 +27,7 @@ while (( SECONDS < TIMEOUT )); do
 
     ip_regex='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
     if [[ "$TEST_MODE" == adopted ]]; then
+        # Requires the adopted cluster created with ADOPTED_EXPOSE_PORTS=1.
         if echo "$ingress" | grep "443"; then # use port 443 if exposed
             ip="127.0.0.1:50443"
         else
