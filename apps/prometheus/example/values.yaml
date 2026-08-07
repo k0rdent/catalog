@@ -1,0 +1,9 @@
+prometheus:
+  prometheus:
+    # node-exporter mounts the host root filesystem with mount propagation,
+    # which the k0s-in-docker node rejects ("/ is mounted on / but it is not a
+    # shared or slave mount"). The host rootfs metrics are not needed for the
+    # deployment smoke test, so disable that mount.
+    prometheus-node-exporter:
+      hostRootFsMount:
+        enabled: false
