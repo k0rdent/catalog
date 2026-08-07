@@ -1,0 +1,24 @@
+name: Bash Unit Tests
+
+on:
+  push:
+    paths:
+      - 'scripts/**.sh'
+      - 'scripts/tests/bash/**'
+      - '.github/workflows/bash-unit-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/**.sh'
+      - 'scripts/tests/bash/**'
+      - '.github/workflows/bash-unit-tests.yml'
+
+jobs:
+  bash-tests:
+    name: bash tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Run bash unit tests
+        run: ./scripts/tests/bash/run.sh
