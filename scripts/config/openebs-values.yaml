@@ -1,6 +1,4 @@
-# Minimal OpenEBS values: hostpath localpv as the default StorageClass.
-# All other engines (lvm, zfs, mayastor) and observability side-cars are
-# disabled to keep the footprint small for k0s-in-docker test clusters.
+# Minimal OpenEBS: hostpath localpv default StorageClass, everything else off.
 openebs:
   engines:
     local:
@@ -19,11 +17,7 @@ openebs:
     hostpathClass:
       enabled: true
       isDefaultClass: true
-  # Don't install the CSI VolumeSnapshot CRDs. The hostpath localpv provisioner
-  # doesn't need them, and owning them makes helm reject other charts that ship
-  # the same CRDs (e.g. pelagia-ceph fails with "cannot be imported into the
-  # current release ... current value is openebs"). Leave them to whoever needs
-  # them.
+  # Skip VolumeSnapshot CRDs so charts that ship them (e.g. pelagia-ceph) can own them.
   openebs-crds:
     csi:
       volumeSnapshots:

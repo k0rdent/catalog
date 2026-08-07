@@ -1,9 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# Credential and ClusterDeployment operations always target the k0rdent
-# management cluster. Unlike kind, k0s-in-docker keeps its kubeconfig in a
-# standalone file instead of merging into ~/.kube/config.
+# Credential/ClusterDeployment ops target the k0rdent management cluster.
 export KUBECONFIG=kcfg_k0rdent
 
 ./scripts/setup_provider_credential.sh
@@ -31,28 +29,23 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
 elif [[ "$TEST_MODE" == adopted ]]; then
     cld_name="adopted"
 
-    # The adopted cluster shares a Docker network with the k0rdent cluster so
-    # that the k0rdent controllers can reach the adopted API server directly.
+    # Shared network so the k0rdent controllers can reach the adopted API.
     docker network create k0rdent-net 2>/dev/null || true
     docker network connect k0rdent-net k0rdent 2>/dev/null || true
 
     if docker ps --filter name='^adopted$' -q | grep -q .; then
         echo "Adopted cluster already exists"
     else
-        # Publish the ingress ports the test harness checks (test_webpage.sh
-        # hits 127.0.0.1:50080 / 50443) plus the API server port. The old kind
-        # config also mapped NodePort (40080/40443) and postgres (55432), but
-        # nothing in the harness uses them and, being in the ephemeral range,
-        # they intermittently collide with in-use ports on CI runners (docker
-        # run then fails with "address already in use", exit 125).
+        # Publish only the ports the harness uses (ingress 50080/50443 + API);
+        # extra ephemeral-range ports intermittently clash on CI runners.
         docker run -d --name adopted --hostname adopted \
-            --network k0rdent-net `# shared network with the k0rdent cluster` \
-            -v /var/lib/k0s -v /var/log/pods `# this is where k0s stores its data` \
-            --tmpfs /run `# this is where k0s stores runtime data` \
-            --privileged `# this is the easiest way to enable container-in-container workloads` \
-            -p 6444:6443 `# publish the Kubernetes API server port` \
-            -p 50080:80 `# web (ingress http)` \
-            -p 50443:443 `# web (ingress https)` \
+            --network k0rdent-net \
+            -v /var/lib/k0s -v /var/log/pods \
+            --tmpfs /run \
+            --privileged \
+            -p 6444:6443 \
+            -p 50080:80 \
+            -p 50443:443 \
             docker.io/k0sproject/k0s:v1.36.3-k0s.0
 
         echo "Waiting for adopted kubeconfig..."
@@ -61,17 +54,11 @@ elif [[ "$TEST_MODE" == adopted ]]; then
         done
     fi
 
-    # Make the node's mounts recursively shared (kind does this in its node
-    # entrypoint, the k0s image does not). Without it, workloads that hostPath-
-    # mount a path with mount propagation (e.g. istio-cni's /var/run/netns,
-    # node-exporter's /, velero's node-agent) fail to start with
-    # "path ... is mounted on ... but it is not a shared or slave mount".
+    # Recursively-shared mounts so propagation hostPath mounts work (kind does
+    # this; the k0s image doesn't).
     docker exec adopted mount --make-rshared /
 
-    # Local kubeconfig for host access via the published API port. k0s already
-    # includes 127.0.0.1 in the API certificate SANs, so TLS stays valid. Using
-    # 127.0.0.1 (not the container IP) keeps this working on macOS too, where
-    # container IPs are not routable from the host.
+    # Local kubeconfig via the published API port (127.0.0.1 keeps macOS working).
     docker exec adopted k0s kubeconfig admin > kcfg_adopted
     sed -i.bak 's#server:.*#server: https://127.0.0.1:6444#' kcfg_adopted
     chmod 0600 kcfg_adopted
@@ -85,18 +72,13 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     # Allow workloads on the single control-plane node.
     KUBECONFIG=kcfg_adopted kubectl taint nodes adopted node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
 
-    # Drop the malformed trailing-dot SAN from the kube-apiserver cert so
-    # FIPS-only workloads (e.g. flux-operator) can talk to the API. Done before
-    # k0rdent connects and before any service is deployed.
+    # Drop the malformed trailing-dot apiserver SAN (breaks FIPS-only clients).
     ./scripts/fix_adopted_cert_sans.sh adopted
 
-    # Give the adopted cluster a default StorageClass (openebs hostpath); k0s
-    # ships none out of the box.
+    # Default StorageClass (openebs hostpath); k0s ships none.
     TEST_MODE=adopted ./scripts/install_openebs.sh
 
-    # Internal kubeconfig handed to k0rdent: k0s sets the server to the
-    # container's Docker-network IP, which is reachable from the k0rdent
-    # controllers and is present in the API certificate SANs.
+    # Internal kubeconfig for k0rdent (k0s sets the server to the container IP).
     ADOPTED_KUBECONFIG=$(docker exec adopted k0s kubeconfig admin | openssl base64 -A)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'"$ADOPTED_KUBECONFIG"'"}}'
     kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
@@ -111,9 +93,8 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     # Store kubeconfig file for managed cluster
     kubectl get secret "$cld_name"-kubeconfig -n kcm-system -o jsonpath='{.data.value}' | base64 -d > "kcfg_$TEST_MODE"
 fi
-# For adopted the kubeconfig (kcfg_adopted) is already written above, and k0s
-# ships metrics-server in kube-system, so no extra setup is needed here.
-chmod 0600 "kcfg_$TEST_MODE" # set minimum attributes to kubeconfig (owner read/write)
+# For adopted, kcfg_adopted is already written above.
+chmod 0600 "kcfg_$TEST_MODE"
 
 if kubectl get ns | grep "projectsveltos"; then
     NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh

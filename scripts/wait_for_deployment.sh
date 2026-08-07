@@ -45,9 +45,7 @@ while (( SECONDS < TIMEOUT )); do
         if [[ "$status" == "Succeeded" ]]; then
             continue
         elif [[ "$status" == "Failed" && "$pod_reason" == "Evicted" ]]; then
-            # Node-pressure (e.g. transient DiskPressure) leaves terminal Evicted
-            # pods behind; the controller reschedules replacements, so these stale
-            # pods do not reflect the workload's health.
+            # Terminal evicted pods are replaced by the controller; ignore them.
             continue
         elif [[ "$status" == "Running" ]]; then
             if [[ "$ready_containers" -ne "$total_containers" ]]; then
