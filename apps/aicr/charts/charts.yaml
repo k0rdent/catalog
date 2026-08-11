@@ -1,0 +1,4 @@
+charts:
+  nvidia-aicr:
+  - version: 0.1.0
+    appVersion: v0.18.0

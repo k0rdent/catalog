@@ -1,0 +1,41 @@
+nvidia-aicr:
+  # The outer key targets the example chart's "nvidia-aicr" dependency (the
+  # catalog wrapper chart); the CI tooling strips it when it builds the
+  # MultiClusterService. The inner key addresses the real nvidia-aicr chart
+  # vendored inside that wrapper - the double nesting is the catalog
+  # convention (see any other app's example values).
+  nvidia-aicr:
+    # Catalog CI values - this file drives the catalog's kind-based e2e, NOT
+    # a production reference. Production postures (org data pack as a named
+    # recipe, rollout verification, evidence publishing) live in the chart
+    # repo's examples/ and README:
+    # https://github.com/Mirantis/nvidia-aicr-chart
+    #
+    # Criteria assemble a recipe from AICR's embedded catalog. intent
+    # requires a concrete service (verified on aicr v0.18.0): one of aks |
+    # bcm | eks | kind | lke | ocp | gke(+os=cos) | oke(+os=ol), or a value
+    # your org's dataPack registers. "any" (the chart default) plus intent
+    # is rejected; accelerator alone resolves the base stack.
+    #
+    # accelerator=h100 is required with service=kind: aicr v0.18.0 ships
+    # kind overlays for h100 only (recipes/overlays/h100-kind-*).
+    # h100 | h200 | gb200 | b200 | a100 | l40 | rtx-pro-6000
+    accelerator: h100
+    # training | inference
+    intent: training
+    # The h100-kind-training chain selects kubeflow itself; stated
+    # explicitly so the captured recipe ConfigMap (aicr-recipe) records the
+    # full intent of this install. kubeflow | dynamo | nim | runai | slurm
+    platform: kubeflow
+    # service=kind applies AICR's kind overlay (GPU driver install
+    # disabled, relaxed K8s server-version constraint) - the right choice
+    # for the kind-based test flow. On real clusters use your platform's
+    # service value (see the list above) or the one your org's dataPack
+    # registers.
+    service: kind
+    # --best-effort lets the install continue past components that need
+    # real GPU hardware; --no-wait returns as soon as manifests are
+    # applied. The chart can also run aicr validate after the install
+    # (validate.enabled) and capture the verdict and evidence bundle to
+    # ConfigMaps; off here to fit the CI cluster.
+    deployFlags: "--best-effort --no-wait"

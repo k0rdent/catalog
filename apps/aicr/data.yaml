@@ -1,0 +1,55 @@
+tags:
+  - AI/Machine Learning
+  - Drivers and plugins
+  - NVIDIA
+title: "NVIDIA AICR"
+summary: "NVIDIA AI Cluster Runtime (AICR) captures the component matrix needed for a working NVIDIA AI stack as versioned, dependency-ordered recipes, and renders them into deployable Helm bundles. This entry wraps the aicr CLI in a Kubernetes Job so a single k0rdent ServiceTemplate installs the full NVIDIA runtime on any managed cluster from one manifest."
+logo: ./assets/nvidia_logo.svg # https://commons.wikimedia.org/wiki/File:Nvidia_Logo.svg
+created: "2026-07-15T00:00:00Z"
+github_repo: NVIDIA/aicr
+description: |
+    NVIDIA AI Cluster Runtime (AICR) encodes the set of components required for a working
+    NVIDIA AI stack - drivers, operators, schedulers, and monitoring - as version-locked,
+    dependency-ordered recipes. Given an accelerator, an intent (training or inference), and
+    a platform, the aicr CLI produces a recipe, renders it into a Helm bundle, and deploys it.
+
+    The nvidia-aicr chart integrates AICR with k0rdent by running the aicr CLI inside a
+    Kubernetes Job on the target cluster. The Job downloads a pinned aicr release, generates
+    a recipe from the chart values (accelerator, intent, os, platform, service), renders the
+    bundle, and executes the bundle deployment script. AICR is consumed unmodified - the chart
+    adds no wrapper logic and duplicates none of AICR's behavior - so component versions and
+    ordering always come from the pinned upstream release.
+
+    Optional values extend the same Job with AICR's other capabilities. A dataPack OCI
+    reference pulls an org --data extension pack before the run; a pack that registers a
+    private service value acts as a named, versioned recipe - platform teams declare
+    "install our stack" instead of re-assembling criteria per cluster. validate.enabled
+    runs aicr validate after the install (rollout verification), and with
+    deploy.enabled=false the Job validates without installing - qualifying an
+    already-provisioned cluster with the pack's own validators. The CTRF verdict and,
+    optionally, the in-toto evidence bundle - publishable signed or unsigned to an OCI
+    registry - are captured to ConfigMaps whether validation passes or fails. Job
+    scheduling values (tolerations, nodeSelector) cover clusters whose only workers are
+    tainted GPU nodes.
+
+    Deploying to a managed cluster (the normal case) needs no special handling. Installing
+    onto a self-managed kcm management cluster is the one exception: kcm ships its own
+    cert-manager, and the AICR bundle installs a cert-manager release of its own - both own
+    the same cluster-scoped CRDs, so one must yield. Install cert-manager first at the
+    version, release name, and namespace the bundle uses, then install kcm with its own
+    copy disabled (regional.cert-manager.enabled=false); the bundle's cert-manager step
+    then adopts that release.
+
+    Validated end to end on kind with kcm 1.11.0 (aicr 0.18.0): one MultiClusterService
+    converges the full stack on the managed cluster.
+
+why_in_catalog: "Assembling a working NVIDIA stack on Kubernetes means choosing mutually compatible versions of half a dozen operators and drivers, then re-validating the set every time one of them releases. AICR encodes that compatibility matrix as versioned recipes maintained by NVIDIA. This entry makes those recipes deployable through k0rdent: platform teams declare an accelerator and an intent once, and every managed cluster converges on the same validated NVIDIA runtime, with fleet-wide rollout handled by k0rdent instead of per-cluster scripting. Org data packs extend the same flow to a team's own validated stack definitions - named, versioned recipes private to the organization."
+doc_link: https://github.com/Mirantis/nvidia-aicr-chart
+
+test_wait_for_pods: "nvidia-aicr-install-"
+
+validated_amd64: 'y'
+validated_aws: ''
+validated_azure: ''
+validated_arm64: ''
+validated_local: 'y'

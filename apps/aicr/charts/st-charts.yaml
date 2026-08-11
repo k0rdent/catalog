@@ -1,0 +1,5 @@
+st-charts:
+- name: nvidia-aicr
+  dep_name: nvidia-aicr
+  version: 0.1.0
+  repository: oci://ghcr.io/mirantis/charts
