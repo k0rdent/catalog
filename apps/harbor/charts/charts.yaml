@@ -2,3 +2,5 @@ charts:
   harbor:
   - version: 1.18.3
     appVersion: 2.14.3
+  - version: 1.19.2
+    appVersion: 2.15.2
