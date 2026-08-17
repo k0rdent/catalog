@@ -11,3 +11,7 @@ st-charts:
   dep_name: traefik
   version: 41.0.2
   repository: https://traefik.github.io/charts
+- name: traefik
+  dep_name: traefik
+  version: 41.2.0
+  repository: https://traefik.github.io/charts
