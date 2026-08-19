@@ -10,6 +10,7 @@ import { ContributePage } from "./ContributePage";
 import { SolutionsPage } from "./SolutionsPage";
 import { InfraPage } from "./InfraPage";
 import { ConfiguratorPage } from "./ConfiguratorPage";
+import { HowToPage } from "./HowToPage";
 
 export default function App() {
   var initParams = useMemo(readUrlParams, []);
@@ -43,6 +44,9 @@ export default function App() {
   var [detailImgChart, setDetailImgChart] = useState(initParams.imgChart);
   var [detailImgSub, setDetailImgSub] = useState(initParams.imgSub);
   var [sidebarOpen, setSidebarOpen] = useState(function(){ return window.innerWidth > 640; });
+  // Bumped on every top-nav click so sub-pages holding their own detail
+  // selection (infra targets, solution bundles) return to their index.
+  var [navToken, setNavToken] = useState(0);
 
   // Restore selected app from URL after data loads
   useEffect(function(){
@@ -99,7 +103,7 @@ export default function App() {
   // Sync catalog filters to URL (replaceState)
   useEffect(function(){
     // Don't overwrite /apps/<name>/ URL before the app is restored from URL
-    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/infra\/[^/]+/) && !window.location.pathname.match(/\/(contribute|solutions|infra|configurator)\/?$/)) {
+    if (!loading && !selected && !window.location.pathname.match(/\/apps\/[^/]+/) && !window.location.pathname.match(/\/infra\/[^/]+/) && !window.location.pathname.match(/\/(contribute|solutions|infra|configurator|howto)\/?$/)) {
       history.replaceState(null, "", buildCatalogUrl({view, search, tag, support, sort, compliance}, k0rdentVer));
     }
   }, [view, search, tag, support, sort, compliance, loading]);
@@ -169,6 +173,26 @@ export default function App() {
   }
 
   useEffect(function(){ doLoad(); }, []);
+
+  // Every top-level navigation clears whatever detail page is open, so the
+  // header keeps working while an application page is mounted.
+  function navigateTo(v:string) {
+    setSelected(null);
+    setDetailTab("overview");
+    setDetailVer("");
+    setDetailImg("");
+    setDetailImgChart("");
+    setDetailImgSub("");
+    setView(v);
+    setNavToken(function(t:number){ return t + 1; });
+    if (v === "catalog") {
+      setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All");
+      history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "")));
+    } else {
+      history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + v + "/"));
+    }
+    window.scrollTo(0, 0);
+  }
 
   // Opening an app is a page navigation now, not an overlay, so it pushes a
   // history entry and the catalog view stands down while the page is mounted.
@@ -286,11 +310,12 @@ export default function App() {
         ::-webkit-scrollbar-thumb { background: ${B.border}; border-radius: 6px; }
         ::-webkit-scrollbar-thumb:hover { background: ${B.borderHi}; }
       `}</style>
-      <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} dark={dark} toggleTheme={toggleTheme} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
+      <Nav view={view} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} dark={dark} toggleTheme={toggleTheme} onNavigate={navigateTo}/>
 
       {view==="contribute"&&!selected&&<ContributePage/>}
-      {view==="solutions"&&!selected&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer}/>}
-      {view==="infra"&&!selected&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
+      {view==="solutions"&&!selected&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer} navToken={navToken}/>}
+      {view==="infra"&&!selected&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp} navToken={navToken}/>}
+      {view==="howto"&&!selected&&<HowToPage onGoCatalog={function(){navigateTo("catalog");}}/>}
       {view==="configurator"&&!selected&&<ConfiguratorPage initUsecase={initParams.usecase} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
 
       {view==="catalog"&&!selected&&(
@@ -438,14 +463,7 @@ export default function App() {
         onOpenApp={function(next:any){ openApp(next); }}
         onBack={function(){ closeApp(); }}/>}
 
-      <SiteFooter onNavigate={function(v:string){
-        setSelected(null);
-        setView(v);
-        history.pushState(null, "", v==="catalog"
-          ? appendTheme(versionBase(k0rdentVer||""))
-          : appendTheme(versionBase(k0rdentVer||"") + v + "/"));
-        window.scrollTo(0,0);
-      }}/>
+      <SiteFooter onNavigate={navigateTo}/>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { SolutionCard } from './SolutionCard';
 import { SolutionDetail } from './SolutionDetail';
 import { PageHero, FilterPill } from './PageHero';
 
-export function SolutionsPage({ initSolId, initScat, initShide, k0rdentVer }:{ initSolId?:string, initScat?:string, initShide?:string, k0rdentVer?:string }) {
+export function SolutionsPage({ initSolId, initScat, initShide, k0rdentVer, navToken }:{ initSolId?:string, initScat?:string, initShide?:string, k0rdentVer?:string, navToken?:number }) {
   var [selected, setSelected] = useState<any>(null);
   var [catFilter, setCatFilter] = useState(initScat || "All");
   var [shide, setShide] = useState(initShide || "");
@@ -28,11 +28,13 @@ export function SolutionsPage({ initSolId, initScat, initShide, k0rdentVer }:{ i
     setSelected(sol);
     setShide("");
     history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",sol:sol.id,scat:catFilter}, k0rdentVer));
+    window.scrollTo(0, 0);
   }
   function closeSol() {
     setSelected(null);
     setShide("");
     history.pushState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:catFilter}, k0rdentVer));
+    window.scrollTo(0, 0);
   }
   function onShideChange(newShide:string) {
     setShide(newShide);
@@ -41,6 +43,16 @@ export function SolutionsPage({ initSolId, initScat, initShide, k0rdentVer }:{ i
   function changeCat(c:string) {
     setCatFilter(c);
     history.replaceState(null, "", buildCatalogUrl({view:"solutions",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All",scat:c}, k0rdentVer));
+  }
+
+  var navFirst = React.useRef(true);
+  useEffect(function(){
+    if (navFirst.current) { navFirst.current = false; return; }
+    setSelected(null);
+  }, [navToken]);
+
+  if (selected !== null) {
+    return <SolutionDetail sol={selected} onClose={closeSol} initShide={shide} onShideChange={onShideChange}/>;
   }
 
   return (
@@ -63,7 +75,6 @@ export function SolutionsPage({ initSolId, initScat, initShide, k0rdentVer }:{ i
         <div><div style={{fontSize:16,fontWeight:700,color:B.textPri,marginBottom:4}}>Want to contribute a solution bundle?</div><div style={{fontSize:13,lineHeight:"20px",color:B.textSec}}>Open a PR with your bundle definition and component list.</div></div>
         <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{padding:"12px 24px 9px",background:GRAD,color:"#000",border:"2px solid #000",borderRadius:20,fontSize:12,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",textDecoration:"none",whiteSpace:"nowrap"}}>Contribute a bundle</a>
       </div>
-      {selected!==null&&<SolutionDetail sol={selected} onClose={closeSol} initShide={shide} onShideChange={onShideChange}/>}
       </div>
     </div>
   );

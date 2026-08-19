@@ -23,7 +23,7 @@ VERSIONS_FILE = os.path.join(ROOT_DIR, 'versions.yaml')
 DIST_DIR = os.path.join(ROOT_DIR, 'tsweb', 'dist')
 PUBLIC_DIR = os.path.join(ROOT_DIR, 'tsweb', 'public')
 DEPLOY_DIR = os.path.join(ROOT_DIR, 'tsweb', 'deploy')
-SPA_ROUTES = ['contribute', 'solutions', 'infra', 'configurator']
+SPA_ROUTES = ['contribute', 'solutions', 'infra', 'configurator', 'howto']
 REDIRECT_HTML = '<html><head><meta http-equiv="refresh" content="0;url=latest/"></head></html>'
 
 
