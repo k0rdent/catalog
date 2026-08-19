@@ -1,0 +1,8 @@
+apiVersion: v2
+name: example
+type: application
+version: v26.4.0
+dependencies:
+  - name: dpf-operator
+    version: v26.4.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts

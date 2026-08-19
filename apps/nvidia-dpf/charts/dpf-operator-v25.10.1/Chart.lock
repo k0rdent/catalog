@@ -1,0 +1,6 @@
+dependencies:
+- name: dpf-operator
+  repository: https://helm.ngc.nvidia.com/nvidia/doca
+  version: v25.10.1
+digest: sha256:f1df881c023e4cbba318079f928e749afa31f0bd5fff21c99de898fb0101e718
+generated: "2026-08-19T14:40:05.05775-07:00"

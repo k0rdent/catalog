@@ -1,0 +1,9 @@
+apiVersion: v2
+name: dpf-operator
+description: A Helm chart that references the official "dpf-operator" Helm chart.
+type: application
+version: v25.10.1
+dependencies:
+  - name: dpf-operator
+    version: v25.10.1
+    repository: https://helm.ngc.nvidia.com/nvidia/doca
