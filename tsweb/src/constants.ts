@@ -1,18 +1,33 @@
+// Design tokens — k0rdent catalog visual system.
+// Palettes mirror the k0rdent brand: pure-black canvas, hairline rules, and a
+// cyan-to-green gradient used for the wordmark, accent rules and primary CTAs.
+export var GRAD = "linear-gradient(90deg,#00FFF7,#00FFA0)";
+export var FONT = '"Overpass",system-ui,-apple-system,"Segoe UI",sans-serif';
+export var MONO = '"Fira Mono",ui-monospace,SFMono-Regular,Menlo,monospace';
+
 export var DARK = {
-  bg0:"#0a0e1a",bg1:"#0f1424",bg2:"#151b2e",bg3:"#1c2540",
-  border:"#1e2d4a",borderHi:"#2a3f6a",
-  teal:"#00c8c8",tealBg:"#00c8c810",cyan:"#00e5ff",
-  textPri:"#e8edf8",textSec:"#7a8aaa",textMut:"#8e94a5",
-  green:"#00d48a",amber:"#f5a623",red:"#ff4d6a",purple:"#a78bfa",
-  code:"#7dd3fc",
+  bg0:"#000000",bg1:"#0A0A0C",bg2:"#131417",bg3:"#1E1E20",
+  border:"#394867",borderHi:"#4E5F82",
+  teal:"#00FFA0",tealBg:"#00FFA012",cyan:"#00FFF7",
+  textPri:"#FFFFFF",textSec:"#ACB2C6",textMut:"#8E94A5",textDim:"#707587",
+  green:"#00FFA0",amber:"#F5A623",red:"#FF4D6A",purple:"#A78BFA",
+  code:"#1AAAFF",
+  card:"#0A0A0C",tile:"#131417",panel:"#1E1E20",panelHi:"#32343B",
+  bright:"#E4E9F7",link:"#1AAAFF",linkHover:"#00F7DB",
+  hover:"rgba(255,255,255,0.08)",header:"rgba(0,0,0,0.92)",sunken:"rgba(0,0,0,0.4)",
+  gradText:"linear-gradient(90deg,#00FFF7,#00FFA0)",
 };
 export var LIGHT = {
-  bg0:"#f0f4f8",bg1:"#ffffff",bg2:"#e8edf5",bg3:"#dce3ee",
-  border:"#c8d3e6",borderHi:"#a0b0cc",
-  teal:"#0097a7",tealBg:"#0097a710",cyan:"#0077b6",
-  textPri:"#0f1e3a",textSec:"#4a5a78",textMut:"#8a9ab8",
-  green:"#00875a",amber:"#b45309",red:"#c0162e",purple:"#6d28d9",
-  code:"#0550ae",
+  bg0:"#FFFFFF",bg1:"#FFFFFF",bg2:"#F1F4FB",bg3:"#E4E9F7",
+  border:"#C3C8DB",borderHi:"#A8AFC6",
+  teal:"#007CC7",tealBg:"#007CC712",cyan:"#12C9AE",
+  textPri:"#000000",textSec:"#555760",textMut:"#66707A",textDim:"#707587",
+  green:"#0E8F63",amber:"#B45309",red:"#C0162E",purple:"#6D28D9",
+  code:"#007CC7",
+  card:"#FFFFFF",tile:"#F1F4FB",panel:"#F1F4FB",panelHi:"#E4E9F7",
+  bright:"#1E1E20",link:"#007CC7",linkHover:"#12C9AE",
+  hover:"rgba(0,0,0,0.06)",header:"rgba(255,255,255,0.94)",sunken:"rgba(0,0,0,0.03)",
+  gradText:"linear-gradient(90deg,#007CC7,#12C9AE)",
 };
 export var B = Object.assign({}, DARK) as Record<string,string>;
 export var IS_DARK = true;
@@ -23,6 +38,8 @@ export function applyTheme(dark:boolean) {
   var hljsLink = document.getElementById("hljs-theme") as HTMLLinkElement|null;
   if (hljsLink) hljsLink.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/" + (dark ? "github-dark" : "github") + ".min.css";
   document.body.style.background = B.bg0;
+  document.body.style.color = B.textPri;
+  refreshSupportStyle();
 }
 export function appendTheme(url:string):string {
   if (IS_DARK) return url;
@@ -44,11 +61,19 @@ export var K8S_COMPAT = {
 };
 export var MIRANTIS_CERTIFIED = {"amd-gpu":1,"nvidia":1,"nvidia-network-operator":1,"ceph":1,"cert-manager":1,"external-secrets":1,"mirantis-kyverno-guardrails":1,"mirantis-velero":1,"msr":1,"runai-cp":1,"stacklight":1};
 export var SUPPORT_LABEL = {community:"Community",partner:"Verified Partner","mirantis-certified":"Mirantis Certified"};
+// Tier marks follow the brand hierarchy: certified carries the gradient accent,
+// partner is an outlined chip, community is quiet text. Values are theme-derived,
+// so refreshSupportStyle() re-seeds them whenever the palette swaps.
 export var SUPPORT_STYLE = {
-  community:{bg:"#ffffff08",text:B.textSec,border:"#ffffff15"},
-  partner:{bg:"#00d48a10",text:B.green,border:"#00d48a30"},
-  "mirantis-certified":{bg:"#00c8c810",text:B.teal,border:"#00c8c840"},
+  community:{bg:"transparent",text:B.textDim,border:"transparent"},
+  partner:{bg:"transparent",text:B.textPri,border:B.textMut},
+  "mirantis-certified":{bg:B.tealBg,text:B.teal,border:B.teal+"40"},
 };
+export function refreshSupportStyle() {
+  SUPPORT_STYLE.community = {bg:"transparent",text:B.textDim,border:"transparent"};
+  SUPPORT_STYLE.partner = {bg:"transparent",text:B.textPri,border:B.textMut};
+  SUPPORT_STYLE["mirantis-certified"] = {bg:B.tealBg,text:B.teal,border:B.teal+"40"};
+}
 export var TIER_DESC = {
   "mirantis-certified":"Fully verified and tested end-to-end with k0rdent AI Enterprise. Provided with Mirantis Enterprise Support.",
   partner:"Functionally tested and supported for use with k0rdent AI Enterprise. Eligibility for Mirantis Enterprise Support is evaluated on a case-by-case basis.",

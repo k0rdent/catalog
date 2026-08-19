@@ -1,41 +1,57 @@
 import React from 'react';
-import { B, SUPPORT_STYLE, SUPPORT_LABEL, COMPLIANCE, tagAccent } from '../constants';
+import { B, GRAD, MONO, SUPPORT_LABEL, tagAccent } from '../constants';
 import { getEff } from '../utils';
 import { AppLogo } from './AppLogo';
 
+// Tier mark: certified gets the gradient dot, partner an outlined chip,
+// community stays quiet — the same hierarchy used in the tier legend.
+function TierMark({ eff }:{eff:string}) {
+  if (eff === "mirantis-certified") {
+    return <span style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.teal}}>
+      <span style={{width:7,height:7,borderRadius:"50%",background:GRAD}}/>{SUPPORT_LABEL["mirantis-certified"]}
+    </span>;
+  }
+  if (eff === "partner") {
+    return <span style={{alignSelf:"flex-start",fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textPri,border:"1px solid "+B.textMut,borderRadius:4,padding:"3px 8px 1px"}}>{SUPPORT_LABEL.partner}</span>;
+  }
+  return <span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textDim}}>{SUPPORT_LABEL.community}</span>;
+}
+
 export function Card({ item, onOpen }) {
   var eff = getEff(item);
-  var ss = SUPPORT_STYLE[eff];
-  var accent = tagAccent(item.tags[0]||"Other");
-  var compTags = COMPLIANCE[item.name]||[];
-  var isCert = eff==="mirantis-certified";
-  var initials = "";
-  var parts = item.name.replace(/-/g," ").split(" ");
-  for(var pi=0;pi<Math.min(2,parts.length);pi++) initials+=parts[pi][0].toUpperCase();
+  var cat = item.tags && item.tags.length ? item.tags[0] : "Other";
+  var accent = tagAccent(cat);
+  // Upstream org reads as the publisher; fall back to the catalog id.
+  var publisher = item.githubRepo ? String(item.githubRepo).split("/")[0] : item.name;
+  var version = String(item.version || "").replace(/^v/, "");
   return (
     <div onClick={onOpen}
-      onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"80";e.currentTarget.style.boxShadow="0 0 18px "+B.teal+"18";e.currentTarget.style.transform="translateY(-1px)";}}
-      onMouseLeave={function(e){e.currentTarget.style.borderColor=isCert?B.teal+"30":B.border;e.currentTarget.style.boxShadow=isCert?"0 0 10px "+B.teal+"10":"none";e.currentTarget.style.transform="none";}}
-      style={{background:B.bg1,border:"1px solid "+(isCert?B.teal+"30":B.border),borderRadius:10,padding:"13px",display:"flex",flexDirection:"column",cursor:"pointer",position:"relative",overflow:"hidden",transition:"border-color 0.15s,box-shadow 0.15s,transform 0.15s"}}
+      onMouseEnter={function(e){e.currentTarget.style.borderColor=B.textMut;e.currentTarget.style.background=B.tile;}}
+      onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.card;}}
+      style={{position:"relative",display:"flex",flexDirection:"column",gap:14,padding:"20px 20px 18px",
+        background:B.card,border:"1px solid "+B.border,borderRadius:8,cursor:"pointer",
+        transition:"border-color 160ms ease, background 160ms ease"}}
     >
-      {isCert&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")"}}/>}
-      <div style={{display:"flex",gap:9,alignItems:"flex-start"}}>
-        <AppLogo name={item.name} size={32} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
-        <div style={{flex:1,minWidth:0}}>
-          <div style={{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}}>
-            <span style={{fontWeight:600,fontSize:14,color:B.textPri}}>{item.title||item.name}</span>
-            <span style={{fontSize:8.5,padding:"1px 5px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[eff]}</span>
-          </div>
-          <div style={{display:"flex",gap:4,marginTop:3,flexWrap:"wrap"}}>
-            {item.tags.slice(0,2).map(function(t){return <span key={t} style={{fontSize:9,padding:"1px 5px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),fontWeight:500,border:"1px solid "+tagAccent(t)+"25"}}>{t}</span>;})}
-            <span style={{fontSize:8.5,color:B.textMut,fontFamily:"monospace"}}>{item.version}</span>
-          </div>
+      <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
+        <AppLogo name={item.name} size={42} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
+        <div style={{flex:1,minWidth:0,display:"flex",flexDirection:"column",gap:3,paddingTop:2}}>
+          <span style={{fontSize:17,lineHeight:"22px",fontWeight:700,color:B.textPri,overflowWrap:"anywhere"}}>{item.title||item.name}</span>
+          <span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textDim,overflowWrap:"anywhere"}}>{publisher}</span>
         </div>
       </div>
-      <p style={{fontSize:13,color:B.textSec,marginTop:8,paddingBottom:2,lineHeight:1.6,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",flex:1,textAlign:"justify"}}>{item.desc}</p>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:8,paddingTop:7,borderTop:"1px solid "+B.border}}>
-        {item.tested&&<span style={{fontSize:9.5,color:B.green}}>{"✓ CI-validated"}</span>}
-        <span style={{fontSize:9.5,color:B.teal,fontWeight:500}}>View details</span>
+
+      <p style={{margin:0,fontSize:13,lineHeight:"20px",color:B.textSec,textWrap:"pretty",
+        display:"-webkit-box",WebkitLineClamp:3,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{item.desc}</p>
+
+      <div style={{marginTop:"auto",paddingTop:8,display:"flex",flexDirection:"column",gap:12}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
+          <TierMark eff={eff}/>
+          {item.tested&&<span style={{fontSize:11,fontWeight:700,color:B.textMut,letterSpacing:"0.04em"}}>{"✓ CI-validated"}</span>}
+        </div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:"8px 12px",borderTop:"1px solid "+B.border,paddingTop:12}}>
+          <span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textSec,padding:"4px 10px 2px",border:"1px solid "+B.border,borderRadius:4}}>{cat}</span>
+          {version&&<span style={{fontFamily:MONO,fontSize:12,color:B.textDim}}>v{version}</span>}
+        </div>
       </div>
     </div>
   );

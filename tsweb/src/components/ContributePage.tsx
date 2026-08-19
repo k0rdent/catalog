@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { B } from '../constants';
+import { PageHero } from './PageHero';
 import { BASE } from '../utils';
 import { HtmlWithCopy } from './HtmlWithCopy';
 
@@ -13,11 +14,18 @@ export function ContributePage() {
       .catch(function(){ setLoading(false); });
   }, []);
   return (
-    <div style={{maxWidth:860,margin:"0 auto",padding:"30px 20px 0"}}>
+    <div>
+      <PageHero
+        eyebrow="Open source · Community"
+        title="Contribute to the catalog"
+        lede="Add an application, improve an existing entry, or propose a solution bundle. Everything in the catalog lives in a public repository and ships through pull requests."
+      />
+      <div style={{maxWidth:900,margin:"0 auto",padding:"44px 40px 0"}}>
       {loading ? <div style={{color:B.textSec,fontSize:13}}>Loading...</div>
         : html ? <HtmlWithCopy html={html} style={{fontSize:14,color:B.textSec,lineHeight:1.8}}/>
         : <div style={{color:B.textMut,fontSize:13}}>Contribute page not available.</div>
       }
+      </div>
     </div>
   );
 }

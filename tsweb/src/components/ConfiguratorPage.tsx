@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { B } from '../constants';
+import { B, MONO } from '../constants';
 import { buildCatalogUrl, dataPrefix, slugify } from '../utils';
 import { SOLUTIONS, CONFIGURATOR_SOLUTIONS } from '../state';
 import { HtmlWithCopy } from './HtmlWithCopy';
 import { CldCostEstimator } from './FinOpsEstimator';
+import { PageHero } from './PageHero';
 
 export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentVer }:{ initUsecase?:string, initCcloud?:string, initCscale?:string, k0rdentVer?:string }) {
   var [step, setStep] = useState(0); // 0=solution, 1=cloud, 2=scale
@@ -78,24 +79,22 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
   ];
 
   return (
-    <div style={{maxWidth:1140,margin:"0 auto",padding:"28px 20px 0"}}>
-      <div style={{marginBottom:24,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
-        <div style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em",marginBottom:8}}>Validated · Composable · One-click deploy</div>
-        <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 6px"}}>Stack <span style={{color:B.teal}}>configurator</span></h1>
-        <p style={{fontSize:13,color:B.textSec,lineHeight:1.8,maxWidth:760,margin:"0 0 14px",textAlign:"justify"}}>
-          Choose a solution, target infrastructure, and scale to get a validated ClusterDeployment manifest you can apply directly to your k0rdent management cluster.
-        </p>
-      </div>
-
+    <div>
+      <PageHero
+        eyebrow="Validated · Composable · One-click deploy"
+        title="Stack configurator"
+        lede="Choose a solution, target infrastructure, and scale to get a validated ClusterDeployment manifest you can apply directly to your k0rdent management cluster."
+      />
+      <div style={{maxWidth:1440,margin:"0 auto",padding:"40px 40px 0"}}>
       {/* Progress bar */}
-      <div style={{display:"flex",gap:0,marginBottom:28,background:B.bg2,borderRadius:8,overflow:"hidden",border:"1px solid "+B.border,maxWidth:720,margin:"0 auto 28px"}}>
+      <div style={{display:"flex",gap:1,background:B.border,border:"1px solid "+B.border,maxWidth:760,margin:"0 auto 36px"}}>
         {stepLabels.map(function(s,si){
           var isActive=si===step;
           var isDone=si<step||(si===2&&!!scale);
           return (
-            <div key={s.label} onClick={function(){if(si<step){setStep(si);}}} style={{flex:1,padding:"10px 12px",background:isActive?B.teal+"18":isDone?B.bg3:"transparent",borderRight:si<stepLabels.length-1?"1px solid "+B.border:"none",cursor:si<step?"pointer":"default"}}>
-              <div style={{fontSize:9,fontWeight:600,color:isActive?B.teal:isDone?B.green:B.textMut,textTransform:"uppercase",marginBottom:2}}>{si+1}. {s.label}</div>
-              <div style={{fontSize:10,color:isActive?B.textPri:isDone?B.textSec:B.textMut}}>
+            <div key={s.label} onClick={function(){if(si<step){setStep(si);}}} style={{flex:1,padding:"14px 16px",background:isActive?B.panel:B.bg0,cursor:si<step?"pointer":"default"}}>
+              <div style={{fontSize:11,fontWeight:800,letterSpacing:"0.1em",color:isActive?B.teal:isDone?B.textSec:B.textDim,textTransform:"uppercase",marginBottom:4}}>{si+1}. {s.label}</div>
+              <div style={{fontSize:13,lineHeight:"18px",color:isActive?B.textPri:isDone?B.textSec:B.textDim}}>
                 {isDone && s.value ? s.value : (si===0?"What are you building?":si===1?"Where are you deploying?":"Select cluster scale")}
               </div>
             </div>
@@ -106,15 +105,15 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
       {/* Step 0: Pick solution */}
       {step===0 && (
         <div style={{maxWidth:720,margin:"0 auto"}}>
-          <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What are you building?</h2>
+          <h2 style={{fontSize:32,lineHeight:"38px",fontWeight:700,color:B.textPri,margin:"0 0 22px"}}>What are you building?</h2>
 
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
             {configSolutions.map(function(sol:any){
               return (
                 <div key={sol.id} onClick={function(){selectSolution(sol);}}
-                  onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}
-                  onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}
-                  style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
+                  onMouseEnter={function(e){e.currentTarget.style.borderColor=B.textMut;e.currentTarget.style.background=B.tile;}}
+                  onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.card;}}
+                  style={{background:B.card,border:"1px solid "+B.border,borderRadius:8,padding:"18px 20px",cursor:"pointer",transition:"border-color 160ms ease, background 160ms ease"}}
                 >
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
                     <span style={{fontSize:16,color:B.textMut}}>{sol.cfgIcon||sol.icon||"◈"}</span>
@@ -127,8 +126,8 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
           </div>
           {configSolutions.length===0&&<div style={{padding:20,textAlign:"center",color:B.textMut,fontSize:12}}>No solutions with configurator metadata found.</div>}
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:20}}>
-            <button style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,opacity:0.4,cursor:"default",fontFamily:"inherit"}}>Back</button>
-            <span style={{fontSize:11,color:B.textMut}}>Step 1 of 3</span>
+            <button style={{padding:"12px 24px 9px",background:"none",border:"2px solid "+B.border,borderRadius:20,fontSize:12,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",color:B.textDim,opacity:0.5,cursor:"default",fontFamily:"inherit"}}>Back</button>
+            <span style={{fontFamily:MONO,fontSize:12,color:B.textDim}}>Step 1 of 3</span>
             <div style={{width:80}}/>
           </div>
         </div>
@@ -137,7 +136,7 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
       {/* Step 1: Pick infrastructure */}
       {step===1 && (
         <div style={{maxWidth:720,margin:"0 auto"}}>
-          <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>Where are you deploying?</h2>
+          <h2 style={{fontSize:32,lineHeight:"38px",fontWeight:700,color:B.textPri,margin:"0 0 22px"}}>Where are you deploying?</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
             {infraList.map(function(provider:any){
               var active=cloud===provider.id;
@@ -158,8 +157,8 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
             })}
           </div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:20}}>
-            <button onClick={back} style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>Back</button>
-            <span style={{fontSize:11,color:B.textMut}}>Step 2 of 3</span>
+            <button onClick={back} style={{padding:"12px 24px 9px",background:"none",border:"2px solid "+B.textPri,borderRadius:20,fontSize:12,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",color:B.textPri,cursor:"pointer",fontFamily:"inherit"}}>Back</button>
+            <span style={{fontFamily:MONO,fontSize:12,color:B.textDim}}>Step 2 of 3</span>
             <div style={{width:80}}/>
           </div>
         </div>
@@ -168,15 +167,15 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
       {/* Step 2: Pick scale */}
       {step===2 && !scale && (
         <div style={{maxWidth:720,margin:"0 auto"}}>
-          <h2 style={{fontSize:18,fontWeight:700,color:B.textPri,margin:"0 0 16px"}}>What is your expected cluster scale?</h2>
+          <h2 style={{fontSize:32,lineHeight:"38px",fontWeight:700,color:B.textPri,margin:"0 0 22px"}}>What is your expected cluster scale?</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>
             {cldsList.map(function(cldItem:any){
               var cldId=cldItem.id||slugify(cldItem.title);
               return (
                 <div key={cldId} onClick={function(){selectScale(cldId);}}
-                  onMouseEnter={function(e){e.currentTarget.style.borderColor=B.teal+"40";e.currentTarget.style.background=B.bg2;}}
-                  onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.bg1;}}
-                  style={{background:B.bg1,border:"1px solid "+B.border,borderRadius:10,padding:"14px 16px",cursor:"pointer",transition:"all 0.15s"}}
+                  onMouseEnter={function(e){e.currentTarget.style.borderColor=B.textMut;e.currentTarget.style.background=B.tile;}}
+                  onMouseLeave={function(e){e.currentTarget.style.borderColor=B.border;e.currentTarget.style.background=B.card;}}
+                  style={{background:B.card,border:"1px solid "+B.border,borderRadius:8,padding:"18px 20px",cursor:"pointer",transition:"border-color 160ms ease, background 160ms ease"}}
                 >
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
                     <span style={{fontSize:16,color:B.textMut}}>{cldItem.icon}</span>
@@ -188,8 +187,8 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
             })}
           </div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:20}}>
-            <button onClick={back} style={{padding:"8px 18px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,fontSize:12,color:B.textSec,cursor:"pointer",fontFamily:"inherit"}}>Back</button>
-            <span style={{fontSize:11,color:B.textMut}}>Step 3 of 3</span>
+            <button onClick={back} style={{padding:"12px 24px 9px",background:"none",border:"2px solid "+B.textPri,borderRadius:20,fontSize:12,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",color:B.textPri,cursor:"pointer",fontFamily:"inherit"}}>Back</button>
+            <span style={{fontFamily:MONO,fontSize:12,color:B.textDim}}>Step 3 of 3</span>
             <div style={{width:80}}/>
           </div>
         </div>
@@ -269,6 +268,7 @@ export function ConfiguratorPage({ initUsecase, initCcloud, initCscale, k0rdentV
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }

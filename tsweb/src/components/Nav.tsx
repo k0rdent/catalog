@@ -1,6 +1,21 @@
 import React from 'react';
-import { appendTheme } from '../constants';
+import { B, GRAD, appendTheme } from '../constants';
 import { BASE, versionBase } from '../utils';
+
+var TABS = [
+  {id:"catalog",label:"Catalog"},
+  {id:"infra",label:"Infrastructure"},
+  {id:"solutions",label:"Solutions"},
+  {id:"configurator",label:"Configurator"},
+];
+
+// Ghost icon button used for the theme toggle and the GitHub link.
+function iconBtnStyle():any {
+  return {display:"inline-flex",alignItems:"center",justifyContent:"center",flex:"none",
+    width:38,height:38,border:"2px solid "+B.textPri,borderRadius:"50%",background:"none",
+    color:B.textPri,cursor:"pointer",padding:0,textDecoration:"none",
+    transition:"background 160ms ease"};
+}
 
 export function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChange, dark, toggleTheme }:any) {
   function navTo(v:string) {
@@ -13,37 +28,67 @@ export function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersi
     }
   }
   var displayVer = k0rdentVer || versions.latest || "";
+  function hoverBg(e:any){ e.currentTarget.style.background = B.hover; }
+  function clearBg(e:any){ e.currentTarget.style.background = "none"; }
+
   return (
-    <div style={{background:"#000000",borderBottom:"1px solid #555760",padding:"0 20px",position:"sticky",top:0,zIndex:100}}>
-      <div className="k0-nav-inner" style={{maxWidth:1140,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:52}}>
-        <div className="k0-nav-left" style={{display:"flex",alignItems:"center",gap:14}}>
-          <img onClick={function(){navTo("catalog");}} src={BASE+"k0rdent-logo.svg"} alt="k0rdent" style={{cursor:"pointer",height:22}} />
+    <header style={{position:"sticky",top:0,zIndex:100,background:B.header,backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",borderBottom:"1px solid "+B.border}}>
+      <div className="k0-nav-inner" style={{maxWidth:1440,margin:"0 auto",padding:"0 40px",height:80,display:"flex",alignItems:"center",gap:18}}>
+        <div className="k0-nav-brand" onClick={function(){navTo("catalog");}} style={{flex:"none",display:"flex",alignItems:"baseline",gap:12,cursor:"pointer"}}>
+          <span style={{fontSize:26,fontWeight:800,letterSpacing:"-0.02em",color:B.textPri}}>
+            k<span style={{background:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>0</span>rdent
+          </span>
           {versions.versions.length > 0 && (
-            <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}} style={{padding:"3px 6px",fontSize:10,background:"#161618",color:"#ffffff",border:"1px solid #555760",borderRadius:4,cursor:"pointer",fontFamily:"monospace",outline:"none"}}>
+            <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}}
+              className="k0-nav-ver"
+              style={{padding:"3px 6px",fontSize:11,background:B.tile,color:B.textSec,border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",fontFamily:"'Fira Mono',ui-monospace,Menlo,monospace",outline:"none"}}>
               {versions.versions.slice().reverse().map(function(v:string){
-                return <option key={v} value={v}>{v}{v===versions.latest?" (latest)":""}</option>;
+                return <option key={v} value={v} style={{background:B.tile,color:B.textPri}}>{v}{v===versions.latest?" (latest)":""}</option>;
               })}
             </select>
           )}
-          <div className="k0-nav-actions" style={{display:"none",gap:5,alignItems:"center"}}>
-            <button onClick={toggleTheme} title={dark?"Switch to light theme":"Switch to dark theme"} style={{width:34,height:20,borderRadius:10,border:"1px solid #555760",background:"#000000",cursor:"pointer",position:"relative",padding:0,flexShrink:0}}><span style={{position:"absolute",top:2,left:dark?2:"auto",right:dark?"auto":2,width:14,height:14,borderRadius:"50%",background:"#f1f4fb",display:"flex",alignItems:"center",justifyContent:"center",fontSize:8}}>{dark?"\u263E":"\u2600"}</span></button>
-            <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:10,color:"#ffffff",textDecoration:"none",padding:"3px 10px",border:"1px solid #ffffff",borderRadius:999,background:"transparent"}}>G</a>
-            <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:10,color:"#000000",padding:"3px 10px",borderRadius:999,background:"#35db78",fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>C</a>
-          </div>
-          <div className="k0-nav-tabs" style={{display:"flex",gap:0,height:52,alignItems:"stretch"}}>
-            {["catalog","infra","solutions","configurator"].map(function(v){
-              var active=view===v;
-              var label=v==="infra"?"Infrastructure":v;
-              return <button key={v} onClick={function(){navTo(v);}} style={{padding:"0 14px",fontSize:12,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",fontFamily:"inherit",fontWeight:active?600:400,textTransform:"capitalize"}}>{label}</button>;
-            })}
-          </div>
         </div>
-        <div className="k0-nav-right" style={{display:"flex",gap:8,alignItems:"center"}}>
-          <button onClick={toggleTheme} title={dark?"Switch to light theme":"Switch to dark theme"} style={{width:40,height:24,borderRadius:12,border:"1px solid #555760",background:"#000000",cursor:"pointer",position:"relative",padding:0,flexShrink:0,transition:"background 0.2s"}}><span style={{position:"absolute",top:2,left:dark?2:"auto",right:dark?"auto":2,width:18,height:18,borderRadius:"50%",background:"#f1f4fb",transition:"left 0.2s,right 0.2s",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10}}>{dark?"\u263E":"\u2600"}</span></button>
-          <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" style={{fontSize:11,color:"#ffffff",textDecoration:"none",padding:"5px 14px",border:"1px solid #ffffff",borderRadius:999,background:"transparent"}}>GitHub</a>
-          <a href={BASE+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:11,color:"#000000",padding:"5px 14px",borderRadius:999,background:"#35db78",fontWeight:600,border:"none",cursor:"pointer",fontFamily:"inherit",textDecoration:"none"}}>Contribute</a>
-        </div>
+
+        <nav className="k0-nav-tabs" style={{flex:"0 1 auto",display:"flex",alignItems:"center",gap:16,marginLeft:2}}>
+          {TABS.map(function(t){
+            var active = view === t.id;
+            return <button key={t.id} onClick={function(){navTo(t.id);}}
+              onMouseEnter={function(e){ if(!active) e.currentTarget.style.color = B.textPri; }}
+              onMouseLeave={function(e){ if(!active) e.currentTarget.style.color = B.textMut; }}
+              style={{background:"none",border:"none",padding:"4px 0",cursor:"pointer",fontFamily:"inherit",
+                fontSize:13,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.08em",
+                color:active?B.textPri:B.textMut,
+                borderBottom:"2px solid "+(active?"transparent":"transparent"),
+                backgroundImage:active?B.gradText:"none",
+                WebkitBackgroundClip:active?"text":"border-box",
+                backgroundClip:active?"text":"border-box",
+                WebkitTextFillColor:active?"transparent":"currentColor"}}>{t.label}</button>;
+          })}
+        </nav>
+
+        <div style={{flex:1}}/>
+
+        <button onClick={toggleTheme} title={dark?"Switch to light theme":"Switch to dark theme"}
+          onMouseEnter={hoverBg} onMouseLeave={clearBg} style={iconBtnStyle()}>
+          {dark
+            ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>}
+        </button>
+
+        <a href="https://github.com/k0rdent/catalog" target="_blank" rel="noreferrer" title="GitHub"
+          onMouseEnter={hoverBg} onMouseLeave={clearBg} style={iconBtnStyle()}>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49l-.01-1.9c-2.78.62-3.37-1.22-3.37-1.22-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.34 9.34 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.59.69.49A10.03 10.03 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+        </a>
+
+        <button onClick={function(){navTo("contribute");}}
+          onMouseEnter={function(e){ e.currentTarget.style.filter = "brightness(1.08)"; }}
+          onMouseLeave={function(e){ e.currentTarget.style.filter = "none"; }}
+          className="k0-nav-cta"
+          style={{flex:"none",display:"inline-flex",alignItems:"center",padding:"10px 22px 7px",
+            border:"2px solid #000",borderRadius:20,background:GRAD,color:"#000",
+            fontSize:13,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",
+            cursor:"pointer",fontFamily:"inherit"}}>Contribute</button>
       </div>
-    </div>
+    </header>
   );
 }

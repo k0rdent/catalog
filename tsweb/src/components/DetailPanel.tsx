@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { B, SUPPORT_STYLE, SUPPORT_LABEL, COMPLIANCE, tagAccent } from '../constants';
+import { B, GRAD, MONO, FONT, SUPPORT_LABEL, COMPLIANCE, tagAccent } from '../constants';
 import { getEff, deployStats, fmtNum } from '../utils';
 import { RAW } from '../state';
 import { useScanData, scanVersions } from '../hooks/useScanData';
@@ -25,7 +25,6 @@ export function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0r
     }
   }
   var eff = getEff(item);
-  var ss = SUPPORT_STYLE[eff];
   var compTags = COMPLIANCE[item.name] || [];
   var accent = tagAccent(item.tags[0] || "Other");
   var initials = "";
@@ -43,8 +42,17 @@ export function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0r
   },[]);
 
   function tabStyle(active) {
-    return {padding:"8px 14px",fontSize:13,fontWeight:active?600:400,color:active?"#35db78":"#ffffff",background:"transparent",border:"none",borderBottom:"2px solid "+(active?"#35db78":"transparent"),cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit"};
+    return {padding:"12px 14px 10px",fontSize:12,fontWeight:800,textTransform:"uppercase" as const,letterSpacing:"0.08em",
+      color:active?B.textPri:B.textMut,background:"transparent",border:"none",
+      borderBottom:"2px solid "+(active?B.teal:"transparent"),cursor:"pointer",whiteSpace:"nowrap" as const,fontFamily:"inherit"};
   }
+
+  // Tier mark shared with the cards, so the panel reads as the same system.
+  var tierMark = eff==="mirantis-certified"
+    ? <span style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.teal}}><span style={{width:7,height:7,borderRadius:"50%",background:GRAD}}/>{SUPPORT_LABEL[eff]}</span>
+    : eff==="partner"
+      ? <span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textPri,border:"1px solid "+B.textMut,borderRadius:4,padding:"3px 8px 1px"}}>{SUPPORT_LABEL[eff]}</span>
+      : <span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textDim}}>{SUPPORT_LABEL[eff]}</span>;
 
   var whyCopy = item.whyInCatalog || (function(){
     var tg = item.tags[0]||"";
@@ -61,43 +69,43 @@ export function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0r
 
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:1000,display:"flex",alignItems:"stretch",justifyContent:"flex-end"}}>
-      <div className="k0-backdrop" style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(5,8,20,0.7)"}}/>
-      <div className="k0-detail-panel" onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(680px,100vw)",background:B.bg1,borderLeft:"1px solid "+B.borderHi,display:"flex",flexDirection:"column",overflowY:"auto"}}>
-        {eff==="mirantis-certified"&&<div style={{height:2,background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",flexShrink:0}}/>}
-        <div className="k0-detail-header" style={{padding:"18px 22px 0",flexShrink:0,background:"#000000"}}>
+      <div className="k0-backdrop" style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.72)",backdropFilter:"blur(2px)"}}/>
+      <div className="k0-detail-panel" onClick={function(e){e.stopPropagation();}} style={{position:"relative",width:"min(720px,100vw)",background:B.card,borderLeft:"1px solid "+B.border,display:"flex",flexDirection:"column",overflowY:"auto",fontFamily:FONT,color:B.textPri}}>
+        {eff==="mirantis-certified"&&<div style={{height:2,background:GRAD,flexShrink:0}}/>}
+        <div className="k0-detail-header" style={{padding:"22px 26px 0",flexShrink:0,background:B.bg0,borderBottom:"1px solid "+B.border}}>
           <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:12}}>
             <AppLogo name={item.name} size={44} accent={accent} logo={item.logo} brandColor={item.brandColor}/>
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:4}}>
-                <h2 style={{fontSize:19,fontWeight:700,color:"#ffffff",margin:0}}>{item.title||item.name}</h2>
-                <span style={{fontSize:9,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[eff]}</span>
+                <h2 style={{fontSize:24,lineHeight:"30px",fontWeight:700,letterSpacing:"-0.01em",color:B.textPri,margin:0}}>{item.title||item.name}</h2>
+                {tierMark}
               </div>
               <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                {item.tags.map(function(t){return <span key={t} style={{fontSize:9.5,padding:"1px 6px",borderRadius:3,background:tagAccent(t)+"15",color:tagAccent(t),border:"1px solid "+tagAccent(t)+"25",fontWeight:500}}>{t}</span>;})}
+                {item.tags.map(function(t){return <span key={t} style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textSec,padding:"4px 10px 2px",border:"1px solid "+B.border,borderRadius:4}}>{t}</span>;})}
               </div>
             </div>
-            <button onClick={onClose} style={{background:"transparent",border:"1px solid #555760",borderRadius:6,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:"#ffffff",cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
+            <button onClick={onClose} style={{background:"none",border:"2px solid "+B.textPri,borderRadius:"50%",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center",color:B.textPri,cursor:"pointer",fontSize:14,fontFamily:"inherit",flexShrink:0}}>✕</button>
           </div>
-          <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",borderBottom:"1px solid #555760",marginLeft:-22,marginRight:-22,paddingLeft:22,gap:0}}>
+          <div className="k0-detail-tabs" style={{display:"flex",flexWrap:"wrap",alignItems:"flex-end",marginLeft:-26,marginRight:-26,paddingLeft:26,paddingRight:26,gap:4}}>
             {["overview","install","validation","images","vulnerabilities","cost"].filter(function(t){ if(t==="install"&&item.showInstall===false)return false; if(item.type==="infra"&&(t==="validation"||t==="cost"||t==="images"||t==="vulnerabilities"))return false; if((t==="images"||t==="vulnerabilities")&&!item.hasScan)return false; return true; }).map(function(t){
               var tLabel = t.charAt(0).toUpperCase()+t.slice(1);
               var tCount = t==="images"?_scanCounts.images:t==="vulnerabilities"?_scanCounts.vulns:-1;
               var tActive = tab===t;
-              return <button key={t} onClick={function(){setTab(t);if(t==="images"||t==="vulnerabilities"){setImagesKey(function(k){return k+1;});setDetailImg("");setDetailImgChart("");setDetailImgSub("");}}} style={tabStyle(tActive)}>{tLabel}{tCount>=0&&<span style={{marginLeft:6,fontSize:10,padding:"1px 6px",borderRadius:10,background:tActive?"#35db78":"#ffffff",color:tActive?"#000000":"#000000",fontWeight:700}}>{tCount}</span>}</button>;
+              return <button key={t} onClick={function(){setTab(t);if(t==="images"||t==="vulnerabilities"){setImagesKey(function(k){return k+1;});setDetailImg("");setDetailImgChart("");setDetailImgSub("");}}} style={tabStyle(tActive)}>{tLabel}{tCount>=0&&<span style={{marginLeft:6,fontFamily:MONO,fontSize:11,padding:"1px 7px",borderRadius:10,background:tActive?B.teal:B.panel,color:tActive?"#000":B.textSec,fontWeight:700}}>{tCount}</span>}</button>;
             })}
             <div style={{flex:1,minWidth:20}}/>
-            {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"8px 16px",fontSize:11,color:"#000000",textDecoration:"none",background:"#35db78",fontWeight:600,alignSelf:"flex-end",marginBottom:-1,borderTopLeftRadius:5,borderTopRightRadius:5}}>Docs</a>}
+            {item.doc_link && <a href={item.doc_link} target="_blank" rel="noreferrer" style={{padding:"9px 20px 6px",fontSize:12,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",color:"#000",textDecoration:"none",background:GRAD,border:"2px solid #000",borderRadius:20,alignSelf:"center",marginBottom:8}}>Docs</a>}
           </div>
         </div>
-        <div className="k0-detail-content" style={{padding:"18px 22px",flex:1}}>
+        <div className="k0-detail-content" style={{padding:"22px 26px",flex:1}}>
           {tab==="overview" && item.type==="infra" && (
             <div>
               {item.descriptionHtml ? <HtmlWithCopy html={item.descriptionHtml} style={{fontSize:14,color:B.textSec,lineHeight:1.8,marginTop:0}}/> : <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>}
-              <div style={{marginTop:16,padding:"11px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
-                <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
-                <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
+              <div style={{marginTop:20,padding:"16px 18px",background:B.tile,border:"1px solid "+B.border,borderRadius:8,display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+                <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textPri}}>Ready to deploy?</span>
+                <button onClick={function(){setTab("install");}} style={{background:GRAD,border:"2px solid #000",borderRadius:20,padding:"10px 20px 7px",fontSize:12,color:"#000",fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
               </div>
-              {item.supportLink&&<div style={{marginTop:8,padding:"11px 14px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
+              {item.supportLink&&<div style={{marginTop:10,padding:"16px 18px",background:B.tile,border:"1px solid "+B.border,borderRadius:8,display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
                 <span style={{fontSize:12,color:B.textSec}}>Looking for Commercial Support?</span>
                 <a href={item.supportLink} target="_blank" rel="noreferrer" style={{fontSize:12,color:B.teal,fontWeight:700,textDecoration:"none",textTransform:"uppercase",letterSpacing:"0.05em"}}>Learn more</a>
               </div>}
@@ -106,35 +114,35 @@ export function DetailPanel({ item, onClose, tab, setTab, selVer, setSelVer, k0r
           {tab==="overview" && item.type!=="infra" && (
             <div>
               <p style={{fontSize:14,color:B.textSec,lineHeight:1.8,marginTop:0}}>{item.desc}</p>
-              <div style={{background:B.bg2,border:"1px solid "+B.borderHi,borderRadius:8,padding:"12px 14px",marginBottom:16,display:"flex",gap:10}}>
-                <span style={{fontSize:16,color:B.teal,flexShrink:0}}>◈</span>
+              <div style={{background:B.tile,border:"1px solid "+B.border,borderRadius:8,padding:"16px 18px",marginBottom:20,display:"flex",gap:12}}>
+                <span style={{width:7,height:7,borderRadius:"50%",background:GRAD,flexShrink:0,marginTop:6}}/>
                 <div>
-                  <div style={{fontSize:10,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:4}}>Why this is in the catalog</div>
-                  <div style={{fontSize:13,color:B.textSec,lineHeight:1.7}}>{whyCopy}</div>
+                  <div style={{fontSize:11,fontWeight:800,color:B.textPri,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:8}}>Why this is in the catalog</div>
+                  <div style={{fontSize:13,color:B.textSec,lineHeight:"20px"}}>{whyCopy}</div>
                 </div>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
                 {[{l:"Latest version",v:item.version},{l:"Chart name",v:item.chartName},{l:"Support tier",v:SUPPORT_LABEL[eff]},{l:"CI validated",v:item.tested?"Yes":"Not yet"},{l:"Versions available",v:String(item.versions.length)},{l:"Last updated",v:item.lastUpdated?item.lastUpdated.slice(0,10):"—"}].map(function(r){
-                  return <div key={r.l} style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border}}><div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}</div><div style={{fontSize:12.5,color:B.textPri,fontWeight:500,fontFamily:(r.l.includes("ersion")||r.l.includes("Chart"))?"monospace":"inherit"}}>{r.v}</div></div>;
+                  return <div key={r.l} style={{background:B.tile,borderRadius:8,padding:"12px 14px",border:"1px solid "+B.border}}><div style={{fontSize:11,fontWeight:800,color:B.textDim,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:4}}>{r.l}</div><div style={{fontSize:12.5,color:B.textPri,fontWeight:500,fontFamily:(r.l.includes("ersion")||r.l.includes("Chart"))?MONO:"inherit"}}>{r.v}</div></div>;
                 })}
               </div>
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Deploy and usage signals</div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
                   {[{l:"Total downloads",v:item.pulls>0?fmtNum(item.pulls):"—",c:B.teal,href:item.chartName?"https://github.com/k0rdent/catalog/pkgs/container/catalog%2Fcharts%2F"+encodeURIComponent(item.chartName):""},{l:"GitHub stars",v:item.stars>0?fmtNum(item.stars):"—",c:B.cyan,href:item.githubRepo?"https://github.com/"+item.githubRepo:""}].map(function(r:any){
-                    var box = <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border,cursor:r.href?"pointer":"default"}}><div style={{fontSize:9.5,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.07em",marginBottom:2}}>{r.l}{r.href&&<span style={{marginLeft:4,fontSize:8}}>↗</span>}</div><div style={{fontSize:12.5,color:r.c,fontWeight:600,fontFamily:"monospace"}}>{r.v}</div></div>;
+                    var box = <div style={{background:B.bg2,borderRadius:7,padding:"9px 12px",border:"1px solid "+B.border,cursor:r.href?"pointer":"default"}}><div style={{fontSize:11,fontWeight:800,color:B.textDim,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:4}}>{r.l}{r.href&&<span style={{marginLeft:4,fontSize:8}}>↗</span>}</div><div style={{fontSize:14,color:r.c,fontWeight:700,fontFamily:MONO}}>{r.v}</div></div>;
                     return r.href ? <a key={r.l} href={r.href} target="_blank" rel="noreferrer" style={{textDecoration:"none"}}>{box}</a> : <div key={r.l}>{box}</div>;
                   })}
                 </div>
                 <div style={{fontSize:9.5,color:B.textMut,marginBottom:3}}>Popularity vs peak ({fmtNum(maxD)} pulls)</div>
-                <div style={{height:5,background:B.bg3,borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",width:pct+"%",background:"linear-gradient(90deg,"+B.teal+","+B.cyan+")",borderRadius:3}}/></div>
+                <div style={{height:5,background:B.bg3,borderRadius:3,overflow:"hidden"}}><div style={{height:"100%",width:pct+"%",background:GRAD,borderRadius:3}}/></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:2}}><span style={{fontSize:9,color:B.textMut}}>0</span><span style={{fontSize:9,color:B.teal,fontWeight:600}}>{pct}%</span><span style={{fontSize:9,color:B.textMut}}>{fmtNum(maxD)}</span></div>
               </div>
-              <div style={{marginTop:16,padding:"11px 14px",background:B.tealBg,border:"1px solid "+B.teal+"30",borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
-                <span style={{fontSize:12,color:B.teal,fontWeight:500}}>Ready to deploy?</span>
-                <button onClick={function(){setTab("install");}} style={{background:B.teal,border:"none",borderRadius:5,padding:"5px 14px",fontSize:12,color:B.bg0,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
+              <div style={{marginTop:20,padding:"16px 18px",background:B.tile,border:"1px solid "+B.border,borderRadius:8,display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+                <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textPri}}>Ready to deploy?</span>
+                <button onClick={function(){setTab("install");}} style={{background:GRAD,border:"2px solid #000",borderRadius:20,padding:"10px 20px 7px",fontSize:12,color:"#000",fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",fontFamily:"inherit"}}>View install steps</button>
               </div>
-              {item.supportLink&&<div style={{marginTop:8,padding:"11px 14px",background:B.bg2,border:"1px solid "+B.border,borderRadius:7,display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
+              {item.supportLink&&<div style={{marginTop:10,padding:"16px 18px",background:B.tile,border:"1px solid "+B.border,borderRadius:8,display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
                 <span style={{fontSize:12,color:B.textSec}}>Looking for Commercial Support?</span>
                 <a href={item.supportLink} target="_blank" rel="noreferrer" style={{fontSize:12,color:B.teal,fontWeight:700,textDecoration:"none",textTransform:"uppercase",letterSpacing:"0.05em"}}>Learn more</a>
               </div>}
