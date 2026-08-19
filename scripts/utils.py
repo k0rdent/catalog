@@ -226,6 +226,8 @@ def print_test_vars(args):
     print(f"DEPLOY_CHART={test_deploy_chart}")
     test_deploy_multiclusterservice = str(app_data.get('test_deploy_multiclusterservice', default)).lower()
     print(f"DEPLOY_MULTICLUSTERSERVICE={test_deploy_multiclusterservice}")
+    test_remove_multiclusterservice = str(app_data.get('test_remove_multiclusterservice', default)).lower()
+    print(f"REMOVE_MULTICLUSTERSERVICE={test_remove_multiclusterservice}")
     test_check_images = str(app_data.get('test_check_images', default)).lower()
     print(f"CHECK_IMAGES={test_check_images}")
 

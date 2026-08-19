@@ -39,6 +39,10 @@ doc_link: https://kserve.github.io/website/master/get_started/
 test_deploy_chart: false
 test_wait_for_pods: "kserve-controller-manager-"
 
+# Temporary: MCS removal hangs on kcm 1.11.0
+# - https://github.com/k0rdent/kcm/issues/3021
+test_remove_multiclusterservice: false
+
 examples:
   with_istio:
     title: With Istio

@@ -226,7 +226,7 @@ jobs:
           ./scripts/deploy_mcs.sh
 
       - name: Test - Uninstall MultiClusterDeployment
-        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        if: env.DEPLOY_MULTICLUSTERSERVICE == 'true' && env.REMOVE_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
           export TEST_MODE=adopted
