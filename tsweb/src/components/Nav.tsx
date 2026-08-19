@@ -32,15 +32,6 @@ export function Nav({ view, versions, k0rdentVer, onVersionChange, dark, toggleT
           <span style={{fontSize:26,fontWeight:800,letterSpacing:"-0.02em",color:B.textPri}}>
             k<span style={{background:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>0</span>rdent
           </span>
-          {versions.versions.length > 0 && (
-            <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}}
-              className="k0-nav-ver"
-              style={{padding:"3px 6px",fontSize:11,background:B.tile,color:B.textSec,border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",fontFamily:"'Fira Mono',ui-monospace,Menlo,monospace",outline:"none"}}>
-              {versions.versions.slice().reverse().map(function(v:string){
-                return <option key={v} value={v} style={{background:B.tile,color:B.textPri}}>{v}{v===versions.latest?" (latest)":""}</option>;
-              })}
-            </select>
-          )}
         </div>
 
         <nav className="k0-nav-tabs" style={{flex:"0 1 auto",display:"flex",alignItems:"center",gap:16,marginLeft:2}}>
@@ -59,6 +50,18 @@ export function Nav({ view, versions, k0rdentVer, onVersionChange, dark, toggleT
                 WebkitTextFillColor:active?"transparent":"currentColor"}}>{t.label}</button>;
           })}
         </nav>
+
+        {versions.versions.length > 0 && (
+          <select value={displayVer} onChange={function(e:any){onVersionChange(e.target.value);}}
+            className="k0-nav-ver" title="k0rdent version"
+            style={{flex:"none",padding:"5px 8px 4px",fontSize:11,background:B.tile,color:B.textSec,
+              border:"1px solid "+B.border,borderRadius:4,cursor:"pointer",
+              fontFamily:"'Fira Mono',ui-monospace,Menlo,monospace",outline:"none"}}>
+            {versions.versions.slice().reverse().map(function(v:string){
+              return <option key={v} value={v} style={{background:B.tile,color:B.textPri}}>{v}{v===versions.latest?" (latest)":""}</option>;
+            })}
+          </select>
+        )}
 
         <div style={{flex:1}}/>
 
