@@ -1,0 +1,48 @@
+cilium:
+  cilium:
+    cluster:
+      name: cilium
+    hubble:
+      tls:
+        enabled: false
+      auto:
+        method: helm
+        certManagerIssuerRef: {}
+      ui:
+        enabled: false
+        ingress:
+          enabled: false
+      relay:
+        enabled: false
+    ipv4:
+      enabled: true
+    ipv6:
+      enabled: false
+    envoy:
+      enabled: false
+    egressGateway:
+      enabled: false
+    kubeProxyReplacement: "true"
+    serviceAccounts:
+      cilium:
+        name: cilium
+      operator:
+        name: cilium-operator
+    localRedirectPolicy: true
+    operator:
+      replicas: 1 # the default 2 leaves a pod Pending on single-node clusters
+    ipam:
+      mode: cluster-pool
+      operator:
+        clusterPoolIPv4PodCIDRList:
+        - "192.168.224.0/20"
+        - "192.168.210.0/20"
+        clusterPoolIPv6PodCIDRList:
+        - "fd00::/104"
+    tunnelProtocol: geneve
+    # CAPI-backed clusters (aws, azure) expose the endpoint on the Cluster object.
+    # Adopted clusters are SveltosCluster only, so fall back to cilium's "auto"
+    # lookup of the kube-public/cluster-info ConfigMap. hasKey is required
+    # because sveltos renders templates with missingkey=error.
+    k8sServiceHost: auto
+    k8sServicePort: auto
