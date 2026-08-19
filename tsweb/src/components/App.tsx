@@ -280,7 +280,7 @@ export default function App() {
           .k0-nav-tabs { order: 3; width: 100%; overflow-x: auto; gap: 14px !important; }
           .k0-nav-tabs button { font-size: 11px !important; white-space: nowrap; }
           .k0-nav-cta { padding: 8px 16px 6px !important; font-size: 11px !important; }
-          .k0-nav-ver { display: none !important; }
+          .k0-nav-ver { order: 4; margin-left: auto; }
           .k0-hero { padding: 28px 16px 24px !important; }
           .k0-hero h1 { font-size: 30px !important; line-height: 34px !important; }
           .k0-stats-row { grid-template-columns: 1fr 1fr !important; }
