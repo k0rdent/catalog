@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { B, SUPPORT_STYLE, SUPPORT_LABEL, TIER_DESC, COMPLIANCE, tagAccent, applyTheme, appendTheme } from "../constants";
+import { B, GRAD, MONO, FONT, SUPPORT_LABEL, TIER_DESC, COMPLIANCE, tagAccent, applyTheme, appendTheme } from "../constants";
 import { RAW, SOLUTIONS, INFRA, CONFIGURATOR_SOLUTIONS, HARDCODED_SOLUTIONS, _catalogLoaded, ALL_TAGS, ALL_SUPPORT } from "../state";
 import { getEff, BASE, detectUrlVersion, dataPrefix, readUrlParams, versionBase, buildAppUrl, buildCatalogUrl, fmtNum } from "../utils";
 import { Nav } from "./Nav";
@@ -187,56 +187,73 @@ export default function App() {
     return r;
   },[loading,search,tag,support,sort,compliance]);
 
-  var testedCount=0; var certCount=0;
+  var testedCount=0; var certCount=0; var partnerCount=0;
+  var catCounts:Record<string,number> = {};
   if (!loading) {
-    for(var i=0;i<RAW.length;i++){if(RAW[i].tested)testedCount++;if(getEff(RAW[i])==="mirantis-certified")certCount++;}
+    for(var i=0;i<RAW.length;i++){
+      if(RAW[i].tested)testedCount++;
+      var effI=getEff(RAW[i]);
+      if(effI==="mirantis-certified")certCount++;
+      if(effI==="partner")partnerCount++;
+      for(var ti=0;ti<RAW[i].tags.length;ti++){ var tg=RAW[i].tags[ti]; catCounts[tg]=(catCounts[tg]||0)+1; }
+    }
   }
+  var catCount = ALL_TAGS.length > 0 ? ALL_TAGS.length - 1 : 0;
 
   if (loading || loadError) {
     return (
-      <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
-        {loading && <span style={{color:B.teal,fontSize:16}}>Loading catalog...</span>}
+      <div style={{fontFamily:FONT,background:B.bg0,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
+        {loading && <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textMut}}>Loading catalog…</span>}
         {loadError && <>
           <span style={{color:B.red,fontSize:14}}>{loadError}</span>
-          <button onClick={doLoad} style={{padding:"8px 20px",background:B.teal,color:B.bg0,border:"none",borderRadius:6,cursor:"pointer",fontWeight:600,fontSize:13}}>Retry</button>
+          <button onClick={function(){doLoad();}} style={{padding:"12px 26px 9px",background:GRAD,color:"#000",border:"2px solid #000",borderRadius:20,cursor:"pointer",fontWeight:900,fontSize:13,textTransform:"uppercase",letterSpacing:"0.06em",fontFamily:"inherit"}}>Retry</button>
         </>}
       </div>
     );
   }
 
   return (
-    <div style={{fontFamily:"'Inter',-apple-system,sans-serif",background:B.bg0,minHeight:"100vh",padding:"0 0 40px"}}>
+    <div style={{fontFamily:FONT,background:B.bg0,minHeight:"100vh",padding:"0 0 56px",color:B.textPri}}>
       <style>{`
-        @media (max-width: 640px) {
-          .k0-nav-inner { flex-wrap: wrap; height: auto !important; padding: 8px 0 !important; gap: 6px !important; }
-          .k0-nav-left { flex-wrap: wrap; gap: 8px !important; }
-          .k0-nav-tabs { height: 36px !important; }
-          .k0-nav-tabs button { padding: 0 8px !important; font-size: 11px !important; }
-          .k0-nav-right { display: none !important; }
-          .k0-nav-actions { display: flex !important; }
+        /* Wide layout collapses to a single column before the sidebar and the
+           hero's two-up grid start crowding each other. */
+        @media (max-width: 1080px) {
+          .k0-hero { grid-template-columns: 1fr !important; gap: 32px !important; padding: 36px 24px 28px !important; }
+          .k0-catalog-layout { grid-template-columns: 1fr !important; gap: 28px !important; padding: 32px 24px 0 !important; }
+          .k0-sidebar { position: static !important; max-height: none !important; overflow: visible !important; }
+          .k0-nav-inner { padding: 0 24px !important; }
+        }
+        @media (max-width: 760px) {
+          .k0-nav-inner { height: auto !important; flex-wrap: wrap; padding: 12px 16px !important; gap: 12px !important; row-gap: 10px !important; }
+          .k0-nav-tabs { order: 3; width: 100%; overflow-x: auto; gap: 14px !important; }
+          .k0-nav-tabs button { font-size: 11px !important; white-space: nowrap; }
+          .k0-nav-cta { padding: 8px 16px 6px !important; font-size: 11px !important; }
+          .k0-nav-ver { display: none !important; }
+          .k0-hero { padding: 28px 16px 24px !important; }
+          .k0-hero h1 { font-size: 30px !important; line-height: 34px !important; }
+          .k0-stats-row { grid-template-columns: 1fr 1fr !important; }
+          .k0-tier-row { grid-template-columns: 1fr !important; }
+          .k0-catalog-layout { padding: 24px 16px 0 !important; }
+          .k0-filter-row > div:first-child { min-width: 0 !important; }
+          .k0-card-grid { grid-template-columns: 1fr !important; }
+          .k0-infra-grid { grid-template-columns: 1fr !important; }
+          .k0-sol-grid { grid-template-columns: 1fr !important; }
           .k0-backdrop { display: none !important; }
           .k0-detail-panel { width: 100vw !important; border-left: none !important; }
           .k0-detail-tabs { padding-left: 12px !important; margin-left: -12px !important; margin-right: -12px !important; }
           .k0-detail-tabs button { padding: 6px 8px !important; font-size: 11px !important; white-space: nowrap !important; }
           .k0-detail-content { padding: 12px 14px !important; }
           .k0-detail-header { padding: 12px 14px 0 !important; }
-          .k0-card-grid { grid-template-columns: 1fr !important; }
-          .k0-infra-grid { grid-template-columns: 1fr !important; }
-          .k0-sol-grid { grid-template-columns: 1fr !important; }
-          .k0-stats-row { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; }
-          .k0-stats-row > div { padding: 5px 7px !important; font-size: 9px !important; }
-          .k0-filter-row { flex-wrap: wrap !important; }
           .k0-catalog-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
-          .k0-catalog-layout { flex-direction: column !important; }
-          .k0-sidebar { width: 100% !important; position: static !important; gap: 10px !important; }
         }
-        @media (max-width: 400px) {
-          .k0-nav-tabs button { padding: 0 5px !important; font-size: 10px !important; }
-        }
-        .anchor-link { color: #3d4d6a; text-decoration: none; margin-left: 6px; opacity: 0; transition: opacity 0.15s; font-size: 0.8em; }
+        .anchor-link { color: ${B.textDim}; text-decoration: none; margin-left: 6px; opacity: 0; transition: opacity 0.15s; font-size: 0.8em; }
         h1:hover .anchor-link, h2:hover .anchor-link, h3:hover .anchor-link, h4:hover .anchor-link { opacity: 1; }
-        a { color: #00c8c8; }
-        a:hover { color: #00e5ff; }
+        a { color: ${B.link}; }
+        a:hover { color: ${B.linkHover}; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: ${B.border}; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: ${B.borderHi}; }
       `}</style>
       <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} dark={dark} toggleTheme={toggleTheme} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
@@ -246,103 +263,151 @@ export default function App() {
       {view==="configurator"&&<ConfiguratorPage initUsecase={initParams.usecase} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
 
       {view==="catalog"&&(
-        <div style={{maxWidth:1140,margin:"0 auto",padding:"18px 20px 0"}}>
-          <div style={{marginBottom:12,paddingBottom:12,borderBottom:"1px solid "+B.border}}>
-            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:5}}>
-              <span style={{fontSize:9.5,fontWeight:600,color:B.teal,textTransform:"uppercase",letterSpacing:"0.14em"}}>Curated for AI-native Kubernetes</span>
-            </div>
-            <h1 style={{fontSize:24,fontWeight:700,color:B.textPri,margin:"0 0 8px",letterSpacing:"-0.02em"}}>Best-in-class software for <span style={{color:B.teal}}>the AI infrastructure stack</span></h1>
-            <p style={{fontSize:14,color:B.textSec,margin:"0 0 10px",lineHeight:1.8,textAlign:"justify"}}>
-              Every integration sits at the intersection of <span style={{color:B.textPri,fontWeight:500}}>AI workloads</span> and <span style={{color:B.textPri,fontWeight:500}}>cloud-native Kubernetes infrastructure</span> — production-hardened on real enterprise clusters, composable by design, and relevant across the full AI lifecycle from GPU provisioning through model serving, RAG pipelines, observability, security, and FinOps. Not a directory of everything that exists, but a curated set of <span style={{color:B.teal,fontWeight:500}}>best-in-class integrations</span> validated by Mirantis platform engineers and deployable in minutes on any infrastructure.
-            </p>
-            <div className="k0-stats-row" style={{display:"flex",gap:0,background:B.bg2,border:"1px solid "+B.border,borderRadius:8,overflow:"hidden",marginBottom:10}}>
-              {[{n:RAW.length,l:"Integrations",sub:"hand-selected",c:B.teal},{n:testedCount,l:"CI-validated",sub:"across 6 providers",c:B.green},{n:certCount,l:"Certified",sub:"Enterprise Support SLA",c:B.cyan},{n:"13",l:"Categories",sub:"GPU to GitOps",c:B.purple}].map(function(s,si,arr){
-                return <div key={s.l} style={{flex:"1 1 0",padding:"9px 12px",borderRight:si<arr.length-1?"1px solid "+B.border:"none",minWidth:0}}><div style={{fontSize:16,fontWeight:700,color:s.c,fontFamily:"monospace",lineHeight:1}}>{s.n}</div><div style={{fontSize:10.5,color:B.textPri,fontWeight:500,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.l}</div><div style={{fontSize:9,color:B.textMut,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{s.sub}</div></div>;
-              })}
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
-              {Object.entries(TIER_DESC).map(function(entry){
-                var k=entry[0]; var desc=entry[1];
-                var ss=SUPPORT_STYLE[k];
-                var cnt=0; for(var ii=0;ii<RAW.length;ii++){if(getEff(RAW[ii])===k)cnt++;}
-                var isActive=support===k;
-                return <div key={k} style={{background:isActive?ss.bg:B.bg2,border:"1px solid "+(isActive?ss.text+"60":ss.border),borderLeft:"2px solid "+ss.text,borderRadius:7,padding:"9px 12px",display:"flex",gap:9,transition:"background 0.2s, border-color 0.2s"}}>
-                  <span style={{width:7,height:7,borderRadius:"50%",background:ss.text,flexShrink:0,marginTop:3,display:"inline-block"}}/>
-                  <div style={{flex:1}}>
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:3}}>
-                      <span style={{fontSize:10.5,fontWeight:700,color:ss.text}}>{SUPPORT_LABEL[k]}</span>
-                      <span style={{fontSize:9,fontFamily:"monospace",color:B.textMut,background:B.bg3,border:"1px solid "+B.border,borderRadius:3,padding:"1px 5px"}}>{cnt}</span>
-                    </div>
-                    <div style={{fontSize:10,color:B.textSec,lineHeight:1.55}}>{desc.indexOf("Mirantis Enterprise Support")!==-1?<>{desc.split("Mirantis Enterprise Support")[0]}<a href="https://www.mirantis.com/support/enterprise-support-options/" target="_blank" rel="noreferrer" style={{color:B.teal}}>Mirantis Enterprise Support</a>{desc.split("Mirantis Enterprise Support")[1]}</>:desc}</div>
-                  </div>
-                </div>;
-              })}
-            </div>
-          </div>
-
-          <div className="k0-catalog-layout" style={{display:"flex",gap:13,alignItems:"flex-start"}}>
-            {sidebarOpen && <div className="k0-sidebar" style={{width:196,flexShrink:0,display:"flex",flexDirection:"column",gap:13,position:"sticky",top:62}}>
-              <div>
-                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Sort</div>
-                <select value={sort} onChange={function(e){setSort(e.target.value);}} style={{width:"100%",padding:"5px 7px",border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11.5,background:B.bg3,color:B.textSec,outline:"none",cursor:"pointer"}}>
-                  <option>A-Z</option><option>Z-A</option><option>By Newest</option><option>Last updated</option><option>Tested first</option><option>Certified first</option><option>Most popular</option>
-                </select>
+        <div>
+          {/* Hero: gradient wash, eyebrow rule, headline, and the counts that
+              frame the catalog before any filtering happens. */}
+          <section style={{background:"linear-gradient(180deg,"+B.bg0+" 0%,"+B.panelHi+" 100%)",borderBottom:"1px solid "+B.border}}>
+            <div className="k0-hero" style={{maxWidth:1440,margin:"0 auto",padding:"44px 40px 32px",display:"grid",gridTemplateColumns:"minmax(0,1.15fr) minmax(0,0.85fr)",gap:64,alignItems:"start"}}>
+              <div style={{display:"flex",flexDirection:"column",gap:16}}>
+                <div style={{display:"flex",alignItems:"center",gap:12}}>
+                  <span style={{width:32,height:2,background:GRAD}}/>
+                  <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textPri}}>The k0rdent catalog</span>
+                </div>
+                <h1 style={{margin:0,fontSize:40,lineHeight:"44px",fontWeight:700,letterSpacing:"-0.01em",color:B.textPri,maxWidth:"28ch"}}>Best-in-class software for the AI infrastructure stack</h1>
+                <p style={{margin:0,fontSize:14,lineHeight:"22px",color:B.textSec,maxWidth:"84ch"}}>
+                  Every integration sits at the intersection of AI workloads and cloud-native Kubernetes infrastructure — production-hardened on real enterprise clusters, composable by design, and relevant across the full AI lifecycle from GPU provisioning through model serving, RAG pipelines, observability, security, and FinOps. Not a directory of everything that exists, but a curated set of best-in-class integrations validated by Mirantis platform engineers and deployable in minutes on any infrastructure.
+                </p>
               </div>
-              <div>
-                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Support tier</div>
-                <div style={{display:"flex",flexDirection:"column",gap:3}}>
+              {/* Hairline grid: 1px gaps over a rule-coloured backdrop. */}
+              <div className="k0-stats-row" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,background:B.border,border:"1px solid "+B.border}}>
+                {[{n:RAW.length,l:"Applications",grad:true},{n:catCount,l:"Categories"},{n:certCount,l:"Mirantis Certified"},{n:partnerCount,l:"Verified Partner"}].map(function(s){
+                  return <div key={s.l} style={{background:B.bg0,padding:"18px 20px",display:"flex",flexDirection:"column",gap:4}}>
+                    <span style={Object.assign({fontSize:34,lineHeight:1,fontWeight:800,letterSpacing:"-0.02em"},
+                      s.grad?{background:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}:{color:B.textPri})}>{s.n}</span>
+                    <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textMut}}>{s.l}</span>
+                  </div>;
+                })}
+              </div>
+            </div>
+            {/* Tier legend doubles as a filter: clicking a tile scopes the grid. */}
+            <div style={{maxWidth:1440,margin:"0 auto",padding:"0 40px 44px"}}>
+              <div className="k0-tier-row" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:1,background:B.border,border:"1px solid "+B.border}}>
+                {Object.entries(TIER_DESC).map(function(entry){
+                  var k=entry[0]; var desc=entry[1] as string;
+                  var isActive=support===k;
+                  var cnt=0; for(var ii=0;ii<RAW.length;ii++){if(getEff(RAW[ii])===k)cnt++;}
+                  return <div key={k} onClick={function(){setSupport(isActive?"All":k);}}
+                    onMouseEnter={function(e){ if(!isActive) e.currentTarget.style.background=B.tile; }}
+                    onMouseLeave={function(e){ if(!isActive) e.currentTarget.style.background=B.bg0; }}
+                    style={{background:isActive?B.tile:B.bg0,padding:"22px 22px 20px",display:"flex",flexDirection:"column",gap:10,cursor:"pointer",transition:"background 160ms ease"}}>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+                      {k==="mirantis-certified"
+                        ?<span style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.teal}}><span style={{width:7,height:7,borderRadius:"50%",background:GRAD}}/>{SUPPORT_LABEL[k]}</span>
+                        :k==="partner"
+                          ?<span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textPri,border:"1px solid "+B.textMut,borderRadius:4,padding:"3px 8px 1px"}}>{SUPPORT_LABEL[k]}</span>
+                          :<span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.1em",color:B.textDim}}>{SUPPORT_LABEL[k]}</span>}
+                      <span style={{fontFamily:MONO,fontSize:12,color:B.textDim}}>{cnt}</span>
+                    </div>
+                    <p style={{margin:0,fontSize:13,lineHeight:"20px",color:B.textSec,textWrap:"pretty"}}>{desc.indexOf("Mirantis Enterprise Support")!==-1?<>{desc.split("Mirantis Enterprise Support")[0]}<a href="https://www.mirantis.com/support/enterprise-support-options/" target="_blank" rel="noreferrer" onClick={function(e:any){e.stopPropagation();}} style={{color:B.link}}>Mirantis Enterprise Support</a>{desc.split("Mirantis Enterprise Support")[1]}</>:desc}</p>
+                  </div>;
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section className="k0-catalog-layout" style={{maxWidth:1440,margin:"0 auto",padding:"40px 40px 0",display:"grid",gridTemplateColumns:"264px minmax(0,1fr)",gap:56,alignItems:"start"}}>
+            <aside className="k0-sidebar" style={{position:"sticky",top:96,maxHeight:"calc(100vh - 120px)",overflowY:"auto",overscrollBehavior:"contain",scrollbarWidth:"thin",paddingRight:8,display:"flex",flexDirection:"column",gap:20}}>
+              <div style={{display:"flex",flexDirection:"column",gap:10,paddingBottom:20,borderBottom:"1px solid "+B.border}}>
+                <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textMut}}>Support tier</span>
+                <div style={{display:"flex",flexDirection:"column",gap:1,background:B.border,border:"1px solid "+B.border}}>
                   {ALL_SUPPORT.map(function(s){
                     var active=support===s;
-                    var color=s==="mirantis-certified"?B.teal:s==="partner"?B.green:B.textSec;
-                    return <button key={s} onClick={function(){setSupport(s);}} style={{textAlign:"left",padding:"5px 9px",border:"1px solid "+(active?color+"60":B.border),borderRadius:5,fontSize:11,background:active?color+"15":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontWeight:active?600:400,fontFamily:"inherit"}}>{s==="All"?"All tiers":SUPPORT_LABEL[s]}</button>;
-                  })}
-                </div>
-              </div>
-              <div>
-                <div style={{fontSize:9,fontWeight:600,color:B.textMut,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:5}}>Category</div>
-                <div style={{display:"flex",flexDirection:"column",gap:3}}>
-                  {ALL_TAGS.map(function(t){
-                    var active=tag===t; var color=tagAccent(t);
-                    return <button key={t} onClick={function(){setTag(t);}} style={{textAlign:"left",padding:"4px 9px",border:"1px solid "+(active?color+"50":B.border),borderRadius:5,fontSize:10.5,background:active?color+"12":B.bg2,color:active?color:B.textSec,cursor:"pointer",fontWeight:active?600:400,display:"flex",alignItems:"center",justifyContent:"space-between",fontFamily:"inherit"}}>
-                      <span>{t}</span>{active&&<span style={{fontSize:8,opacity:0.7}}>✕</span>}
+                    var cnt=0;
+                    if (s==="All") cnt=RAW.length; else for(var ii=0;ii<RAW.length;ii++){if(getEff(RAW[ii])===s)cnt++;}
+                    return <button key={s} onClick={function(){setSupport(s);}}
+                      onMouseEnter={function(e){ if(!active) e.currentTarget.style.background=B.tile; }}
+                      onMouseLeave={function(e){ if(!active) e.currentTarget.style.background=B.bg0; }}
+                      style={{textAlign:"left",padding:"11px 14px 9px",border:"none",background:active?B.panel:B.bg0,
+                        color:active?B.textPri:B.textSec,cursor:"pointer",fontFamily:"inherit",
+                        fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.08em",transition:"background 160ms ease"}}>
+                      <span style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+                        <span>{s==="All"?"All tiers":SUPPORT_LABEL[s]}</span>
+                        <span style={{fontFamily:MONO,fontWeight:400,letterSpacing:0,color:B.textDim}}>{cnt}</span>
+                      </span>
                     </button>;
                   })}
                 </div>
               </div>
-            </div>}
 
-            <div style={{flex:1,minWidth:0}}>
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,flexWrap:"wrap"}}>
-                <button onClick={function(){setSidebarOpen(!sidebarOpen);}} style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",border:"1px solid "+B.border,borderRadius:5,fontSize:10,background:sidebarOpen?B.teal+"15":B.bg2,color:sidebarOpen?B.teal:B.textSec,cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
-                  <span style={{fontSize:12}}>{sidebarOpen?"◂":"▸"}</span> Filters
-                  {(tag!=="All"||support!=="All"||compliance!=="All")&&<span style={{width:6,height:6,borderRadius:"50%",background:B.teal,flexShrink:0}}/>}
-                </button>
-                <div style={{position:"relative",flex:1,minWidth:120}}>
-                  <span style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",color:B.textMut,fontSize:12,pointerEvents:"none"}}>⌕</span>
-                  <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search apps..." style={{width:"100%",boxSizing:"border-box",paddingLeft:24,paddingRight:9,paddingTop:5,paddingBottom:5,border:"1px solid "+B.borderHi,borderRadius:6,fontSize:11,outline:"none",background:B.bg3,color:B.textPri}}/>
-                </div>
-                <span style={{fontSize:10,color:B.textMut,fontFamily:"monospace",flexShrink:0}}>{filtered.length} / {RAW.length}</span>
+              <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textMut}}>Browse by category</span>
+              <div style={{display:"flex",flexDirection:"column"}}>
+                {ALL_TAGS.map(function(t){
+                  var active=tag===t;
+                  var color=t==="All"?B.textMut:tagAccent(t);
+                  var cnt=t==="All"?RAW.length:(catCounts[t]||0);
+                  return <div key={t} onClick={function(){setTag(t);}}
+                    onMouseEnter={function(e){ if(!active) e.currentTarget.style.background=B.tile; }}
+                    onMouseLeave={function(e){ if(!active) e.currentTarget.style.background="transparent"; }}
+                    style={{display:"flex",alignItems:"center",gap:10,padding:"9px 10px 8px 0",cursor:"pointer",
+                      background:active?B.tile:"transparent",transition:"background 160ms ease"}}>
+                    <span style={{flex:"none",width:2,alignSelf:"stretch",background:active?color:"transparent"}}/>
+                    <span style={{flex:"none",width:8,height:8,borderRadius:2,background:color,opacity:active?1:0.45,marginLeft:8}}/>
+                    <span style={{flex:1,minWidth:0,fontSize:14,lineHeight:"20px",fontWeight:700,color:active?B.textPri:B.textSec}}>{t==="All"?"All applications":t}</span>
+                    <span style={{flex:"none",fontFamily:MONO,fontSize:12,color:B.textDim}}>{cnt}</span>
+                  </div>;
+                })}
               </div>
+            </aside>
+
+            <div style={{minWidth:0}}>
+              <div className="k0-filter-row" style={{display:"flex",gap:16,alignItems:"center",flexWrap:"wrap"}}>
+                <div style={{flex:1,minWidth:320,display:"flex",alignItems:"center",gap:14,height:60,padding:"0 24px",border:"1px solid "+B.border,borderRadius:120,background:B.tile}}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={B.textMut} strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+                  <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder={'Search the catalog — try "gpu", "policy", "postgres"'}
+                    style={{flex:1,minWidth:0,background:"none",border:"none",color:B.textPri,fontSize:16,lineHeight:"24px",fontFamily:"inherit"}}/>
+                  {search&&<button onClick={function(){setSearch("");}} style={{background:"none",border:"none",color:B.textMut,fontSize:20,lineHeight:1,cursor:"pointer",padding:"0 4px"}}>×</button>}
+                </div>
+                <div style={{flex:"none",display:"flex",alignItems:"center",gap:10,height:60,padding:"0 22px",border:"1px solid "+B.border,borderRadius:120}}>
+                  <span style={{fontSize:11,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textDim}}>Sort</span>
+                  <select value={sort} onChange={function(e){setSort(e.target.value);}} style={{background:"none",border:"none",color:B.textPri,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"inherit",outline:"none"}}>
+                    {["A-Z","Z-A","By Newest","Last updated","Tested first","Certified first","Most popular"].map(function(o){
+                      return <option key={o} value={o} style={{background:B.tile,color:B.textPri}}>{o}</option>;
+                    })}
+                  </select>
+                </div>
+              </div>
+
+              <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between",gap:24,padding:"28px 0 16px",borderBottom:"1px solid "+B.border}}>
+                <h3 style={{margin:0,fontSize:24,lineHeight:"32px",fontWeight:700,color:B.textPri}}>
+                  {search?'Results for "'+search+'"':tag!=="All"?tag:support!=="All"?SUPPORT_LABEL[support]:"All applications"}
+                </h3>
+                <span style={{fontFamily:MONO,fontSize:13,color:B.textDim}}>{filtered.length} of {RAW.length}</span>
+              </div>
+
               {filtered.length===0
-                ?<div style={{textAlign:"center",padding:"60px 0",color:B.textMut,fontSize:13}}>No applications match your filters.</div>
-                :<div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(255px,1fr))",gap:10}}>
+                ?<div style={{padding:"80px 0",display:"flex",flexDirection:"column",alignItems:"center",gap:16}}>
+                  <span style={{fontSize:15,color:B.textMut}}>No applications match your filters.</span>
+                  <button onClick={function(){setSearch("");setTag("All");setSupport("All");setCompliance("All");}}
+                    style={{padding:"12px 24px 9px",border:"2px solid "+B.textPri,borderRadius:20,background:"none",color:B.textPri,fontSize:13,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",fontFamily:"inherit"}}>Clear filters</button>
+                </div>
+                :<div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(300px,100%),1fr))",gap:16,padding:"28px 0 0"}}>
                   {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");setDetailImg("");setDetailImgChart("");setDetailImgSub("");history.pushState(null,"",buildAppUrl(item.name,"overview","",k0rdentVer));}}/>;}) }
                 </div>
               }
             </div>
-          </div>
+          </section>
 
-          <div style={{marginTop:28,paddingTop:18,borderTop:"1px solid "+B.border,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:9}}>
-            <div style={{display:"flex",alignItems:"center",gap:9}}>
-              <img src={BASE+(dark?"k0rdent-logo.svg":"k0rdent-logo-dark.svg")} alt="k0rdent" style={{height:15}} />
-              <span style={{fontSize:9.5,color:B.textMut}}>Application Catalog v1.8.0 · originated by Mirantis</span>
+          <footer style={{maxWidth:1440,margin:"64px auto 0",padding:"24px 40px 0",borderTop:"1px solid "+B.border,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:16}}>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <img src={BASE+(dark?"k0rdent-logo.svg":"k0rdent-logo-dark.svg")} alt="k0rdent" style={{height:18}} />
+              <span style={{fontSize:12,color:B.textDim}}>Application Catalog · originated by Mirantis</span>
             </div>
-            <div style={{display:"flex",gap:14}}>
-              <span style={{fontSize:9.5,color:B.textMut}}>Privacy Policy</span>
-              <span style={{fontSize:9.5,color:B.textMut}}>Terms of Use</span>
-              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:9.5,color:B.teal,cursor:"pointer",fontWeight:500,textDecoration:"none"}}>Contribute</a>
+            <div style={{display:"flex",gap:20,alignItems:"center"}}>
+              <span style={{fontSize:12,color:B.textDim}}>Privacy Policy</span>
+              <span style={{fontSize:12,color:B.textDim}}>Terms of Use</span>
+              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:12,color:B.link,cursor:"pointer",fontWeight:700,textDecoration:"none"}}>Contribute</a>
             </div>
-          </div>
+          </footer>
         </div>
       )}
 

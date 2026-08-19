@@ -56,7 +56,7 @@ export function SolutionDetail({ sol, onClose, initShide, onShideChange }) {
               <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginBottom:3}}>
                 <h2 style={{fontSize:19,fontWeight:700,color:B.textPri,margin:0}}>{sol.title}{sol.beta&&<span style={{fontSize:9,marginLeft:6,padding:"2px 5px",borderRadius:3,background:B.amber+"20",color:B.amber,fontWeight:700,textTransform:"uppercase",verticalAlign:"middle"}}>Beta</span>}</h2>
                 {!sol.beta&&<span style={{fontSize:9.5,color:badgeC}}>{"✓ "+sol.badge}</span>}
-                {!sol.beta&&<span style={{fontSize:8.5,padding:"2px 7px",borderRadius:3,background:ss.bg,color:ss.text,border:"1px solid "+ss.border,fontWeight:600,textTransform:"uppercase"}}>{SUPPORT_LABEL[sol.tier]}</span>}
+                {!sol.beta&&<span style={{fontSize:11,fontWeight:800,letterSpacing:"0.1em",padding:"3px 9px 1px",borderRadius:4,background:ss.bg,color:ss.text,border:"1px solid "+(ss.border==="transparent"?B.border:ss.border),textTransform:"uppercase"}}>{SUPPORT_LABEL[sol.tier]}</span>}
               </div>
               <div style={{fontSize:11.5,color:B.textMut}}>{sol.tagline}</div>
             </div>
