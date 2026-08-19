@@ -25,7 +25,7 @@ export function SiteFooter({ onNavigate }:{onNavigate?:(v:string)=>void}) {
         alignItems:"flex-start",justifyContent:"space-between",gap:64,flexWrap:"wrap"}}>
         <div style={{display:"flex",flexDirection:"column",gap:16,maxWidth:"34ch"}}>
           <span style={{fontSize:22,fontWeight:800,letterSpacing:"-0.02em",color:B.textPri}}>
-            k<span style={{background:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>0</span>rdent
+            k<span style={{backgroundImage:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>0</span>rdent
           </span>
           <p style={{margin:0,fontSize:14,lineHeight:"22px",color:B.textDim}}>
             The open source Kubernetes platform built for AI. From Metal-to-Model — ZeroOps for AI.

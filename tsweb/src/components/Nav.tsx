@@ -30,7 +30,7 @@ export function Nav({ view, versions, k0rdentVer, onVersionChange, dark, toggleT
       <div className="k0-nav-inner" style={{maxWidth:1440,margin:"0 auto",padding:"0 40px",height:80,display:"flex",alignItems:"center",gap:18}}>
         <div className="k0-nav-brand" onClick={function(){navTo("catalog");}} style={{flex:"none",display:"flex",alignItems:"baseline",gap:12,cursor:"pointer"}}>
           <span style={{fontSize:26,fontWeight:800,letterSpacing:"-0.02em",color:B.textPri}}>
-            k<span style={{background:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>0</span>rdent
+            k<span style={{backgroundImage:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>0</span>rdent
           </span>
         </div>
 
