@@ -23,7 +23,14 @@ check_clusters() {
         # shellcheck disable=SC2030
         export TEST_MODE=$test_mode
         ./scripts/wait_for_deployment.sh
-        KUBECONFIG="kcfg_$test_mode" kubectl top nodes
+        if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
+            echo "Waiting for kube-system in '$test_mode' now that the CNI is deployed..."
+            NAMESPACE=kube-system WAIT_FOR_PODS='' WAIT_FOR_RUNNING='' WAIT_FOR_CREATING='' \
+                ./scripts/wait_for_deployment.sh
+            KUBECONFIG="kcfg_$test_mode" MAX_RETRIES=30 ./scripts/retry.sh kubectl top nodes
+        else
+            KUBECONFIG="kcfg_$test_mode" kubectl top nodes
+        fi
     )
   done
 }
