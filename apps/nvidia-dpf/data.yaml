@@ -1,0 +1,70 @@
+title: "NVIDIA DOCA Platform Framework (DPF)"
+tags:
+  - Networking
+  - Drivers and plugins
+  - AI/Machine Learning
+created: "2026-08-19T21:40:00Z"
+github_repo: NVIDIA/doca-platform
+summary: "The DOCA Platform Framework provisions NVIDIA BlueField DPUs and orchestrates the services that run on them, through Kubernetes APIs. DPF installs the DPU bootstream, joins each DPU to a DPU cluster, and reconciles DPU services — host-based networking, OVN VPC networking, storage acceleration and telemetry — declaratively, so offloading the datapath off host CPUs becomes cluster configuration rather than per-node setup."
+logo: "./assets/nvidia_logo.svg"
+description: |
+    The DOCA Platform Framework (DPF) provisions and orchestrates NVIDIA BlueField DPUs in
+    Kubernetes environments. A BlueField-3 DPU is an arm64 computer on a PCI card with its own
+    Linux OS, so it needs to be imaged, joined to a control plane, and given workloads. DPF
+    turns all three into declarative Kubernetes operations performed from the host cluster.
+
+    The DPF Operator introduces custom resources for each stage of that lifecycle:
+
+    - `DPFOperatorConfig` — the top-level configuration for a DPF system.
+    - `BFB` — a BlueField Bootstream image, the firmware and OS installed onto the DPU.
+    - `DPU`, `DPUSet` and `DPUFlavor` — individual DPUs, the sets they are provisioned in, and the flavor describing how each is configured.
+    - `DPUCluster` — the Kubernetes cluster formed from the provisioned DPUs, which DPU workloads are scheduled onto.
+    - `DPUService`, `DPUServiceTemplate`, `DPUServiceConfiguration` and `DPUDeployment` — the services running on the DPU cluster and how they are templated and rolled out.
+    - `DPUServiceChain`, `DPUServiceInterface`, `DPUServiceIPAM`, `DPUVPC` and `DPUVirtualNetwork` — the datapath: how traffic is steered through DPU services and how virtual networks and their address space are defined.
+
+    On top of that framework NVIDIA ships DPU services including Host Based Networking (HBN),
+    OVN VPC networking, SNAP block storage and DOCA Telemetry, each deployed as a `DPUService`.
+
+why_in_catalog: "Every CPU cycle a GPU node spends on packet processing, encryption or storage I/O is a cycle not spent feeding the GPUs. BlueField DPUs move that work off the host, but a DPU is a separate arm64 computer that has to be imaged, clustered and given workloads before it is useful — historically a per-node, out-of-band procedure. DPF makes it a Kubernetes concern: the DPU bootstream, the DPU cluster and the services running on it are all custom resources reconciled from the host cluster. For operators building AI infrastructure on BlueField hardware, it is the piece that lets DPU fleets be managed with the same declarative workflow as the rest of the platform."
+
+prerequisites: |
+  **Note!** DPF manages physical hardware and cannot be exercised on a cluster without it. The entries below are requirements of the framework itself, not of this catalog entry.
+
+  **Hardware**
+
+  * NVIDIA BlueField-3 DPUs, dual port, installed in the worker nodes to be provisioned.
+
+  **Cluster**
+
+  * A Kubernetes cluster meeting the DPF release's supported version — see [Platform Support](https://docs.nvidia.com/networking/display/dpf2571/platform+support) for the matrix that applies to the version you install.
+  * Helm v3.5 or higher.
+
+  **Helm dependencies**
+
+  From DPF v25.7 onward the DPF chart carries no Helm dependencies of its own: the prerequisite
+  components (cert-manager, node-feature-discovery, a CSI provisioner for the DPU cluster, and
+  others depending on the deployment mode) must be installed separately before the DPF Operator.
+  Follow the **Helm Prerequisites** page of the
+  [DPF documentation](https://docs.nvidia.com/networking/display/dpf2571) for the exact set and
+  the values each one requires.
+
+  **Deployment mode**
+
+  DPF is installed in either **Host Trusted** or **Zero Trust** mode. The mode determines where the
+  DPU control plane runs and which prerequisites apply, and it cannot be changed in place —
+  choose it before installing.
+
+doc_link: https://docs.nvidia.com/networking/display/dpf2571
+support_link: https://www.nvidia.com/en-us/networking/support/
+
+# DPF provisions BlueField DPUs, which are not present in any of the CI
+# environments, so the deployment stages are not exercised for this app.
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
+
+validated_amd64: '-'
+validated_arm64: '-'
+validated_aws: '-'
+validated_azure: '-'
+validated_local: '-'

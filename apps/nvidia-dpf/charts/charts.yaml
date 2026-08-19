@@ -1,0 +1,6 @@
+charts:
+  dpf-operator:
+  - version: v25.10.1
+    appVersion: v25.10.1
+  - version: v26.4.0
+    appVersion: v26.4.0

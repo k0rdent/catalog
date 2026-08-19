@@ -1,0 +1,9 @@
+st-charts:
+- name: dpf-operator
+  dep_name: dpf-operator
+  version: v25.10.1
+  repository: https://helm.ngc.nvidia.com/nvidia/doca
+- name: dpf-operator
+  dep_name: dpf-operator
+  version: v26.4.0
+  repository: https://helm.ngc.nvidia.com/nvidia/doca
