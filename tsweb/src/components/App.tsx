@@ -339,7 +339,7 @@ export default function App() {
                 {[{n:RAW.length,l:"Applications",grad:true},{n:catCount,l:"Categories"},{n:certCount,l:"Mirantis Certified"},{n:partnerCount,l:"Verified Partner"}].map(function(s){
                   return <div key={s.l} style={{background:B.bg0,padding:"18px 20px",display:"flex",flexDirection:"column",gap:4}}>
                     <span style={Object.assign({fontSize:34,lineHeight:1,fontWeight:800,letterSpacing:"-0.02em"},
-                      s.grad?{background:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}:{color:B.textPri})}>{s.n}</span>
+                      s.grad?{backgroundImage:B.gradText,WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}:{color:B.textPri})}>{s.n}</span>
                     <span style={{fontSize:12,fontWeight:800,textTransform:"uppercase",letterSpacing:"0.12em",color:B.textMut}}>{s.l}</span>
                   </div>;
                 })}
