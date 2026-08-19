@@ -1,12 +1,13 @@
 import React from 'react';
-import { B, GRAD, appendTheme } from '../constants';
-import { BASE, versionBase } from '../utils';
+import { B, GRAD } from '../constants';
+
 
 var TABS = [
   {id:"catalog",label:"Catalog"},
   {id:"infra",label:"Infrastructure"},
   {id:"solutions",label:"Solutions"},
   {id:"configurator",label:"Configurator"},
+  {id:"howto",label:"How to"},
 ];
 
 // Ghost icon button used for the theme toggle and the GitHub link.
@@ -17,16 +18,9 @@ function iconBtnStyle():any {
     transition:"background 160ms ease"};
 }
 
-export function Nav({ view, setView, resetFilters, versions, k0rdentVer, onVersionChange, dark, toggleTheme }:any) {
-  function navTo(v:string) {
-    if (v === "catalog") { resetFilters(); }
-    setView(v);
-    if (v === "catalog") {
-      history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "")));
-    } else {
-      history.pushState(null, "", appendTheme(versionBase(k0rdentVer || "") + v + "/"));
-    }
-  }
+export function Nav({ view, versions, k0rdentVer, onVersionChange, dark, toggleTheme, onNavigate }:any) {
+  // Navigation is owned by App so it can also clear any open detail page.
+  function navTo(v:string) { onNavigate(v); }
   var displayVer = k0rdentVer || versions.latest || "";
   function hoverBg(e:any){ e.currentTarget.style.background = B.hover; }
   function clearBg(e:any){ e.currentTarget.style.background = "none"; }

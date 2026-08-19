@@ -59,7 +59,7 @@ export var BASE = (function(){
   if (b) return b.getAttribute("href") || "/";
   var s = document.querySelector('script[src*="k0rdent_catalog"]');
   if (s) { var m = (s as HTMLScriptElement).src.match(/^(.*?)\/?(?:src|assets)\//); if (m) return new URL(m[1]).pathname + "/"; }
-  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/infra\/[^/]+\/?$/, "/").replace(/\/(contribute|solutions|infra|configurator)\/?$/, "/").replace(/\/+$/, "/");
+  var p = window.location.pathname.replace(/\/apps\/[^/]+\/?$/, "/").replace(/\/infra\/[^/]+\/?$/, "/").replace(/\/(contribute|solutions|infra|configurator|howto)\/?$/, "/").replace(/\/+$/, "/");
   return p || "/";
 })();
 
@@ -88,7 +88,7 @@ export function readUrlParams() {
   var infraMatch = pathname.match(/\/infra\/([^/]+)/);
   var infraApp = infraMatch ? infraMatch[1] : "";
   // Detect view from path
-  var pathView = infraMatch ? "infra" : (pathname.match(/\/(contribute|solutions|infra|configurator)\/?$/) || [null,null])[1];
+  var pathView = infraMatch ? "infra" : (pathname.match(/\/(contribute|solutions|infra|configurator|howto)\/?$/) || [null,null])[1];
   return {
     view: pathView || (p.get("view") || "catalog"),
     search: p.get("q") || "",
@@ -131,7 +131,7 @@ export function buildAppUrl(appName:string, dtab:string, ver:string, k0rdentVer?
 }
 
 export function buildCatalogUrl(state:{view:string, search:string, tag:string, support:string, sort:string, compliance:string, sol?:string, scat?:string, shide?:string, usecase?:string, ccloud?:string, cscale?:string}, k0rdentVer?:string):string {
-  if (state.view === "contribute" || state.view === "solutions" || state.view === "infra" || state.view === "configurator") {
+  if (state.view === "contribute" || state.view === "solutions" || state.view === "infra" || state.view === "configurator" || state.view === "howto") {
     var base = versionBase(k0rdentVer || "") + state.view + "/";
     var sp = new URLSearchParams();
     if (state.sol) sp.set("sol", state.sol);

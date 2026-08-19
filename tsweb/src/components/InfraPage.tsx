@@ -6,11 +6,19 @@ import { AppLogo } from './AppLogo';
 import { AppDetailPage } from './AppDetailPage';
 import { PageHero, FilterPill } from './PageHero';
 
-export function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string, initIgrp?:string }) {
+export function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp, navToken }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string, initIgrp?:string, navToken?:number }) {
   var [selected, setSelected] = useState<any>(null);
   var [detailTab, setDetailTab] = useState(initDtab || "overview");
   var [detailVer, setDetailVer] = useState("");
   var [infraFilter, setInfraFilter] = useState(initIgrp || "All");
+
+  // A top-nav click on "Infrastructure" while a provider page is open should
+  // land back on the index rather than appear to do nothing.
+  var navFirst = React.useRef(true);
+  useEffect(function(){
+    if (navFirst.current) { navFirst.current = false; return; }
+    setSelected(null);
+  }, [navToken]);
 
   // Restore selected infra from URL
   useEffect(function(){
