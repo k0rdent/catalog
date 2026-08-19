@@ -230,6 +230,9 @@ def print_test_vars(args):
     print(f"REMOVE_MULTICLUSTERSERVICE={test_remove_multiclusterservice}")
     test_check_images = str(app_data.get('test_check_images', default)).lower()
     print(f"CHECK_IMAGES={test_check_images}")
+    # CNI apps need the adopted cluster created without a CNI (see deploy_cld.sh).
+    test_adopted_nocni = str(app_data.get('test_adopted_nocni', False)).lower()
+    print(f"TEST_ADOPTED_NOCNI={test_adopted_nocni}")
 
 
 def get_wait_for_pods(args):

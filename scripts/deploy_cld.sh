@@ -36,17 +36,24 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     if docker ps --filter name='^adopted$' -q | grep -q .; then
         echo "Adopted cluster already exists"
     else
-        port_args=(-p 6444:6443)
+        container_args=(-p 6444:6443)
         if [[ "${ADOPTED_EXPOSE_PORTS:-0}" == "1" ]]; then  # Avoid ephemeral port range conflicts in CI.
-            port_args+=(-p 50080:80 -p 50443:443)
+            container_args+=(-p 50080:80 -p 50443:443)
+        fi
+        k0s_cmd=(k0s controller --enable-worker)
+        if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then  # Avoid ephemeral port range conflicts in CI.
+            echo "TEST_ADOPTED_NOCNI=true: starting the adopted cluster without a CNI"
+            container_args+=(-e "K0S_CONFIG=$(cat ./scripts/config/k0s-nocni.yaml)")
+            k0s_cmd=(k0s controller --enable-worker --config=/etc/k0s/config.yaml)
         fi
         docker run -d --name adopted --hostname adopted \
             --network k0rdent-net \
             -v /var/lib/k0s -v /var/log/pods \
             --tmpfs /run \
             --privileged \
-            "${port_args[@]}" \
-            docker.io/k0sproject/k0s:v1.36.3-k0s.0
+            "${container_args[@]}" \
+            docker.io/k0sproject/k0s:v1.36.3-k0s.0 \
+            "${k0s_cmd[@]}"
 
         echo "Waiting for adopted kubeconfig..."
         until docker exec adopted k0s kubeconfig admin > kcfg_adopted 2>/dev/null; do
@@ -63,11 +70,20 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     sed -i.bak 's#server:.*#server: https://127.0.0.1:6444#' kcfg_adopted
     chmod 0600 kcfg_adopted
 
-    echo "Waiting for adopted kube-system pods to become Ready..."
-    until KUBECONFIG=kcfg_adopted kubectl wait -n kube-system --for=condition=Ready pod --all --timeout=2s 2>/dev/null; do
-        KUBECONFIG=kcfg_adopted kubectl get pods -n kube-system || true
-        sleep 2
-    done
+    if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
+        echo "Waiting for the adopted node to register (stays NotReady until the CNI is deployed)..."
+        until KUBECONFIG=kcfg_adopted kubectl get node adopted >/dev/null 2>&1; do
+            KUBECONFIG=kcfg_adopted kubectl get nodes || true
+            sleep 2
+        done
+        KUBECONFIG=kcfg_adopted kubectl get nodes
+    else
+        echo "Waiting for adopted kube-system pods to become Ready..."
+        until KUBECONFIG=kcfg_adopted kubectl wait -n kube-system --for=condition=Ready pod --all --timeout=2s 2>/dev/null; do
+            KUBECONFIG=kcfg_adopted kubectl get pods -n kube-system || true
+            sleep 2
+        done
+    fi
 
     # Allow workloads on the single control-plane node.
     KUBECONFIG=kcfg_adopted kubectl taint nodes adopted node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
@@ -75,8 +91,24 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     # Drop the malformed trailing-dot apiserver SAN (breaks FIPS-only clients).
     ./scripts/fix_adopted_cert_sans.sh adopted
 
-    # Default StorageClass (openebs hostpath); k0s ships none.
-    TEST_MODE=adopted ./scripts/install_openebs.sh
+    if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
+        # kube-proxy is disabled, so a CNI needs the real API endpoint to bootstrap.
+        # k0s ships no kube-public/cluster-info, which is where charts look it up
+        # (e.g. cilium's k8sServiceHost: auto).
+        api_host=$(KUBECONFIG=kcfg_adopted kubectl get node adopted \
+            -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
+        echo "Publishing kube-public/cluster-info with API endpoint $api_host:6443"
+        KUBECONFIG=kcfg_adopted kubectl create configmap cluster-info -n kube-public \
+            --from-literal=kubeconfig="$(printf 'apiVersion: v1\nkind: Config\nclusters:\n- name: k0s\n  cluster:\n    server: https://%s:6443\n' "$api_host")" \
+            --dry-run=client -o yaml | KUBECONFIG=kcfg_adopted kubectl apply -f -
+
+        # openebs is skipped: its pods cannot start before the CNI is deployed, so
+        # this mode leaves the cluster without a default StorageClass.
+        echo "Skipping openebs install (no CNI yet)"
+    else
+        # Default StorageClass (openebs hostpath); k0s ships none.
+        TEST_MODE=adopted ./scripts/install_openebs.sh
+    fi
 
     # Internal kubeconfig for k0rdent (k0s sets the server to the container IP).
     ADOPTED_KUBECONFIG=$(docker exec adopted k0s kubeconfig admin | openssl base64 -A)
@@ -96,6 +128,8 @@ fi
 # For adopted, kcfg_adopted is already written above.
 chmod 0600 "kcfg_$TEST_MODE"
 
-if kubectl get ns | grep "projectsveltos"; then
+if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
+    echo "Skipping the projectsveltos wait (no CNI in the '$TEST_MODE' cluster yet)"
+elif kubectl get ns | grep "projectsveltos"; then
     NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
 fi
