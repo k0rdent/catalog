@@ -3,7 +3,7 @@ import { B, MONO, INFRA_FILTERS, INFRA_GROUPS, appendTheme } from '../constants'
 import { versionBase } from '../utils';
 import { INFRA } from '../state';
 import { AppLogo } from './AppLogo';
-import { DetailPanel } from './DetailPanel';
+import { AppDetailPage } from './AppDetailPage';
 import { PageHero, FilterPill } from './PageHero';
 
 export function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0rdentVer?:string, initInfraApp?:string, initDtab?:string, initIgrp?:string }) {
@@ -50,16 +50,24 @@ export function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0r
     setDetailTab("overview");
     setDetailVer("");
     history.pushState(null, "", infraUrl(item.name + "/"));
+    window.scrollTo(0, 0);
   }
   function closeInfra() {
     setSelected(null);
     setDetailTab("overview");
     setDetailVer("");
     history.pushState(null, "", infraUrl());
+    window.scrollTo(0, 0);
   }
 
 
 
+
+  if (selected) {
+    return <AppDetailPage item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer}
+      k0rdentVer={k0rdentVer} detailImg="" setDetailImg={function(){}} detailImgChart="" setDetailImgChart={function(){}}
+      detailImgSub="" setDetailImgSub={function(){}} backLabel="Back to infrastructure" onBack={closeInfra}/>;
+  }
 
   return (
     <div>
@@ -120,7 +128,6 @@ export function InfraPage({ k0rdentVer, initInfraApp, initDtab, initIgrp }:{ k0r
           </div>
         );
       })}
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} detailImg="" setDetailImg={function(){}} detailImgChart="" setDetailImgChart={function(){}} detailImgSub="" setDetailImgSub={function(){}} onClose={closeInfra}/>}
       </div>
     </div>
   );

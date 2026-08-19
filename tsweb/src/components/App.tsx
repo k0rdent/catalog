@@ -4,7 +4,8 @@ import { RAW, SOLUTIONS, INFRA, CONFIGURATOR_SOLUTIONS, HARDCODED_SOLUTIONS, _ca
 import { getEff, BASE, detectUrlVersion, dataPrefix, readUrlParams, versionBase, buildAppUrl, buildCatalogUrl, fmtNum } from "../utils";
 import { Nav } from "./Nav";
 import { Card } from "./Card";
-import { DetailPanel } from "./DetailPanel";
+import { AppDetailPage } from "./AppDetailPage";
+import { SiteFooter } from "./SiteFooter";
 import { ContributePage } from "./ContributePage";
 import { SolutionsPage } from "./SolutionsPage";
 import { InfraPage } from "./InfraPage";
@@ -169,6 +170,29 @@ export default function App() {
 
   useEffect(function(){ doLoad(); }, []);
 
+  // Opening an app is a page navigation now, not an overlay, so it pushes a
+  // history entry and the catalog view stands down while the page is mounted.
+  function openApp(next:any) {
+    setSelected(next);
+    setDetailTab("overview");
+    setDetailVer("");
+    setDetailImg("");
+    setDetailImgChart("");
+    setDetailImgSub("");
+    history.pushState(null, "", buildAppUrl(next.name, "overview", "", k0rdentVer));
+    window.scrollTo(0, 0);
+  }
+  function closeApp() {
+    setSelected(null);
+    setDetailTab("overview");
+    setDetailVer("");
+    setDetailImg("");
+    setDetailImgChart("");
+    setDetailImgSub("");
+    history.pushState(null, "", buildCatalogUrl({view,search,tag,support,sort,compliance}, k0rdentVer));
+    window.scrollTo(0, 0);
+  }
+
   var filtered = useMemo(function(){
     if (loading) return [];
     var r=RAW.filter(function(i){
@@ -213,7 +237,7 @@ export default function App() {
   }
 
   return (
-    <div style={{fontFamily:FONT,background:B.bg0,minHeight:"100vh",padding:"0 0 56px",color:B.textPri}}>
+    <div style={{fontFamily:FONT,background:B.bg0,minHeight:"100vh",color:B.textPri}}>
       <style>{`
         /* Wide layout collapses to a single column before the sidebar and the
            hero's two-up grid start crowding each other. */
@@ -222,6 +246,10 @@ export default function App() {
           .k0-catalog-layout { grid-template-columns: 1fr !important; gap: 28px !important; padding: 32px 24px 0 !important; }
           .k0-sidebar { position: static !important; max-height: none !important; overflow: visible !important; }
           .k0-nav-inner { padding: 0 24px !important; }
+          .k0-detail-body { grid-template-columns: 1fr !important; gap: 40px !important; padding: 40px 24px 72px !important; }
+          .k0-detail-aside { position: static !important; }
+          .k0-detail-hero { padding: 20px 24px 36px !important; }
+          .k0-footer { padding: 48px 24px !important; gap: 40px !important; }
         }
         @media (max-width: 760px) {
           .k0-nav-inner { height: auto !important; flex-wrap: wrap; padding: 12px 16px !important; gap: 12px !important; row-gap: 10px !important; }
@@ -238,12 +266,15 @@ export default function App() {
           .k0-card-grid { grid-template-columns: 1fr !important; }
           .k0-infra-grid { grid-template-columns: 1fr !important; }
           .k0-sol-grid { grid-template-columns: 1fr !important; }
-          .k0-backdrop { display: none !important; }
-          .k0-detail-panel { width: 100vw !important; border-left: none !important; }
-          .k0-detail-tabs { padding-left: 12px !important; margin-left: -12px !important; margin-right: -12px !important; }
-          .k0-detail-tabs button { padding: 6px 8px !important; font-size: 11px !important; white-space: nowrap !important; }
-          .k0-detail-content { padding: 12px 14px !important; }
-          .k0-detail-header { padding: 12px 14px 0 !important; }
+          .k0-detail-hero { padding: 16px 16px 32px !important; }
+          .k0-detail-hero h1 { font-size: 30px !important; line-height: 34px !important; }
+          .k0-detail-cta { width: 100% !important; }
+          .k0-detail-cta > * { width: 100% !important; }
+          .k0-detail-body { padding: 32px 16px 64px !important; }
+          .k0-detail-tabs { width: 100% !important; overflow-x: auto !important; border-radius: 8px !important; }
+          .k0-detail-tabs button { padding: 11px 14px 9px !important; font-size: 11px !important; }
+          .k0-ver-row { grid-template-columns: 1fr auto !important; gap: 8px 16px !important; }
+          .k0-footer { padding: 40px 16px !important; gap: 32px !important; }
           .k0-catalog-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
         }
         .anchor-link { color: ${B.textDim}; text-decoration: none; margin-left: 6px; opacity: 0; transition: opacity 0.15s; font-size: 0.8em; }
@@ -257,12 +288,12 @@ export default function App() {
       `}</style>
       <Nav view={view} setView={setView} versions={versions} k0rdentVer={k0rdentVer} onVersionChange={switchK0rdentVersion} dark={dark} toggleTheme={toggleTheme} resetFilters={function(){ setSearch(""); setTag("All"); setSupport("All"); setSort("A-Z"); setCompliance("All"); setSelected(null); setDetailTab("overview"); setDetailVer(""); history.pushState(null,"",buildCatalogUrl({view:"catalog",search:"",tag:"All",support:"All",sort:"A-Z",compliance:"All"})); }}/>
 
-      {view==="contribute"&&<ContributePage/>}
-      {view==="solutions"&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer}/>}
-      {view==="infra"&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
-      {view==="configurator"&&<ConfiguratorPage initUsecase={initParams.usecase} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
+      {view==="contribute"&&!selected&&<ContributePage/>}
+      {view==="solutions"&&!selected&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer}/>}
+      {view==="infra"&&!selected&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp}/>}
+      {view==="configurator"&&!selected&&<ConfiguratorPage initUsecase={initParams.usecase} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
 
-      {view==="catalog"&&(
+      {view==="catalog"&&!selected&&(
         <div>
           {/* Hero: gradient wash, eyebrow rule, headline, and the counts that
               frame the catalog before any filtering happens. */}
@@ -391,27 +422,30 @@ export default function App() {
                     style={{padding:"12px 24px 9px",border:"2px solid "+B.textPri,borderRadius:20,background:"none",color:B.textPri,fontSize:13,fontWeight:900,textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",fontFamily:"inherit"}}>Clear filters</button>
                 </div>
                 :<div className="k0-card-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(300px,100%),1fr))",gap:16,padding:"28px 0 0"}}>
-                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){setSelected(item);setDetailTab("overview");setDetailVer("");setDetailImg("");setDetailImgChart("");setDetailImgSub("");history.pushState(null,"",buildAppUrl(item.name,"overview","",k0rdentVer));}}/>;}) }
+                  {filtered.map(function(item){return <Card key={item.name} item={item} onOpen={function(){openApp(item);}}/>;}) }
                 </div>
               }
             </div>
           </section>
 
-          <footer style={{maxWidth:1440,margin:"64px auto 0",padding:"24px 40px 0",borderTop:"1px solid "+B.border,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:16}}>
-            <div style={{display:"flex",alignItems:"center",gap:12}}>
-              <img src={BASE+(dark?"k0rdent-logo.svg":"k0rdent-logo-dark.svg")} alt="k0rdent" style={{height:18}} />
-              <span style={{fontSize:12,color:B.textDim}}>Application Catalog · originated by Mirantis</span>
-            </div>
-            <div style={{display:"flex",gap:20,alignItems:"center"}}>
-              <span style={{fontSize:12,color:B.textDim}}>Privacy Policy</span>
-              <span style={{fontSize:12,color:B.textDim}}>Terms of Use</span>
-              <a href={versionBase(k0rdentVer||"")+"contribute/"} onClick={function(e:any){e.preventDefault();setView("contribute");history.pushState(null,"",appendTheme(versionBase(k0rdentVer||"")+"contribute/"));}} style={{fontSize:12,color:B.link,cursor:"pointer",fontWeight:700,textDecoration:"none"}}>Contribute</a>
-            </div>
-          </footer>
         </div>
       )}
 
-      {selected&&<DetailPanel item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer} k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart} setDetailImgChart={setDetailImgChart} detailImgSub={detailImgSub} setDetailImgSub={setDetailImgSub} onClose={function(){setSelected(null);setDetailTab("overview");setDetailVer("");setDetailImg("");setDetailImgChart("");setDetailImgSub("");history.pushState(null,"",buildCatalogUrl({view,search,tag,support,sort,compliance}));}}/>}
+      {selected&&<AppDetailPage item={selected} tab={detailTab} setTab={setDetailTab} selVer={detailVer} setSelVer={setDetailVer}
+        k0rdentVer={k0rdentVer} detailImg={detailImg} setDetailImg={setDetailImg} detailImgChart={detailImgChart}
+        setDetailImgChart={setDetailImgChart} detailImgSub={detailImgSub} setDetailImgSub={setDetailImgSub}
+        backLabel="Back to catalog"
+        onOpenApp={function(next:any){ openApp(next); }}
+        onBack={function(){ closeApp(); }}/>}
+
+      <SiteFooter onNavigate={function(v:string){
+        setSelected(null);
+        setView(v);
+        history.pushState(null, "", v==="catalog"
+          ? appendTheme(versionBase(k0rdentVer||""))
+          : appendTheme(versionBase(k0rdentVer||"") + v + "/"));
+        window.scrollTo(0,0);
+      }}/>
     </div>
   );
 }
