@@ -1,7 +1,6 @@
 tags:
   - AI/Machine Learning
   - Drivers and plugins
-  - NVIDIA
 title: "NVIDIA AICR"
 summary: "NVIDIA AI Cluster Runtime (AICR) captures the component matrix needed for a working NVIDIA AI stack as versioned, dependency-ordered recipes, and renders them into deployable Helm bundles. This entry wraps the aicr CLI in a Kubernetes Job so a single k0rdent ServiceTemplate installs the full NVIDIA runtime on any managed cluster from one manifest."
 logo: ./assets/nvidia_logo.svg # https://commons.wikimedia.org/wiki/File:Nvidia_Logo.svg
