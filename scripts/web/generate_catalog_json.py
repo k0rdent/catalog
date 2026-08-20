@@ -364,6 +364,122 @@ def generate_install_json(app_name: str, data: dict, app_path: str):
 # App processing
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Data validation
+# ---------------------------------------------------------------------------
+
+REQUIRED_FIELDS = {
+    'title': str,
+    'tags': list,
+    'created': str,
+    'summary': str,
+    'logo': str,
+    'description': str,
+}
+
+OPTIONAL_FIELDS = {
+    'why_in_catalog': str,
+    'doc_link': str,
+    'support_link': str,
+    'github_repo': str,
+    'logo_big': str,
+    'deploy_code': str,
+    'install_code': str,
+    'verify_code': str,
+    'prerequisites': str,
+    'support_type': str,
+    'type': str,
+    'infra_group': str,
+    'brand_color': str,
+    'show_install_tab': bool,
+    'use_ingress': bool,
+    'examples': dict,
+    'exclude_versions': list,
+    # Test config fields
+    'test_deploy_chart': bool,
+    'test_deploy_multiclusterservice': bool,
+    'test_install_servicetemplates': bool,
+    'test_namespace': str,
+    'test_wait_for_pods': str,
+    'test_wait_for_running': str,
+    'test_wait_for_creating': str,
+    'test_check_images': bool,
+    'test_remove_multiclusterservice': bool,
+    'test_adopted_nocni': bool,
+    # Validation results
+    'validated_amd64': str,
+    'validated_arm64': str,
+    'validated_aws': str,
+    'validated_azure': str,
+    'validated_local': str,
+}
+
+ALLOWED_TAGS = [
+    'AI/Machine Learning', 'Application Runtime', 'Authentication',
+    'Backup and Recovery', 'CI/CD', 'Container Registry', 'Database',
+    'Developer Tools', 'Drivers and plugins', 'Monitoring', 'Networking',
+    'Security', 'Serverless', 'Storage',
+]
+
+ALLOWED_TYPES = ['app', 'infra']
+ALLOWED_SUPPORT_TYPES = ['Community', 'Enterprise', 'Partner']
+ALLOWED_VALIDATED = ['y', 'n', '-', '']
+ALL_KNOWN_FIELDS = set(REQUIRED_FIELDS) | set(OPTIONAL_FIELDS)
+
+
+def validate_app_data(app_name: str, data: dict):
+    """Validate data.yaml fields. Raises ValueError on failure."""
+    errors = []
+
+    # Required fields
+    for field, expected_type in REQUIRED_FIELDS.items():
+        if field not in data:
+            errors.append(f"missing required field '{field}'")
+        elif not isinstance(data[field], expected_type):
+            errors.append(f"'{field}' must be {expected_type.__name__}, got {type(data[field]).__name__}")
+
+    # Tags validation (infra items may have empty tags)
+    if isinstance(data.get('tags'), list) and data.get('type') != 'infra':
+        if len(data['tags']) == 0:
+            errors.append("'tags' must contain at least one tag")
+        for tag in data['tags']:
+            if tag not in ALLOWED_TAGS:
+                errors.append(f"unknown tag '{tag}', allowed: {', '.join(ALLOWED_TAGS)}")
+
+    # Type validation
+    if 'type' in data and data['type'] not in ALLOWED_TYPES:
+        errors.append(f"'type' must be one of {ALLOWED_TYPES}, got '{data['type']}'")
+
+    # Support type validation
+    if 'support_type' in data and data['support_type'] not in ALLOWED_SUPPORT_TYPES:
+        errors.append(f"'support_type' must be one of {ALLOWED_SUPPORT_TYPES}, got '{data['support_type']}'")
+
+    # Validated fields
+    for field in ['validated_amd64', 'validated_arm64', 'validated_aws', 'validated_azure', 'validated_local']:
+        if field in data and data[field] not in ALLOWED_VALIDATED:
+            errors.append(f"'{field}' must be one of {ALLOWED_VALIDATED}, got '{data[field]}'")
+
+    # Created timestamp format
+    if isinstance(data.get('created'), str) and data['created']:
+        if not re.match(r'^\d{4}-\d{1,2}-\d{1,2}', data['created']):
+            errors.append(f"'created' must be ISO date format, got '{data['created']}'")
+
+    # Logo must be a relative path or URL
+    if isinstance(data.get('logo'), str) and data['logo']:
+        logo = data['logo']
+        if not logo.startswith(('./','http://','https://')):
+            errors.append(f"'logo' must start with './' or 'http', got '{logo}'")
+
+    # Unknown fields
+    known = ALL_KNOWN_FIELDS | {'charts'}  # charts is added by try_add_charts_data
+    for field in data:
+        if field not in known:
+            errors.append(f"unknown field '{field}'")
+
+    if errors:
+        raise ValueError(f"apps/{app_name}/data.yaml validation errors:\n  " + "\n  ".join(errors))
+
+
 def get_last_updated(app_name: str) -> str:
     locks = glob.glob(f'apps/{app_name}/charts/*/Chart.lock')
     dates = []
@@ -381,6 +497,7 @@ def process_app(app_name: str) -> dict | None:
     if data is None:
         return None
 
+    validate_app_data(app_name, data)
     utils.try_add_charts_data(app_name, data)
 
     charts = data.get('charts', [])
