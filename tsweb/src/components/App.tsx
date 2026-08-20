@@ -50,11 +50,14 @@ export default function App() {
 
   // Restore selected app from URL after data loads
   useEffect(function(){
-    if (!loading && initParams.app && !selected) {
-      var found = RAW.find(function(i:any){ return i.name === initParams.app; });
+    if (loading) return;
+    var params = readUrlParams();
+    if (params.app) {
+      var found = RAW.find(function(i:any){ return i.name === params.app; });
       if (found) {
         setSelected(found);
-        if (initParams.ver) setDetailVer(initParams.ver);
+        setDetailTab(params.dtab);
+        if (params.ver) setDetailVer(params.ver);
       }
     }
   }, [loading]);
@@ -163,12 +166,10 @@ export default function App() {
 
   function switchK0rdentVersion(newVer:string) {
     setK0rdentVer(newVer);
-    setSelected(null);
-    setDetailTab("overview");
-    setDetailVer("");
-    // Navigate to the new version URL
-    var newBase = BASE.replace(/\/(latest|v\d+\.\d+\.\d+)\/$/, "/" + newVer + "/");
-    history.pushState(null, "", newBase);
+    // Replace version in current URL, preserving path and params
+    var currentUrl = window.location.pathname + window.location.search;
+    var newUrl = currentUrl.replace(/\/(latest|v\d+\.\d+\.\d+)\//, "/" + newVer + "/");
+    history.pushState(null, "", newUrl);
     doLoad(newVer);
   }
 
@@ -314,7 +315,7 @@ export default function App() {
 
       {view==="contribute"&&!selected&&<ContributePage/>}
       {view==="solutions"&&!selected&&<SolutionsPage initSolId={initParams.sol} initScat={initParams.scat} initShide={initParams.shide} k0rdentVer={k0rdentVer} navToken={navToken}/>}
-      {view==="infra"&&!selected&&<InfraPage k0rdentVer={k0rdentVer} initInfraApp={initParams.infraApp} initDtab={initParams.dtab} initIgrp={initParams.igrp} navToken={navToken}/>}
+      {view==="infra"&&!selected&&(function(){ var p=readUrlParams(); return <InfraPage key={k0rdentVer} k0rdentVer={k0rdentVer} initInfraApp={p.infraApp} initDtab={p.dtab} initIgrp={p.igrp} navToken={navToken}/>; })()}
       {view==="howto"&&!selected&&<HowToPage onGoCatalog={function(){navigateTo("catalog");}}/>}
       {view==="configurator"&&!selected&&<ConfiguratorPage initUsecase={initParams.usecase} initCcloud={initParams.ccloud} initCscale={initParams.cscale} k0rdentVer={k0rdentVer}/>}
 
