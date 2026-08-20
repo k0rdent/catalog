@@ -11,6 +11,7 @@ import { SolutionsPage } from "./SolutionsPage";
 import { InfraPage } from "./InfraPage";
 import { ConfiguratorPage } from "./ConfiguratorPage";
 import { HowToPage } from "./HowToPage";
+import { PartnerCTA } from "./PartnerCTA";
 
 export default function App() {
   var initParams = useMemo(readUrlParams, []);
@@ -275,6 +276,8 @@ export default function App() {
           .k0-detail-aside { position: static !important; }
           .k0-detail-hero { padding: 20px 24px 36px !important; }
           .k0-footer { padding: 48px 24px !important; gap: 40px !important; }
+          .k0-partner { padding: 80px 24px 0 !important; }
+          .k0-partner-panel { padding: 48px 32px !important; gap: 32px !important; }
         }
         @media (max-width: 760px) {
           .k0-nav-inner { height: auto !important; flex-wrap: wrap; padding: 12px 16px !important; gap: 12px !important; row-gap: 10px !important; }
@@ -300,6 +303,11 @@ export default function App() {
           .k0-detail-tabs button { padding: 11px 14px 9px !important; font-size: 11px !important; }
           .k0-ver-row { grid-template-columns: 1fr auto !important; gap: 8px 16px !important; }
           .k0-footer { padding: 40px 16px !important; gap: 32px !important; }
+          .k0-partner { padding: 56px 16px 0 !important; }
+          .k0-partner-panel { padding: 32px 20px !important; gap: 24px !important; }
+          .k0-partner-copy { min-width: 0 !important; }
+          .k0-partner h2 { font-size: 28px !important; line-height: 32px !important; }
+          .k0-partner a { width: 100% !important; justify-content: center !important; }
           .k0-catalog-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
         }
         .anchor-link { color: ${B.textDim}; text-decoration: none; margin-left: 6px; opacity: 0; transition: opacity 0.15s; font-size: 0.8em; }
@@ -463,6 +471,11 @@ export default function App() {
         backLabel="Back to catalog"
         onOpenApp={function(next:any){ openApp(next); }}
         onBack={function(){ closeApp(); }}/>}
+
+      {/* Partner band rides above the footer on the index pages — not on an
+          application page, the contribute doc, the configurator or the tour. */}
+      {!selected&&view!=="contribute"&&view!=="configurator"&&view!=="howto"&&
+        <PartnerCTA href={appendTheme(versionBase(k0rdentVer||"")+"contribute/")} onContribute={function(){navigateTo("contribute");}}/>}
 
       <SiteFooter onNavigate={navigateTo}/>
     </div>
