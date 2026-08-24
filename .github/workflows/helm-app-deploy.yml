@@ -198,12 +198,7 @@ jobs:
       - name: Test - Install kcm (k0rdent mothership cluster)
         if: env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
-          export KUBECONFIG=kcfg_k0rdent
-          export HELM_VALUES=./scripts/config/min-kcm-values.yaml
-          ./scripts/deploy_k0rdent.sh
-          kubectl apply -f ./scripts/config/min-kcm-management.yaml
-          kubectl create ns projectsveltos
-          ./scripts/deploy_k0rdent.sh
+          ./scripts/deploy_k0rdent_mini.sh
 
       - name: Test - Install service template
         if: env.INSTALL_SERVICETEMPLATES == 'true'
