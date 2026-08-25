@@ -88,9 +88,6 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     # Allow workloads on the single control-plane node.
     KUBECONFIG=kcfg_adopted kubectl taint nodes adopted node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
 
-    # Drop the malformed trailing-dot apiserver SAN (breaks FIPS-only clients).
-    ./scripts/fix_adopted_cert_sans.sh adopted
-
     if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
         # kube-proxy is disabled, so a CNI needs the real API endpoint to bootstrap.
         # k0s ships no kube-public/cluster-info, which is where charts look it up
