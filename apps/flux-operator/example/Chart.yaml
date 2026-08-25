@@ -1,8 +1,8 @@
 apiVersion: v2
 name: example
 type: application
-version: 0.32.0
+version: 1.0.0
 dependencies:
   - name: flux-operator
-    version: 0.32.0
+    version: 0.58.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
