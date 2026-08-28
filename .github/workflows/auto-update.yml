@@ -12,9 +12,8 @@ on:
         description: 'Specify a set of folders to test apps from, e.g., "apps/nirmata apps/wandb"'
         required: false
         default: 'apps'
-# TODO: enable cron job
-  # schedule:
-  #   - cron: '0 9 * * *'   # 09:00 UTC
+  schedule:
+    - cron: '0 13 * * *'   # 13:00 UTC
 
 jobs:
   select-apps:
@@ -39,7 +38,8 @@ jobs:
             echo "Running: find ${{ github.event.inputs.find_args }}"
             all_detected_files=$(find ${{ github.event.inputs.find_args }} -type d -name example)
           else
-            all_detected_files=$(find apps -type d -name example)
+            # On cron: auto-update selected apps:
+            all_detected_files=$(find apps/cert-manager apps/traefik apps/kyverno apps/external-dns apps/external-secrets -type d -name example)
           fi
           echo "$all_detected_files"
           tested_folders=$(echo "$all_detected_files" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | grep -vF "k0rdent-utils" | jq -R -s -c 'split("\n")[:-1]')
