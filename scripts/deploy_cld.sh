@@ -102,7 +102,9 @@ elif [[ "$TEST_MODE" == adopted ]]; then
         # openebs is skipped: its pods cannot start before the CNI is deployed, so
         # this mode leaves the cluster without a default StorageClass.
         echo "Skipping openebs install (no CNI yet)"
-    else
+    fi
+
+    if [[ "${TEST_ADOPTED_PVC:-false}" == true ]]; then
         # Default StorageClass (openebs hostpath); k0s ships none.
         TEST_MODE=adopted ./scripts/install_openebs.sh
     fi
