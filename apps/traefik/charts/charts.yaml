@@ -8,3 +8,5 @@ charts:
     appVersion: v3.7.6
   - version: 41.2.0
     appVersion: v3.7.10
+  - version: 41.4.0
+    appVersion: v3.7.12
