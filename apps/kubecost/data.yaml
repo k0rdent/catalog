@@ -20,6 +20,7 @@ examples:
   with_ingress:
     title: With Ingress
     chart_folder: example_ingress
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
