@@ -8,7 +8,7 @@ dependencies:
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: prometheus
   - name: opencost
-    version: 2.5.28
+    version: 2.5.30
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 0
     mcs_namespace: opencost
