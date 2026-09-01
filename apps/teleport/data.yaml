@@ -21,6 +21,7 @@ why_in_catalog: "VPNs and bastion hosts give broad network access and generate a
 doc_link: https://goteleport.com/docs/installation/helm/
 
 test_wait_for_pods: "teleport-cluster-proxy-"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
