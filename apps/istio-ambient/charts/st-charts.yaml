@@ -33,9 +33,9 @@ st-charts:
   repository: https://istio-release.storage.googleapis.com/charts
 - name: istio-ztunnel
   dep_name: ztunnel
-  version: 1.30.3
+  version: 1.30.4
   repository: https://istio-release.storage.googleapis.com/charts
 - name: istio-cni
   dep_name: cni
-  version: 1.30.3
+  version: 1.30.4
   repository: https://istio-release.storage.googleapis.com/charts
