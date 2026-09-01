@@ -2,8 +2,8 @@ apiVersion: v2
 name: istio-ztunnel
 description: A Helm chart that references the official "istio-ztunnel" Helm chart.
 type: application
-version: 1.30.3
+version: 1.30.4
 dependencies:
   - name: ztunnel
-    version: 1.30.3
+    version: 1.30.4
     repository: https://istio-release.storage.googleapis.com/charts

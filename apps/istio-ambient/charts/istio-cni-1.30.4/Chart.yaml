@@ -2,8 +2,8 @@ apiVersion: v2
 name: istio-cni
 description: A Helm chart that references the official "istio-cni" Helm chart.
 type: application
-version: 1.30.3
+version: 1.30.4
 dependencies:
   - name: cni
-    version: 1.30.3
+    version: 1.30.4
     repository: https://istio-release.storage.googleapis.com/charts
