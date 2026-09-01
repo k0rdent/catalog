@@ -19,6 +19,7 @@ why_in_catalog: "Most API gateways make you choose between performance and exten
 doc_link: https://apisix.apache.org/docs/helm-chart/apisix/
 
 test_wait_for_pods: "apisix-"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
