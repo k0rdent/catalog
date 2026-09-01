@@ -2,3 +2,5 @@ charts:
   openebs:
   - version: 4.5.1
     appVersion: 4.5.1
+  - version: 4.6.0
+    appVersion: 4.6.0
