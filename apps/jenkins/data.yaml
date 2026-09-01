@@ -40,6 +40,7 @@ why_in_catalog: "Jenkins has been the backbone of CI/CD automation for fifteen y
 # support_link: TODO
 
 doc_link: https://www.jenkins.io/doc/
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
