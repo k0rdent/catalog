@@ -3,3 +3,7 @@ st-charts:
   dep_name: openebs
   version: 4.5.1
   repository: https://openebs.github.io/openebs
+- name: openebs
+  dep_name: openebs
+  version: 4.6.0
+  repository: https://openebs.github.io/openebs
