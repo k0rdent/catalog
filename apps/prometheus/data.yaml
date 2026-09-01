@@ -18,7 +18,7 @@ examples:
 
 doc_link: https://prometheus.io/docs/introduction/overview/
 test_wait_for_pods: "prometheus-server-"
-
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
