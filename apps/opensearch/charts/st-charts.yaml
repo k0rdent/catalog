@@ -7,3 +7,7 @@ st-charts:
   dep_name: opensearch
   version: 3.7.0
   repository: https://opensearch-project.github.io/helm-charts
+- name: opensearch
+  dep_name: opensearch
+  version: 3.8.0
+  repository: https://opensearch-project.github.io/helm-charts
