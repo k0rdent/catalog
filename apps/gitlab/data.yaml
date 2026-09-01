@@ -82,6 +82,7 @@ doc_link: https://docs.gitlab.com/charts/
 
 test_check_images: false
 test_wait_for_pods: "gitlab-gitlab-shell-"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
