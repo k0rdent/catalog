@@ -1,5 +1,5 @@
 st-charts:
 - name: milvus
   dep_name: milvus
-  version: 5.0.14
+  version: 5.0.25
   repository: https://zilliztech.github.io/milvus-helm/
