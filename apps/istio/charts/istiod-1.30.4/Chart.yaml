@@ -2,8 +2,8 @@ apiVersion: v2
 name: istiod
 description: A Helm chart that references the official "istiod" Helm chart.
 type: application
-version: 1.30.3
+version: 1.30.4
 dependencies:
   - name: istiod
-    version: 1.30.3
+    version: 1.30.4
     repository: https://istio-release.storage.googleapis.com/charts
