@@ -39,7 +39,29 @@ jobs:
             all_detected_files=$(find ${{ github.event.inputs.find_args }} -type d -name example)
           else
             # On cron: auto-update selected apps:
-            all_detected_files=$(find apps/cert-manager apps/traefik apps/kyverno apps/external-dns apps/external-secrets -type d -name example)
+            all_detected_files=$(find \
+              apps/cert-manager \
+              apps/external-dns \
+              apps/external-secrets \
+              apps/nvidia \
+              apps/nvidia-dpf \
+              apps/hpe-csi \
+              apps/kyverno \
+              apps/traefik \
+              apps/opencost \
+              apps/opensearch \
+              apps/kube-prometheus-stack \
+              apps/jupyterhub \
+              apps/prometheus \
+              apps/istio \
+              apps/istio-ambient \
+              apps/jenkins \
+              apps/milvus \
+              apps/vllm \
+              apps/openebs \
+              apps/open-webui \
+              apps/ollama \
+              -type d -name example)
           fi
           echo "$all_detected_files"
           tested_folders=$(echo "$all_detected_files" | tr ' ' '\n' | grep -E '^apps/[^/]+/' | cut -d '/' -f2 | sort -u | grep -vF "k0rdent-utils" | jq -R -s -c 'split("\n")[:-1]')
