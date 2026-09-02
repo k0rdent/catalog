@@ -406,6 +406,7 @@ OPTIONAL_FIELDS = {
     'test_check_images': bool,
     'test_remove_multiclusterservice': bool,
     'test_adopted_nocni': bool,
+    'test_adopted_pvc': bool,
     # Validation results
     'validated_amd64': str,
     'validated_arm64': str,

@@ -21,6 +21,7 @@ why_in_catalog: "RAG applications live and die by vector search performance. Qdr
 doc_link: https://qdrant.tech/documentation/guides/installation/#qdrant-kubernetes-operator
 
 # test_wait_for_pods: "milvus-standalone-"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'

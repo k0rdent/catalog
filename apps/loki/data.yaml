@@ -39,6 +39,8 @@ why_in_catalog: "Storing full log content in Elasticsearch costs an order of mag
 doc_link: https://grafana.com/docs/loki/latest/setup/install/helm/install-microservices/
 
 test_wait_for_pods: "loki-0"
+test_adopted_pvc: true
+
 validated_amd64: 'y'
 validated_local: 'y'
 validated_aws: 'y'

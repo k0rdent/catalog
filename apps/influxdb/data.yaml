@@ -26,6 +26,7 @@ why_in_catalog: "Relational databases and general-purpose time-series stores bot
 doc_link: https://docs.influxdata.com/influxdb/v2/
 
 test_wait_for_pods: "nfluxdb2-0"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'

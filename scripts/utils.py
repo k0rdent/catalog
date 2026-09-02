@@ -233,6 +233,9 @@ def print_test_vars(args):
     # CNI apps need the adopted cluster created without a CNI (see deploy_cld.sh).
     test_adopted_nocni = str(app_data.get('test_adopted_nocni', False)).lower()
     print(f"TEST_ADOPTED_NOCNI={test_adopted_nocni}")
+    # Some apps need StorageClass in testing cluster. Mostly not needed so disabled by default.
+    test_adopted_pvc = str(app_data.get('test_adopted_pvc', False)).lower()
+    print(f"TEST_ADOPTED_PVC={test_adopted_pvc}")
 
 
 def get_wait_for_pods(args):

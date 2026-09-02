@@ -26,6 +26,7 @@ why_in_catalog: "Semantic caching for LLM APIs — storing the responses to embe
 doc_link: https://redis.io/docs/latest/get-started/
 
 test_wait_for_pods: "redis-"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'

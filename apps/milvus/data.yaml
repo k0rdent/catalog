@@ -37,6 +37,7 @@ why_in_catalog: "Qdrant and Milvus occupy the same space — purpose-built vecto
 doc_link: https://milvus.io/docs/install_cluster-helm.md
 
 test_wait_for_pods: "milvus-standalone-"
+test_adopted_pvc: true
 
 validated_amd64: 'y'
 validated_aws: 'y'

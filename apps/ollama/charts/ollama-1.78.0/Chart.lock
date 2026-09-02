@@ -1,0 +1,6 @@
+dependencies:
+- name: ollama
+  repository: https://helm.otwld.com/
+  version: 1.78.0
+digest: sha256:9bd284436f0405e2224318c234dd73c7d6519697e75e9508f9f542ab5c68c6fe
+generated: "2026-09-01T17:14:11.06676461Z"
