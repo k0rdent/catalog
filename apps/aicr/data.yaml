@@ -5,7 +5,7 @@ title: "NVIDIA AICR"
 summary: "NVIDIA AI Cluster Runtime (AICR) captures the component matrix needed for a working NVIDIA AI stack as versioned, dependency-ordered recipes, and renders them into deployable Helm bundles. This entry wraps the aicr CLI in a Kubernetes Job so a single k0rdent ServiceTemplate installs the full NVIDIA runtime on any managed cluster from one manifest."
 logo: ./assets/nvidia_logo.svg # https://commons.wikimedia.org/wiki/File:Nvidia_Logo.svg
 created: "2026-07-15T00:00:00Z"
-github_repo: NVIDIA/aicr
+github_repo: Mirantis/nvidia-aicr-chart
 description: |
     NVIDIA AI Cluster Runtime (AICR) encodes the set of components required for a working
     NVIDIA AI stack - drivers, operators, schedulers, and monitoring - as version-locked,
@@ -31,6 +31,10 @@ description: |
     scheduling values (tolerations, nodeSelector) cover clusters whose only workers are
     tainted GPU nodes.
 
+    Chart 0.2.0 pins aicr 0.20.0 and verifies the rendered bundle before executing it. Component failures fail the Job explicitly
+    on both old and new aicr deploy semantics, so partial installs never masquerade as
+    success.
+
     Deploying to a managed cluster (the normal case) needs no special handling. Installing
     onto a self-managed kcm management cluster is the one exception: kcm ships its own
     cert-manager, and the AICR bundle installs a cert-manager release of its own - both own
@@ -39,7 +43,7 @@ description: |
     copy disabled (regional.cert-manager.enabled=false); the bundle's cert-manager step
     then adopts that release.
 
-    Validated end to end on kind with kcm 1.11.0 (aicr 0.18.0): one MultiClusterService
+    Validated end to end on kind with kcm 1.11.0: one MultiClusterService
     converges the full stack on the managed cluster.
 
 why_in_catalog: "Assembling a working NVIDIA stack on Kubernetes means choosing mutually compatible versions of half a dozen operators and drivers, then re-validating the set every time one of them releases. AICR encodes that compatibility matrix as versioned recipes maintained by NVIDIA. This entry makes those recipes deployable through k0rdent: platform teams declare an accelerator and an intent once, and every managed cluster converges on the same validated NVIDIA runtime, with fleet-wide rollout handled by k0rdent instead of per-cluster scripting. Org data packs extend the same flow to a team's own validated stack definitions - named, versioned recipes private to the organization."

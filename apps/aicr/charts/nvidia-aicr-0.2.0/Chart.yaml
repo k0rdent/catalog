@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nvidia-aicr
+description: A Helm chart that references the official "nvidia-aicr" Helm chart.
+type: application
+version: 0.2.0
+dependencies:
+  - name: nvidia-aicr
+    version: 0.2.0
+    repository: oci://ghcr.io/mirantis/charts
