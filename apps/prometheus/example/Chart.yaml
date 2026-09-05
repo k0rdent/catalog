@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: prometheus
-    version: 29.27.0
+    version: 29.27.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
