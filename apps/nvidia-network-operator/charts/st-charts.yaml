@@ -7,3 +7,7 @@ st-charts:
   dep_name: network-operator
   version: 26.4.0
   repository: https://helm.ngc.nvidia.com/nvidia
+- name: network-operator
+  dep_name: network-operator
+  version: 26.7.0
+  repository: https://helm.ngc.nvidia.com/nvidia
