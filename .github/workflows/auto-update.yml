@@ -45,6 +45,7 @@ jobs:
               apps/external-secrets \
               apps/nvidia \
               apps/nvidia-dpf \
+              apps/nvidia-network-operator \
               apps/hpe-csi \
               apps/kyverno \
               apps/traefik \
