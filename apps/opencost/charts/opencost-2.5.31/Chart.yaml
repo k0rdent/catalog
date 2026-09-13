@@ -2,8 +2,8 @@ apiVersion: v2
 name: opencost
 description: A Helm chart that references the official "opencost" Helm chart.
 type: application
-version: 2.5.30
+version: 2.5.31
 dependencies:
   - name: opencost
-    version: 2.5.30
+    version: 2.5.31
     repository: https://opencost.github.io/opencost-helm-chart
