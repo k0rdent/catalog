@@ -8,3 +8,5 @@ charts:
     appVersion: v3.11.2
   - version: 29.27.2
     appVersion: v3.14.0
+  - version: 29.29.0
+    appVersion: v3.14.0
