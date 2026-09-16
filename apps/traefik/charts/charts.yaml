@@ -12,3 +12,5 @@ charts:
     appVersion: v3.7.12
   - version: 41.5.0
     appVersion: v3.7.13
+  - version: 41.6.0
+    appVersion: v3.7.13
