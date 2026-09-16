@@ -1,0 +1,4 @@
+external-dns:
+  external-dns:
+    # required since chart 1.22.0, no longer defaulted upstream
+    policy: upsert-only

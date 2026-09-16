@@ -7,11 +7,12 @@ kind: ClusterDeployment
 ...
   serviceSpec:
     services:
-      - template: external-dns-1-20-0
+      - template: external-dns-1-22-0
         name: external-dns
         namespace: external-dns
         values: |
           external-dns:
+            policy: upsert-only
             provider:
               name: cloudflare
             env:
