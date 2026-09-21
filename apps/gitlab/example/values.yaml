@@ -1,13 +1,59 @@
+postgresql:
+  postgresql:
+    # MCS deploys each dependency as its own Helm release, so pin the names GitLab points at
+    fullnameOverride: gitlab-postgresql
+    global:
+      security:
+        allowInsecureImages: true
+    image:
+      repository: bitnamilegacy/postgresql
+    auth:
+      database: gitlabhq_production
+      # fixed, otherwise a redeploy regenerates it and no longer matches the retained PVC
+      postgresPassword: gitlab-example-password
+    primary:
+      # the "nano" default (192Mi) gets OOMKilled by GitLab's initial migrations
+      resourcesPreset: medium
+
+redis:
+  redis:
+    fullnameOverride: gitlab-redis
+    auth:
+      password: gitlab-example-password
+
 gitlab:
   gitlab:
     global:
       edition: ce
       kas:
         enabled: false
-      minio:
-        enabled: true
+      # chart 10.x dropped the bundled PostgreSQL/Redis/MinIO, external ones are now required
+      psql:
+        host: gitlab-postgresql
+        username: postgres
+        password:
+          secret: gitlab-postgresql
+          key: postgres-password
+      redis:
+        host: gitlab-redis
+        auth:
+          secret: gitlab-redis
+          key: redis-password
+      # no object storage in this example, so these fall back to ephemeral local paths
+      appConfig:
+        artifacts:
+          enabled: false
+        lfs:
+          enabled: false
+        uploads:
+          enabled: false
+        packages:
+          enabled: false
     certmanager-issuer:
       email: admin@example.com
+    gitlab:
+      toolbox:
+        enabled: false
     gitlab-runner:
       install: false
     registry:

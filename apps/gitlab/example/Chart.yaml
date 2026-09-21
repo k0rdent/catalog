@@ -3,6 +3,15 @@ name: example
 type: application
 version: 1.0.0
 dependencies:
-  - name: gitlab
-    version: 9.8.4
+  - name: postgresql
+    version: 18.3.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
+  - name: redis
+    version: 0.2.0
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0
+  # chained through redis so both password secrets exist before GitLab pods mount them
+  - name: gitlab
+    version: 10.1.1
+    repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 1
