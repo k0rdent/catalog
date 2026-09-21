@@ -14,70 +14,7 @@ description: |
 
 why_in_catalog: "Data sovereignty requirements and air-gap constraints mean many regulated organizations cannot use cloud-hosted CI/CD. Running GitLab on k0rdent gives those teams the complete DevSecOps lifecycle — source control, pipelines, container registry, dependency scanning, and deployment environments — on their own infrastructure, with full control over where code, model definitions, and deployment artifacts are stored. For AI teams in healthcare, finance, and government, self-hosted GitLab is often a compliance requirement, not just a preference."
 support_link: https://about.gitlab.com/enterprise/
-deploy_code: |
-    In AWS tested on worker `instanceType: t3.2xlarge` and `rootVolumeSize: 32`:
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    metadata:
-      name: aws-example
-    spec:
-      template: {{ aws_standalone_cp }}
-      credential: aws-credential
-      config:
-        worker:
-          instanceType: t3.2xlarge
-          rootVolumeSize: 32
-        workersNumber: 1
-        ...
-    ~~~
 
-    In Azure tested on 3 workers `vmSize: Standard_A2_v2`:
-    ~~~yaml    
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: ClusterDeployment
-    metadata:
-      name: azure-example
-    spec:
-      template: {{ azure_standalone_cp }}
-      credential: azure-credential
-      config:
-        worker:
-          vmSize: Standard_A2_v2
-        workersNumber: 3
-        ...
-    ~~~
-
-    Tested service configuration:
-    ~~~yaml
-    apiVersion: k0rdent.mirantis.com/v1beta1
-    kind: MultiClusterService
-    ...
-      serviceSpec:
-        services:
-          - template: gitlab-9-8-4
-            name: gitlab
-            namespace: gitlab
-            values: |
-              gitlab:
-                global:
-                  edition: ce
-                  kas:
-                    enabled: false
-                  minio:
-                    enabled: true
-                certmanager-issuer:
-                  email: admin@example.com
-                gitlab-runner:
-                  install: false
-                registry:
-                  enabled: false
-                prometheus:
-                  install: false
-                nginx-ingress:
-                  controller:
-                    replicaCount: 1
-    ~~~
 doc_link: https://docs.gitlab.com/charts/
 
 test_check_images: false
