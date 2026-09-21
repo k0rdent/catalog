@@ -106,9 +106,9 @@
       "tags": [
         "Storage"
       ],
-      "version": "1.5.0",
+      "version": "2.1.0",
       "versions": [
-        "1.5.0"
+        "2.1.0"
       ],
       "chartName": "pelagia-ceph",
       "docs": "https://catalog.k0rdent.io/v1.8.0/apps/ceph/"
