@@ -17,5 +17,5 @@ st-charts:
   repository: https://helm.ngc.nvidia.com/nvidia
 - name: gpu-operator
   dep_name: gpu-operator
-  version: 26.7.0
+  version: 26.7.1
   repository: https://helm.ngc.nvidia.com/nvidia
