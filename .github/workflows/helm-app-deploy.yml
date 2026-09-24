@@ -25,7 +25,7 @@ on:
 
 jobs:
   detect-tested-apps:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       changed_folders: ${{ steps.get-tested-apps.outputs.folders }}
     steps:
@@ -61,7 +61,7 @@ jobs:
 
   test-app:
     needs: detect-tested-apps
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ needs.detect-tested-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
       fail-fast: false

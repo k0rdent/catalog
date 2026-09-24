@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   detect-apps:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ vars.ENABLE_SCAN == '1' || github.event_name == 'workflow_dispatch' }}
     outputs:
       apps: ${{ steps.get-apps.outputs.apps }}
@@ -36,7 +36,7 @@ jobs:
 
   scan-app:
     needs: detect-apps
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ needs.detect-apps.outputs.apps != '[]' }}
     strategy:
       fail-fast: false

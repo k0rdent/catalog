@@ -25,7 +25,7 @@ permissions:
 
 jobs:
   detect-updated-charts:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       changed_folders: ${{ steps.get-changes.outputs.folders }}
     steps:
@@ -53,7 +53,7 @@ jobs:
 
   build:
     needs: detect-updated-charts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ needs.detect-updated-charts.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
       matrix:
