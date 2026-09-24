@@ -17,7 +17,7 @@ on:
 
 jobs:
   select-apps:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ vars.AUTO_UPDATES_ENABLED == '1' }}
     outputs:
       app_folders: ${{ steps.get-tested-apps.outputs.folders }}
@@ -71,7 +71,7 @@ jobs:
 
   update-app:
     needs: select-apps
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ needs.select-apps.outputs.app_folders != '[]' }}  # Skip if no app folders
     strategy:
       fail-fast: false
