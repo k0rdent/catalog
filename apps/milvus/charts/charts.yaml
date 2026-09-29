@@ -1,4 +1,4 @@
 charts:
   milvus:
-  - version: 5.0.28
+  - version: 5.0.30
     appVersion: 3.0.1
