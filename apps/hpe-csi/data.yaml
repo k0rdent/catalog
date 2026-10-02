@@ -3,17 +3,17 @@ tags:
   - Drivers and plugins
 title: "HPE CSI Driver for Kubernetes"
 support_type: Partner
-summary: "The HPE CSI Driver for Kubernetes provides dynamic, policy-driven provisioning of persistent volumes from HPE Nimble Storage, Primera, Alletra, and MSA arrays via the CSI specification. It supports volume snapshots, cloning, multi-attach, and quality-of-service settings, enabling AI workloads on HPE infrastructure to consume enterprise storage with the same declarative API used for cloud-native workloads."
+summary: "The HPE CSI Driver for Kubernetes provides dynamic, policy-driven provisioning of persistent volumes from HPE Alletra Storage MP B10000, Alletra Storage MP X10000, Alletra Storage 5000/6000/9000, Primera, 3PAR and Nimble Storage arrays via the CSI specification. It supports volume snapshots, cloning, multi-attach, and quality-of-service settings, enabling AI workloads on HPE infrastructure to consume enterprise storage with the same declarative API used for cloud-native workloads."
 logo: ./assets/icon.svg # https://upload.wikimedia.org/wikipedia/commons/e/e7/Hewlett_Packard_Enterprise_logo_2025.svg
 created: "2025-03-31T15:40:47Z"
 github_repo: hpe-storage/csi-driver
 description: |
     HPE CSI Driver for Kubernetes allows users to dynamically provision persistent and ephemeral storage with support for a wide
-    range of storage products from HPE, including Alletra Storage MP B10000 and Alletra 5000/6000/9000. Advanced data services are
-    provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads running
-    on Kubernetes.
+    range of storage products from HPE, including Alletra Storage MP B10000 and Alletra Storage MP X10000. Advanced data services
+    are provided to accelerate data management, such snapshots, replication, clones, and import existing data into workloads
+    running on Kubernetes.
 
-why_in_catalog: "Organizations running AI on HPE Nimble, Primera, Alletra, or MSA arrays should not need to abandon their storage investments when moving workloads to Kubernetes. The HPE CSI Driver brings those arrays into the Kubernetes storage model with dynamic provisioning, snapshots, cloning, and QoS settings — the same declarative storage API that cloud-native workloads expect, backed by the enterprise storage hardware the organization already owns and supports."
+why_in_catalog: "Organizations running AI on HPE Alletra Storage MP B10000 and Alletra Storage MP X10000 arrays, including their predecessor platforms, should not need to abandon their storage investments when moving workloads to Kubernetes. The HPE CSI Driver brings those arrays into the Kubernetes storage model with dynamic provisioning, snapshots, cloning, and QoS settings — the same declarative storage API that cloud-native workloads expect, backed by the enterprise storage hardware the organization already owns and supports."
 support_link: https://scod.hpedev.io/legal/support/
 
 doc_link: https://scod.hpedev.io/
