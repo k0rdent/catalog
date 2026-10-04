@@ -2,8 +2,8 @@ apiVersion: v2
 name: jenkins
 description: A Helm chart that references the official "jenkins" Helm chart.
 type: application
-version: 5.9.64
+version: 5.9.65
 dependencies:
   - name: jenkins
-    version: 5.9.64
+    version: 5.9.65
     repository: https://charts.jenkins.io
