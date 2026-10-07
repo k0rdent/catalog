@@ -12,6 +12,6 @@ dependencies:
     mcs_dep_index: 0
   # chained through redis so both password secrets exist before GitLab pods mount them
   - name: gitlab
-    version: 10.1.1
+    version: 10.4.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 1

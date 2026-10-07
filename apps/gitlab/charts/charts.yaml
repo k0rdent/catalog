@@ -8,3 +8,5 @@ charts:
     appVersion: v18.8.4
   - version: 10.1.1
     appVersion: v19.1.1
+  - version: 10.4.1
+    appVersion: v19.4.1
