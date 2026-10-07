@@ -4,3 +4,5 @@ charts:
     appVersion: 2.3.0
   - version: 2.4.0
     appVersion: 2.4.0
+  - version: 2.5.2
+    appVersion: 2.5.2
