@@ -1,0 +1,6 @@
+dependencies:
+- name: kube-arangodb
+  repository: https://arangodb.github.io/kube-arangodb
+  version: 1.4.5
+digest: sha256:44a01d0ccc87e8259fd6fc9a10a7d88dd1ed23f403d5465a9ba40be3bf6f64d8
+generated: "2026-10-07T11:43:25.64091013Z"
