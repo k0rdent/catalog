@@ -19,3 +19,19 @@ st-charts:
   dep_name: kserve-runtime-configs
   version: v0.18.0
   repository: oci://ghcr.io/kserve/charts
+- name: kserve-crd
+  dep_name: kserve-crd
+  version: v0.20.0
+  repository: oci://ghcr.io/kserve/charts
+- name: kserve
+  dep_name: kserve
+  version: v0.16.0
+  repository: oci://ghcr.io/kserve/charts
+- name: kserve-resources
+  dep_name: kserve-resources
+  version: v0.20.0
+  repository: oci://ghcr.io/kserve/charts
+- name: kserve-runtime-configs
+  dep_name: kserve-runtime-configs
+  version: v0.20.0
+  repository: oci://ghcr.io/kserve/charts
