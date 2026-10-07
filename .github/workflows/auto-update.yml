@@ -129,3 +129,4 @@ jobs:
           export DST_REPO=${{ vars.AUTO_UPDATES_DST_REPO }}
           export OWNER=${{ github.repository_owner }}
           ./scripts/create_pr.sh
+
