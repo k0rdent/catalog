@@ -2,3 +2,5 @@ charts:
   grafana-operator:
   - version: v5.20.0
     appVersion: v5.20.0
+  - version: 5.25.0
+    appVersion: v5.25.0
