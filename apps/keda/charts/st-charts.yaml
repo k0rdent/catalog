@@ -7,3 +7,7 @@ st-charts:
   dep_name: keda
   version: 2.19.0
   repository: https://kedacore.github.io/charts
+- name: keda
+  dep_name: keda
+  version: 2.21.0
+  repository: https://kedacore.github.io/charts
