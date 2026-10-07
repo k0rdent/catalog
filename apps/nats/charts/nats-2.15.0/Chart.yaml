@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nats
+description: A Helm chart that references the official "nats" Helm chart.
+type: application
+version: 2.15.0
+dependencies:
+  - name: nats
+    version: 2.15.0
+    repository: https://nats-io.github.io/k8s/helm/charts/
