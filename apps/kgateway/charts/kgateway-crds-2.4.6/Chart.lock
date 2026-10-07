@@ -1,0 +1,6 @@
+dependencies:
+- name: kgateway-crds
+  repository: oci://cr.kgateway.dev/kgateway-dev/charts
+  version: 2.4.6
+digest: sha256:47c7204a215a42e258c91134343747dfb64228f35e948f98d1d72fb8209b1a99
+generated: "2026-10-07T11:48:53.57138825Z"

@@ -7,3 +7,11 @@ st-charts:
   dep_name: kgateway
   version: v2.1.1
   repository: oci://cr.kgateway.dev/kgateway-dev/charts
+- name: kgateway-crds
+  dep_name: kgateway-crds
+  version: 2.4.6
+  repository: oci://cr.kgateway.dev/kgateway-dev/charts
+- name: kgateway
+  dep_name: kgateway
+  version: 2.4.6
+  repository: oci://cr.kgateway.dev/kgateway-dev/charts
