@@ -1,6 +1,4 @@
 charts:
   msr:
-  - version: 4.13.2
-    appVersion: v4.13.2
-  - version: 4.13.6
-    appVersion: v4.13.6
+  - version: 4.13.8
+    appVersion: v4.13.8
