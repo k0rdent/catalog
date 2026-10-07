@@ -41,6 +41,7 @@ jobs:
             # On cron: auto-update selected apps:
             all_detected_files=$(find \
               apps/cert-manager \
+              apps/envoy-gateway \
               apps/external-dns \
               apps/external-secrets \
               apps/nvidia \
