@@ -1,0 +1,6 @@
+dependencies:
+- name: msr
+  repository: oci://registry.mirantis.com/harbor/helm
+  version: 4.13.8
+digest: sha256:276165ab4ca2421aca65d3b466ff6b57b399358c99feda1547cff6646ca29d2d
+generated: "2026-10-07T12:08:40.869156689Z"
