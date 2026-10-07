@@ -11,3 +11,7 @@ st-charts:
   dep_name: knative-operator
   version: 1.21.0
   repository: https://knative.github.io/operator
+- name: knative-operator
+  dep_name: knative-operator
+  version: 1.23.1
+  repository: https://knative.github.io/operator

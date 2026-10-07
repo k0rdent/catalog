@@ -6,3 +6,5 @@ charts:
     appVersion: ''
   - version: 1.21.0
     appVersion: ''
+  - version: 1.23.1
+    appVersion: ''
