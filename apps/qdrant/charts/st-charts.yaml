@@ -7,3 +7,7 @@ st-charts:
   dep_name: qdrant
   version: 1.16.3
   repository: https://qdrant.github.io/qdrant-helm
+- name: qdrant
+  dep_name: qdrant
+  version: 1.19.2
+  repository: https://qdrant.github.io/qdrant-helm
