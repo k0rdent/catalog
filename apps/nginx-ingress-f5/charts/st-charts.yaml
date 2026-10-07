@@ -3,3 +3,7 @@ st-charts:
   dep_name: nginx-ingress
   version: 2.2.2
   repository: oci://ghcr.io/nginx/charts
+- name: nginx-ingress-f5
+  dep_name: nginx-ingress
+  version: 2.7.3
+  repository: oci://ghcr.io/nginx/charts
