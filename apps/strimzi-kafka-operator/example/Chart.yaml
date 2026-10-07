@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: strimzi-kafka-operator
-    version: 0.47.0
+    version: 1.2.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
