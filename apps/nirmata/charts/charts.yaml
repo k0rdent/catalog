@@ -2,3 +2,5 @@ charts:
   nirmata-kyverno:
   - version: 3.3.13
     appVersion: v1.13.4-n4k.nirmata.5
+  - version: 3.8.3
+    appVersion: v1.18.0-n4k.nirmata.6
