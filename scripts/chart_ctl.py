@@ -8,7 +8,14 @@ import re
 import json
 import sys
 import shutil
+import urllib.error
+import urllib.parse
+import urllib.request
+from packaging.version import InvalidVersion, Version
 import utils
+
+# Docker Hub is addressed by a different host in the registry API than in chart repository URLs.
+DOCKER_HUB_HOSTS = {"docker.io", "index.docker.io"}
 
 
 def _semver_parts(version: str):
@@ -174,6 +181,115 @@ def update_charts_cfg(args: str, updates_list: list, cfg: dict):
         write_charts_cfg(args.app, output)
 
 
+def oci_chart_ref(repository: str, chart: str) -> str:
+    return f"{repository.rstrip('/')}/{chart}"
+
+
+def oci_registry_path(repository: str, chart: str):
+    """Split an OCI chart reference into registry API host and repository path."""
+    host, _, path = oci_chart_ref(repository, chart)[len("oci://"):].partition('/')
+    if host in DOCKER_HUB_HOSTS:
+        host = "registry-1.docker.io"
+        if '/' not in path:
+            path = f"library/{path}"
+    return host, path
+
+
+def registry_get(url: str, token: str = None):
+    request = urllib.request.Request(url, headers={"User-Agent": "k0rdent-catalog"})
+    if token:
+        request.add_header("Authorization", f"Bearer {token}")
+    return urllib.request.urlopen(request, timeout=60)
+
+
+def registry_auth_token(challenge: str) -> str:
+    """Resolve a pull token from a Www-Authenticate challenge (Docker registry v2 auth)."""
+    params = dict(re.findall(r'(\w+)="([^"]*)"', challenge))
+    realm = params.pop("realm", None)
+    if not realm:
+        return None
+    url = f"{realm}?{urllib.parse.urlencode(params)}" if params else realm
+    with registry_get(url) as response:
+        body = json.load(response)
+    return body.get("token") or body.get("access_token")
+
+
+def oci_list_tags(repository: str, chart: str) -> list:
+    host, path = oci_registry_path(repository, chart)
+    url = f"https://{host}/v2/{path}/tags/list?n=1000"
+    token = None
+    tags = []
+    while url:
+        try:
+            response = registry_get(url, token)
+        except urllib.error.HTTPError as e:
+            if e.code == 401 and token is None:
+                token = registry_auth_token(e.headers.get("Www-Authenticate", ""))
+                if token:
+                    continue
+            raise
+        with response:
+            tags.extend(json.load(response).get("tags") or [])
+            link = response.headers.get("Link", "")
+        next_page = re.search(r'<([^>]+)>\s*;\s*rel="?next"?', link)
+        url = urllib.parse.urljoin(url, next_page.group(1)) if next_page else None
+    return tags
+
+
+def latest_stable_tag(tags: list) -> str:
+    """Highest release tag, ignoring pre-releases and anything not version-like."""
+    latest, latest_version = None, None
+    for tag in tags:
+        try:
+            version = Version(tag)
+        except InvalidVersion:
+            continue
+        if version.is_prerelease:
+            continue
+        if latest_version is None or version > latest_version:
+            latest, latest_version = tag, version
+    return latest
+
+
+def show_chart(reference: str, version: str = None) -> dict:
+    args = ["helm", "show", "chart", reference]
+    if version:
+        args += ["--version", version]
+    result = subprocess.run(args, check=True, capture_output=True, text=True)
+    return yaml.safe_load(result.stdout)
+
+
+def get_latest_https_chart(chart: str, repository: str) -> dict:
+    subprocess.run(["helm", "repo", "add", chart, repository], check=True)
+    try:
+        subprocess.run(["helm", "repo", "update"], check=True)
+        return show_chart(f"{chart}/{chart}")
+    finally:
+        subprocess.run(["helm", "repo", "remove", chart], check=True)
+
+
+def get_latest_oci_chart(chart: str, repository: str) -> dict:
+    """Resolve the newest release from the registry tag list.
+
+    `helm show chart --version '>=0.0.0'` would be shorter, but Helm drops every
+    'v'-prefixed tag when resolving a range, which silently returns a stale
+    version (or no version at all) for charts tagged that way.
+    """
+    tag = latest_stable_tag(oci_list_tags(repository, chart))
+    if tag is None:
+        raise RuntimeError(f"no release tags found in '{oci_chart_ref(repository, chart)}'")
+    return show_chart(oci_chart_ref(repository, chart), tag)
+
+
+def get_latest_chart(chart: str, repository: str) -> dict:
+    if repository.startswith("https"):
+        return get_latest_https_chart(chart, repository)
+    if repository.startswith("oci://"):
+        return get_latest_oci_chart(chart, repository)
+    print(f"Unsupported repo '{repository}' to automatically check updates, skipping.")
+    return None
+
+
 def check_updates(args: str):
     cfg = read_charts_cfg(args.app, allow_return_none=True)
     if cfg is None:
@@ -183,13 +299,14 @@ def check_updates(args: str):
     updates_list = []
     updates_dict = {}
     for chart, data in last_deps.items():
-        if not data['repository'].startswith("https"):
-            print(f"Unsupported repo '{data['repository']}' to automatically check updates, skipping.")
+        try:
+            up_to_date_chart = get_latest_chart(chart, data['repository'])
+        except (subprocess.CalledProcessError, urllib.error.URLError, RuntimeError) as e:
+            # One unreachable repo (private registry, outage) must not fail the whole app.
+            print(f"::warning::Cannot check updates for '{chart}' in '{data['repository']}': {e}")
             continue
-        subprocess.run(["helm", "repo", "add", chart, data['repository']], check=True)
-        subprocess.run(["helm", "repo", "update"], check=True)
-        result = subprocess.run(["helm", "show", "chart", f"{chart}/{chart}"], check=True, capture_output=True, text=True)
-        up_to_date_chart = yaml.safe_load(result.stdout)
+        if up_to_date_chart is None:
+            continue
         print(f"Last version found: {up_to_date_chart['version']}")
         try_ignore_prefix_v(up_to_date_chart, data['version'])
         if up_to_date_chart['version'] != data['version']:
@@ -198,7 +315,6 @@ def check_updates(args: str):
             item['version'] = up_to_date_chart['version']
             updates_list.append(item)
             updates_dict[item['name']] = item
-        subprocess.run(["helm", "repo", "remove", chart], check=True)
     update_charts_cfg(args, updates_list, cfg)
     if args.generate_charts:
         generate(args)
