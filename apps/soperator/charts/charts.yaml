@@ -2,6 +2,10 @@ charts:
   helm-soperator:
   - version: 1.22.1
     appVersion: 1.22.1
+  - version: 4.1.11
+    appVersion: 4.1.11
   helm-slurm-cluster:
   - version: 1.22.1
     appVersion: 1.22.1
+  - version: 4.1.11
+    appVersion: 4.1.11
