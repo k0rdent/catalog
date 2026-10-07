@@ -4,3 +4,5 @@ charts:
     appVersion: ''
   - version: 0.18.0
     appVersion: ''
+  - version: 0.20.0
+    appVersion: ''
