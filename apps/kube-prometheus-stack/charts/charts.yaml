@@ -28,3 +28,5 @@ charts:
     appVersion: v0.94.1
   - version: 92.0.0
     appVersion: v0.94.1
+  - version: 92.1.0
+    appVersion: v0.94.1
