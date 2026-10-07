@@ -1,0 +1,6 @@
+dependencies:
+- name: operator
+  repository: https://charts.wandb.ai
+  version: 1.4.10
+digest: sha256:7d7c68dbd0af7616bb8c9d9931bae1addae84a515da8244a08842b5a174b7249
+generated: "2026-10-07T12:05:31.764515208Z"
