@@ -2,3 +2,5 @@ charts:
   k0rdent-istio:
   - version: 0.4.0
     appVersion: 0.4.0
+  - version: 0.6.0
+    appVersion: 0.6.0
