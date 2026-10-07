@@ -15,7 +15,7 @@ Thank you for your interest in contributing to the k0rdent catalog! This guide w
 - #### Expose _Fork static pages_ ([example](https://josef-hak.github.io/k0rdent-catalog/latest/)):
     - In fork repositories pages are automatically deployed on each push to any branch. This allows easy and convenient review of static pages updates. You just need to allow this in your fork repository using following steps:
         - Enable github pages in repository `Settings` > `Pages` menu item.
-        - Set GitHub Pages "Branch" to `gh-pages`. This branch is created automatically on first push.
+        - Set GitHub Pages `Build and deploy` > `Source`: **GitHub Actions**.
         - Click "Save". Now your fork will expose Catalog pages with your updates on every push.
 
 ### 2. Create the Application Helm Charts:
