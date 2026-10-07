@@ -4,5 +4,5 @@ type: application
 version: 3.3.13
 dependencies:
   - name: nirmata-kyverno
-    version: 3.3.13
+    version: 3.8.3
     repository: oci://ghcr.io/k0rdent/catalog/charts
