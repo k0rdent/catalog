@@ -7,3 +7,11 @@ st-charts:
   dep_name: helm-slurm-cluster
   version: 1.22.1
   repository: oci://cr.eu-north1.nebius.cloud/soperator
+- name: helm-soperator
+  dep_name: helm-soperator
+  version: 4.1.11
+  repository: oci://cr.eu-north1.nebius.cloud/soperator
+- name: helm-slurm-cluster
+  dep_name: helm-slurm-cluster
+  version: 4.1.11
+  repository: oci://cr.eu-north1.nebius.cloud/soperator
