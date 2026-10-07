@@ -6,3 +6,5 @@ charts:
     appVersion: v1.135.0
   - version: 0.35.0
     appVersion: v1.140.0
+  - version: 0.48.0
+    appVersion: v1.153.0
