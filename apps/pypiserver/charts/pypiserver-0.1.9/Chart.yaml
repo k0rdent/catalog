@@ -2,8 +2,8 @@ apiVersion: v2
 name: pypiserver
 description: A Helm chart that references the official "pypiserver" Helm chart.
 type: application
-version: 0.1.8
+version: 0.1.9
 dependencies:
   - name: pypiserver
-    version: 0.1.8
+    version: 0.1.9
     repository: https://community-charts.github.io/helm-charts
