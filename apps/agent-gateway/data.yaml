@@ -1,0 +1,22 @@
+tags:
+  - AI/Machine Learning
+  - Networking
+title: "Agentgateway"
+summary: "Agentgateway is an open source gateway for routing, securing, and governing application and AI-native traffic, including LLMs, MCP tools, and agent-to-agent communication."
+logo: ./assets/icon.svg
+created: "2026-10-06T00:00:00Z"
+github_repo: agentgateway/agentgateway
+description: |
+    Agentgateway is an open source HTTP and gRPC gateway that handles traditional application 
+    traffic and AI-native protocols in one data plane. Route, secure, observe, 
+    and govern services, LLM provider traffic, MCP tools, 
+    and agent-to-agent communication without stitching together separate gateways.
+
+doc_link: https://agentgateway.dev/docs/kubernetes/latest/
+
+
+validated_amd64: 'y'
+validated_aws: 'y'
+validated_azure: ''
+validated_arm64: ''
+validated_local: 'y'

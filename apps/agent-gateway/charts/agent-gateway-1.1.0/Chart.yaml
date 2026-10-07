@@ -1,0 +1,9 @@
+apiVersion: v2
+name: agent-gateway
+description: A Helm chart that references the official "agent-gateway" Helm chart.
+type: application
+version: 1.1.0
+dependencies:
+  - name: agentgateway
+    version: 1.1.0
+    repository: oci://cr.agentgateway.dev/charts
