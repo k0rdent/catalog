@@ -8,10 +8,10 @@ dependencies:
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_namespace: cert-manager
   - name: kserve-crd
-    version: v0.18.0
+    version: v0.20.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 0
   - name: kserve-resources
-    version: v0.18.0
+    version: v0.20.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
     mcs_dep_index: 1
