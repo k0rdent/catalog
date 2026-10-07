@@ -71,3 +71,55 @@ def test_prune_old_patches_keeps_non_semver():
     pruned = chart_ctl.prune_old_patches("nonexistent-app", charts)
     versions = sorted(c["version"] for c in pruned)
     assert versions == ["1.0.1", "main"]
+
+
+def test_oci_registry_path_plain_host():
+    assert chart_ctl.oci_registry_path("oci://ghcr.io/kserve/charts", "kserve") == (
+        "ghcr.io", "kserve/charts/kserve")
+
+
+def test_oci_registry_path_strips_trailing_slash():
+    assert chart_ctl.oci_registry_path("oci://ghcr.io/k0rdent/catalog/charts/", "valkey") == (
+        "ghcr.io", "k0rdent/catalog/charts/valkey")
+
+
+def test_oci_registry_path_maps_docker_hub():
+    assert chart_ctl.oci_registry_path("oci://docker.io/envoyproxy", "gateway-helm") == (
+        "registry-1.docker.io", "envoyproxy/gateway-helm")
+
+
+def test_oci_registry_path_docker_hub_official_repo():
+    # A single path segment on Docker Hub lives under the implicit "library" namespace.
+    assert chart_ctl.oci_registry_path("oci://docker.io", "n8n") == (
+        "registry-1.docker.io", "library/n8n")
+
+
+def test_latest_stable_tag_picks_highest():
+    assert chart_ctl.latest_stable_tag(["1.2.0", "1.10.0", "1.9.0"]) == "1.10.0"
+
+
+def test_latest_stable_tag_keeps_v_prefix():
+    # Helm's own range resolution drops these; we must not.
+    assert chart_ctl.latest_stable_tag(["v0.15.0", "v0.16.0"]) == "v0.16.0"
+
+
+def test_latest_stable_tag_skips_prereleases():
+    assert chart_ctl.latest_stable_tag(["v0.16.0", "v0.17.0-rc0"]) == "v0.16.0"
+
+
+def test_latest_stable_tag_ignores_non_versions():
+    assert chart_ctl.latest_stable_tag(["latest", "main", "sha-abc123", "1.0.0"]) == "1.0.0"
+
+
+def test_latest_stable_tag_compares_across_v_prefix():
+    # Mixed tagging must not hide a newer release behind a prefix difference.
+    assert chart_ctl.latest_stable_tag(["1.6.0", "v2.2.1"]) == "v2.2.1"
+
+
+def test_latest_stable_tag_without_releases():
+    assert chart_ctl.latest_stable_tag(["latest", "1.0.0-rc1"]) is None
+
+
+def test_oci_chart_ref():
+    assert chart_ctl.oci_chart_ref("oci://quay.io/strimzi-helm/", "strimzi-kafka-operator") == (
+        "oci://quay.io/strimzi-helm/strimzi-kafka-operator")
