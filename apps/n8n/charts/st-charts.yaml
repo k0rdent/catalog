@@ -3,3 +3,7 @@ st-charts:
   dep_name: n8n
   version: 1.0.15
   repository: oci://8gears.container-registry.com/library
+- name: n8n
+  dep_name: n8n
+  version: 2.1.1
+  repository: oci://8gears.container-registry.com/library
