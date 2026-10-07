@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: haproxy-ingress
-    version: 1.49.0
+    version: 1.54.2
     repository: oci://ghcr.io/k0rdent/catalog/charts
