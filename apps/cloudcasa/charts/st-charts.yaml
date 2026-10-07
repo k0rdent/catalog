@@ -1,5 +1,5 @@
 st-charts:
 - name: cloudcasa
   dep_name: cloudcasa
-  version: 3.4.6
+  version: 3.4.7
   repository: https://catalogicsoftware.github.io/cloudcasa-helmchart/
