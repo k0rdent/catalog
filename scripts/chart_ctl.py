@@ -268,7 +268,7 @@ def get_latest_https_chart(chart: str, repository: str) -> dict:
         subprocess.run(["helm", "repo", "remove", chart], check=True)
 
 
-def get_latest_oci_chart(chart: str, repository: str) -> dict:
+def get_latest_oci_chart(chart: str, repository: str):
     """Resolve the newest release from the registry tag list.
 
     `helm show chart --version '>=0.0.0'` would be shorter, but Helm drops every
@@ -278,16 +278,23 @@ def get_latest_oci_chart(chart: str, repository: str) -> dict:
     tag = latest_stable_tag(oci_list_tags(repository, chart))
     if tag is None:
         raise RuntimeError(f"no release tags found in '{oci_chart_ref(repository, chart)}'")
-    return show_chart(oci_chart_ref(repository, chart), tag)
+    return tag, show_chart(oci_chart_ref(repository, chart), tag)
 
 
-def get_latest_chart(chart: str, repository: str) -> dict:
+def get_latest_chart(chart: str, repository: str, current_version: str):
+    """Return (version to record, chart metadata) for the newest release."""
     if repository.startswith("https"):
-        return get_latest_https_chart(chart, repository)
+        metadata = get_latest_https_chart(chart, repository)
+        # An index is keyed by the chart version, so that is what we store.
+        try_ignore_prefix_v(metadata, current_version)
+        return metadata['version'], metadata
     if repository.startswith("oci://"):
+        # A registry is keyed by tag, which is not always the chart version
+        # (lws tags 0.11.1 for chart v0.11.1, agentgateway tags v2.2.1). Storing
+        # anything but the tag breaks every later `helm ... --version` call.
         return get_latest_oci_chart(chart, repository)
     print(f"Unsupported repo '{repository}' to automatically check updates, skipping.")
-    return None
+    return None, None
 
 
 def check_updates(args: str):
@@ -300,19 +307,18 @@ def check_updates(args: str):
     updates_dict = {}
     for chart, data in last_deps.items():
         try:
-            up_to_date_chart = get_latest_chart(chart, data['repository'])
+            latest_version, _ = get_latest_chart(chart, data['repository'], data['version'])
         except (subprocess.CalledProcessError, urllib.error.URLError, RuntimeError) as e:
             # One unreachable repo (private registry, outage) must not fail the whole app.
             print(f"::warning::Cannot check updates for '{chart}' in '{data['repository']}': {e}")
             continue
-        if up_to_date_chart is None:
+        if latest_version is None:
             continue
-        print(f"Last version found: {up_to_date_chart['version']}")
-        try_ignore_prefix_v(up_to_date_chart, data['version'])
-        if up_to_date_chart['version'] != data['version']:
-            print(f"::warning::Update found for '{chart}': {data['version']} -> {up_to_date_chart['version']}")
+        print(f"Last version found: {latest_version}")
+        if latest_version != data['version']:
+            print(f"::warning::Update found for '{chart}': {data['version']} -> {latest_version}")
             item = data.copy()
-            item['version'] = up_to_date_chart['version']
+            item['version'] = latest_version
             updates_list.append(item)
             updates_dict[item['name']] = item
     update_charts_cfg(args, updates_list, cfg)
@@ -328,6 +334,17 @@ def check_updates(args: str):
         update_example_chart(args, updates_dict)
 
 
+def read_known_app_versions(charts_file: str) -> dict:
+    """Map (chart name, version) -> appVersion already recorded in charts.yaml."""
+    if not os.path.exists(charts_file):
+        return {}
+    with open(charts_file, "r", encoding='utf-8') as file:
+        known = yaml.safe_load(file) or {}
+    return {(name, str(entry.get('version'))): entry.get('appVersion', '')
+            for name, entries in (known.get('charts') or {}).items()
+            for entry in entries or []}
+
+
 def generate_charts_info(app: str, cfg: dict, rewrite: bool):
     if cfg is None:
         print('Charts config not found.')
@@ -339,6 +356,7 @@ def generate_charts_info(app: str, cfg: dict, rewrite: bool):
     deps = cfg['st-charts']
     repos = dict()
     out_charts = dict()
+    known_app_versions = read_known_app_versions(charts_file)
     for data in deps:
         repo = data['dep_name']
         if data['repository'].startswith("http") and data['repository'] not in repos:
@@ -351,9 +369,17 @@ def generate_charts_info(app: str, cfg: dict, rewrite: bool):
         else:
             repo_name = repos.get(data['repository'])
         args = ["helm", "show", "chart", f"{repo_name}/{repo}", "--version", data['version']]
-        result = subprocess.run(args, check=True, capture_output=True, text=True)
-        up_to_date_chart = yaml.safe_load(result.stdout)
+        result = subprocess.run(args, check=False, capture_output=True, text=True)
         name = data['name']
+        if result.returncode != 0:
+            # Upstreams drop old versions from the index (mysql-operator keeps only
+            # the latest). Keep what we already recorded rather than failing the app.
+            previous = known_app_versions.get((name, str(data['version'])), '')
+            print(f"::warning::'{repo_name}/{repo}' no longer offers version "
+                  f"{data['version']}, keeping appVersion '{previous}'")
+            up_to_date_chart = {'appVersion': previous}
+        else:
+            up_to_date_chart = yaml.safe_load(result.stdout)
         out_chart = dict(
             version=str(data['version']),
             appVersion=up_to_date_chart.get('appVersion', '')
