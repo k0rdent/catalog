@@ -5,5 +5,5 @@ st-charts:
   repository: oci://registry-1.docker.io/cloudpirates
 - name: rabbitmq
   dep_name: rabbitmq
-  version: 0.21.30
+  version: 0.21.31
   repository: oci://registry-1.docker.io/cloudpirates
