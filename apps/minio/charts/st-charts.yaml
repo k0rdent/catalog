@@ -3,3 +3,7 @@ st-charts:
   dep_name: minio
   version: 14.1.2
   repository: https://charts.bitnami.com/bitnami
+- name: minio
+  dep_name: minio
+  version: 17.0.21
+  repository: https://charts.bitnami.com/bitnami
