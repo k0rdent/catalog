@@ -1,0 +1,6 @@
+dependencies:
+- name: istiod
+  repository: https://tis.tetrate.io/charts
+  version: 1.31.10000
+digest: sha256:5f19b733173ea1759c6cdbe40dbe44a5c09d94b58b1b4758bc39646ee4729dd9
+generated: "2026-10-08T18:19:48.422993161Z"
