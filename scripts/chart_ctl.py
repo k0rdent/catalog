@@ -236,7 +236,21 @@ def oci_list_tags(repository: str, chart: str) -> list:
     return tags
 
 
-def latest_stable_tag(tags: list) -> str:
+def tag_preference(tag: str, current_version: str) -> int:
+    """Rank otherwise equal tags, so a repeated run always picks the same one.
+
+    Registries can carry both spellings of one release (agentgateway has 1.1.0
+    and v1.1.0); without a tiebreak the winner would follow the order the
+    registry happens to return and flip between runs.
+    """
+    if current_version and tag == current_version:
+        return 2
+    prefixed = tag.startswith('v')
+    wanted = current_version.startswith('v') if current_version else False
+    return 1 if prefixed == wanted else 0
+
+
+def latest_stable_tag(tags: list, current_version: str = None) -> str:
     """Highest release tag, ignoring pre-releases and anything not version-like."""
     latest, latest_version = None, None
     for tag in tags:
@@ -248,6 +262,9 @@ def latest_stable_tag(tags: list) -> str:
             continue
         if latest_version is None or version > latest_version:
             latest, latest_version = tag, version
+        elif version == latest_version and \
+                tag_preference(tag, current_version) > tag_preference(latest, current_version):
+            latest = tag
     return latest
 
 
@@ -268,14 +285,14 @@ def get_latest_https_chart(chart: str, repository: str) -> dict:
         subprocess.run(["helm", "repo", "remove", chart], check=True)
 
 
-def get_latest_oci_chart(chart: str, repository: str):
+def get_latest_oci_chart(chart: str, repository: str, current_version: str = None):
     """Resolve the newest release from the registry tag list.
 
     `helm show chart --version '>=0.0.0'` would be shorter, but Helm drops every
     'v'-prefixed tag when resolving a range, which silently returns a stale
     version (or no version at all) for charts tagged that way.
     """
-    tag = latest_stable_tag(oci_list_tags(repository, chart))
+    tag = latest_stable_tag(oci_list_tags(repository, chart), current_version)
     if tag is None:
         raise RuntimeError(f"no release tags found in '{oci_chart_ref(repository, chart)}'")
     return tag, show_chart(oci_chart_ref(repository, chart), tag)
@@ -292,7 +309,7 @@ def get_latest_chart(chart: str, repository: str, current_version: str):
         # A registry is keyed by tag, which is not always the chart version
         # (lws tags 0.11.1 for chart v0.11.1, agentgateway tags v2.2.1). Storing
         # anything but the tag breaks every later `helm ... --version` call.
-        return get_latest_oci_chart(chart, repository)
+        return get_latest_oci_chart(chart, repository, current_version)
     print(f"Unsupported repo '{repository}' to automatically check updates, skipping.")
     return None, None
 
