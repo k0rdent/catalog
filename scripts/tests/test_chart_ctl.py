@@ -141,7 +141,7 @@ def test_check_updates_skips_generation_when_nothing_changed(monkeypatch, capsys
     monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
     # Upstream reports the very version we already track.
     monkeypatch.setattr(chart_ctl, "get_latest_chart",
-                        lambda chart, repo: {"version": "1.0.0", "appVersion": "v1.0.0"})
+                        lambda chart, repo, current: ("1.0.0", {"appVersion": "v1.0.0"}))
     called = []
     monkeypatch.setattr(chart_ctl, "generate", lambda *a: called.append("generate"))
     monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: called.append("example"))
@@ -159,7 +159,7 @@ def test_check_updates_generates_when_version_changed(monkeypatch):
                           "repository": "oci://example.com/charts"}]}
     monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
     monkeypatch.setattr(chart_ctl, "get_latest_chart",
-                        lambda chart, repo: {"version": "1.1.0", "appVersion": "1.1.0"})
+                        lambda chart, repo, current: ("1.1.0", {"appVersion": "1.1.0"}))
     called = []
     monkeypatch.setattr(chart_ctl, "generate", lambda *a: called.append("generate"))
     monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: called.append("example"))
@@ -168,3 +168,41 @@ def test_check_updates_generates_when_version_changed(monkeypatch):
     chart_ctl.check_updates(_Args("demo"))
 
     assert called == ["cfg", "generate", "example"]
+
+
+def test_get_latest_chart_oci_records_the_tag(monkeypatch):
+    """OCI is addressed by tag, which is not always the chart version."""
+    monkeypatch.setattr(chart_ctl, "oci_list_tags", lambda repo, chart: ["v2.2.0", "v2.2.1"])
+    monkeypatch.setattr(chart_ctl, "show_chart",
+                        lambda ref, version=None: {"version": "v2.2.1", "appVersion": "v2.2.1"})
+    version, _ = chart_ctl.get_latest_chart("agentgateway", "oci://cr.example.dev/charts", "1.1.0")
+    # Not '2.2.1': stripping the prefix yields a tag that does not exist.
+    assert version == "v2.2.1"
+
+
+def test_get_latest_chart_oci_keeps_tag_differing_from_chart_version(monkeypatch):
+    # lws publishes tag '0.11.1' for a chart whose version field is 'v0.11.1'.
+    monkeypatch.setattr(chart_ctl, "oci_list_tags", lambda repo, chart: ["0.11.0", "0.11.1"])
+    monkeypatch.setattr(chart_ctl, "show_chart",
+                        lambda ref, version=None: {"version": "v0.11.1", "appVersion": "v0.11.1"})
+    version, _ = chart_ctl.get_latest_chart("lws", "oci://registry.k8s.io/lws/charts", "0.7.0")
+    assert version == "0.11.1"
+
+
+def test_get_latest_chart_https_strips_prefix_v(monkeypatch):
+    monkeypatch.setattr(chart_ctl, "get_latest_https_chart",
+                        lambda chart, repo: {"version": "v1.2.3", "appVersion": "1.2.3"})
+    version, _ = chart_ctl.get_latest_chart("x", "https://example.com/charts", "1.2.2")
+    assert version == "1.2.3"
+
+
+def test_read_known_app_versions(tmp_path):
+    charts_file = tmp_path / "charts.yaml"
+    charts_file.write_text(
+        "charts:\n  mysql-operator:\n  - version: 2.2.3\n    appVersion: 9.2.0-2.2.3\n")
+    known = chart_ctl.read_known_app_versions(str(charts_file))
+    assert known[("mysql-operator", "2.2.3")] == "9.2.0-2.2.3"
+
+
+def test_read_known_app_versions_missing_file(tmp_path):
+    assert chart_ctl.read_known_app_versions(str(tmp_path / "nope.yaml")) == {}
