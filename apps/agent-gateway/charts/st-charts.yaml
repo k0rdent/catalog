@@ -7,3 +7,11 @@ st-charts:
   dep_name: agentgateway-crds
   version: 1.1.0
   repository: oci://cr.agentgateway.dev/charts
+- name: agent-gateway
+  dep_name: agentgateway
+  version: v2.2.1
+  repository: oci://cr.agentgateway.dev/charts
+- name: agent-gateway-crds
+  dep_name: agentgateway-crds
+  version: v2.2.1
+  repository: oci://cr.agentgateway.dev/charts
