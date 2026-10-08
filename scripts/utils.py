@@ -35,9 +35,18 @@ def representer(dumper, data):
 yaml.add_representer(ValuesClass, representer)
 
 
+def service_template_version(version: str) -> str:
+    """Turn a chart version into something usable in a Kubernetes object name.
+
+    Besides dots, semver build metadata has to go: tetrate publishes
+    '1.31.1+tetrate0', and '+' is rejected by RFC 1123. Keep this in sync with
+    the same substitution in the kgst chart templates.
+    """
+    return version.replace('.', '-').replace('+', '-')
+
+
 def get_service_template(name: str, version: str) -> str:
-    template_version = str.replace(version, '.', '-')
-    return f"{name}-{template_version}"
+    return f"{name}-{service_template_version(version)}"
 
 
 def get_mcs_services(namespace: str, chart_data: dict, chart_values_data: dict):
@@ -207,7 +216,7 @@ def charts_2_verify_code(charts: list) -> str:
     verify_code_lines.append('kubectl get servicetemplates -A')
     verify_code_lines.append('# NAMESPACE    NAME                            VALID')
     for chart in charts:
-        template_name = f"{chart['name']}-{chart['version'].replace('.', '-')}".ljust(32)
+        template_name = get_service_template(chart['name'], chart['version']).ljust(32)
         verify_code_lines.append(f"# kcm-system   {template_name}true")
     verify_code_lines.append('~~~')
     cmd = '\n'.join(verify_code_lines)

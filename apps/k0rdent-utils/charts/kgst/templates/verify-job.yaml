@@ -6,7 +6,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: verify-job-{{ $chartName }}-{{ $chartVersion | replace "." "-" }}
+  name: verify-job-{{ $chartName }}-{{ $chartVersion | replace "." "-" | replace "+" "-" }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   annotations:
     "helm.sh/hook": pre-install, pre-upgrade

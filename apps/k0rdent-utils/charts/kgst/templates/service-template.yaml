@@ -16,7 +16,7 @@
 apiVersion: k0rdent.mirantis.com/{{ $.Values.k0rdentApiVersion }}
 kind: ServiceTemplate
 metadata:
-  name: {{ $.Values.prefix }}{{ $chartName }}-{{ $chartVersion | replace "." "-" }}
+  name: {{ $.Values.prefix }}{{ $chartName }}-{{ $chartVersion | replace "." "-" | replace "+" "-" }}
   namespace: {{ $.Values.namespace | default $.Release.Namespace }}
   annotations:
     helm.sh/resource-policy: keep
