@@ -1,0 +1,12 @@
+kubecost:
+  global:
+    # Both became mandatory in cost-analyzer 2.9; clusterId has to match the
+    # chart's own prometheus.server.global.external_labels.cluster_id default.
+    clusterId: cluster-one
+    federatedStorage:
+      # A local store keeps the example self-contained. Point this at S3/GCS/Azure
+      # for anything beyond a demo, otherwise the ETL data is not durable.
+      config: |
+        type: FILESYSTEM
+        config:
+          directory: /var/configs/etl/federated-store
