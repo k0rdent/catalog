@@ -123,3 +123,48 @@ def test_latest_stable_tag_without_releases():
 def test_oci_chart_ref():
     assert chart_ctl.oci_chart_ref("oci://quay.io/strimzi-helm/", "strimzi-kafka-operator") == (
         "oci://quay.io/strimzi-helm/strimzi-kafka-operator")
+
+
+class _Args:
+    def __init__(self, app):
+        self.app = app
+        self.update_cfg = True
+        self.generate_charts = True
+        self.update_example = True
+        self.rewrite_charts = True
+
+
+def test_check_updates_skips_generation_when_nothing_changed(monkeypatch, capsys):
+    """A no-op run must not rewrite generated files, or it opens a churn PR."""
+    cfg = {"st-charts": [{"name": "a", "dep_name": "a", "version": "1.0.0",
+                          "repository": "oci://example.com/charts"}]}
+    monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
+    # Upstream reports the very version we already track.
+    monkeypatch.setattr(chart_ctl, "get_latest_chart",
+                        lambda chart, repo: {"version": "1.0.0", "appVersion": "v1.0.0"})
+    called = []
+    monkeypatch.setattr(chart_ctl, "generate", lambda *a: called.append("generate"))
+    monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: called.append("example"))
+    monkeypatch.setattr(chart_ctl, "update_charts_cfg", lambda *a: called.append("cfg"))
+
+    chart_ctl.check_updates(_Args("demo"))
+
+    assert "generate" not in called
+    assert "example" not in called
+    assert "No updates found" in capsys.readouterr().out
+
+
+def test_check_updates_generates_when_version_changed(monkeypatch):
+    cfg = {"st-charts": [{"name": "a", "dep_name": "a", "version": "1.0.0",
+                          "repository": "oci://example.com/charts"}]}
+    monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
+    monkeypatch.setattr(chart_ctl, "get_latest_chart",
+                        lambda chart, repo: {"version": "1.1.0", "appVersion": "1.1.0"})
+    called = []
+    monkeypatch.setattr(chart_ctl, "generate", lambda *a: called.append("generate"))
+    monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: called.append("example"))
+    monkeypatch.setattr(chart_ctl, "update_charts_cfg", lambda *a: called.append("cfg"))
+
+    chart_ctl.check_updates(_Args("demo"))
+
+    assert called == ["cfg", "generate", "example"]

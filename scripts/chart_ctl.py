@@ -316,6 +316,12 @@ def check_updates(args: str):
             updates_list.append(item)
             updates_dict[item['name']] = item
     update_charts_cfg(args, updates_list, cfg)
+    if not updates_list:
+        # Regenerating anyway would rewrite charts.yaml from upstream metadata and
+        # open a pull request for cosmetic churn (e.g. appVersion '1.0.0' vs 'v1.0.0')
+        # with no version change behind it.
+        print("No updates found, leaving generated files untouched.")
+        return
     if args.generate_charts:
         generate(args)
     if args.update_example:
