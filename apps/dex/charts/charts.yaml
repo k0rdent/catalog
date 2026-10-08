@@ -8,3 +8,5 @@ charts:
     appVersion: 2.44.0
   - version: 0.25.2
     appVersion: 2.45.1
+  - version: 0.26.0
+    appVersion: 2.46.0
