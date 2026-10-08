@@ -206,3 +206,29 @@ def test_read_known_app_versions(tmp_path):
 
 def test_read_known_app_versions_missing_file(tmp_path):
     assert chart_ctl.read_known_app_versions(str(tmp_path / "nope.yaml")) == {}
+
+
+def test_latest_stable_tag_tiebreak_prefers_recorded_spelling():
+    # Both spellings of the same release exist; keep the one already in use.
+    assert chart_ctl.latest_stable_tag(["v1.1.0", "1.1.0"], "1.1.0") == "1.1.0"
+    assert chart_ctl.latest_stable_tag(["1.1.0", "v1.1.0"], "v1.1.0") == "v1.1.0"
+
+
+def test_latest_stable_tag_tiebreak_is_order_independent():
+    # The registry may return tags in any order; the pick must not depend on it.
+    assert (chart_ctl.latest_stable_tag(["v1.1.0", "1.1.0"], "0.9.0")
+            == chart_ctl.latest_stable_tag(["1.1.0", "v1.1.0"], "0.9.0"))
+
+
+def test_latest_stable_tag_tiebreak_follows_current_prefix_style():
+    # Not the recorded version itself, but the same style, so the entry stays consistent.
+    assert chart_ctl.latest_stable_tag(["1.2.0", "v1.2.0"], "v1.1.0") == "v1.2.0"
+    assert chart_ctl.latest_stable_tag(["v1.2.0", "1.2.0"], "1.1.0") == "1.2.0"
+
+
+def test_latest_stable_tag_tiebreak_without_current_version():
+    assert chart_ctl.latest_stable_tag(["v1.1.0", "1.1.0"]) == "1.1.0"
+
+
+def test_latest_stable_tag_tiebreak_does_not_beat_a_higher_version():
+    assert chart_ctl.latest_stable_tag(["1.1.0", "v2.0.0"], "1.1.0") == "v2.0.0"
