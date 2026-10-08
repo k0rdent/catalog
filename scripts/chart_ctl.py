@@ -97,8 +97,7 @@ def get_last_deps(cfg: dict):
 
 
 def service_template_name(chart_name: str, version: str) -> str:
-    st_version = version.replace('.', '-')
-    return f"{chart_name}-{st_version}"
+    return utils.get_service_template(chart_name, version)
 
 
 def update_data_service_templates_docs(app_data: dict, st_updates: dict):
