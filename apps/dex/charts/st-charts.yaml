@@ -15,3 +15,7 @@ st-charts:
   dep_name: dex
   version: 0.25.2
   repository: https://charts.dexidp.io
+- name: dex
+  dep_name: dex
+  version: 0.26.0
+  repository: https://charts.dexidp.io
