@@ -2,6 +2,10 @@ charts:
   kagent:
   - version: 0.3.13
     appVersion: ''
+  - version: 0.10.3
+    appVersion: ''
   kagent-crds:
   - version: 0.3.13
+    appVersion: ''
+  - version: 0.10.3
     appVersion: ''
