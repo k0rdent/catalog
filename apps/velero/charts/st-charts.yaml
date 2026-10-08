@@ -25,5 +25,5 @@ st-charts:
   repository: https://vmware-tanzu.github.io/helm-charts/
 - name: velero
   dep_name: velero
-  version: 12.2.0
+  version: 12.2.1
   repository: https://vmware-tanzu.github.io/helm-charts/
