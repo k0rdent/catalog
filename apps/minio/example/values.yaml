@@ -5,3 +5,7 @@ minio:
         allowInsecureImages: true
     image:
       repository: bitnamilegacy/minio
+    console:
+      # The console image moved to bitnamilegacy too; bitnami/ no longer serves it.
+      image:
+        repository: bitnamilegacy/minio-object-browser
