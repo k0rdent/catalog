@@ -191,7 +191,7 @@ def test_get_latest_chart_oci_keeps_tag_differing_from_chart_version(monkeypatch
 
 def test_get_latest_chart_https_strips_prefix_v(monkeypatch):
     monkeypatch.setattr(chart_ctl, "get_latest_https_chart",
-                        lambda chart, repo: {"version": "v1.2.3", "appVersion": "1.2.3"})
+                        lambda chart, repo, current=None: ("v1.2.3", {"appVersion": "1.2.3"}))
     version, _ = chart_ctl.get_latest_chart("x", "https://example.com/charts", "1.2.2")
     assert version == "1.2.3"
 
@@ -232,3 +232,26 @@ def test_latest_stable_tag_tiebreak_without_current_version():
 
 def test_latest_stable_tag_tiebreak_does_not_beat_a_higher_version():
     assert chart_ctl.latest_stable_tag(["1.1.0", "v2.0.0"], "1.1.0") == "v2.0.0"
+
+
+def test_get_latest_chart_https_picks_semver_max_not_index_order(monkeypatch):
+    """Tetrate lists 1.31.1+tetrate0 first, but 1.31.10000 is the higher version."""
+    monkeypatch.setattr(chart_ctl, "subprocess", type("S", (), {
+        "run": staticmethod(lambda *a, **k: None)})())
+    monkeypatch.setattr(chart_ctl, "repo_list_versions",
+                        lambda alias, chart: ["1.31.1+tetrate0", "1.31.10000", "1.28.20000"])
+    monkeypatch.setattr(chart_ctl, "show_chart",
+                        lambda ref, version=None: {"version": version, "appVersion": "1.31.1-tetrate0"})
+    version, _ = chart_ctl.get_latest_chart("base", "https://tis.tetrate.io/charts", "1.28.20000")
+    assert version == "1.31.10000"
+
+
+def test_get_latest_chart_https_skips_prereleases(monkeypatch):
+    monkeypatch.setattr(chart_ctl, "subprocess", type("S", (), {
+        "run": staticmethod(lambda *a, **k: None)})())
+    monkeypatch.setattr(chart_ctl, "repo_list_versions",
+                        lambda alias, chart: ["1.2.0", "1.3.0-rc1"])
+    monkeypatch.setattr(chart_ctl, "show_chart",
+                        lambda ref, version=None: {"version": version, "appVersion": "x"})
+    version, _ = chart_ctl.get_latest_chart("x", "https://example.com/charts", "1.1.0")
+    assert version == "1.2.0"

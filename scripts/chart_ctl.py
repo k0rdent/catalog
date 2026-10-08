@@ -275,11 +275,27 @@ def show_chart(reference: str, version: str = None) -> dict:
     return yaml.safe_load(result.stdout)
 
 
-def get_latest_https_chart(chart: str, repository: str) -> dict:
+def repo_list_versions(alias: str, chart: str) -> list:
+    """Every chart version an added Helm repository offers."""
+    args = ["helm", "search", "repo", f"{alias}/{chart}", "--versions", "--output", "json"]
+    result = subprocess.run(args, check=True, capture_output=True, text=True)
+    # The search matches substrings, so drop charts that merely share a prefix.
+    return [entry['version'] for entry in json.loads(result.stdout)
+            if entry.get('name') == f"{alias}/{chart}"]
+
+
+def get_latest_https_chart(chart: str, repository: str, current_version: str = None):
     subprocess.run(["helm", "repo", "add", chart, repository], check=True)
     try:
         subprocess.run(["helm", "repo", "update"], check=True)
-        return show_chart(f"{chart}/{chart}")
+        # Not `helm show chart` without a version: that returns whichever entry
+        # the index happens to list first, which is not the highest one. Tetrate
+        # publishes both 1.31.10000 and 1.31.1+tetrate0 for the same release and
+        # the index leads with the latter.
+        version = latest_stable_tag(repo_list_versions(chart, chart), current_version)
+        if version is None:
+            raise RuntimeError(f"no release versions found in '{repository}'")
+        return version, show_chart(f"{chart}/{chart}", version)
     finally:
         subprocess.run(["helm", "repo", "remove", chart], check=True)
 
@@ -300,8 +316,9 @@ def get_latest_oci_chart(chart: str, repository: str, current_version: str = Non
 def get_latest_chart(chart: str, repository: str, current_version: str):
     """Return (version to record, chart metadata) for the newest release."""
     if repository.startswith("https"):
-        metadata = get_latest_https_chart(chart, repository)
+        version, metadata = get_latest_https_chart(chart, repository, current_version)
         # An index is keyed by the chart version, so that is what we store.
+        metadata['version'] = version
         try_ignore_prefix_v(metadata, current_version)
         return metadata['version'], metadata
     if repository.startswith("oci://"):
