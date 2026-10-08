@@ -7,3 +7,7 @@ st-charts:
   dep_name: redis
   version: 0.36.3
   repository: oci://registry-1.docker.io/cloudpirates
+- name: redis
+  dep_name: redis
+  version: 0.37.2
+  repository: oci://registry-1.docker.io/cloudpirates
