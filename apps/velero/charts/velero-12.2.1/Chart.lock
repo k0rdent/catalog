@@ -1,0 +1,6 @@
+dependencies:
+- name: velero
+  repository: https://vmware-tanzu.github.io/helm-charts/
+  version: 12.2.1
+digest: sha256:8fb87fb39b95c77e005e014146c8921bed697ccaba1ff715f947a499861943a7
+generated: "2026-10-08T14:57:58.037387176Z"
