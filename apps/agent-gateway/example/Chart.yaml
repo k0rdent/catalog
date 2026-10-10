@@ -4,8 +4,8 @@ type: application
 version: 1.0.0
 dependencies:
   - name: agent-gateway-crds
-    version: 1.1.0
+    version: v2.2.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: agent-gateway
-    version: 1.1.0
+    version: v2.2.1
     repository: oci://ghcr.io/k0rdent/catalog/charts
