@@ -2,8 +2,8 @@ apiVersion: v2
 name: traefik
 description: A Helm chart that references the official "traefik" Helm chart.
 type: application
-version: 41.7.0
+version: 41.7.1
 dependencies:
   - name: traefik
-    version: 41.7.0
+    version: 41.7.1
     repository: https://traefik.github.io/charts
