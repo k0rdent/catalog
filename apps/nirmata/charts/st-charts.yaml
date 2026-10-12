@@ -7,3 +7,7 @@ st-charts:
   dep_name: kyverno
   version: 3.8.3
   repository: https://nirmata.github.io/kyverno-charts/
+- name: nirmata-kyverno
+  dep_name: kyverno
+  version: 3.9.0
+  repository: https://nirmata.github.io/kyverno-charts/
