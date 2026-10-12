@@ -3,6 +3,12 @@ name: example
 type: application
 version: 2.5.3
 dependencies:
+  # cost-analyzer 2.9 requires a federated store and the agent only accepts
+  # object storage, so the example has to bring one.
+  - name: minio
+    version: 17.0.21
+    repository: oci://ghcr.io/k0rdent/catalog/charts
   - name: kubecost
     version: 2.9.7
     repository: oci://ghcr.io/k0rdent/catalog/charts
+    mcs_dep_index: 0

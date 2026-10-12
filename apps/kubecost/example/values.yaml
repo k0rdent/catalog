@@ -1,12 +1,35 @@
+minio:
+  minio:
+    # MCS deploys each dependency as its own release, so pin the name kubecost
+    # points at instead of letting it follow the release name.
+    fullnameOverride: minio
+    global:
+      security:
+        allowInsecureImages: true
+    image:
+      repository: bitnamilegacy/minio
+    console:
+      image:
+        repository: bitnamilegacy/minio-object-browser
+    auth:
+      rootUser: kubecost
+      rootPassword: kubecost-example
+    defaultBuckets: kubecost
+
 kubecost:
   global:
     # Both became mandatory in cost-analyzer 2.9; clusterId has to match the
     # chart's own prometheus.server.global.external_labels.cluster_id default.
     clusterId: cluster-one
     federatedStorage:
-      # A local store keeps the example self-contained. Point this at S3/GCS/Azure
-      # for anything beyond a demo, otherwise the ETL data is not durable.
+      # The finops agent rejects anything but object storage ("storage with type
+      # FILESYSTEM is not supported"), so point it at the bundled MinIO. Use a
+      # real S3/GCS/Azure bucket for anything beyond a demo.
       config: |
-        type: FILESYSTEM
+        type: S3
         config:
-          directory: /var/configs/etl/federated-store
+          bucket: kubecost
+          endpoint: minio:9000
+          access_key: kubecost
+          secret_key: kubecost-example
+          insecure: true
