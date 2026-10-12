@@ -14,6 +14,11 @@ description: |
 
 doc_link: https://agentgateway.dev/docs/kubernetes/latest/
 
+# Since v2 the controller blocks on syncing GatewayClass and never reports ready
+# until the Gateway API CRDs are installed, which the chart does not ship. Assert
+# Running only, the same way kgateway does.
+test_wait_for_pods: "agent-gateway-agentgateway-"
+test_wait_for_running: true
 
 validated_amd64: 'y'
 validated_aws: 'y'
