@@ -1,0 +1,8 @@
+kagent:
+  kagent:
+    providers:
+      openAI:
+        # The chart only references the kagent-openai secret, it does not create
+        # one unless a key is given. Without it every built-in agent pod stops at
+        # CreateContainerConfigError. Replace with a real key to actually use them.
+        apiKey: my-openai-api-key
