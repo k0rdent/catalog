@@ -7,3 +7,7 @@ st-charts:
   dep_name: dpf-operator
   version: v26.4.1
   repository: https://helm.ngc.nvidia.com/nvidia/doca
+- name: dpf-operator
+  dep_name: dpf-operator
+  version: v26.8.0
+  repository: https://helm.ngc.nvidia.com/nvidia/doca
