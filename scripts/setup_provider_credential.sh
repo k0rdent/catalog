@@ -1,7 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-./scripts/check_test_mode.sh
+# -x: this script is about to read the provider credentials, so report all the
+# missing ones here instead of dying on an unbound variable further down.
+./scripts/check_test_mode.sh -x
 
 cred_name="$TEST_MODE-credential"
 if kubectl get credential "$cred_name" -n kcm-system &>/dev/null; then

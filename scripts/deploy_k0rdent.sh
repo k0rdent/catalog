@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# Chart version of k0rdent (kcm) to install. Callers that also apply a Management
+# resource have to keep its `release:` in sync (see deploy_k0rdent_aws.sh).
+KCM_VERSION="${KCM_VERSION:-1.12.0}"
+
 if docker ps --filter name='^k0rdent$' -q | grep -q .; then
     echo "k0rdent cluster already exists"
 else
@@ -52,14 +56,14 @@ fi
 if helm get notes kcm -n kcm-system >/dev/null 2>&1; then
     echo "k0rdent chart (kcm) already installed"
 elif [[ -z "${HELM_VALUES:-}" ]]; then
-    echo "Installing kcm with default values"
+    echo "Installing kcm $KCM_VERSION with default values"
     helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm \
-      --version 1.12.0 -n kcm-system --create-namespace \
+      --version "$KCM_VERSION" -n kcm-system --create-namespace \
       --timeout=20m $HELM_EXTRA_FLAGS
 else
-    echo "Installing kcm chart with values $HELM_VALUES"
+    echo "Installing kcm $KCM_VERSION with values $HELM_VALUES"
     helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm \
-      --version 1.12.0 -n kcm-system --create-namespace -f "$HELM_VALUES" \
+      --version "$KCM_VERSION" -n kcm-system --create-namespace -f "$HELM_VALUES" \
       --timeout=20m $HELM_EXTRA_FLAGS
 fi
 
