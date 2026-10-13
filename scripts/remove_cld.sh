@@ -12,7 +12,8 @@ else
     cldname="$TEST_MODE-example-$USER"
 fi
 
-kubectl delete cld -n kcm-system "$cldname"
+# Don't block on finalizers here - the wait script below reports progress meanwhile.
+kubectl delete cld -n kcm-system "$cldname" --wait=false
 
 CLDNAME="$cldname" ./scripts/wait_for_cluster_removal.sh
 

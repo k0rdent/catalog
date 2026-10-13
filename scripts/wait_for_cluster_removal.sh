@@ -7,7 +7,7 @@ SECONDS=0
 
 while (( SECONDS < TIMEOUT )); do
     cld_out=$(kubectl get cld -n kcm-system)
-    if ! echo "$cld_out" | grep "$CLDNAME"; then
+    if ! echo "$cld_out" | grep -q "$CLDNAME"; then
         echo "✅ Cluster not found!"
         break
     fi
