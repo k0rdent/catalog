@@ -5,7 +5,7 @@ set -euo pipefail
 # hand if the normal teardown never ran. Once the management cluster is gone,
 # their tags are the only thing left to find them by.
 #
-# Usage: TEST_MODE=aws [CLD_NAME=...] ./scripts/list_cld_resources_aws.sh [-x]
+# Usage: [CLD_NAME=...] ./scripts/list_cld_resources_aws.sh [-x]
 #
 #   -x  also show each resource's state, which costs one API call per resource
 #
@@ -16,12 +16,11 @@ set -euo pipefail
 want_state=false
 [[ "${1:-}" == "-x" ]] && want_state=true
 
-./scripts/check_test_mode.sh -x
-[[ "$TEST_MODE" == aws ]] || { echo "Only TEST_MODE=aws is supported, got '$TEST_MODE'"; exit 1; }
+TEST_MODE=aws ./scripts/check_test_mode.sh -x
 command -v aws >/dev/null 2>&1 || { echo "❌ AWS CLI not found"; exit 1; }
 
 # Same naming convention as deploy_cld.sh / remove_cld.sh.
-cld_name="${CLD_NAME:-$TEST_MODE-example-$USER}"
+cld_name="${CLD_NAME:-aws-example-$USER}"
 tag_key="sigs.k8s.io/cluster-api-provider-aws/cluster/${cld_name}"
 
 echo "Cluster: $cld_name"
