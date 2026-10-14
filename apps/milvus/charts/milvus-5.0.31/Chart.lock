@@ -1,0 +1,6 @@
+dependencies:
+- name: milvus
+  repository: https://zilliztech.github.io/milvus-helm/
+  version: 5.0.31
+digest: sha256:845d33f1426a7377f421d900f428d7f36d8d36250e38930fcb8f776129ae4e1a
+generated: "2026-10-14T17:51:26.710271372Z"
