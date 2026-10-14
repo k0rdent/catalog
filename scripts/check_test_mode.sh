@@ -27,7 +27,8 @@ fi
 if [[ "$check_vars" == true ]]; then
     case "$TEST_MODE" in
         aws)     required=(AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_EC2_FAMILY AWS_REGION) ;;
-        azure)   required=(AZURE_SP_APP_ID AZURE_SP_PASSWORD AZURE_SP_TENANT_ID AZURE_SUB_ID) ;;
+        azure)   required=(AZURE_SP_APP_ID AZURE_SP_PASSWORD AZURE_SP_TENANT_ID AZURE_SUB_ID
+                           AZURE_LOCATION) ;;
         gcp)     required=(GCP_B64ENCODED_CREDENTIALS GCP_PROJECT) ;;
         adopted) required=() ;;
     esac

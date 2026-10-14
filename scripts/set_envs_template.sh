@@ -10,6 +10,7 @@ export AZURE_SP_PASSWORD="FILL"
 export AZURE_SP_APP_ID="FILL"
 export AZURE_SP_TENANT_ID="FILL"
 export AZURE_SUB_ID="FILL"
+export AZURE_LOCATION="westus"
 
 # GCP (Google) k0rdent provider
 export GCP_B64ENCODED_CREDENTIALS="FILL"
