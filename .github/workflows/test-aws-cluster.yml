@@ -97,6 +97,12 @@ jobs:
       # Needs Helm, so it cannot sit with the other preflight checks. Still well
       # before anything is provisioned: a typo in kcm_version would otherwise
       # surface only once the chart install runs.
+      # Bad credentials would otherwise surface ~10 minutes in, and worse, leave
+      # a ClusterDeployment that CAPA can no longer delete because its
+      # finalizers wait on AWS calls that never succeed.
+      - name: Preflight - AWS credentials
+        run: ./scripts/check_aws_creds.sh
+
       - name: Preflight - kcm version exists
         run: |
           helm show chart oci://ghcr.io/k0rdent/kcm/charts/kcm --version "$KCM_VERSION" \
