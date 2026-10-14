@@ -14,7 +14,7 @@ spec:
       instanceType: AWS_EC2_FAMILY.small
     controlPlaneNumber: 1
     publicIP: false
-    region: eu-central-1
+    region: AWS_REGION
     worker:
       instanceType: AWS_EC2_FAMILY.medium
       rootVolumeSize: 16

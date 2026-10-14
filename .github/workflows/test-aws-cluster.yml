@@ -23,6 +23,10 @@ on:
         description: 'EC2 instance family (t3 - amd64, t4g - arm64)'
         required: false
         default: 't3'
+      aws_region:
+        description: 'AWS region for the child cluster'
+        required: false
+        default: 'eu-central-1'
 
 jobs:
   test-aws-cluster:
@@ -37,6 +41,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_EC2_FAMILY: ${{ github.event.inputs.aws_ec2_family }}
+      AWS_REGION: ${{ github.event.inputs.aws_region }}
       # deploy_cld.sh substitutes these into the ClusterDeployment template and
       # runs under `set -u`, so they have to exist even for an AWS-only run.
       AZURE_SUB_ID: ''
@@ -70,7 +75,8 @@ jobs:
             [ -x "./scripts/$s" ] \
               || { echo "::error::./scripts/$s is missing or not executable"; exit 1; }
           done
-          echo "APP=$APP TEST_MODE=$TEST_MODE KCM_VERSION=$KCM_VERSION AWS_EC2_FAMILY=$AWS_EC2_FAMILY"
+          echo "APP=$APP TEST_MODE=$TEST_MODE KCM_VERSION=$KCM_VERSION"
+          echo "AWS_EC2_FAMILY=$AWS_EC2_FAMILY AWS_REGION=$AWS_REGION"
           echo "Provider variables, app and scripts all present"
 
       - name: Install dependencies
@@ -159,7 +165,7 @@ jobs:
           {
             echo "## Test AWS Cluster"
             echo ""
-            echo "app \`$APP\` | kcm \`$KCM_VERSION\` | EC2 family \`$AWS_EC2_FAMILY\`"
+            echo "app \`$APP\` | kcm \`$KCM_VERSION\` | \`$AWS_EC2_FAMILY\` in \`$AWS_REGION\`"
             echo ""
             echo "| Phase | Duration |"
             echo "| --- | --- |"
