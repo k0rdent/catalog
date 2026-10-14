@@ -7,6 +7,7 @@ export KUBECONFIG=kcfg_k0rdent
 ./scripts/setup_provider_credential.sh
 
 if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
+    cld_name="${CLD_NAME:-$TEST_MODE-example-$USER}"
     if [[ -e "apps/$APP/$TEST_MODE-cld.yaml" ]]; then
         cld_file="apps/$APP/$TEST_MODE-cld.yaml"
         echo "App specific '$cld_file' found."
@@ -16,7 +17,7 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     fi
     cld_cfg_str=$(sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" \
         -e "s/GCP_PROJECT/${GCP_PROJECT}/g" -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY}/g" \
-        -e "s/AWS_REGION/${AWS_REGION}/g" \
+        -e "s/AWS_REGION/${AWS_REGION}/g" -e "s/CLD_NAME/${cld_name}/g"\
         "$cld_file")
     echo "$cld_cfg_str"
     for arg in "$@"; do
@@ -26,9 +27,8 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
         fi
     done
     echo "$cld_cfg_str" | kubectl apply -n kcm-system -f -
-    cld_name="$TEST_MODE-example-$USER"
 elif [[ "$TEST_MODE" == adopted ]]; then
-    cld_name="adopted"
+    cld_name=adopted
 
     # Shared network so the k0rdent controllers can reach the adopted API.
     docker network create k0rdent-net 2>/dev/null || true

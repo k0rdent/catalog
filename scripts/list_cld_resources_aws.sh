@@ -25,10 +25,10 @@ if ! command -v aws >/dev/null 2>&1; then
 fi
 
 # Same naming convention as deploy_cld.sh / remove_cld.sh.
-cldname="$TEST_MODE-example-$USER"
-tag_key="sigs.k8s.io/cluster-api-provider-aws/cluster/${cldname}"
+cld_name="${CLD_NAME:-$TEST_MODE-example-$USER}"
+tag_key="sigs.k8s.io/cluster-api-provider-aws/cluster/${cld_name}"
 
-echo "Cluster: $cldname"
+echo "Cluster: $cld_name"
 echo "Tag:     $tag_key=owned"
 echo "Region:  $AWS_REGION"
 echo ""
