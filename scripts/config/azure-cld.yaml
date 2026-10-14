@@ -12,7 +12,7 @@ spec:
   config:
     controlPlaneNumber: 1
     workersNumber: 1
-    location: "westus"
+    location: "AZURE_LOCATION"
     subscriptionID: AZURE_SUB_ID
     controlPlane:
       vmSize: Standard_A4_v2
