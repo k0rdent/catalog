@@ -20,3 +20,5 @@ charts:
     appVersion: v3.15.0
   - version: 29.36.1
     appVersion: v3.15.0
+  - version: 29.37.0
+    appVersion: v3.15.0
