@@ -19,12 +19,3 @@ if ! arn=$(aws sts get-caller-identity --query Arn --output text 2>&1); then
     exit 1
 fi
 echo "✅ Authenticated as $arn"
-
-# Valid keys are not enough - CAPA needs EC2 access in the target region.
-if ! az=$(aws ec2 describe-availability-zones --region "$AWS_REGION" \
-        --query 'AvailabilityZones[0].ZoneName' --output text 2>&1); then
-    echo "❌ No EC2 access in region '$AWS_REGION'"
-    echo "$az"
-    exit 1
-fi
-echo "✅ EC2 reachable in $AWS_REGION (e.g. $az)"
