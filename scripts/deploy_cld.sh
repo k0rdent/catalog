@@ -133,3 +133,6 @@ if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
 elif kubectl get ns | grep "projectsveltos"; then
     NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
 fi
+
+echo -e "\nPods in the '$TEST_MODE' cluster:"
+KUBECONFIG="kcfg_$TEST_MODE" kubectl get pods -A
