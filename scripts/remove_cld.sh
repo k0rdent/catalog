@@ -9,7 +9,7 @@ export KUBECONFIG=kcfg_k0rdent
 if [[ "$TEST_MODE" == adopted ]]; then
     cldname="adopted"
 else
-    cldname="$TEST_MODE-example-$USER"
+    cldname="${CLD_NAME:-$TEST_MODE-example-$USER}"
 fi
 
 # Don't block on finalizers here - the wait script below reports progress meanwhile.
