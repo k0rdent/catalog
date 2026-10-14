@@ -7,3 +7,7 @@ st-charts:
   dep_name: volcano
   version: 1.15.3
   repository: https://volcano-sh.github.io/helm-charts
+- name: volcano
+  dep_name: volcano
+  version: 1.16.0
+  repository: https://volcano-sh.github.io/helm-charts
