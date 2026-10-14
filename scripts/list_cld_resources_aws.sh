@@ -52,7 +52,11 @@ state_of() {  # $1 = <type>/<id> from the end of an ARN
         volume)            set -- describe-volumes --volume-ids 'Volumes[].State' ;;
         *) return 0 ;;
     esac
-    aws ec2 "$1" --region "$AWS_REGION" "$2" "$id" --query "$3" --output text 2>/dev/null || echo gone
+    local out
+    out=$(aws ec2 "$1" --region "$AWS_REGION" "$2" "$id" --query "$3" --output text 2>/dev/null) \
+        || { echo gone; return 0; }
+    # Call succeeded but returned nothing - say so instead of leaving a blank.
+    echo "${out:-none}"
 }
 
 while IFS= read -r arn; do
