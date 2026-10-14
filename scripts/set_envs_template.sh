@@ -3,6 +3,7 @@
 export AWS_ACCESS_KEY_ID="FILL"
 export AWS_SECRET_ACCESS_KEY="FILL"
 export AWS_EC2_FAMILY="t3" # (t3 - amd64, t4g - arm64, ...)
+export AWS_REGION="eu-central-1"
 
 # Azure k0rdent provider
 export AZURE_SP_PASSWORD="FILL"

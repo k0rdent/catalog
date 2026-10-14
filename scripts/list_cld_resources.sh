@@ -12,7 +12,7 @@ set -euo pipefail
 # way, marks resources merely borrowed from elsewhere as `shared`, and leaves
 # bring-your-own infrastructure untagged - so nothing pre-existing shows up here.
 
-./scripts/check_test_mode.sh
+./scripts/check_test_mode.sh -x
 
 if [[ "$TEST_MODE" != aws ]]; then
     echo "Only TEST_MODE=aws is supported, got '$TEST_MODE'"
@@ -30,17 +30,19 @@ tag_key="sigs.k8s.io/cluster-api-provider-aws/cluster/${cldname}"
 
 echo "Cluster: $cldname"
 echo "Tag:     $tag_key=owned"
+echo "Region:  $AWS_REGION"
 echo ""
 
-arns=$(aws resourcegroupstaggingapi get-resources \
+arns=$(aws resourcegroupstaggingapi get-resources --region "$AWS_REGION" \
     --tag-filters "Key=$tag_key,Values=owned" \
     --query 'ResourceTagMappingList[].ResourceARN' --output text \
     | tr '\t' '\n' | sed '/^$/d')
 
 if [[ -z "$arns" ]]; then
-    # The API is regional, so an empty result can just mean the wrong region.
-    echo "No resources found in region '$(aws configure get region || echo unset)'."
-    echo "Set AWS_REGION if the cluster runs elsewhere."
+    # A few app templates pin their own region (cilium uses us-west-1 for its
+    # hardcoded AMI), so an empty result can just mean the cluster is elsewhere.
+    echo "No resources found. Either everything is cleaned up, or the cluster"
+    echo "runs in another region - rerun with AWS_REGION set to it."
     exit 0
 fi
 

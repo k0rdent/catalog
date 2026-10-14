@@ -19,20 +19,21 @@ assert_eq "empty TEST_MODE is rejected (exit 1)" 1 "$?"
 
 # -x additionally requires the provider variables of the mode.
 # env -u: the assertions must not depend on a sourced scripts/set_envs.sh.
-out=$(env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_EC2_FAMILY \
+out=$(env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_EC2_FAMILY -u AWS_REGION \
     TEST_MODE=aws bash "$SCRIPTS_DIR/check_test_mode.sh" -x 2>&1)
 rc=$?
 assert_eq "'-x' rejects aws without credentials (exit 1)" 1 "$rc"
 assert_contains "names every missing aws variable" "$out" \
-    "AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_EC2_FAMILY"
+    "AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_EC2_FAMILY AWS_REGION"
 
 out=$(env -u AWS_SECRET_ACCESS_KEY TEST_MODE=aws AWS_ACCESS_KEY_ID=a AWS_EC2_FAMILY=t3 \
+    AWS_REGION=eu-central-1 \
     bash "$SCRIPTS_DIR/check_test_mode.sh" -x 2>&1)
 assert_eq "'-x' rejects a partially set aws env (exit 1)" 1 "$?"
 assert_contains "names only the missing one" "$out" "requires: AWS_SECRET_ACCESS_KEY"
 
 TEST_MODE=aws AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=b AWS_EC2_FAMILY=t3 \
-    bash "$SCRIPTS_DIR/check_test_mode.sh" -x >/dev/null 2>&1
+    AWS_REGION=eu-central-1 bash "$SCRIPTS_DIR/check_test_mode.sh" -x >/dev/null 2>&1
 assert_eq "'-x' accepts a complete aws env (exit 0)" 0 "$?"
 
 TEST_MODE=adopted bash "$SCRIPTS_DIR/check_test_mode.sh" -x >/dev/null 2>&1
