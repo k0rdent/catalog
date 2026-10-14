@@ -14,7 +14,7 @@ on:
       app:
         description: 'App to deploy into the child cluster'
         required: false
-        default: 'ingress-nginx'
+        default: 'traefik'
       kcm_version:
         description: 'k0rdent (kcm) chart version'
         required: false
