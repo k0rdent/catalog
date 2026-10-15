@@ -13,8 +13,8 @@ echo "adopted   True   0/0   adopted-cluster-1-0-2   Ready   5m"
 EOF
 
 out=$(CLDNAME=adopted bash "$SCRIPTS_DIR/wait_for_cld.sh" 2>&1)
-assert_eq "ready cluster -> exit 0" 0 "$?"
-assert_contains "reports cluster ready" "$out" "Cluster is ready"
+assert_eq "ready cld -> exit 0" 0 "$?"
+assert_contains "reports cld ready" "$out" "ClusterDeployment object is READY!"
 
 rm -rf "$MOCK_BIN"
 finish

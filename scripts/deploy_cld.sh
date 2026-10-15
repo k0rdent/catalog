@@ -128,11 +128,14 @@ fi
 # For adopted, kcfg_adopted is already written above.
 chmod 0600 "kcfg_$TEST_MODE"
 
+# Ensure running pods in kube-system
+NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
+
 if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
     echo "Skipping the projectsveltos wait (no CNI in the '$TEST_MODE' cluster yet)"
 elif kubectl get ns | grep "projectsveltos"; then
     NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
 fi
 
-echo -e "\nPods in the '$TEST_MODE' cluster:"
 KUBECONFIG="kcfg_$TEST_MODE" kubectl get pods -A
+echo "✅ k0rdent '$TEST_MODE' child cluster is ready!"
