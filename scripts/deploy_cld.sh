@@ -15,9 +15,9 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
         cld_file="./scripts/config/$TEST_MODE-cld.yaml"
         echo -e "apps/$APP/$TEST_MODE-cld.yaml not found, using default: $cld_file"
     fi
-    cld_cfg_str=$(sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID}/g" \
-        -e "s/GCP_PROJECT/${GCP_PROJECT}/g" -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY}/g" \
-        -e "s/AWS_REGION/${AWS_REGION}/g" -e "s/CLD_NAME/${cld_name}/g"\
+    cld_cfg_str=$(sed -e "s/USER/${USER}/g" -e "s/AZURE_SUB_ID/${AZURE_SUB_ID:-FILL}/g" \
+        -e "s/GCP_PROJECT/${GCP_PROJECT:-FILL}/g" -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY:-FILL}/g" \
+        -e "s/AWS_REGION/${AWS_REGION:-FILL}/g" -e "s/CLD_NAME/${cld_name}/g"\
         "$cld_file")
     echo "$cld_cfg_str"
     for arg in "$@"; do

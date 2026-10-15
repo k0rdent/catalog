@@ -42,11 +42,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_EC2_FAMILY: ${{ github.event.inputs.aws_ec2_family }}
       AWS_REGION: ${{ github.event.inputs.aws_region }}
-      # deploy_cld.sh substitutes these into the ClusterDeployment template and
-      # runs under `set -u`, so they have to exist even for an AWS-only run.
-      AZURE_SUB_ID: ''
-      GCP_PROJECT: ''
-      # Names the ClusterDeployment (aws-example-$USER); not set in a non-login shell.
       USER: ci
 
     steps:
