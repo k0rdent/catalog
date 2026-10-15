@@ -18,7 +18,7 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     cld_cfg_str=$(sed -e "s/USER/${USER}/g" \
         -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY:-FILL}/g" -e "s/AWS_REGION/${AWS_REGION:-FILL}/g" \
         -e "s/AZURE_SUB_ID/${AZURE_SUB_ID:-FILL}/g" -e "s/AZURE_LOCATION/${AZURE_LOCATION:-FILL}/g" \
-        -e "s/GCP_PROJECT/${GCP_PROJECT:-FILL}/g" \
+        -e "s/GCP_PROJECT/${GCP_PROJECT:-FILL}/g" -e "s/GCP_REGION/${GCP_REGION:-FILL}/g" \
         -e "s/CLD_NAME/${cld_name}/g"\
         "$cld_file")
     echo "$cld_cfg_str"

@@ -1,0 +1,14 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: Management
+metadata:
+  name: kcm
+  namespace: kcm-system
+spec:
+  providers:
+  # Just enough for gcp-standalone-cp, whose ClusterTemplate reports
+  # ["bootstrap-k0sproject-k0smotron","control-plane-k0sproject-k0smotron","infrastructure-gcp"].
+  - name: cluster-api-provider-gcp
+  - name: cluster-api-provider-k0sproject-k0smotron
+  # Required to deploy services (MultiClusterService) into the child cluster.
+  - name: projectsveltos
+  release: KCM_RELEASE

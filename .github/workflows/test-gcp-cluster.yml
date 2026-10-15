@@ -1,0 +1,174 @@
+name: Test GCP Cluster
+
+# Times a full k0rdent + GCP round trip: management cluster, child cluster,
+# application, and teardown. One cluster, one app, no matrix - the point is a
+# comparable duration per phase, not coverage. Further cloud providers get their
+# own workflow built from this one.
+#
+# Set GitHub repo secrets: GCP_B64ENCODED_CREDENTIALS, GCP_PROJECT
+# (the same values as in scripts/set_envs.sh)
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App to deploy into the child cluster'
+        required: false
+        default: 'traefik'
+      kcm_version:
+        description: 'k0rdent (kcm) chart version'
+        required: false
+        default: '1.12.0'
+      gcp_region:
+        description: 'GCP region for the child cluster'
+        required: false
+        default: 'us-west1'
+
+jobs:
+  test-gcp-cluster:
+    runs-on: ubuntu-24.04
+    # Provisioning plus teardown; the default 360m would leave GCP resources
+    # running far too long if something hangs.
+    timeout-minutes: 90
+    env:
+      APP: ${{ github.event.inputs.app }}
+      TEST_MODE: gcp
+      KCM_VERSION: ${{ github.event.inputs.kcm_version }}
+      GCP_B64ENCODED_CREDENTIALS: ${{ secrets.GCP_B64ENCODED_CREDENTIALS }}
+      GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+      GCP_REGION: ${{ github.event.inputs.gcp_region }}
+      USER: ci
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      # Before anything is installed or provisioned: a missing secret here costs
+      # seconds instead of failing ~10 minutes in, with a GCP cluster possibly
+      # half created. Running check_test_mode.sh as a child process also proves
+      # the credentials really reach the deploy scripts.
+      - name: Preflight
+        run: |
+          ./scripts/check_test_mode.sh -x || {
+            echo "::error::Provider variables missing - secrets are not inherited"
+            echo "from the upstream repository, set them in this repository's"
+            echo "Settings > Secrets and variables > Actions."
+            exit 1
+          }
+          for v in APP KCM_VERSION; do
+            [ -n "${!v:-}" ] || { echo "::error::$v is empty"; exit 1; }
+          done
+          [ -d "apps/$APP/example" ] \
+            || { echo "::error::apps/$APP/example not found"; exit 1; }
+          for s in deploy_k0rdent_gcp.sh install_servicetemplates.sh deploy_cld.sh \
+                   ensure_mcs_config.sh deploy_mcs.sh remove_mcs.sh remove_cld.sh; do
+            [ -x "./scripts/$s" ] \
+              || { echo "::error::./scripts/$s is missing or not executable"; exit 1; }
+          done
+          echo "APP=$APP TEST_MODE=$TEST_MODE KCM_VERSION=$KCM_VERSION"
+          echo "GCP_REGION=$GCP_REGION GCP_PROJECT=$GCP_PROJECT"
+          echo "Provider variables, app and scripts all present"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/v1.35.0/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+
+      # Needs Helm, so it cannot sit with the other preflight checks. Still well
+      # before anything is provisioned: a typo in kcm_version would otherwise
+      # surface only once the chart install runs.
+      # Bad credentials would otherwise surface ~10 minutes in, and worse, leave
+      # a ClusterDeployment that CAPA can no longer delete because its
+      # finalizers wait on GCP calls that never succeed.
+      - name: Preflight - GCP credentials
+        run: ./scripts/check_gcp_creds.sh
+
+      - name: Preflight - kcm version exists
+        run: |
+          helm show chart oci://ghcr.io/k0rdent/kcm/charts/kcm --version "$KCM_VERSION" \
+            >/dev/null 2>&1 \
+            || { echo "::error::kcm chart version '$KCM_VERSION' not found in ghcr.io/k0rdent/kcm/charts"; exit 1; }
+          echo "kcm $KCM_VERSION found"
+
+      - name: Get app test settings
+        run: |
+          python3 ./scripts/utils.py print-test-vars "$APP" | tee -a "$GITHUB_ENV"
+          echo "DEBUG=${{ runner.debug }}" >> "$GITHUB_ENV"
+
+      - name: Deploy k0rdent with the GCP provider
+        run: |
+          start=$(date +%s)
+          ./scripts/deploy_k0rdent_gcp.sh
+          echo "T_K0RDENT=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
+
+      - name: Install service templates
+        run: |
+          start=$(date +%s)
+          ./scripts/install_servicetemplates.sh
+          echo "T_SERVICETEMPLATES=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
+
+      - name: Create GCP child cluster
+        run: |
+          start=$(date +%s)
+          ./scripts/deploy_cld.sh
+          echo "T_CLUSTER_CREATE=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
+
+      - name: Ensure MultiClusterService config
+        run: ./scripts/ensure_mcs_config.sh
+
+      - name: Deploy MultiClusterService
+        run: |
+          start=$(date +%s)
+          ./scripts/deploy_mcs.sh
+          echo "T_APP_DEPLOY=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
+
+      - name: Remove MultiClusterService
+        if: always() && env.T_CLUSTER_CREATE != ''
+        run: |
+          start=$(date +%s)
+          ./scripts/remove_mcs.sh
+          echo "T_APP_REMOVE=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
+
+      # Always: a GCP cluster left behind keeps costing money. Skip only when
+      # there is demonstrably nothing to delete, so a failure earlier in the run
+      # still gets cleaned up.
+      - name: Remove GCP child cluster
+        if: always()
+        run: |
+          if [ ! -f kcfg_k0rdent ] || ! KUBECONFIG=kcfg_k0rdent \
+              kubectl get cld -n kcm-system "gcp-example-$USER" >/dev/null 2>&1; then
+            echo "No ClusterDeployment 'gcp-example-$USER' to remove"
+            exit 0
+          fi
+          start=$(date +%s)
+          ./scripts/remove_cld.sh
+          echo "T_CLUSTER_REMOVE=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
+
+      - name: Timing summary
+        if: always()
+        run: |
+          fmt() { [ -n "${1:-}" ] && printf '%dm %02ds' $(( $1 / 60 )) $(( $1 % 60 )) || echo 'n/a'; }
+          {
+            echo "## Test GCP Cluster"
+            echo ""
+            echo "app \`$APP\` | kcm \`$KCM_VERSION\` | GCP \`$GCP_REGION\`"
+            echo ""
+            echo "| Phase | Duration |"
+            echo "| --- | --- |"
+            echo "| k0rdent (GCP provider) | $(fmt "${T_K0RDENT:-}") |"
+            echo "| Service templates | $(fmt "${T_SERVICETEMPLATES:-}") |"
+            echo "| GCP cluster create | $(fmt "${T_CLUSTER_CREATE:-}") |"
+            echo "| App deploy | $(fmt "${T_APP_DEPLOY:-}") |"
+            echo "| App remove | $(fmt "${T_APP_REMOVE:-}") |"
+            echo "| GCP cluster remove | $(fmt "${T_CLUSTER_REMOVE:-}") |"
+          } >> "$GITHUB_STEP_SUMMARY"
