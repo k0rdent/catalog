@@ -8,5 +8,5 @@ charts:
     appVersion: v3.3.0
   - version: 10.9.7
     appVersion: v3.5.4
-  - version: 10.10.3
+  - version: 10.10.5
     appVersion: v3.5.5
