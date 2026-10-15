@@ -1,0 +1,6 @@
+dependencies:
+- name: apisix
+  repository: https://apache.github.io/apisix-helm-chart
+  version: 2.18.2
+digest: sha256:c52ff950549e7bb0566242d8eecb278c3caff8005f602cc0ebf996e350cd81ff
+generated: "2026-10-15T17:41:00.501133457Z"
