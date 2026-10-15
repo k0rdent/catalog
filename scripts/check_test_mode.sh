@@ -29,7 +29,7 @@ if [[ "$check_vars" == true ]]; then
         aws)     required=(AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_EC2_FAMILY AWS_REGION) ;;
         azure)   required=(AZURE_SP_APP_ID AZURE_SP_PASSWORD AZURE_SP_TENANT_ID AZURE_SUB_ID
                            AZURE_LOCATION) ;;
-        gcp)     required=(GCP_B64ENCODED_CREDENTIALS GCP_PROJECT) ;;
+        gcp)     required=(GCP_B64ENCODED_CREDENTIALS GCP_PROJECT GCP_REGION) ;;
         adopted) required=() ;;
     esac
 

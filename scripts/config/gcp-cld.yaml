@@ -11,7 +11,7 @@ spec:
   credential: gcp-credential
   config:
     project: "GCP_PROJECT" # your GCP project
-    region: "us-west1"
+    region: "GCP_REGION"
     controlPlane:
       instanceType: "e2-small"
       image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213
