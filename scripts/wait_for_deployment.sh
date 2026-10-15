@@ -76,30 +76,30 @@ while (( SECONDS < TIMEOUT )); do
 
     if [[ "${WAIT_FOR_RUNNING:-}" == "true" ]]; then
         if $all_running; then
-            echo "✅ All pods running!"
+            echo "✅ All '$NAMESPACE' pods running!"
             break
         fi
         echo "⏳ Some pods are not running yet..."
     elif [[ "${WAIT_FOR_CREATING:-}" == "true" ]]; then
         if $all_creating; then
-            echo "✅ All pods at least in ContainerCreating state!"
+            echo "✅ All '$NAMESPACE' pods at least in ContainerCreating state!"
             break
         fi
         echo "⏳ Some pods not creating yet..."
     else
         if $all_ready; then
-            echo "✅ All pods are ready!"
+            echo "✅ All '$NAMESPACE' pods are ready!"
             break
         fi
-        echo "⏳ Some pods are not ready yet..."
+        echo "⏳ Some '$NAMESPACE' pods are not ready yet..."
     fi
 
     sleep 3
 done
 
 if (( SECONDS >= TIMEOUT )); then
-    echo "❌ Timeout reached: Some pods are still not ready"
-    echo "🔍 Dumping pod statuses for debugging..."
+    echo "❌ Timeout reached: Some pods '$NAMESPACE' are still not ready"
+    echo "🔍 Dumping '$NAMESPACE' pod statuses for debugging..."
 
     for row in $(jq -r '.items[] | @base64' <<< "$pods_json"); do
         _jq() {

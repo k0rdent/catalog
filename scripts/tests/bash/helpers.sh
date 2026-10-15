@@ -13,9 +13,9 @@ TESTS_FAILED=0
 assert_eq() { # desc, expected, actual
     TESTS_RUN=$((TESTS_RUN + 1))
     if [[ "$2" == "$3" ]]; then
-        echo "  ✓ $1"
+        echo "  ✅ $1"
     else
-        echo "  ✗ $1"
+        echo "  ❌ $1"
         echo "      expected: [$2]"
         echo "      actual:   [$3]"
         TESTS_FAILED=$((TESTS_FAILED + 1))
@@ -25,9 +25,9 @@ assert_eq() { # desc, expected, actual
 assert_contains() { # desc, haystack, needle
     TESTS_RUN=$((TESTS_RUN + 1))
     if [[ "$2" == *"$3"* ]]; then
-        echo "  ✓ $1"
+        echo "  ✅ $1"
     else
-        echo "  ✗ $1"
+        echo "  ❌ $1"
         echo "      '$3' not found in output"
         TESTS_FAILED=$((TESTS_FAILED + 1))
     fi

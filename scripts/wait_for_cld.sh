@@ -8,11 +8,11 @@ SECONDS=0
 while (( SECONDS < TIMEOUT )); do
     cld_out=$(kubectl get cld -n kcm-system | grep "$CLDNAME")
     if echo "$cld_out" | awk '{print $2}' | grep 'True'; then
-        echo "✅ Cluster is ready!"
+        echo "ClusterDeployment object is READY!"
         break
     fi
     echo "$cld_out"
-    echo "⏳ Waiting for cluster... (${SECONDS}s elapsed)"
+    echo "⏳ Waiting for ClusterDeployment... (${SECONDS}s elapsed)"
     sleep 3
 done
 
