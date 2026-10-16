@@ -7,7 +7,7 @@ metadata:
     type: adopted
     group: demo
 spec:
-  template: adopted-cluster-1-0-2
+  template: CT_ADOPTED_CLUSTER
   credential: adopted-credential
   dryRun: false
   config: {}
