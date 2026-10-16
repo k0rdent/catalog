@@ -64,14 +64,9 @@ jobs:
           done
           [ -d "apps/$APP/example" ] \
             || { echo "::error::apps/$APP/example not found"; exit 1; }
-          for s in deploy_k0rdent_gcp.sh install_servicetemplates.sh deploy_cld.sh \
-                   ensure_mcs_config.sh deploy_mcs.sh remove_mcs.sh remove_cld.sh; do
-            [ -x "./scripts/$s" ] \
-              || { echo "::error::./scripts/$s is missing or not executable"; exit 1; }
-          done
           echo "APP=$APP TEST_MODE=$TEST_MODE KCM_VERSION=$KCM_VERSION"
           echo "GCP_REGION=$GCP_REGION GCP_PROJECT=$GCP_PROJECT"
-          echo "Provider variables, app and scripts all present"
+          echo "Provider variables, app all present"
 
       - name: Install dependencies
         run: |
@@ -112,7 +107,7 @@ jobs:
       - name: Deploy k0rdent with the GCP provider
         run: |
           start=$(date +%s)
-          ./scripts/deploy_k0rdent_gcp.sh
+          ./scripts/deploy_k0rdent_mini.sh
           echo "T_K0RDENT=$(( $(date +%s) - start ))" >> "$GITHUB_ENV"
 
       - name: Install service templates
