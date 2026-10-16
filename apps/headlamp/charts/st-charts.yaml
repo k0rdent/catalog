@@ -11,3 +11,7 @@ st-charts:
   dep_name: headlamp
   version: 0.45.0
   repository: https://kubernetes-sigs.github.io/headlamp/
+- name: headlamp
+  dep_name: headlamp
+  version: 0.46.0
+  repository: https://kubernetes-sigs.github.io/headlamp/
