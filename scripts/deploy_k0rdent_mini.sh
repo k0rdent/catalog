@@ -8,7 +8,7 @@ set -euo pipefail
 # the chart with createManagement disabled, then apply a Management that lists
 # only what aws-standalone-cp needs.
 #
-# Usage: KCM_VERSION=1.12.0 ./scripts/deploy_k0rdent_aws.sh
+# Usage: TEST_MODE=aws KCM_VERSION=1.12.0 ./scripts/deploy_k0rdent_mini.sh
 
 export KUBECONFIG=kcfg_k0rdent
 export KCM_VERSION="${KCM_VERSION:-1.12.0}"
