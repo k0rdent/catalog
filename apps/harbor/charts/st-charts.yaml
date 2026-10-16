@@ -5,5 +5,5 @@ st-charts:
   repository: https://helm.goharbor.io
 - name: harbor
   dep_name: harbor
-  version: 1.19.2
+  version: 1.19.4
   repository: https://helm.goharbor.io
