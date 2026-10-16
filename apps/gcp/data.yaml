@@ -44,11 +44,11 @@ deploy_code: |
         name: default # Select your desired network name (select new network name to create or find it via `gcloud compute networks list --format="value(name)"`)
       controlPlane:
         instanceType: n1-standard-2 # Select your desired instance type (find it via `gcloud compute machine-types list | grep REGION`)
-        image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213 # Select image (find it via `gcloud compute images list --uri`)
+        image: projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20261009 # Select image (find it via `gcloud compute images list --uri`)
         publicIP: true
       worker:
         instanceType: n1-standard-2 
-        image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213
+        image: projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20261009
         publicIP: true
   ~~~
 doc_link: https://cloud.google.com/compute/docs
