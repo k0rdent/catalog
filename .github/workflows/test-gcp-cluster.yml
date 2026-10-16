@@ -19,6 +19,10 @@ on:
         description: 'k0rdent (kcm) chart version'
         required: false
         default: '1.12.0'
+      gcp_project:
+        description: 'GCP project for the child cluster'
+        required: false
+        default: 'k0rdent'
       gcp_region:
         description: 'GCP region for the child cluster'
         required: false
@@ -35,7 +39,7 @@ jobs:
       TEST_MODE: gcp
       KCM_VERSION: ${{ github.event.inputs.kcm_version }}
       GCP_B64ENCODED_CREDENTIALS: ${{ secrets.GCP_B64ENCODED_CREDENTIALS }}
-      GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+      GCP_PROJECT: ${{ github.event.inputs.gcp_project }}
       GCP_REGION: ${{ github.event.inputs.gcp_region }}
       USER: ci
 
