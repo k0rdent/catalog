@@ -14,12 +14,12 @@ spec:
     region: "GCP_REGION"
     controlPlane:
       instanceType: "e2-small"
-      image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213
+      image: projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20261009
       publicIP: true
     controlPlaneNumber: 1
     worker:
       instanceType: "e2-medium"
-      image: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250213
+      image: projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20261009
       publicIP: true
       rootVolumeSize: 16
     workersNumber: 1
