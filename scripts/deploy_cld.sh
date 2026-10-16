@@ -130,13 +130,17 @@ fi
 # For adopted, kcfg_adopted is already written above.
 chmod 0600 "kcfg_$TEST_MODE"
 
-# Ensure running pods in kube-system
-NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
-
 if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
-    echo "Skipping the projectsveltos wait (no CNI in the '$TEST_MODE' cluster yet)"
-elif kubectl get ns | grep "projectsveltos"; then
-    NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
+    # Nothing in kube-system can reach Ready before a CNI exists, and here the
+    # CNI is the app under test - deploy_mcs.sh waits once it is deployed.
+    echo "Skipping the kube-system and projectsveltos waits (no CNI in the '$TEST_MODE' cluster yet)"
+else
+    # Ensure running pods in kube-system
+    NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
+
+    if kubectl get ns | grep "projectsveltos"; then
+        NAMESPACE=projectsveltos ./scripts/wait_for_deployment.sh
+    fi
 fi
 
 KUBECONFIG="kcfg_$TEST_MODE" kubectl get pods -A
