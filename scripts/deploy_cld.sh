@@ -6,19 +6,26 @@ export KUBECONFIG=kcfg_k0rdent
 
 ./scripts/setup_provider_credential.sh
 
+# shellcheck source=scripts/export_cluster_template_names.sh
+source ./scripts/export_cluster_template_names.sh
+
 if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
     cld_name="${CLD_NAME:-$TEST_MODE-example-$USER}"
-    if [[ -e "apps/$APP/$TEST_MODE-cld.yaml" ]]; then
-        cld_file="apps/$APP/$TEST_MODE-cld.yaml"
+    app="${APP:-}"
+    cld_file="apps/$app/$TEST_MODE-cld.yaml"
+    if [[ -e "$cld_file" ]]; then
         echo "App specific '$cld_file' found."
     else
         cld_file="./scripts/config/$TEST_MODE-cld.yaml"
-        echo -e "apps/$APP/$TEST_MODE-cld.yaml not found, using default: $cld_file"
+        echo -e "App specific '$TEST_MODE-cld.yaml' not found, using default: $cld_file"
     fi
     cld_cfg_str=$(sed -e "s/USER/${USER}/g" \
         -e "s/AWS_EC2_FAMILY/${AWS_EC2_FAMILY:-FILL}/g" -e "s/AWS_REGION/${AWS_REGION:-FILL}/g" \
         -e "s/AZURE_SUB_ID/${AZURE_SUB_ID:-FILL}/g" -e "s/AZURE_LOCATION/${AZURE_LOCATION:-FILL}/g" \
         -e "s/GCP_PROJECT/${GCP_PROJECT:-FILL}/g" -e "s/GCP_REGION/${GCP_REGION:-FILL}/g" \
+        -e "s/CT_AWS_STANDALONE_CP/${CT_AWS_STANDALONE_CP}/g" -e "s/CT_AWS_EKS/${CT_AWS_EKS}/g" \
+        -e "s/CT_AZURE_STANDALONE_CP/${CT_AZURE_STANDALONE_CP}/g" -e "s/CT_AZURE_AKS/${CT_AZURE_AKS}/g" \
+        -e "s/CT_GCP_STANDALONE_CP/${CT_GCP_STANDALONE_CP}/g" -e "s/CT_GCP_GKE/${CT_GCP_GKE}/g" \
         -e "s/CLD_NAME/${cld_name}/g"\
         "$cld_file")
     echo "$cld_cfg_str"
@@ -115,7 +122,8 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     # Internal kubeconfig for k0rdent (k0s sets the server to the container IP).
     ADOPTED_KUBECONFIG=$(docker exec adopted k0s kubeconfig admin | openssl base64 -A)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'"$ADOPTED_KUBECONFIG"'"}}'
-    kubectl apply -n kcm-system -f ./scripts/config/adopted-cld.yaml
+    sed -e "s/CT_ADOPTED_CLUSTER/${CT_ADOPTED_CLUSTER}/g" \
+        ./scripts/config/adopted-cld.yaml | kubectl apply -n kcm-system -f -
 else
     echo "Unsupported TEST_MODE: '$TEST_MODE'. Allowed values: aws, azure, gcp, adopted"
     exit 1
