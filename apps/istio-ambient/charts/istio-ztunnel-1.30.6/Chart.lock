@@ -1,0 +1,6 @@
+dependencies:
+- name: ztunnel
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.30.6
+digest: sha256:591801fce443d60dbd6de123b0da0cb45091a2c45b53194835034d72a150f12a
+generated: "2026-10-16T17:14:30.675900056Z"
