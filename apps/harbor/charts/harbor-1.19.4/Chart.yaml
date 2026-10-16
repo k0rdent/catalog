@@ -2,8 +2,8 @@ apiVersion: v2
 name: harbor
 description: A Helm chart that references the official "harbor" Helm chart.
 type: application
-version: 1.19.2
+version: 1.19.4
 dependencies:
   - name: harbor
-    version: 1.19.2
+    version: 1.19.4
     repository: https://helm.goharbor.io
