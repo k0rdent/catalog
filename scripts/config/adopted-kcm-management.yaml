@@ -6,4 +6,4 @@ metadata:
 spec:
   providers:
   - name: projectsveltos
-  release: kcm-1-12-0
+  release: KCM_RELEASE

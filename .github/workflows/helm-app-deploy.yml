@@ -7,6 +7,10 @@ on:
         description: 'Specify a set of folders to test apps from, e.g., "apps/nirmata apps/wandb"'
         required: false
         default: 'apps'
+      kcm_version:
+        description: 'k0rdent (kcm) chart version'
+        required: false
+        default: '1.12.0'
   schedule:
     - cron: '0 9 * * *'   # 09:00 UTC
   push:
@@ -62,6 +66,9 @@ jobs:
   test-app:
     needs: detect-tested-apps
     runs-on: ubuntu-24.04
+    env:
+      TEST_MODE: adopted
+      KCM_VERSION: ${{ github.event.inputs.kcm_version || '1.12.0' }}
     if: ${{ needs.detect-tested-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
       fail-fast: false
@@ -210,19 +217,16 @@ jobs:
         if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
           ./scripts/deploy_cld.sh
 
       - name: Test - Deploy MultiClusterDeployment
         if: env.DEPLOY_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
           ./scripts/deploy_mcs.sh
 
       - name: Test - Uninstall MultiClusterDeployment
         if: env.DEPLOY_MULTICLUSTERSERVICE == 'true' && env.REMOVE_MULTICLUSTERSERVICE == 'true'
         run: |
           export APP=${{ matrix.folder }}
-          export TEST_MODE=adopted
           ./scripts/remove_mcs.sh
