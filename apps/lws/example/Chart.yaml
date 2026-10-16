@@ -4,5 +4,5 @@ type: application
 version: 0.1.0
 dependencies:
   - name: lws
-    version: 0.11.1
+    version: 1.0.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
