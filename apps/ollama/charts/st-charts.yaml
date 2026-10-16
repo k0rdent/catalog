@@ -51,3 +51,7 @@ st-charts:
   dep_name: ollama
   version: 1.88.0
   repository: https://helm.otwld.com/
+- name: ollama
+  dep_name: ollama
+  version: 1.89.0
+  repository: https://helm.otwld.com/
