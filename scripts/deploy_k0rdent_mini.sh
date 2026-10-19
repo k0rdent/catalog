@@ -9,13 +9,10 @@ set -euo pipefail
 # only what aws-standalone-cp needs.
 #
 # Usage: TEST_MODE=aws KCM_VERSION=1.12.0 ./scripts/deploy_k0rdent_mini.sh
+#        TEST_MODE=aws KCM_SRC_DIR=~/repos/kcm ./scripts/deploy_k0rdent_mini.sh
 
 export KUBECONFIG=kcfg_k0rdent
 export KCM_VERSION="${KCM_VERSION:-1.12.0}"
-
-# The Management references a release named after the chart version.
-kcm_release="kcm-${KCM_VERSION//./-}"
-echo "Deploying k0rdent $KCM_VERSION (release $kcm_release) with the $TEST_MODE provider only"
 
 kcm_mgmt_file="./scripts/config/$TEST_MODE-kcm-management.yaml"
 if [[ ! -e "$kcm_mgmt_file" ]]; then
@@ -26,7 +23,24 @@ fi
 export HELM_VALUES=./scripts/config/min-kcm-values.yaml
 ./scripts/deploy_k0rdent.sh
 
-sed "s/KCM_RELEASE/${kcm_release}/" "$kcm_mgmt_file" | kubectl apply -f -
+# The Management references a release named after the chart version.
+if [[ -n "${KCM_SRC_DIR:-}" ]]; then
+    source ./scripts/kcm_source.sh
+    KCM_VERSION="$(kcm_chart_version)"
+fi
+kcm_release="kcm-${KCM_VERSION//./-}"
+echo "Applying Management (release $kcm_release) with the $TEST_MODE provider only"
+
+# Management reinstalls kcm, so core.kcm.config must repeat the install values,
+# otherwise a source build reverts to the published images.
+{
+    sed "s/KCM_RELEASE/${kcm_release}/" "$kcm_mgmt_file"
+    if [[ -n "${KCM_SRC_DIR:-}" ]]; then
+        echo "  core:"
+        echo "    kcm:"
+        echo "      config: $(helm get values kcm -n kcm-system -o json | tr -d "\n")"
+    fi
+} | kubectl apply -f -
 
 kubectl create ns projectsveltos --dry-run=client -o yaml | kubectl apply -f -
 

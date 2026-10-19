@@ -5,6 +5,12 @@ set -euo pipefail
 # resource have to keep its `release:` in sync (see deploy_k0rdent_aws.sh).
 KCM_VERSION="${KCM_VERSION:-1.12.0}"
 
+# KCM_SRC_DIR set: build kcm from that checkout (scripts/kcm_source.sh),
+# otherwise install the published chart from ghcr.
+if [[ -n "${KCM_SRC_DIR:-}" ]]; then
+    source ./scripts/kcm_source.sh
+fi
+
 if docker ps --filter name='^k0rdent$' -q | grep -q .; then
     echo "k0rdent cluster already exists"
 else
@@ -12,11 +18,17 @@ else
     if [[ "${K0RDENT_EXPOSE_PORTS:-0}" == "1" ]]; then  # Avoid ephemeral port range conflicts in CI.
         port_args+=(-p 60080:80 -p 60443:443)
     fi
+    # KCM pulls the template charts from the local registry by container name.
+    net_args=()
+    if [[ -n "${KCM_SRC_DIR:-}" ]]; then
+        ensure_network "$DOCKER_NETWORK"
+        net_args=(--network "$DOCKER_NETWORK")
+    fi
     docker run -d --name k0rdent --hostname k0rdent \
         -v /var/lib/k0s -v /var/log/pods \
         --tmpfs /run \
         --privileged \
-        "${port_args[@]}" \
+        "${port_args[@]}" ${net_args[@]+"${net_args[@]}"} \
         docker.io/k0sproject/k0s:v1.36.3-k0s.0
 
     echo "Waiting for kubeconfig..."
@@ -55,15 +67,30 @@ fi
 
 if helm get notes kcm -n kcm-system >/dev/null 2>&1; then
     echo "k0rdent chart (kcm) already installed"
-elif [[ -z "${HELM_VALUES:-}" ]]; then
-    echo "Installing kcm $KCM_VERSION with default values"
-    helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm \
-      --version "$KCM_VERSION" -n kcm-system --create-namespace \
-      --timeout=20m $HELM_EXTRA_FLAGS
 else
-    echo "Installing kcm $KCM_VERSION with values $HELM_VALUES"
-    helm install kcm oci://ghcr.io/k0rdent/kcm/charts/kcm \
-      --version "$KCM_VERSION" -n kcm-system --create-namespace -f "$HELM_VALUES" \
+    values_args=()
+    if [[ -n "${KCM_SRC_DIR:-}" ]]; then
+        kcm_source_build
+        kcm_registry_deploy
+        connect_network "$DOCKER_NETWORK" k0rdent
+        kcm_source_push k0rdent
+        mkdir -p .work
+        kcm_source_values .work/kcm-values-source.yaml
+        values_args+=(-f .work/kcm-values-source.yaml)
+        # flux2 and rbac-manager come from remote repos, kcm-regional from file://.
+        helm dependency update "$KCM_CHART_DIR"
+        chart_ref=("$KCM_CHART_DIR")
+        echo "Installing kcm $(kcm_chart_version) from $KCM_DIR"
+    else
+        chart_ref=(oci://ghcr.io/k0rdent/kcm/charts/kcm --version "$KCM_VERSION")
+        echo "Installing kcm $KCM_VERSION"
+    fi
+    if [[ -n "${HELM_VALUES:-}" ]]; then
+        echo "Using values $HELM_VALUES"
+        values_args+=(-f "$HELM_VALUES")
+    fi
+    helm install kcm "${chart_ref[@]}" \
+      -n kcm-system --create-namespace ${values_args[@]+"${values_args[@]}"} \
       --timeout=20m $HELM_EXTRA_FLAGS
 fi
 
