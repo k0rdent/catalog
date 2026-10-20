@@ -5,5 +5,5 @@ st-charts:
   repository: https://charts.jenkins.io
 - name: jenkins
   dep_name: jenkins
-  version: 5.9.69
+  version: 5.9.72
   repository: https://charts.jenkins.io
