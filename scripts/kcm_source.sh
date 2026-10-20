@@ -55,6 +55,10 @@ kcm_source_build() {
     echo "Building KCM from $KCM_DIR ($(git -C "$KCM_DIR" describe --tags --always --dirty))"
     # Template names must match the chart versions in this tree.
     make -C "$KCM_DIR" templates-generate
+    kcm_source_images
+}
+
+kcm_source_images() {
     # The controller looks up kcm-templates by its build version, so it must match the pushed chart.
     make -C "$KCM_DIR" docker-build IMG="$IMG" IMG_TELEMETRY="$IMG_TELEMETRY" VERSION="$(kcm_chart_version)"
 }
