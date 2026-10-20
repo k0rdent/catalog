@@ -9,5 +9,5 @@ st-charts:
   repository: https://charts.bitnami.com/bitnami
 - name: postgresql
   dep_name: postgresql
-  version: 18.12.4
+  version: 18.12.14
   repository: https://charts.bitnami.com/bitnami
