@@ -9,5 +9,5 @@ st-charts:
   repository: https://dell.github.io/helm-charts
 - name: dell-container-storage-modules
   dep_name: container-storage-modules
-  version: 1.11.0
+  version: 1.11.1
   repository: https://dell.github.io/helm-charts
