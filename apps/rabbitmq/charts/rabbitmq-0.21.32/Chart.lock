@@ -1,0 +1,6 @@
+dependencies:
+- name: rabbitmq
+  repository: oci://registry-1.docker.io/cloudpirates
+  version: 0.21.32
+digest: sha256:8e6332b5c9536fac9a99e57f1d387620593065f25736acb790fb8e1e5ed2b048
+generated: "2026-10-21T17:59:35.576421481Z"
