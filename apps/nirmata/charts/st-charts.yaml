@@ -9,5 +9,5 @@ st-charts:
   repository: https://nirmata.github.io/kyverno-charts/
 - name: nirmata-kyverno
   dep_name: kyverno
-  version: 3.9.0
+  version: 3.9.1
   repository: https://nirmata.github.io/kyverno-charts/
