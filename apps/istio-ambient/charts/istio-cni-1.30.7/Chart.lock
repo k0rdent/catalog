@@ -1,0 +1,6 @@
+dependencies:
+- name: cni
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.30.7
+digest: sha256:88694c8d85d95f23e4b7ce864a01fec3595be0c86ec9640c28fb30c939dbfbc9
+generated: "2026-10-22T17:54:04.564699684Z"
