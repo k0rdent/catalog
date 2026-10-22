@@ -13,5 +13,5 @@ st-charts:
   repository: https://grafana.github.io/helm-charts
 - name: alloy
   dep_name: alloy
-  version: 1.14.0
+  version: 1.14.2
   repository: https://grafana.github.io/helm-charts
