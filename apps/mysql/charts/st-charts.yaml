@@ -1,5 +1,5 @@
 st-charts:
 - name: mysql-operator
   dep_name: mysql-operator
-  version: 2.3.0
+  version: 2.3.1
   repository: https://mysql.github.io/mysql-operator
