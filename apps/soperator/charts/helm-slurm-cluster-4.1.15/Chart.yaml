@@ -2,8 +2,8 @@ apiVersion: v2
 name: helm-slurm-cluster
 description: A Helm chart that references the official "helm-slurm-cluster" Helm chart.
 type: application
-version: 4.1.14
+version: 4.1.15
 dependencies:
   - name: helm-slurm-cluster
-    version: 4.1.14
+    version: 4.1.15
     repository: oci://cr.eu-north1.nebius.cloud/soperator
