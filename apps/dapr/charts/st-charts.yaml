@@ -11,3 +11,7 @@ st-charts:
   dep_name: dapr
   version: 1.18.8
   repository: https://dapr.github.io/helm-charts/
+- name: dapr
+  dep_name: dapr
+  version: 1.19.0
+  repository: https://dapr.github.io/helm-charts/
