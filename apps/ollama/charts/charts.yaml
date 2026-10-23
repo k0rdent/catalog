@@ -30,3 +30,5 @@ charts:
     appVersion: 0.40.5
   - version: 1.90.0
     appVersion: 0.40.6
+  - version: 1.91.0
+    appVersion: 0.40.9
