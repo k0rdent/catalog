@@ -13,5 +13,5 @@ st-charts:
   repository: https://kubernetes-sigs.github.io/node-feature-discovery/charts
 - name: node-feature-discovery
   dep_name: node-feature-discovery
-  version: 0.20.0
+  version: 0.20.1
   repository: https://kubernetes-sigs.github.io/node-feature-discovery/charts
