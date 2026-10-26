@@ -15,3 +15,7 @@ st-charts:
   dep_name: flux-operator
   version: 0.61.0
   repository: oci://ghcr.io/controlplaneio-fluxcd/charts
+- name: flux-operator
+  dep_name: flux-operator
+  version: 0.62.0
+  repository: oci://ghcr.io/controlplaneio-fluxcd/charts
