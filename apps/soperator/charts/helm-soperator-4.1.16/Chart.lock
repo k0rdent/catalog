@@ -1,0 +1,6 @@
+dependencies:
+- name: helm-soperator
+  repository: oci://cr.eu-north1.nebius.cloud/soperator
+  version: 4.1.16
+digest: sha256:b8ce1a826d61a81d52976f565a792f1589380fbc529097e3ffa8a1822a62ce88
+generated: "2026-10-27T18:38:24.939465396Z"
