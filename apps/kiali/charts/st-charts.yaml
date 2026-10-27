@@ -11,3 +11,7 @@ st-charts:
   dep_name: kiali-operator
   version: 2.33.0
   repository: https://kiali.org/helm-charts
+- name: kiali-operator
+  dep_name: kiali-operator
+  version: 2.34.0
+  repository: https://kiali.org/helm-charts
