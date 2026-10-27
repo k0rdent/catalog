@@ -19,3 +19,7 @@ st-charts:
   dep_name: opentelemetry-operator
   version: 0.126.2
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+- name: opentelemetry-operator
+  dep_name: opentelemetry-operator
+  version: 0.127.0
+  repository: https://open-telemetry.github.io/opentelemetry-helm-charts
