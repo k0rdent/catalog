@@ -1,0 +1,6 @@
+dependencies:
+- name: trident-operator
+  repository: https://netapp.github.io/trident-helm-chart
+  version: 100.2610.0
+digest: sha256:a6dae192e650c13c0faf31a5c6b27c1445e7e8e32c374480f58950598dcb47a7
+generated: "2026-10-30T18:32:41.808053914Z"
