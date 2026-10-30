@@ -34,3 +34,5 @@ charts:
     appVersion: 0.40.9
   - version: 1.92.0
     appVersion: 0.40.11
+  - version: 1.93.0
+    appVersion: 0.40.12
