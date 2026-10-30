@@ -2,5 +2,5 @@ charts:
   haproxy-ingress:
   - version: 1.49.0
     appVersion: 3.2.6
-  - version: 1.54.3
-    appVersion: 3.2.17
+  - version: 1.54.4
+    appVersion: 3.2.19
