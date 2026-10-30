@@ -51,3 +51,7 @@ st-charts:
   dep_name: prometheus
   version: 29.39.0
   repository: https://prometheus-community.github.io/helm-charts
+- name: prometheus
+  dep_name: prometheus
+  version: 29.40.0
+  repository: https://prometheus-community.github.io/helm-charts
