@@ -8,3 +8,5 @@ charts:
     appVersion: 25.10.0
   - version: 100.2606.2
     appVersion: 26.06.2
+  - version: 100.2610.0
+    appVersion: 26.10.0
