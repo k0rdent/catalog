@@ -13,5 +13,5 @@ st-charts:
   repository: https://falcosecurity.github.io/charts/
 - name: falco
   dep_name: falco
-  version: 9.2.1
+  version: 9.2.2
   repository: https://falcosecurity.github.io/charts/
