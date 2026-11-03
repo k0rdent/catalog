@@ -21,5 +21,5 @@ st-charts:
   repository: https://argoproj.github.io/argo-helm
 - name: argo-cd
   dep_name: argo-cd
-  version: 10.11.6
+  version: 10.11.7
   repository: https://argoproj.github.io/argo-helm
