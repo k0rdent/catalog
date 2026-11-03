@@ -22,3 +22,5 @@ charts:
     appVersion: v3.7.16
   - version: 42.2.0
     appVersion: v3.7.16
+  - version: 42.3.0
+    appVersion: v3.7.17
