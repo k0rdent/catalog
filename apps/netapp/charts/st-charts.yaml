@@ -17,5 +17,5 @@ st-charts:
   repository: https://netapp.github.io/trident-helm-chart
 - name: trident-operator
   dep_name: trident-operator
-  version: 100.2610.0
+  version: 100.2610.1
   repository: https://netapp.github.io/trident-helm-chart
