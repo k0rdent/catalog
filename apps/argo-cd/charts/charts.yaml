@@ -12,3 +12,5 @@ charts:
     appVersion: v3.5.5
   - version: 10.11.7
     appVersion: v3.5.7
+  - version: 10.12.1
+    appVersion: v3.6.1
