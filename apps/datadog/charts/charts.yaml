@@ -22,3 +22,5 @@ charts:
     appVersion: '7'
   - version: 3.265.0
     appVersion: '7'
+  - version: 3.267.0
+    appVersion: '7'
