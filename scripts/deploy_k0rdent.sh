@@ -44,17 +44,12 @@ fi
 # Must be set before the wait loops (k0s-in-docker doesn't merge into ~/.kube/config).
 export KUBECONFIG=kcfg_k0rdent
 
-echo "Waiting for kube-system pods..."
-until kubectl get pods -n kube-system --no-headers 2>/dev/null | grep -q .; do
-    kubectl get pods -n kube-system || true
-    sleep 2
-done
-
-echo "Waiting for kube-system pods to become Ready..."
-until kubectl wait -n kube-system --for=condition=Ready pod --all --timeout=2s 2>/dev/null; do
-    kubectl get pods -n kube-system
-    sleep 2
-done
+# The same wait the KCM and sveltos namespaces use, rather than a loop of its
+# own: it prints the pods that moved instead of the whole table every two
+# seconds, it bounds the wait, and it names the stuck container when the
+# cluster does not come up. It also sits out an empty namespace, which is what
+# the appear-then-ready pair here used to do.
+TEST_MODE="k0rdent" NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
 
 # Allow workloads in cp node
 kubectl taint nodes k0rdent node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
