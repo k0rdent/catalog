@@ -20,3 +20,5 @@ schedulers
 tolerations
 toto
 validators
+containerd
+k0s

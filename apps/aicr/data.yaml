@@ -31,8 +31,8 @@ description: |
     scheduling values (tolerations, nodeSelector) cover clusters whose only workers are
     tainted GPU nodes.
 
-    Chart 0.2.0 pins aicr 0.20.0 and verifies the rendered bundle before executing it. Component failures fail the Job explicitly
-    on both old and new aicr deploy semantics, so partial installs never masquerade as
+    Chart 0.3.0 pins aicr 1.2.0 and verifies the rendered bundle before executing it.
+    Component failures fail the Job explicitly, so partial installs never masquerade as
     success.
 
     Deploying to a managed cluster (the normal case) needs no special handling. Installing
