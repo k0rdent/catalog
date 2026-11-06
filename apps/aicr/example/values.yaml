@@ -12,20 +12,24 @@ nvidia-aicr:
     # https://github.com/Mirantis/nvidia-aicr-chart
     #
     # Criteria assemble a recipe from AICR's embedded catalog. intent
-    # requires a concrete service (verified on aicr v0.18.0): one of aks |
-    # bcm | eks | kind | lke | ocp | gke(+os=cos) | oke(+os=ol), or a value
-    # your org's dataPack registers. "any" (the chart default) plus intent
-    # is rejected; accelerator alone resolves the base stack.
+    # requires a concrete service (verified on aicr v1.2.0): one of aks |
+    # bcm | eks | k0s | kind | lke | ocp | rke2 | cks(+os=ubuntu) |
+    # gke(+os=cos) | oke(+os=ol), or a value your org's dataPack registers.
+    # "any" (the chart default) plus intent is rejected; accelerator alone
+    # resolves the base stack.
     #
-    # accelerator=h100 is required with service=kind: aicr v0.18.0 ships
-    # kind overlays for h100 only (recipes/overlays/h100-kind-*).
-    # h100 | h200 | gb200 | b200 | a100 | l40 | rtx-pro-6000
+    # accelerator=h100 is required with service=kind: aicr v1.2.0 ships
+    # kind overlays for h100 only (h200, gb200, b200, a100, l40 and
+    # rtx-pro-6000 with service=kind are rejected, verified 2026-11-06).
+    # a100 | b200 | b300 | gb200 | gb300 | h100 | h200 | l40 | l40s |
+    # rtx-pro-6000 | vr200
     accelerator: h100
     # training | inference
     intent: training
     # The h100-kind-training chain selects kubeflow itself; stated
     # explicitly so the captured recipe ConfigMap (aicr-recipe) records the
-    # full intent of this install. kubeflow | dynamo | nim | runai | slurm
+    # full intent of this install. dynamo | kubeflow | kueue | nim | runai |
+    # slurm
     platform: kubeflow
     # service=kind applies AICR's kind overlay (GPU driver install
     # disabled, relaxed K8s server-version constraint) - the right choice
@@ -35,7 +39,12 @@ nvidia-aicr:
     service: kind
     # --best-effort lets the install continue past components that need
     # real GPU hardware; --no-wait returns as soon as manifests are
-    # applied. The chart can also run aicr validate after the install
-    # (validate.enabled) and capture the verdict and evidence bundle to
-    # ConfigMaps; off here to fit the CI cluster.
+    # applied (both flags verified against aicr v1.2.0's deploy.sh). Chart
+    # 0.3.0 also accepts the list form, deployArgs: ["--best-effort",
+    # "--no-wait"], which preserves spaces and quotes per element; the
+    # string form is kept here because the MultiClusterService values are
+    # rendered as a single YAML string. The chart can also run aicr
+    # validate after the install (validate.enabled) and capture the
+    # verdict and evidence bundle to ConfigMaps; off here to fit the CI
+    # cluster.
     deployFlags: "--best-effort --no-wait"

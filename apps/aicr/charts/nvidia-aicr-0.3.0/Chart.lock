@@ -1,0 +1,6 @@
+dependencies:
+- name: nvidia-aicr
+  repository: oci://ghcr.io/mirantis/charts
+  version: 0.3.0
+digest: sha256:7fea153f35772dba6016b1f6f77ab1a3d0c92393552c8299608737d90f3eaa1c
+generated: "2026-11-06T13:15:08.309262+05:30"
