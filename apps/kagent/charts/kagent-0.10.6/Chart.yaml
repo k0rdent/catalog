@@ -2,8 +2,8 @@ apiVersion: v2
 name: kagent
 description: A Helm chart that references the official "kagent" Helm chart.
 type: application
-version: 0.10.5
+version: 0.10.6
 dependencies:
   - name: kagent
-    version: 0.10.5
+    version: 0.10.6
     repository: oci://ghcr.io/kagent-dev/kagent/helm
