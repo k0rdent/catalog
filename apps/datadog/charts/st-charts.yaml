@@ -47,3 +47,7 @@ st-charts:
   dep_name: datadog
   version: 3.267.0
   repository: https://helm.datadoghq.com
+- name: datadog
+  dep_name: datadog
+  version: 3.269.1
+  repository: https://helm.datadoghq.com
