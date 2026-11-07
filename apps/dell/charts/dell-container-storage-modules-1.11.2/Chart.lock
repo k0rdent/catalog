@@ -1,0 +1,6 @@
+dependencies:
+- name: container-storage-modules
+  repository: https://dell.github.io/helm-charts
+  version: 1.11.2
+digest: sha256:367e7067a34321d7b2d3c976260fb890765370c24631129c64ecdde6023fd171
+generated: "2026-11-07T17:58:04.651350121Z"
