@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: kube-prometheus-stack
-    version: 92.18.0
+    version: 93.0.0
     repository: oci://ghcr.io/k0rdent/catalog/charts
