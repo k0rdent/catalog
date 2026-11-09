@@ -1,4 +1,14 @@
 vllm-stack:
+  routerSpec:
+    # The chart allows the router only 5+3x5=20s to boot, which the image no
+    # longer makes - importing torch/LMCache alone takes 10-20s.
+    startupProbe:
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 60
+      httpGet:
+        path: /health
+        port: router-port
   servingEngineSpec:
     runtimeClassName: ""
     modelSpec:
