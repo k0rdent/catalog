@@ -3,24 +3,24 @@ st-charts:
 - name: pelagia-ceph
   dep_name: pelagia-ceph
   version: 1.0.0
-  repository: oci://registry.mirantis.com/pelagia
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: pelagia-ceph
   dep_name: pelagia-ceph
   version: 1.1.0
-  repository: oci://registry.mirantis.com/pelagia
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: pelagia-ceph
   dep_name: pelagia-ceph
   version: 1.5.0
-  repository: oci://registry.mirantis.com/pelagia
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: pelagia-ceph
   dep_name: pelagia-ceph
   version: 1.7.0
-  repository: oci://registry.mirantis.com/pelagia
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: pelagia-ceph
   dep_name: pelagia-ceph
   version: 2.1.0
-  repository: oci://registry.mirantis.com/pelagia
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
 - name: pelagia-ceph
   dep_name: pelagia-ceph
   version: 2.2.0
-  repository: oci://registry.mirantis.com/pelagia
+  repository: oci://registry.mirantis.com/k0rdent-enterprise-catalog
