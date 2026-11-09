@@ -1,0 +1,6 @@
+dependencies:
+- name: vllm-stack
+  repository: https://vllm-project.github.io/production-stack
+  version: 0.1.14
+digest: sha256:9b83a6cf5c618564788663df9753bd8655a5e318bd2ce84929765ac2aa33594d
+generated: "2026-11-09T22:55:48.900737061Z"
