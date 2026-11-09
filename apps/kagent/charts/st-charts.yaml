@@ -15,3 +15,11 @@ st-charts:
   dep_name: kagent-crds
   version: 0.10.6
   repository: oci://ghcr.io/kagent-dev/kagent/helm
+- name: kagent
+  dep_name: kagent
+  version: 1.0.0
+  repository: oci://ghcr.io/kagent-dev/kagent/helm
+- name: kagent-crds
+  dep_name: kagent-crds
+  version: 1.0.0
+  repository: oci://ghcr.io/kagent-dev/kagent/helm
