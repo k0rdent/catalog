@@ -12,3 +12,5 @@ charts:
     appVersion: v1.154.0
   - version: 0.50.0
     appVersion: v1.155.0
+  - version: 0.51.0
+    appVersion: v1.156.0
