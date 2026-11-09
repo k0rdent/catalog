@@ -18,7 +18,7 @@ on:
       kcm_version:
         description: 'k0rdent (kcm) chart version'
         required: false
-        default: '1.12.0'
+        default: '1.13.0'
       gcp_project:
         description: 'GCP project for the child cluster'
         required: false

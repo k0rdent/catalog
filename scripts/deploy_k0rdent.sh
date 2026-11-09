@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Chart version of k0rdent (kcm) to install. Callers that also apply a Management
 # resource have to keep its `release:` in sync (see deploy_k0rdent_aws.sh).
-KCM_VERSION="${KCM_VERSION:-1.12.0}"
+KCM_VERSION="${KCM_VERSION:-1.13.0}"
 
 # KCM_SRC_DIR set: build kcm from that checkout (scripts/kcm_source.sh),
 # otherwise install the published chart from ghcr.

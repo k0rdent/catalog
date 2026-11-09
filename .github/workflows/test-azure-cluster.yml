@@ -19,7 +19,7 @@ on:
       kcm_version:
         description: 'k0rdent (kcm) chart version'
         required: false
-        default: '1.12.0'
+        default: '1.13.0'
       azure_location:
         description: 'Azure location for the child cluster'
         required: false
