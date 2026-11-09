@@ -18,7 +18,7 @@ on:
       kcm_version:
         description: 'k0rdent (kcm) chart version'
         required: false
-        default: '1.12.0'
+        default: '1.13.0'
       aws_ec2_family:
         description: 'EC2 instance family (t3 - amd64, t4g - arm64)'
         required: false
