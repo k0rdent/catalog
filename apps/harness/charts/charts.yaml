@@ -1,4 +1,4 @@
 charts:
   harness-delegate-ng:
-  - version: 1.0.33
-    appVersion: 26.10.90200
+  - version: 1.0.34
+    appVersion: 26.10.90313
