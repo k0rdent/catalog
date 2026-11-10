@@ -249,7 +249,14 @@ def tag_preference(tag: str, current_version: str) -> int:
     return 1 if prefixed == wanted else 0
 
 
-def latest_stable_tag(tags: list, current_version: str = None) -> str:
+def parse_version_constraint(constraint: str) -> Version:
+    """Upper bound from a '<x.y.z' constraint (see version_constraints in st-charts.yaml)."""
+    if not constraint.startswith('<') or constraint.startswith('<='):
+        raise RuntimeError(f"Unsupported version constraint '{constraint}', expected '<x.y.z'")
+    return Version(constraint[1:].strip())
+
+
+def latest_stable_tag(tags: list, current_version: str = None, below: Version = None) -> str:
     """Highest release tag, ignoring pre-releases and anything not version-like."""
     latest, latest_version = None, None
     for tag in tags:
@@ -258,6 +265,8 @@ def latest_stable_tag(tags: list, current_version: str = None) -> str:
         except InvalidVersion:
             continue
         if version.is_prerelease:
+            continue
+        if below is not None and version >= below:
             continue
         if latest_version is None or version > latest_version:
             latest, latest_version = tag, version
@@ -284,7 +293,8 @@ def repo_list_versions(alias: str, chart: str) -> list:
             if entry.get('name') == f"{alias}/{chart}"]
 
 
-def get_latest_https_chart(chart: str, repository: str, current_version: str = None):
+def get_latest_https_chart(chart: str, repository: str, current_version: str = None,
+                           below: Version = None):
     subprocess.run(["helm", "repo", "add", chart, repository], check=True)
     try:
         subprocess.run(["helm", "repo", "update"], check=True)
@@ -292,7 +302,7 @@ def get_latest_https_chart(chart: str, repository: str, current_version: str = N
         # the index happens to list first, which is not the highest one. Tetrate
         # publishes both 1.31.10000 and 1.31.1+tetrate0 for the same release and
         # the index leads with the latter.
-        version = latest_stable_tag(repo_list_versions(chart, chart), current_version)
+        version = latest_stable_tag(repo_list_versions(chart, chart), current_version, below)
         if version is None:
             raise RuntimeError(f"no release versions found in '{repository}'")
         return version, show_chart(f"{chart}/{chart}", version)
@@ -300,23 +310,24 @@ def get_latest_https_chart(chart: str, repository: str, current_version: str = N
         subprocess.run(["helm", "repo", "remove", chart], check=True)
 
 
-def get_latest_oci_chart(chart: str, repository: str, current_version: str = None):
+def get_latest_oci_chart(chart: str, repository: str, current_version: str = None,
+                         below: Version = None):
     """Resolve the newest release from the registry tag list.
 
     `helm show chart --version '>=0.0.0'` would be shorter, but Helm drops every
     'v'-prefixed tag when resolving a range, which silently returns a stale
     version (or no version at all) for charts tagged that way.
     """
-    tag = latest_stable_tag(oci_list_tags(repository, chart), current_version)
+    tag = latest_stable_tag(oci_list_tags(repository, chart), current_version, below)
     if tag is None:
         raise RuntimeError(f"no release tags found in '{oci_chart_ref(repository, chart)}'")
     return tag, show_chart(oci_chart_ref(repository, chart), tag)
 
 
-def get_latest_chart(chart: str, repository: str, current_version: str):
+def get_latest_chart(chart: str, repository: str, current_version: str, below: Version = None):
     """Return (version to record, chart metadata) for the newest release."""
     if repository.startswith("https"):
-        version, metadata = get_latest_https_chart(chart, repository, current_version)
+        version, metadata = get_latest_https_chart(chart, repository, current_version, below)
         # An index is keyed by the chart version, so that is what we store.
         metadata['version'] = version
         try_ignore_prefix_v(metadata, current_version)
@@ -325,7 +336,7 @@ def get_latest_chart(chart: str, repository: str, current_version: str):
         # A registry is keyed by tag, which is not always the chart version
         # (lws tags 0.11.1 for chart v0.11.1, agentgateway tags v2.2.1). Storing
         # anything but the tag breaks every later `helm ... --version` call.
-        return get_latest_oci_chart(chart, repository, current_version)
+        return get_latest_oci_chart(chart, repository, current_version, below)
     print(f"Unsupported repo '{repository}' to automatically check updates, skipping.")
     return None, None
 
@@ -338,9 +349,14 @@ def check_updates(args: str):
     last_deps = get_last_deps(cfg)
     updates_list = []
     updates_dict = {}
+    constraints = cfg.get('version_constraints') or {}
     for chart, data in last_deps.items():
+        below = None
+        if chart in constraints:
+            below = parse_version_constraint(constraints[chart])
+            print(f"'{chart}' is held below {below} by version_constraints")
         try:
-            latest_version, _ = get_latest_chart(chart, data['repository'], data['version'])
+            latest_version, _ = get_latest_chart(chart, data['repository'], data['version'], below)
         except (subprocess.CalledProcessError, urllib.error.URLError, RuntimeError) as e:
             # One unreachable repo (private registry, outage) must not fail the whole app.
             print(f"::warning::Cannot check updates for '{chart}' in '{data['repository']}': {e}")

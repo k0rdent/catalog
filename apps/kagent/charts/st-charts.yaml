@@ -1,3 +1,9 @@
+# 1.0.0 dropped the bundled PostgreSQL and made Substrate (ate-system) mandatory.
+# Substrate needs cluster feature gates and a PKI bootstrap its chart does not ship,
+# so the example cannot deploy it. Revisit if upstream publishes the installer.
+version_constraints:
+  kagent: "<1.0.0"
+  kagent-crds: "<1.0.0"
 st-charts:
 - name: kagent
   dep_name: kagent
