@@ -9,5 +9,5 @@ st-charts:
   repository: https://opencost.github.io/opencost-helm-chart
 - name: opencost
   dep_name: opencost
-  version: 2.5.33
+  version: 2.5.34
   repository: https://opencost.github.io/opencost-helm-chart
