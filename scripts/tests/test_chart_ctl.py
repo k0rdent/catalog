@@ -1,4 +1,6 @@
 """Unit tests for scripts/chart_ctl.py (pure logic only)."""
+import pytest
+
 import chart_ctl
 
 
@@ -107,6 +109,17 @@ def test_latest_stable_tag_skips_prereleases():
     assert chart_ctl.latest_stable_tag(["v0.16.0", "v0.17.0-rc0"]) == "v0.16.0"
 
 
+def test_latest_stable_tag_honours_upper_bound():
+    below = chart_ctl.parse_version_constraint("<1.0.0")
+    assert chart_ctl.latest_stable_tag(["0.10.6", "1.0.0"], below=below) == "0.10.6"
+
+
+def test_parse_version_constraint_rejects_other_operators():
+    for constraint in ("<=1.0.0", ">=1.0.0", "1.0.0", "~1.0"):
+        with pytest.raises(RuntimeError):
+            chart_ctl.parse_version_constraint(constraint)
+
+
 def test_latest_stable_tag_ignores_non_versions():
     assert chart_ctl.latest_stable_tag(["latest", "main", "sha-abc123", "1.0.0"]) == "1.0.0"
 
@@ -141,7 +154,7 @@ def test_check_updates_skips_generation_when_nothing_changed(monkeypatch, capsys
     monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
     # Upstream reports the very version we already track.
     monkeypatch.setattr(chart_ctl, "get_latest_chart",
-                        lambda chart, repo, current: ("1.0.0", {"appVersion": "v1.0.0"}))
+                        lambda chart, repo, current, below=None: ("1.0.0", {"appVersion": "v1.0.0"}))
     called = []
     monkeypatch.setattr(chart_ctl, "generate", lambda *a: called.append("generate"))
     monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: called.append("example"))
@@ -159,7 +172,7 @@ def test_check_updates_generates_when_version_changed(monkeypatch):
                           "repository": "oci://example.com/charts"}]}
     monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
     monkeypatch.setattr(chart_ctl, "get_latest_chart",
-                        lambda chart, repo, current: ("1.1.0", {"appVersion": "1.1.0"}))
+                        lambda chart, repo, current, below=None: ("1.1.0", {"appVersion": "1.1.0"}))
     called = []
     monkeypatch.setattr(chart_ctl, "generate", lambda *a: called.append("generate"))
     monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: called.append("example"))
@@ -191,7 +204,7 @@ def test_get_latest_chart_oci_keeps_tag_differing_from_chart_version(monkeypatch
 
 def test_get_latest_chart_https_strips_prefix_v(monkeypatch):
     monkeypatch.setattr(chart_ctl, "get_latest_https_chart",
-                        lambda chart, repo, current=None: ("v1.2.3", {"appVersion": "1.2.3"}))
+                        lambda chart, repo, current=None, below=None: ("v1.2.3", {"appVersion": "1.2.3"}))
     version, _ = chart_ctl.get_latest_chart("x", "https://example.com/charts", "1.2.2")
     assert version == "1.2.3"
 
