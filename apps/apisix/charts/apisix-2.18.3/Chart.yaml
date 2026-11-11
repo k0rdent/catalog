@@ -2,8 +2,8 @@ apiVersion: v2
 name: apisix
 description: A Helm chart that references the official "apisix" Helm chart.
 type: application
-version: 2.18.2
+version: 2.18.3
 dependencies:
   - name: apisix
-    version: 2.18.2
+    version: 2.18.3
     repository: https://apache.github.io/apisix-helm-chart
