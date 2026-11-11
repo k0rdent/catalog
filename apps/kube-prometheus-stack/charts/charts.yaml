@@ -50,3 +50,5 @@ charts:
     appVersion: v0.94.2
   - version: 93.1.2
     appVersion: v0.95.2
+  - version: 93.2.2
+    appVersion: v0.95.2

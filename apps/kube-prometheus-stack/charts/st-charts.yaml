@@ -99,3 +99,7 @@ st-charts:
   dep_name: kube-prometheus-stack
   version: 93.1.2
   repository: https://prometheus-community.github.io/helm-charts
+- name: kube-prometheus-stack
+  dep_name: kube-prometheus-stack
+  version: 93.2.2
+  repository: https://prometheus-community.github.io/helm-charts
