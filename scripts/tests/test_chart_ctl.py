@@ -183,6 +183,31 @@ def test_check_updates_generates_when_version_changed(monkeypatch):
     assert called == ["cfg", "generate", "example"]
 
 
+def test_format_update_summary_single_chart():
+    assert chart_ctl.format_update_summary([("milvus", "5.0.33", "5.0.34")]) == "5.0.33 -> 5.0.34"
+
+
+def test_format_update_summary_names_each_chart_when_several():
+    bumps = [("kagent", "0.10.5", "0.10.6"), ("kagent-crds", "0.10.5", "0.10.6")]
+    assert chart_ctl.format_update_summary(bumps) == (
+        "kagent 0.10.5 -> 0.10.6, kagent-crds 0.10.5 -> 0.10.6")
+
+
+def test_check_updates_prints_summary_for_the_commit_message(monkeypatch, capsys):
+    cfg = {"st-charts": [{"name": "a", "dep_name": "a", "version": "1.0.0",
+                          "repository": "oci://example.com/charts"}]}
+    monkeypatch.setattr(chart_ctl, "read_charts_cfg", lambda *a, **k: cfg)
+    monkeypatch.setattr(chart_ctl, "get_latest_chart",
+                        lambda chart, repo, current, below=None: ("1.1.0", {"appVersion": "1.1.0"}))
+    monkeypatch.setattr(chart_ctl, "generate", lambda *a: None)
+    monkeypatch.setattr(chart_ctl, "update_example_chart", lambda *a: None)
+    monkeypatch.setattr(chart_ctl, "update_charts_cfg", lambda *a: None)
+
+    chart_ctl.check_updates(_Args("demo"))
+
+    assert "UPDATE_SUMMARY=1.0.0 -> 1.1.0" in capsys.readouterr().out
+
+
 def test_get_latest_chart_oci_records_the_tag(monkeypatch):
     """OCI is addressed by tag, which is not always the chart version."""
     monkeypatch.setattr(chart_ctl, "oci_list_tags", lambda repo, chart: ["v2.2.0", "v2.2.1"])
