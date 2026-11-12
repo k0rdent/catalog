@@ -97,6 +97,18 @@ jobs:
 
           echo "NO_CHANGES=false" >> "$GITHUB_ENV"
           git add .
+
+          # An automated update only ever regenerates the app's charts and example.
+          # Anything else means the run went wrong, so fail instead of opening a PR.
+          # --no-renames keeps both sides of a rename visible as plain paths.
+          outside=$(git diff --cached --name-only --no-renames \
+                    | grep -vE "^apps/${app}/(charts|example)/" || true)
+          if [[ -n "$outside" ]]; then
+            echo "::error::Auto-update changed files outside apps/${app}/{charts,example}:"
+            echo "$outside"
+            exit 1
+          fi
+
           git commit -m "${app}: automated update${UPDATE_SUMMARY:+ ($UPDATE_SUMMARY)}"
           git push origin "$branch" --force
 
