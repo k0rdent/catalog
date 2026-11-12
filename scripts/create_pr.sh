@@ -4,6 +4,7 @@
 # export APP=ingress-nginx
 # export DST_REPO=josca/k0rdent-catalog
 # export OWNER=josca-test
+# export UPDATE_TITLE="ingress-nginx: automated update (4.11.0 -> 4.12.0)"
 
 echo "app: $APP, DST_REPO: $DST_REPO, OWNER: $OWNER"
 set -euo pipefail
@@ -14,6 +15,10 @@ echo "${head}"
 
 api_url="https://api.github.com/repos/$DST_REPO/pulls"
 
+# Printed by chart_ctl.py check-updates, so the commit and the PR carry one title.
+title="${UPDATE_TITLE:?UPDATE_TITLE must be set}"
+echo "title: $title"
+
 # Create PR
 response=$(curl -s -w "\n%{http_code}" -X POST \
 -H "Authorization: Bearer $GITHUB_TOKEN" \
@@ -21,7 +26,7 @@ response=$(curl -s -w "\n%{http_code}" -X POST \
 "$api_url" \
 -d @- <<EOF
 {
-    "title": "${APP}: automated update",
+    "title": "${title}",
     "head": "${head}",
     "base": "main",
     "body": "This PR was created automatically by CI."

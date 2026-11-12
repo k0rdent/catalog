@@ -74,7 +74,10 @@ jobs:
       - name: Check updates
         run: |
           app=${{ matrix.folder }}
-          python3 ./scripts/chart_ctl.py check-updates "$app" -gue
+          out=$(python3 ./scripts/chart_ctl.py check-updates "$app" -gue)
+          echo "$out"
+          # Commit message and PR title, e.g. "milvus: automated update (5.0.33 -> 5.0.34)".
+          echo "UPDATE_TITLE=$(sed -n 's/^UPDATE_TITLE=//p' <<< "$out")" >> "$GITHUB_ENV"
 
       - name: Commit and push changes
         run: |
@@ -94,7 +97,7 @@ jobs:
 
           echo "NO_CHANGES=false" >> "$GITHUB_ENV"
           git add .
-          git commit -m "${app}: automated update"
+          git commit -m "$UPDATE_TITLE"
           git push origin "$branch" --force
 
       - name: Create pull request

@@ -341,6 +341,18 @@ def get_latest_chart(chart: str, repository: str, current_version: str, below: V
     return None, None
 
 
+def format_update_title(app: str, bumps: list) -> str:
+    """Commit message and PR title, e.g. 'milvus: automated update (5.0.33 -> 5.0.34)'."""
+    title = f"{app}: automated update"
+    if not bumps:
+        return title
+    if len(bumps) == 1:
+        _, previous, latest = bumps[0]
+        return f"{title} ({previous} -> {latest})"
+    bumped = ", ".join(f"{chart} {previous} -> {latest}" for chart, previous, latest in bumps)
+    return f"{title} ({bumped})"
+
+
 def check_updates(args: str):
     cfg = read_charts_cfg(args.app, allow_return_none=True)
     if cfg is None:
@@ -349,6 +361,7 @@ def check_updates(args: str):
     last_deps = get_last_deps(cfg)
     updates_list = []
     updates_dict = {}
+    bumps = []
     constraints = cfg.get('version_constraints') or {}
     for chart, data in last_deps.items():
         below = None
@@ -370,7 +383,11 @@ def check_updates(args: str):
             item['version'] = latest_version
             updates_list.append(item)
             updates_dict[item['name']] = item
+            bumps.append((chart, data['version'], latest_version))
     update_charts_cfg(args, updates_list, cfg)
+    # Composed once here; the auto-update workflow uses it for both the commit
+    # message and the PR title.
+    print(f"UPDATE_TITLE={format_update_title(args.app, bumps)}")
     if not updates_list:
         # Regenerating anyway would rewrite charts.yaml from upstream metadata and
         # open a pull request for cosmetic churn (e.g. appVersion '1.0.0' vs 'v1.0.0')
