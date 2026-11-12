@@ -98,6 +98,20 @@ jobs:
           echo "NO_CHANGES=false" >> "$GITHUB_ENV"
           git add .
           git commit -m "$UPDATE_TITLE"
+
+          # An automated update only ever regenerates the app's charts and example.
+          # Compare the whole branch against main, not just what this run changed:
+          # a dispatch from a feature branch carries that branch's commits into the
+          # PR too. --no-renames keeps both sides of a rename visible as plain paths.
+          git fetch origin main
+          outside=$(git diff --name-only --no-renames origin/main...HEAD \
+                    | grep -vE "^apps/${app}/(charts|example)/" || true)
+          if [[ -n "$outside" ]]; then
+            echo "::error::Auto-update PR would change files outside apps/${app}/{charts,example}:"
+            echo "$outside"
+            exit 1
+          fi
+
           git push origin "$branch" --force
 
       - name: Create pull request
