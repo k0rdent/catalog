@@ -8,6 +8,8 @@ charts:
     appVersion: 1.28.2-tetrate0
   - version: 1.31.30003
     appVersion: 1.31.3-tetrate3
+  - version: 1.32.0+tetrate0
+    appVersion: 1.32.0-tetrate0
   tetrate-istiod:
   - version: 1.26.20002
     appVersion: 1.26.2-tetrate2
@@ -17,6 +19,8 @@ charts:
     appVersion: 1.28.2-tetrate0
   - version: 1.31.30003
     appVersion: 1.31.3-tetrate3
+  - version: 1.32.0+tetrate0
+    appVersion: 1.32.0-tetrate0
   tetrate-gateway:
   - version: 1.26.20002
     appVersion: 1.26.2-tetrate2
@@ -26,3 +30,5 @@ charts:
     appVersion: 1.28.2-tetrate0
   - version: 1.31.30003
     appVersion: 1.31.3-tetrate3
+  - version: 1.32.0+tetrate0
+    appVersion: 1.32.0-tetrate0
