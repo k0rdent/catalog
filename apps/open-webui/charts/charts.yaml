@@ -24,3 +24,5 @@ charts:
     appVersion: 0.12.5
   - version: 18.0.0
     appVersion: 0.13.0
+  - version: 18.3.0
+    appVersion: 0.13.3
