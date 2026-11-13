@@ -10,7 +10,7 @@ on:
       kcm_version:
         description: 'k0rdent (kcm) chart version'
         required: false
-        default: '1.12.0'
+        default: '1.13.0'
   schedule:
     - cron: '0 9 * * *'   # 09:00 UTC
   push:
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       TEST_MODE: adopted
-      KCM_VERSION: ${{ github.event.inputs.kcm_version || '1.12.0' }}
+      KCM_VERSION: ${{ github.event.inputs.kcm_version || '1.13.0' }}
     if: ${{ needs.detect-tested-apps.outputs.changed_folders != '[]' }}  # Skip if no changed folders
     strategy:
       fail-fast: false
