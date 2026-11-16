@@ -4,5 +4,5 @@ type: application
 version: 1.0.0
 dependencies:
   - name: rabbitmq
-    version: 0.21.32
+    version: 0.21.34
     repository: oci://ghcr.io/k0rdent/catalog/charts
