@@ -1,0 +1,6 @@
+dependencies:
+- name: kyverno
+  repository: https://nirmata.github.io/kyverno-charts/
+  version: 3.9.4
+digest: sha256:dd2acd022127a4a325ddf79b8355ef78998634f78b3fb77cf4e0f1af671de7ea
+generated: "2026-11-16T17:03:45.666094217Z"
