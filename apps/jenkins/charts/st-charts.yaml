@@ -19,3 +19,7 @@ st-charts:
   dep_name: jenkins
   version: 5.12.0
   repository: https://charts.jenkins.io
+- name: jenkins
+  dep_name: jenkins
+  version: 5.13.3
+  repository: https://charts.jenkins.io
