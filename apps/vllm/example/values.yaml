@@ -1,22 +1,26 @@
 vllm-stack:
-  routerSpec:
-    # The chart allows the router only 5+3x5=20s to boot, which the image no
-    # longer makes - importing torch/LMCache alone takes 10-20s.
-    startupProbe:
-      initialDelaySeconds: 5
-      periodSeconds: 5
-      failureThreshold: 60
-      httpGet:
-        path: /health
-        port: router-port
-  servingEngineSpec:
-    runtimeClassName: ""
-    modelSpec:
-    - name: "opt125m"
-      repository: "vllm/vllm-openai"
-      tag: "latest"
-      modelURL: "facebook/opt-125m"
-      replicaCount: 1
-      requestCPU: 6
-      requestMemory: "16Gi"
-      requestGPU: 1
+  vllm-stack:
+    routerSpec:
+      # The chart allows the router only 5+3x5=20s to boot, which the image no
+      # longer makes - importing torch/LMCache alone takes 10-20s.
+      startupProbe:
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        failureThreshold: 60
+        httpGet:
+          path: /health
+          port: router-port
+    servingEngineSpec:
+      # The engine below asks for a GPU, so it stays off by default and only the
+      # router is deployed. Set this to true on a cluster with GPU nodes.
+      enableEngine: false
+      runtimeClassName: ""
+      modelSpec:
+      - name: "opt125m"
+        repository: "vllm/vllm-openai"
+        tag: "latest"
+        modelURL: "facebook/opt-125m"
+        replicaCount: 1
+        requestCPU: 6
+        requestMemory: "16Gi"
+        requestGPU: 1
