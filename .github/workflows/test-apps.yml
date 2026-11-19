@@ -156,6 +156,14 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 
+      - name: Install Kind
+        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind version
+
       - name: Check updates
         run: |
           app=${{ matrix.folder }}
@@ -177,20 +185,13 @@ jobs:
           app=${{ matrix.folder }}
           python3 ./scripts/chart_ctl.py check-images "$app"
 
-      - name: Create k0s Cluster for example Helm chart test
+      - name: Create kind Cluster for example Helm chart test
         if: env.DEPLOY_CHART == 'true'
         run: |
-          # Single-node k0s-in-docker for the local example-chart test.
-          docker run -d --name test-k8s --hostname test-k8s \
-            -v /var/lib/k0s --tmpfs /run --privileged \
-            -p 6445:6443 \
-            docker.io/k0sproject/k0s:v1.36.3-k0s.0
-          until docker exec test-k8s k0s kubeconfig admin > kcfg_local 2>/dev/null; do sleep 2; done
-          sed -i 's#server:.*#server: https://127.0.0.1:6445#' kcfg_local
+          # Single-node kind cluster for the local example-chart test.
+          kind create cluster --name test-k8s --wait 5m --kubeconfig kcfg_local
           chmod 0600 kcfg_local
-          docker exec test-k8s mount --make-rshared /
-          until KUBECONFIG=kcfg_local kubectl wait -n kube-system --for=condition=Ready pod --all --timeout=2s 2>/dev/null; do sleep 2; done
-          KUBECONFIG=kcfg_local kubectl taint nodes test-k8s node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
+          KUBECONFIG=kcfg_local kubectl taint nodes --all node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
 
       - name: Test - Install example Helm chart
         if: env.DEPLOY_CHART == 'true'
