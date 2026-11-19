@@ -1,0 +1,6 @@
+dependencies:
+- name: kgateway
+  repository: oci://cr.kgateway.dev/kgateway-dev/charts
+  version: 2.5.2
+digest: sha256:c47870f942bf0749a725b99fb9fc50d8f5c56c7a8304e0a1f4feb7444454f16b
+generated: "2026-11-19T21:41:21.07235798Z"
