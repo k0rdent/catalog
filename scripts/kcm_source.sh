@@ -12,8 +12,9 @@ KCM_CHART_DIR="$KCM_DIR/templates/provider/kcm"
 IMG="${IMG:-localhost/kcm/controller:latest}"
 IMG_TELEMETRY="${IMG_TELEMETRY:-localhost/kcm/telemetry:latest}"
 
-# Shared with the local registry so KCM can reach it by container name.
-DOCKER_NETWORK="${DOCKER_NETWORK:-k0rdent-net}"
+# k0sind's own bridge, shared with the local registry so KCM can reach it by
+# container name.
+DOCKER_NETWORK="${DOCKER_NETWORK:-kind}"
 REGISTRY_NAME="${REGISTRY_NAME:-kcm-registry}"
 REGISTRY_PORT="${REGISTRY_PORT:-5001}"
 REGISTRY_IMAGE="${REGISTRY_IMAGE:-registry:2}"
@@ -40,11 +41,10 @@ connect_network() {
     fi
 }
 
-# The k0s-in-docker equivalent of `kind load docker-image`.
-import_image_into_k0s() {
-    local image="$1" container="$2"
-    echo "Importing $image into $container"
-    docker save "$image" | docker exec -i "$container" k0s ctr -n k8s.io images import - >/dev/null
+import_image_into_cluster() {
+    local image="$1" cluster="$2"
+    echo "Importing $image into $cluster"
+    k0sind load docker-image "$image" --name "$cluster"
 }
 
 kcm_chart_version() {
@@ -84,9 +84,9 @@ kcm_registry_deploy() {
 
 # Images go into the node's containerd, template charts into the local registry.
 kcm_source_push() {
-    local container="$1"
-    import_image_into_k0s "$IMG" "$container"
-    import_image_into_k0s "$IMG_TELEMETRY" "$container"
+    local cluster="$1"
+    import_image_into_cluster "$IMG" "$cluster"
+    import_image_into_cluster "$IMG_TELEMETRY" "$cluster"
     # helm-push skips versions already in the registry, so re-runs are cheap.
     make -C "$KCM_DIR" helm-push REGISTRY_REPO="oci://127.0.0.1:$REGISTRY_PORT/charts"
 }
