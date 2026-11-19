@@ -1,3 +1,0 @@
-hpe-csi-driver:
-  hpe-csi-driver:
-    kubeletRootDir: /var/lib/k0s/kubelet
