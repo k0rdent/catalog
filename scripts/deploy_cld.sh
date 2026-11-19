@@ -39,51 +39,31 @@ if [[ "$TEST_MODE" =~ ^(aws|azure|gcp)$ ]]; then
 elif [[ "$TEST_MODE" == adopted ]]; then
     cld_name=adopted
 
-    # Shared network so the k0rdent controllers can reach the adopted API.
-    docker network create k0rdent-net 2>/dev/null || true
-    docker network connect k0rdent-net k0rdent 2>/dev/null || true
-
-    if docker ps --filter name='^adopted$' -q | grep -q .; then
+    # k0sind puts every cluster on one bridge, so the k0rdent controllers
+    # reach the adopted API without an extra network.
+    if k0sind get clusters 2>/dev/null | grep -qx adopted; then
         echo "Adopted cluster already exists"
+        k0sind get kubeconfig -n adopted > kcfg_adopted
     else
-        container_args=(-p 6444:6443)
-        if [[ "${ADOPTED_EXPOSE_PORTS:-0}" == "1" ]]; then  # Avoid ephemeral port range conflicts in CI.
-            container_args+=(-p 50080:80 -p 50443:443)
-        fi
-        k0s_cmd=(k0s controller --enable-worker)
-        if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then  # Avoid ephemeral port range conflicts in CI.
+        create_args=()
+        if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
             echo "TEST_ADOPTED_NOCNI=true: starting the adopted cluster without a CNI"
-            container_args+=(-e "K0S_CONFIG=$(cat ./scripts/config/k0s-nocni.yaml)")
-            k0s_cmd=(k0s controller --enable-worker --config=/etc/k0s/config.yaml)
+            # Same k0s ClusterConfig as before: custom network provider, no kube-proxy.
+            create_args+=(--k0s-config ./scripts/config/k0s-nocni.yaml)
+        else
+            # No node reports Ready before a CNI exists, so only wait when there is one.
+            create_args+=(--wait 5m)
         fi
-        docker run -d --name adopted --hostname adopted \
-            --network k0rdent-net \
-            -v /var/lib/k0s -v /var/log/pods \
-            --tmpfs /run \
-            --privileged \
-            "${container_args[@]}" \
-            docker.io/k0sproject/k0s:v1.36.3-k0s.0 \
-            "${k0s_cmd[@]}"
-
-        echo "Waiting for adopted kubeconfig..."
-        until docker exec adopted k0s kubeconfig admin > kcfg_adopted 2>/dev/null; do
-            sleep 2
-        done
+        # --kubeconfig keeps this out of the mothership's kubeconfig, which is
+        # what $KUBECONFIG points at here.
+        k0sind create cluster --name adopted --kubeconfig kcfg_adopted \
+            ${create_args[@]+"${create_args[@]}"}
     fi
-
-    # Recursively-shared mounts so propagation hostPath mounts work (kind does
-    # this; the k0s image doesn't).
-    docker exec adopted mount --make-rshared /
-
-    # Local kubeconfig via the published API port (127.0.0.1 keeps macOS working).
-    docker exec adopted k0s kubeconfig admin > kcfg_adopted
-    sed -i.bak 's#server:.*#server: https://127.0.0.1:6444#' kcfg_adopted
     chmod 0600 kcfg_adopted
 
     if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
         echo "Waiting for the adopted node to register (stays NotReady until the CNI is deployed)..."
-        until KUBECONFIG=kcfg_adopted kubectl get node adopted >/dev/null 2>&1; do
-            KUBECONFIG=kcfg_adopted kubectl get nodes || true
+        until KUBECONFIG=kcfg_adopted kubectl get nodes --no-headers 2>/dev/null | grep -q .; do
             sleep 2
         done
         KUBECONFIG=kcfg_adopted kubectl get nodes
@@ -96,14 +76,14 @@ elif [[ "$TEST_MODE" == adopted ]]; then
     fi
 
     # Allow workloads on the single control-plane node.
-    KUBECONFIG=kcfg_adopted kubectl taint nodes adopted node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
+    KUBECONFIG=kcfg_adopted kubectl taint nodes --all node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
 
     if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
         # kube-proxy is disabled, so a CNI needs the real API endpoint to bootstrap.
         # k0s ships no kube-public/cluster-info, which is where charts look it up
         # (e.g. cilium's k8sServiceHost: auto).
-        api_host=$(KUBECONFIG=kcfg_adopted kubectl get node adopted \
-            -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
+        api_host=$(KUBECONFIG=kcfg_adopted kubectl get nodes \
+            -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
         echo "Publishing kube-public/cluster-info with API endpoint $api_host:6443"
         KUBECONFIG=kcfg_adopted kubectl create configmap cluster-info -n kube-public \
             --from-literal=kubeconfig="$(printf 'apiVersion: v1\nkind: Config\nclusters:\n- name: k0s\n  cluster:\n    server: https://%s:6443\n' "$api_host")" \
@@ -119,8 +99,8 @@ elif [[ "$TEST_MODE" == adopted ]]; then
         TEST_MODE=adopted ./scripts/install_openebs.sh
     fi
 
-    # Internal kubeconfig for k0rdent (k0s sets the server to the container IP).
-    ADOPTED_KUBECONFIG=$(docker exec adopted k0s kubeconfig admin | openssl base64 -A)
+    # Internal kubeconfig for k0rdent (server reachable from the k0sind bridge).
+    ADOPTED_KUBECONFIG=$(k0sind get kubeconfig -n adopted --internal | openssl base64 -A)
     kubectl patch secret adopted-credential-secret -n kcm-system -p='{"data":{"value":"'"$ADOPTED_KUBECONFIG"'"}}'
     sed -e "s/CT_ADOPTED_CLUSTER/${CT_ADOPTED_CLUSTER}/g" \
         ./scripts/config/adopted-cld.yaml | kubectl apply -n kcm-system -f -

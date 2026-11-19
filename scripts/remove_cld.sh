@@ -19,8 +19,8 @@ CLDNAME="$cldname" ./scripts/wait_for_cluster_removal.sh
 
 if [[ "$TEST_MODE" == adopted ]]; then
     helm uninstall adopted-credential -n kcm-system
-    if docker ps --filter name='^adopted$' -q | grep -q .; then
-        docker rm -vf adopted
+    if k0sind get clusters 2>/dev/null | grep -qx adopted; then
+        k0sind delete cluster --name adopted --kubeconfig kcfg_adopted
     fi
     rm -f ./kcfg_adopted ./kcfg_adopted.bak
 fi
