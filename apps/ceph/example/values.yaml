@@ -1,4 +1,0 @@
-pelagia-ceph:
-  pelagia-ceph:
-    rookConfig:
-      csiKubeletPath: /var/lib/k0s/kubelet
