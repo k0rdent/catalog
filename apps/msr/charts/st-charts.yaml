@@ -1,5 +1,5 @@
 st-charts:
 - name: msr
   dep_name: msr
-  version: 4.13.8
+  version: 4.13.9
   repository: oci://registry.mirantis.com/harbor/helm
