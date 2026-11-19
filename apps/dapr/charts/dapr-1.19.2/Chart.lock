@@ -1,0 +1,6 @@
+dependencies:
+- name: dapr
+  repository: https://dapr.github.io/helm-charts/
+  version: 1.19.2
+digest: sha256:4acfa5cd0bbeaf5cfae445967e606c99570a52596db0362bf7034578c9f8ce18
+generated: "2026-11-19T21:41:05.316161689Z"
