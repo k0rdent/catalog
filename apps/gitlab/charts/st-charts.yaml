@@ -23,3 +23,7 @@ st-charts:
   dep_name: gitlab
   version: 10.5.6
   repository: https://charts.gitlab.io/
+- name: gitlab
+  dep_name: gitlab
+  version: 10.6.0
+  repository: https://charts.gitlab.io/
