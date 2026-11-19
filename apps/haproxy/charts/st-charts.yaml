@@ -11,3 +11,7 @@ st-charts:
   dep_name: kubernetes-ingress
   version: 1.56.3
   repository: https://haproxytech.github.io/helm-charts
+- name: haproxy-ingress
+  dep_name: kubernetes-ingress
+  version: 1.57.1
+  repository: https://haproxytech.github.io/helm-charts
