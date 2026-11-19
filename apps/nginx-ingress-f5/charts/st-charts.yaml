@@ -11,3 +11,7 @@ st-charts:
   dep_name: nginx-ingress
   version: 2.8.1
   repository: oci://ghcr.io/nginx/charts
+- name: nginx-ingress-f5
+  dep_name: nginx-ingress
+  version: 2.9.0
+  repository: oci://ghcr.io/nginx/charts
