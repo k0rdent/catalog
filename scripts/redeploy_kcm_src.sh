@@ -15,8 +15,8 @@ fi
 source ./scripts/kcm_source.sh
 
 kcm_source_images
-import_image_into_k0s "$IMG" k0rdent
-import_image_into_k0s "$IMG_TELEMETRY" k0rdent
+import_image_into_cluster "$IMG" k0rdent
+import_image_into_cluster "$IMG_TELEMETRY" k0rdent
 
 # Same tag and pullPolicy IfNotPresent: a restart picks up the freshly imported image.
 kubectl -n kcm-system rollout restart deploy/kcm-controller-manager deploy/kcm-regional-telemetry

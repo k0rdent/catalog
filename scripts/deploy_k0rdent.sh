@@ -11,37 +11,20 @@ if [[ -n "${KCM_SRC_DIR:-}" ]]; then
     source ./scripts/kcm_source.sh
 fi
 
-if docker ps --filter name='^k0rdent$' -q | grep -q .; then
+if kind get clusters 2>/dev/null | grep -qx k0rdent; then
     echo "k0rdent cluster already exists"
 else
-    port_args=(-p 6443:6443)
-    if [[ "${K0RDENT_EXPOSE_PORTS:-0}" == "1" ]]; then  # Avoid ephemeral port range conflicts in CI.
-        port_args+=(-p 60080:80 -p 60443:443)
-    fi
-    # KCM pulls the template charts from the local registry by container name.
-    net_args=()
-    if [[ -n "${KCM_SRC_DIR:-}" ]]; then
-        ensure_network "$DOCKER_NETWORK"
-        net_args=(--network "$DOCKER_NETWORK")
-    fi
-    docker run -d --name k0rdent --hostname k0rdent \
-        -v /var/lib/k0s -v /var/log/pods \
-        --tmpfs /run \
-        --privileged \
-        "${port_args[@]}" ${net_args[@]+"${net_args[@]}"} \
-        docker.io/k0sproject/k0s:v1.36.3-k0s.0
-
-    echo "Waiting for kubeconfig..."
-    until docker exec k0rdent k0s kubeconfig admin > kcfg_k0rdent 2>/dev/null; do
-        sleep 2
-    done
-
-    docker exec k0rdent k0s kubeconfig admin > kcfg_k0rdent
-    sed -i.bak '5s#.*#    server: https://127.0.0.1:6443#' kcfg_k0rdent # replace docker internal ip
-    chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
+    mkdir -p .work
+    EXPOSE_PORTS="${K0RDENT_EXPOSE_PORTS:-0}" \
+        ./scripts/create_kind_config.sh k0rdent > .work/kind-k0rdent.yaml
+    # --kubeconfig keeps kind out of ~/.kube/config, like the k0s setup before it.
+    kind create cluster --config .work/kind-k0rdent.yaml --wait 5m --kubeconfig kcfg_k0rdent
 fi
 
-# Must be set before the wait loops (k0s-in-docker doesn't merge into ~/.kube/config).
+kind get kubeconfig -n k0rdent > kcfg_k0rdent
+chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
+
+# Must be set before the wait loops (kind is told not to merge into ~/.kube/config).
 export KUBECONFIG=kcfg_k0rdent
 
 # The same wait the KCM and sveltos namespaces use, rather than a loop of its
@@ -52,7 +35,7 @@ export KUBECONFIG=kcfg_k0rdent
 TEST_MODE="k0rdent" NAMESPACE=kube-system ./scripts/wait_for_deployment.sh
 
 # Allow workloads in cp node
-kubectl taint nodes k0rdent node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
+kubectl taint nodes --all node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
 
 if [[ ${DEBUG:-} == "true" ]]; then
   HELM_EXTRA_FLAGS="--debug"
@@ -67,7 +50,7 @@ else
     if [[ -n "${KCM_SRC_DIR:-}" ]]; then
         kcm_source_build
         kcm_registry_deploy
-        connect_network "$DOCKER_NETWORK" k0rdent
+        connect_network "$DOCKER_NETWORK" k0rdent-control-plane
         kcm_source_push k0rdent
         mkdir -p .work
         kcm_source_values .work/kcm-values-source.yaml
