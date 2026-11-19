@@ -145,19 +145,19 @@ jobs:
           ./scripts/ensure_mcs_config.sh
 
       - name: Install kubectl
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        if: env.DEPLOY_CHART == 'true' || env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           curl -LO "https://dl.k8s.io/release/v1.35.0/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
       - name: Install Helm
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        if: env.DEPLOY_CHART == 'true' || env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 
       - name: Install k0sind
-        if: env.DEPLOY_CHART == 'true' || env.DEPLOY_MULTICLUSTERSERVICE == 'true'
+        if: env.DEPLOY_CHART == 'true' || env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
           curl -Lo ./k0sind https://github.com/k0sind/k0sind/releases/download/v1.4.0/k0sind-linux-amd64
           chmod +x ./k0sind
