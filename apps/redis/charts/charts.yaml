@@ -10,3 +10,5 @@ charts:
     appVersion: 8.10.2
   - version: 0.39.6
     appVersion: 8.10.3
+  - version: 0.40.0
+    appVersion: 8.10.3
