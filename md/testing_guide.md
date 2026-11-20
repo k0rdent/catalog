@@ -2,7 +2,13 @@
 
 ## Requirements
 - `helm` - The Kubernetes package manager (`brew install helm`)
-- `kind` - [Local Kubernetes cluster tool](https://kind.sigs.k8s.io/) (for local `adopted` testing only)
+- `docker` - The management and `adopted` test clusters run as containers.
+- [`k0sind`](https://github.com/k0sind/k0sind) - Creates those clusters (k0s in Docker).
+  The scripts expect it on `PATH`; CI pins the same release:
+    ~~~bash
+    curl -Lo ./k0sind https://github.com/k0sind/k0sind/releases/download/v1.5.0/k0sind-linux-amd64
+    chmod +x ./k0sind && sudo mv ./k0sind /usr/local/bin/k0sind
+    ~~~
 - Mothership Kubernetes cluster with k0rdent installed.
     - You can install local `k0rdent` cluster using:
     ~~~bash
