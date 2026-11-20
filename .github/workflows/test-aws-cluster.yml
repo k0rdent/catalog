@@ -84,6 +84,13 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 
+      - name: Install k0sind
+        run: |
+          curl -Lo ./k0sind https://github.com/k0sind/k0sind/releases/download/v1.4.0/k0sind-linux-amd64
+          chmod +x ./k0sind
+          sudo mv ./k0sind /usr/local/bin/k0sind
+          k0sind version
+
       # Needs Helm, so it cannot sit with the other preflight checks. Still well
       # before anything is provisioned: a typo in kcm_version would otherwise
       # surface only once the chart install runs.

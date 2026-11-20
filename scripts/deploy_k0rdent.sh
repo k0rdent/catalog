@@ -5,6 +5,10 @@ set -euo pipefail
 # resource have to keep its `release:` in sync (see deploy_k0rdent_aws.sh).
 KCM_VERSION="${KCM_VERSION:-1.13.0}"
 
+# Pin the node image: k0sind's default tracks a newer k0s than the cluster
+# templates provision, and bumping Kubernetes is not this script's job.
+K0S_IMAGE="${K0S_IMAGE:-docker.io/k0sproject/k0s:v1.36.3-k0s.0}"
+
 # KCM_SRC_DIR set: build kcm from that checkout (scripts/kcm_source.sh),
 # otherwise install the published chart from ghcr.
 if [[ -n "${KCM_SRC_DIR:-}" ]]; then
@@ -15,7 +19,8 @@ if k0sind get clusters 2>/dev/null | grep -qx k0rdent; then
     echo "k0rdent cluster already exists"
     k0sind get kubeconfig -n k0rdent > kcfg_k0rdent
 else
-    k0sind create cluster --name k0rdent --kubeconfig kcfg_k0rdent --wait 5m
+    k0sind create cluster --name k0rdent --image "$K0S_IMAGE" \
+        --kubeconfig kcfg_k0rdent --wait 5m
 fi
 chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
 
