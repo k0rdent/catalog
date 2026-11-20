@@ -19,8 +19,14 @@ if k0sind get clusters 2>/dev/null | grep -qx k0rdent; then
     echo "k0rdent cluster already exists"
     k0sind get kubeconfig -n k0rdent > kcfg_k0rdent
 else
+    create_args=()
+    if [[ "${K0RDENT_EXPOSE_PORTS:-0}" == "1" ]]; then  # Ingress on 60080/60443.
+        mkdir -p .work
+        EXPOSE_PORTS=1 ./scripts/create_kind_config.sh k0rdent > .work/k0sind-k0rdent.yaml
+        create_args+=(--config .work/k0sind-k0rdent.yaml)
+    fi
     k0sind create cluster --name k0rdent --image "$K0S_IMAGE" \
-        --kubeconfig kcfg_k0rdent --wait 5m
+        --kubeconfig kcfg_k0rdent --wait 5m ${create_args[@]+"${create_args[@]}"}
 fi
 chmod 0600 "kcfg_k0rdent" # set minimum attributes to kubeconfig (owner read/write)
 
