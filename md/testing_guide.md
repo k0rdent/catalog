@@ -4,9 +4,9 @@
 - `helm` - The Kubernetes package manager (`brew install helm`)
 - `docker` - The management and `adopted` test clusters run as containers.
 - `k0sind` - Creates those clusters (k0s in Docker). The scripts expect it on
-  `PATH`. See [installing from release binaries](https://github.com/k0sind/k0sind#installing-from-release-binaries)
-  for Linux, macOS and Windows; CI runs
-  [v1.5.0](https://github.com/k0sind/k0sind/releases/tag/v1.5.0).
+  `PATH`; see [installing from release binaries](https://github.com/k0sind/k0sind#installing-from-release-binaries)
+  for Linux, macOS and Windows. CI pins a release in
+  `.github/workflows/test-apps.yml` if you want to match it.
 - Mothership Kubernetes cluster with k0rdent installed.
     - You can install local `k0rdent` cluster using:
     ~~~bash
