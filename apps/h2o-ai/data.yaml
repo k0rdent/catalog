@@ -1,0 +1,49 @@
+tags:
+  - AI/Machine Learning
+title: H2O.ai
+summary: "Sovereign AI platform for predictive, generative, and agentic AI."
+logo: ./assets/h2o-ai_logo.svg # https://github.com/h2oai/wave/blob/master/website/static/img/h2o-logo.svg (Apache-2.0)
+created: "2026-11-18T17:53:24Z"
+github_repo: h2oai/h2o-3
+description: |
+  H2O.ai builds a single platform for predictive, generative, and agentic AI that runs
+  entirely on infrastructure you control. The flagship H2O AI Cloud bundles:
+
+  - [Enterprise h2oGPTe](https://h2o.ai/products/h2ogpte) - retrieval-augmented generation and agentic workflows over private document and data sources.
+  - [H2O AI Super Agent](https://h2o.ai/) - the orchestration layer routing work across predictive, generative, and agentic components.
+  - [Driverless AI](https://h2o.ai/products/driverless-ai/) and [H2O-3](https://github.com/h2oai/h2o-3) - automated machine learning for tabular data, feature engineering, and model interpretability.
+  - [H2O MLOps](https://h2o.ai/products/mlops) - deployment, scoring, monitoring, and governance for models in production.
+  - [H2O Cascade](https://h2o.ai/products/cascade) - fine-tuning of small, task-specific models.
+
+  As **H2O AI Hybrid Cloud**, the platform is installed into new or existing Kubernetes clusters —
+  on-premises, in a private cloud, or in your own public cloud account. H2O.ai publishes it as a
+  single Helm chart (also wrapped by Replicated), and both installers support fully air-gapped
+  environments that have no outbound network access. Supported substrates include EKS, AKS,
+  GKE, OpenShift, and bare-metal data centers with customer-owned GPUs.
+
+  For k0rdent users, this makes H2O.ai a workload that fits the same operating model as the rest of
+  the catalog: a Helm-delivered AI stack placed onto managed clusters, close to the data it is
+  governed to stay near.
+
+  **Note:** H2O.ai distributes its Helm charts through its commercial channels rather than a public
+  chart repository, so this entry is informational — there is no catalog ServiceTemplate to install.
+  Contact H2O.ai to obtain the chart and entitlements.
+
+why_in_catalog: "Teams with data-residency or air-gap constraints cannot send prompts and training data to a hosted AI service, yet still need predictive, generative, and agentic AI. H2O.ai ships that entire stack as a Helm-installable platform that runs on clusters you already operate — including fully disconnected ones — which is precisely the footprint k0rdent is built to manage."
+support_link: https://h2o.ai/company/contact-us
+support_type: Partner
+
+doc_link: https://docs.h2o.ai/
+
+show_install_tab: false
+
+# test settings
+test_deploy_chart: false
+test_deploy_multiclusterservice: false
+test_install_servicetemplates: false
+
+validated_amd64: '-'
+validated_arm64: '-'
+validated_aws: '-'
+validated_azure: '-'
+validated_local: '-'
