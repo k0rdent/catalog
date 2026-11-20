@@ -1,6 +1,6 @@
 # Testing Methodology
 
-The **k0rdent Catalog** is a curated collection of applications that have been **verified to work across diverse Kubernetes environments**, including **Azure**, **AWS**, and **adopted testing clusters** such as **Kind**. Every listed application is validated for deployability and lifecycle compatibility with k0rdent’s orchestration capabilities, ensuring reliable operation in real-world multi-cluster scenarios.
+The **k0rdent Catalog** is a curated collection of applications that have been **verified to work across diverse Kubernetes environments**, including **Azure**, **AWS**, and **adopted testing clusters** running k0s in Docker. Every listed application is validated for deployability and lifecycle compatibility with k0rdent’s orchestration capabilities, ensuring reliable operation in real-world multi-cluster scenarios.
 
 ## What We Test
 
@@ -24,7 +24,7 @@ After cloning the Catalog repository, local testing can be performed using the p
 - **Helper scripts** enable testing in any or all of the following environments:
   - ✅ **Azure** Kubernetes clusters
   - ✅ **AWS** EKS clusters
-  - ✅ **Local clusters** (Kind)
+  - ✅ **Local clusters** (k0s in Docker, via [k0sind](https://github.com/k0sind/k0sind))
 
 During this process:
 
