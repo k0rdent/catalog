@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# Pin the node image: k0sind's default tracks a newer k0s than the cluster
+# templates provision, and bumping Kubernetes is not this script's job.
+K0S_IMAGE="${K0S_IMAGE:-docker.io/k0sproject/k0s:v1.36.3-k0s.0}"
+
 # Credential/ClusterDeployment ops target the k0rdent management cluster.
 export KUBECONFIG=kcfg_k0rdent
 
@@ -46,6 +50,11 @@ elif [[ "$TEST_MODE" == adopted ]]; then
         k0sind get kubeconfig -n adopted > kcfg_adopted
     else
         create_args=()
+        if [[ "${ADOPTED_EXPOSE_PORTS:-0}" == "1" ]]; then  # Ingress on 50080/50443, see test_webpage.sh.
+            mkdir -p .work
+            EXPOSE_PORTS=1 ./scripts/create_kind_config.sh adopted > .work/k0sind-adopted.yaml
+            create_args+=(--config .work/k0sind-adopted.yaml)
+        fi
         if [[ "${TEST_ADOPTED_NOCNI:-false}" == true ]]; then
             echo "TEST_ADOPTED_NOCNI=true: starting the adopted cluster without a CNI"
             # Same k0s ClusterConfig as before: custom network provider, no kube-proxy.
@@ -56,8 +65,8 @@ elif [[ "$TEST_MODE" == adopted ]]; then
         fi
         # --kubeconfig keeps this out of the mothership's kubeconfig, which is
         # what $KUBECONFIG points at here.
-        k0sind create cluster --name adopted --kubeconfig kcfg_adopted \
-            ${create_args[@]+"${create_args[@]}"}
+        k0sind create cluster --name adopted --image "$K0S_IMAGE" \
+            --kubeconfig kcfg_adopted ${create_args[@]+"${create_args[@]}"}
     fi
     chmod 0600 kcfg_adopted
 

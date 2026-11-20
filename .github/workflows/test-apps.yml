@@ -188,7 +188,8 @@ jobs:
       - name: Create cluster for example Helm chart test
         if: env.DEPLOY_CHART == 'true'
         run: |
-          k0sind create cluster --name test-k8s --kubeconfig kcfg_local --wait 5m
+          k0sind create cluster --name test-k8s --image docker.io/k0sproject/k0s:v1.36.3-k0s.0 \
+            --kubeconfig kcfg_local --wait 5m
           chmod 0600 kcfg_local
 
       - name: Test - Install example Helm chart
