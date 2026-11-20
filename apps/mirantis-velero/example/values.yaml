@@ -3,6 +3,8 @@ velero:
     backupsEnabled: true
     snapshotsEnabled: true
     deployNodeAgent: true
+    nodeAgent:
+      podVolumePath: /var/lib/k0s/kubelet/pods # for k0s
     initContainers:
       - name: velero-plugin-for-aws
         image: velero/velero-plugin-for-aws:latest

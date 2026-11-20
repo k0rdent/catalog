@@ -4,3 +4,9 @@ datadog:
       apiKey: my-datadog-api-key
       clusterName: my.datadog.cluster
       site: datadoghq.com
+      systemProbe:
+        # 3.253.1 turned the system-probe container on by default. It loads a
+        # localhost seccomp profile, which the kubelet resolves under its own
+        # root directory - on k0s that is /var/lib/k0s/kubelet, not the chart's
+        # /var/lib/kubelet default, so the profile has to be written there.
+        seccompRoot: /var/lib/k0s/kubelet/seccomp
