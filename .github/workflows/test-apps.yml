@@ -159,7 +159,7 @@ jobs:
       - name: Install k0sind
         if: env.DEPLOY_CHART == 'true' || env.INSTALL_SERVICETEMPLATES == 'true'
         run: |
-          curl -Lo ./k0sind https://github.com/k0sind/k0sind/releases/download/v1.4.0/k0sind-linux-amd64
+          curl -Lo ./k0sind https://github.com/k0sind/k0sind/releases/download/v1.5.0/k0sind-linux-amd64
           chmod +x ./k0sind
           sudo mv ./k0sind /usr/local/bin/k0sind
           k0sind version
