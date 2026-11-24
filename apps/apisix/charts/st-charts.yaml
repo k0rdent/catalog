@@ -15,3 +15,7 @@ st-charts:
   dep_name: apisix
   version: 2.19.0
   repository: https://apache.github.io/apisix-helm-chart
+- name: apisix
+  dep_name: apisix
+  version: 3.1.0
+  repository: https://apache.github.io/apisix-helm-chart
