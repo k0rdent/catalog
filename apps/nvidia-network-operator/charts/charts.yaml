@@ -6,3 +6,5 @@ charts:
     appVersion: v26.4.0
   - version: 26.7.1
     appVersion: v26.7.1
+  - version: 26.10.0
+    appVersion: v26.10.0
