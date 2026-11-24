@@ -49,5 +49,5 @@ st-charts:
   repository: https://traefik.github.io/charts
 - name: traefik
   dep_name: traefik
-  version: 42.4.1
+  version: 42.4.2
   repository: https://traefik.github.io/charts
