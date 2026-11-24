@@ -6,3 +6,5 @@ charts:
     appVersion: 18.6.8
   - version: 18.11.12
     appVersion: 18.11.12
+  - version: 19.0.0
+    appVersion: 19.0.0
