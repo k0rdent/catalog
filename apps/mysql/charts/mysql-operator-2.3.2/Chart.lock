@@ -1,0 +1,6 @@
+dependencies:
+- name: mysql-operator
+  repository: https://mysql.github.io/mysql-operator
+  version: 2.3.2
+digest: sha256:0bd8b76ca407a7bbd86c88cdcb2d815bf8b413fa8a35dfdc94d9fa5a87b7bb50
+generated: "2026-11-26T22:33:22.692932851Z"
