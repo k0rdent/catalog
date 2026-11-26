@@ -1,0 +1,6 @@
+dependencies:
+- name: volcano
+  repository: https://volcano-sh.github.io/helm-charts
+  version: 1.16.1
+digest: sha256:218070da0df259c88a2edac2d67026fbe67914dcf13c4f5d23ae35cd11c2d3ff
+generated: "2026-11-26T22:30:07.112666529Z"
