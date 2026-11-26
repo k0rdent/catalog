@@ -12,5 +12,5 @@ charts:
     appVersion: v19.4.2
   - version: 10.5.6
     appVersion: v19.5.5
-  - version: 10.6.0
-    appVersion: v19.6.0
+  - version: 10.6.3
+    appVersion: v19.6.2
