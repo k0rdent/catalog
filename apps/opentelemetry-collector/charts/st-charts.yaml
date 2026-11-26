@@ -27,3 +27,7 @@ st-charts:
   dep_name: opentelemetry-collector
   version: 0.180.0
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+- name: opentelemetry-collector
+  dep_name: opentelemetry-collector
+  version: 0.183.2
+  repository: https://open-telemetry.github.io/opentelemetry-helm-charts
