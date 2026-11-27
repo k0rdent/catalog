@@ -25,5 +25,5 @@ st-charts:
   repository: https://charts.gitlab.io/
 - name: gitlab
   dep_name: gitlab
-  version: 10.6.1
+  version: 10.6.3
   repository: https://charts.gitlab.io/
