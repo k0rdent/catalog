@@ -18,3 +18,5 @@ charts:
     appVersion: v3.6.1
   - version: 10.18.3
     appVersion: v3.6.2
+  - version: 10.20.0
+    appVersion: v3.6.3
